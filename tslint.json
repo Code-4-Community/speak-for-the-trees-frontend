@@ -1,0 +1,27 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "linterOptions": {
+    "exclude": [
+      "node_modules/*",
+      "src/serviceWorker.ts",
+      "src/setupTests.ts",
+      "src/react-app-env.d.ts"
+    ]
+  },
+  "jsRules": {},
+  "rules": {
+    "trailing-comma": [true],
+    "quotemark": [true, "single", "jsx-double", "avoid-escape"],
+    "interface-name": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "no-var-requires": false,
+    "no-unused-expression": true,
+    "no-empty-interface": false,
+    "max-classes-per-file": false,
+    "jsx-no-multiline-js": false,
+    "no-empty": false
+  },
+  "rulesDirectory": []
+}
