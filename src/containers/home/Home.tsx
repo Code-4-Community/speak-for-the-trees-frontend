@@ -1,5 +1,4 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import './home.less';
 import { Button, Checkbox, Form, Input, Typography } from 'antd';
 import { login } from '../../auth/authAPI';
@@ -12,10 +11,6 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Title goes here</title>
-        <meta name="description" content="Description goes here." />
-      </Helmet>
       <div className="content-container">
         {/*
           Place relevant components in here
