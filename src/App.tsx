@@ -21,7 +21,7 @@ const App: React.FC = () => {
       <Helmet>
         <meta
           name="keywords"
-          content="C4C,code,for,community,code4community,codeforcommunity,northeastern,boston"
+          content="speak,for,the,trees,speakforthetrees,sftt,boston,bos,treemap,tree-map,map,urban,canopy,reservation,block,blocks"
         />
       </Helmet>
 
