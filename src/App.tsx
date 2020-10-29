@@ -5,7 +5,8 @@ import { Helmet } from 'react-helmet';
 // Import antd stylesheets
 import 'antd/dist/antd.css';
 import './App.less';
-import Home from './containers/login/Login';
+import Home from './containers/home/Home';
+import Login from './containers/login/Login';
 import BlockTemplate from './containers/template-1-col-block/Template';
 import GridTemplate from './containers/template-24-col-grid/Template';
 import Signup from './containers/signup/Signup';
@@ -33,6 +34,7 @@ const App: React.FC = () => {
             <div className="content-inner-container">
               <Switch>
                 <Route path="/" exact component={Home} />
+                <Route path="/login" exact component={Login} />
                 <Route path="/block-template" exact component={BlockTemplate} />
                 <Route path="/grid-template" exact component={GridTemplate} />
                 <Route path="/signup" exact component={Signup}/>
