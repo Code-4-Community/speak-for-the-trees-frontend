@@ -5,9 +5,10 @@ import { Helmet } from 'react-helmet';
 // Import antd stylesheets
 import 'antd/dist/antd.css';
 import './App.less';
-import Home from './containers/home/Home';
+import Home from './containers/login/Login';
 import BlockTemplate from './containers/template-1-col-block/Template';
 import GridTemplate from './containers/template-24-col-grid/Template';
+import Signup from './containers/signup/Signup';
 
 import NotFound from './containers/not-found/NotFound';
 import NavBar from './components/NavBar';
@@ -34,6 +35,7 @@ const App: React.FC = () => {
                 <Route path="/" exact component={Home} />
                 <Route path="/block-template" exact component={BlockTemplate} />
                 <Route path="/grid-template" exact component={GridTemplate} />
+                <Route path="/signup" exact component={Signup}/>
                 <Route path="*" exact component={NotFound} />
               </Switch>
             </div>
