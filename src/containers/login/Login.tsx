@@ -19,11 +19,10 @@ const Login: React.FC = () => {
           <meta name="description" content="Speak for The Trees Login" />
         </Helmet>
 
-        <div className="body-content-container" style={{ overflow:'scroll' }}>
+        <div className="body-content-container">
           <Row>
-            <Col>
+            <Col span={10} className="input-container">
 
-              <div className="input-container">
                 <h1>Log In</h1>
                 <hr/>
                 <Form
@@ -65,15 +64,15 @@ const Login: React.FC = () => {
                 <p>New to speak for the trees?</p>
                 <p>Sign up <Link className="Link" to="/signup" component={Typography.Link}>here!</Link></p>
 
-              </div>
+            </Col>
 
-              <div className="info-container">
+            <Col span={2}></Col>
+
+            <Col span={12} className="info-container">
                 <h1>Welcome Back!</h1>
                 <p>Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer cronut pok pok gentrify flannel salvia
                   deep v pork belly pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts affogato PBR&B freegan
                   bushwick vegan four loko pickled.</p>
-              </div>
-
             </Col>
           </Row>
         </div>
