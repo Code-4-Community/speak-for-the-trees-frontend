@@ -1,29 +1,27 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import './home.less';
-import { Button, Checkbox, Form, Input, Typography } from 'antd';
+import { Button, Form, Input, Typography } from 'antd';
 import { login } from '../../auth/authAPI';
 const { Title } = Typography;
 
 const Home: React.FC = () => {
   const onFinish = (values: any) => {
-    login({ email: values.username, password: values.password })
+    login({ email: values.username, password: values.password });
   };
 
   return (
     <>
+      <Helmet>
+        <title>Title goes here</title>
+        <meta name="description" content="Description goes here." />
+      </Helmet>
       <div className="content-container">
-        {/*
-          Place relevant components in here
-        */}
         <Title>Code4Community Frontend Scaffold</Title>
         <Title level={3}>
           Built with React.js, Typescript, and AntD components.
         </Title>
-        <Form
-          name="basic"
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-        >
+        <Form name="basic" onFinish={onFinish}>
           <Form.Item
             label="Username"
             name="username"
@@ -38,10 +36,6 @@ const Home: React.FC = () => {
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
             <Input.Password />
-          </Form.Item>
-
-          <Form.Item name="remember" valuePropName="checked">
-            <Checkbox>Remember me</Checkbox>
           </Form.Item>
 
           <Form.Item>

@@ -3,18 +3,29 @@ import './signup.less';
 import { Button, Col, Form, Input, Row, Typography } from 'antd';
 import { signup } from '../../auth/authAPI';
 import { Link } from 'react-router-dom';
-/*const {  } = Typography;*/
+import { Helmet } from 'react-helmet';
 
 const hSpan = 8;
 const fSpan = 17;
 
 const Signup: React.FC = () => {
   const onFinish = (values: any) => {
-    signup({ email: values.username, password: values.password });
+    // TODO: what if backend says the values are invalid? need to handle this
+    signup({
+      username: values.username,
+      email: values.email,
+      password: values.password,
+      firstName: values.firstName,
+      lastName: values.lastName,
+    });
   };
 
   return (
     <>
+      <Helmet>
+        <title>Sign Up</title>
+        <meta name="description" content="Description goes here." />
+      </Helmet>
       <div className="body-content-container">
         <Row>
           <Col span={10} className="input-container">

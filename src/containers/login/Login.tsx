@@ -3,7 +3,6 @@ import './login.less';
 import {Button, Col, Form, Input, Row, Typography} from 'antd';
 import { login } from '../../auth/authAPI';
 import {Link} from 'react-router-dom';
-/*const {  } = Typography;*/
 
 
 const Login: React.FC = () => {
@@ -13,6 +12,10 @@ const Login: React.FC = () => {
 
   return (
       <>
+        <Helmet>
+          <title>Login</title>
+          <meta name="description" content="Description goes here." />
+        </Helmet>
         <div className="body-content-container">
           <Row>
             <Col span={10} className="input-container">

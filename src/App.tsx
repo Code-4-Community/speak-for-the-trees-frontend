@@ -38,6 +38,8 @@ const App: React.FC = () => {
                 <Route path="/signup" exact component={Signup}/>
                 <Route path="/block-template" exact component={BlockTemplate} />
                 <Route path="/grid-template" exact component={GridTemplate} />
+                <Route path="/login" exact component={Login} />
+                <Route path="/signup" exact component={Signup} />
                 <Route path="*" exact component={NotFound} />
               </Switch>
             </div>
