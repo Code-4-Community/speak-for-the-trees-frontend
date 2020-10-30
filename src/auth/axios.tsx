@@ -20,7 +20,7 @@ export const requestInterceptor: (
 
 Instance.interceptors.request.use(requestInterceptor);
 
-const INVALID_ACCESS_TOKEN: string = 'Given access token is expired or invalid';
+const INVALID_ACCESS_TOKEN = 'Given access token is expired or invalid';
 
 const responseErrorInterceptor: (error: AxiosError) => void = (error) => {
   const originalRequest = error.config;
