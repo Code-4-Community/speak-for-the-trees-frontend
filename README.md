@@ -1,7 +1,3 @@
-[![Build Status](https://travis-ci.org/Code-4-Community/speak-for-the-trees-frontend.svg?branch=master)](https://travis-ci.org/Code-4-Community/frontend-scaffold)
-
-[![Coverage Status](https://coveralls.io/repos/github/Code-4-Community/speak-for-the-trees-frontend/badge.svg?branch=master)](https://coveralls.io/github/Code-4-Community/frontend-scaffold?branch=master)
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

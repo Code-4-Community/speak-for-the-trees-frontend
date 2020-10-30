@@ -1,12 +1,10 @@
 {
-  "name": "speak-for-the-trees-frontend",
+  "name": "frontend-scaffold",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@craco/craco": "^5.7.0",
     "@reduxjs/toolkit": "^1.4.0",
-    "@sentry/react": "^5.27.0",
-    "@sentry/tracing": "^5.27.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -29,14 +27,12 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "craco test --coverage",
-    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "test": "craco test",
     "lint": "tslint -p . -c tslint.json && eslint ./src/**/*.tsx",
     "lint-fix": "tslint --fix -p . -c tslint.json && eslint --fix ./src/**/*.tsx",
-    "prettier": "prettier --check ./src/**/*.{ts,tsx,less}",
-    "prettier-fix": "prettier --write ./src/**/*.{ts,tsx,less}",
-    "type-check": "tsc",
-    "travis": "npm run lint && npm run prettier && npm run test && npm run build && npm run type-check"
+    "prettier": "prettier --check ./src/**/*.{js,jsx,ts,tsx,json,less}",
+    "prettier-fix": "prettier --write ./src/**/*.{js,jsx,ts,tsx,json,less}",
+    "type-check": "tsc"
   },
   "browserslist": {
     "production": [
@@ -54,11 +50,10 @@
     "@types/react": "^16.9.43",
     "@typescript-eslint/eslint-plugin": "^3.7.0",
     "@typescript-eslint/parser": "^3.7.0",
-    "coveralls": "^3.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-react": "^1.1.7",
     "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.1.2",
+    "prettier": "^2.0.5",
     "redux-devtools": "^3.5.0",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0"
