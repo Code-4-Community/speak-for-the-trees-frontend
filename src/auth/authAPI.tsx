@@ -12,13 +12,21 @@ interface LoginRequest {
   readonly password: string;
 }
 
+interface SignupRequest {
+  readonly username: string;
+  readonly email: string;
+  readonly password: string;
+  readonly firstName: string;
+  readonly lastName: string;
+}
+
 export const login = async (user: LoginRequest) =>
   Axios.post(ROUTES.LOGIN, user).then((response) => {
     Token.setAccessToken(response.data.accessToken);
     Token.setRefreshToken(response.data.refreshToken);
   });
 
-export const signup = async (user: LoginRequest) =>
+export const signup = async (user: SignupRequest) =>
   Axios.post(ROUTES.SIGNUP, user).then((response) => {
     Token.setAccessToken(response.data.accessToken);
     Token.setRefreshToken(response.data.refreshToken);
