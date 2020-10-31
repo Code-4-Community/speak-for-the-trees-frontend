@@ -3,6 +3,7 @@ import './login.less';
 import {Button, Col, Form, Input, Row, Typography} from 'antd';
 import { login } from '../../auth/authAPI';
 import {Link} from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 
 const Login: React.FC = () => {
