@@ -20,13 +20,15 @@ interface SignupRequest {
   readonly lastName: string;
 }
 
-export const login: (user: LoginRequest) => void = async (user: LoginRequest) =>
+export const login: (user: LoginRequest) => Promise<void> = async (
+  user: LoginRequest,
+) =>
   Axios.post(ROUTES.LOGIN, user).then((response) => {
     Token.setAccessToken(response.data.accessToken);
     Token.setRefreshToken(response.data.refreshToken);
   });
 
-export const signup: (user: SignupRequest) => void = async (
+export const signup: (user: SignupRequest) => Promise<void> = async (
   user: SignupRequest,
 ) =>
   Axios.post(ROUTES.SIGNUP, user).then((response) => {
@@ -34,7 +36,7 @@ export const signup: (user: SignupRequest) => void = async (
     Token.setRefreshToken(response.data.refreshToken);
   });
 
-export const logout: () => void = async () =>
+export const logout: () => Promise<void> = async () =>
   Axios.delete(ROUTES.LOGIN, {
     headers: {
       'X-Refresh-Token': Token.getRefreshToken(),
@@ -49,7 +51,7 @@ export const logout: () => void = async () =>
       Token.removeRefreshToken();
     });
 
-export const refresh: () => void = async () =>
+export const refresh: () => Promise<void> = async () =>
   Axios.post(ROUTES.REFRESH, null, {
     headers: {
       'X-Refresh-Token': Token.getRefreshToken(),
