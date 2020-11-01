@@ -50,7 +50,7 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = (props) => {
  * Converts the given dollar amount to a formatted string
  * @param amount the amount to convert
  */
-function getMoneyString(amount: number) {
+export function getMoneyString(amount: number) {
   return `$${amount.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
 }
 
