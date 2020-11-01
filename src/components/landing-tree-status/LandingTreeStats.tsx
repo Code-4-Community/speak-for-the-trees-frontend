@@ -3,7 +3,7 @@ import { Typography } from 'antd';
 import MapCard from '../general-components/MapCard';
 import './landing-tree-stats.less';
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Link } = Typography;
 
 type LandingTreeStatsProps = {
   moneySaved: number;
@@ -39,7 +39,9 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = (props) => {
         </div>
       </div>
 
-      <Paragraph>Learn more about how we got these numbers here.</Paragraph>
+      <Paragraph>
+        Learn more about how we got these numbers <Link underline>here</Link>.
+      </Paragraph>
     </div>
   );
 };
