@@ -1,5 +1,5 @@
 import React from 'react';
-import { getMoneyString } from '../landing-tree-status/LandingTreeStats';
+import { getMoneyString } from '../landing-tree-stats/LandingTreeStats';
 
 test('getMoneyString tests', () => {
   expect(getMoneyString(100000)).toBe('$100,000');
