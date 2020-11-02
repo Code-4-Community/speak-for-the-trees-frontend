@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import MapPage from '../../components/map-page-components/map-page/MapPage';
-import LandingTreeStats from '../../components/landing-tree-status/LandingTreeStats';
+import LandingTreeStats from '../../components/landing-tree-stats/LandingTreeStats';
 
 const Landing: React.FC = () => {
   return (
