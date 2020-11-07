@@ -11,31 +11,29 @@ type LandingTreeStatsProps = {
   readonly carbonEmissions: number;
 };
 
-const LandingTreeStats: React.FC<LandingTreeStatsProps> = (props) => {
+const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
+  moneySaved,
+  rainWater,
+  carbonEmissions,
+}) => {
   return (
     <div className="tree-stats-container">
       <Title level={3}>Current Status of our Trees</Title>
 
       <div className="map-cards-container">
         <div className="map-card">
-          <InfoCard
-            header="Money Saved"
-            body={getMoneyString(props.moneySaved)}
-          />
+          <InfoCard header="Money Saved" body={getMoneyString(moneySaved)} />
         </div>
 
         <div className="map-card">
           <InfoCard
             header="Rain Water Caught"
-            body={`${props.rainWater.toLocaleString()} gallons`}
+            body={`${rainWater.toLocaleString()} gallons`}
           />
         </div>
 
         <div className="map-card">
-          <InfoCard
-            header="Carbon Emissions"
-            body={`${props.carbonEmissions}%`}
-          />
+          <InfoCard header="Carbon Emissions" body={`${carbonEmissions}%`} />
         </div>
       </div>
 
@@ -46,8 +44,7 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = (props) => {
   );
 };
 
-
-//TODO: Move function to a common utilities file
+// TODO: Move function to a common utilities file
 
 /**
  * Converts the given dollar amount to a formatted string

@@ -11,18 +11,22 @@ type MapSidebarProps = {
   readonly description: string;
 };
 
-const MapSidebar: React.FC<MapSidebarProps> = (props) => {
+const MapSidebar: React.FC<MapSidebarProps> = ({
+  header,
+  description,
+  children,
+}) => {
   const sideBarWidth = 471;
 
   return (
     <>
       <Sider width={sideBarWidth} theme="light">
         <div className="sidebar-content-container">
-          <Title className="title">{props.header}</Title>
+          <Title className="title">{header}</Title>
 
-          <Paragraph>{props.description}</Paragraph>
+          <Paragraph>{description}</Paragraph>
 
-          <div>{props.children}</div>
+          <div>{children}</div>
         </div>
       </Sider>
     </>
