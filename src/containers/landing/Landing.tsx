@@ -10,12 +10,12 @@ const Landing: React.FC = () => {
         <title>Landing</title>
         <meta
           name="description"
-          content="The first page someone sees if they are not logged in"
+          content="The first page someone sees if they are not logged in, contains a read only map of Boston neighborhoods and some information about the tree counts of Speak for the Trees"
         />
       </Helmet>
 
       <MapPage
-        sidebarTitle={"Boston's Street Trees"}
+        sidebarHeader={"Boston's Street Trees"}
         sidebarDescription={
           'Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer cronut pok pok gentrify flannel salvia deep v pork belly pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts affogato PBR&B freegan bushwick vegan four loko pickled.'
         }

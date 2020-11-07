@@ -5,7 +5,6 @@ import { Helmet } from 'react-helmet';
 // Import antd stylesheets
 import 'antd/dist/antd.css';
 import './App.less';
-// import Home from './containers/home/Home';
 import Landing from './containers/landing/Landing';
 import Signup from './containers/signup/Signup';
 import Login from './containers/login/Login';
@@ -14,7 +13,7 @@ import GridTemplate from './containers/template-24-col-grid/Template';
 
 import NotFound from './containers/not-found/NotFound';
 import NavBar from './components/NavBar';
-// import Footer from './components/Footer';
+import Footer from './components/Footer';
 import { Layout } from 'antd';
 const { Content } = Layout;
 
@@ -43,7 +42,7 @@ const App: React.FC = () => {
               </Switch>
             </div>
           </Content>
-          {/*<Footer />*/}
+          <Footer />
         </Layout>
       </Router>
     </>

@@ -1,14 +1,14 @@
 import React from 'react';
 import { Typography } from 'antd';
-import MapCard from '../general-components/MapCard';
+import InfoCard from '../info-card/InfoCard';
 import './landing-tree-stats.less';
 
 const { Title, Paragraph, Link } = Typography;
 
 type LandingTreeStatsProps = {
-  moneySaved: number;
-  rainWater: number;
-  carbonEmissions: number;
+  readonly moneySaved: number;
+  readonly rainWater: number;
+  readonly carbonEmissions: number;
 };
 
 const LandingTreeStats: React.FC<LandingTreeStatsProps> = (props) => {
@@ -18,23 +18,23 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = (props) => {
 
       <div className="map-cards-container">
         <div className="map-card">
-          <MapCard
-            cardHeader="Money Saved"
-            cardBody={getMoneyString(props.moneySaved)}
+          <InfoCard
+            header="Money Saved"
+            body={getMoneyString(props.moneySaved)}
           />
         </div>
 
         <div className="map-card">
-          <MapCard
-            cardHeader="Rain Water Caught"
-            cardBody={`${props.rainWater.toLocaleString()} gallons`}
+          <InfoCard
+            header="Rain Water Caught"
+            body={`${props.rainWater.toLocaleString()} gallons`}
           />
         </div>
 
         <div className="map-card">
-          <MapCard
-            cardHeader="Carbon Emissions"
-            cardBody={`${props.carbonEmissions}%`}
+          <InfoCard
+            header="Carbon Emissions"
+            body={`${props.carbonEmissions}%`}
           />
         </div>
       </div>
@@ -46,12 +46,15 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = (props) => {
   );
 };
 
+
+//TODO: Move function to a common utilities file
+
 /**
  * Converts the given dollar amount to a formatted string
  * @param amount the amount to convert
  */
 export function getMoneyString(amount: number) {
-  return `$${amount.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+  return `$${amount.toLocaleString('en-us', { maximumFractionDigits: 2 })}`;
 }
 
 export default LandingTreeStats;
