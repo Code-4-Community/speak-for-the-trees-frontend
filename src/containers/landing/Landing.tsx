@@ -15,10 +15,8 @@ const Landing: React.FC = () => {
       </Helmet>
 
       <MapPage
-        sidebarHeader={"Boston's Street Trees"}
-        sidebarDescription={
-          'Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer cronut pok pok gentrify flannel salvia deep v pork belly pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts affogato PBR&B freegan bushwick vegan four loko pickled.'
-        }
+        sidebarHeader="Boston's Street Trees"
+        sidebarDescription="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer cronut pok pok gentrify flannel salvia deep v pork belly pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts affogato PBR&B freegan bushwick vegan four loko pickled."
       >
         <LandingTreeStats
           moneySaved={100000}
