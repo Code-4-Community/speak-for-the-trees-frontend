@@ -28,7 +28,6 @@ const NavBar: React.FC = () => {
   return (
     <Header>
       <Menu
-        theme="dark"
         mode="horizontal"
         defaultSelectedKeys={[pathnameToKey(path)]}
       >

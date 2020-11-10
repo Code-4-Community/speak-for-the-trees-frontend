@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 // Import antd stylesheets
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.less';
 import './App.less';
 import Landing from './containers/landing/Landing';
 import Login from './containers/login/Login';

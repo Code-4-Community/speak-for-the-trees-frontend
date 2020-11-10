@@ -10,8 +10,11 @@ type MapPageProps = {
   readonly sidebarDescription: string;
 };
 
-const MapPage: React.FC<MapPageProps> = (props) => {
-
+const MapPage: React.FC<MapPageProps> = ({
+  sidebarHeader,
+  sidebarDescription,
+  children,
+}) => {
   return (
     <>
       <Layout>
@@ -19,12 +22,9 @@ const MapPage: React.FC<MapPageProps> = (props) => {
           <MapView />
         </Content>
 
-        <MapSidebar 
-          header={props.sidebarHeader}
-          description={props.sidebarDescription}
-        >
-          {props.children}
-        </MapSidebar>  
+        <MapSidebar header={sidebarHeader} description={sidebarDescription}>
+          {children}
+        </MapSidebar>
       </Layout>
     </>
   );

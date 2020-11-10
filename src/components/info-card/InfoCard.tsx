@@ -9,12 +9,14 @@ type InfoCardProps = {
   readonly body: string;
 };
 
-const InfoCard: React.FC<InfoCardProps> = (props) => {
+const InfoCard: React.FC<InfoCardProps> = ({ header, body }) => {
   return (
     <div>
       <Card>
-        <Paragraph className="header">{props.header}</Paragraph>
-        <Title className="body" level={3}>{props.body}</Title>
+        <Paragraph type="success">{header}</Paragraph>
+        <Title level={4}>
+          {body}
+        </Title>
       </Card>
     </div>
   );

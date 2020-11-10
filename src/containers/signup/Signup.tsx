@@ -4,6 +4,9 @@ import { Button, Col, Form, Input, Row, Typography } from 'antd';
 import { signup } from '../../auth/authAPI';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import GreetingContainer from '../../components/greeting-container/GreetingContainer';
+
+const { Paragraph, Title } = Typography;
 
 const hSpan = 8;
 const fSpan = 17;
@@ -20,6 +23,8 @@ const Signup: React.FC = () => {
     });
   };
 
+  const greetingHeader = "Welcome Back!";
+
   return (
     <>
       <Helmet>
@@ -29,7 +34,7 @@ const Signup: React.FC = () => {
       <div className="body-content-container">
         <Row>
           <Col span={10} className="input-container">
-            <h1>Sign Up</h1>
+            <Title level={2} style={{'color': '#000000'}}>Sign Up</Title>
             <hr />
             <Form
               name="basic"
@@ -113,27 +118,19 @@ const Signup: React.FC = () => {
                       type="primary"
                       htmlType="submit"
                       size={'large'}
-                      style={{
-                        backgroundColor: '#9AC356',
-                        borderColor: '#9AC356',
-                      }}
                     >
                       Log In
                     </Button>
                   </Form.Item>
                 </Col>
-                <Col style={{ paddingTop: '5px' }}>
-                  <p>Already have an account?</p>
-                  <p>
-                    Log in{' '}
-                    <Link
-                      to="/login"
-                      component={Typography.Link}
-                      className="Link"
-                    >
-                      here!
-                    </Link>
-                  </p>
+                <Col>
+                <Paragraph type="success">ALREADY HAVE AN ACCOUNT?
+                  <br />
+                  LOGIN{' '}
+                  <Link to="/login">
+                    HERE!
+                  </Link>
+                </Paragraph>
                 </Col>
               </Row>
             </Form>
@@ -141,14 +138,14 @@ const Signup: React.FC = () => {
 
           <Col span={2}></Col>
 
-          <Col span={12} className="info-container">
-            <h1>Nice to meet you!</h1>
-            <p>
-              Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer
+          <Col span={12}>
+            <GreetingContainer 
+              header={greetingHeader}
+              body='Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer
               cronut pok pok gentrify flannel salvia deep v pork belly
               pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts
-              affogato PBR&B freegan bushwick vegan four loko pickled.
-            </p>
+              affogato PBR&B freegan bushwick vegan four loko pickled.'
+            />
           </Col>
         </Row>
       </div>

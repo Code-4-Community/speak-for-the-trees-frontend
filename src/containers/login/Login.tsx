@@ -4,11 +4,16 @@ import { Button, Col, Form, Input, Row, Typography } from 'antd';
 import { login } from '../../auth/authAPI';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import GreetingContainer from '../../components/greeting-container/GreetingContainer';
+
+const { Paragraph, Title } = Typography;
 
 const Login: React.FC = () => {
   const onFinish = (values: any) => {
     login({ email: values.username, password: values.password });
   };
+
+  const greetingHeader = "Welcome Back!";
 
   return (
     <>
@@ -19,7 +24,7 @@ const Login: React.FC = () => {
       <div className="body-content-container">
         <Row>
           <Col span={10} className="input-container">
-            <h1>Log In</h1>
+            <Title level={2} style={{'color': '#000000'}}>Log In</Title>
             <hr />
             <Form
               name="basic"
@@ -60,38 +65,37 @@ const Login: React.FC = () => {
                   type="primary"
                   htmlType="submit"
                   size={'large'}
-                  style={{ backgroundColor: '#9AC356', borderColor: '#9AC356' }}
                 >
                   Log In
                 </Button>
               </Form.Item>
             </Form>
 
-            <p id="forgotPassword">
-              <Link to="/" component={Typography.Link} className="Link">
+            <Paragraph>
+              <Link to="/">
                 Forgot Password?
               </Link>
-            </p>
+            </Paragraph>
 
-            <p>New to speak for the trees?</p>
-            <p>
-              Sign up{' '}
-              <Link className="Link" to="/signup" component={Typography.Link}>
-                here!
+            <Paragraph type="success">NEW TO SPEAK FOR THE TREES?
+              <br />
+              SIGN UP{' '}
+              <Link to="/signup">
+                HERE!
               </Link>
-            </p>
+            </Paragraph>
           </Col>
 
           <Col span={2}></Col>
 
-          <Col span={12} className="info-container">
-            <h1>Welcome Back!</h1>
-            <p>
-              Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer
+          <Col span={12}>
+            <GreetingContainer 
+              header={greetingHeader}
+              body='Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer
               cronut pok pok gentrify flannel salvia deep v pork belly
               pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts
-              affogato PBR&B freegan bushwick vegan four loko pickled.
-            </p>
+              affogato PBR&B freegan bushwick vegan four loko pickled.'
+            />
           </Col>
         </Row>
       </div>
