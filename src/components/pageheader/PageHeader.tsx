@@ -16,8 +16,8 @@ const PageHeader: React.FC<PageHeaderProps> = ({
 }) => {
   return (
     <div className="header">
-      <Title id="title">{pageTitle}</Title>
-      <Paragraph className="subtitle" id={subtitleColor}>
+      <Title className="title">{pageTitle}</Title>
+      <Paragraph className={`subtitle ${subtitleColor}`}>
         {pageSubtitle}
       </Paragraph>
     </div>
