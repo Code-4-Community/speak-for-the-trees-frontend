@@ -3,11 +3,11 @@ import './pageheader.less';
 import { Typography } from 'antd';
 const { Title, Paragraph } = Typography;
 
-type PageHeaderProps = {
+interface PageHeaderProps {
   readonly pageTitle: string;
   readonly pageSubtitle: string;
   readonly subtitleColor: string;
-};
+}
 
 const PageHeader: React.FC<PageHeaderProps> = ({
   pageTitle,
