@@ -11,10 +11,10 @@ type InfoCardProps = {
 
 const InfoCard: React.FC<InfoCardProps> = ({ header, body }) => {
   return (
-    <div>
+    <div className="info-card">
       <Card>
-        <Paragraph type="success">{header}</Paragraph>
-        <Title level={4}>
+        <Paragraph className="header">{header}</Paragraph>
+        <Title level={4} className="body">
           {body}
         </Title>
       </Card>

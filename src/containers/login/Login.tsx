@@ -13,7 +13,7 @@ const Login: React.FC = () => {
     login({ email: values.username, password: values.password });
   };
 
-  const greetingHeader = "Welcome Back!";
+  const greetingHeader = 'Welcome Back!';
 
   return (
     <>
@@ -24,7 +24,9 @@ const Login: React.FC = () => {
       <div className="body-content-container">
         <Row>
           <Col span={10} className="input-container">
-            <Title level={2} style={{'color': '#000000'}}>Log In</Title>
+            <Title level={2} style={{ color: '#000000' }}>
+              Log In
+            </Title>
             <hr />
             <Form
               name="basic"
@@ -61,40 +63,32 @@ const Login: React.FC = () => {
               </Row>
 
               <Form.Item id={'loginButton'} style={{ marginBottom: '10px' }}>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  size={'large'}
-                >
+                <Button type="primary" htmlType="submit" size={'large'}>
                   Log In
                 </Button>
               </Form.Item>
             </Form>
 
             <Paragraph>
-              <Link to="/">
-                Forgot Password?
-              </Link>
+              <Link to="/">Forgot Password?</Link>
             </Paragraph>
 
-            <Paragraph type="success">NEW TO SPEAK FOR THE TREES?
+            <Paragraph className="footer">
+              NEW TO SPEAK FOR THE TREES?
               <br />
-              SIGN UP{' '}
-              <Link to="/signup">
-                HERE!
-              </Link>
+              SIGN UP <Link to="/signup">HERE!</Link>
             </Paragraph>
           </Col>
 
           <Col span={2}></Col>
 
           <Col span={12}>
-            <GreetingContainer 
+            <GreetingContainer
               header={greetingHeader}
-              body='Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer
+              body="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer
               cronut pok pok gentrify flannel salvia deep v pork belly
               pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts
-              affogato PBR&B freegan bushwick vegan four loko pickled.'
+              affogato PBR&B freegan bushwick vegan four loko pickled."
             />
           </Col>
         </Row>
