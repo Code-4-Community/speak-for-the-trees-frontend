@@ -8,6 +8,7 @@ import './App.less';
 import Landing from './containers/landing/Landing';
 import Login from './containers/login/Login';
 import Signup from './containers/signup/Signup';
+import AdminDashboard from './containers/admin-dashboard/AdminDashboard';
 import BlockTemplate from './containers/template-1-col-block/Template';
 import GridTemplate from './containers/template-24-col-grid/Template';
 
@@ -36,6 +37,7 @@ const App: React.FC = () => {
                 <Route path="/" exact component={Landing} />
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={Signup} />
+                <Route path="/admin" exact component={AdminDashboard} />
                 <Route path="/block-template" exact component={BlockTemplate} />
                 <Route path="/grid-template" exact component={GridTemplate} />
                 <Route path="*" exact component={NotFound} />
