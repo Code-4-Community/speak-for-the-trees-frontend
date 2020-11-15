@@ -12,7 +12,7 @@ import BlockTemplate from './containers/template-1-col-block/Template';
 import GridTemplate from './containers/template-24-col-grid/Template';
 
 import NotFound from './containers/not-found/NotFound';
-import NavBar from './components/NavBar';
+import NavBar from './components/nav-bar/NavBar';
 import Footer from './components/Footer';
 import { Layout } from 'antd';
 const { Content } = Layout;
