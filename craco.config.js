@@ -15,6 +15,9 @@ module.exports = {
               '@mid-green': '#61802E',
               '@dark-green': '#3A681A',
               '@black': '#000000',
+              '@white': '#FFFFFF',
+              '@body-background': '@white',
+              '@component-background': '@white',
               '@font-family': "'IBM Plex Sans', sans-serif",
               '@heading-color': '@mid-green',
               '@heading-color-secondary': '@dark-green',
@@ -25,6 +28,7 @@ module.exports = {
               '@font-size-base': '13px',
               '@font-weight-base': '400',
               '@layout-header-background': '@header-grey',
+              '@layout-body-background': '@body-background',
               '@layout-header-color': '@black',
               '@btn-primary-bg': '@light-green',
               '@border-radius-base': '4px'
