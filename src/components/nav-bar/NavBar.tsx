@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { PageHeader, Typography, Button, Avatar, Menu, Dropdown } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import './nav-bar.less';
-const { Paragraph, Title } = Typography;
+const { Paragraph } = Typography;
 
 const NavBar: React.FC = () => {
   const history = useHistory();
@@ -11,19 +11,13 @@ const NavBar: React.FC = () => {
   const path = location.pathname;
 
   const isLoggedIn = () => {
-    return !(path === "/" || path === "/login" || path === "signup");
-  } 
+    return !(path === '/' || path === '/login' || path === 'signup');
+  };
 
   const BackIcon = () => {
     const Logo: string = require('../../nav-bar-icon.png');
-    return (
-      <img
-        className="back-icon"
-        src={Logo}
-        alt="icon"
-      />
-    )
-  }
+    return <img className='back-icon' src={Logo} alt='icon' />;
+  };
 
   const menu = (
     <Menu>
@@ -33,7 +27,7 @@ const NavBar: React.FC = () => {
         }}
       >
         Account Settings
-    </Menu.Item>
+      </Menu.Item>
       <Menu.Item
         onClick={() => {
           history.push('/');
@@ -46,52 +40,56 @@ const NavBar: React.FC = () => {
 
   const LandingExtra = () => {
     return (
-      <div className="landing-extra">
+      <div className='landing-extra'>
         <Button
-          type="primary"
-          htmlType="submit"
+          type='primary'
+          htmlType='submit'
           size={'large'}
           style={{ backgroundColor: '#9AC356', borderColor: '#9AC356' }}
           onClick={() => history.push('/signup')}
         >
           Sign Up
-          </Button>
+        </Button>
         <Button
-          type="primary"
-          htmlType="submit"
+          type='primary'
+          htmlType='submit'
           size={'large'}
-          style={{ backgroundColor: '#fff', borderColor: '#fff', color: 'black' }}
+          style={{
+            backgroundColor: '#fff',
+            borderColor: '#fff',
+            color: 'black',
+          }}
           onClick={() => history.push('/login')}
         >
           Log In
-          </Button>
+        </Button>
       </div>
-    )
-  }
+    );
+  };
 
   const LoggedInExtra = () => {
     return (
-      <div className="logged-in-extra">
+      <div className='logged-in-extra'>
         <Paragraph>Jack Blanc</Paragraph>
-        <Dropdown overlay={menu} placement="bottomLeft">
+        <Dropdown overlay={menu} placement='bottomLeft'>
           <Avatar
-            size="large"
+            size='large'
             icon={<UserOutlined />}
-            style={{ backgroundColor: '#3A681A' }} />
+            style={{ backgroundColor: '#3A681A' }}
+          />
         </Dropdown>
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <PageHeader
-      className="page-header"
+      className='page-header'
       title='Speak for the Trees'
       backIcon={<BackIcon />}
       onBack={() => history.push('/')}
-      extra= { isLoggedIn() ? <LoggedInExtra /> : <LandingExtra /> }
-    >
-    </PageHeader>
+      extra={isLoggedIn() ? <LoggedInExtra /> : <LandingExtra />}
+    ></PageHeader>
   );
 };
 
