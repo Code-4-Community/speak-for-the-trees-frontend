@@ -16,7 +16,7 @@ const NavBar: React.FC = () => {
 
   const BackIcon = () => {
     const Logo: string = require('../../nav-bar-icon.png');
-    return <img className='back-icon' src={Logo} alt='icon' />;
+    return <img className="back-icon" src={Logo} alt="icon" />;
   };
 
   const menu = (
@@ -40,10 +40,10 @@ const NavBar: React.FC = () => {
 
   const LandingExtra = () => {
     return (
-      <div className='landing-extra'>
+      <div className="landing-extra">
         <Button
-          type='primary'
-          htmlType='submit'
+          type="primary"
+          htmlType="submit"
           size={'large'}
           style={{ backgroundColor: '#9AC356', borderColor: '#9AC356' }}
           onClick={() => history.push('/signup')}
@@ -51,8 +51,8 @@ const NavBar: React.FC = () => {
           Sign Up
         </Button>
         <Button
-          type='primary'
-          htmlType='submit'
+          type="primary"
+          htmlType="submit"
           size={'large'}
           style={{
             backgroundColor: '#fff',
@@ -69,11 +69,11 @@ const NavBar: React.FC = () => {
 
   const LoggedInExtra = () => {
     return (
-      <div className='logged-in-extra'>
+      <div className="logged-in-extra">
         <Paragraph>Jack Blanc</Paragraph>
-        <Dropdown overlay={menu} placement='bottomLeft'>
+        <Dropdown overlay={menu} placement="bottomLeft">
           <Avatar
-            size='large'
+            size="large"
             icon={<UserOutlined />}
             style={{ backgroundColor: '#3A681A' }}
           />
@@ -84,8 +84,8 @@ const NavBar: React.FC = () => {
 
   return (
     <PageHeader
-      className='page-header'
-      title='Speak for the Trees'
+      className="page-header"
+      title="Speak for the Trees"
       backIcon={<BackIcon />}
       onBack={() => history.push('/')}
       extra={isLoggedIn() ? <LoggedInExtra /> : <LandingExtra />}
