@@ -86,9 +86,7 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
               </Link>
             </p>
           </Col>
-
           <Col span={2}></Col>
-
           <Col span={12} className="info-container">
             <h1>Welcome Back!</h1>
             <p>
@@ -97,7 +95,7 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
               pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts
               affogato PBR&B freegan bushwick vegan four loko pickled.
             </p>
-          </Col>si
+          </Col>
         </Row>
       </div>
     </>
