@@ -1,4 +1,3 @@
-import React from 'react';
 import { getMoneyString } from '../landing-tree-stats/LandingTreeStats';
 
 test('getMoneyString tests', () => {
