@@ -1,6 +1,7 @@
 import React from 'react';
 import './pageheader.less';
 import { Typography } from 'antd';
+import { DARKGREY } from '../../colors';
 import styled from 'styled-components';
 const { Title, Paragraph } = Typography;
 
@@ -27,7 +28,7 @@ const StyledSubtitle = styled(Paragraph)`
   font-size: 24px;
   line-height: 32px;
   color: ${(props: StyledSubtitleProps) =>
-    props.textColor ? props.textColor : '#444444'};
+    props.textColor ? props.textColor : {DARKGREY}};
 `;
 
 const PageHeader: React.FC<PageHeaderProps> = ({
