@@ -36,7 +36,8 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
       </div>
 
       <Typography.Paragraph>
-        Learn more about how we got these numbers <Typography.Link underline>here</Typography.Link>.
+        Learn more about how we got these numbers{' '}
+        <Typography.Link underline>here</Typography.Link>.
       </Typography.Paragraph>
     </div>
   );
