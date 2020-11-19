@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
+import { Provider } from 'react-redux';
+import store from './store';
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
@@ -14,7 +15,9 @@ Sentry.init({
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

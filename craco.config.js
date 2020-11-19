@@ -1,18 +1,19 @@
-const CracoLessPlugin = require('craco-less');
-
+const CracoAntDesignPlugin = require('craco-antd');
+process.env.BROWSER = "none";
 module.exports = {
   plugins: [
     {
-      plugin: CracoLessPlugin,
+      plugin: CracoAntDesignPlugin,
       options: {
-        lessLoaderOptions: {
-          lessOptions: {
-            //This is where we override LESS global variables
-            modifyVars: { '@font-family': "'IBM Plex Sans', sans-serif" },
-            javascriptEnabled: true,
-          },
+        customizeTheme: {
         },
       },
     },
   ],
+  babel: {
+    presets: [],
+    plugins: [['babel-plugin-styled-components', {
+      namespace: 'scaffold',
+    }]],
+  },
 };

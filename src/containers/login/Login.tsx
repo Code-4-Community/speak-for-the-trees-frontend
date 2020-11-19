@@ -1,15 +1,20 @@
 import React from 'react';
 import './login.less';
 import { Button, Col, Form, Input, Row, Typography } from 'antd';
-import { login } from '../../auth/authAPI';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { login } from '../../auth/ducks/thunks';
+import { connect, useDispatch } from 'react-redux';
+import { C4CState } from '../../store';
+import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 
-const Login: React.FC = () => {
+type LoginProps = UserAuthenticationReducerState;
+
+const Login: React.FC<LoginProps> = ({ tokens }) => {
+  const dispatch = useDispatch();
   const onFinish = (values: any) => {
-    login({ email: values.username, password: values.password });
+    dispatch(login({ email: values.email, password: values.password }));
   };
-
   return (
     <>
       <Helmet>
@@ -81,9 +86,7 @@ const Login: React.FC = () => {
               </Link>
             </p>
           </Col>
-
           <Col span={2}></Col>
-
           <Col span={12} className="info-container">
             <h1>Welcome Back!</h1>
             <p>
@@ -99,4 +102,10 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+const mapStateToProps = (state: C4CState): LoginProps => {
+  return {
+    tokens: state.authenticationState.tokens,
+  };
+};
+
+export default connect(mapStateToProps)(Login);

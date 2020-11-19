@@ -2,7 +2,6 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { Typography } from 'antd';
-import './not-found.less';
 const { Title } = Typography;
 
 /*
@@ -25,8 +24,8 @@ const Template: React.FC = () => {
         */}
         <Title>Oops! We can't find the page you're looking for.</Title>
 
-        <Link to="/" component={Typography.Link}>
-          Take me back home!
+        <Link to="/">
+          <Typography.Link>Take me back home!</Typography.Link>
         </Link>
       </div>
     </>

@@ -2,21 +2,25 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
-// Import antd stylesheets
-import 'antd/dist/antd.css';
 import './App.less';
 import Landing from './containers/landing/Landing';
 import Login from './containers/login/Login';
 import Signup from './containers/signup/Signup';
 import AdminDashboard from './containers/admin-dashboard/AdminDashboard';
+import Settings from './containers/settings/Settings';
 import BlockTemplate from './containers/template-1-col-block/Template';
 import GridTemplate from './containers/template-24-col-grid/Template';
 
 import NotFound from './containers/not-found/NotFound';
-import NavBar from './components/NavBar';
+import NavBar from './components/navbar/NavBar';
 import Footer from './components/Footer';
 import { Layout } from 'antd';
+import styled from 'styled-components';
 const { Content } = Layout;
+
+const AppInnerContainer = styled.div`
+  min-height: 100vh;
+`;
 
 const App: React.FC = () => {
   return (
@@ -32,7 +36,7 @@ const App: React.FC = () => {
         <Layout className="app-flex-container">
           <NavBar />
           <Content className="content-padding">
-            <div className="content-inner-container">
+            <AppInnerContainer>
               <Switch>
                 <Route path="/" exact component={Landing} />
                 <Route path="/login" exact component={Login} />
@@ -40,9 +44,10 @@ const App: React.FC = () => {
                 <Route path="/admin" exact component={AdminDashboard} />
                 <Route path="/block-template" exact component={BlockTemplate} />
                 <Route path="/grid-template" exact component={GridTemplate} />
+                <Route path="/settings" exact component={Settings} />
                 <Route path="*" exact component={NotFound} />
               </Switch>
-            </div>
+            </AppInnerContainer>
           </Content>
           <Footer />
         </Layout>

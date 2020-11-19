@@ -3,8 +3,6 @@ import { Typography } from 'antd';
 import InfoCard from '../info-card/InfoCard';
 import './landing-tree-stats.less';
 
-const { Title, Paragraph, Link } = Typography;
-
 type LandingTreeStatsProps = {
   readonly moneySaved: number;
   readonly rainWater: number;
@@ -18,7 +16,7 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
 }) => {
   return (
     <div className="tree-stats-container">
-      <Title level={3}>Current Status of our Trees</Title>
+      <Typography.Title level={3}>Current Status of our Trees</Typography.Title>
 
       <div className="map-cards-container">
         <div className="map-card">
@@ -37,9 +35,10 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
         </div>
       </div>
 
-      <Paragraph>
-        Learn more about how we got these numbers <Link underline>here</Link>.
-      </Paragraph>
+      <Typography.Paragraph>
+        Learn more about how we got these numbers{' '}
+        <Typography.Link underline>here</Typography.Link>.
+      </Typography.Paragraph>
     </div>
   );
 };

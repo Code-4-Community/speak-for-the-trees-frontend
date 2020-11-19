@@ -1,23 +1,29 @@
 import React from 'react';
 import './signup.less';
 import { Button, Col, Form, Input, Row, Typography } from 'antd';
-import { signup } from '../../auth/authAPI';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { signup } from '../../auth/ducks/thunks';
+import { connect, useDispatch } from 'react-redux';
+import { UserAuthenticationReducerState } from '../../auth/ducks/types';
+import { C4CState } from '../../store';
 
 const hSpan = 8;
 const fSpan = 17;
 
-const Signup: React.FC = () => {
+type SignupProps = UserAuthenticationReducerState;
+
+const Signup: React.FC<SignupProps> = ({ tokens }) => {
+  const dispatch = useDispatch();
   const onFinish = (values: any) => {
-    // TODO: what if backend says the values are invalid? need to handle this
-    signup({
-      username: values.username,
-      email: values.email,
-      password: values.password,
-      firstName: values.firstName,
-      lastName: values.lastName,
-    });
+    dispatch(
+      signup({
+        email: values.email,
+        password: values.password,
+        firstName: values.firstName,
+        lastName: values.lastName,
+      }),
+    );
   };
 
   return (
@@ -156,4 +162,10 @@ const Signup: React.FC = () => {
   );
 };
 
-export default Signup;
+const mapStateToProps = (state: C4CState): SignupProps => {
+  return {
+    tokens: state.authenticationState.tokens,
+  };
+};
+
+export default connect(mapStateToProps)(Signup);
