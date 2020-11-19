@@ -1,5 +1,4 @@
 import React from 'react';
-import './pageheader.less';
 import { Typography } from 'antd';
 import { DARKGREY } from '../../colors';
 import styled from 'styled-components';
@@ -37,7 +36,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   subtitleColor,
 }) => {
   return (
-    <div className="header">
+    <div>
       <StyledTitle>{pageTitle}</StyledTitle>
       <StyledSubtitle textColor={subtitleColor}>{pageSubtitle}</StyledSubtitle>
     </div>
