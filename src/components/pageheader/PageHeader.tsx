@@ -27,7 +27,7 @@ const StyledSubtitle = styled(Paragraph)`
   font-size: 24px;
   line-height: 32px;
   color: ${(props: StyledSubtitleProps) =>
-    props.textColor ? props.textColor : {DARKGREY}};
+    props.textColor ? props.textColor : { DARKGREY }};
 `;
 
 const PageHeader: React.FC<PageHeaderProps> = ({
