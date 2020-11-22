@@ -5,19 +5,17 @@ import { TitleProps } from 'antd/lib/typography/Title';
 import styled from 'styled-components';
 import { TEXT_GREY } from '../../colors';
 
-const { Paragraph, Title } = Typography;
-
 type InfoCardProps = {
   readonly header: string;
   readonly body: string;
 };
 
-const CardHeader: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
+const CardHeader: typeof Typography.Paragraph = styled(Typography.Paragraph)<ParagraphProps>`
   color: ${TEXT_GREY};
   font-size: 18px;
   line-height: 1;
 `;
-const CardBody: typeof Title = styled(Title)<TitleProps>`
+const CardBody: typeof Typography.Title = styled(Typography.Title)<TitleProps>`
   margin-bottom: 0px;
 `;
 
