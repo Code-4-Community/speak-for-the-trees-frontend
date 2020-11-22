@@ -1,6 +1,7 @@
 import React from 'react';
 import './login.less';
 import { Button, Col, Form, Input, Row, Typography } from 'antd';
+import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import GreetingContainer from '../../components/greeting-container/GreetingContainer';
@@ -8,8 +9,15 @@ import { login } from '../../auth/ducks/thunks';
 import { connect, useDispatch } from 'react-redux';
 import { C4CState } from '../../store';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
+import { BLACK, TEXT_GREY } from '../../colors';
+import styled from 'styled-components';
 
 const { Paragraph, Title } = Typography;
+
+const Footer: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
+  color: ${TEXT_GREY};
+  line-height: 1.5;
+`
 
 type LoginProps = UserAuthenticationReducerState;
 
@@ -30,7 +38,7 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
       <div className="body-content-container">
         <Row>
           <Col span={10} className="input-container">
-            <Title level={2} style={{ color: '#000000' }}>
+            <Title level={2} style={{ color: BLACK }}>
               Log In
             </Title>
             <hr />
@@ -79,11 +87,11 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
               <Link to="/">Forgot Password?</Link>
             </Paragraph>
 
-            <Paragraph className="footer">
+            <Footer>
               NEW TO SPEAK FOR THE TREES?
               <br />
               SIGN UP <Link to="/signup">HERE!</Link>
-            </Paragraph>
+            </Footer>
           </Col>
           <Col span={2}></Col>
 

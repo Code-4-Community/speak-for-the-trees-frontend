@@ -1,6 +1,7 @@
 import React from 'react';
 import './signup.less';
 import { Button, Col, Form, Input, Row, Typography } from 'antd';
+import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import GreetingContainer from '../../components/greeting-container/GreetingContainer';
@@ -8,8 +9,15 @@ import { signup } from '../../auth/ducks/thunks';
 import { connect, useDispatch } from 'react-redux';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { C4CState } from '../../store';
+import { BLACK, TEXT_GREY } from '../../colors';
+import styled from 'styled-components';
 
 const { Paragraph, Title } = Typography;
+
+const Footer: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
+  color: ${TEXT_GREY};
+  line-height: 1.5;
+`
 
 const hSpan = 8;
 const fSpan = 17;
@@ -40,7 +48,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
       <div className="body-content-container">
         <Row>
           <Col span={10} className="input-container">
-            <Title level={2} style={{ color: '#000000' }}>
+            <Title level={2} style={{ color: BLACK }}>
               Sign Up
             </Title>
             <hr />
@@ -128,11 +136,11 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                   </Form.Item>
                 </Col>
                 <Col>
-                  <Paragraph className="footer">
+                  <Footer className="footer">
                     ALREADY HAVE AN ACCOUNT?
                     <br />
                     LOGIN <Link to="/login">HERE!</Link>
-                  </Paragraph>
+                  </Footer>
                 </Col>
               </Row>
             </Form>
