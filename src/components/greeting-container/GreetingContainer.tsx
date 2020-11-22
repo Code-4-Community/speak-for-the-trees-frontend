@@ -18,17 +18,16 @@ const InfoContainer = styled.div`
   box-shadow: 1.58105px 3.16211px 6.32421px rgba(0, 0, 0, 0.09);
   border-radius: 6.32421px;
   min-width: 500px;
-`
+`;
 
 const TextContainer = styled.div`
   width: 380px;
-`
+`;
 
 const GreetingContainer: React.FC<GreetingContainerProps> = ({
   header,
   body,
 }) => {
-
   return (
     <InfoContainer>
       <Title style={{ color: BLACK }}>{header}</Title>

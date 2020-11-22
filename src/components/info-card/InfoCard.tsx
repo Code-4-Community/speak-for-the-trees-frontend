@@ -16,19 +16,17 @@ const CardHeader: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
   color: ${TEXT_GREY};
   font-size: 18px;
   line-height: 1;
-`
+`;
 const CardBody: typeof Title = styled(Title)<TitleProps>`
   margin-bottom: 0px;
-`
+`;
 
 const InfoCard: React.FC<InfoCardProps> = ({ header, body }) => {
   return (
     <div>
       <Card>
         <CardHeader>{header}</CardHeader>
-          <CardBody level={3}>
-            {body}
-          </CardBody>
+        <CardBody level={3}>{body}</CardBody>
       </Card>
     </div>
   );

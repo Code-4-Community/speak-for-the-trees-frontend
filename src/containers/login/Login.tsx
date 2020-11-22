@@ -17,7 +17,7 @@ const { Paragraph, Title } = Typography;
 const Footer: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
   color: ${TEXT_GREY};
   line-height: 1.5;
-`
+`;
 
 type LoginProps = UserAuthenticationReducerState;
 
