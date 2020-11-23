@@ -41,7 +41,7 @@ const App: React.FC = () => {
                 <Route path="/" exact component={Landing} />
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={Signup} />
-                <Route path="/home" exact component={Home}/>
+                <Route path="/home" exact component={Home} />
                 <Route path="/block-template" exact component={BlockTemplate} />
                 <Route path="/grid-template" exact component={GridTemplate} />
                 <Route path="/settings" exact component={Settings} />
