@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography } from 'antd';
 import { DARKGREY } from '../../colors';
 import styled from 'styled-components';
-const { Title, Paragraph } = Typography;
+const { Paragraph } = Typography;
 
 interface PageHeaderProps {
   readonly pageTitle: string;
@@ -14,18 +14,18 @@ interface StyledSubtitleProps {
   readonly textColor: string;
 }
 
-const StyledTitle = styled(Title)`
+const StyledTitle = styled(Paragraph)`
   font-size: 44px;
   line-height: 76px;
   color: #3a681a;
   font-weight: bold;
-  margin-bottom: 0px;
 `;
 
 const StyledSubtitle = styled(Paragraph)`
   font-weight: normal;
   font-size: 24px;
   line-height: 32px;
+  margin-top: -40px;
   color: ${(props: StyledSubtitleProps) =>
     props.textColor ? props.textColor : { DARKGREY }};
 `;
