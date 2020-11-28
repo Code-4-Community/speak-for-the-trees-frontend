@@ -15,6 +15,8 @@ const formLayout = {
   wrapperCol: { span: 17 },
 };
 
+const passwordRules = 'Your new password must be at least 8 characters.';
+
 const SubmitButton = styled(Button)`
   width: 96px;
   height: 40px;
@@ -70,9 +72,6 @@ const Settings: React.FC = () => {
               <Form.Item {...formLayout} name="username">
                 <Input placeholder="Username" />
               </Form.Item>
-              <Form.Item {...formLayout} name="phone-number">
-                <Input placeholder="Phone Number" />
-              </Form.Item>
 
               <FormTitle>Change Email</FormTitle>
               <Form.Item {...formLayout} name="current-email">
@@ -111,10 +110,15 @@ const Settings: React.FC = () => {
               </Form.Item>
               <Form.Item
                 name="new-password"
+                help={passwordRules}
                 rules={[
                   {
                     required: true,
                     message: 'Please input your new password!',
+                  },
+                  {
+                    min: 8,
+                    message: passwordRules,
                   },
                 ]}
               >
