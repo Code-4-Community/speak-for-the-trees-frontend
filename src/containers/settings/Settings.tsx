@@ -1,7 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { Col, Row, Button, Form, Input, Typography } from 'antd';
-import './settings.less';
 import PageHeader from '../../components/pageheader/PageHeader';
 import styled from 'styled-components';
 import { MID_GREEN } from '../../colors';
@@ -16,6 +14,12 @@ const formLayout = {
 };
 
 const passwordRules = 'Your new password must be at least 8 characters.';
+
+const SettingsContainer = styled.div`
+  min-width: 1400px;
+  height: 900px;
+  padding: 100px 134px;
+`;
 
 const SubmitButton = styled(Button)`
   width: 96px;
@@ -38,14 +42,7 @@ const Settings: React.FC = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Settings</title>
-        <meta
-          name="Settings"
-          content="The user's account settings page, where they can change their profile information and password or deactivate/delete their account."
-        />
-      </Helmet>
-      <div className="page-content-container">
+      <SettingsContainer>
         <PageHeader
           pageTitle="Account Settings"
           pageSubtitle=""
@@ -152,7 +149,7 @@ const Settings: React.FC = () => {
             </Form>
           </Col>
         </Row>
-      </div>
+      </SettingsContainer>
     </>
   );
 };
