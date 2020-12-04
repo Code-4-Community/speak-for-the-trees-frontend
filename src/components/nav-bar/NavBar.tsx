@@ -7,7 +7,7 @@ import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { PrivilegeLevel } from '../../auth/ducks/types';
-import { } from '../../colors'
+import { LIGHT_GREEN, WHITE, DARK_GREEN } from '../../colors'
 const { Paragraph } = Typography;
 
 const NavBar: React.FC = () => {
@@ -48,7 +48,7 @@ const NavBar: React.FC = () => {
           type="primary"
           htmlType="submit"
           size={'large'}
-          style={{ backgroundColor: '#9AC356', borderColor: '#9AC356' }}
+          style={{ backgroundColor: LIGHT_GREEN, borderColor: LIGHT_GREEN }}
           onClick={() => history.push('/signup')}
         >
           Sign Up
@@ -58,8 +58,8 @@ const NavBar: React.FC = () => {
           htmlType="submit"
           size={'large'}
           style={{
-            backgroundColor: '#fff',
-            borderColor: '#fff',
+            backgroundColor: WHITE,
+            borderColor: WHITE,
             color: 'black',
           }}
           onClick={() => history.push('/login')}
@@ -73,12 +73,13 @@ const NavBar: React.FC = () => {
   const LoggedInExtra = () => {
     return (
       <div className="logged-in-extra">
+        {/* This needs to changed, not a constant */}
         <Paragraph>Jack Blanc</Paragraph>
         <Dropdown overlay={menu} placement="bottomLeft">
           <Avatar
             size="large"
             icon={<UserOutlined />}
-            style={{ backgroundColor: '#3A681A' }}
+            style={{ backgroundColor: DARK_GREEN }}
           />
         </Dropdown>
       </div>
