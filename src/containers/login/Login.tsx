@@ -34,15 +34,15 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
               <Row id="inputs">
                 <Col className="leftInput">
                   <Form.Item
-                    name="username"
+                    name="email"
                     rules={[
                       {
                         required: true,
-                        message: 'Please input your username!',
+                        message: 'Please input your email!',
                       },
                     ]}
                   >
-                    <Input placeholder="Username" />
+                    <Input placeholder="Email" />
                   </Form.Item>
                 </Col>
                 <Col>

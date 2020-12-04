@@ -3,16 +3,19 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { PageHeader, Typography, Button, Avatar, Menu, Dropdown } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import './nav-bar.less';
+import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { useSelector } from 'react-redux';
+import { C4CState } from '../../store';
+import { PrivilegeLevel } from '../../auth/ducks/types';
+import { } from '../../colors'
 const { Paragraph } = Typography;
 
 const NavBar: React.FC = () => {
   const history = useHistory();
-  const location = useLocation();
-  const path = location.pathname;
 
-  const isLoggedIn = () => {
-    return !(path === '/' || path === '/login' || path === 'signup');
-  };
+  const privilegeLevel = useSelector((state: C4CState) => getPrivilegeLevel(state.authenticationState.tokens))
+
+  const isLoggedIn : boolean = privilegeLevel > PrivilegeLevel.NONE;
 
   const BackIcon = () => {
     const Logo: string = require('../../nav-bar-icon.png');
@@ -88,8 +91,8 @@ const NavBar: React.FC = () => {
       title="Speak for the Trees"
       backIcon={<BackIcon />}
       onBack={() => history.push('/')}
-      extra={isLoggedIn() ? <LoggedInExtra /> : <LandingExtra />}
-    ></PageHeader>
+      extra={isLoggedIn ? <LoggedInExtra /> : <LandingExtra />}
+    />
   );
 };
 
