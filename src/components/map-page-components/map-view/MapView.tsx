@@ -55,40 +55,39 @@ loader.load().then(() => {
       map.setCenter(place.geometry.location);
       map.setZoom(16);
     }
-    let address = '';
   });
 
-  var private_streets_layer = new google.maps.Data({ map: map });
+  const privateStreetsLayer = new google.maps.Data({ map });
 
-  private_streets_layer.loadGeoJson(
+  privateStreetsLayer.loadGeoJson(
     'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/private_streets.json',
   );
 
-  private_streets_layer.setStyle({
+  privateStreetsLayer.setStyle({
     strokeColor: 'red',
     strokeWeight: 2,
     visible: false,
   });
 
-  var blocks_layer = new google.maps.Data({ map: map });
-  blocks_layer.loadGeoJson(
+  const blocksLayer = new google.maps.Data({ map });
+  blocksLayer.loadGeoJson(
     'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/blocks.json',
   );
 
-  blocks_layer.setStyle((feature) => {
+  blocksLayer.setStyle((feature) => {
     let color = 'green';
 
     // Use this for coloring reserved/completed blocks a different color
-    if (feature.getProperty('ID') % 10 == 0) {
+    if (feature.getProperty('ID') % 10 === 0) {
       color = 'yellow';
     }
 
-    if (feature.getProperty('ID') % 10 == 1) {
+    if (feature.getProperty('ID') % 10 === 1) {
       color = 'red';
     }
 
     // Use this for selecting blocks
-    if (feature.getProperty('PRECINCT') == 'YES') {
+    if (feature.getProperty('PRECINCT') === 'YES') {
       color = 'black';
     }
 
@@ -101,15 +100,15 @@ loader.load().then(() => {
     };
   });
 
-  var neighborhoods_layer = new google.maps.Data({ map: map });
-  neighborhoods_layer.loadGeoJson(
+  const neighborhoodsLayer = new google.maps.Data({ map });
+  neighborhoodsLayer.loadGeoJson(
     'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/neighborhoods_edited.geojson',
   );
 
-  neighborhoods_layer.setStyle((feature) => {
+  neighborhoodsLayer.setStyle((feature) => {
     return {
       fillColor: 'green',
-      fillOpacity: (feature.getProperty('Neighborhood_ID') / 100) * 2 + 0.1, //replace this with completion percentage
+      fillOpacity: (feature.getProperty('Neighborhood_ID') / 100) * 2 + 0.1, // replace this with completion percentage
       strokeWeight: 1,
       strokeColor: 'white',
       visible: true,
@@ -117,7 +116,7 @@ loader.load().then(() => {
   });
 
   // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
-  neighborhoods_layer.addListener('click', (event) => {
+  neighborhoodsLayer.addListener('click', (event) => {
     map.setZoom(14);
     map.panTo({
       lat: event.feature.getProperty('Latitude'),
@@ -127,14 +126,14 @@ loader.load().then(() => {
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
-      function (pos) {
-        var me = new google.maps.LatLng(
+      (pos) => {
+        const me = new google.maps.LatLng(
           pos.coords.latitude,
           pos.coords.longitude,
         );
-        var user_location = new google.maps.Marker({
+        const userLocation = new google.maps.Marker({
           position: me,
-          map: map,
+          map,
           clickable: false,
           icon: {
             path: google.maps.SymbolPath.CIRCLE,
@@ -145,8 +144,9 @@ loader.load().then(() => {
           },
         });
       },
-      function (error) {
+      (error) => {
         // Handle the error
+        // tslint:disable-next-line
         console.log('Location not found');
       },
     );
