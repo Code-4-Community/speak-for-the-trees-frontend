@@ -36,7 +36,7 @@ const App: React.FC = () => {
         <Layout className="app-flex-container">
           <NavBar />
           <Content className="content-padding">
-            <AppInnerContainer>
+            {/* <AppInnerContainer> */}
               <Switch>
                 <Route path="/" exact component={Landing} />
                 <Route path="/login" exact component={Login} />
@@ -47,9 +47,8 @@ const App: React.FC = () => {
                 <Route path="/settings" exact component={Settings} />
                 <Route path="*" exact component={NotFound} />
               </Switch>
-            </AppInnerContainer>
+            {/* </AppInnerContainer> */}
           </Content>
-          <Footer />
         </Layout>
       </Router>
     </>
