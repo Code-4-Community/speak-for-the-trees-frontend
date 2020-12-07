@@ -1,25 +1,33 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { PageHeader, Typography, Button, Avatar, Menu, Dropdown } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import './nav-bar.less';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { PrivilegeLevel } from '../../auth/ducks/types';
-import { LIGHT_GREEN, WHITE, DARK_GREEN } from '../../colors'
+import { LIGHT_GREEN, WHITE, DARK_GREEN } from '../../colors';
 const { Paragraph } = Typography;
 
 const NavBar: React.FC = () => {
   const history = useHistory();
 
-  const privilegeLevel = useSelector((state: C4CState) => getPrivilegeLevel(state.authenticationState.tokens))
+  const privilegeLevel = useSelector((state: C4CState) =>
+    getPrivilegeLevel(state.authenticationState.tokens),
+  );
 
-  const isLoggedIn : boolean = privilegeLevel > PrivilegeLevel.NONE;
+  const isLoggedIn: boolean = privilegeLevel > PrivilegeLevel.NONE;
 
   const BackIcon = () => {
     const Logo: string = require('../../nav-bar-icon.png');
-    return <img className="back-icon" src={Logo} alt="icon" />;
+    return (
+      <img
+        className="back-icon"
+        src={Logo}
+        alt="icon"
+        style={{ height: '40px' }}
+      />
+    );
   };
 
   const menu = (
@@ -43,12 +51,16 @@ const NavBar: React.FC = () => {
 
   const LandingExtra = () => {
     return (
-      <div className="landing-extra">
+      <div className="landing-extra" style={{ paddingRight: '3vw' }}>
         <Button
           type="primary"
           htmlType="submit"
           size={'large'}
-          style={{ backgroundColor: LIGHT_GREEN, borderColor: LIGHT_GREEN }}
+          style={{
+            backgroundColor: LIGHT_GREEN,
+            borderColor: LIGHT_GREEN,
+            margin: '0 2vw 0 0',
+          }}
           onClick={() => history.push('/signup')}
         >
           Sign Up
@@ -72,9 +84,9 @@ const NavBar: React.FC = () => {
 
   const LoggedInExtra = () => {
     return (
-      <div className="logged-in-extra">
+      <div className="logged-in-extra" style={{ display: 'flex' }}>
         {/* This needs to changed, not a constant */}
-        <Paragraph>Jack Blanc</Paragraph>
+        <Paragraph style={{ margin: 'auto 20px auto 0' }}>Jack Blanc</Paragraph>
         <Dropdown overlay={menu} placement="bottomLeft">
           <Avatar
             size="large"
@@ -92,6 +104,12 @@ const NavBar: React.FC = () => {
       title="Speak for the Trees"
       backIcon={<BackIcon />}
       onBack={() => history.push('/')}
+      style={{
+        boxShadow: '0 4px 2px -2px grey',
+        margin: '0 0 3px 0',
+        backgroundColor: '#F5F5F5',
+        color: '#61802e',
+      }}
       extra={isLoggedIn ? <LoggedInExtra /> : <LandingExtra />}
     />
   );
