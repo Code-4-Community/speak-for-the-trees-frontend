@@ -1,9 +1,12 @@
 import React from 'react';
-import './linkcard.less';
 import styled from 'styled-components';
 import { Card } from 'antd';
 import { LinkButton } from '../LinkButton';
-import { LIGHT_GREEN, WHITE } from '../../colors';
+import { LIGHT_GREEN, PALE_GREEN, WHITE } from '../../colors';
+import bkg1 from './bkg1.png';
+import bkg2 from './bkg2.png';
+import bkg3 from './bkg3.png';
+import bkg4 from './bkg4.png';
 
 interface LinkCardProps {
   readonly text: string;
@@ -11,18 +14,33 @@ interface LinkCardProps {
   readonly background: string;
 }
 
-const StyledCard = styled(({ ...props }) => <Card {...props} />)`
-  width: 265px;
+const StyledCard = styled(Card)`
+  display: inline-block;
   height: 265px;
-  padding-top: 183px;
-  border-radius: 6px;
+  width: 265px;
+  margin: auto;
   text-align: center;
+  border-radius: 6px;
+  border-color: ${PALE_GREEN};
+  background-size: 100%;
+  &.img1 {
+    background: url(${bkg1}) no-repeat;
+  }
+  &.img2 {
+    background: url(${bkg2}) no-repeat;
+  }
+  &.img3 {
+    background: url(${bkg3}) no-repeat;
+  }
+  &.img4 {
+    background: url(${bkg4}) no-repeat;
+  }
 `;
 
 const StyledLinkButton = styled(LinkButton)`
-  width: 202px;
   height: 40px;
-  padding: 0px;
+  min-width: 90%;
+  margin-top: 80%;
   border: ${LIGHT_GREEN} 4px;
   background: ${LIGHT_GREEN};
   color: ${WHITE};
