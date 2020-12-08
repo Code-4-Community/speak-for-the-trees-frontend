@@ -5,4 +5,5 @@ export const TEXT_GREY = '#AFAEAE';
 export const DARKGREY = '#444444';
 export const MID_GREEN = '#61802E';
 export const LIGHT_GREEN = '#9AC356';
+export const PALE_GREEN = '#E5EBDA';
 export const WHITE = '#FFFFFF';
