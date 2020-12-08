@@ -12,12 +12,7 @@ import Settings from './containers/settings/Settings';
 import NotFound from './containers/not-found/NotFound';
 import NavBar from './components/nav-bar/NavBar';
 import { Layout } from 'antd';
-import styled from 'styled-components';
 const { Content } = Layout;
-
-const AppInnerContainer = styled.div`
-  min-height: 100vh;
-`;
 
 const App: React.FC = () => {
   return (
