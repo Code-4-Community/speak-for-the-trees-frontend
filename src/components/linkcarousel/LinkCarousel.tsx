@@ -3,9 +3,7 @@ import { Carousel } from 'antd';
 import styled from 'styled-components';
 import { LIGHT_GREEN } from '../../colors';
 import LinkCard from '../linkcard/LinkCard';
-import useWindowDimensions, {
-  WindowTypes,
-} from '../window-dimensions';
+import useWindowDimensions, { WindowTypes } from '../window-dimensions';
 
 const StyledCarousel = styled(Carousel)`
   max-width: 1350px;
@@ -40,7 +38,11 @@ const LinkCarousel: React.FC = () => {
   return (
     <>
       <StyledCarousel
-        {...{ slidesToShow: slidesPerPage, slidesToScroll: slidesPerPage }}
+        {...{
+          slidesToShow: slidesPerPage,
+          slidesToScroll: slidesPerPage,
+          autoplay: true,
+        }}
       >
         <CarouselSlide>
           <LinkCard text="My Blocks" path="/" background="img1" />
