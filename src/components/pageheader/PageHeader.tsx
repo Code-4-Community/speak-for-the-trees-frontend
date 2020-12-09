@@ -2,9 +2,7 @@ import React from 'react';
 import { Typography } from 'antd';
 import { DARKGREY } from '../../colors';
 import styled from 'styled-components';
-import useWindowDimensions, {
-  WindowTypes,
-} from '../window-dimensions';
+import useWindowDimensions, { WindowTypes } from '../window-dimensions';
 const { Paragraph } = Typography;
 
 interface PageHeaderProps {
