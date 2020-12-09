@@ -22,6 +22,7 @@ const App: React.FC = () => {
           name="keywords"
           content="speak,for,the,trees,speakforthetrees,sftt,boston,bos,treemap,tree-map,map,urban,canopy,reservation,block,blocks"
         />
+        <meta name="description" content="Speak for the Trees Website" />
       </Helmet>
 
       <Router>
