@@ -21,6 +21,10 @@ const dummyTabs: TabInfo[] = [
         rightSide: 80
       },
       {
+        name: "Aaron",
+        rightSide: 80
+      },
+      {
         name: "Sophie",
         rightSide: 80
       },
