@@ -67,10 +67,7 @@ const AdminDashboard: React.FC = () => {
               </Form.Item>
 
               <Form.Item name="role">
-                <RoleDropdown
-                  overlay={roleMenuItems}
-                  trigger={['click']}
-                >
+                <RoleDropdown overlay={roleMenuItems} trigger={['click']}>
                   <Button>
                     <span style={{ float: 'left' }}>New Role</span>{' '}
                     <span style={{ float: 'right' }}>
@@ -110,7 +107,7 @@ const AdminDashboard: React.FC = () => {
     return (
       <Menu>
         {items.map((item: DropdownItem) => {
-          return <Menu.Item key={item.key}>{ item.label }</Menu.Item>;
+          return <Menu.Item key={item.key}>{item.label}</Menu.Item>;
         })}
       </Menu>
     );
