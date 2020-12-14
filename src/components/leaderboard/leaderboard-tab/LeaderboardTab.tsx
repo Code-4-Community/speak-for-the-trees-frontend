@@ -16,9 +16,6 @@ const LeaderboardPanel = styled(Collapse.Panel)<CollapsePanelProps>`
   margin-bottom: 10px;
   boarder-radius: 0px;
   cursor: auto;
-  .ant-collapse-content {
-    background: ${LIGHT_GREEN}80;
-  }
 `;
 
 const LeaderboardItemName = styled(Paragraph)<ParagraphProps>`
