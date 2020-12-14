@@ -1,12 +1,23 @@
 import React from 'react';
 import './login.less';
 import { Button, Col, Form, Input, Row, Typography } from 'antd';
+import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import GreetingContainer from '../../components/greeting-container/GreetingContainer';
 import { login } from '../../auth/ducks/thunks';
 import { connect, useDispatch } from 'react-redux';
 import { C4CState } from '../../store';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
+import { BLACK, TEXT_GREY } from '../../colors';
+import styled from 'styled-components';
+
+const { Paragraph, Title } = Typography;
+
+const Footer: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
+  color: ${TEXT_GREY};
+  line-height: 1.5;
+`;
 
 type LoginProps = UserAuthenticationReducerState;
 
@@ -15,6 +26,9 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
   const onFinish = (values: any) => {
     dispatch(login({ email: values.email, password: values.password }));
   };
+
+  const greetingHeader = 'Welcome Back!';
+
   return (
     <>
       <Helmet>
@@ -24,7 +38,9 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
       <div className="body-content-container">
         <Row>
           <Col span={10} className="input-container">
-            <h1>Log In</h1>
+            <Title level={2} style={{ color: BLACK }}>
+              Log In
+            </Title>
             <hr />
             <Form
               name="basic"
@@ -34,15 +50,15 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
               <Row id="inputs">
                 <Col className="leftInput">
                   <Form.Item
-                    name="username"
+                    name="email"
                     rules={[
                       {
                         required: true,
-                        message: 'Please input your username!',
+                        message: 'Please input your email!',
                       },
                     ]}
                   >
-                    <Input placeholder="Username" />
+                    <Input placeholder="Email" />
                   </Form.Item>
                 </Col>
                 <Col>
@@ -61,40 +77,32 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
               </Row>
 
               <Form.Item id={'loginButton'} style={{ marginBottom: '10px' }}>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  size={'large'}
-                  style={{ backgroundColor: '#9AC356', borderColor: '#9AC356' }}
-                >
+                <Button type="primary" htmlType="submit" size={'large'}>
                   Log In
                 </Button>
               </Form.Item>
             </Form>
 
-            <p id="forgotPassword">
-              <Link to="/" component={Typography.Link} className="Link">
-                Forgot Password?
-              </Link>
-            </p>
+            <Paragraph>
+              <Link to="/">Forgot Password?</Link>
+            </Paragraph>
 
-            <p>New to speak for the trees?</p>
-            <p>
-              Sign up{' '}
-              <Link className="Link" to="/signup" component={Typography.Link}>
-                here!
-              </Link>
-            </p>
+            <Footer>
+              NEW TO SPEAK FOR THE TREES?
+              <br />
+              SIGN UP <Link to="/signup">HERE!</Link>
+            </Footer>
           </Col>
           <Col span={2}></Col>
-          <Col span={12} className="info-container">
-            <h1>Welcome Back!</h1>
-            <p>
-              Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer
-              cronut pok pok gentrify flannel salvia deep v pork belly
-              pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts
-              affogato PBR&B freegan bushwick vegan four loko pickled.
-            </p>
+
+          <Col span={12}>
+            <GreetingContainer
+              header={greetingHeader}
+              body="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer
+        cronut pok pok gentrify flannel salvia deep v pork belly
+        pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts
+        affogato PBR&B freegan bushwick vegan four loko pickled."
+            />
           </Col>
         </Row>
       </div>

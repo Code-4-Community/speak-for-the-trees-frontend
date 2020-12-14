@@ -1,9 +1,26 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Row, Col, Typography, Menu, Dropdown, Button } from 'antd';
+import { Row, Typography, Menu, Dropdown, Button, Form, Input } from 'antd';
+import { DropDownProps } from 'antd/lib/dropdown';
 import { DownOutlined } from '@ant-design/icons';
-import './admin-dashboard.less';
+import PageHeader from '../../components/pageheader/PageHeader';
+import styled from 'styled-components';
+
 const { Title } = Typography;
+
+const AdminContentContainer = styled.div`
+  padding: 100px 134px;
+`;
+
+const EditUser = styled.div`
+  margin: 80px 0px 40px;
+  width: 370px;
+`;
+
+const RoleDropdown = styled(Dropdown)<DropDownProps>`
+  width: 100%;
+  height: 36px;
+`;
 
 type DropdownItem = {
   key: number;
@@ -13,13 +30,13 @@ type DropdownItem = {
 const AdminDashboard: React.FC = () => {
   const isSuperAdmin = true;
 
-  const teamList: DropdownItem[] = [
-    { key: 1, label: 'team 1' },
-    { key: 4, label: 'team 2' },
-    { key: 7, label: 'team 3' },
+  const roleList: DropdownItem[] = [
+    { key: 1, label: 'standard user' },
+    { key: 2, label: 'admin' },
+    { key: 3, label: 'super admin' },
   ];
 
-  const teamMenuItems = getMenuItems(teamList);
+  const roleMenuItems = getMenuItems(roleList);
 
   return (
     <>
@@ -31,58 +48,56 @@ const AdminDashboard: React.FC = () => {
         />
       </Helmet>
 
-      <div className="grid-content-container">
-        <Col>
-          <Row>
-            <Title type="secondary">Admin Dashboard</Title>
-          </Row>
+      <AdminContentContainer>
+        <PageHeader
+          pageTitle="Admin Dashboard"
+          pageSubtitle=""
+          subtitleColor=""
+        />
 
-          {isSuperAdmin && (
-            <div className="create-admin-container">
+        {isSuperAdmin && (
+          <EditUser>
+            <Form>
               <Row>
-                <Title level={4}>Add an admin</Title>
+                <Title level={4}>Edit Admins</Title>
               </Row>
 
-              <Row className="row">
-                <Dropdown
-                  className="dropdown"
-                  overlay={teamMenuItems}
+              <Form.Item name="email">
+                <Input placeholder="User Email" />
+              </Form.Item>
+
+              <Form.Item name="role">
+                <RoleDropdown
+                  overlay={roleMenuItems}
                   trigger={['click']}
                 >
                   <Button>
-                    <span style={{ float: 'left' }}>Select Team</span>{' '}
+                    <span style={{ float: 'left' }}>New Role</span>{' '}
                     <span style={{ float: 'right' }}>
                       <DownOutlined />
                     </span>
                   </Button>
-                </Dropdown>
-              </Row>
+                </RoleDropdown>
+              </Form.Item>
 
-              <Row className="row">
-                <Dropdown overlay={teamMenuItems} trigger={['click']}>
-                  <Button className="dropdown">
-                    <span style={{ float: 'left' }}>Select Team Member</span>{' '}
-                    <span style={{ float: 'right' }}>
-                      <DownOutlined />
-                    </span>
-                  </Button>
-                </Dropdown>
-              </Row>
+              <Form.Item name="password">
+                <Input placeholder="Password" />
+              </Form.Item>
 
               <Row className="row">
                 <Button type="primary">Confirm</Button>
               </Row>
-            </div>
-          )}
+            </Form>
+          </EditUser>
+        )}
 
-          <Row>
-            <Title level={4}>Download All Team Data</Title>
-          </Row>
-          <Row className="row">
-            <Button type="primary">Download</Button>
-          </Row>
-        </Col>
-      </div>
+        <Row>
+          <Title level={4}>Download All Team Data</Title>
+        </Row>
+        <Row className="row">
+          <Button type="primary">Download</Button>
+        </Row>
+      </AdminContentContainer>
     </>
   );
 
@@ -95,7 +110,7 @@ const AdminDashboard: React.FC = () => {
     return (
       <Menu>
         {items.map((item: DropdownItem) => {
-          return <Menu.Item key={item.key}>{item.label}</Menu.Item>;
+          return <Menu.Item key={item.key}>{ item.label }</Menu.Item>;
         })}
       </Menu>
     );
