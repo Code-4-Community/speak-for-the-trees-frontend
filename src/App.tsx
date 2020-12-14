@@ -9,6 +9,7 @@ import Signup from './containers/signup/Signup';
 import Settings from './containers/settings/Settings';
 import BlockTemplate from './containers/template-1-col-block/Template';
 import GridTemplate from './containers/template-24-col-grid/Template';
+import DummyLeaderboard from './containers/dummy-leaderboard/DummyLeaderboard';
 
 import NotFound from './containers/not-found/NotFound';
 import NavBar from './components/navbar/NavBar';
@@ -43,6 +44,7 @@ const App: React.FC = () => {
                 <Route path="/block-template" exact component={BlockTemplate} />
                 <Route path="/grid-template" exact component={GridTemplate} />
                 <Route path="/settings" exact component={Settings} />
+                <Route path="/dummy" exact component={DummyLeaderboard} />
                 <Route path="*" exact component={NotFound} />
               </Switch>
             </AppInnerContainer>
