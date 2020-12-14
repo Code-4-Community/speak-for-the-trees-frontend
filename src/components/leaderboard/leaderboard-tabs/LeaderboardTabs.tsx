@@ -16,7 +16,7 @@ type LeaderboardTabsProps = {
 const LeaderboardTabs: React.FC<LeaderboardTabsProps> = ({ tabs, defaultTab, itemsPerPage }) => {
 
   const [ currentPage, setCurrentPage ] = React.useState<number>(1);
-  const [ currentTab, setCurrentTab ] = React.useState<string>(defaultTab || tabs[0].name);
+  const [ currentTab, setCurrentTab ] = React.useState<string>(tabs[0].name);
 
   const onChangePage = (page: number): void => setCurrentPage(page);
   const onChangeTab = (tab: string): void => setCurrentTab(tab);
@@ -24,19 +24,21 @@ const LeaderboardTabs: React.FC<LeaderboardTabsProps> = ({ tabs, defaultTab, ite
   return (
     <Tabs 
       type="card"
-      activeKey={ currentTab }
+      defaultActiveKey={ currentTab }
       onChange={ onChangeTab }
       tabBarExtraContent={
         <Pagination 
+          showSizeChanger={ false }
           current={ currentPage }
-          onChange= { onChangePage }
+          onChange={ onChangePage }
+          total={ 50 } 
         />
       }
     >
       {
         tabs.map((tabInfo, key) => {
           return <Tabs.TabPane 
-            tab={ tabInfo.content } 
+            tab={ tabInfo.name } 
             key={ key }
           >
             <LeaderboardTab

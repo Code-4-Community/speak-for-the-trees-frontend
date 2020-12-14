@@ -1,7 +1,41 @@
 import * as React from 'react';
-import { Collapse, Typography, Col } from 'antd';
+import { Collapse, Typography, Col, Row } from 'antd';
+import { ParagraphProps } from 'antd/lib/typography/Paragraph';
+import { CollapsePanelProps } from 'antd/lib/collapse/CollapsePanel';
+import { BLACK, LIGHT_GREEN } from '../../../colors';
+import styled from 'styled-components';
 
 const { Title, Paragraph } = Typography;
+
+const LeaderBoardItemHeader = styled.span`
+  text-align: center; 
+`;
+
+const LeaderboardPanel = styled(Collapse.Panel)<CollapsePanelProps>`
+  background-color: ${LIGHT_GREEN}80;
+  margin-bottom: 10px;
+  boarder-radius: 0px;
+  cursor: auto;
+  .ant-collapse-content {
+    background: ${LIGHT_GREEN}80;
+  }
+`;
+
+const LeaderboardItemName = styled(Paragraph)<ParagraphProps>`
+  color: ${BLACK};
+  display: inline;
+  vertical-align: middle;
+  line-height: 0px;
+`;
+
+const LeaderboardItemRank = styled(Paragraph)<ParagraphProps>`
+  color: ${BLACK};
+  display: inline;
+  padding-right: 20px;
+  vertical-align: middle;
+  font-size: 24px;
+  line-height: 0px;
+`;
 
 type LeaderboardTabProps = {
   tabItems: LeaderboardItem[],
@@ -23,12 +57,14 @@ const LeaderboardTab: React.FC<LeaderboardTabProps> = ({tabItems, currentPage, i
 
   return(
     <>
-      <Col>
-        The card
-      </Col>
-      <Col>
-        { panels }
-      </Col>
+      <Row>
+        <Col span={8}>
+          The card
+        </Col>
+        <Col span={16}>
+          { panels }
+        </Col>
+      </Row>
     </>
   );  
 }
@@ -39,9 +75,9 @@ const LeaderboardTab: React.FC<LeaderboardTabProps> = ({tabItems, currentPage, i
  */
 function getPanels(items: LeaderboardItem[]): React.ReactNode {
   return (
-    <Collapse>
+    <Collapse bordered={ false }>
       {items.map((item, index) => {
-        return <Collapse.Panel 
+        return <LeaderboardPanel
           key={ index }
           header={ getPanelHeader(item.name, item.rank) }
           extra={ item.rightSide }
@@ -49,19 +85,17 @@ function getPanels(items: LeaderboardItem[]): React.ReactNode {
           disabled={ !!!item.collapseContent } //is disabled if collapse content does not exist
         >
           { item.collapseContent }
-        </Collapse.Panel>
+        </LeaderboardPanel>
       })}
     </Collapse>
   );
 }
 
 function getPanelHeader(name: string, rank?: number): React.ReactNode {
-  return <span>
-      {
-        rank && <Title level={2}>{ rank }</Title>
-      }
-      <Paragraph>{ name }</Paragraph>
-    </span>
+  return <LeaderBoardItemHeader>
+      <LeaderboardItemRank>{ rank && rank }</LeaderboardItemRank>
+      <LeaderboardItemName>{ name }</LeaderboardItemName>
+    </LeaderBoardItemHeader >
 }
 
 export default LeaderboardTab;

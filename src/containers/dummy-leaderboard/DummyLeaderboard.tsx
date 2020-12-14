@@ -7,8 +7,10 @@ const dummyTabs: TabInfo[] = [
     name: "one",
     content: [
       {
+        rank: 1,
         name: "Jack",
-        rightSide: 100
+        rightSide: 100,
+        collapseContent: "hello"
       },
       {
         name: "Floris",
@@ -28,7 +30,7 @@ const dummyTabs: TabInfo[] = [
       },
       {
         name: "Will",
-        rightSide: 70
+        rightSide: 7
       },
     ]
   }
