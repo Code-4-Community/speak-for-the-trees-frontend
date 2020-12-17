@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography } from 'antd';
 import { DARKGREY } from '../../colors';
 import styled from 'styled-components';
+import useWindowDimensions, { WindowTypes } from '../window-dimensions';
 const { Paragraph } = Typography;
 
 interface PageHeaderProps {
@@ -35,9 +36,16 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   pageSubtitle,
   subtitleColor,
 }) => {
+  const { windowType } = useWindowDimensions();
   return (
     <div>
-      <StyledTitle>{pageTitle}</StyledTitle>
+      <StyledTitle
+        style={{
+          marginTop: `${windowType === WindowTypes.Mobile ? '0vh' : '1vh'}`,
+        }}
+      >
+        {pageTitle}
+      </StyledTitle>
       <StyledSubtitle textColor={subtitleColor}>{pageSubtitle}</StyledSubtitle>
     </div>
   );
