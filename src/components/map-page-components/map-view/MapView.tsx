@@ -143,7 +143,8 @@ loader.load().then(() => {
           pos.coords.latitude,
           pos.coords.longitude,
         );
-        new google.maps.Marker({
+        // tslint:disable-next-line
+        const userLocation = new google.maps.Marker({
           position: me,
           map,
           clickable: false,
