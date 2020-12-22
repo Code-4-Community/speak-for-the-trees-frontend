@@ -5,9 +5,11 @@ import styled from 'styled-components';
 
 const { Search } = Input;
 
-// const StyledSearch = styled(Search)`
-//   width: 40vw;
-// `;
+const StyledSearch = styled(Search)`
+  width: 40vw;
+  position: absolute;
+  z-index: 2;
+`;
 
 let map: google.maps.Map;
 
@@ -143,7 +145,6 @@ loader.load().then(() => {
           pos.coords.latitude,
           pos.coords.longitude,
         );
-        // tslint:disable-next-line
         const userLocation = new google.maps.Marker({
           position: me,
           map,
@@ -190,9 +191,9 @@ const MapDiv = styled.div`
 const MapView: React.FC = () => {
   return (
     <>
-      {/* <div id="pac-container">
+      <div id="pac-container">
         <StyledSearch id="pac-input" placeholder="Address" />
-      </div> */}
+      </div>
       <MapDiv id="map"></MapDiv>
     </>
   );
