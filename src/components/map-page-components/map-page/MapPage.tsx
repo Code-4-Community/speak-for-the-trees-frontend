@@ -3,7 +3,7 @@ import MapSidebar from '../map-sidebar/MapSidebar';
 import MapView from '../map-view/MapView';
 import { Layout } from 'antd';
 
-const { Content } = Layout;
+const { Content, Sider } = Layout;
 
 type MapPageProps = {
   readonly sidebarHeader: string;
@@ -17,14 +17,15 @@ const MapPage: React.FC<MapPageProps> = ({
 }) => {
   return (
     <>
-      <Layout>
+      <Layout style={{height: 'calc(100vh - 83px)'}}>
         <Content>
           <MapView />
         </Content>
-
-        <MapSidebar header={sidebarHeader} description={sidebarDescription}>
-          {children}
-        </MapSidebar>
+        <Sider width="20vw">
+            <MapSidebar header={sidebarHeader} description={sidebarDescription}>
+              {children}
+            </MapSidebar>
+          </Sider>
       </Layout>
     </>
   );

@@ -63,57 +63,71 @@ loader.load().then(() => {
     'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/private_streets.json',
   );
 
-  privateStreetsLayer.setStyle({
-    strokeColor: 'red',
-    strokeWeight: 2,
-    visible: false,
-  });
+  function setPrivateStreetsStyle(v: boolean) {
+    privateStreetsLayer.setStyle({
+      strokeColor: 'red',
+      strokeWeight: 2,
+      visible: v,
+    });
+  }
+  
+  setPrivateStreetsStyle(false);
 
   const blocksLayer = new google.maps.Data({ map });
   blocksLayer.loadGeoJson(
     'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/blocks.json',
   );
 
-  blocksLayer.setStyle((feature) => {
-    let color = 'green';
 
-    // Use this for coloring reserved/completed blocks a different color
-    if (feature.getProperty('ID') % 10 === 0) {
-      color = 'yellow';
-    }
+  function setBlocksStyle(v: boolean) {
+    blocksLayer.setStyle((feature) => {
+      let color = 'green';
+  
+      // Use this for coloring reserved/completed blocks a different color
+      if (feature.getProperty('ID') % 10 === 0) {
+        color = 'yellow';
+      }
+  
+      if (feature.getProperty('ID') % 10 === 1) {
+        color = 'red';
+      }
+  
+      // Use this for selecting blocks
+      if (feature.getProperty('PRECINCT') === 'YES') {
+        color = 'black';
+      }
+  
+      // Set styling here
+      return {
+        fillColor: color,
+        strokeColor: 'black',
+        strokeWeight: 1,
+        visible: v,
+      };
+    });
+  }
 
-    if (feature.getProperty('ID') % 10 === 1) {
-      color = 'red';
-    }
-
-    // Use this for selecting blocks
-    if (feature.getProperty('PRECINCT') === 'YES') {
-      color = 'black';
-    }
-
-    // Set styling here
-    return {
-      fillColor: color,
-      strokeColor: 'black',
-      strokeWeight: 1,
-      visible: false,
-    };
-  });
+  setBlocksStyle(false);
 
   const neighborhoodsLayer = new google.maps.Data({ map });
   neighborhoodsLayer.loadGeoJson(
     'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/neighborhoods_edited.geojson',
   );
 
-  neighborhoodsLayer.setStyle((feature) => {
-    return {
-      fillColor: 'green',
-      fillOpacity: (feature.getProperty('Neighborhood_ID') / 100) * 2 + 0.1, // replace this with completion percentage
-      strokeWeight: 1,
-      strokeColor: 'white',
-      visible: true,
-    };
-  });
+
+  function setNeighborhoodsStyle(v: boolean) {
+    neighborhoodsLayer.setStyle((feature) => {
+      return {
+        fillColor: 'green',
+        fillOpacity: (feature.getProperty('Neighborhood_ID') / 100) * 2 + 0.1, // replace this with completion percentage
+        strokeWeight: 1,
+        strokeColor: 'white',
+        visible: v,
+      };
+    });
+  }
+
+  setNeighborhoodsStyle(true);
 
   // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
   neighborhoodsLayer.addListener('click', (event) => {
@@ -151,6 +165,24 @@ loader.load().then(() => {
       },
     );
   }
+
+  function handleZoomChange() {
+    google.maps.event.addListener(map, 'zoom_changed', () => {
+      const zoomLevel = map.getZoom();
+      let zoomedIn = false;
+
+      if (zoomLevel >= 13) {
+        zoomedIn = true
+      }
+
+      setNeighborhoodsStyle(!zoomedIn);
+      setBlocksStyle(zoomedIn);
+      setPrivateStreetsStyle(zoomedIn);
+    });
+  }
+
+  handleZoomChange();
+
 });
 
 const MapDiv = styled.div`
@@ -160,9 +192,9 @@ const MapDiv = styled.div`
 const MapView: React.FC = () => {
   return (
     <>
-      <div id="pac-container">
+      {/* <div id="pac-container">
         <StyledSearch id="pac-input" placeholder="Address" />
-      </div>
+      </div> */}
       <MapDiv id="map"></MapDiv>
     </>
   );
