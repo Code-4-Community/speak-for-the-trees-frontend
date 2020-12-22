@@ -5,9 +5,9 @@ import styled from 'styled-components';
 
 const { Search } = Input;
 
-const StyledSearch = styled(Search)`
-  width: 40vw;
-`;
+// const StyledSearch = styled(Search)`
+//   width: 40vw;
+// `;
 
 let map: google.maps.Map;
 
@@ -143,7 +143,7 @@ loader.load().then(() => {
           pos.coords.latitude,
           pos.coords.longitude,
         );
-        const userLocation = new google.maps.Marker({
+        new google.maps.Marker({
           position: me,
           map,
           clickable: false,
