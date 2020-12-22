@@ -17,15 +17,15 @@ const MapPage: React.FC<MapPageProps> = ({
 }) => {
   return (
     <>
-      <Layout style={{height: 'calc(100vh - 83px)'}}>
+      <Layout style={{ height: 'calc(100vh - 83px)' }}>
         <Content>
           <MapView />
         </Content>
         <Sider width="20vw">
-            <MapSidebar header={sidebarHeader} description={sidebarDescription}>
-              {children}
-            </MapSidebar>
-          </Sider>
+          <MapSidebar header={sidebarHeader} description={sidebarDescription}>
+            {children}
+          </MapSidebar>
+        </Sider>
       </Layout>
     </>
   );

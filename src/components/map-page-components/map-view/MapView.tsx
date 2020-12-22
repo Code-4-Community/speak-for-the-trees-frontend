@@ -70,7 +70,7 @@ loader.load().then(() => {
       visible: v,
     });
   }
-  
+
   setPrivateStreetsStyle(false);
 
   const blocksLayer = new google.maps.Data({ map });
@@ -78,25 +78,24 @@ loader.load().then(() => {
     'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/blocks.json',
   );
 
-
   function setBlocksStyle(v: boolean) {
     blocksLayer.setStyle((feature) => {
       let color = 'green';
-  
+
       // Use this for coloring reserved/completed blocks a different color
       if (feature.getProperty('ID') % 10 === 0) {
         color = 'yellow';
       }
-  
+
       if (feature.getProperty('ID') % 10 === 1) {
         color = 'red';
       }
-  
+
       // Use this for selecting blocks
       if (feature.getProperty('PRECINCT') === 'YES') {
         color = 'black';
       }
-  
+
       // Set styling here
       return {
         fillColor: color,
@@ -113,7 +112,6 @@ loader.load().then(() => {
   neighborhoodsLayer.loadGeoJson(
     'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/neighborhoods_edited.geojson',
   );
-
 
   function setNeighborhoodsStyle(v: boolean) {
     neighborhoodsLayer.setStyle((feature) => {
@@ -172,7 +170,7 @@ loader.load().then(() => {
       let zoomedIn = false;
 
       if (zoomLevel >= 13) {
-        zoomedIn = true
+        zoomedIn = true;
       }
 
       setNeighborhoodsStyle(!zoomedIn);
@@ -182,7 +180,6 @@ loader.load().then(() => {
   }
 
   handleZoomChange();
-
 });
 
 const MapDiv = styled.div`

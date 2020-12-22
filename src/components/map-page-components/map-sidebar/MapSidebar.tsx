@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from 'antd';
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const { Title, Paragraph } = Typography;
 
@@ -19,7 +19,6 @@ const MapSidebar: React.FC<MapSidebarProps> = ({
   description,
   children,
 }) => {
-
   return (
     <>
       <SideBarContentContainer>
