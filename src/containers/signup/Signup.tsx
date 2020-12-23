@@ -1,5 +1,4 @@
 import React from 'react';
-import './signup.less';
 import { Button, Col, Form, Input, Row, Typography } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { Link } from 'react-router-dom';
@@ -9,18 +8,41 @@ import { signup } from '../../auth/ducks/thunks';
 import { connect, useDispatch } from 'react-redux';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { C4CState } from '../../store';
-import { BLACK, TEXT_GREY } from '../../colors';
+import { WHITE, BLACK, TEXT_GREY, LIGHT_GREY } from '../../colors';
 import styled from 'styled-components';
 
 const { Paragraph, Title } = Typography;
+
+const SignupContainer = styled.div`
+  padding: 8%;
+`;
+
+const InputContainer = styled(Col)`
+  height: 481px;
+  min-width: 500px;
+  padding: 30px 20px 20px 50px;
+  background: ${LIGHT_GREY};
+  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.09);
+  border-radius: 6px;
+`;
+
+const Line = styled.div`
+  height: 2px;
+  margin: 5% -20px 7% -50px;
+  background-color: ${WHITE};
+`;
 
 const Footer: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
   color: ${TEXT_GREY};
   line-height: 1.5;
 `;
 
-const hSpan = 8;
-const fSpan = 17;
+const formHalfItemSpan = 8;
+const formOffsetSpan = 1;
+
+const formLayout = {
+  wrapperCol: { span: 17 },
+};
 
 type SignupProps = UserAuthenticationReducerState;
 
@@ -45,20 +67,20 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
         <title>Sign Up</title>
         <meta name="description" content="Description goes here." />
       </Helmet>
-      <div className="body-content-container">
+      <SignupContainer>
         <Row>
-          <Col span={10} className="input-container">
+          <InputContainer span={10}>
             <Title level={2} style={{ color: BLACK }}>
               Sign Up
             </Title>
-            <hr />
+            <Line />
             <Form
               name="basic"
               initialValues={{ remember: true }}
               onFinish={onFinish}
             >
               <Row>
-                <Col className="leftInput" span={hSpan}>
+                <Col span={formHalfItemSpan}>
                   <Form.Item
                     name="fname"
                     rules={[
@@ -71,7 +93,8 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                     <Input placeholder="First Name" />
                   </Form.Item>
                 </Col>
-                <Col span={hSpan}>
+                <Col span={formOffsetSpan}></Col>
+                <Col span={formHalfItemSpan}>
                   <Form.Item
                     name="lname"
                     rules={[
@@ -86,57 +109,50 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                 </Col>
               </Row>
 
-              <Row>
-                <Col span={fSpan}>
-                  <Form.Item
-                    name="email"
-                    rules={[
-                      { required: true, message: 'Please input your email!' },
-                    ]}
-                  >
-                    <Input placeholder="Email" />
-                  </Form.Item>
-                </Col>
-              </Row>
+              <Form.Item
+                {...formLayout}
+                name="email"
+                rules={[
+                  { required: true, message: 'Please input your email!' },
+                ]}
+              >
+                <Input placeholder="Email" />
+              </Form.Item>
+
+              <Form.Item
+                {...formLayout}
+                name="password"
+                rules={[
+                  { required: true, message: 'Please enter a password!' },
+                ]}
+              >
+                <Input.Password placeholder="Password" />
+              </Form.Item>
+
+              <Form.Item
+                {...formLayout}
+                name="cpassword"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please confirm your password!',
+                  },
+                ]}
+              >
+                <Input.Password placeholder="Confirm Password" />
+              </Form.Item>
 
               <Row>
-                <Col span={fSpan}>
-                  <Form.Item
-                    name="password"
-                    rules={[
-                      { required: true, message: 'Please enter a password!' },
-                    ]}
-                  >
-                    <Input.Password placeholder="Password" />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col span={fSpan}>
-                  <Form.Item
-                    name="cpassword"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please confirm your password!',
-                      },
-                    ]}
-                  >
-                    <Input.Password placeholder="Confirm Password" />
-                  </Form.Item>
-                </Col>
-              </Row>
-
-              <Row style={{ marginTop: '15px' }}>
-                <Col style={{ marginRight: '15px' }}>
-                  <Form.Item id={'loginButton'}>
+                <Col>
+                  <Form.Item>
                     <Button type="primary" htmlType="submit" size={'large'}>
-                      Log In
+                      Sign Up
                     </Button>
                   </Form.Item>
                 </Col>
+                <Col span={formOffsetSpan}></Col>
                 <Col>
-                  <Footer className="footer">
+                  <Footer>
                     ALREADY HAVE AN ACCOUNT?
                     <br />
                     LOGIN <Link to="/login">HERE!</Link>
@@ -144,7 +160,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                 </Col>
               </Row>
             </Form>
-          </Col>
+          </InputContainer>
 
           <Col span={2}></Col>
 
@@ -158,7 +174,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
             />
           </Col>
         </Row>
-      </div>
+      </SignupContainer>
     </>
   );
 };
