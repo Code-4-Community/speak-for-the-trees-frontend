@@ -1,5 +1,4 @@
 import React from 'react';
-import './login.less';
 import { Button, Col, Form, Input, Row, Typography } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { Link } from 'react-router-dom';
@@ -9,14 +8,42 @@ import { login } from '../../auth/ducks/thunks';
 import { connect, useDispatch } from 'react-redux';
 import { C4CState } from '../../store';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
-import { BLACK, TEXT_GREY } from '../../colors';
+import { BLACK, LIGHT_GREY, TEXT_GREY, WHITE } from '../../colors';
 import styled from 'styled-components';
 
 const { Paragraph, Title } = Typography;
 
+const formHalfItemSpan = 8;
+const offsetSpan = 1;
+
+const LoginContainer = styled.div`
+  padding: 8%;
+`;
+
+const InputContainer = styled(Col)`
+  height: 481px;
+  min-width: 250px;
+  padding: 30px 20px 20px 50px;
+  background: ${LIGHT_GREY};
+  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.09);
+  border-radius: 6px;
+`;
+
+const Line = styled.div`
+  height: 2px;
+  margin: 5% -20px 15% -50px;
+  background: ${WHITE};
+`;
+
+const LoginButton = styled(Button)`
+  width: 96px;
+  margin-top: 20px;
+`;
+
 const Footer: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
   color: ${TEXT_GREY};
   line-height: 1.5;
+  margin-top: 40px;
 `;
 
 type LoginProps = UserAuthenticationReducerState;
@@ -35,20 +62,20 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
         <title>Login</title>
         <meta name="description" content="Description goes here." />
       </Helmet>
-      <div className="body-content-container">
+      <LoginContainer>
         <Row>
-          <Col span={10} className="input-container">
+          <InputContainer span={10}>
             <Title level={2} style={{ color: BLACK }}>
               Log In
             </Title>
-            <hr />
+            <Line />
             <Form
               name="basic"
               initialValues={{ remember: true }}
               onFinish={onFinish}
             >
-              <Row id="inputs">
-                <Col className="leftInput">
+              <Row>
+                <Col span={formHalfItemSpan}>
                   <Form.Item
                     name="email"
                     rules={[
@@ -61,7 +88,8 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
                     <Input placeholder="Email" />
                   </Form.Item>
                 </Col>
-                <Col>
+                <Col span={offsetSpan}></Col>
+                <Col span={formHalfItemSpan}>
                   <Form.Item
                     name="password"
                     rules={[
@@ -76,15 +104,15 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
                 </Col>
               </Row>
 
-              <Form.Item id={'loginButton'} style={{ marginBottom: '10px' }}>
-                <Button type="primary" htmlType="submit" size={'large'}>
+              <Form.Item style={{ marginBottom: '10px' }}>
+                <LoginButton type="primary" htmlType="submit" size={'large'}>
                   Log In
-                </Button>
+                </LoginButton>
               </Form.Item>
             </Form>
 
             <Paragraph>
-              <Link to="/">Forgot Password?</Link>
+              <Link to="/">FORGOT PASSWORD?</Link>
             </Paragraph>
 
             <Footer>
@@ -92,7 +120,7 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
               <br />
               SIGN UP <Link to="/signup">HERE!</Link>
             </Footer>
-          </Col>
+          </InputContainer>
           <Col span={2}></Col>
 
           <Col span={12}>
@@ -105,7 +133,7 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
             />
           </Col>
         </Row>
-      </div>
+      </LoginContainer>
     </>
   );
 };
