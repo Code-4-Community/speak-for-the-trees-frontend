@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, Form, Input, Row, Typography } from 'antd';
+import { Col, Row, Typography } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -10,11 +10,13 @@ import { C4CState } from '../../store';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { BLACK, LIGHT_GREY, TEXT_GREY, WHITE } from '../../colors';
 import styled from 'styled-components';
+import MobilePageHeader from '../../components/mobile-pageheader/MobilePageHeader';
+import LoginForm from '../../components/login-form/LoginForm';
+import useWindowDimensions, {
+  WindowTypes,
+} from '../../components/window-dimensions';
 
 const { Paragraph, Title } = Typography;
-
-const formHalfItemSpan = 8;
-const offsetSpan = 1;
 
 const LoginContainer = styled.div`
   padding: 8%;
@@ -35,20 +37,17 @@ const Line = styled.div`
   background: ${WHITE};
 `;
 
-const LoginButton = styled(Button)`
-  width: 96px;
-  margin-top: 20px;
-`;
-
 const Footer: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
   color: ${TEXT_GREY};
   line-height: 1.5;
   margin-top: 40px;
+  margin-bottom: 10px;
 `;
 
 type LoginProps = UserAuthenticationReducerState;
 
 const Login: React.FC<LoginProps> = ({ tokens }) => {
+  const { windowType, width } = useWindowDimensions();
   const dispatch = useDispatch();
   const onFinish = (values: any) => {
     dispatch(login({ email: values.email, password: values.password }));
@@ -56,6 +55,35 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
 
   const greetingHeader = 'Welcome Back!';
 
+  const ForgotPasswordFooter = (
+    <div>
+      <Paragraph>
+        <Link to="/">FORGOT PASSWORD?</Link>
+      </Paragraph>
+
+      <Footer>
+        NEW TO SPEAK FOR THE TREES?
+        <br />
+        SIGN UP <Link to="/signup">HERE!</Link>
+      </Footer>
+    </div>
+  );
+
+  if (windowType === WindowTypes.Mobile) {
+    return (
+      <>
+        <Helmet>
+          <title>Login</title>
+          <meta name="description" content="Description goes here." />
+        </Helmet>
+        <LoginContainer>
+          <MobilePageHeader pageTitle="Log In" />
+          <LoginForm onFinish={onFinish} />
+          {ForgotPasswordFooter}
+        </LoginContainer>
+      </>
+    );
+  }
   return (
     <>
       <Helmet>
@@ -69,67 +97,19 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
               Log In
             </Title>
             <Line />
-            <Form
-              name="basic"
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-            >
-              <Row>
-                <Col span={formHalfItemSpan}>
-                  <Form.Item
-                    name="email"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your email!',
-                      },
-                    ]}
-                  >
-                    <Input placeholder="Email" />
-                  </Form.Item>
-                </Col>
-                <Col span={offsetSpan}></Col>
-                <Col span={formHalfItemSpan}>
-                  <Form.Item
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your password!',
-                      },
-                    ]}
-                  >
-                    <Input.Password placeholder="Password" />
-                  </Form.Item>
-                </Col>
-              </Row>
-
-              <Form.Item style={{ marginBottom: '10px' }}>
-                <LoginButton type="primary" htmlType="submit" size={'large'}>
-                  Log In
-                </LoginButton>
-              </Form.Item>
-            </Form>
-
-            <Paragraph>
-              <Link to="/">FORGOT PASSWORD?</Link>
-            </Paragraph>
-
-            <Footer>
-              NEW TO SPEAK FOR THE TREES?
-              <br />
-              SIGN UP <Link to="/signup">HERE!</Link>
-            </Footer>
+            <LoginForm onFinish={onFinish} />
+            {ForgotPasswordFooter}
           </InputContainer>
-          <Col span={2}></Col>
+
+          <Col span={`${width < 715 ? 1 : 2}`}></Col>
 
           <Col span={12}>
             <GreetingContainer
               header={greetingHeader}
               body="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer
-        cronut pok pok gentrify flannel salvia deep v pork belly
-        pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts
-        affogato PBR&B freegan bushwick vegan four loko pickled."
+              cronut pok pok gentrify flannel salvia deep v pork belly
+              pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts
+              affogato PBR&B freegan bushwick vegan four loko pickled."
             />
           </Col>
         </Row>
