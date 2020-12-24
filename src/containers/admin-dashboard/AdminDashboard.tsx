@@ -31,9 +31,9 @@ const AdminDashboard: React.FC = () => {
   const isSuperAdmin = true;
 
   const roleList: DropdownItem[] = [
-    { key: 1, label: 'standard user' },
-    { key: 2, label: 'admin' },
-    { key: 3, label: 'super admin' },
+    { key: 1, label: 'Standard user' },
+    { key: 2, label: 'Admin' },
+    { key: 3, label: 'Super admin' },
   ];
 
   const roleMenuItems = getMenuItems(roleList);
