@@ -145,6 +145,7 @@ loader.load().then(() => {
           pos.coords.latitude,
           pos.coords.longitude,
         );
+        // eslint-disable-next-line
         const userLocation = new google.maps.Marker({
           position: me,
           map,
