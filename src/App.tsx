@@ -6,6 +6,7 @@ import './App.less';
 import Landing from './containers/landing/Landing';
 import Login from './containers/login/Login';
 import Signup from './containers/signup/Signup';
+import AdminDashboard from './containers/admin-dashboard/AdminDashboard';
 import Home from './containers/home/Home';
 import Settings from './containers/settings/Settings';
 
@@ -35,6 +36,7 @@ const App: React.FC = () => {
               <Route path="/signup" exact component={Signup} />
               <Route path="/home" exact component={Home} />
               <Route path="/settings" exact component={Settings} />
+              <Route path="/admin" exact component={AdminDashboard} />
               <Route path="*" exact component={NotFound} />
             </Switch>
           </Content>
