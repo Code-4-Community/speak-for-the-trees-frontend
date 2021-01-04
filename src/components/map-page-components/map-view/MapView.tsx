@@ -11,7 +11,7 @@ const StyledSearch = styled(Input.Search)`
 
 let map: google.maps.Map;
 
-const zoomedInLevel : number = 16;
+const zoomedInLevel = 16;
 const BOSTON: google.maps.LatLngLiteral = { lat: 42.315, lng: -71.0589 };
 const BOSTON_BOUNDS = {
   north: 42.42,
@@ -176,7 +176,7 @@ loader.load().then(() => {
         });
       },
       (error) => {
-        //TODO: Handle the error by showing a small pop up informing them of the consequences
+        // TODO: Handle the error by showing a small pop up informing them of the consequences
       },
     );
   }
