@@ -25,8 +25,7 @@ const MapSidebar: React.FC<MapSidebarProps> = ({
         <Title className="title">{header}</Title>
 
         <Paragraph>{description}</Paragraph>
-
-        <div>{children}</div>
+        {children}
       </SideBarContentContainer>
     </>
   );

@@ -3,9 +3,7 @@ import { Input } from 'antd';
 import { Loader } from '@googlemaps/js-api-loader';
 import styled from 'styled-components';
 
-const { Search } = Input;
-
-const StyledSearch = styled(Search)`
+const StyledSearch = styled(Input.Search)`
   width: 40vw;
   position: absolute;
   z-index: 2;
@@ -13,6 +11,7 @@ const StyledSearch = styled(Search)`
 
 let map: google.maps.Map;
 
+const zoomedInLevel : number = 16;
 const BOSTON: google.maps.LatLngLiteral = { lat: 42.315, lng: -71.0589 };
 const BOSTON_BOUNDS = {
   north: 42.42,
@@ -27,13 +26,15 @@ const loader = new Loader({
   mapIds: ['76c08a2450c223d9'],
 });
 
+const mapId = '76c08a2450c223d9';
+
 loader.load().then(() => {
   map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
     center: BOSTON,
     zoom: 12,
     fullscreenControl: false,
     mapTypeControl: false,
-    // mapId: 76c08a2450c223d9,
+    // mapId: mapId,
     restriction: {
       latLngBounds: BOSTON_BOUNDS,
       strictBounds: false,
@@ -55,16 +56,19 @@ loader.load().then(() => {
       map.fitBounds(place.geometry.viewport);
     } else {
       map.setCenter(place.geometry.location);
-      map.setZoom(16);
+      map.setZoom(zoomedInLevel);
     }
   });
 
+  // Creates a new layer
   const privateStreetsLayer = new google.maps.Data({ map });
 
+  // Loads the objects into the layer
   privateStreetsLayer.loadGeoJson(
     'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/private_streets.json',
   );
 
+  // Sets the style of the layer to simple red lines
   function setPrivateStreetsStyle(v: boolean) {
     privateStreetsLayer.setStyle({
       strokeColor: 'red',
@@ -73,13 +77,18 @@ loader.load().then(() => {
     });
   }
 
+  // Initially false while the neighborhoods are shown
   setPrivateStreetsStyle(false);
 
+  // Creates a new layer
   const blocksLayer = new google.maps.Data({ map });
+
+  // Loads the objects into the layer
   blocksLayer.loadGeoJson(
     'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/blocks.json',
   );
 
+  // Sets the style of the layer to colored blocks with black outline
   function setBlocksStyle(v: boolean) {
     blocksLayer.setStyle((feature) => {
       let color = 'green';
@@ -108,18 +117,23 @@ loader.load().then(() => {
     });
   }
 
+  // Initially false while the neighborhoods are shown
   setBlocksStyle(false);
 
+  // Creates a new layer
   const neighborhoodsLayer = new google.maps.Data({ map });
+
+  // Loads the objects into the layer
   neighborhoodsLayer.loadGeoJson(
     'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/neighborhoods_edited.geojson',
   );
 
+  // Sets the style of the layer to green shades based on property values with white outline
   function setNeighborhoodsStyle(v: boolean) {
     neighborhoodsLayer.setStyle((feature) => {
       return {
         fillColor: 'green',
-        fillOpacity: (feature.getProperty('Neighborhood_ID') / 100) * 2 + 0.1, // replace this with completion percentage
+        fillOpacity: (feature.getProperty('Neighborhood_ID') / 100) * 2 + 0.1, // TODO: replace this with completion percentage
         strokeWeight: 1,
         strokeColor: 'white',
         visible: v,
@@ -127,6 +141,7 @@ loader.load().then(() => {
     });
   }
 
+  // Initially true while the neighborhoods are shown by themselves
   setNeighborhoodsStyle(true);
 
   // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
@@ -138,6 +153,7 @@ loader.load().then(() => {
     });
   });
 
+  // Asks user if they want to show their current location
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
@@ -159,13 +175,12 @@ loader.load().then(() => {
         });
       },
       (error) => {
-        // Handle the error
-        // tslint:disable-next-line
-        console.log('Location not found');
+        //TODO: Handle the error by showing a small pop up informing them of the consequences
       },
     );
   }
 
+  // Shows or hides layers based on the zoom level
   function handleZoomChange() {
     google.maps.event.addListener(map, 'zoom_changed', () => {
       const zoomLevel = map.getZoom();
