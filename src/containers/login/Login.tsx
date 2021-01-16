@@ -18,7 +18,7 @@ import useWindowDimensions, {
 
 const { Paragraph, Title } = Typography;
 
-const MobileSpanBreakpoint = 715;
+const OffsetSpanBreakpoint = 715;
 
 const LoginPageContainer = styled.div`
   padding: 120px;
@@ -112,7 +112,7 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
                 {ForgotPasswordFooter}
               </InputContainer>
 
-              <Col span={`${width < MobileSpanBreakpoint ? 1 : 2}`} />
+              <Col span={`${width < OffsetSpanBreakpoint ? 1 : 2}`} />
 
               <Col span={12}>
                 <GreetingContainer
@@ -145,7 +145,7 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
                 {ForgotPasswordFooter}
               </InputContainer>
 
-              <Col span={`${width < MobileSpanBreakpoint ? 1 : 2}`} />
+              <Col span={2} />
 
               <Col span={12}>
                 <GreetingContainer

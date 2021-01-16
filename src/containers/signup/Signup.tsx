@@ -16,7 +16,7 @@ import useWindowDimensions, {
 
 const { Title } = Typography;
 
-const MobileSpanBreakpoint = 715;
+const OffsetSpanBreakpoint = 715;
 
 const SignupPageContainer = styled.div`
   padding: 120px;
@@ -98,9 +98,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                         <SignupForm onFinish={onFinish} />
                       </InputContainer>
 
-                      <Col
-                        span={`${width < MobileSpanBreakpoint ? 1 : 2}`}
-                      ></Col>
+                      <Col span={`${width < OffsetSpanBreakpoint ? 1 : 2}`} />
 
                       <Col span={12}>
                         <GreetingContainer
@@ -132,9 +130,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                         <SignupForm onFinish={onFinish} />
                       </InputContainer>
 
-                      <Col
-                        span={`${width < MobileSpanBreakpoint ? 1 : 2}`}
-                      ></Col>
+                      <Col span={2} />
 
                       <Col span={12}>
                         <GreetingContainer
