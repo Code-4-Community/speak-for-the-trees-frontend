@@ -18,8 +18,18 @@ import useWindowDimensions, {
 
 const { Paragraph, Title } = Typography;
 
-const LoginContainer = styled.div`
-  padding: 8%;
+const MobileSpanBreakpoint = 715;
+
+const LoginPageContainer = styled.div`
+  padding: 120px;
+`;
+
+const TabletLoginPageContainer = styled.div`
+  padding: 50px;
+`;
+
+const MobileLoginPageContainer = styled.div`
+  padding: 30px;
 `;
 
 const InputContainer = styled(Col)`
@@ -33,7 +43,7 @@ const InputContainer = styled(Col)`
 
 const Line = styled.div`
   height: 2px;
-  margin: 5% -20px 15% -50px;
+  margin: 10px -20px 80px -50px;
   background: ${WHITE};
 `;
 
@@ -69,53 +79,88 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
     </div>
   );
 
-  if (windowType === WindowTypes.Mobile) {
-    return (
-      <>
-        <Helmet>
-          <title>Login</title>
-          <meta name="description" content="Description goes here." />
-        </Helmet>
-        <LoginContainer>
-          <MobilePageHeader pageTitle="Log In" />
-          <LoginForm onFinish={onFinish} />
-          {ForgotPasswordFooter}
-        </LoginContainer>
-      </>
-    );
-  }
-  return (
-    <>
-      <Helmet>
-        <title>Login</title>
-        <meta name="description" content="Description goes here." />
-      </Helmet>
-      <LoginContainer>
-        <Row>
-          <InputContainer span={10}>
-            <Title level={2} style={{ color: BLACK }}>
-              Log In
-            </Title>
-            <Line />
+  switch (windowType) {
+    case WindowTypes.Mobile:
+      return (
+        <>
+          <Helmet>
+            <title>Login</title>
+            <meta name="description" content="Description goes here." />
+          </Helmet>
+          <MobileLoginPageContainer>
+            <MobilePageHeader pageTitle="Log In" />
             <LoginForm onFinish={onFinish} />
             {ForgotPasswordFooter}
-          </InputContainer>
+          </MobileLoginPageContainer>
+        </>
+      );
+    case WindowTypes.Tablet:
+      return (
+        <>
+          <Helmet>
+            <title>Login</title>
+            <meta name="description" content="Description goes here." />
+          </Helmet>
+          <TabletLoginPageContainer>
+            <Row>
+              <InputContainer span={10}>
+                <Title level={2} style={{ color: BLACK }}>
+                  Log In
+                </Title>
+                <Line />
+                <LoginForm onFinish={onFinish} />
+                {ForgotPasswordFooter}
+              </InputContainer>
 
-          <Col span={`${width < 715 ? 1 : 2}`}></Col>
+              <Col span={`${width < MobileSpanBreakpoint ? 1 : 2}`} />
 
-          <Col span={12}>
-            <GreetingContainer
-              header={greetingHeader}
-              body="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer
+              <Col span={12}>
+                <GreetingContainer
+                  header={greetingHeader}
+                  body="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer
               cronut pok pok gentrify flannel salvia deep v pork belly
               pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts
               affogato PBR&B freegan bushwick vegan four loko pickled."
-            />
-          </Col>
-        </Row>
-      </LoginContainer>
-    </>
-  );
+                />
+              </Col>
+            </Row>
+          </TabletLoginPageContainer>
+        </>
+      );
+    default:
+      return (
+        <>
+          <Helmet>
+            <title>Login</title>
+            <meta name="description" content="Description goes here." />
+          </Helmet>
+          <LoginPageContainer>
+            <Row>
+              <InputContainer span={10}>
+                <Title level={2} style={{ color: BLACK }}>
+                  Log In
+                </Title>
+                <Line />
+                <LoginForm onFinish={onFinish} />
+                {ForgotPasswordFooter}
+              </InputContainer>
+
+              <Col span={`${width < MobileSpanBreakpoint ? 1 : 2}`} />
+
+              <Col span={12}>
+                <GreetingContainer
+                  header={greetingHeader}
+                  body="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer
+              cronut pok pok gentrify flannel salvia deep v pork belly
+              pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts
+              affogato PBR&B freegan bushwick vegan four loko pickled."
+                />
+              </Col>
+            </Row>
+          </LoginPageContainer>
+        </>
+      );
+  }
 };
 
 const mapStateToProps = (state: C4CState): LoginProps => {

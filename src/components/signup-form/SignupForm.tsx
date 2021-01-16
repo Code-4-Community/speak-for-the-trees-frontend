@@ -26,47 +26,10 @@ interface SignupFormProps {
   readonly onFinish: any;
 }
 
-interface ButtonFooterProps {
-  readonly isMobile: boolean;
-}
-
-const ButtonFooter: React.FC<ButtonFooterProps> = ({ isMobile }) => {
-  const SignupButton = (
-    <Button type="primary" htmlType="submit" size="large">
-      Sign Up
-    </Button>
-  );
-  const FooterToLogin = (
-    <Footer>
-      ALREADY HAVE AN ACCOUNT?
-      <br />
-      LOGIN <Link to="/login">HERE!</Link>
-    </Footer>
-  );
-  if (isMobile) {
-    return (
-      <>
-        <Form.Item>{SignupButton}</Form.Item>
-        {FooterToLogin}
-      </>
-    );
-  }
-  return (
-    <>
-      <Row>
-        <Col>
-          <Form.Item>{SignupButton}</Form.Item>
-        </Col>
-        <Col span={offsetSpan}></Col>
-        <Col>{FooterToLogin}</Col>
-      </Row>
-    </>
-  );
-};
-
 const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
   const { windowType, width } = useWindowDimensions();
-  const isMobile = windowType === WindowTypes.Mobile;
+
+  const ColLeftMargin = `${width > 575 ? '-7.5%' : '8%'}`;
 
   return (
     <>
@@ -90,14 +53,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
               <Input placeholder="First Name" />
             </Form.Item>
           </Col>
-          <Col
-            span={formHalfItemSpan}
-            style={{
-              marginLeft: `${
-                isMobile ? `${width > 575 ? '-7.5%' : '8%'}` : '-7.5%'
-              }`,
-            }}
-          >
+          <Col span={formHalfItemSpan} style={{ marginLeft: ColLeftMargin }}>
             <Form.Item
               name="lname"
               rules={[
@@ -134,7 +90,49 @@ const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
         >
           <Input.Password placeholder="Confirm Password" />
         </Form.Item>
-        <ButtonFooter isMobile={isMobile} />
+        <div>
+          {(() => {
+            switch (windowType) {
+              case WindowTypes.Mobile:
+                return (
+                  <>
+                    <Form.Item>
+                      <Button type="primary" htmlType="submit" size="large">
+                        Sign Up
+                      </Button>
+                    </Form.Item>
+                    <Footer>
+                      ALREADY HAVE AN ACCOUNT?
+                      <br />
+                      LOGIN <Link to="/login">HERE!</Link>
+                    </Footer>
+                  </>
+                );
+              default:
+                return (
+                  <>
+                    <Row>
+                      <Col>
+                        <Form.Item>
+                          <Button type="primary" htmlType="submit" size="large">
+                            Sign Up
+                          </Button>
+                        </Form.Item>
+                      </Col>
+                      <Col span={offsetSpan} />
+                      <Col>
+                        <Footer>
+                          ALREADY HAVE AN ACCOUNT?
+                          <br />
+                          LOGIN <Link to="/login">HERE!</Link>
+                        </Footer>
+                      </Col>
+                    </Row>
+                  </>
+                );
+            }
+          })()}
+        </div>
       </Form>
     </>
   );

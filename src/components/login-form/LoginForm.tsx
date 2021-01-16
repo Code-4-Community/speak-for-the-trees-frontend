@@ -21,55 +21,23 @@ const LoginButton = styled(Button)`
   margin-top: 20px;
 `;
 
+const StyledFormItem = styled(Form.Item)`
+  margin-bottom: 10px;
+`;
+
 const LoginForm: React.FC<LoginFormProps> = ({ onFinish }) => {
   const { windowType } = useWindowDimensions();
 
-  if (windowType === WindowTypes.Mobile) {
-    return (
-      <>
-        <Form
-          {...formLayout}
-          name="basic"
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-        >
-          <Form.Item
-            name="email"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your email!',
-              },
-            ]}
+  switch (windowType) {
+    case WindowTypes.Mobile:
+      return (
+        <>
+          <Form
+            {...formLayout}
+            name="basic"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
           >
-            <Input placeholder="Email" />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your password!',
-              },
-            ]}
-          >
-            <Input.Password placeholder="Password" />
-          </Form.Item>
-
-          <Form.Item>
-            <LoginButton type="primary" htmlType="submit" size="large">
-              Log In
-            </LoginButton>
-          </Form.Item>
-        </Form>
-      </>
-    );
-  }
-  return (
-    <>
-      <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish}>
-        <Row>
-          <Col span={formHalfItemSpan}>
             <Form.Item
               name="email"
               rules={[
@@ -81,9 +49,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onFinish }) => {
             >
               <Input placeholder="Email" />
             </Form.Item>
-          </Col>
-          <Col span={offsetSpan}></Col>
-          <Col span={formHalfItemSpan}>
             <Form.Item
               name="password"
               rules={[
@@ -95,17 +60,62 @@ const LoginForm: React.FC<LoginFormProps> = ({ onFinish }) => {
             >
               <Input.Password placeholder="Password" />
             </Form.Item>
-          </Col>
-        </Row>
 
-        <Form.Item style={{ marginBottom: '10px' }}>
-          <LoginButton type="primary" htmlType="submit" size={'large'}>
-            Log In
-          </LoginButton>
-        </Form.Item>
-      </Form>
-    </>
-  );
+            <Form.Item>
+              <LoginButton type="primary" htmlType="submit" size="large">
+                Log In
+              </LoginButton>
+            </Form.Item>
+          </Form>
+        </>
+      );
+    default:
+      return (
+        <>
+          <Form
+            name="basic"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+          >
+            <Row>
+              <Col span={formHalfItemSpan}>
+                <Form.Item
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your email!',
+                    },
+                  ]}
+                >
+                  <Input placeholder="Email" />
+                </Form.Item>
+              </Col>
+              <Col span={offsetSpan} />
+              <Col span={formHalfItemSpan}>
+                <Form.Item
+                  name="password"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your password!',
+                    },
+                  ]}
+                >
+                  <Input.Password placeholder="Password" />
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <StyledFormItem>
+              <LoginButton type="primary" htmlType="submit" size={'large'}>
+                Log In
+              </LoginButton>
+            </StyledFormItem>
+          </Form>
+        </>
+      );
+  }
 };
 
 export default LoginForm;
