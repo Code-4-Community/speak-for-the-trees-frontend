@@ -1,23 +1,31 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import './home.less';
 import styled from 'styled-components';
 import { DARKGREY, MID_GREEN } from '../../colors';
+import { Typography } from 'antd';
 import PageHeader from '../../components/pageheader/PageHeader';
-import LinkCard from '../../components/linkcard/LinkCard';
-import { Col, Row, Typography } from 'antd';
+import LinkCarousel from '../../components/linkcarousel/LinkCarousel';
+import useWindowDimensions, {
+  WindowTypes,
+} from '../../components/window-dimensions';
+import HomeBackground from '../../SFTTicon_GREY.png';
 const { Paragraph } = Typography;
-
-const cSpan = 6;
 
 const StyledSubtitle = styled(Paragraph)`
   color: ${MID_GREEN};
   font-size: 20px;
   font-weight: bold;
-  margin-top: 56px;
+`;
+
+const HomeContainer = styled.div`
+  max-width: 1400px;
+  margin: auto;
+  padding: 24px;
+  background: url(${HomeBackground}) no-repeat top right;
 `;
 
 const Home: React.FC = () => {
+  const { windowType } = useWindowDimensions();
   return (
     <>
       <Helmet>
@@ -27,7 +35,12 @@ const Home: React.FC = () => {
           content="The user's home page after logging in, has links directing them to the blocks, teams, and leaderboard pages."
         />
       </Helmet>
-      <div className="homeContainer">
+      <HomeContainer
+        className="home-container"
+        style={{
+          marginTop: `${windowType === WindowTypes.Mobile ? '0vh' : '10vh'}`,
+        }}
+      >
         <PageHeader
           pageTitle="Welcome back, Jack!"
           pageSubtitle="Let's get back to those trees, why don't we?"
@@ -35,27 +48,8 @@ const Home: React.FC = () => {
         />
 
         <StyledSubtitle>Quick Links</StyledSubtitle>
-        <div>
-          <Row>
-            <Col span={cSpan}>
-              <LinkCard text="My Blocks" path="/" background="img1" />
-            </Col>
-            <Col span={cSpan}>
-              <LinkCard text="View Teams" path="/" background="img2" />
-            </Col>
-            <Col span={cSpan}>
-              <LinkCard
-                text="Volunteer Leaderboard"
-                path="/"
-                background="img3"
-              />
-            </Col>
-            <Col span={cSpan}>
-              <LinkCard text="Team Leaderboard" path="/" background="img4" />
-            </Col>
-          </Row>
-        </div>
-      </div>
+        <LinkCarousel />
+      </HomeContainer>
     </>
   );
 };

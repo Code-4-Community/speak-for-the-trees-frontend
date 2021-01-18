@@ -1,34 +1,32 @@
 import React from 'react';
-import './map-sidebar.less';
 import { Typography } from 'antd';
-import { Layout } from 'antd';
+import styled from 'styled-components';
 
 const { Title, Paragraph } = Typography;
-const { Sider } = Layout;
 
 type MapSidebarProps = {
   readonly header: string;
   readonly description: string;
 };
 
+export const SideBarContentContainer = styled.div`
+  display: block;
+  padding: 5vh 1vw;
+`;
+
 const MapSidebar: React.FC<MapSidebarProps> = ({
   header,
   description,
   children,
 }) => {
-  const sideBarWidth = 471;
-
   return (
     <>
-      <Sider width={sideBarWidth} theme="light">
-        <div className="sidebar-content-container">
-          <Title className="title">{header}</Title>
+      <SideBarContentContainer>
+        <Title className="title">{header}</Title>
 
-          <Paragraph>{description}</Paragraph>
-
-          <div>{children}</div>
-        </div>
-      </Sider>
+        <Paragraph>{description}</Paragraph>
+        {children}
+      </SideBarContentContainer>
     </>
   );
 };
