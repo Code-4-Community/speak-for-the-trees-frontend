@@ -4,16 +4,16 @@ import LeaderboardTab, {
   LeaderboardItem,
 } from '../leaderboard-tab/LeaderboardTab';
 
-export type TabInfo = {
+export interface TabInfo {
   name: string;
   content: LeaderboardItem[];
-};
+}
 
-type LeaderboardTabsProps = {
+interface LeaderboardTabsProps {
   tabs: TabInfo[];
   defaultTab?: string;
   itemsPerPage: number;
-};
+}
 
 const LeaderboardTabs: React.FC<LeaderboardTabsProps> = ({
   tabs,
@@ -21,7 +21,9 @@ const LeaderboardTabs: React.FC<LeaderboardTabsProps> = ({
   itemsPerPage,
 }) => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
-  const [currentTab, setCurrentTab] = React.useState<string>(tabs[0].name);
+  const [currentTab, setCurrentTab] = React.useState<string>(
+    defaultTab ? defaultTab : tabs[0].name,
+  );
 
   const onChangePage = (page: number): void => setCurrentPage(page);
   const onChangeTab = (tab: string): void => setCurrentTab(tab);

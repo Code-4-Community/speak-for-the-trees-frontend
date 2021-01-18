@@ -1,26 +1,33 @@
 import * as React from 'react';
-import { Collapse, Typography, Col, Row } from 'antd';
+import { Collapse, Space, Typography, Col, Row } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
-import { CollapsePanelProps } from 'antd/lib/collapse/CollapsePanel';
-import { BLACK, LIGHT_GREEN } from '../../../colors';
+import { CollapseProps } from 'antd/lib/collapse/Collapse';
+import { SpaceProps } from 'antd/lib/space/index';
+import { BLACK, LIGHT_GREEN, WHITE } from '../../../colors';
 import styled from 'styled-components';
 
-const { Title, Paragraph } = Typography;
+const { Paragraph } = Typography;
+const { Panel } = Collapse;
 
 const LeaderBoardItemHeader = styled.span`
   text-align: center;
 `;
 
-const LeaderboardPanel = styled(Collapse.Panel)<CollapsePanelProps>`
+const LeaderboardSpace = styled(Space)<SpaceProps>`
+  width: 100%;
+`;
+
+const LeaderboardCollapse = styled(Collapse)<CollapseProps>`
   background-color: ${LIGHT_GREEN}80;
-  margin-bottom: 10px;
-  boarder-radius: 0px;
-  cursor: auto;
+  border-radius: 0px;
 `;
 
 const LeaderboardItemName = styled(Paragraph)<ParagraphProps>`
   color: ${BLACK};
   display: inline;
+  position: absolute;
+  left: 57px;
+  top: 25px;
   vertical-align: middle;
   line-height: 0px;
 `;
@@ -30,22 +37,23 @@ const LeaderboardItemRank = styled(Paragraph)<ParagraphProps>`
   display: inline;
   padding-right: 20px;
   vertical-align: middle;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 0px;
 `;
 
-type LeaderboardTabProps = {
+interface LeaderboardTabProps {
   tabItems: LeaderboardItem[];
   currentPage: number;
   itemsPerPage: number;
-};
+  activePanelKey?: number;
+}
 
-export type LeaderboardItem = {
+export interface LeaderboardItem {
   rank?: number;
-  name: string;
+  name: string; // for now, these are assumed to be unique
   rightSide: React.ReactNode;
   collapseContent?: React.ReactNode;
-};
+}
 
 const LeaderboardTab: React.FC<LeaderboardTabProps> = ({
   tabItems,
@@ -56,49 +64,42 @@ const LeaderboardTab: React.FC<LeaderboardTabProps> = ({
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
-  const panels = getPanels(itemsOnPage);
 
   return (
     <>
       <Row>
         <Col span={8}>The card</Col>
-        <Col span={16}>{panels}</Col>
+        <Col span={16}>
+          {
+            <LeaderboardSpace direction="vertical">
+              {itemsOnPage.map((item, index) => {
+                return (
+                  <LeaderboardCollapse bordered={true}>
+                    <Panel
+                      key={item.name}
+                      header={
+                        <LeaderBoardItemHeader>
+                          <LeaderboardItemRank>
+                            {item.rank && item.rank}
+                          </LeaderboardItemRank>
+                          <LeaderboardItemName>{item.name}</LeaderboardItemName>
+                        </LeaderBoardItemHeader>
+                      }
+                      extra={item.rightSide}
+                      showArrow={false}
+                      disabled={!item.collapseContent}
+                    >
+                      {item.collapseContent}
+                    </Panel>
+                  </LeaderboardCollapse>
+                );
+              })}
+            </LeaderboardSpace>
+          }
+        </Col>
       </Row>
     </>
   );
 };
-
-/**
- * Creates the antd Panel objects from the given items
- * @param items
- */
-function getPanels(items: LeaderboardItem[]): React.ReactNode {
-  return (
-    <Collapse bordered={false}>
-      {items.map((item, index) => {
-        return (
-          <LeaderboardPanel
-            key={index}
-            header={getPanelHeader(item.name, item.rank)}
-            extra={item.rightSide}
-            showArrow={false}
-            disabled={!item.collapseContent} // is disabled if collapse content does not exist
-          >
-            {item.collapseContent}
-          </LeaderboardPanel>
-        );
-      })}
-    </Collapse>
-  );
-}
-
-function getPanelHeader(name: string, rank?: number): React.ReactNode {
-  return (
-    <LeaderBoardItemHeader>
-      <LeaderboardItemRank>{rank && rank}</LeaderboardItemRank>
-      <LeaderboardItemName>{name}</LeaderboardItemName>
-    </LeaderBoardItemHeader>
-  );
-}
 
 export default LeaderboardTab;
