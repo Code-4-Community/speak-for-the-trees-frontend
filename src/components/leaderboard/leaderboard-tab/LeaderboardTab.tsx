@@ -27,7 +27,7 @@ const LeaderboardItemName = styled(Paragraph)<ParagraphProps>`
   display: inline;
   position: absolute;
   left: 57px;
-  top: 25px;
+  top: 19px;
   vertical-align: middle;
   line-height: 0px;
 `;
