@@ -8,11 +8,11 @@ const { Paragraph } = Typography;
 interface PageHeaderProps {
   readonly pageTitle: string;
   readonly pageSubtitle: string;
-  readonly subtitleColor: string;
+  readonly subtitleColor?: string;
 }
 
 interface StyledSubtitleProps {
-  readonly textColor: string;
+  readonly textColor?: string;
 }
 
 const StyledTitle = styled(Paragraph)`
