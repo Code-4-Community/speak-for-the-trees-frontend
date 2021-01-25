@@ -20,28 +20,27 @@ const StyledListItem = styled(List.Item)`
 `;
 
 interface BlockProps {
-  readonly blockId: number;
-  readonly distanceToUser: number;
+  readonly block_id: number;
 }
 
 const sampleAllBlocksData: BlockProps[] = [
-  { blockId: 1, distanceToUser: 0.1 },
-  { blockId: 20, distanceToUser: 10 },
-  { blockId: 321, distanceToUser: 1 },
-  { blockId: 400, distanceToUser: 4.4 },
-  { blockId: 542, distanceToUser: 52.2 },
-  { blockId: 652, distanceToUser: 12.9 },
-  { blockId: 715, distanceToUser: 12 },
-  { blockId: 811, distanceToUser: 20.3 },
-  { blockId: 910, distanceToUser: 14 },
-  { blockId: 1041, distanceToUser: 0.9 },
+  { block_id: 1 },
+  { block_id: 20 },
+  { block_id: 321 },
+  { block_id: 400 },
+  { block_id: 542 },
+  { block_id: 652 },
+  { block_id: 715 },
+  { block_id: 811 },
+  { block_id: 910 },
+  { block_id: 1041 },
 ];
 
 const sampleUserReservedBlocks: BlockProps[] = [
-  { blockId: 20, distanceToUser: 10 },
-  { blockId: 400, distanceToUser: 4.4 },
-  { blockId: 652, distanceToUser: 12.9 },
-  { blockId: 910, distanceToUser: 14 },
+  { block_id: 20 },
+  { block_id: 400 },
+  { block_id: 652 },
+  { block_id: 910 },
 ];
 
 const BlockTabs: React.FC = () => {
@@ -55,11 +54,7 @@ const BlockTabs: React.FC = () => {
               itemLayout="vertical"
               renderItem={(item) => (
                 <StyledListItem>
-                  <BlockCard
-                    id={item.blockId}
-                    distance={item.distanceToUser}
-                    reserved={false}
-                  />
+                  <BlockCard id={item.block_id} reserved={false} />
                 </StyledListItem>
               )}
             />
@@ -76,11 +71,7 @@ const BlockTabs: React.FC = () => {
               itemLayout="vertical"
               renderItem={(item) => (
                 <StyledListItem>
-                  <BlockCard
-                    id={item.blockId}
-                    distance={item.distanceToUser}
-                    reserved={true}
-                  />
+                  <BlockCard id={item.block_id} reserved={true} />
                 </StyledListItem>
               )}
             />

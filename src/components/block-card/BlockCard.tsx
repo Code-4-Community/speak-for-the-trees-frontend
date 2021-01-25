@@ -29,13 +29,6 @@ const BlockTitle = styled(Paragraph)`
   color: ${MID_GREEN};
 `;
 
-const BlockDistance = styled(Paragraph)`
-  margin-top: -20px;
-  font-size: 13px;
-  line-height: 22px;
-  color: ${TEXT_GREY};
-`;
-
 const CancelIcon = styled(CloseCircleOutlined)`
   display: inline-block;
   font-size: 20px;
@@ -44,18 +37,16 @@ const CancelIcon = styled(CloseCircleOutlined)`
 
 interface BlockCardProps {
   readonly id: number;
-  readonly distance: number;
   readonly reserved: boolean;
 }
 
-const BlockCard: React.FC<BlockCardProps> = ({ id, distance, reserved }) => {
+const BlockCard: React.FC<BlockCardProps> = ({ id, reserved }) => {
   return (
     <>
       <StyledCard>
         <CardContent>
           <BlockInfo>
             <BlockTitle>Block {id}</BlockTitle>
-            <BlockDistance>{distance} mi</BlockDistance>
           </BlockInfo>
           {reserved && <CancelIcon />}
         </CardContent>
