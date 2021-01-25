@@ -5,10 +5,8 @@ import LeaderboardTabs, {
 import PageHeader from '../../components/pageheader/PageHeader';
 import { Button } from 'antd';
 import styled from 'styled-components';
-import { LeaderboardItem } from '../../components/leaderboard/leaderboard-tab/LeaderboardTab';
 
 // Placeholders
-/*
 const dummyTabs: TabInfo[] = [
   {
     name: 'one',
@@ -46,8 +44,6 @@ const dummyTabs: TabInfo[] = [
     ],
   },
 ];
-*/
-
 
 const LeaderboardContentContainer = styled.div`
   padding: 100px 134px;
