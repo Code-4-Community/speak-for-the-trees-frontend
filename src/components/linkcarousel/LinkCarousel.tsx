@@ -51,10 +51,22 @@ const LinkCarousel: React.FC = () => {
           <LinkCard text="View Teams" path="/" background="img2" />
         </CarouselSlide>
         <CarouselSlide>
+<<<<<<< HEAD
           <LinkCard text="Volunteer Leaderboard" path="/" background="img3" />
+=======
+          <LinkCard
+            text="Volunteer Leaderboard"
+            path="/volunteer"
+            background="img3"
+          />
+>>>>>>> 50f8b52... connected routes to volunteer lederboard and made a team leaderboard page based on that
         </CarouselSlide>
         <CarouselSlide>
-          <LinkCard text="Team Leaderboard" path="/" background="img4" />
+          <LinkCard
+            text="Team Leaderboard"
+            path="/team-leaderboard"
+            background="img4"
+          />
         </CarouselSlide>
         <CarouselSlide>
           <LinkCard text="5th Card" path="/" background="img1" />

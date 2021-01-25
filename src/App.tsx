@@ -9,6 +9,11 @@ import Signup from './containers/signup/Signup';
 import AdminDashboard from './containers/admin-dashboard/AdminDashboard';
 import Home from './containers/home/Home';
 import Settings from './containers/settings/Settings';
+<<<<<<< HEAD
+=======
+import VolunteerLeaderboard from './containers/volunteer-leaderboard/VolunteerLeaderboard';
+import TeamLeaderboard from './containers/team-leaderboard/TeamLeaderboard';
+>>>>>>> 50f8b52... connected routes to volunteer lederboard and made a team leaderboard page based on that
 
 import NotFound from './containers/not-found/NotFound';
 import NavBar from './components/nav-bar/NavBar';
@@ -36,6 +41,15 @@ const App: React.FC = () => {
               <Route path="/signup" exact component={Signup} />
               <Route path="/home" exact component={Home} />
               <Route path="/settings" exact component={Settings} />
+<<<<<<< HEAD
+=======
+              <Route path="/volunteer" exact component={VolunteerLeaderboard} />
+              <Route
+                path="/team-leaderboard"
+                exact
+                component={TeamLeaderboard}
+              />
+>>>>>>> 50f8b52... connected routes to volunteer lederboard and made a team leaderboard page based on that
               <Route path="/admin" exact component={AdminDashboard} />
               <Route path="*" exact component={NotFound} />
             </Switch>
