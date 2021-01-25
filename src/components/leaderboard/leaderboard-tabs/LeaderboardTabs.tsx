@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { Typography, Tabs, Pagination } from 'antd';
-import LeaderboardTab, {
-  LeaderboardItem,
-} from '../leaderboard-tab/LeaderboardTab';
+import LeaderboardTab, { TabItem } from '../leaderboard-tab/LeaderboardTab';
 
 export interface TabInfo {
   name: string;
-  content: LeaderboardItem[];
+  content: TabItem[];
 }
 
 interface LeaderboardTabsProps {

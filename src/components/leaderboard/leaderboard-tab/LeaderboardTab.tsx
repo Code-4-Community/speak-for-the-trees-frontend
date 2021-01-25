@@ -4,6 +4,7 @@ import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { CollapseProps } from 'antd/lib/collapse/Collapse';
 import { SpaceProps } from 'antd/lib/space/index';
 import { BLACK, LIGHT_GREEN, WHITE } from '../../../colors';
+import { LeaderboardItem } from '../ducks/types';
 import styled from 'styled-components';
 
 const { Paragraph } = Typography;
@@ -42,18 +43,31 @@ const LeaderboardItemRank = styled(Paragraph)<ParagraphProps>`
 `;
 
 interface LeaderboardTabProps {
-  tabItems: LeaderboardItem[];
+  tabItems: TabItem[];
   currentPage: number;
   itemsPerPage: number;
   activePanelKey?: number;
 }
 
-export interface LeaderboardItem {
+export interface TabItem {
   rank?: number;
+  id: number;
   name: string; // for now, these are assumed to be unique
   rightSide: React.ReactNode;
   collapseContent?: React.ReactNode;
 }
+
+export const leaderboardItemsToTabItems = (
+  leaderboardItems: LeaderboardItem[],
+): TabItem[] => {
+  return leaderboardItems.map((item) => {
+    return {
+      id: item.id,
+      name: item.name,
+      rightSide: item.blocksCounted,
+    };
+  });
+};
 
 const LeaderboardTab: React.FC<LeaderboardTabProps> = ({
   tabItems,

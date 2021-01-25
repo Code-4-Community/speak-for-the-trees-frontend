@@ -51,10 +51,18 @@ const LinkCarousel: React.FC = () => {
           <LinkCard text="View Teams" path="/" background="img2" />
         </CarouselSlide>
         <CarouselSlide>
-          <LinkCard text="Volunteer Leaderboard" path="/volunteer" background="img3" />
+          <LinkCard
+            text="Volunteer Leaderboard"
+            path="/volunteer"
+            background="img3"
+          />
         </CarouselSlide>
         <CarouselSlide>
-          <LinkCard text="Team Leaderboard" path="/" background="img4" />
+          <LinkCard
+            text="Team Leaderboard"
+            path="/team-leaderboard"
+            background="img4"
+          />
         </CarouselSlide>
         <CarouselSlide>
           <LinkCard text="5th Card" path="/" background="img1" />

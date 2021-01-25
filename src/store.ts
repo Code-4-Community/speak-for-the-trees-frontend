@@ -15,9 +15,55 @@ import userReducer, { initialUserState } from './auth/ducks/reducers';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import tokenService from './auth/token';
+import apiClient, { ApiExtraArgs } from './api/apiClient';
+import {
+  UserLeaderboardWeeklyReducerState,
+  UserLeaderboardMonthlyReducerState,
+  UserLeaderboardYearlyReducerState,
+  UserLeaderboardAllTimeReducerState,
+} from './containers/volunteer-leaderboard/ducks/types';
+import { LeaderboardItemActions } from './components/leaderboard/ducks/actions';
+import userLeaderboardWeeklyReducer, {
+  initialUserLeaderboardWeeklyState,
+} from './containers/volunteer-leaderboard/ducks/weeklyReducer';
+import userLeaderboardMonthlyReducer, {
+  initialUserLeaderboardMonthlyState,
+} from './containers/volunteer-leaderboard/ducks/monthlyReducer';
+import userLeaderboardYearlyReducer, {
+  initialUserLeaderboardYearlyState,
+} from './containers/volunteer-leaderboard/ducks/yearlyReducer';
+import userLeaderboardAllTimeReducer, {
+  initialUserLeaderboardAllTimeState,
+} from './containers/volunteer-leaderboard/ducks/allTimeReducer';
+import {
+  TeamLeaderboardWeeklyReducerState,
+  TeamLeaderboardMonthlyReducerState,
+  TeamLeaderboardYearlyReducerState,
+  TeamLeaderboardAllTimeReducerState,
+} from './containers/team-leaderboard/ducks/types';
+import teamLeaderboardWeeklyReducer, {
+  initialTeamLeaderboardWeeklyState,
+} from './containers/team-leaderboard/ducks/weeklyReducer';
+import teamLeaderboardMonthlyReducer, {
+  initialTeamLeaderboardMonthlyState,
+} from './containers/team-leaderboard/ducks/monthlyReducer';
+import teamLeaderboardYearlyReducer, {
+  initialTeamLeaderboardYearlyState,
+} from './containers/team-leaderboard/ducks/yearlyReducer';
+import teamLeaderboardAllTimeReducer, {
+  initialTeamLeaderboardAllTimeState,
+} from './containers/team-leaderboard/ducks/allTimeReducer';
 
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
+  userLeaderboardWeeklyState: UserLeaderboardWeeklyReducerState;
+  userLeaderboardMonthlyState: UserLeaderboardMonthlyReducerState;
+  userLeaderboardYearlyState: UserLeaderboardYearlyReducerState;
+  userLeaderboardAllTimeState: UserLeaderboardAllTimeReducerState;
+  teamLeaderboardWeeklyState: TeamLeaderboardWeeklyReducerState;
+  teamLeaderboardMonthlyState: TeamLeaderboardMonthlyReducerState;
+  teamLeaderboardYearlyState: TeamLeaderboardYearlyReducerState;
+  teamLeaderboardAllTimeState: TeamLeaderboardAllTimeReducerState;
 }
 
 export interface Action<T, P> {
@@ -25,21 +71,38 @@ export interface Action<T, P> {
   readonly payload: P;
 }
 
-export type C4CAction = UserAuthenticationActions;
+export type C4CAction = UserAuthenticationActions & LeaderboardItemActions;
 
-export type ThunkExtraArgs = UserAuthenticationExtraArgs;
+export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
 
 const reducers = combineReducers<C4CState, C4CAction>({
   authenticationState: userReducer,
+  userLeaderboardWeeklyState: userLeaderboardWeeklyReducer,
+  userLeaderboardMonthlyState: userLeaderboardMonthlyReducer,
+  userLeaderboardYearlyState: userLeaderboardYearlyReducer,
+  userLeaderboardAllTimeState: userLeaderboardAllTimeReducer,
+  teamLeaderboardWeeklyState: teamLeaderboardWeeklyReducer,
+  teamLeaderboardMonthlyState: teamLeaderboardMonthlyReducer,
+  teamLeaderboardYearlyState: teamLeaderboardYearlyReducer,
+  teamLeaderboardAllTimeState: teamLeaderboardAllTimeReducer,
 });
 
 export const initialStoreState: C4CState = {
   authenticationState: initialUserState,
+  userLeaderboardWeeklyState: initialUserLeaderboardWeeklyState,
+  userLeaderboardMonthlyState: initialUserLeaderboardMonthlyState,
+  userLeaderboardYearlyState: initialUserLeaderboardYearlyState,
+  userLeaderboardAllTimeState: initialUserLeaderboardAllTimeState,
+  teamLeaderboardWeeklyState: initialTeamLeaderboardWeeklyState,
+  teamLeaderboardMonthlyState: initialTeamLeaderboardMonthlyState,
+  teamLeaderboardYearlyState: initialTeamLeaderboardYearlyState,
+  teamLeaderboardAllTimeState: initialTeamLeaderboardAllTimeState,
 };
 
 const thunkExtraArgs: ThunkExtraArgs = {
   authClient,
   tokenService,
+  apiClient,
 };
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

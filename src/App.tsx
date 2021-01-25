@@ -10,6 +10,7 @@ import AdminDashboard from './containers/admin-dashboard/AdminDashboard';
 import Home from './containers/home/Home';
 import Settings from './containers/settings/Settings';
 import VolunteerLeaderboard from './containers/volunteer-leaderboard/VolunteerLeaderboard';
+import TeamLeaderboard from './containers/team-leaderboard/TeamLeaderboard';
 
 import NotFound from './containers/not-found/NotFound';
 import NavBar from './components/nav-bar/NavBar';
@@ -38,6 +39,11 @@ const App: React.FC = () => {
               <Route path="/home" exact component={Home} />
               <Route path="/settings" exact component={Settings} />
               <Route path="/volunteer" exact component={VolunteerLeaderboard} />
+              <Route
+                path="/team-leaderboard"
+                exact
+                component={TeamLeaderboard}
+              />
               <Route path="/admin" exact component={AdminDashboard} />
               <Route path="*" exact component={NotFound} />
             </Switch>
