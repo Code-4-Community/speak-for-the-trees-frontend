@@ -2,16 +2,12 @@ import AppAxiosInstance from '../auth/axios';
 import { LeaderboardItem } from '../components/leaderboard/ducks/types';
 
 export interface ApiExtraArgs {
-  readonly apiClient: ApiClient;
+  readonly apiClient: ApiClient
 }
 
 export interface ApiClient {
-  readonly getUsersLeaderboard: (
-    previousDays: number,
-  ) => Promise<LeaderboardItem[]>;
-  readonly getTeamsLeaderboard: (
-    previousDays: number,
-  ) => Promise<LeaderboardItem[]>;
+  readonly getUsersLeaderboard: (previousDays: number) => Promise<LeaderboardItem[]>,
+  readonly getTeamsLeaderboard: (previousDays: number) => Promise<LeaderboardItem[]>,
 }
 
 enum ApiClientRoutes {
@@ -19,29 +15,21 @@ enum ApiClientRoutes {
   TEAMS_LEADERBOARD = '/api/v1/leaderboard/teams',
 }
 
-const getUsersLeaderboard = (
-  previousDays: number,
-): Promise<LeaderboardItem[]> => {
-  return AppAxiosInstance.get(ApiClientRoutes.USERS_LEADERBOARD, {
-    params: {
-      previousDays,
-    },
-  }).then((response) => response.data.users);
+const getUsersLeaderboard = (previousDays: number): Promise<LeaderboardItem[]> => {
+  return AppAxiosInstance.get(`${ApiClientRoutes.USERS_LEADERBOARD}/${previousDays}`).then(
+    (response) => response.data.users,
+  );
 };
 
-const getTeamsLeaderboard = (
-  previousDays: number,
-): Promise<LeaderboardItem[]> => {
-  return AppAxiosInstance.get(ApiClientRoutes.TEAMS_LEADERBOARD, {
-    params: {
-      previousDays,
-    },
-  }).then((response) => response.data.teams);
+const getTeamsLeaderboard = (previousDays: number): Promise<LeaderboardItem[]> => {
+  return AppAxiosInstance.get(`${ApiClientRoutes.TEAMS_LEADERBOARD}/${previousDays}`).then(
+    (response) => response.data.teams,
+  );
 };
 
 const Client: ApiClient = Object.freeze({
   getUsersLeaderboard,
-  getTeamsLeaderboard,
+  getTeamsLeaderboard
 });
 
 export default Client;
