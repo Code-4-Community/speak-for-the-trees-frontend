@@ -32,6 +32,24 @@ const MapView: React.FC = () => {
   });
 
   const mapId = '76c08a2450c223d9';
+  var markersArray: google.maps.Marker[] = [];
+
+  interface KeyValuePair {
+    key: string;
+    value: string;
+}
+
+  //This KeyValuePair array that stores names to be shortHand-ed. 
+  //To add a new area, wrap a key value pair with {}.
+  let shortHandNames: KeyValuePair[] = [
+  {key: "North End", value: "N.E"}, 
+  {key: "West End", value: "W.E"}, 
+  {key: "Leather District", value: "L.D"}, 
+  {key: "Beacon Hill", value: "B.H"}, 
+  {key: "Back Bay", value: "B.B"}, 
+  {key: "Downtown", value: "D.T"}, 
+  {key: "Chinatown", value: "C.T"}, 
+  {key: "Bay Village", value: "B.V"}];
 
   loader.load().then(() => {
     map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
@@ -128,9 +146,49 @@ const MapView: React.FC = () => {
     // Creates a new layer
     const neighborhoodsLayer = new google.maps.Data({ map });
 
+    //Function: Returns name in shortHand
+    function shortHand(name: String): any { 
+      var nameReturn;
+      for (let i = 0; i < shortHandNames.length; i++) {
+        if (shortHandNames[i].key === name) {
+          nameReturn = shortHandNames[i].value;
+          break;
+        }
+        else {
+          nameReturn = name;
+        }
+      }
+   return nameReturn;
+  }
     // Loads the objects into the layer
     neighborhoodsLayer.loadGeoJson(
       'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/neighborhoods_edited.geojson',
+      {},
+      function(features) {
+        //For each feature in neighbourhoodsLayer, add a marker
+        // We need to do it here as the GeoJson needs to load first
+      neighborhoodsLayer.forEach(function(feature) {
+      // If you want, check here for some constraints.
+      var marker = new google.maps.Marker({
+        map,
+        draggable: false,
+        label: {
+          color: 'white',
+          fontWeight: 'bold',
+          text: shortHand(feature.getProperty('Name')),
+        },
+        //Removed the icon here, only text on map.
+        icon: {
+          labelOrigin: new google.maps.Point(11, 50),
+          url: '',
+          size: new google.maps.Size(22, 40),
+        },
+        position: {lat: (feature.getProperty('Latitude')), lng: ((feature.getProperty('Longitude')))},
+      });
+      markersArray.push(marker);
+      marker.setMap(map)
+      });
+      }
     );
 
     // Sets the style of the layer to green shades based on property values with white outline
@@ -146,8 +204,23 @@ const MapView: React.FC = () => {
       });
     }
 
+    function toggleMarkers(v: boolean) {
+      for (var i = 0; i < markersArray.length; i++ ) {
+        markersArray[i].setVisible(v);
+      }
+      }
+    
     // Initially true while the neighborhoods are shown by themselves
     setNeighborhoodsStyle(true);
+
+    // var marker = new google.maps.Marker({
+    //   map,
+    //   draggable: false,
+    //   position: BOSTON,
+    //   title: "Hello world"
+    // });
+    // marker.setMap(map)
+
 
     // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
     neighborhoodsLayer.addListener('click', (event) => {
@@ -195,8 +268,8 @@ const MapView: React.FC = () => {
         if (zoomLevel >= 13) {
           zoomedIn = true;
         }
-
         setNeighborhoodsStyle(!zoomedIn);
+        toggleMarkers(!zoomedIn);
         setBlocksStyle(zoomedIn);
         setPrivateStreetsStyle(zoomedIn);
       });
