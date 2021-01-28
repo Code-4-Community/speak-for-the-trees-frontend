@@ -94,7 +94,7 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
   useEffect(() => {
     userLeaderboardItemsAllTime.kind === AsyncRequestKinds.Completed &&
       setAllTimeTab({
-        ...weeklyTab,
+        ...allTimeTab,
         content: leaderboardItemsToTabItems(userLeaderboardItemsAllTime.result),
       });
   }, [userLeaderboardItemsAllTime]);

@@ -7,7 +7,7 @@ import {
   AsyncRequestNotStarted,
   generateAsyncRequestReducer,
 } from '../../../utils/asyncRequest';
-import { leaderboardItems } from '../../../components/leaderboard/ducks/actions';
+import { leaderboardItemsMonthly } from '../../../components/leaderboard/ducks/actions';
 import { C4CAction } from '../../../store';
 
 export const initialUserLeaderboardMonthlyState: UserLeaderboardMonthlyReducerState = {
@@ -18,7 +18,7 @@ const userLeaderboardMonthlyReducer = generateAsyncRequestReducer<
   UserLeaderboardMonthlyReducerState,
   LeaderboardItem[],
   void
->(leaderboardItems.key);
+>(leaderboardItemsMonthly.key);
 
 const reducers = (
   state: UserLeaderboardMonthlyReducerState = initialUserLeaderboardMonthlyState,
