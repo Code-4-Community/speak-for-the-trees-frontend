@@ -22,21 +22,115 @@ enum ApiClientRoutes {
 const getUsersLeaderboard = (
   previousDays: number,
 ): Promise<LeaderboardItem[]> => {
-  return AppAxiosInstance.get(ApiClientRoutes.USERS_LEADERBOARD, {
-    params: {
-      previousDays,
-    },
-  }).then((response) => response.data.users);
+  // return AppAxiosInstance.get(ApiClientRoutes.USERS_LEADERBOARD, {
+  //   params: {
+  //     previousDays,
+  //   },
+  // }).then((response) => response.data.users);
+  switch(previousDays) {
+    case 7:
+      return new Promise<LeaderboardItem[]>((resolve) => {
+        resolve([
+          {
+            id: 0,
+            name: 'u week',
+            blocksCounted: 100,
+          },
+        ])
+      })
+    case 30:
+      return new Promise<LeaderboardItem[]>((resolve) => {
+        resolve([
+          {
+            id: 0,
+            name: 'u month',
+            blocksCounted: 100,
+          },
+        ])
+      })
+    case 365:
+      return new Promise<LeaderboardItem[]>((resolve) => {
+        resolve([
+          {
+            id: 0,
+            name: 'u year',
+            blocksCounted: 100,
+          },
+        ])
+      }) 
+    case 9999:
+      return new Promise<LeaderboardItem[]>((resolve) => {
+        resolve([
+          {
+            id: 0,
+            name: 'u all time',
+            blocksCounted: 100,
+          },
+        ])
+      }) 
+    default:    
+      return new Promise<LeaderboardItem[]>((resolve) => {
+        resolve([])
+      })
+  }    
 };
 
 const getTeamsLeaderboard = (
   previousDays: number,
 ): Promise<LeaderboardItem[]> => {
+  /*
   return AppAxiosInstance.get(ApiClientRoutes.TEAMS_LEADERBOARD, {
     params: {
       previousDays,
     },
   }).then((response) => response.data.teams);
+  */
+  switch(previousDays) {
+    case 7:
+      return new Promise<LeaderboardItem[]>((resolve) => {
+        resolve([
+          {
+            id: 0,
+            name: 't week',
+            blocksCounted: 100,
+          },
+        ])
+      })
+    case 30:
+      return new Promise<LeaderboardItem[]>((resolve) => {
+        resolve([
+          {
+            id: 0,
+            name: 't month',
+            blocksCounted: 100,
+          },
+        ])
+      })
+    case 365:
+      return new Promise<LeaderboardItem[]>((resolve) => {
+        resolve([
+          {
+            id: 0,
+            name: 't year',
+            blocksCounted: 100,
+          },
+        ])
+      }) 
+    case 9999:
+      return new Promise<LeaderboardItem[]>((resolve) => {
+        resolve([
+          {
+            id: 0,
+            name: 't all time',
+            blocksCounted: 100,
+          },
+        ])
+      }) 
+    default:    
+      return new Promise<LeaderboardItem[]>((resolve) => {
+        resolve([])
+      })
+  }    
 };
 
 const Client: ApiClient = Object.freeze({

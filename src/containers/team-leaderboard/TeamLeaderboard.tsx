@@ -15,7 +15,6 @@ import { connect, useDispatch } from 'react-redux';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { getTeamsLeaderboard } from './ducks/thunks';
 import {
-  LeaderboardItem,
   LeaderboardPreviousDays,
 } from '../../components/leaderboard/ducks/types';
 import { leaderboardItemsToTabItems } from '../../components/leaderboard/leaderboard-tab/LeaderboardTab';

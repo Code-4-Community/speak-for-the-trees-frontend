@@ -15,7 +15,6 @@ import { connect, useDispatch } from 'react-redux';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { getUsersLeaderboard } from './ducks/thunks';
 import {
-  LeaderboardItem,
   LeaderboardPreviousDays,
 } from '../../components/leaderboard/ducks/types';
 import { leaderboardItemsToTabItems } from '../../components/leaderboard/leaderboard-tab/LeaderboardTab';
@@ -65,7 +64,7 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
     dispatch(getUsersLeaderboard(LeaderboardPreviousDays.monthly));
     dispatch(getUsersLeaderboard(LeaderboardPreviousDays.yearly));
     dispatch(getUsersLeaderboard(LeaderboardPreviousDays.allTime));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     userLeaderboardItemsWeekly.kind === AsyncRequestKinds.Completed &&
@@ -73,7 +72,7 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
         ...weeklyTab,
         content: leaderboardItemsToTabItems(userLeaderboardItemsWeekly.result),
       });
-  }, [userLeaderboardItemsWeekly]);
+  }, [userLeaderboardItemsWeekly, dispatch]);
 
   useEffect(() => {
     userLeaderboardItemsMonthly.kind === AsyncRequestKinds.Completed &&
@@ -81,7 +80,7 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
         ...monthlyTab,
         content: leaderboardItemsToTabItems(userLeaderboardItemsMonthly.result),
       });
-  }, [userLeaderboardItemsMonthly]);
+  }, [userLeaderboardItemsMonthly, dispatch]);
 
   useEffect(() => {
     userLeaderboardItemsYearly.kind === AsyncRequestKinds.Completed &&
@@ -89,7 +88,7 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
         ...yearlyTab,
         content: leaderboardItemsToTabItems(userLeaderboardItemsYearly.result),
       });
-  }, [userLeaderboardItemsYearly]);
+  }, [userLeaderboardItemsYearly, dispatch]);
 
   useEffect(() => {
     userLeaderboardItemsAllTime.kind === AsyncRequestKinds.Completed &&
@@ -97,7 +96,7 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
         ...allTimeTab,
         content: leaderboardItemsToTabItems(userLeaderboardItemsAllTime.result),
       });
-  }, [userLeaderboardItemsAllTime]);
+  }, [userLeaderboardItemsAllTime, dispatch]);
 
   return (
     <LeaderboardContentContainer>
