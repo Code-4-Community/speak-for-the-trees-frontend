@@ -3,12 +3,13 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { PageHeader, Typography, Button, Avatar, Menu, Dropdown } from 'antd';
 import { PageHeaderProps } from 'antd/es/page-header';
-import { UserOutlined, MenuOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import useWindowDimensions, { WindowTypes } from '../window-dimensions';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { PrivilegeLevel } from '../../auth/ducks/types';
+import MobileNavBar from '../mobile-nav-bar/MobileNavBar';
 import {
   LIGHT_GREEN,
   MID_GREEN,
@@ -17,11 +18,6 @@ import {
   WHITE,
 } from '../../colors';
 const { Paragraph } = Typography;
-
-const MobileDropdownMenu = styled(MenuOutlined)`
-  display: inline-flex;
-  font-size: 25px;
-`;
 
 const NavHeader: typeof PageHeader = styled(PageHeader)<PageHeaderProps>`
   box-shadow: '0 4px 2px -2px grey';
@@ -42,7 +38,6 @@ const NavBar: React.FC = () => {
     getPrivilegeLevel(state.authenticationState.tokens),
   );
 
-  const isMobile: boolean = windowType === WindowTypes.Mobile;
   const isLoggedIn: boolean = privilegeLevel > PrivilegeLevel.NONE;
 
   const BackIcon = () => {
@@ -53,7 +48,7 @@ const NavBar: React.FC = () => {
         src={Logo}
         alt="icon"
         style={{
-          height: `${isMobile ? '30px' : '40px'}`,
+          height: '40px',
         }}
       />
     );
@@ -127,28 +122,9 @@ const NavBar: React.FC = () => {
     );
   };
 
-  const MobileLoggedInExtra = () => {
-    return (
-      <FlexDiv>
-        <Dropdown overlay={menu} placement="bottomLeft">
-          <MobileDropdownMenu />
-        </Dropdown>
-      </FlexDiv>
-    );
-  };
-
   switch (windowType) {
     case WindowTypes.Mobile:
-      return (
-        <NavHeader
-          className="page-header"
-          title=""
-          subTitle="Speak for the Trees"
-          backIcon={<BackIcon />}
-          onBack={() => history.push('/')}
-          extra={isLoggedIn && <MobileLoggedInExtra />}
-        />
-      );
+      return <MobileNavBar isLoggedIn={isLoggedIn} />;
 
     default:
       return (
