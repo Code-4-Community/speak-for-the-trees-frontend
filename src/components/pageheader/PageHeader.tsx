@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from 'antd';
-import { DARKGREY } from '../../colors';
+import { DARK_GREY } from '../../colors';
 import styled from 'styled-components';
 import useWindowDimensions, { WindowTypes } from '../window-dimensions';
 const { Paragraph } = Typography;
@@ -28,7 +28,7 @@ const StyledSubtitle = styled(Paragraph)`
   line-height: 32px;
   margin-top: -40px;
   color: ${(props: StyledSubtitleProps) =>
-    props.textColor ? props.textColor : { DARKGREY }};
+    props.textColor ? props.textColor : { DARK_GREY }};
 `;
 
 const PageHeader: React.FC<PageHeaderProps> = ({

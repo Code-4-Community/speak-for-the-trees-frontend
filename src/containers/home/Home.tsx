@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { DARKGREY, MID_GREEN } from '../../colors';
+import { DARK_GREY, MID_GREEN } from '../../colors';
 import { Typography } from 'antd';
 import PageHeader from '../../components/pageheader/PageHeader';
 import LinkCarousel from '../../components/linkcarousel/LinkCarousel';
@@ -44,7 +44,7 @@ const Home: React.FC = () => {
         <PageHeader
           pageTitle="Welcome back, Jack!"
           pageSubtitle="Let's get back to those trees, why don't we?"
-          subtitleColor={DARKGREY}
+          subtitleColor={DARK_GREY}
         />
 
         <StyledSubtitle>Quick Links</StyledSubtitle>
