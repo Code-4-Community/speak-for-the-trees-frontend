@@ -31,6 +31,7 @@ const MapView: React.FC = () => {
     mapIds: ['76c08a2450c223d9'],
   });
 
+  // eslint-disable-next-line
   const mapId = '76c08a2450c223d9';
   const markersArray: google.maps.Marker[] = [];
 

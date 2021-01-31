@@ -6,6 +6,7 @@ import { UserAuthenticationActions } from './actions';
 import { C4CState } from '../../store';
 
 export interface UserAuthenticationReducerState {
+  // todo: specify error type
   readonly tokens: AsyncRequest<TokenPayload, any>;
 }
 

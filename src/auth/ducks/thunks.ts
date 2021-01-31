@@ -10,6 +10,7 @@ export const login = (
   loginRequest: LoginRequest,
 ): UserAuthenticationThunkAction<void> => {
   return (dispatch, getState, { authClient, tokenService }): Promise<void> => {
+    // TODO: dispatch loading
     return authClient
       .login(loginRequest)
       .then((response: TokenPayload) => {
