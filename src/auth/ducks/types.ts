@@ -28,6 +28,7 @@ export interface LoginRequest {
 
 export interface SignupRequest {
   readonly email: string;
+  readonly username: string;
   readonly password: string;
   readonly firstName: string;
   readonly lastName: string;
