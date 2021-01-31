@@ -38,18 +38,17 @@ const MapView: React.FC = () => {
     key: string;
     value: string;
 }
-
   //This KeyValuePair array that stores names to be shortHand-ed. 
   //To add a new area, wrap a key value pair with {}.
   let shortHandNames: KeyValuePair[] = [
-  {key: "North End", value: "N.E"}, 
-  {key: "West End", value: "W.E"}, 
-  {key: "Leather District", value: "L.D"}, 
-  {key: "Beacon Hill", value: "B.H"}, 
-  {key: "Back Bay", value: "B.B"}, 
-  {key: "Downtown", value: "D.T"}, 
-  {key: "Chinatown", value: "C.T"}, 
-  {key: "Bay Village", value: "B.V"}];
+  {key: "North End", value: "NE"}, 
+  {key: "West End", value: "WE"}, 
+  {key: "Leather District", value: "LD"}, 
+  {key: "Beacon Hill", value: "BH"}, 
+  {key: "Back Bay", value: "BB"}, 
+  {key: "Downtown", value: "DT"}, 
+  {key: "Chinatown", value: "CT"}, 
+  {key: "Bay Village", value: "BV"}];
 
   loader.load().then(() => {
     map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
@@ -212,15 +211,6 @@ const MapView: React.FC = () => {
     
     // Initially true while the neighborhoods are shown by themselves
     setNeighborhoodsStyle(true);
-
-    // var marker = new google.maps.Marker({
-    //   map,
-    //   draggable: false,
-    //   position: BOSTON,
-    //   title: "Hello world"
-    // });
-    // marker.setMap(map)
-
 
     // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
     neighborhoodsLayer.addListener('click', (event) => {
