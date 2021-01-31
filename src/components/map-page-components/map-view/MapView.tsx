@@ -1,4 +1,5 @@
 import React from 'react';
+import useWindowDimensions, { WindowTypes } from '../../window-dimensions';
 import { Input } from 'antd';
 import { Loader } from '@googlemaps/js-api-loader';
 import styled from 'styled-components';
@@ -25,6 +26,8 @@ const MapDiv = styled.div`
 `;
 
 const MapView: React.FC = () => {
+  const { windowType } = useWindowDimensions();
+
   const loader = new Loader({
     apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY!,
     libraries: ['places'],
@@ -208,7 +211,9 @@ const MapView: React.FC = () => {
   return (
     <>
       <div id="pac-container">
-        <StyledSearch id="pac-input" placeholder="Address" />
+        {!(windowType === WindowTypes.Mobile) && (
+          <StyledSearch id="pac-input" placeholder="Address" />
+        )}
       </div>
       <MapDiv id="map"></MapDiv>
     </>
