@@ -77,7 +77,10 @@ const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
           name="email"
           rules={[
             { required: true, message: 'Please input your email!' },
-            { pattern: /^\S+@\S+\.\S{2,}$/, message: 'Not a valid email address' }
+            {
+              pattern: /^\S+@\S+\.\S{2,}$/,
+              message: 'Not a valid email address',
+            },
           ]}
         >
           <Input placeholder="Email" />
@@ -86,7 +89,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
           name="password"
           rules={[
             { required: true, message: 'Please enter a password!' },
-            { min: 8, message: 'Password must be at least 8 characters long' }
+            { min: 8, message: 'Password must be at least 8 characters long' },
           ]}
         >
           <Input.Password placeholder="Password" />
@@ -106,8 +109,8 @@ const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
                   return Promise.reject('Passwords do not match');
                 }
                 return Promise.resolve();
-              }
-            })
+              },
+            }),
           ]}
         >
           <Input.Password placeholder="Confirm Password" />
