@@ -1,21 +1,48 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 import { PageHeader, Typography, Button, Avatar, Menu, Dropdown } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { PageHeaderProps } from 'antd/es/page-header';
+import { UserOutlined, MenuOutlined } from '@ant-design/icons';
+import useWindowDimensions, { WindowTypes } from '../window-dimensions';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { PrivilegeLevel } from '../../auth/ducks/types';
-import { LIGHT_GREEN, WHITE, DARK_GREEN } from '../../colors';
+import {
+  LIGHT_GREEN,
+  MID_GREEN,
+  DARK_GREEN,
+  BACKGROUND_GREY,
+  WHITE,
+} from '../../colors';
 const { Paragraph } = Typography;
 
+const MobileDropdownMenu = styled(MenuOutlined)`
+  display: inline-flex;
+  font-size: 25px;
+`;
+
+const NavHeader: typeof PageHeader = styled(PageHeader)<PageHeaderProps>`
+  box-shadow: '0 4px 2px -2px grey';
+  margin: '0 0 3px 0';
+  background: ${BACKGROUND_GREY};
+  color: ${MID_GREEN};
+`;
+
+const FlexDiv = styled.div`
+  display: flex;
+`;
+
 const NavBar: React.FC = () => {
+  const { windowType } = useWindowDimensions();
   const history = useHistory();
 
   const privilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
 
+  const isMobile: boolean = windowType === WindowTypes.Mobile;
   const isLoggedIn: boolean = privilegeLevel > PrivilegeLevel.NONE;
 
   const BackIcon = () => {
@@ -25,7 +52,9 @@ const NavBar: React.FC = () => {
         className="back-icon"
         src={Logo}
         alt="icon"
-        style={{ height: '40px' }}
+        style={{
+          height: `${isMobile ? '30px' : '40px'}`,
+        }}
       />
     );
   };
@@ -84,7 +113,7 @@ const NavBar: React.FC = () => {
 
   const LoggedInExtra = () => {
     return (
-      <div className="logged-in-extra" style={{ display: 'flex' }}>
+      <FlexDiv>
         {/* This needs to changed, not a constant */}
         <Paragraph style={{ margin: 'auto 20px auto 0' }}>Jack Blanc</Paragraph>
         <Dropdown overlay={menu} placement="bottomLeft">
@@ -94,25 +123,44 @@ const NavBar: React.FC = () => {
             style={{ backgroundColor: DARK_GREEN }}
           />
         </Dropdown>
-      </div>
+      </FlexDiv>
     );
   };
 
-  return (
-    <PageHeader
-      className="page-header"
-      title="Speak for the Trees"
-      backIcon={<BackIcon />}
-      onBack={() => history.push('/')}
-      style={{
-        boxShadow: '0 4px 2px -2px grey',
-        margin: '0 0 3px 0',
-        backgroundColor: '#F5F5F5',
-        color: '#61802e',
-      }}
-      extra={isLoggedIn ? <LoggedInExtra /> : <LandingExtra />}
-    />
-  );
+  const MobileLoggedInExtra = () => {
+    return (
+      <FlexDiv>
+        <Dropdown overlay={menu} placement="bottomLeft">
+          <MobileDropdownMenu />
+        </Dropdown>
+      </FlexDiv>
+    );
+  };
+
+  switch (windowType) {
+    case WindowTypes.Mobile:
+      return (
+        <NavHeader
+          className="page-header"
+          title=""
+          subTitle="Speak for the Trees"
+          backIcon={<BackIcon />}
+          onBack={() => history.push('/')}
+          extra={isLoggedIn && <MobileLoggedInExtra />}
+        />
+      );
+
+    default:
+      return (
+        <NavHeader
+          className="page-header"
+          title="Speak for the Trees"
+          backIcon={<BackIcon />}
+          onBack={() => history.push('/')}
+          extra={isLoggedIn ? <LoggedInExtra /> : <LandingExtra />}
+        />
+      );
+  }
 };
 
 export default NavBar;
