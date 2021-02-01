@@ -43,11 +43,10 @@
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "lint": "tslint -p . -c tslint.json && eslint ./src/**/*.tsx",
     "lint-fix": "tslint --fix -p . -c tslint.json && eslint --fix ./src/**/*.tsx",
-    "prettier": "prettier --check ./src/**/*.{ts,tsx,less}",
-    "prettier-fix": "prettier --write ./src/**/*.{ts,tsx,less}",
+    "prettier": "prettier --check src",
+    "prettier-fix": "prettier --write src",
     "type-check": "tsc",
-    "check": "npm run lint-fix && npm run prettier-fix && npm run type-check",
-    "travis": "npm run lint && npm run prettier && npm run test && npm run build && npm run type-check"
+    "check": "npm run lint-fix && npm run prettier-fix && npm run type-check && npm run test"
   },
   "browserslist": {
     "production": [
