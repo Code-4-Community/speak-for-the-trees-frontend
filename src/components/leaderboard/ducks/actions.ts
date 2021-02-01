@@ -1,13 +1,28 @@
 import { genericAsyncActions } from '../../../utils/asyncRequest';
-import { LeaderboardItem, LeaderboardPreviousDays } from '../../../components/leaderboard/ducks/types';
+import {
+  LeaderboardItem,
+  LeaderboardPreviousDays,
+} from '../../../components/leaderboard/ducks/types';
 
-export const leaderboardItemsWeekly = genericAsyncActions<LeaderboardItem[], any>();
+export const leaderboardItemsWeekly = genericAsyncActions<
+  LeaderboardItem[],
+  any
+>();
 
-export const leaderboardItemsMonthly = genericAsyncActions<LeaderboardItem[], any>();
+export const leaderboardItemsMonthly = genericAsyncActions<
+  LeaderboardItem[],
+  any
+>();
 
-export const leaderboardItemsYearly = genericAsyncActions<LeaderboardItem[], any>();
+export const leaderboardItemsYearly = genericAsyncActions<
+  LeaderboardItem[],
+  any
+>();
 
-export const leaderboardItemsAllTime = genericAsyncActions<LeaderboardItem[], any>();
+export const leaderboardItemsAllTime = genericAsyncActions<
+  LeaderboardItem[],
+  any
+>();
 
 export type LeaderboardItemActions =
   | ReturnType<typeof leaderboardItemsWeekly.loading>
@@ -23,10 +38,8 @@ export type LeaderboardItemActions =
   | ReturnType<typeof leaderboardItemsAllTime.loaded>
   | ReturnType<typeof leaderboardItemsAllTime.failed>;
 
-export const getLeaderboardAction = (
-  previousDays: LeaderboardPreviousDays,
-) => {
-  switch(previousDays) {
+export const getLeaderboardAction = (previousDays: LeaderboardPreviousDays) => {
+  switch (previousDays) {
     case 7:
       return leaderboardItemsWeekly;
     case 30:
@@ -34,6 +47,6 @@ export const getLeaderboardAction = (
     case 365:
       return leaderboardItemsYearly;
     default:
-      return leaderboardItemsAllTime;    
+      return leaderboardItemsAllTime;
   }
-}
+};

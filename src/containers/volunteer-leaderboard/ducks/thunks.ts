@@ -1,11 +1,9 @@
 import {
   LeaderboardItem,
   LeaderboardThunkAction,
-  LeaderboardPreviousDays
+  LeaderboardPreviousDays,
 } from '../../../components/leaderboard/ducks/types';
-import { 
-  getLeaderboardAction,
-} from '../../../components/leaderboard/ducks/actions';
+import { getLeaderboardAction } from '../../../components/leaderboard/ducks/actions';
 
 export const getUsersLeaderboard = (
   previousDays: LeaderboardPreviousDays,
@@ -23,4 +21,3 @@ export const getUsersLeaderboard = (
       });
   };
 };
-
