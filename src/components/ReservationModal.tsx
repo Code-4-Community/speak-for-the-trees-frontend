@@ -2,69 +2,73 @@ import React from 'react';
 import styled from 'styled-components';
 import { WHITE, BLACK } from '../colors';
 import { Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
+export enum ReservationModalType {
+  OPEN = 'OPEN',
+  TAKEN = 'TAKEN',
+  RESERVED = 'RESERVED'
+}
 
 interface ReservationModalProps {
-    readonly status: string;
-    readonly blockID: number;
+  readonly status: ReservationModalType;
+  readonly blockID: number;
+  readonly onOk: () => void;
+  readonly onCancel: () => void;
+  isVisible: boolean;
 }
 
 const StyledModal = styled(Modal)`
     height: 40px;
     background: ${WHITE};
     color: ${BLACK};
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 400;
 `;
 
-function error(blockID: number) {
-    StyledModal.confirm({
-        title: 'Are you sure?',
-        content: 'You want to release block ' + blockID,
-      onOk() {
-        console.log('Release');
-      },
-      onCancel() {
-        console.log('Cancel');
-      },
-    });
-  }
+const ReservationModal: React.FC<ReservationModalProps> = ({ 
+  status, blockID, onOk, onCancel, isVisible}) => {
 
-function warning(blockID: number) {
-    StyledModal.confirm({
-        title: 'Are you sure?',
-        content: 'You want to reserve block ' + blockID,
-      onOk() {
-        console.log('Reserve');
-      },
-      onCancel() {
-        console.log('Cancel');
-      },
-    });
-  }
+    const getOkText = (): string => {
+      switch (status) {
+        case ReservationModalType.OPEN : 
+          return 'Reserve'
+        case ReservationModalType.TAKEN : 
+          return 'Release'
+        case ReservationModalType.RESERVED : 
+          return 'Ok'
+      }
+    };
 
-function info(blockID: number) {
-    StyledModal.warning({
-        title: 'Sorry',
-        content: 'Block ' + blockID + ' is not available to reserve/release',
-    });
-  }
-
-const ReservationModal: React.FC<ReservationModalProps> = ({ status, blockID }) => {
-
-    if (status === 'reserved') {
-        error(blockID);
+    const handleCancel = (): any => {
+      //onCancel();
+      isVisible = false;
     }
 
-    if (status === 'open') {
-        warning(blockID);
-    }
-
-    if (status === 'taken') {
-        info(blockID);
-    }
+    const getModalContent = (): string => {
+      switch (status) {
+        case ReservationModalType.OPEN : 
+          return `Are you sure? You want to reserve block ${blockID}`
+        case ReservationModalType.TAKEN : 
+          return `Are you sure? You want to release block ${blockID}`
+        case ReservationModalType.RESERVED : 
+          return `Sorry. Block ${blockID} is not available to reserve/release`
+      }
+    };
 
     return (
-        <StyledModal></StyledModal>
+      <div>
+        <StyledModal
+          visible={isVisible}
+          title = ''
+          onOk={onOk}
+          okText={getOkText()}
+          onCancel={handleCancel}
+          closable={false}
+        >
+          {getModalContent()}
+        </StyledModal>
+      </div>
     );
 };
 
