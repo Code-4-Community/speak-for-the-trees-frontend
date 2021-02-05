@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import { WHITE, BLACK } from '../colors';
 import { Modal } from 'antd';
@@ -15,7 +15,7 @@ interface ReservationModalProps {
   readonly blockID: number;
   readonly onOk: () => void;
   readonly onCancel: () => void;
-  isVisible: boolean;
+  readonly isVisible: boolean;
 }
 
 const StyledModal = styled(Modal)`
@@ -28,6 +28,7 @@ const StyledModal = styled(Modal)`
 
 const ReservationModal: React.FC<ReservationModalProps> = ({ 
   status, blockID, onOk, onCancel, isVisible}) => {
+    const [visibility, setVisibility] = useState(isVisible);
 
     const getOkText = (): string => {
       switch (status) {
@@ -40,9 +41,14 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
       }
     };
 
-    const handleCancel = (): any => {
-      //onCancel();
-      isVisible = false;
+    const handleCancel = (): void => {
+      onCancel();
+      setVisibility(false);
+    }
+
+    const handleOk = (): void => {
+      onOk();
+      setVisibility(false);
     }
 
     const getModalContent = (): string => {
@@ -59,9 +65,9 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
     return (
       <div>
         <StyledModal
-          visible={isVisible}
+          visible={visibility}
           title = ''
-          onOk={onOk}
+          onOk={handleOk}
           okText={getOkText()}
           onCancel={handleCancel}
           closable={false}
