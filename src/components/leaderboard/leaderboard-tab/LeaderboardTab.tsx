@@ -72,7 +72,7 @@ const LeaderboardTab: React.FC<LeaderboardTabProps> = ({
         <Col span={16}>
           {
             <LeaderboardSpace direction="vertical">
-              {itemsOnPage.map((item, index) => {
+              {itemsOnPage.map((item) => {
                 return (
                   <LeaderboardCollapse bordered={true} key={item.name}>
                     <Panel

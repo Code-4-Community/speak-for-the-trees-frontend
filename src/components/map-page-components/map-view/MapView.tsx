@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from 'antd';
+import { Input, message } from 'antd';
 import { Loader } from '@googlemaps/js-api-loader';
 import styled from 'styled-components';
 
@@ -26,7 +26,7 @@ const MapDiv = styled.div`
 
 const MapView: React.FC = () => {
   const loader = new Loader({
-    apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY!,
+    apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY || '',
     libraries: ['places'],
     mapIds: ['76c08a2450c223d9'],
   });
@@ -148,7 +148,7 @@ const MapView: React.FC = () => {
     const neighborhoodsLayer = new google.maps.Data({ map });
 
     // Function: Returns name in shortHand
-    function shortHand(name: string): any {
+    function shortHand(name: string): string {
       for (const shName of shortHandNames) {
         if (shName.key === name) {
           return shName.value;
@@ -160,7 +160,7 @@ const MapView: React.FC = () => {
     neighborhoodsLayer.loadGeoJson(
       'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/neighborhoods_edited.geojson',
       {},
-      (features) => {
+      () => {
         // For each feature in neighbourhoodsLayer, add a marker
         // We need to do it here as the GeoJson needs to load first
         neighborhoodsLayer.forEach((feature) => {
@@ -243,8 +243,11 @@ const MapView: React.FC = () => {
             },
           });
         },
-        (error) => {
-          // TODO: Handle the error by showing a small pop up informing them of the consequences
+        () => {
+          message.info(
+            'Enable access to your location to display where you are on the map.',
+            5,
+          );
         },
       );
     }
