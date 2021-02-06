@@ -148,26 +148,22 @@ const MapView: React.FC = () => {
     const neighborhoodsLayer = new google.maps.Data({ map });
 
     // Function: Returns name in shortHand
-    function shortHand(name: String): any {
-      let nameReturn;
-      for (let i = 0; i < shortHandNames.length; i++) {
-        if (shortHandNames[i].key === name) {
-          nameReturn = shortHandNames[i].value;
-          break;
-        } else {
-          nameReturn = name;
+    function shortHand(name: string): any {
+      for (const shName of shortHandNames) {
+        if (shName.key === name) {
+          return shName.value;
         }
       }
-      return nameReturn;
+      return name;
     }
     // Loads the objects into the layer
     neighborhoodsLayer.loadGeoJson(
       'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/neighborhoods_edited.geojson',
       {},
-      function (features) {
+      (features) => {
         // For each feature in neighbourhoodsLayer, add a marker
         // We need to do it here as the GeoJson needs to load first
-        neighborhoodsLayer.forEach(function (feature) {
+        neighborhoodsLayer.forEach((feature) => {
           // If you want, check here for some constraints.
           const marker = new google.maps.Marker({
             map,
@@ -208,8 +204,8 @@ const MapView: React.FC = () => {
     }
 
     function toggleMarkers(v: boolean) {
-      for (let i = 0; i < markersArray.length; i++) {
-        markersArray[i].setVisible(v);
+      for (const marker of markersArray) {
+        marker.setVisible(v);
       }
     }
 
