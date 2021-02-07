@@ -6,16 +6,12 @@ import { C4CState } from '../../store';
 import PageHeader from '../../components/pageheader/PageHeader';
 import styled from 'styled-components';
 import {
-  TeamLeaderboardWeeklyReducerState,
-  TeamLeaderboardMonthlyReducerState,
-  TeamLeaderboardYearlyReducerState,
-  TeamLeaderboardAllTimeReducerState,
+  TeamLeaderboardReducerState,
 } from './ducks/types';
 import { connect, useDispatch } from 'react-redux';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { getTeamsLeaderboard } from './ducks/thunks';
-import { LeaderboardPreviousDays } from '../../components/leaderboard/ducks/types';
-import { leaderboardItemsToTabItems } from '../../components/leaderboard/leaderboard-tab/LeaderboardTab';
+import { LEADERBOARD_DAYS, LEADERBOARD_TABS } from '../../components/leaderboard/constants';
 
 const LeaderboardContentContainer = styled.div`
   padding: 100px 134px;
@@ -26,75 +22,26 @@ const LeaderboardContainer = styled.div`
 `;
 
 interface TeamLeaderboardProps {
-  readonly teamLeaderboardItemsWeekly: TeamLeaderboardWeeklyReducerState['teamLeaderboardWeekly'];
-  readonly teamLeaderboardItemsMonthly: TeamLeaderboardMonthlyReducerState['teamLeaderboardMonthly'];
-  readonly teamLeaderboardItemsYearly: TeamLeaderboardYearlyReducerState['teamLeaderboardYearly'];
-  readonly teamLeaderboardItemsAllTime: TeamLeaderboardAllTimeReducerState['teamLeaderboardAllTime'];
+  readonly teamLeaderboardItems: TeamLeaderboardReducerState['teamLeaderboard'];
 }
 
 const TeamLeaderboard: React.FC<TeamLeaderboardProps> = ({
-  teamLeaderboardItemsWeekly,
-  teamLeaderboardItemsMonthly,
-  teamLeaderboardItemsYearly,
-  teamLeaderboardItemsAllTime,
+  teamLeaderboardItems,
 }) => {
   const dispatch = useDispatch();
 
-  const [weeklyTab, setWeeklyTab] = useState<TabInfo>({
-    name: 'Weekly',
-    content: [],
-  });
-  const [monthlyTab, setMonthlyTab] = useState<TabInfo>({
-    name: 'Monthly',
-    content: [],
-  });
-  const [yearlyTab, setYearlyTab] = useState<TabInfo>({
-    name: 'Yearly',
-    content: [],
-  });
-  const [allTimeTab, setAllTimeTab] = useState<TabInfo>({
-    name: 'All Time',
-    content: [],
-  });
-
   useEffect(() => {
-    dispatch(getTeamsLeaderboard(LeaderboardPreviousDays.weekly));
-    dispatch(getTeamsLeaderboard(LeaderboardPreviousDays.monthly));
-    dispatch(getTeamsLeaderboard(LeaderboardPreviousDays.yearly));
-    dispatch(getTeamsLeaderboard(LeaderboardPreviousDays.allTime));
+    dispatch(getTeamsLeaderboard(LEADERBOARD_DAYS.weekly));
   }, []);
 
-  useEffect(() => {
-    teamLeaderboardItemsWeekly.kind === AsyncRequestKinds.Completed &&
-      setWeeklyTab({
-        ...weeklyTab,
-        content: leaderboardItemsToTabItems(teamLeaderboardItemsWeekly.result),
-      });
-  }, [teamLeaderboardItemsWeekly]);
+  const onChangeTab = (tab: string, previousDays: number) => {
+    dispatch(getTeamsLeaderboard(previousDays));
+    setCurrentTab(tab)
+  }
 
-  useEffect(() => {
-    teamLeaderboardItemsMonthly.kind === AsyncRequestKinds.Completed &&
-      setMonthlyTab({
-        ...monthlyTab,
-        content: leaderboardItemsToTabItems(teamLeaderboardItemsMonthly.result),
-      });
-  }, [teamLeaderboardItemsMonthly]);
-
-  useEffect(() => {
-    teamLeaderboardItemsYearly.kind === AsyncRequestKinds.Completed &&
-      setYearlyTab({
-        ...yearlyTab,
-        content: leaderboardItemsToTabItems(teamLeaderboardItemsYearly.result),
-      });
-  }, [teamLeaderboardItemsYearly]);
-
-  useEffect(() => {
-    teamLeaderboardItemsAllTime.kind === AsyncRequestKinds.Completed &&
-      setAllTimeTab({
-        ...weeklyTab,
-        content: leaderboardItemsToTabItems(teamLeaderboardItemsAllTime.result),
-      });
-  }, [teamLeaderboardItemsAllTime]);
+  const [currentTab, setCurrentTab] = React.useState<string>(
+    LEADERBOARD_TABS[0],
+  );
 
   return (
     <LeaderboardContentContainer>
@@ -104,13 +51,13 @@ const TeamLeaderboard: React.FC<TeamLeaderboardProps> = ({
       />
 
       <LeaderboardContainer>
-        {teamLeaderboardItemsWeekly.kind === AsyncRequestKinds.Completed &&
-          teamLeaderboardItemsMonthly.kind === AsyncRequestKinds.Completed &&
-          teamLeaderboardItemsYearly.kind === AsyncRequestKinds.Completed &&
-          teamLeaderboardItemsAllTime.kind === AsyncRequestKinds.Completed && (
+        {teamLeaderboardItems.kind === AsyncRequestKinds.Completed && (
             <LeaderboardTabs
-              tabs={[weeklyTab, monthlyTab, yearlyTab, allTimeTab]}
-              itemsPerPage={4}
+            items={teamLeaderboardItems.result}
+            tabNames={LEADERBOARD_TABS}
+            currentTab={currentTab}
+            itemsPerPage={4}
+            onChangeTimeTab={onChangeTab}
             />
           )}
       </LeaderboardContainer>
@@ -120,14 +67,8 @@ const TeamLeaderboard: React.FC<TeamLeaderboardProps> = ({
 
 const mapStateToProps = (state: C4CState): TeamLeaderboardProps => {
   return {
-    teamLeaderboardItemsWeekly:
-      state.teamLeaderboardWeeklyState.teamLeaderboardWeekly,
-    teamLeaderboardItemsMonthly:
-      state.teamLeaderboardMonthlyState.teamLeaderboardMonthly,
-    teamLeaderboardItemsYearly:
-      state.teamLeaderboardYearlyState.teamLeaderboardYearly,
-    teamLeaderboardItemsAllTime:
-      state.teamLeaderboardAllTimeState.teamLeaderboardAllTime,
+    teamLeaderboardItems:
+      state.teamLeaderboardState.teamLeaderboard,
   };
 };
 

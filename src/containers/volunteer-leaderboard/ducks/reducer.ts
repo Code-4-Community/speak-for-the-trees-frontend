@@ -1,5 +1,5 @@
 import { LeaderboardItem } from '../../../components/leaderboard/ducks/types';
-import { UserLeaderboardYearlyReducerState } from './types';
+import { UserLeaderboardReducerState } from './types';
 import {
   ASYNC_REQUEST_FAILED_ACTION,
   ASYNC_REQUEST_LOADED_ACTION,
@@ -7,31 +7,31 @@ import {
   AsyncRequestNotStarted,
   generateAsyncRequestReducer,
 } from '../../../utils/asyncRequest';
-import { leaderboardItemsYearly } from '../../../components/leaderboard/ducks/actions';
+import { leaderboardItems } from '../../../components/leaderboard/ducks/actions';
 import { C4CAction } from '../../../store';
 
-export const initialUserLeaderboardYearlyState: UserLeaderboardYearlyReducerState = {
-  userLeaderboardYearly: AsyncRequestNotStarted<LeaderboardItem[], any>(),
+export const initialUserLeaderboardState: UserLeaderboardReducerState = {
+  userLeaderboard: AsyncRequestNotStarted<LeaderboardItem[], any>(),
 };
 
-const userLeaderboardYearlyReducer = generateAsyncRequestReducer<
-  UserLeaderboardYearlyReducerState,
+const userLeaderboardReducer = generateAsyncRequestReducer<
+  UserLeaderboardReducerState,
   LeaderboardItem[],
   void
->(leaderboardItemsYearly.key);
+>(leaderboardItems.key);
 
 const reducers = (
-  state: UserLeaderboardYearlyReducerState = initialUserLeaderboardYearlyState,
+  state: UserLeaderboardReducerState = initialUserLeaderboardState,
   action: C4CAction,
-): UserLeaderboardYearlyReducerState => {
+): UserLeaderboardReducerState => {
   switch (action.type) {
     case ASYNC_REQUEST_LOADING_ACTION:
     case ASYNC_REQUEST_LOADED_ACTION:
     case ASYNC_REQUEST_FAILED_ACTION:
       return {
         ...state,
-        userLeaderboardYearly: userLeaderboardYearlyReducer(
-          state.userLeaderboardYearly,
+        userLeaderboard: userLeaderboardReducer(
+          state.userLeaderboard,
           action,
         ),
       };

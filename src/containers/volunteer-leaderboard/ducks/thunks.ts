@@ -1,23 +1,21 @@
 import {
   LeaderboardItem,
   LeaderboardThunkAction,
-  LeaderboardPreviousDays,
 } from '../../../components/leaderboard/ducks/types';
-import { getLeaderboardAction } from '../../../components/leaderboard/ducks/actions';
+import { leaderboardItems } from '../../../components/leaderboard/ducks/actions';
 
 export const getUsersLeaderboard = (
-  previousDays: LeaderboardPreviousDays,
+  previousDays: number,
 ): LeaderboardThunkAction<void> => {
-  const action = getLeaderboardAction(previousDays);
   return (dispatch, getState, { apiClient }) => {
-    dispatch(action.loading());
+    dispatch(leaderboardItems.loading());
     return apiClient
       .getUsersLeaderboard(previousDays)
       .then((response: LeaderboardItem[]) => {
-        dispatch(action.loaded(response));
+        dispatch(leaderboardItems.loaded(response));
       })
       .catch((error: any) => {
-        dispatch(action.failed(error));
+        dispatch(leaderboardItems.failed(error));
       });
   };
 };

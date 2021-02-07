@@ -43,7 +43,7 @@ const LeaderboardItemRank = styled(Paragraph)<ParagraphProps>`
 `;
 
 interface LeaderboardTabProps {
-  tabItems: TabItem[];
+  tabItems: LeaderboardItem[];
   currentPage: number;
   itemsPerPage: number;
   activePanelKey?: number;
@@ -79,6 +79,8 @@ const LeaderboardTab: React.FC<LeaderboardTabProps> = ({
     currentPage * itemsPerPage,
   );
 
+  const pageItems = leaderboardItemsToTabItems(itemsOnPage);
+
   return (
     <>
       <Row>
@@ -86,7 +88,7 @@ const LeaderboardTab: React.FC<LeaderboardTabProps> = ({
         <Col span={16}>
           {
             <LeaderboardSpace direction="vertical">
-              {itemsOnPage.map((item, index) => {
+              {pageItems.map((item, index) => {
                 return (
                   <LeaderboardCollapse bordered={true}>
                     <Panel

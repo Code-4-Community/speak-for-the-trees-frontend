@@ -6,16 +6,12 @@ import { C4CState } from '../../store';
 import PageHeader from '../../components/pageheader/PageHeader';
 import styled from 'styled-components';
 import {
-  UserLeaderboardWeeklyReducerState,
-  UserLeaderboardMonthlyReducerState,
-  UserLeaderboardYearlyReducerState,
-  UserLeaderboardAllTimeReducerState,
+  UserLeaderboardReducerState,
 } from './ducks/types';
 import { connect, useDispatch } from 'react-redux';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { getUsersLeaderboard } from './ducks/thunks';
-import { LeaderboardPreviousDays } from '../../components/leaderboard/ducks/types';
-import { leaderboardItemsToTabItems } from '../../components/leaderboard/leaderboard-tab/LeaderboardTab';
+import { LEADERBOARD_DAYS, LEADERBOARD_TABS } from '../../components/leaderboard/constants';
 
 const LeaderboardContentContainer = styled.div`
   padding: 100px 134px;
@@ -26,75 +22,27 @@ const LeaderboardContainer = styled.div`
 `;
 
 interface VolunteerLeaderboardProps {
-  readonly userLeaderboardItemsWeekly: UserLeaderboardWeeklyReducerState['userLeaderboardWeekly'];
-  readonly userLeaderboardItemsMonthly: UserLeaderboardMonthlyReducerState['userLeaderboardMonthly'];
-  readonly userLeaderboardItemsYearly: UserLeaderboardYearlyReducerState['userLeaderboardYearly'];
-  readonly userLeaderboardItemsAllTime: UserLeaderboardAllTimeReducerState['userLeaderboardAllTime'];
+  readonly userLeaderboardItems: UserLeaderboardReducerState['userLeaderboard'];
 }
 
 const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
-  userLeaderboardItemsWeekly,
-  userLeaderboardItemsMonthly,
-  userLeaderboardItemsYearly,
-  userLeaderboardItemsAllTime,
+  userLeaderboardItems,
 }) => {
   const dispatch = useDispatch();
 
-  const [weeklyTab, setWeeklyTab] = useState<TabInfo>({
-    name: 'Weekly',
-    content: [],
-  });
-  const [monthlyTab, setMonthlyTab] = useState<TabInfo>({
-    name: 'Monthly',
-    content: [],
-  });
-  const [yearlyTab, setYearlyTab] = useState<TabInfo>({
-    name: 'Yearly',
-    content: [],
-  });
-  const [allTimeTab, setAllTimeTab] = useState<TabInfo>({
-    name: 'All Time',
-    content: [],
-  });
-
   useEffect(() => {
-    dispatch(getUsersLeaderboard(LeaderboardPreviousDays.weekly));
-    dispatch(getUsersLeaderboard(LeaderboardPreviousDays.monthly));
-    dispatch(getUsersLeaderboard(LeaderboardPreviousDays.yearly));
-    dispatch(getUsersLeaderboard(LeaderboardPreviousDays.allTime));
-  }, [dispatch]);
+    // default
+    dispatch(getUsersLeaderboard(LEADERBOARD_DAYS.weekly));
+  }, []);
 
-  useEffect(() => {
-    userLeaderboardItemsWeekly.kind === AsyncRequestKinds.Completed &&
-      setWeeklyTab({
-        ...weeklyTab,
-        content: leaderboardItemsToTabItems(userLeaderboardItemsWeekly.result),
-      });
-  }, [userLeaderboardItemsWeekly, dispatch]);
+  const onChangeTab = (tab: string, previousDays: number) => {
+    dispatch(getUsersLeaderboard(previousDays));
+    setCurrentTab(tab);
+  }
 
-  useEffect(() => {
-    userLeaderboardItemsMonthly.kind === AsyncRequestKinds.Completed &&
-      setMonthlyTab({
-        ...monthlyTab,
-        content: leaderboardItemsToTabItems(userLeaderboardItemsMonthly.result),
-      });
-  }, [userLeaderboardItemsMonthly, dispatch]);
-
-  useEffect(() => {
-    userLeaderboardItemsYearly.kind === AsyncRequestKinds.Completed &&
-      setYearlyTab({
-        ...yearlyTab,
-        content: leaderboardItemsToTabItems(userLeaderboardItemsYearly.result),
-      });
-  }, [userLeaderboardItemsYearly, dispatch]);
-
-  useEffect(() => {
-    userLeaderboardItemsAllTime.kind === AsyncRequestKinds.Completed &&
-      setAllTimeTab({
-        ...allTimeTab,
-        content: leaderboardItemsToTabItems(userLeaderboardItemsAllTime.result),
-      });
-  }, [userLeaderboardItemsAllTime, dispatch]);
+  const [currentTab, setCurrentTab] = React.useState<string>(
+    LEADERBOARD_TABS[0],
+  );
 
   return (
     <LeaderboardContentContainer>
@@ -102,14 +50,14 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
         pageTitle="Volunteer Leaderboard"
         pageSubtitle="Celebrate all the contributions of our Speak for the Trees volunteers!"
       />
-      {userLeaderboardItemsWeekly.kind === AsyncRequestKinds.Completed &&
-        userLeaderboardItemsMonthly.kind === AsyncRequestKinds.Completed &&
-        userLeaderboardItemsYearly.kind === AsyncRequestKinds.Completed &&
-        userLeaderboardItemsAllTime.kind === AsyncRequestKinds.Completed && (
+      {userLeaderboardItems.kind === AsyncRequestKinds.Completed && (
           <LeaderboardContainer>
             <LeaderboardTabs
-              tabs={[weeklyTab, monthlyTab, yearlyTab, allTimeTab]}
+              items={userLeaderboardItems.result}
+              tabNames={LEADERBOARD_TABS}
+              currentTab={currentTab}
               itemsPerPage={4}
+              onChangeTimeTab={onChangeTab}
             />
           </LeaderboardContainer>
         )}
@@ -119,14 +67,8 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
 
 const mapStateToProps = (state: C4CState): VolunteerLeaderboardProps => {
   return {
-    userLeaderboardItemsWeekly:
-      state.userLeaderboardWeeklyState.userLeaderboardWeekly,
-    userLeaderboardItemsMonthly:
-      state.userLeaderboardMonthlyState.userLeaderboardMonthly,
-    userLeaderboardItemsYearly:
-      state.userLeaderboardYearlyState.userLeaderboardYearly,
-    userLeaderboardItemsAllTime:
-      state.userLeaderboardAllTimeState.userLeaderboardAllTime,
+    userLeaderboardItems:
+      state.userLeaderboardState.userLeaderboard,
   };
 };
 

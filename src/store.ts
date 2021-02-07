@@ -17,53 +17,23 @@ import thunk from 'redux-thunk';
 import tokenService from './auth/token';
 import apiClient, { ApiExtraArgs } from './api/apiClient';
 import {
-  UserLeaderboardWeeklyReducerState,
-  UserLeaderboardMonthlyReducerState,
-  UserLeaderboardYearlyReducerState,
-  UserLeaderboardAllTimeReducerState,
+  UserLeaderboardReducerState,
 } from './containers/volunteer-leaderboard/ducks/types';
-import { LeaderboardItemActions } from './components/leaderboard/ducks/actions';
-import userLeaderboardWeeklyReducer, {
-  initialUserLeaderboardWeeklyState,
-} from './containers/volunteer-leaderboard/ducks/weeklyReducer';
-import userLeaderboardMonthlyReducer, {
-  initialUserLeaderboardMonthlyState,
-} from './containers/volunteer-leaderboard/ducks/monthlyReducer';
-import userLeaderboardYearlyReducer, {
-  initialUserLeaderboardYearlyState,
-} from './containers/volunteer-leaderboard/ducks/yearlyReducer';
-import userLeaderboardAllTimeReducer, {
-  initialUserLeaderboardAllTimeState,
-} from './containers/volunteer-leaderboard/ducks/allTimeReducer';
+import { LeaderboardItemAction } from './components/leaderboard/ducks/actions';
+import userLeaderboardReducer, {
+  initialUserLeaderboardState,
+} from './containers/volunteer-leaderboard/ducks/reducer';
 import {
-  TeamLeaderboardWeeklyReducerState,
-  TeamLeaderboardMonthlyReducerState,
-  TeamLeaderboardYearlyReducerState,
-  TeamLeaderboardAllTimeReducerState,
+  TeamLeaderboardReducerState,
 } from './containers/team-leaderboard/ducks/types';
-import teamLeaderboardWeeklyReducer, {
-  initialTeamLeaderboardWeeklyState,
-} from './containers/team-leaderboard/ducks/weeklyReducer';
-import teamLeaderboardMonthlyReducer, {
-  initialTeamLeaderboardMonthlyState,
-} from './containers/team-leaderboard/ducks/monthlyReducer';
-import teamLeaderboardYearlyReducer, {
-  initialTeamLeaderboardYearlyState,
-} from './containers/team-leaderboard/ducks/yearlyReducer';
-import teamLeaderboardAllTimeReducer, {
-  initialTeamLeaderboardAllTimeState,
-} from './containers/team-leaderboard/ducks/allTimeReducer';
+import teamLeaderboardReducer, {
+  initialTeamLeaderboardState,
+} from './containers/team-leaderboard/ducks/reducer';
 
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
-  userLeaderboardWeeklyState: UserLeaderboardWeeklyReducerState;
-  userLeaderboardMonthlyState: UserLeaderboardMonthlyReducerState;
-  userLeaderboardYearlyState: UserLeaderboardYearlyReducerState;
-  userLeaderboardAllTimeState: UserLeaderboardAllTimeReducerState;
-  teamLeaderboardWeeklyState: TeamLeaderboardWeeklyReducerState;
-  teamLeaderboardMonthlyState: TeamLeaderboardMonthlyReducerState;
-  teamLeaderboardYearlyState: TeamLeaderboardYearlyReducerState;
-  teamLeaderboardAllTimeState: TeamLeaderboardAllTimeReducerState;
+  userLeaderboardState: UserLeaderboardReducerState;
+  teamLeaderboardState: TeamLeaderboardReducerState;
 }
 
 export interface Action<T, P> {
@@ -71,32 +41,20 @@ export interface Action<T, P> {
   readonly payload: P;
 }
 
-export type C4CAction = UserAuthenticationActions & LeaderboardItemActions;
+export type C4CAction = UserAuthenticationActions & LeaderboardItemAction;
 
 export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
 
 const reducers = combineReducers<C4CState, C4CAction>({
   authenticationState: userReducer,
-  userLeaderboardWeeklyState: userLeaderboardWeeklyReducer,
-  userLeaderboardMonthlyState: userLeaderboardMonthlyReducer,
-  userLeaderboardYearlyState: userLeaderboardYearlyReducer,
-  userLeaderboardAllTimeState: userLeaderboardAllTimeReducer,
-  teamLeaderboardWeeklyState: teamLeaderboardWeeklyReducer,
-  teamLeaderboardMonthlyState: teamLeaderboardMonthlyReducer,
-  teamLeaderboardYearlyState: teamLeaderboardYearlyReducer,
-  teamLeaderboardAllTimeState: teamLeaderboardAllTimeReducer,
+  userLeaderboardState: userLeaderboardReducer,
+  teamLeaderboardState: teamLeaderboardReducer,
 });
 
 export const initialStoreState: C4CState = {
   authenticationState: initialUserState,
-  userLeaderboardWeeklyState: initialUserLeaderboardWeeklyState,
-  userLeaderboardMonthlyState: initialUserLeaderboardMonthlyState,
-  userLeaderboardYearlyState: initialUserLeaderboardYearlyState,
-  userLeaderboardAllTimeState: initialUserLeaderboardAllTimeState,
-  teamLeaderboardWeeklyState: initialTeamLeaderboardWeeklyState,
-  teamLeaderboardMonthlyState: initialTeamLeaderboardMonthlyState,
-  teamLeaderboardYearlyState: initialTeamLeaderboardYearlyState,
-  teamLeaderboardAllTimeState: initialTeamLeaderboardAllTimeState,
+  userLeaderboardState: initialUserLeaderboardState,
+  teamLeaderboardState: initialTeamLeaderboardState,
 };
 
 const thunkExtraArgs: ThunkExtraArgs = {

@@ -1,5 +1,5 @@
 import { LeaderboardItem } from '../../../components/leaderboard/ducks/types';
-import { UserLeaderboardWeeklyReducerState } from './types';
+import { TeamLeaderboardReducerState } from './types';
 import {
   ASYNC_REQUEST_FAILED_ACTION,
   ASYNC_REQUEST_LOADED_ACTION,
@@ -7,31 +7,31 @@ import {
   AsyncRequestNotStarted,
   generateAsyncRequestReducer,
 } from '../../../utils/asyncRequest';
-import { leaderboardItemsWeekly } from '../../../components/leaderboard/ducks/actions';
+import { leaderboardItems } from '../../../components/leaderboard/ducks/actions';
 import { C4CAction } from '../../../store';
 
-export const initialUserLeaderboardWeeklyState: UserLeaderboardWeeklyReducerState = {
-  userLeaderboardWeekly: AsyncRequestNotStarted<LeaderboardItem[], any>(),
+export const initialTeamLeaderboardState: TeamLeaderboardReducerState = {
+  teamLeaderboard: AsyncRequestNotStarted<LeaderboardItem[], any>(),
 };
 
-const userLeaderboardWeeklyReducer = generateAsyncRequestReducer<
-  UserLeaderboardWeeklyReducerState,
+const teamLeaderboardReducer = generateAsyncRequestReducer<
+  TeamLeaderboardReducerState,
   LeaderboardItem[],
   void
->(leaderboardItemsWeekly.key);
+>(leaderboardItems.key);
 
 const reducers = (
-  state: UserLeaderboardWeeklyReducerState = initialUserLeaderboardWeeklyState,
+  state: TeamLeaderboardReducerState = initialTeamLeaderboardState,
   action: C4CAction,
-): UserLeaderboardWeeklyReducerState => {
+): TeamLeaderboardReducerState => {
   switch (action.type) {
     case ASYNC_REQUEST_LOADING_ACTION:
     case ASYNC_REQUEST_LOADED_ACTION:
     case ASYNC_REQUEST_FAILED_ACTION:
       return {
         ...state,
-        userLeaderboardWeekly: userLeaderboardWeeklyReducer(
-          state.userLeaderboardWeekly,
+        teamLeaderboard: teamLeaderboardReducer(
+          state.teamLeaderboard,
           action,
         ),
       };
