@@ -1,10 +1,22 @@
-[![Build Status](https://travis-ci.org/Code-4-Community/speak-for-the-trees-frontend.svg?branch=master)](https://travis-ci.com/Code-4-Community/speak-for-the-trees-frontend.svg?branch=master)
+<img src="https://c4cneu-public.s3.us-east-2.amazonaws.com/Site/SFTT_Logo.png" width="450px"/>
+
+# Code4Community Frontend Scaffold
+
+This is the React.js frontend template for all Code4Community projects. 
+
+![Build Status](https://github.com/Code-4-Community/speak-for-the-trees-frontend/workflows/build%2C+lint%2C+test/badge.svg?branch=master)
 
 [![Coverage Status](https://coveralls.io/repos/github/Code-4-Community/speak-for-the-trees-frontend/badge.svg?branch=master)](https://coveralls.io/github/Code-4-Community/speak-for-the-trees-frontend?branch=master)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Installation :wrench:
 
-## Available Scripts
+Use the package manager [npm](https://www.npmjs.com/) to install all the dependencies for our frontend.
+
+```bash
+npm install
+```
+
+## Available Scripts :robot:
 
 In the project directory, you can run:
 
@@ -16,33 +28,36 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `npm test`
+### `npm run check`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Runs all 4 lint, type check, and test commands below, **REQUIRED BEFORE MERGE**.
 
-### `npm run build`
+### `npm run lint-fix`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To lint and fix your files (required before merge).
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### `npm run prettier-fix`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+To lint and fix your files (required before merge).
 
-### `npm run eject`
+### `npm run type-check`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Type checks your code (required before merge).
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `npm run test`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Runs all unit tests (required before merge). 
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Code Walkthrough :computer:
+Inside the source folder, you'll find components, containers (pages), and utilities.
 
-## Learn More
+Each page has its own container, and each container is comprised of components.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`App.tsx` is responsible for rendering each container as its own route.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+We use styled-components as our CSS-in-JS solution.
+
+## Contributing :handshake:
+Pull requests from any C4C member are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.

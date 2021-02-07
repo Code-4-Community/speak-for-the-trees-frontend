@@ -17,11 +17,11 @@ const InfoContainer = styled.div`
   background: url(${logo}) no-repeat bottom right #d4edaa;
   box-shadow: 1.58105px 3.16211px 6.32421px rgba(0, 0, 0, 0.09);
   border-radius: 6.32421px;
-  min-width: 500px;
+  min-width: 300px;
 `;
 
 const TextContainer = styled.div`
-  width: 380px;
+  max-width: 380px;
 `;
 
 const GreetingContainer: React.FC<GreetingContainerProps> = ({
