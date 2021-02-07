@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import { WHITE, BLACK } from '../colors';
 import { Modal } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 export enum ReservationModalType {
   OPEN = 'OPEN',
@@ -22,7 +21,7 @@ const StyledModal = styled(Modal)`
     height: 40px;
     background: ${WHITE};
     color: ${BLACK};
-    font-size: 15px;
+    font-size: 5px;
     font-weight: 400;
 `;
 
@@ -51,14 +50,26 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
       setVisibility(false);
     }
 
-    const getModalContent = (): string => {
+    const getModalContent = () => {
       switch (status) {
         case ReservationModalType.OPEN : 
-          return `Are you sure? You want to reserve block ${blockID}`
+          return (
+            <text>
+              <b>{`Are you sure?`}</b><br/ > {`You want to reserve block ${blockID}`}
+            </text>
+          );
         case ReservationModalType.TAKEN : 
-          return `Are you sure? You want to release block ${blockID}`
+          return (
+            <text>
+              <b>{`Are you sure?`}</b><br/ > {`You want to release block ${blockID}`}
+            </text>
+          );
         case ReservationModalType.RESERVED : 
-          return `Sorry. Block ${blockID} is not available to reserve/release`
+          return (
+              <text>
+                <b>{`Sorry!`}</b><br/ > {`Block ${blockID} is not available to reserve/release`}
+              </text>
+          );
       }
     };
 
@@ -79,4 +90,4 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
 };
 
 
-export default ReservationModal;
+export default ReservationModal
