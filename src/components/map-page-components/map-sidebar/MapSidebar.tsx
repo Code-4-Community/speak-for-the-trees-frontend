@@ -11,7 +11,9 @@ type MapSidebarProps = {
 
 export const SideBarContentContainer = styled.div`
   display: block;
+  height: 100%;
   padding: 5vh 1vw;
+  background: white;
 `;
 
 const MapSidebar: React.FC<MapSidebarProps> = ({
