@@ -1,6 +1,4 @@
-const LEADERBOARD_TABS = [
-  'Weekly', 'Monthly', 'Yearly', 'All Time'
-];
+const LEADERBOARD_TABS = ['Weekly', 'Monthly', 'Yearly', 'All Time'];
 
 enum LEADERBOARD_DAYS {
   weekly = 7,
@@ -10,7 +8,7 @@ enum LEADERBOARD_DAYS {
 }
 
 const tabToDays = (leaderboardTab: string): LEADERBOARD_DAYS => {
-  switch(leaderboardTab) {
+  switch (leaderboardTab) {
     case 'Weekly':
       return LEADERBOARD_DAYS.weekly;
     case 'Monthly':
@@ -18,12 +16,8 @@ const tabToDays = (leaderboardTab: string): LEADERBOARD_DAYS => {
     case 'Yearly':
       return LEADERBOARD_DAYS.yearly;
     default:
-      return LEADERBOARD_DAYS.allTime;    
+      return LEADERBOARD_DAYS.allTime;
   }
-}
+};
 
-export {
-  LEADERBOARD_TABS,
-  LEADERBOARD_DAYS,
-  tabToDays
-}
+export { LEADERBOARD_TABS, LEADERBOARD_DAYS, tabToDays };

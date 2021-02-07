@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Typography, Tabs, Pagination } from 'antd';
+import { Tabs, Pagination } from 'antd';
 import LeaderboardTab, { TabItem } from '../leaderboard-tab/LeaderboardTab';
 import { LeaderboardItem } from '../ducks/types';
 import { tabToDays } from '../constants';
-import { LEADERBOARD_DAYS, LEADERBOARD_TABS } from '../constants';
 
 export interface TabInfo {
   name: string;
@@ -12,7 +11,7 @@ export interface TabInfo {
 
 interface LeaderboardTabsProps {
   items: LeaderboardItem[];
-  tabNames: string[]
+  tabNames: string[];
   currentTab: string;
   itemsPerPage: number;
   onChangeTimeTab: (tab: string, days: number) => void;
@@ -23,15 +22,15 @@ const LeaderboardTabs: React.FC<LeaderboardTabsProps> = ({
   tabNames,
   currentTab,
   itemsPerPage,
-  onChangeTimeTab
+  onChangeTimeTab,
 }) => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
 
   const onChangePage = (page: number): void => setCurrentPage(page);
-  const onChangeTab = (tab: string): void => { 
+  const onChangeTab = (tab: string): void => {
     const days = tabToDays(tab);
     onChangeTimeTab(tab, days);
-  }
+  };
 
   return (
     <Tabs
@@ -49,10 +48,7 @@ const LeaderboardTabs: React.FC<LeaderboardTabsProps> = ({
     >
       {tabNames.map((name) => {
         return (
-          <Tabs.TabPane 
-            tab={name} 
-            key={name}
-          >
+          <Tabs.TabPane tab={name} key={name}>
             <LeaderboardTab
               tabItems={items}
               currentPage={currentPage}

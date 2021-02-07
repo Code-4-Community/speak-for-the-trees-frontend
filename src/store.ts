@@ -16,16 +16,12 @@ import { ThunkDispatch } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import tokenService from './auth/token';
 import apiClient, { ApiExtraArgs } from './api/apiClient';
-import {
-  UserLeaderboardReducerState,
-} from './containers/volunteer-leaderboard/ducks/types';
+import { UserLeaderboardReducerState } from './containers/volunteer-leaderboard/ducks/types';
 import { LeaderboardItemAction } from './components/leaderboard/ducks/actions';
 import userLeaderboardReducer, {
   initialUserLeaderboardState,
 } from './containers/volunteer-leaderboard/ducks/reducer';
-import {
-  TeamLeaderboardReducerState,
-} from './containers/team-leaderboard/ducks/types';
+import { TeamLeaderboardReducerState } from './containers/team-leaderboard/ducks/types';
 import teamLeaderboardReducer, {
   initialTeamLeaderboardState,
 } from './containers/team-leaderboard/ducks/reducer';

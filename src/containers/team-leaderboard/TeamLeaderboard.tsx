@@ -5,13 +5,14 @@ import LeaderboardTabs, {
 import { C4CState } from '../../store';
 import PageHeader from '../../components/pageheader/PageHeader';
 import styled from 'styled-components';
-import {
-  TeamLeaderboardReducerState,
-} from './ducks/types';
+import { TeamLeaderboardReducerState } from './ducks/types';
 import { connect, useDispatch } from 'react-redux';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { getTeamsLeaderboard } from './ducks/thunks';
-import { LEADERBOARD_DAYS, LEADERBOARD_TABS } from '../../components/leaderboard/constants';
+import {
+  LEADERBOARD_DAYS,
+  LEADERBOARD_TABS,
+} from '../../components/leaderboard/constants';
 
 const LeaderboardContentContainer = styled.div`
   padding: 100px 134px;
@@ -36,12 +37,10 @@ const TeamLeaderboard: React.FC<TeamLeaderboardProps> = ({
 
   const onChangeTab = (tab: string, previousDays: number) => {
     dispatch(getTeamsLeaderboard(previousDays));
-    setCurrentTab(tab)
-  }
+    setCurrentTab(tab);
+  };
 
-  const [currentTab, setCurrentTab] = React.useState<string>(
-    LEADERBOARD_TABS[0],
-  );
+  const [currentTab, setCurrentTab] = useState<string>(LEADERBOARD_TABS[0]);
 
   return (
     <LeaderboardContentContainer>
@@ -52,14 +51,14 @@ const TeamLeaderboard: React.FC<TeamLeaderboardProps> = ({
 
       <LeaderboardContainer>
         {teamLeaderboardItems.kind === AsyncRequestKinds.Completed && (
-            <LeaderboardTabs
+          <LeaderboardTabs
             items={teamLeaderboardItems.result}
             tabNames={LEADERBOARD_TABS}
             currentTab={currentTab}
             itemsPerPage={4}
             onChangeTimeTab={onChangeTab}
-            />
-          )}
+          />
+        )}
       </LeaderboardContainer>
     </LeaderboardContentContainer>
   );
@@ -67,8 +66,7 @@ const TeamLeaderboard: React.FC<TeamLeaderboardProps> = ({
 
 const mapStateToProps = (state: C4CState): TeamLeaderboardProps => {
   return {
-    teamLeaderboardItems:
-      state.teamLeaderboardState.teamLeaderboard,
+    teamLeaderboardItems: state.teamLeaderboardState.teamLeaderboard,
   };
 };
 

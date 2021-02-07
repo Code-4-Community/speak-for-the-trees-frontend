@@ -30,10 +30,7 @@ const reducers = (
     case ASYNC_REQUEST_FAILED_ACTION:
       return {
         ...state,
-        userLeaderboard: userLeaderboardReducer(
-          state.userLeaderboard,
-          action,
-        ),
+        userLeaderboard: userLeaderboardReducer(state.userLeaderboard, action),
       };
     default:
       return state;

@@ -5,13 +5,14 @@ import LeaderboardTabs, {
 import { C4CState } from '../../store';
 import PageHeader from '../../components/pageheader/PageHeader';
 import styled from 'styled-components';
-import {
-  UserLeaderboardReducerState,
-} from './ducks/types';
+import { UserLeaderboardReducerState } from './ducks/types';
 import { connect, useDispatch } from 'react-redux';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { getUsersLeaderboard } from './ducks/thunks';
-import { LEADERBOARD_DAYS, LEADERBOARD_TABS } from '../../components/leaderboard/constants';
+import {
+  LEADERBOARD_DAYS,
+  LEADERBOARD_TABS,
+} from '../../components/leaderboard/constants';
 
 const LeaderboardContentContainer = styled.div`
   padding: 100px 134px;
@@ -38,11 +39,9 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
   const onChangeTab = (tab: string, previousDays: number) => {
     dispatch(getUsersLeaderboard(previousDays));
     setCurrentTab(tab);
-  }
+  };
 
-  const [currentTab, setCurrentTab] = React.useState<string>(
-    LEADERBOARD_TABS[0],
-  );
+  const [currentTab, setCurrentTab] = useState<string>(LEADERBOARD_TABS[0]);
 
   return (
     <LeaderboardContentContainer>
@@ -51,24 +50,23 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
         pageSubtitle="Celebrate all the contributions of our Speak for the Trees volunteers!"
       />
       {userLeaderboardItems.kind === AsyncRequestKinds.Completed && (
-          <LeaderboardContainer>
-            <LeaderboardTabs
-              items={userLeaderboardItems.result}
-              tabNames={LEADERBOARD_TABS}
-              currentTab={currentTab}
-              itemsPerPage={4}
-              onChangeTimeTab={onChangeTab}
-            />
-          </LeaderboardContainer>
-        )}
+        <LeaderboardContainer>
+          <LeaderboardTabs
+            items={userLeaderboardItems.result}
+            tabNames={LEADERBOARD_TABS}
+            currentTab={currentTab}
+            itemsPerPage={4}
+            onChangeTimeTab={onChangeTab}
+          />
+        </LeaderboardContainer>
+      )}
     </LeaderboardContentContainer>
   );
 };
 
 const mapStateToProps = (state: C4CState): VolunteerLeaderboardProps => {
   return {
-    userLeaderboardItems:
-      state.userLeaderboardState.userLeaderboard,
+    userLeaderboardItems: state.userLeaderboardState.userLeaderboard,
   };
 };
 
