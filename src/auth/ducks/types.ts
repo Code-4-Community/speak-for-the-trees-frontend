@@ -6,6 +6,7 @@ import { UserAuthenticationActions } from './actions';
 import { C4CState } from '../../store';
 
 export interface UserAuthenticationReducerState {
+  // todo: specify error type
   readonly tokens: AsyncRequest<TokenPayload, any>;
 }
 
@@ -28,6 +29,7 @@ export interface LoginRequest {
 
 export interface SignupRequest {
   readonly email: string;
+  readonly username: string;
   readonly password: string;
   readonly firstName: string;
   readonly lastName: string;

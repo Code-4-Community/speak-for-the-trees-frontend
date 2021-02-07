@@ -54,6 +54,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
     dispatch(
       signup({
         email: values.email,
+        username: values.username,
         password: values.password,
         firstName: values.firstName,
         lastName: values.lastName,
