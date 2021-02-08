@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, Tabs, Pagination } from 'antd';
+import { Tabs, Pagination } from 'antd';
 import LeaderboardTab, {
   LeaderboardItem,
 } from '../leaderboard-tab/LeaderboardTab';

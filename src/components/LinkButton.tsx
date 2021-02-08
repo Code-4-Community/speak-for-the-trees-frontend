@@ -1,24 +1,17 @@
 import React from 'react';
-import { withRouter } from 'react-router';
 import { Button } from 'antd';
+import { useHistory } from 'react-router-dom';
+// onClick is overwritten
 
-export const LinkButton = withRouter((props: any) => {
-  const {
-    history,
-    location,
-    match,
-    staticContext,
-    to,
-    onClick,
-    ...rest
-  } = props;
+export const LinkButton: React.FC<any> = ({ to, ...rest }) => {
+  const history = useHistory();
+
   return (
     <Button
-      type="link"
       {...rest}
       onClick={() => {
         history.push(to);
       }}
     />
   );
-});
+};
