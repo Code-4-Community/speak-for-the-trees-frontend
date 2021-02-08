@@ -31,7 +31,7 @@ export interface TokenService {
   readonly getRefreshToken: () => string | null;
   readonly setRefreshToken: (token: string) => void;
   readonly removeRefreshToken: () => void;
-  readonly getPrivilegeLevel: () => number;
+  readonly getPrivilegeLevel: () => number | string;
   readonly getUserID: () => number;
   readonly isRefreshTokenValid: () => boolean;
 }
