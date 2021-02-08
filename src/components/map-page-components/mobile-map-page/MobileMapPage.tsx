@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Layout } from 'antd';
 import MapView from '../map-view/MapView';
-import MobileFooter from '../../../mobile-footer/MobileFooter';
+import MapLayout from '../mapLayout';
+import MobileFooter from '../../mobile-footer/MobileFooter';
 
 const { Content, Footer } = Layout;
 
@@ -15,12 +16,12 @@ const MobileMapPage: React.FC = ({ children }) => {
   return (
     <>
       <MainContent>
-        <Layout style={{ height: 'calc(100vh - 83px)' }}>
+        <MapLayout>
           <Content>
             <MapView />
           </Content>
           <Footer>{children}</Footer>
-        </Layout>
+        </MapLayout>
       </MainContent>
       <MobileFooter />
     </>
