@@ -278,7 +278,7 @@ const MapView: React.FC = () => {
   return (
     <>
       <div id="pac-container">
-        {!(windowType === WindowTypes.Mobile) && (
+        {windowType !== WindowTypes.Mobile && (
           <StyledSearch id="pac-input" placeholder="Address" />
         )}
       </div>

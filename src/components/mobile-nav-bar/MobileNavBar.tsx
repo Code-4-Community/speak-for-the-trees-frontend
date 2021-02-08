@@ -45,64 +45,59 @@ const GreyItem = styled(Menu.Item)`
   color: ${DARK_GREY};
 `;
 
-const MobileNavBar: React.FC<MobileNavBarProps> = ({isLoggedIn}) => {
+const MobileNavBar: React.FC<MobileNavBarProps> = ({ isLoggedIn }) => {
   const history = useHistory();
-
-  const BackIcon = () => {
-    const Logo: string = require('../../nav-bar-icon.png');
-    return (
-      <img
-        className="back-icon"
-        src={Logo}
-        alt="icon"
-        style={{
-          height: '30px',
-        }}
-      />
-    );
-  };
-
-  const mobileMenu = (
-    <RightMenu>
-      <GreyItem
-        onClick={() => {
-          history.push('/settings');
-        }}
-      >
-        Account Settings
-      </GreyItem>
-      <Menu.Item>
-        <LogoutButton
-          type="primary"
-          size="large"
-          onClick={() => {
-            history.push('/');
-          }}
-        >
-          Log Out
-        </LogoutButton>
-      </Menu.Item>
-    </RightMenu>
-  );
-
-  const MobileLoggedInExtra = () => {
-    return (
-      <FlexDiv>
-        <Dropdown overlay={mobileMenu} placement="bottomLeft">
-          <MobileDropdownMenu />
-        </Dropdown>
-      </FlexDiv>
-    );
-  };
+  const Logo: string = require('../../nav-bar-icon.png');
 
   return (
     <MobileNavHeader
       className="page-header"
       title=""
       subTitle="Speak for the Trees"
-      backIcon={<BackIcon />}
+      backIcon={
+        <img
+          className="back-icon"
+          src={Logo}
+          alt="icon"
+          style={{
+            height: '30px',
+          }}
+        />
+      }
       onBack={() => history.push('/')}
-      extra={isLoggedIn && <MobileLoggedInExtra />}
+      extra={
+        isLoggedIn && (
+          <FlexDiv>
+            <Dropdown
+              overlay={
+                <RightMenu>
+                  <GreyItem
+                    onClick={() => {
+                      history.push('/settings');
+                    }}
+                  >
+                    Account Settings
+                  </GreyItem>
+                  <Menu.Item>
+                    <LogoutButton
+                      type="primary"
+                      size="large"
+                      onClick={() => {
+                        history.push('/');
+                      }}
+                    >
+                      Log Out
+                    </LogoutButton>
+                  </Menu.Item>
+                </RightMenu>
+              }
+              placement="bottomLeft"
+            >
+              <MobileDropdownMenu />
+            </Dropdown>
+          </FlexDiv>
+        )
+      }
     />
   );
 };
