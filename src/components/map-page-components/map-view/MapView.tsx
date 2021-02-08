@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from 'antd';
+import { Input, message } from 'antd';
 import { Loader } from '@googlemaps/js-api-loader';
 import styled from 'styled-components';
 
@@ -26,12 +26,31 @@ const MapDiv = styled.div`
 
 const MapView: React.FC = () => {
   const loader = new Loader({
-    apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY!,
+    apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY || '',
     libraries: ['places'],
     mapIds: ['76c08a2450c223d9'],
   });
 
+  // eslint-disable-next-line
   const mapId = '76c08a2450c223d9';
+  const markersArray: google.maps.Marker[] = [];
+
+  interface KeyValuePair {
+    key: string;
+    value: string;
+  }
+  // This KeyValuePair array that stores names to be shortHand-ed.
+  // To add a new area, wrap a key value pair with {}.
+  const shortHandNames: KeyValuePair[] = [
+    { key: 'North End', value: 'NE' },
+    { key: 'West End', value: 'WE' },
+    { key: 'Leather District', value: 'LD' },
+    { key: 'Beacon Hill', value: 'BH' },
+    { key: 'Back Bay', value: 'BB' },
+    { key: 'Downtown', value: 'DT' },
+    { key: 'Chinatown', value: 'CT' },
+    { key: 'Bay Village', value: 'BV' },
+  ];
 
   loader.load().then(() => {
     map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
@@ -128,9 +147,47 @@ const MapView: React.FC = () => {
     // Creates a new layer
     const neighborhoodsLayer = new google.maps.Data({ map });
 
+    // Function: Returns name in shortHand
+    function shortHand(name: string): string {
+      for (const shName of shortHandNames) {
+        if (shName.key === name) {
+          return shName.value;
+        }
+      }
+      return name;
+    }
     // Loads the objects into the layer
     neighborhoodsLayer.loadGeoJson(
       'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/neighborhoods_edited.geojson',
+      {},
+      () => {
+        // For each feature in neighbourhoodsLayer, add a marker
+        // We need to do it here as the GeoJson needs to load first
+        neighborhoodsLayer.forEach((feature) => {
+          // If you want, check here for some constraints.
+          const marker = new google.maps.Marker({
+            map,
+            draggable: false,
+            label: {
+              color: 'white',
+              fontWeight: 'bold',
+              text: shortHand(feature.getProperty('Name')),
+            },
+            // Removed the icon here, only text on map.
+            icon: {
+              labelOrigin: new google.maps.Point(11, 50),
+              url: '',
+              size: new google.maps.Size(22, 40),
+            },
+            position: {
+              lat: feature.getProperty('Latitude'),
+              lng: feature.getProperty('Longitude'),
+            },
+          });
+          markersArray.push(marker);
+          marker.setMap(map);
+        });
+      },
     );
 
     // Sets the style of the layer to green shades based on property values with white outline
@@ -144,6 +201,12 @@ const MapView: React.FC = () => {
           visible: v,
         };
       });
+    }
+
+    function toggleMarkers(v: boolean) {
+      for (const marker of markersArray) {
+        marker.setVisible(v);
+      }
     }
 
     // Initially true while the neighborhoods are shown by themselves
@@ -180,8 +243,11 @@ const MapView: React.FC = () => {
             },
           });
         },
-        (error) => {
-          // TODO: Handle the error by showing a small pop up informing them of the consequences
+        () => {
+          message.info(
+            'Enable access to your location to display where you are on the map.',
+            5,
+          );
         },
       );
     }
@@ -195,8 +261,8 @@ const MapView: React.FC = () => {
         if (zoomLevel >= 13) {
           zoomedIn = true;
         }
-
         setNeighborhoodsStyle(!zoomedIn);
+        toggleMarkers(!zoomedIn);
         setBlocksStyle(zoomedIn);
         setPrivateStreetsStyle(zoomedIn);
       });

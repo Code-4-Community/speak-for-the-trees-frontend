@@ -42,7 +42,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
         <Row>
           <Col span={formHalfItemSpan}>
             <Form.Item
-              name="fname"
+              name="firstName"
               rules={[
                 {
                   required: true,
@@ -55,7 +55,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
           </Col>
           <Col span={formHalfItemSpan} style={{ marginLeft: ColLeftMargin }}>
             <Form.Item
-              name="lname"
+              name="lastName"
               rules={[
                 {
                   required: true,
@@ -68,24 +68,49 @@ const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
           </Col>
         </Row>
         <Form.Item
+          name="username"
+          rules={[{ required: true, message: 'Please enter a username!' }]}
+        >
+          <Input placeholder="Username" />
+        </Form.Item>
+        <Form.Item
           name="email"
-          rules={[{ required: true, message: 'Please input your email!' }]}
+          rules={[
+            { required: true, message: 'Please input your email!' },
+            {
+              pattern: /^\S+@\S+\.\S{2,}$/,
+              message: 'Not a valid email address',
+            },
+          ]}
         >
           <Input placeholder="Email" />
         </Form.Item>
         <Form.Item
           name="password"
-          rules={[{ required: true, message: 'Please enter a password!' }]}
+          rules={[
+            { required: true, message: 'Please enter a password!' },
+            { min: 8, message: 'Password must be at least 8 characters long' },
+          ]}
         >
           <Input.Password placeholder="Password" />
         </Form.Item>
         <Form.Item
           name="cpassword"
+          dependencies={['password']}
           rules={[
             {
               required: true,
               message: 'Please confirm your password!',
             },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                const password = getFieldValue('password');
+                if (value && password !== value) {
+                  return Promise.reject('Passwords do not match');
+                }
+                return Promise.resolve();
+              },
+            }),
           ]}
         >
           <Input.Password placeholder="Confirm Password" />

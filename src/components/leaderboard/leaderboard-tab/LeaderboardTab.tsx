@@ -3,7 +3,7 @@ import { Collapse, Space, Typography, Col, Row } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { CollapseProps } from 'antd/lib/collapse/Collapse';
 import { SpaceProps } from 'antd/lib/space/index';
-import { BLACK, LIGHT_GREEN, WHITE } from '../../../colors';
+import { BLACK, LIGHT_GREEN } from '../../../colors';
 import { LeaderboardItem } from '../ducks/types';
 import styled from 'styled-components';
 
@@ -90,7 +90,7 @@ const LeaderboardTab: React.FC<LeaderboardTabProps> = ({
             <LeaderboardSpace direction="vertical">
               {pageItems.map((item, index) => {
                 return (
-                  <LeaderboardCollapse bordered={true}>
+                  <LeaderboardCollapse bordered={true} key={item.name}>
                     <Panel
                       key={item.name}
                       header={
