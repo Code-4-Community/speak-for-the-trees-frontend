@@ -1,22 +1,30 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { PageHeader, Typography, Button, Avatar, Menu, Dropdown } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { connect, useSelector } from 'react-redux';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
-import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
-import { PrivilegeLevel } from '../../auth/ducks/types';
-import { LIGHT_GREEN, WHITE, DARK_GREEN } from '../../colors';
+import {
+  PrivilegeLevel,
+  UserAuthenticationReducerState,
+} from '../../auth/ducks/types';
+import { Avatar, Button, Dropdown, Menu, PageHeader, Typography } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { DARK_GREEN, LIGHT_GREEN, WHITE } from '../../colors';
+
 const { Paragraph } = Typography;
 
-const NavBar: React.FC = () => {
+type NavBarProps = UserAuthenticationReducerState;
+
+const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
   const history = useHistory();
 
   const privilegeLevel = useSelector((state: C4CState) =>
-    getPrivilegeLevel(state.authenticationState.tokens),
+    getPrivilegeLevel(tokens),
   );
 
-  const isLoggedIn: boolean = privilegeLevel > PrivilegeLevel.NONE;
+  const isLoggedIn: boolean =
+    privilegeLevel === PrivilegeLevel.STANDARD ||
+    privilegeLevel === PrivilegeLevel.ADMIN;
 
   const BackIcon = () => {
     const Logo: string = require('../../nav-bar-icon.png');
@@ -115,4 +123,10 @@ const NavBar: React.FC = () => {
   );
 };
 
-export default NavBar;
+const mapStateToProps = (state: C4CState): NavBarProps => {
+  return {
+    tokens: state.authenticationState.tokens,
+  };
+};
+
+export default connect(mapStateToProps)(NavBar);

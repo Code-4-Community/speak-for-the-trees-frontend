@@ -1,15 +1,19 @@
-import React from 'react';
-import { Col, Row, Typography } from 'antd';
-import { ParagraphProps } from 'antd/lib/typography/Paragraph';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import GreetingContainer from '../../components/greeting-container/GreetingContainer';
-import { login } from '../../auth/ducks/thunks';
-import { connect, useDispatch } from 'react-redux';
 import { C4CState } from '../../store';
-import { UserAuthenticationReducerState } from '../../auth/ducks/types';
-import { BLACK, LIGHT_GREY, TEXT_GREY, WHITE } from '../../colors';
+import { login } from '../../auth/ducks/thunks';
+import {
+  PrivilegeLevel,
+  UserAuthenticationReducerState,
+} from '../../auth/ducks/types';
+import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { Col, Row, Typography, Alert } from 'antd';
+import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import styled from 'styled-components';
+import { BLACK, LIGHT_GREY, TEXT_GREY, WHITE } from '../../colors';
+import GreetingContainer from '../../components/greeting-container/GreetingContainer';
 import MobilePageHeader from '../../components/mobile-pageheader/MobilePageHeader';
 import LoginForm from '../../components/login-form/LoginForm';
 import useWindowDimensions, {
@@ -54,13 +58,39 @@ const Footer: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
   margin-bottom: 10px;
 `;
 
+const LoginAlert = styled(Alert)`
+  width: 90%;
+  margin-top: -60px;
+  margin-bottom: 20px;
+`;
+
+const MobileLoginAlert = styled(Alert)`
+  width: 90%;
+  margin-bottom: 20px;
+`;
+
+const loginErrorMessage = 'The username or email you entered was incorrect.';
+
 type LoginProps = UserAuthenticationReducerState;
 
 const Login: React.FC<LoginProps> = ({ tokens }) => {
   const { windowType, width } = useWindowDimensions();
   const dispatch = useDispatch();
+  const history = useHistory();
+  const privilegeLevel = useSelector((state: C4CState) =>
+    getPrivilegeLevel(tokens),
+  );
+  const [loginFailed, setLoginFailed] = useState(false);
+
+  const isLoggedIn: boolean =
+    privilegeLevel === PrivilegeLevel.STANDARD ||
+    privilegeLevel === PrivilegeLevel.ADMIN;
+
   const onFinish = (values: any) => {
     dispatch(login({ email: values.email, password: values.password }));
+    {
+      isLoggedIn ? history.push('/home') : setLoginFailed(true);
+    }
   };
 
   const greetingHeader = 'Welcome Back!';
@@ -89,6 +119,9 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
           </Helmet>
           <MobileLoginPageContainer>
             <MobilePageHeader pageTitle="Log In" />
+            {loginFailed && (
+              <MobileLoginAlert message={loginErrorMessage} type="error" />
+            )}
             <LoginForm onFinish={onFinish} />
             {ForgotPasswordFooter}
           </MobileLoginPageContainer>
@@ -108,6 +141,9 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
                   Log In
                 </Title>
                 <Line />
+                {loginFailed && (
+                  <LoginAlert message={loginErrorMessage} type="error" />
+                )}
                 <LoginForm onFinish={onFinish} />
                 {ForgotPasswordFooter}
               </InputContainer>
@@ -141,6 +177,9 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
                   Log In
                 </Title>
                 <Line />
+                {loginFailed && (
+                  <LoginAlert message={loginErrorMessage} type="error" />
+                )}
                 <LoginForm onFinish={onFinish} />
                 {ForgotPasswordFooter}
               </InputContainer>
