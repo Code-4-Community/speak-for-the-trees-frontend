@@ -38,6 +38,7 @@ describe('Authentication Client Tests', () => {
 
       const result = await AuthClient.signup({
         password: 'password',
+        username: 'jackblanc',
         firstName: 'Jack',
         lastName: 'Blanc',
         email: 'jblanc222@gmail.com',

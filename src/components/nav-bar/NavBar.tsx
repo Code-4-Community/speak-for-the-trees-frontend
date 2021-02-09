@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import { LIGHT_GREEN, WHITE, DARK_GREEN } from '../../colors';
+import Logo from '../../nav-bar-icon.png';
 const { Paragraph } = Typography;
 
 const NavBar: React.FC = () => {
@@ -19,7 +20,6 @@ const NavBar: React.FC = () => {
   const isLoggedIn: boolean = privilegeLevel > PrivilegeLevel.NONE;
 
   const BackIcon = () => {
-    const Logo: string = require('../../nav-bar-icon.png');
     return (
       <img
         className="back-icon"

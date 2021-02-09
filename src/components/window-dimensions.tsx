@@ -11,27 +11,31 @@ export enum WindowTypes {
   Desktop = 'DESKTOP',
 }
 
-function getWindowDimensions() {
+interface WindowDimensions {
+  readonly width: number;
+  readonly height: number;
+  readonly windowType: WindowTypes;
+}
+
+const getWindowDimensions = (): WindowDimensions => {
   const { innerWidth: width, innerHeight: height } = window;
-  const windowType = `${
+  const windowType: WindowTypes =
     width < breakpointMobile
       ? WindowTypes.Mobile
       : width < breakpointTablet
       ? WindowTypes.Tablet
-      : `${
-          width < breakpointDesktop
-            ? WindowTypes.NarrowDesktop
-            : WindowTypes.Desktop
-        }`
-  }`;
+      : width < breakpointDesktop
+      ? WindowTypes.NarrowDesktop
+      : WindowTypes.Desktop;
+
   return {
     width,
     height,
     windowType,
   };
-}
+};
 
-export default function useWindowDimensions() {
+export default function useWindowDimensions(): WindowDimensions {
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions(),
   );
