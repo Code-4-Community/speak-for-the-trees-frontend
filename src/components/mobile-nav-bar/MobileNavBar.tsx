@@ -5,6 +5,7 @@ import { PageHeader, Button, Menu, Dropdown } from 'antd';
 import { PageHeaderProps } from 'antd/es/page-header';
 import { MenuOutlined } from '@ant-design/icons';
 import { MID_GREEN, DARK_GREY, BACKGROUND_GREY, WHITE } from '../../colors';
+import Logo from '../../nav-bar-icon.png';
 
 interface MobileNavBarProps {
   readonly isLoggedIn: boolean;
@@ -45,11 +46,10 @@ const GreyItem = styled(Menu.Item)`
   color: ${DARK_GREY};
 `;
 
-const MobileNavBar: React.FC<MobileNavBarProps> = ({isLoggedIn}) => {
+const MobileNavBar: React.FC<MobileNavBarProps> = ({ isLoggedIn }) => {
   const history = useHistory();
 
   const BackIcon = () => {
-    const Logo: string = require('../../nav-bar-icon.png');
     return (
       <img
         className="back-icon"
