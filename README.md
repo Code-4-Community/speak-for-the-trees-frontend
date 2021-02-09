@@ -1,12 +1,10 @@
-<img src="https://c4cneu-public.s3.us-east-2.amazonaws.com/Site/SFTT_Logo.png" width="450px"/>
-
 # Speak for the Trees Frontend 
 
-This is the React.js frontend for Speak for the Trees! See below for help with setup and making changes.
-
-![Build Status](https://github.com/Code-4-Community/speak-for-the-trees-frontend/workflows/build%2C+lint%2C+test/badge.svg?branch=master)
+![Build Status](https://github.com/Code-4-Community/speak-for-the-trees-frontend/workflows/build/badge.svg?branch=master)
 
 [![Coverage Status](https://coveralls.io/repos/github/Code-4-Community/speak-for-the-trees-frontend/badge.svg?branch=master)](https://coveralls.io/github/Code-4-Community/speak-for-the-trees-frontend?branch=master)
+
+This is the React.js frontend for Speak for the Trees! See below for help with setup and making changes.
 
 ## Setup :wrench:
 
@@ -64,7 +62,7 @@ Each page has its own container, and each container is comprised of components.
 
 We use styled-components as our CSS-in-JS solution in combination with Ant.D components.
 
-## Designs
+## Designs :pencil2:
 All our pages and components are first designed by our amazing designers in Figma. To see the designs for the Speak for the Trees frontend please go [here](https://www.figma.com/file/vHbwUbyS0AZIuUBUNeJ6Pi/SFTT-2020-2021). You need permission to view this file, which you can request in the SFTT Slack channel.
 
 ## Contributing :handshake:
