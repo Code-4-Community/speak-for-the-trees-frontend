@@ -17,6 +17,7 @@ import {
   BACKGROUND_GREY,
   WHITE,
 } from '../../colors';
+import Logo from '../../nav-bar-icon.png';
 const { Paragraph } = Typography;
 
 const NavHeader: typeof PageHeader = styled(PageHeader)<PageHeaderProps>`
@@ -41,7 +42,6 @@ const NavBar: React.FC = () => {
   const isLoggedIn: boolean = privilegeLevel > PrivilegeLevel.NONE;
 
   const BackIcon = () => {
-    const Logo: string = require('../../nav-bar-icon.png');
     return (
       <img
         className="back-icon"
