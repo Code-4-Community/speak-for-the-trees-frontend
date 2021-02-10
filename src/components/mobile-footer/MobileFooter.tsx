@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Typography } from 'antd';
-import { BACKGROUND_GREY, TEXT_GREY, MID_GREEN } from '../../colors';
+import { BACKGROUND_GREY, TEXT_GREY, MID_GREEN } from '../colors';
+import Logo from '../nav-bar-icon.png';
 
 const { Paragraph } = Typography;
 
@@ -44,8 +45,6 @@ const GreyParagraph = styled(Paragraph)`
 `;
 
 const MobileFooter: React.FC = () => {
-  const Logo: string = require('../../nav-bar-icon.png');
-
   return (
     <>
       <FooterContainer>
