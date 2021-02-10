@@ -45,7 +45,7 @@ export interface RefreshTokenResponse {
 }
 
 export enum PrivilegeLevel {
-  NONE = -1,
+  NONE = 'none',
   STANDARD = 'standard',
   ADMIN = 'admin',
 }

@@ -31,7 +31,7 @@ export interface TokenService {
   readonly getRefreshToken: () => string | null;
   readonly setRefreshToken: (token: string) => void;
   readonly removeRefreshToken: () => void;
-  readonly getPrivilegeLevel: () => number | string;
+  readonly getPrivilegeLevel: () => string;
   readonly getUserID: () => number;
   readonly isRefreshTokenValid: () => boolean;
 }
@@ -58,11 +58,12 @@ const tokenService: TokenService = {
   getPrivilegeLevel() {
     try {
       const payload = getTokenPayload(LOCALSTORAGE_TOKEN_KEY.ACCESS);
-      if (!payload) return -1;
-      if (payload.privilegeLevel === 0) return 0;
-      return payload.privilegeLevel || -1;
+      if (!payload) return PrivilegeLevel.NONE;
+      if (payload.privilegeLevel === PrivilegeLevel.STANDARD)
+        return PrivilegeLevel.STANDARD;
+      return payload.privilegeLevel || PrivilegeLevel.NONE;
     } catch (e) {
-      return -1;
+      return PrivilegeLevel.NONE;
     }
   },
   getUserID() {
