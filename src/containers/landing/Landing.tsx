@@ -40,53 +40,10 @@ const Landing: React.FC = () => {
           </MobileMapPage>
         </>
       );
+      break;
 
     case WindowTypes.Tablet:
-      return (
-        <>
-          <Helmet>
-            <title>Speak for the Trees</title>
-            <meta
-              name="description"
-              content="The first page someone sees if they are not logged in, contains a read only map of Boston neighborhoods and some information about the tree counts of Speak for the Trees"
-            />
-          </Helmet>
-          <MapPage
-            sidebarHeader="Boston's Street Trees"
-            sidebarDescription="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer cronut pok pok gentrify flannel salvia deep v pork belly pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts affogato PBR&B freegan bushwick vegan four loko pickled."
-          >
-            <LandingTreeStats
-              moneySaved={statMoneySaved}
-              rainWater={statRainWater}
-              carbonEmissions={statCarbonEmissions}
-            />
-          </MapPage>
-        </>
-      );
-
     case WindowTypes.NarrowDesktop:
-      return (
-        <>
-          <Helmet>
-            <title>Speak for the Trees</title>
-            <meta
-              name="description"
-              content="The first page someone sees if they are not logged in, contains a read only map of Boston neighborhoods and some information about the tree counts of Speak for the Trees"
-            />
-          </Helmet>
-          <MapPage
-            sidebarHeader="Boston's Street Trees"
-            sidebarDescription="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer cronut pok pok gentrify flannel salvia deep v pork belly pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts affogato PBR&B freegan bushwick vegan four loko pickled."
-          >
-            <LandingTreeStats
-              moneySaved={statMoneySaved}
-              rainWater={statRainWater}
-              carbonEmissions={statCarbonEmissions}
-            />
-          </MapPage>
-        </>
-      );
-
     case WindowTypes.Desktop:
       return (
         <>
@@ -109,6 +66,7 @@ const Landing: React.FC = () => {
           </MapPage>
         </>
       );
+      break;
 
     default:
       return <Paragraph>This browser type is not supported.</Paragraph>;

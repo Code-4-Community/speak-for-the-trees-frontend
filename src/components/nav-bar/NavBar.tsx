@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { PageHeader, Typography, Button, Avatar, Menu, Dropdown } from 'antd';
+import { Avatar, Button, Dropdown, Menu, PageHeader, Typography } from 'antd';
 import { PageHeaderProps } from 'antd/es/page-header';
 import { UserOutlined } from '@ant-design/icons';
 import useWindowDimensions, { WindowTypes } from '../window-dimensions';
@@ -11,13 +11,14 @@ import { C4CState } from '../../store';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import MobileNavBar from '../mobile-nav-bar/MobileNavBar';
 import {
+  BACKGROUND_GREY,
+  DARK_GREEN,
   LIGHT_GREEN,
   MID_GREEN,
-  DARK_GREEN,
-  BACKGROUND_GREY,
   WHITE,
 } from '../../colors';
 import Logo from '../../nav-bar-icon.png';
+
 const { Paragraph } = Typography;
 
 const NavHeader: typeof PageHeader = styled(PageHeader)<PageHeaderProps>`
@@ -125,8 +126,11 @@ const NavBar: React.FC = () => {
   switch (windowType) {
     case WindowTypes.Mobile:
       return <MobileNavBar isLoggedIn={isLoggedIn} />;
+      break;
 
-    default:
+    case WindowTypes.Tablet:
+    case WindowTypes.NarrowDesktop:
+    case WindowTypes.Desktop:
       return (
         <NavHeader
           className="page-header"
@@ -136,6 +140,10 @@ const NavBar: React.FC = () => {
           extra={isLoggedIn ? <LoggedInExtra /> : <LandingExtra />}
         />
       );
+      break;
+
+    default:
+      return <></>;
   }
 };
 

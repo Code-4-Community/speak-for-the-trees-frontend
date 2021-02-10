@@ -84,77 +84,10 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
           </GreyParagraph>
         </TreeStatsContainer>
       );
+      break;
 
     case WindowTypes.Tablet:
-      return (
-        <TreeStatsContainer>
-          <Title level={3}>Current Status of our Trees</Title>
-
-          <MapCardsContainer>
-            <MapCard>
-              <InfoCard
-                header="Money Saved"
-                body={getMoneyString(moneySaved)}
-              />
-            </MapCard>
-
-            <MapCard>
-              <InfoCard
-                header="Rain Water Caught"
-                body={`${rainWater.toLocaleString()} gallons`}
-              />
-            </MapCard>
-
-            <MapCard>
-              <InfoCard
-                header="Carbon Emissions"
-                body={`${carbonEmissions}%`}
-              />
-            </MapCard>
-          </MapCardsContainer>
-
-          <Paragraph>
-            Learn more about how we got these numbers{' '}
-            <Link underline>here</Link>.
-          </Paragraph>
-        </TreeStatsContainer>
-      );
-
     case WindowTypes.NarrowDesktop:
-      return (
-        <TreeStatsContainer>
-          <Title level={3}>Current Status of our Trees</Title>
-
-          <MapCardsContainer>
-            <MapCard>
-              <InfoCard
-                header="Money Saved"
-                body={getMoneyString(moneySaved)}
-              />
-            </MapCard>
-
-            <MapCard>
-              <InfoCard
-                header="Rain Water Caught"
-                body={`${rainWater.toLocaleString()} gallons`}
-              />
-            </MapCard>
-
-            <MapCard>
-              <InfoCard
-                header="Carbon Emissions"
-                body={`${carbonEmissions}%`}
-              />
-            </MapCard>
-          </MapCardsContainer>
-
-          <Paragraph>
-            Learn more about how we got these numbers{' '}
-            <Link underline>here</Link>.
-          </Paragraph>
-        </TreeStatsContainer>
-      );
-
     case WindowTypes.Desktop:
       return (
         <TreeStatsContainer>
@@ -189,6 +122,7 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
           </Paragraph>
         </TreeStatsContainer>
       );
+      break;
 
     default:
       return <Paragraph>This browser type is not supported.</Paragraph>;
