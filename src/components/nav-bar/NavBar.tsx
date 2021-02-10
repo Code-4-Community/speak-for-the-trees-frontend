@@ -126,7 +126,6 @@ const NavBar: React.FC = () => {
   switch (windowType) {
     case WindowTypes.Mobile:
       return <MobileNavBar isLoggedIn={isLoggedIn} />;
-      break;
 
     case WindowTypes.Tablet:
     case WindowTypes.NarrowDesktop:
@@ -140,7 +139,6 @@ const NavBar: React.FC = () => {
           extra={isLoggedIn ? <LoggedInExtra /> : <LandingExtra />}
         />
       );
-      break;
 
     default:
       return <></>;

@@ -84,7 +84,6 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
           </GreyParagraph>
         </TreeStatsContainer>
       );
-      break;
 
     case WindowTypes.Tablet:
     case WindowTypes.NarrowDesktop:
@@ -122,7 +121,6 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
           </Paragraph>
         </TreeStatsContainer>
       );
-      break;
 
     default:
       return <Paragraph>This browser type is not supported.</Paragraph>;

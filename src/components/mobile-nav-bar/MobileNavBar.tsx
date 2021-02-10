@@ -48,7 +48,6 @@ const GreyItem = styled(Menu.Item)`
 
 const MobileNavBar: React.FC<MobileNavBarProps> = ({ isLoggedIn }) => {
   const history = useHistory();
-  const Logo: string = require('../../nav-bar-icon.png');
 
   return (
     <MobileNavHeader

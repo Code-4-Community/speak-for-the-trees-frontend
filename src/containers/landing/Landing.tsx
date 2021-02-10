@@ -40,7 +40,6 @@ const Landing: React.FC = () => {
           </MobileMapPage>
         </>
       );
-      break;
 
     case WindowTypes.Tablet:
     case WindowTypes.NarrowDesktop:
@@ -66,7 +65,6 @@ const Landing: React.FC = () => {
           </MapPage>
         </>
       );
-      break;
 
     default:
       return <Paragraph>This browser type is not supported.</Paragraph>;
