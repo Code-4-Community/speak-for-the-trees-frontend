@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from 'antd';
+import { Input, message } from 'antd';
 import { Loader } from '@googlemaps/js-api-loader';
 import styled from 'styled-components';
 
@@ -26,7 +26,7 @@ const MapDiv = styled.div`
 
 const MapView: React.FC = () => {
   const loader = new Loader({
-    apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY!,
+    apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY || '',
     libraries: ['places'],
     mapIds: ['76c08a2450c223d9'],
   });
@@ -148,26 +148,22 @@ const MapView: React.FC = () => {
     const neighborhoodsLayer = new google.maps.Data({ map });
 
     // Function: Returns name in shortHand
-    function shortHand(name: String): any {
-      let nameReturn;
-      for (let i = 0; i < shortHandNames.length; i++) {
-        if (shortHandNames[i].key === name) {
-          nameReturn = shortHandNames[i].value;
-          break;
-        } else {
-          nameReturn = name;
+    function shortHand(name: string): string {
+      for (const shName of shortHandNames) {
+        if (shName.key === name) {
+          return shName.value;
         }
       }
-      return nameReturn;
+      return name;
     }
     // Loads the objects into the layer
     neighborhoodsLayer.loadGeoJson(
       'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/neighborhoods_edited.geojson',
       {},
-      function (features) {
+      () => {
         // For each feature in neighbourhoodsLayer, add a marker
         // We need to do it here as the GeoJson needs to load first
-        neighborhoodsLayer.forEach(function (feature) {
+        neighborhoodsLayer.forEach((feature) => {
           // If you want, check here for some constraints.
           const marker = new google.maps.Marker({
             map,
@@ -208,8 +204,8 @@ const MapView: React.FC = () => {
     }
 
     function toggleMarkers(v: boolean) {
-      for (let i = 0; i < markersArray.length; i++) {
-        markersArray[i].setVisible(v);
+      for (const marker of markersArray) {
+        marker.setVisible(v);
       }
     }
 
@@ -247,8 +243,11 @@ const MapView: React.FC = () => {
             },
           });
         },
-        (error) => {
-          // TODO: Handle the error by showing a small pop up informing them of the consequences
+        () => {
+          message.info(
+            'Enable access to your location to display where you are on the map.',
+            5,
+          );
         },
       );
     }

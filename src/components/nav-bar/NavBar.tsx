@@ -10,7 +10,7 @@ import {
 import { Avatar, Button, Dropdown, Menu, PageHeader, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { DARK_GREEN, LIGHT_GREEN, WHITE } from '../../colors';
-
+import Logo from '../../nav-bar-icon.png';
 const { Paragraph } = Typography;
 
 type NavBarProps = UserAuthenticationReducerState;
@@ -27,7 +27,6 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
     privilegeLevel === PrivilegeLevel.ADMIN;
 
   const BackIcon = () => {
-    const Logo: string = require('../../nav-bar-icon.png');
     return (
       <img
         className="back-icon"

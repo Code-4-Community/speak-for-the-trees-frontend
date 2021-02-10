@@ -115,6 +115,7 @@ describe('User Authentication Thunks', () => {
 
       await signup({
         password: 'password',
+        username: 'jackblanc',
         firstName: 'Jack',
         lastName: 'Blanc',
         email: 'jack@jackblanc.com',
@@ -155,6 +156,7 @@ describe('User Authentication Thunks', () => {
 
       await signup({
         email: 'jblanc222@gmail.com',
+        username: 'jackblanc',
         password: 'password',
         firstName: 'Jack',
         lastName: 'Blanc',
