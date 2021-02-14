@@ -5,11 +5,12 @@ import { Helmet } from 'react-helmet';
 import { C4CState } from '../../store';
 import { login } from '../../auth/ducks/thunks';
 import {
+  LoginRequest,
   PrivilegeLevel,
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
-import { Col, Row, Typography, Alert } from 'antd';
+import { Alert, Col, Row, Typography } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import styled from 'styled-components';
 import { BLACK, LIGHT_GREY, TEXT_GREY, WHITE } from '../../colors';
@@ -70,6 +71,12 @@ const MobileLoginAlert = styled(Alert)`
 `;
 
 const loginErrorMessage = 'The username or email you entered was incorrect.';
+const greetingHeader = 'Welcome Back!';
+const greetingBody =
+  'Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer\n' +
+  'cronut pok pok gentrify flannel salvia deep v pork belly\n' +
+  'pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts\n' +
+  'affogato PBR&B freegan bushwick vegan four loko pickled.';
 
 type LoginProps = UserAuthenticationReducerState;
 
@@ -86,14 +93,12 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
     privilegeLevel === PrivilegeLevel.STANDARD ||
     privilegeLevel === PrivilegeLevel.ADMIN;
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: LoginRequest) => {
     dispatch(login({ email: values.email, password: values.password }));
-    {
-      isLoggedIn ? history.push('/home') : setLoginFailed(true);
-    }
+    isLoggedIn
+      ? history.push('/home')
+      : setTimeout(() => setLoginFailed(true), 100);
   };
-
-  const greetingHeader = 'Welcome Back!';
 
   const ForgotPasswordFooter = (
     <div>
@@ -109,97 +114,88 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
     </div>
   );
 
-  switch (windowType) {
-    case WindowTypes.Mobile:
-      return (
-        <>
-          <Helmet>
-            <title>Login</title>
-            <meta name="description" content="Description goes here." />
-          </Helmet>
-          <MobileLoginPageContainer>
-            <MobilePageHeader pageTitle="Log In" />
-            {loginFailed && (
-              <MobileLoginAlert message={loginErrorMessage} type="error" />
-            )}
-            <LoginForm onFinish={onFinish} />
-            {ForgotPasswordFooter}
-          </MobileLoginPageContainer>
-        </>
-      );
-    case WindowTypes.Tablet:
-      return (
-        <>
-          <Helmet>
-            <title>Login</title>
-            <meta name="description" content="Description goes here." />
-          </Helmet>
-          <TabletLoginPageContainer>
-            <Row>
-              <InputContainer span={10}>
-                <Title level={2} style={{ color: BLACK }}>
-                  Log In
-                </Title>
-                <Line />
+  return (
+    <>
+      <Helmet>
+        <title>Login</title>
+        <meta
+          name="login"
+          content="Where the user can log into their account."
+        />
+      </Helmet>
+
+      {(() => {
+        switch (windowType) {
+          case WindowTypes.Mobile:
+            return (
+              <MobileLoginPageContainer>
+                <MobilePageHeader pageTitle="Log In" />
                 {loginFailed && (
-                  <LoginAlert message={loginErrorMessage} type="error" />
+                  <MobileLoginAlert message={loginErrorMessage} type="error" />
                 )}
                 <LoginForm onFinish={onFinish} />
                 {ForgotPasswordFooter}
-              </InputContainer>
+              </MobileLoginPageContainer>
+            );
+          case WindowTypes.Tablet:
+            return (
+              <TabletLoginPageContainer>
+                <Row>
+                  <InputContainer span={10}>
+                    <Title level={2} style={{ color: BLACK }}>
+                      Log In
+                    </Title>
+                    <Line />
+                    {loginFailed && (
+                      <LoginAlert message={loginErrorMessage} type="error" />
+                    )}
+                    <LoginForm onFinish={onFinish} />
+                    {ForgotPasswordFooter}
+                  </InputContainer>
 
-              <Col span={`${width < OffsetSpanBreakpoint ? 1 : 2}`} />
+                  <Col span={`${width < OffsetSpanBreakpoint ? 1 : 2}`} />
 
-              <Col span={12}>
-                <GreetingContainer
-                  header={greetingHeader}
-                  body="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer
-              cronut pok pok gentrify flannel salvia deep v pork belly
-              pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts
-              affogato PBR&B freegan bushwick vegan four loko pickled."
-                />
-              </Col>
-            </Row>
-          </TabletLoginPageContainer>
-        </>
-      );
-    default:
-      return (
-        <>
-          <Helmet>
-            <title>Login</title>
-            <meta name="description" content="Description goes here." />
-          </Helmet>
-          <LoginPageContainer>
-            <Row>
-              <InputContainer span={10}>
-                <Title level={2} style={{ color: BLACK }}>
-                  Log In
-                </Title>
-                <Line />
-                {loginFailed && (
-                  <LoginAlert message={loginErrorMessage} type="error" />
-                )}
-                <LoginForm onFinish={onFinish} />
-                {ForgotPasswordFooter}
-              </InputContainer>
+                  <Col span={12}>
+                    <GreetingContainer
+                      header={greetingHeader}
+                      body={greetingBody}
+                    />
+                  </Col>
+                </Row>
+              </TabletLoginPageContainer>
+            );
+          case WindowTypes.NarrowDesktop:
+          case WindowTypes.Desktop:
+            return (
+              <LoginPageContainer>
+                <Row>
+                  <InputContainer span={10}>
+                    <Title level={2} style={{ color: BLACK }}>
+                      Log In
+                    </Title>
+                    <Line />
+                    {loginFailed && (
+                      <LoginAlert message={loginErrorMessage} type="error" />
+                    )}
+                    <LoginForm onFinish={onFinish} />
+                    {ForgotPasswordFooter}
+                  </InputContainer>
 
-              <Col span={2} />
+                  <Col span={2} />
 
-              <Col span={12}>
-                <GreetingContainer
-                  header={greetingHeader}
-                  body="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer
-              cronut pok pok gentrify flannel salvia deep v pork belly
-              pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts
-              affogato PBR&B freegan bushwick vegan four loko pickled."
-                />
-              </Col>
-            </Row>
-          </LoginPageContainer>
-        </>
-      );
-  }
+                  <Col span={12}>
+                    <GreetingContainer
+                      header={greetingHeader}
+                      body={greetingBody}
+                    />
+                  </Col>
+                </Row>
+              </LoginPageContainer>
+            );
+        }
+      })()}
+    </>
+  );
 };
 
 const mapStateToProps = (state: C4CState): LoginProps => {
