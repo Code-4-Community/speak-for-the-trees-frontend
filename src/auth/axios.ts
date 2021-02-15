@@ -18,7 +18,7 @@ const listener = () => {
   }
 };
 
-// store.subscribe(listener);
+store.subscribe(listener);
 
 // const responseErrorInterceptor: (error: AxiosError) => void = (error) => {
 //   // const originalRequest = error.config;
