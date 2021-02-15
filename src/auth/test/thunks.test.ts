@@ -4,6 +4,7 @@ import { authenticateUser } from '../ducks/actions';
 import authClient from '../authClient';
 import { C4CState, initialStoreState, ThunkExtraArgs } from '../../store';
 import tokenService from '../token';
+import apiClient from '../../api/apiClient';
 import { AxiosError } from 'axios';
 
 export const generateState = (partialState: Partial<C4CState>): C4CState => ({
@@ -34,6 +35,7 @@ describe('User Authentication Thunks', () => {
           ...tokenService,
           setRefreshToken: mockSetRefreshToken,
         },
+        apiClient,
       };
 
       await login({
@@ -73,6 +75,7 @@ describe('User Authentication Thunks', () => {
           ...tokenService,
           setRefreshToken: mockSetRefreshToken,
         },
+        apiClient,
       };
 
       await login({
@@ -111,6 +114,7 @@ describe('User Authentication Thunks', () => {
           ...tokenService,
           setRefreshToken: mockSetRefreshToken,
         },
+        apiClient,
       };
 
       await signup({
@@ -152,6 +156,7 @@ describe('User Authentication Thunks', () => {
           ...tokenService,
           setRefreshToken: mockSetRefreshToken,
         },
+        apiClient,
       };
 
       await signup({

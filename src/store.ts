@@ -38,9 +38,10 @@ export interface Action<T, P> {
   readonly payload: P;
 }
 
-export type C4CAction = UserAuthenticationActions &
-  VolunteerLeaderboardItemAction &
-  TeamLeaderboardItemAction;
+export type C4CAction =
+  | UserAuthenticationActions
+  | VolunteerLeaderboardItemAction
+  | TeamLeaderboardItemAction;
 
 export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
 
