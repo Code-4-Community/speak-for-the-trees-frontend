@@ -3,8 +3,6 @@ import { Card, Typography } from 'antd';
 import styled from 'styled-components';
 import { MID_GREEN, TEXT_GREY } from '../../colors';
 
-const { Paragraph } = Typography;
-
 interface MobileInfoCardProps {
   readonly header: string;
   readonly body: string;
@@ -15,13 +13,13 @@ const MobileMapCard = styled(Card)`
   height: 85px;
 `;
 
-const CardHeader = styled(Paragraph)`
+const CardHeader = styled(Typography.Paragraph)`
   margin: -10px -20px 0px -12px;
   font-size: 8px;
   color: ${TEXT_GREY};
 `;
 
-const CardBody = styled(Paragraph)`
+const CardBody = styled(Typography.Paragraph)`
   margin: 0px -20px -50px -12px;
   font-size: 10px;
   color: ${MID_GREEN};
