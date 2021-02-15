@@ -1,6 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import store, { C4CState } from '../store';
-import { AsyncRequestKinds } from '../utils/asyncRequest';
 
 const AppAxiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_DOMAIN,
@@ -10,6 +8,7 @@ const AppAxiosInstance: AxiosInstance = axios.create({
   },
 });
 
+/*
 const listener = () => {
   const state: C4CState = store.getState();
   if (state.authenticationState.tokens.kind === AsyncRequestKinds.Completed) {
@@ -19,6 +18,7 @@ const listener = () => {
 };
 
 store.subscribe(listener);
+*/
 
 // const responseErrorInterceptor: (error: AxiosError) => void = (error) => {
 //   // const originalRequest = error.config;
