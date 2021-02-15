@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import LeaderboardTabs, {
-  TabInfo,
-} from '../../components/leaderboard/leaderboard-tabs/LeaderboardTabs';
+import React, { useState, useEffect } from 'react';
+import LeaderboardTabs from '../../components/leaderboard/leaderboard-tabs/LeaderboardTabs';
+import { TabItem } from '../../components/leaderboard/leaderboard-tab/LeaderboardTab';
 import { C4CState } from '../../store';
 import PageHeader from '../../components/pageheader/PageHeader';
 import styled from 'styled-components';
-import { TeamLeaderboardReducerState } from './ducks/types';
+import { mapTeamsToTabItems } from './ducks/selectors';
 import { connect, useDispatch } from 'react-redux';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { getTeamsLeaderboard } from './ducks/thunks';
-import {
-  LEADERBOARD_DAYS,
-  LEADERBOARD_TABS,
-} from '../../components/leaderboard/constants';
+import { LEADERBOARD_TABS } from '../../components/leaderboard/constants';
 
 const LeaderboardContentContainer = styled.div`
   padding: 100px 134px;
@@ -23,19 +19,21 @@ const LeaderboardContainer = styled.div`
 `;
 
 interface TeamLeaderboardProps {
-  readonly teamLeaderboardItems: TeamLeaderboardReducerState['teamLeaderboard'];
+  readonly teamTabItems: TabItem[];
+  readonly leaderboardRequestKind: AsyncRequestKinds;
 }
 
 const TeamLeaderboard: React.FC<TeamLeaderboardProps> = ({
-  teamLeaderboardItems,
+  teamTabItems,
+  leaderboardRequestKind,
 }) => {
   const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch(getTeamsLeaderboard(LEADERBOARD_DAYS.weekly));
-  }, []);
+    // The default tab is Weekly
+    dispatch(getTeamsLeaderboard(7));
+  }, [dispatch]);
 
-  const onChangeTab = (tab: string, previousDays: number) => {
+  const onChangeTab = (tab: string, previousDays: number | null) => {
     dispatch(getTeamsLeaderboard(previousDays));
     setCurrentTab(tab);
   };
@@ -50,9 +48,9 @@ const TeamLeaderboard: React.FC<TeamLeaderboardProps> = ({
       />
 
       <LeaderboardContainer>
-        {teamLeaderboardItems.kind === AsyncRequestKinds.Completed && (
+        {leaderboardRequestKind === AsyncRequestKinds.Completed && (
           <LeaderboardTabs
-            items={teamLeaderboardItems.result}
+            items={teamTabItems}
             tabNames={LEADERBOARD_TABS}
             currentTab={currentTab}
             itemsPerPage={4}
@@ -66,7 +64,10 @@ const TeamLeaderboard: React.FC<TeamLeaderboardProps> = ({
 
 const mapStateToProps = (state: C4CState): TeamLeaderboardProps => {
   return {
-    teamLeaderboardItems: state.teamLeaderboardState.teamLeaderboard,
+    teamTabItems: mapTeamsToTabItems(
+      state.teamLeaderboardState.teamLeaderboard,
+    ),
+    leaderboardRequestKind: state.teamLeaderboardState.teamLeaderboard.kind,
   };
 };
 

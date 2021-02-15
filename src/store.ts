@@ -17,7 +17,8 @@ import thunk from 'redux-thunk';
 import tokenService from './auth/token';
 import apiClient, { ApiExtraArgs } from './api/apiClient';
 import { UserLeaderboardReducerState } from './containers/volunteer-leaderboard/ducks/types';
-import { LeaderboardItemAction } from './components/leaderboard/ducks/actions';
+import { VolunteerLeaderboardItemAction } from './containers/volunteer-leaderboard/ducks/actions';
+import { TeamLeaderboardItemAction } from './containers/team-leaderboard/ducks/actions';
 import userLeaderboardReducer, {
   initialUserLeaderboardState,
 } from './containers/volunteer-leaderboard/ducks/reducer';
@@ -37,7 +38,9 @@ export interface Action<T, P> {
   readonly payload: P;
 }
 
-export type C4CAction = UserAuthenticationActions & LeaderboardItemAction;
+export type C4CAction = UserAuthenticationActions &
+  VolunteerLeaderboardItemAction &
+  TeamLeaderboardItemAction;
 
 export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
 

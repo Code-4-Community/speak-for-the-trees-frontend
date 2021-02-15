@@ -1,5 +1,4 @@
-import { LeaderboardItem } from '../../../components/leaderboard/ducks/types';
-import { UserLeaderboardReducerState } from './types';
+import { UserLeaderboardReducerState, VolunteerLeaderboardItem } from './types';
 import {
   ASYNC_REQUEST_FAILED_ACTION,
   ASYNC_REQUEST_LOADED_ACTION,
@@ -7,18 +6,18 @@ import {
   AsyncRequestNotStarted,
   generateAsyncRequestReducer,
 } from '../../../utils/asyncRequest';
-import { leaderboardItems } from '../../../components/leaderboard/ducks/actions';
+import { volunteerLeaderboardItems } from './actions';
 import { C4CAction } from '../../../store';
 
 export const initialUserLeaderboardState: UserLeaderboardReducerState = {
-  userLeaderboard: AsyncRequestNotStarted<LeaderboardItem[], any>(),
+  userLeaderboard: AsyncRequestNotStarted<VolunteerLeaderboardItem[], any>(),
 };
 
 const userLeaderboardReducer = generateAsyncRequestReducer<
   UserLeaderboardReducerState,
-  LeaderboardItem[],
+  VolunteerLeaderboardItem[],
   void
->(leaderboardItems.key);
+>(volunteerLeaderboardItems.key);
 
 const reducers = (
   state: UserLeaderboardReducerState = initialUserLeaderboardState,

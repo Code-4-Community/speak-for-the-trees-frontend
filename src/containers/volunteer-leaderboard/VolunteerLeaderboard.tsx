@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import LeaderboardTabs, {
-  TabInfo,
-} from '../../components/leaderboard/leaderboard-tabs/LeaderboardTabs';
+import React, { useState, useEffect } from 'react';
+import LeaderboardTabs from '../../components/leaderboard/leaderboard-tabs/LeaderboardTabs';
+import { TabItem } from '../../components/leaderboard/leaderboard-tab/LeaderboardTab';
 import { C4CState } from '../../store';
 import PageHeader from '../../components/pageheader/PageHeader';
 import styled from 'styled-components';
-import { UserLeaderboardReducerState } from './ducks/types';
+import { mapVolunteersToTabItems } from './ducks/selectors';
 import { connect, useDispatch } from 'react-redux';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { getUsersLeaderboard } from './ducks/thunks';
-import {
-  LEADERBOARD_DAYS,
-  LEADERBOARD_TABS,
-} from '../../components/leaderboard/constants';
+import { LEADERBOARD_TABS } from '../../components/leaderboard/constants';
 
 const LeaderboardContentContainer = styled.div`
   padding: 100px 134px;
@@ -23,20 +19,22 @@ const LeaderboardContainer = styled.div`
 `;
 
 interface VolunteerLeaderboardProps {
-  readonly userLeaderboardItems: UserLeaderboardReducerState['userLeaderboard'];
+  readonly volunteerTabItems: TabItem[];
+  readonly leaderboardRequestKind: AsyncRequestKinds;
 }
 
 const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
-  userLeaderboardItems,
+  volunteerTabItems,
+  leaderboardRequestKind,
 }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // default
-    dispatch(getUsersLeaderboard(LEADERBOARD_DAYS.weekly));
-  }, []);
+    // The default tab is weekly
+    dispatch(getUsersLeaderboard(7));
+  }, [dispatch]);
 
-  const onChangeTab = (tab: string, previousDays: number) => {
+  const onChangeTab = (tab: string, previousDays: number | null) => {
     dispatch(getUsersLeaderboard(previousDays));
     setCurrentTab(tab);
   };
@@ -49,10 +47,10 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
         pageTitle="Volunteer Leaderboard"
         pageSubtitle="Celebrate all the contributions of our Speak for the Trees volunteers!"
       />
-      {userLeaderboardItems.kind === AsyncRequestKinds.Completed && (
+      {leaderboardRequestKind === AsyncRequestKinds.Completed && (
         <LeaderboardContainer>
           <LeaderboardTabs
-            items={userLeaderboardItems.result}
+            items={volunteerTabItems}
             tabNames={LEADERBOARD_TABS}
             currentTab={currentTab}
             itemsPerPage={4}
@@ -66,7 +64,10 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
 
 const mapStateToProps = (state: C4CState): VolunteerLeaderboardProps => {
   return {
-    userLeaderboardItems: state.userLeaderboardState.userLeaderboard,
+    volunteerTabItems: mapVolunteersToTabItems(
+      state.userLeaderboardState.userLeaderboard,
+    ),
+    leaderboardRequestKind: state.userLeaderboardState.userLeaderboard.kind,
   };
 };
 

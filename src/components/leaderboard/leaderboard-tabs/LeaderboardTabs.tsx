@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Tabs, Pagination } from 'antd';
 import LeaderboardTab, { TabItem } from '../leaderboard-tab/LeaderboardTab';
-import { LeaderboardItem } from '../ducks/types';
 import { tabToDays } from '../constants';
 
 export interface TabInfo {
@@ -10,11 +9,11 @@ export interface TabInfo {
 }
 
 interface LeaderboardTabsProps {
-  items: LeaderboardItem[];
+  items: TabItem[];
   tabNames: string[];
   currentTab: string;
   itemsPerPage: number;
-  onChangeTimeTab: (tab: string, days: number) => void;
+  onChangeTimeTab: (tab: string, days: number | null) => void;
 }
 
 const LeaderboardTabs: React.FC<LeaderboardTabsProps> = ({
