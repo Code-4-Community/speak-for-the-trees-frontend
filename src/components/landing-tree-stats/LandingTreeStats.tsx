@@ -6,8 +6,6 @@ import InfoCard from '../info-card/InfoCard';
 import MobileInfoCard from '../mobile-info-card/MobileInfoCard';
 import { TEXT_GREY, MID_GREEN } from '../../colors';
 
-const { Title, Paragraph, Link } = Typography;
-
 const TreeStatsContainer = styled.div`
   margin-top: 35px;
 `;
@@ -20,7 +18,7 @@ const MapCard = styled.div`
   margin: 10px auto;
 `;
 
-const MobileTitle = styled(Paragraph)`
+const MobileTitle = styled(Typography.Paragraph)`
   color: ${MID_GREEN};
   font-size: 14px;
 `;
@@ -35,7 +33,7 @@ const RightMargin = styled.div`
   margin-right: 10px;
 `;
 
-const GreyParagraph = styled(Paragraph)`
+const GreyParagraph = styled(Typography.Paragraph)`
   color: ${TEXT_GREY};
 `;
 
@@ -80,7 +78,7 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
 
           <GreyParagraph>
             Learn more about how we got these numbers{' '}
-            <Link underline>here</Link>.
+            <Typography.Link underline>here</Typography.Link>.
           </GreyParagraph>
         </TreeStatsContainer>
       );
@@ -90,7 +88,9 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
     case WindowTypes.Desktop:
       return (
         <TreeStatsContainer>
-          <Title level={3}>Current Status of our Trees</Title>
+          <Typography.Title level={3}>
+            Current Status of our Trees
+          </Typography.Title>
 
           <MapCardsContainer>
             <MapCard>
@@ -115,15 +115,19 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
             </MapCard>
           </MapCardsContainer>
 
-          <Paragraph>
+          <Typography.Paragraph>
             Learn more about how we got these numbers{' '}
-            <Link underline>here</Link>.
-          </Paragraph>
+            <Typography.Link underline>here</Typography.Link>.
+          </Typography.Paragraph>
         </TreeStatsContainer>
       );
 
     default:
-      return <Paragraph>This browser type is not supported.</Paragraph>;
+      return (
+        <Typography.Paragraph>
+          This browser type is not supported.
+        </Typography.Paragraph>
+      );
   }
 };
 
