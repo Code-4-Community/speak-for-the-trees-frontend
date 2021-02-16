@@ -16,12 +16,14 @@ const MainContent = styled.div`
 type MobileMapPageProps = {
   readonly blocks: BlockGeoData;
   readonly neighborhoods: NeighborhoodGeoData;
+  readonly isPadding: boolean;
 };
 
 const MobileMapPage: React.FC<MobileMapPageProps> = ({
   blocks,
   neighborhoods,
-  children,
+  isPadding,
+  children
 }) => {
   return (
     <>
@@ -30,7 +32,11 @@ const MobileMapPage: React.FC<MobileMapPageProps> = ({
           <Content>
             <MapView blocks={blocks} neighborhoods={neighborhoods} />
           </Content>
-          <Footer>{children}</Footer>
+          {isPadding ? (
+            <Footer>{children}</Footer>
+          ) : (
+            <Footer style={{ padding: 0 }}>{children}</Footer>
+          )}
         </MapLayout>
       </MainContent>
       <MobileFooter />

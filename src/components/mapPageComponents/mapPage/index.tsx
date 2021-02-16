@@ -4,8 +4,9 @@ import MapView from '../mapView';
 import MapLayout from '../mapLayout';
 import { Layout } from 'antd';
 import { BlockGeoData, NeighborhoodGeoData } from '../ducks/types';
+import useWindowDimensions, { WindowTypes } from '../../window-dimensions';
 
-const { Content, Sider } = Layout;
+const { Content, Sider, Footer } = Layout;
 
 type MapPageProps = {
   readonly blocks: BlockGeoData;
@@ -21,6 +22,29 @@ const MapPage: React.FC<MapPageProps> = ({
   sidebarDescription,
   children,
 }) => {
+  const { windowType } = useWindowDimensions();
+
+  switch (windowType) {
+    case WindowTypes.Mobile:
+      return (
+        <>
+          <Layout style={{ height: 'calc(100vh - 83px)' }}>
+            <Content>
+              <MapView />
+            </Content>
+            <Footer>
+              <MapSidebar
+                header={sidebarHeader}
+                description={sidebarDescription}
+              >
+                {children}
+              </MapSidebar>
+            </Footer>
+          </Layout>
+        </>
+      );
+  }
+
   return (
     <>
       <MapLayout>

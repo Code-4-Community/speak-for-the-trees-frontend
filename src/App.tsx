@@ -10,8 +10,8 @@ import { Helmet } from 'react-helmet';
 import {
   PrivilegeLevel,
   UserAuthenticationReducerState,
-} from '../src/auth/ducks/types';
-import { getPrivilegeLevel } from '../src/auth/ducks/selectors';
+} from './auth/ducks/types';
+import { getPrivilegeLevel } from './auth/ducks/selectors';
 import { C4CState } from './store';
 
 import styled from 'styled-components';
@@ -28,6 +28,7 @@ import Login from './containers/login';
 import Settings from './containers/settings';
 import NotFound from './containers/notFound';
 import NavBar from './components/navBar';
+import Reservations from './containers/reservations/Reservations';
 
 const { Content } = Layout;
 
@@ -46,6 +47,7 @@ export enum Routes {
   VOLUNTEER = '/volunteer',
   TEAM = '/team:id',
   TEAM_LEADERBOARD = '/team-leaderboard',
+  RESERVATIONS = '/reservations',
   ADMIN = '/admin',
   AVAILABLE_TEAMS = '/available',
   NOT_FOUND = '*',
@@ -92,6 +94,9 @@ const App: React.FC = () => {
                       <Route path={Routes.AVAILABLE_TEAMS}>
                         <Redirect to={Routes.LOGIN} />
                       </Route>
+                      <Route path={Routes.RESERVATIONS}>
+                        <Redirect to={Routes.LOGIN} />
+                      </Route>
                       <Route path={Routes.ADMIN}>
                         <Redirect to={Routes.LOGIN} />
                       </Route>
@@ -135,6 +140,11 @@ const App: React.FC = () => {
                         exact
                         component={AvailableTeams}
                       />
+                      <Route
+                        path={Routes.RESERVATIONS}
+                        exact
+                        component={Reservations}
+                      />
                       <Route path={Routes.ADMIN}>
                         <Redirect to={Routes.HOME} />
                       </Route>
@@ -177,6 +187,11 @@ const App: React.FC = () => {
                         path={Routes.AVAILABLE_TEAMS}
                         exact
                         component={AvailableTeams}
+                      />
+                      <Route
+                        path={Routes.RESERVATIONS}
+                        exact
+                        component={Reservations}
                       />
                       <Route
                         path={Routes.ADMIN}

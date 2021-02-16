@@ -46,6 +46,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
           {asyncRequestIsComplete(blocks) &&
             asyncRequestIsComplete(neighborhoods) && (
               <MobileMapPage
+                isPadding={true}
                 neighborhoods={neighborhoods.result}
                 blocks={blocks.result}
               >
