@@ -31,6 +31,17 @@ const { Content } = Layout;
 
 type AppProps = UserAuthenticationReducerState;
 
+export enum ROUTE {
+  LANDING = '/',
+  LOGIN = '/login',
+  SIGNUP = '/signup',
+  HOME = '/home',
+  SETTINGS = '/settings',
+  VOLUNTEER = '/volunteer',
+  ADMIN = '/admin',
+  NOT_FOUND = '*',
+}
+
 const App: React.FC<AppProps> = ({ tokens }) => {
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(tokens),
@@ -54,68 +65,84 @@ const App: React.FC<AppProps> = ({ tokens }) => {
                 case PrivilegeLevel.NONE:
                   return (
                     <Switch>
-                      <Route path="/" exact component={Landing} />
-                      <Route path="/login" exact component={Login} />
-                      <Route path="/signup" exact component={Signup} />
-                      <Route path="/home">
-                        <Redirect to="/login" />
+                      <Route path={ROUTE.LANDING} exact component={Landing} />
+                      <Route path={ROUTE.LOGIN} exact component={Login} />
+                      <Route path={ROUTE.SIGNUP} exact component={Signup} />
+                      <Route path={ROUTE.HOME}>
+                        <Redirect to={ROUTE.LOGIN} />
                       </Route>
-                      <Route path="/settings">
-                        <Redirect to="/login" />
+                      <Route path={ROUTE.SETTINGS}>
+                        <Redirect to={ROUTE.LOGIN} />
                       </Route>
-                      <Route path="/volunteer">
-                        <Redirect to="/login" />
+                      <Route path={ROUTE.VOLUNTEER}>
+                        <Redirect to={ROUTE.LOGIN} />
                       </Route>
-                      <Route path="/admin">
-                        <Redirect to="/login" />
+                      <Route path={ROUTE.ADMIN}>
+                        <Redirect to={ROUTE.LOGIN} />
                       </Route>
-                      <Route path="*" exact component={NotFound} />
+                      <Route
+                        path={ROUTE.NOT_FOUND}
+                        exact
+                        component={NotFound}
+                      />
                     </Switch>
                   );
 
                 case PrivilegeLevel.STANDARD:
                   return (
                     <Switch>
-                      <Route path="/" exact component={Landing} />
-                      <Route path="/login">
-                        <Redirect to="/home" />
+                      <Route path={ROUTE.LANDING} exact component={Landing} />
+                      <Route path={ROUTE.LOGIN}>
+                        <Redirect to={ROUTE.HOME} />
                       </Route>
-                      <Route path="/signup">
-                        <Redirect to="/home" />
+                      <Route path={ROUTE.SIGNUP}>
+                        <Redirect to={ROUTE.HOME} />
                       </Route>
-                      <Route path="/home" exact component={Home} />
-                      <Route path="/settings" exact component={Settings} />
+                      <Route path={ROUTE.HOME} exact component={Home} />
+                      <Route path={ROUTE.SETTINGS} exact component={Settings} />
                       <Route
-                        path="/volunteer"
+                        path={ROUTE.VOLUNTEER}
                         exact
                         component={VolunteerLeaderboard}
                       />
-                      <Route path="/admin">
-                        <Redirect to="/home" />
+                      <Route path={ROUTE.ADMIN}>
+                        <Redirect to={ROUTE.HOME} />
                       </Route>
-                      <Route path="*" exact component={NotFound} />
+                      <Route
+                        path={ROUTE.NOT_FOUND}
+                        exact
+                        component={NotFound}
+                      />
                     </Switch>
                   );
 
                 case PrivilegeLevel.ADMIN:
                   return (
                     <Switch>
-                      <Route path="/" exact component={Landing} />
-                      <Route path="/login">
-                        <Redirect to="/home" />
+                      <Route path={ROUTE.LANDING} exact component={Landing} />
+                      <Route path={ROUTE.LOGIN}>
+                        <Redirect to={ROUTE.HOME} />
                       </Route>
-                      <Route path="/signup">
-                        <Redirect to="/home" />
+                      <Route path={ROUTE.SIGNUP}>
+                        <Redirect to={ROUTE.HOME} />
                       </Route>
-                      <Route path="/home" exact component={Home} />
-                      <Route path="/settings" exact component={Settings} />
+                      <Route path={ROUTE.HOME} exact component={Home} />
+                      <Route path={ROUTE.SETTINGS} exact component={Settings} />
                       <Route
-                        path="/volunteer"
+                        path={ROUTE.VOLUNTEER}
                         exact
                         component={VolunteerLeaderboard}
                       />
-                      <Route path="/admin" exact component={AdminDashboard} />
-                      <Route path="*" exact component={NotFound} />
+                      <Route
+                        path={ROUTE.ADMIN}
+                        exact
+                        component={AdminDashboard}
+                      />
+                      <Route
+                        path={ROUTE.NOT_FOUND}
+                        exact
+                        component={NotFound}
+                      />
                     </Switch>
                   );
               }
