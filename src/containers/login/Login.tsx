@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -10,6 +10,8 @@ import {
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { AsyncRequestKinds } from '../../utils/asyncRequest';
+import { ROUTE } from '../../App';
 import { Alert, Col, Row, Typography } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import styled from 'styled-components';
@@ -23,18 +25,25 @@ import useWindowDimensions, {
 
 const { Paragraph, Title } = Typography;
 
-const OffsetSpanBreakpoint = 715;
-
 const LoginPageContainer = styled.div`
   padding: 120px;
 `;
 
 const TabletLoginPageContainer = styled.div`
-  padding: 50px;
+  padding: 90px 60px;
 `;
 
 const MobileLoginPageContainer = styled.div`
   padding: 30px;
+`;
+
+const CenterDiv = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const RightMargin = styled.div`
+  margin-right: 30px;
 `;
 
 const InputContainer = styled(Col)`
@@ -81,35 +90,33 @@ const greetingBody =
 type LoginProps = UserAuthenticationReducerState;
 
 const Login: React.FC<LoginProps> = ({ tokens }) => {
-  const { windowType, width } = useWindowDimensions();
+  const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const history = useHistory();
   const privilegeLevel = useSelector((state: C4CState) =>
-    getPrivilegeLevel(tokens),
+    getPrivilegeLevel(state.authenticationState.tokens),
   );
-  const [loginFailed, setLoginFailed] = useState(false);
 
-  const isLoggedIn: boolean =
-    privilegeLevel === PrivilegeLevel.STANDARD ||
-    privilegeLevel === PrivilegeLevel.ADMIN;
+  const loginFailed: boolean = tokens.kind === AsyncRequestKinds.Failed;
+
+  if (privilegeLevel !== PrivilegeLevel.NONE) {
+    history.push(ROUTE.HOME);
+  }
 
   const onFinish = (values: LoginRequest) => {
     dispatch(login({ email: values.email, password: values.password }));
-    isLoggedIn
-      ? history.push('/home')
-      : setTimeout(() => setLoginFailed(true), 100);
   };
 
   const ForgotPasswordFooter = (
     <div>
       <Paragraph>
-        <Link to="/">FORGOT PASSWORD?</Link>
+        <Link to={ROUTE.NOT_FOUND}>FORGOT PASSWORD?</Link>
       </Paragraph>
 
       <Footer>
         NEW TO SPEAK FOR THE TREES?
         <br />
-        SIGN UP <Link to="/signup">HERE!</Link>
+        SIGN UP <Link to={ROUTE.SIGNUP}>HERE!</Link>
       </Footer>
     </div>
   );
@@ -140,28 +147,26 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
           case WindowTypes.Tablet:
             return (
               <TabletLoginPageContainer>
-                <Row>
-                  <InputContainer span={10}>
-                    <Title level={2} style={{ color: BLACK }}>
-                      Log In
-                    </Title>
-                    <Line />
-                    {loginFailed && (
-                      <LoginAlert message={loginErrorMessage} type="error" />
-                    )}
-                    <LoginForm onFinish={onFinish} />
-                    {ForgotPasswordFooter}
-                  </InputContainer>
+                <CenterDiv>
+                  <RightMargin>
+                    <InputContainer>
+                      <Title level={2} style={{ color: BLACK }}>
+                        Log In
+                      </Title>
+                      <Line />
+                      {loginFailed && (
+                        <LoginAlert message={loginErrorMessage} type="error" />
+                      )}
+                      <LoginForm onFinish={onFinish} />
+                      {ForgotPasswordFooter}
+                    </InputContainer>
+                  </RightMargin>
 
-                  <Col span={`${width < OffsetSpanBreakpoint ? 1 : 2}`} />
-
-                  <Col span={12}>
-                    <GreetingContainer
-                      header={greetingHeader}
-                      body={greetingBody}
-                    />
-                  </Col>
-                </Row>
+                  <GreetingContainer
+                    header={greetingHeader}
+                    body={greetingBody}
+                  />
+                </CenterDiv>
               </TabletLoginPageContainer>
             );
           case WindowTypes.NarrowDesktop:

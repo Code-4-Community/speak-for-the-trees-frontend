@@ -1,4 +1,6 @@
 import React from 'react';
+import { SignupRequest } from '../../auth/ducks/types';
+import { ROUTE } from '../../App';
 import { Button, Col, Form, Input, Row, Typography } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { Link } from 'react-router-dom';
@@ -23,7 +25,7 @@ const Footer: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
 `;
 
 interface SignupFormProps {
-  readonly onFinish: any;
+  readonly onFinish: (values: SignupRequest) => void;
 }
 
 const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
@@ -129,11 +131,13 @@ const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
                     <Footer>
                       ALREADY HAVE AN ACCOUNT?
                       <br />
-                      LOGIN <Link to="/login">HERE!</Link>
+                      LOGIN <Link to={ROUTE.LOGIN}>HERE!</Link>
                     </Footer>
                   </>
                 );
-              default:
+              case WindowTypes.Tablet:
+              case WindowTypes.NarrowDesktop:
+              case WindowTypes.Desktop:
                 return (
                   <>
                     <Row>
@@ -149,7 +153,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
                         <Footer>
                           ALREADY HAVE AN ACCOUNT?
                           <br />
-                          LOGIN <Link to="/login">HERE!</Link>
+                          LOGIN <Link to={ROUTE.LOGIN}>HERE!</Link>
                         </Footer>
                       </Col>
                     </Row>

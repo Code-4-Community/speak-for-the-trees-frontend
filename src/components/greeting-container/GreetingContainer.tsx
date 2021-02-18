@@ -9,11 +9,17 @@ const { Paragraph, Title } = Typography;
 interface GreetingContainerProps {
   readonly header: string;
   readonly body: string;
+  readonly height?: string;
+}
+
+interface InfoContainerProps {
+  readonly height?: string;
 }
 
 const InfoContainer = styled.div`
   padding: 70px 70px 20px;
-  height: 481px;
+  height: ${(props: InfoContainerProps) =>
+    props.height ? props.height : '481px'};
   background: url(${logo}) no-repeat bottom right #d4edaa;
   box-shadow: 1.58105px 3.16211px 6.32421px rgba(0, 0, 0, 0.09);
   border-radius: 6.32421px;
@@ -27,9 +33,10 @@ const TextContainer = styled.div`
 const GreetingContainer: React.FC<GreetingContainerProps> = ({
   header,
   body,
+  height,
 }) => {
   return (
-    <InfoContainer>
+    <InfoContainer height={height}>
       <Title style={{ color: BLACK }}>{header}</Title>
       <TextContainer>
         <Paragraph>{body}</Paragraph>

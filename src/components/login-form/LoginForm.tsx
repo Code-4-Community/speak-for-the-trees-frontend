@@ -1,4 +1,5 @@
 import React from 'react';
+import { LoginRequest } from '../../auth/ducks/types';
 import { Button, Col, Form, Input, Row } from 'antd';
 import styled from 'styled-components';
 import useWindowDimensions, {
@@ -13,7 +14,7 @@ const formLayout = {
 };
 
 interface LoginFormProps {
-  readonly onFinish: any;
+  readonly onFinish: (values: LoginRequest) => void;
 }
 
 const LoginButton = styled(Button)`
