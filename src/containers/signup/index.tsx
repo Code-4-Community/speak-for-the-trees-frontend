@@ -11,9 +11,9 @@ import {
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
 import { C4CState } from '../../store';
-import { BLACK, LIGHT_GREY, WHITE } from '../../colors';
+import { BLACK, LIGHT_GREY, WHITE } from '../../utils/colors';
 import styled from 'styled-components';
-import MobilePageHeader from '../../components/pageHeader/mobilePageHeader';
+import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
 import SignupForm from '../../components/signupForm';
 import useWindowDimensions, {
   WindowTypes,

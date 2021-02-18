@@ -15,9 +15,9 @@ import { Routes } from '../../App';
 import { Alert, Col, Row, Typography } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import styled from 'styled-components';
-import { BLACK, LIGHT_GREY, TEXT_GREY, WHITE } from '../../colors';
+import { BLACK, LIGHT_GREY, TEXT_GREY, WHITE } from '../../utils/colors';
 import GreetingContainer from '../../components/greetingContainer';
-import MobilePageHeader from '../../components/pageHeader/mobilePageHeader';
+import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
 import LoginForm from '../../components/loginForm';
 import useWindowDimensions, {
   WindowTypes,

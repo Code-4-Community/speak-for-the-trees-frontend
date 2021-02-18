@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from 'antd';
-import { DARK_GREEN } from '../../../colors';
+import { DARK_GREEN } from '../../../utils/colors';
 import styled from 'styled-components';
 const { Paragraph } = Typography;
 

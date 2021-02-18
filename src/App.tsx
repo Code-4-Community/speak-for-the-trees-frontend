@@ -2,9 +2,9 @@ import React from 'react';
 import { connect, useSelector } from 'react-redux';
 import {
   BrowserRouter as Router,
+  Redirect,
   Route,
   Switch,
-  Redirect,
 } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import {
@@ -16,16 +16,15 @@ import { C4CState } from './store';
 
 import styled from 'styled-components';
 import Landing from './containers/landing';
-import Login from './containers/login';
-import Signup from './containers/signup';
 import AdminDashboard from './containers/adminDashboard';
-import Home from './containers/home';
-import Settings from './containers/settings';
 import VolunteerLeaderboard from './containers/volunteerLeaderboard';
-
+import { Layout } from 'antd';
+import Home from './containers/home';
+import Signup from './containers/signup';
+import Login from './containers/login';
+import Settings from './containers/settings';
 import NotFound from './containers/notFound';
 import NavBar from './components/navBar';
-import { Layout } from 'antd';
 
 const { Content } = Layout;
 
@@ -46,10 +45,10 @@ export enum Routes {
   NOT_FOUND = '*',
 }
 
-const App: React.FC<AppProps> = ({ tokens }) => {
-  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
-    getPrivilegeLevel(tokens),
-  );
+const App: React.FC = () => {
+  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
+    return getPrivilegeLevel(state.authenticationState.tokens);
+  });
 
   return (
     <>
@@ -103,7 +102,11 @@ const App: React.FC<AppProps> = ({ tokens }) => {
                         <Redirect to={Routes.HOME} />
                       </Route>
                       <Route path={Routes.HOME} exact component={Home} />
-                      <Route path={Routes.SETTINGS} exact component={Settings} />
+                      <Route
+                        path={Routes.SETTINGS}
+                        exact
+                        component={Settings}
+                      />
                       <Route
                         path={Routes.VOLUNTEER}
                         exact
@@ -131,7 +134,11 @@ const App: React.FC<AppProps> = ({ tokens }) => {
                         <Redirect to={Routes.HOME} />
                       </Route>
                       <Route path={Routes.HOME} exact component={Home} />
-                      <Route path={Routes.SETTINGS} exact component={Settings} />
+                      <Route
+                        path={Routes.SETTINGS}
+                        exact
+                        component={Settings}
+                      />
                       <Route
                         path={Routes.VOLUNTEER}
                         exact

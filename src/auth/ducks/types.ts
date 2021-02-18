@@ -1,18 +1,15 @@
 import { ThunkAction } from 'redux-thunk';
 import { AuthClient } from '../authClient';
-import { TokenService } from '../token';
 import { AsyncRequest } from '../../utils/asyncRequest';
 import { UserAuthenticationActions } from './actions';
 import { C4CState } from '../../store';
 
 export interface UserAuthenticationReducerState {
-  // todo: specify error type
   readonly tokens: AsyncRequest<TokenPayload, any>;
 }
 
 export interface UserAuthenticationExtraArgs {
   readonly authClient: AuthClient;
-  readonly tokenService: TokenService;
 }
 
 export type UserAuthenticationThunkAction<R> = ThunkAction<

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from 'antd';
-import { BLACK } from '../../colors';
+import { BLACK } from '../../utils/colors';
 import styled from 'styled-components';
 import logo from '../../SFTTicon.png';
 

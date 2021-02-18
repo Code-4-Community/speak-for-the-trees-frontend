@@ -4,7 +4,7 @@ import { Routes } from '../../App';
 import { Button, Col, Form, Input, Row, Typography } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { Link } from 'react-router-dom';
-import { TEXT_GREY } from '../../colors';
+import { TEXT_GREY } from '../../utils/colors';
 import styled from 'styled-components';
 import useWindowDimensions, {
   WindowTypes,

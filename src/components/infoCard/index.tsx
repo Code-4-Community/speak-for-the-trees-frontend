@@ -3,7 +3,7 @@ import { Card, Typography } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { TitleProps } from 'antd/lib/typography/Title';
 import styled from 'styled-components';
-import { TEXT_GREY } from '../../colors';
+import { TEXT_GREY } from '../../utils/colors';
 
 type InfoCardProps = {
   readonly header: string;

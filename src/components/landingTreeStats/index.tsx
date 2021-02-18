@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { Typography } from 'antd';
 import useWindowDimensions, { WindowTypes } from '../window-dimensions';
+import { TEXT_GREY, MID_GREEN } from '../../utils/colors';
+import MobileInfoCard from '../mobileComponents/mobileInfoCard';
 import InfoCard from '../infoCard';
-import MobileInfoCard from '../infoCard/mobileInfoCard';
-import { TEXT_GREY, MID_GREEN } from '../../colors';
 
 const TreeStatsContainer = styled.div`
   margin-top: 35px;

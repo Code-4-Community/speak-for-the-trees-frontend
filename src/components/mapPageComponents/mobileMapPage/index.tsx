@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Layout } from 'antd';
 import MapView from '../mapView';
 import MapLayout from '../mapLayout';
-import MobileFooter from '../../mobileFooter';
+import MobileFooter from '../../mobileComponents/mobileFooter';
 
 const { Content, Footer } = Layout;
 

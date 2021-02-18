@@ -13,14 +13,14 @@ import useWindowDimensions, { WindowTypes } from '../window-dimensions';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { connect, useSelector } from 'react-redux';
 import { C4CState } from '../../store';
-import MobileNavBar from './mobileNavBar';
+import MobileNavBar from '../mobileComponents/mobileNavBar';
 import {
   BACKGROUND_GREY,
   DARK_GREEN,
   LIGHT_GREEN,
   MID_GREEN,
   WHITE,
-} from '../../colors';
+} from '../../utils/colors';
 import Logo from '../../nav-bar-icon.png';
 
 const { Paragraph } = Typography;

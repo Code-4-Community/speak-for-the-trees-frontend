@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes } from '../../App';
 import { Carousel } from 'antd';
 import styled from 'styled-components';
-import { LIGHT_GREEN } from '../../colors';
+import { LIGHT_GREEN } from '../../utils/colors';
 import LinkCard from '../linkCard';
 import useWindowDimensions, { WindowTypes } from '../window-dimensions';
 
