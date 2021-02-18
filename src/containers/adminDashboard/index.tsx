@@ -49,11 +49,7 @@ const AdminDashboard: React.FC = () => {
       </Helmet>
 
       <AdminContentContainer>
-        <PageHeader
-          pageTitle="Admin Dashboard"
-          pageSubtitle=""
-          subtitleColor=""
-        />
+        <PageHeader pageTitle="Admin Dashboard" />
 
         {isSuperAdmin && (
           <EditUser>
