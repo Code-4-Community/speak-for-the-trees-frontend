@@ -1,31 +1,22 @@
 import React from 'react';
 import { connect, useSelector } from 'react-redux';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import {
-  PrivilegeLevel,
-  UserAuthenticationReducerState,
-} from '../src/auth/ducks/types';
+import { PrivilegeLevel, UserAuthenticationReducerState } from '../src/auth/ducks/types';
 import { getPrivilegeLevel } from '../src/auth/ducks/selectors';
 import { C4CState } from './store';
 
 import './App.less';
 import Landing from './containers/landing/Landing';
-import Login from './containers/login/Login';
-import Signup from './containers/signup/Signup';
 import AdminDashboard from './containers/admin-dashboard/AdminDashboard';
-import Home from './containers/home/Home';
-import Settings from './containers/settings/Settings';
 import VolunteerLeaderboard from './containers/volunteer-leaderboard/VolunteerLeaderboard';
-
-import NotFound from './containers/not-found/NotFound';
-import NavBar from './components/nav-bar/NavBar';
 import { Layout } from 'antd';
+import Home from './containers/home';
+import Signup from './containers/signup';
+import Login from './containers/login';
+import Settings from './containers/settings';
+import NotFound from './containers/notFound';
+import NavBar from './components/navbar';
 
 const { Content } = Layout;
 
@@ -42,10 +33,10 @@ export enum Routes {
   NOT_FOUND = '*',
 }
 
-const App: React.FC<AppProps> = ({ tokens }) => {
-  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
-    getPrivilegeLevel(tokens),
-  );
+const App: React.FC = () => {
+  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
+    return getPrivilegeLevel(state.authenticationState.tokens);
+  });
 
   return (
     <>
@@ -57,9 +48,9 @@ const App: React.FC<AppProps> = ({ tokens }) => {
         <meta name="description" content="Speak for the Trees Website" />
       </Helmet>
       <Router>
-        <Layout className="app-flex-container">
+        <Layout>
           <NavBar />
-          <Content className="content-padding">
+          <Content>
             {(() => {
               switch (privilegeLevel) {
                 case PrivilegeLevel.NONE:

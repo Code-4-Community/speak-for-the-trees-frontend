@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { DARK_GREY, MID_GREEN } from '../../colors';
+import { DARK_GREY, MID_GREEN } from '../../utils/colors';
 import { Typography } from 'antd';
 import PageHeader from '../../components/pageheader/PageHeader';
 import LinkCarousel from '../../components/linkcarousel/LinkCarousel';

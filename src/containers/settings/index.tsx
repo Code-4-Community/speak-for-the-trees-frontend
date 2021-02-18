@@ -2,7 +2,8 @@ import React from 'react';
 import { Col, Row, Button, Form, Input, Typography } from 'antd';
 import PageHeader from '../../components/pageheader/PageHeader';
 import styled from 'styled-components';
-import { MID_GREEN } from '../../colors';
+import { MID_GREEN } from '../../utils/colors';
+import ProtectedApiClient from '../../api/protectedApiClient';
 const { Paragraph } = Typography;
 
 const cSpan = 10;
@@ -36,8 +37,10 @@ const FormTitle = styled(Paragraph)`
 `;
 
 const Settings: React.FC = () => {
-  const onFinish = () => {
-    // deleteAccount();
+  const onFinishChangePassword = (values: any) => {
+    ProtectedApiClient.changePassword(values)
+      .then((res) => res)
+      .catch((e) => e);
   };
 
   return (
@@ -52,7 +55,7 @@ const Settings: React.FC = () => {
         <Row>
           <Col span={cSpan}>
             <FormTitle>Profile</FormTitle>
-            <Form name="edit-profile" onFinish={onFinish}>
+            <Form name="edit-profile">
               <Row>
                 <Col span={formHalfItemSpan}>
                   <Form.Item name="first-name">
@@ -93,7 +96,7 @@ const Settings: React.FC = () => {
 
           <Col span={cSpan}>
             <FormTitle>Change Password</FormTitle>
-            <Form {...formLayout} name="change-password" onFinish={onFinish}>
+            <Form {...formLayout} name="change-password" onFinish={onFinishChangePassword}>
               <Form.Item
                 name="current-password"
                 rules={[
@@ -140,7 +143,7 @@ const Settings: React.FC = () => {
             </Form>
 
             <FormTitle>Deactivate or Delete Account</FormTitle>
-            <Form name="delete-account" onFinish={onFinish}>
+            <Form name="delete-account">
               <Form.Item>
                 <SubmitButton type="primary" htmlType="submit">
                   Continue

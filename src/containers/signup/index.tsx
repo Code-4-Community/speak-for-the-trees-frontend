@@ -5,19 +5,13 @@ import { Helmet } from 'react-helmet';
 import GreetingContainer from '../../components/greeting-container/GreetingContainer';
 import { signup } from '../../auth/ducks/thunks';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import {
-  PrivilegeLevel,
-  SignupRequest,
-  UserAuthenticationReducerState,
-} from '../../auth/ducks/types';
+import { PrivilegeLevel, SignupRequest, UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { C4CState } from '../../store';
-import { BLACK, LIGHT_GREY, WHITE } from '../../colors';
+import { BLACK, LIGHT_GREY, WHITE } from '../../utils/colors';
 import styled from 'styled-components';
 import MobilePageHeader from '../../components/mobile-pageheader/MobilePageHeader';
 import SignupForm from '../../components/signup-form/SignupForm';
-import useWindowDimensions, {
-  WindowTypes,
-} from '../../components/window-dimensions';
+import useWindowDimensions, { WindowTypes } from '../../components/window-dimensions';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { Routes } from '../../App';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
