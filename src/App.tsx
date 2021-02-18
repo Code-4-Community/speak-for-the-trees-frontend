@@ -14,7 +14,6 @@ import {
 import { getPrivilegeLevel } from '../src/auth/ducks/selectors';
 import { C4CState } from './store';
 
-import './App.less';
 import Landing from './containers/landing/Landing';
 import AdminDashboard from './containers/admin-dashboard/AdminDashboard';
 import VolunteerLeaderboard from './containers/volunteer-leaderboard/VolunteerLeaderboard';
