@@ -1,31 +1,52 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { connect, useSelector } from 'react-redux';
-import { getPrivilegeLevel } from '../../auth/ducks/selectors';
-import { C4CState } from '../../store';
 import {
   PrivilegeLevel,
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
+import { ROUTE } from '../../App';
+import styled from 'styled-components';
 import { Avatar, Button, Dropdown, Menu, PageHeader, Typography } from 'antd';
+import { PageHeaderProps } from 'antd/es/page-header';
 import { UserOutlined } from '@ant-design/icons';
-import { DARK_GREEN, LIGHT_GREEN, WHITE } from '../../colors';
+import useWindowDimensions, { WindowTypes } from '../window-dimensions';
+import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { connect, useSelector } from 'react-redux';
+import { C4CState } from '../../store';
+import MobileNavBar from '../mobile-nav-bar/MobileNavBar';
+import {
+  BACKGROUND_GREY,
+  DARK_GREEN,
+  LIGHT_GREEN,
+  MID_GREEN,
+  WHITE,
+} from '../../colors';
 import Logo from '../../nav-bar-icon.png';
 
 const { Paragraph } = Typography;
 
+const NavHeader: typeof PageHeader = styled(PageHeader)<PageHeaderProps>`
+  box-shadow: '0 4px 2px -2px grey';
+  margin: '0 0 3px 0';
+  background: ${BACKGROUND_GREY};
+  color: ${MID_GREEN};
+`;
+
+const FlexDiv = styled.div`
+  display: flex;
+`;
+
 type NavBarProps = UserAuthenticationReducerState;
 
 const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
+  const { windowType } = useWindowDimensions();
   const history = useHistory();
 
   const privilegeLevel = useSelector((state: C4CState) =>
-    getPrivilegeLevel(tokens),
+    getPrivilegeLevel(state.authenticationState.tokens),
   );
 
-  const isLoggedIn: boolean =
-    privilegeLevel === PrivilegeLevel.STANDARD ||
-    privilegeLevel === PrivilegeLevel.ADMIN;
+  const isLoggedIn: boolean = privilegeLevel !== PrivilegeLevel.NONE;
 
   const BackIcon = () => {
     return (
@@ -44,14 +65,14 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
     <Menu>
       <Menu.Item
         onClick={() => {
-          history.push('/settings');
+          history.push(ROUTE.SETTINGS);
         }}
       >
         Account Settings
       </Menu.Item>
       <Menu.Item
         onClick={() => {
-          history.push('/');
+          history.push(ROUTE.LANDING);
         }}
       >
         Log Out
@@ -71,7 +92,7 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
             borderColor: LIGHT_GREEN,
             margin: '0 2vw 0 0',
           }}
-          onClick={() => history.push('/signup')}
+          onClick={() => history.push(ROUTE.SIGNUP)}
         >
           Sign Up
         </Button>
@@ -84,7 +105,7 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
             borderColor: WHITE,
             color: 'black',
           }}
-          onClick={() => history.push('/login')}
+          onClick={() => history.push(ROUTE.LOGIN)}
         >
           Log In
         </Button>
