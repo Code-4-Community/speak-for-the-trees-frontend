@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from 'antd';
-import { DARK_GREY } from '../../colors';
+import { DARK_GREY } from '../../utils/colors';
 import styled from 'styled-components';
 import useWindowDimensions, { WindowTypes } from '../window-dimensions';
 const { Paragraph } = Typography;

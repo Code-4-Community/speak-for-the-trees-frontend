@@ -3,7 +3,7 @@ import { Collapse, Space, Typography, Col, Row } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { CollapseProps } from 'antd/lib/collapse/Collapse';
 import { SpaceProps } from 'antd/lib/space/index';
-import { BLACK, LIGHT_GREEN } from '../../../colors';
+import { BLACK, LIGHT_GREEN } from '../../../utils/colors';
 import styled from 'styled-components';
 
 const { Paragraph } = Typography;

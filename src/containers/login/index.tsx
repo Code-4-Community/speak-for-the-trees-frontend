@@ -4,7 +4,11 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { C4CState } from '../../store';
 import { login } from '../../auth/ducks/thunks';
-import { LoginRequest, PrivilegeLevel, UserAuthenticationReducerState } from '../../auth/ducks/types';
+import {
+  LoginRequest,
+  PrivilegeLevel,
+  UserAuthenticationReducerState,
+} from '../../auth/ducks/types';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { Routes } from '../../App';
@@ -15,7 +19,9 @@ import { BLACK, LIGHT_GREY, TEXT_GREY, WHITE } from '../../utils/colors';
 import GreetingContainer from '../../components/greeting-container/GreetingContainer';
 import MobilePageHeader from '../../components/mobile-pageheader/MobilePageHeader';
 import LoginForm from '../../components/login-form/LoginForm';
-import useWindowDimensions, { WindowTypes } from '../../components/window-dimensions';
+import useWindowDimensions, {
+  WindowTypes,
+} from '../../components/window-dimensions';
 
 const { Paragraph, Title } = Typography;
 

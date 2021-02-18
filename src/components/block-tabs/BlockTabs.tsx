@@ -1,7 +1,7 @@
 import React from 'react';
 import { List, Tabs } from 'antd';
 import styled from 'styled-components';
-import { DARK_GREY } from '../../colors';
+import { DARK_GREY } from '../../utils/colors';
 import BlockCard from '../block-card/BlockCard';
 
 const { TabPane } = Tabs;

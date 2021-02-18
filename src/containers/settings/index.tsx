@@ -96,7 +96,11 @@ const Settings: React.FC = () => {
 
           <Col span={cSpan}>
             <FormTitle>Change Password</FormTitle>
-            <Form {...formLayout} name="change-password" onFinish={onFinishChangePassword}>
+            <Form
+              {...formLayout}
+              name="change-password"
+              onFinish={onFinishChangePassword}
+            >
               <Form.Item
                 name="current-password"
                 rules={[

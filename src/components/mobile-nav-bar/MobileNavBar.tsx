@@ -5,7 +5,12 @@ import styled from 'styled-components';
 import { PageHeader, Button, Menu, Dropdown } from 'antd';
 import { PageHeaderProps } from 'antd/es/page-header';
 import { MenuOutlined } from '@ant-design/icons';
-import { MID_GREEN, DARK_GREY, BACKGROUND_GREY, WHITE } from '../../colors';
+import {
+  MID_GREEN,
+  DARK_GREY,
+  BACKGROUND_GREY,
+  WHITE,
+} from '../../utils/colors';
 import Logo from '../../nav-bar-icon.png';
 
 interface MobileNavBarProps {

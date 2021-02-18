@@ -9,7 +9,7 @@ import {
   MID_GREEN,
   WHITE,
   BLACK,
-} from '../../../colors';
+} from '../../../utils/colors';
 
 const { Paragraph } = Typography;
 

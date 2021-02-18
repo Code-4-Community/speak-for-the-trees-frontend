@@ -1,8 +1,16 @@
 import React from 'react';
 import { connect, useSelector } from 'react-redux';
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { PrivilegeLevel, UserAuthenticationReducerState } from '../src/auth/ducks/types';
+import {
+  PrivilegeLevel,
+  UserAuthenticationReducerState,
+} from '../src/auth/ducks/types';
 import { getPrivilegeLevel } from '../src/auth/ducks/selectors';
 import { C4CState } from './store';
 
@@ -90,7 +98,11 @@ const App: React.FC = () => {
                         <Redirect to={Routes.HOME} />
                       </Route>
                       <Route path={Routes.HOME} exact component={Home} />
-                      <Route path={Routes.SETTINGS} exact component={Settings} />
+                      <Route
+                        path={Routes.SETTINGS}
+                        exact
+                        component={Settings}
+                      />
                       <Route
                         path={Routes.VOLUNTEER}
                         exact
@@ -118,7 +130,11 @@ const App: React.FC = () => {
                         <Redirect to={Routes.HOME} />
                       </Route>
                       <Route path={Routes.HOME} exact component={Home} />
-                      <Route path={Routes.SETTINGS} exact component={Settings} />
+                      <Route
+                        path={Routes.SETTINGS}
+                        exact
+                        component={Settings}
+                      />
                       <Route
                         path={Routes.VOLUNTEER}
                         exact
