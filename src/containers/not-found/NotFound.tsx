@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
+import { Routes } from '../../App';
 import { Typography } from 'antd';
 const { Title } = Typography;
 
@@ -24,7 +25,7 @@ const Template: React.FC = () => {
         */}
         <Title>Oops! We can't find the page you're looking for.</Title>
 
-        <Link to="/">
+        <Link to={Routes.LANDING}>
           <Typography.Link>Take me back home!</Typography.Link>
         </Link>
       </div>

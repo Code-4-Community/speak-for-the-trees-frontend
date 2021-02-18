@@ -1,14 +1,18 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import {
+  PrivilegeLevel,
+  UserAuthenticationReducerState,
+} from '../../auth/ducks/types';
+import { Routes } from '../../App';
 import styled from 'styled-components';
 import { Avatar, Button, Dropdown, Menu, PageHeader, Typography } from 'antd';
 import { PageHeaderProps } from 'antd/es/page-header';
 import { UserOutlined } from '@ant-design/icons';
 import useWindowDimensions, { WindowTypes } from '../window-dimensions';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
-import { useSelector } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { C4CState } from '../../store';
-import { PrivilegeLevel } from '../../auth/ducks/types';
 import MobileNavBar from '../mobile-nav-bar/MobileNavBar';
 import {
   BACKGROUND_GREY,
@@ -32,7 +36,9 @@ const FlexDiv = styled.div`
   display: flex;
 `;
 
-const NavBar: React.FC = () => {
+type NavBarProps = UserAuthenticationReducerState;
+
+const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
   const { windowType } = useWindowDimensions();
   const history = useHistory();
 
@@ -40,7 +46,7 @@ const NavBar: React.FC = () => {
     getPrivilegeLevel(state.authenticationState.tokens),
   );
 
-  const isLoggedIn: boolean = privilegeLevel > PrivilegeLevel.NONE;
+  const isLoggedIn: boolean = privilegeLevel !== PrivilegeLevel.NONE;
 
   const BackIcon = () => {
     return (
@@ -59,14 +65,14 @@ const NavBar: React.FC = () => {
     <Menu>
       <Menu.Item
         onClick={() => {
-          history.push('/settings');
+          history.push(Routes.SETTINGS);
         }}
       >
         Account Settings
       </Menu.Item>
       <Menu.Item
         onClick={() => {
-          history.push('/');
+          history.push(Routes.LANDING);
         }}
       >
         Log Out
@@ -86,7 +92,7 @@ const NavBar: React.FC = () => {
             borderColor: LIGHT_GREEN,
             margin: '0 2vw 0 0',
           }}
-          onClick={() => history.push('/signup')}
+          onClick={() => history.push(Routes.SIGNUP)}
         >
           Sign Up
         </Button>
@@ -99,7 +105,7 @@ const NavBar: React.FC = () => {
             borderColor: WHITE,
             color: 'black',
           }}
-          onClick={() => history.push('/login')}
+          onClick={() => history.push(Routes.LOGIN)}
         >
           Log In
         </Button>
@@ -145,4 +151,10 @@ const NavBar: React.FC = () => {
   }
 };
 
-export default NavBar;
+const mapStateToProps = (state: C4CState): NavBarProps => {
+  return {
+    tokens: state.authenticationState.tokens,
+  };
+};
+
+export default connect(mapStateToProps)(NavBar);
