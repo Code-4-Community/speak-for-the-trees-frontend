@@ -20,7 +20,7 @@ import {
   LIGHT_GREEN,
   MID_GREEN,
   WHITE,
-} from '../../colors';
+} from '../../utils/colors';
 import Logo from '../../nav-bar-icon.png';
 
 const { Paragraph } = Typography;

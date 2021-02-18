@@ -4,7 +4,7 @@ import { Typography } from 'antd';
 import useWindowDimensions, { WindowTypes } from '../window-dimensions';
 import InfoCard from '../info-card/InfoCard';
 import MobileInfoCard from '../mobile-info-card/MobileInfoCard';
-import { TEXT_GREY, MID_GREEN } from '../../colors';
+import { TEXT_GREY, MID_GREEN } from '../../utils/colors';
 
 const TreeStatsContainer = styled.div`
   margin-top: 35px;

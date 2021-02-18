@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Typography } from 'antd';
 import styled from 'styled-components';
-import { MID_GREEN, TEXT_GREY } from '../../colors';
+import { MID_GREEN, TEXT_GREY } from '../../utils/colors';
 
 interface MobileInfoCardProps {
   readonly header: string;
