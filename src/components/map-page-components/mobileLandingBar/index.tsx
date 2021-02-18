@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { ROUTE } from '../../../App';
+import { Routes } from '../../../App';
 import styled from 'styled-components';
 import { Button, Typography } from 'antd';
 import {
@@ -89,7 +89,7 @@ const MobileLandingBar: React.FC = ({ children }) => {
                 type="primary"
                 htmlType="submit"
                 size="large"
-                onClick={() => history.push(ROUTE.LOGIN)}
+                onClick={() => history.push(Routes.LOGIN)}
               >
                 Log In
               </LoginButton>
@@ -99,7 +99,7 @@ const MobileLandingBar: React.FC = ({ children }) => {
                 type="primary"
                 htmlType="submit"
                 size="large"
-                onClick={() => history.push(ROUTE.SIGNUP)}
+                onClick={() => history.push(Routes.SIGNUP)}
               >
                 Sign Up
               </SignUpButton>

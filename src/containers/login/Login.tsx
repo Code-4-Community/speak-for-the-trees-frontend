@@ -11,7 +11,7 @@ import {
 } from '../../auth/ducks/types';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
-import { ROUTE } from '../../App';
+import { Routes } from '../../App';
 import { Alert, Col, Row, Typography } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import styled from 'styled-components';
@@ -100,7 +100,7 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
   const loginFailed: boolean = tokens.kind === AsyncRequestKinds.Failed;
 
   if (privilegeLevel !== PrivilegeLevel.NONE) {
-    history.push(ROUTE.HOME);
+    history.push(Routes.HOME);
   }
 
   const onFinish = (values: LoginRequest) => {
@@ -110,13 +110,13 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
   const ForgotPasswordFooter = (
     <div>
       <Paragraph>
-        <Link to={ROUTE.NOT_FOUND}>FORGOT PASSWORD?</Link>
+        <Link to={Routes.NOT_FOUND}>FORGOT PASSWORD?</Link>
       </Paragraph>
 
       <Footer>
         NEW TO SPEAK FOR THE TREES?
         <br />
-        SIGN UP <Link to={ROUTE.SIGNUP}>HERE!</Link>
+        SIGN UP <Link to={Routes.SIGNUP}>HERE!</Link>
       </Footer>
     </div>
   );

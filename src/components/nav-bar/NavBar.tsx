@@ -4,7 +4,7 @@ import {
   PrivilegeLevel,
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
-import { ROUTE } from '../../App';
+import { Routes } from '../../App';
 import styled from 'styled-components';
 import { Avatar, Button, Dropdown, Menu, PageHeader, Typography } from 'antd';
 import { PageHeaderProps } from 'antd/es/page-header';
@@ -65,14 +65,14 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
     <Menu>
       <Menu.Item
         onClick={() => {
-          history.push(ROUTE.SETTINGS);
+          history.push(Routes.SETTINGS);
         }}
       >
         Account Settings
       </Menu.Item>
       <Menu.Item
         onClick={() => {
-          history.push(ROUTE.LANDING);
+          history.push(Routes.LANDING);
         }}
       >
         Log Out
@@ -92,7 +92,7 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
             borderColor: LIGHT_GREEN,
             margin: '0 2vw 0 0',
           }}
-          onClick={() => history.push(ROUTE.SIGNUP)}
+          onClick={() => history.push(Routes.SIGNUP)}
         >
           Sign Up
         </Button>
@@ -105,7 +105,7 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
             borderColor: WHITE,
             color: 'black',
           }}
-          onClick={() => history.push(ROUTE.LOGIN)}
+          onClick={() => history.push(Routes.LOGIN)}
         >
           Log In
         </Button>

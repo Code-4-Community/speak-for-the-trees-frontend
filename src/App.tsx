@@ -31,7 +31,7 @@ const { Content } = Layout;
 
 type AppProps = UserAuthenticationReducerState;
 
-export enum ROUTE {
+export enum Routes {
   LANDING = '/',
   LOGIN = '/login',
   SIGNUP = '/signup',
@@ -65,23 +65,23 @@ const App: React.FC<AppProps> = ({ tokens }) => {
                 case PrivilegeLevel.NONE:
                   return (
                     <Switch>
-                      <Route path={ROUTE.LANDING} exact component={Landing} />
-                      <Route path={ROUTE.LOGIN} exact component={Login} />
-                      <Route path={ROUTE.SIGNUP} exact component={Signup} />
-                      <Route path={ROUTE.HOME}>
-                        <Redirect to={ROUTE.LOGIN} />
+                      <Route path={Routes.LANDING} exact component={Landing} />
+                      <Route path={Routes.LOGIN} exact component={Login} />
+                      <Route path={Routes.SIGNUP} exact component={Signup} />
+                      <Route path={Routes.HOME}>
+                        <Redirect to={Routes.LOGIN} />
                       </Route>
-                      <Route path={ROUTE.SETTINGS}>
-                        <Redirect to={ROUTE.LOGIN} />
+                      <Route path={Routes.SETTINGS}>
+                        <Redirect to={Routes.LOGIN} />
                       </Route>
-                      <Route path={ROUTE.VOLUNTEER}>
-                        <Redirect to={ROUTE.LOGIN} />
+                      <Route path={Routes.VOLUNTEER}>
+                        <Redirect to={Routes.LOGIN} />
                       </Route>
-                      <Route path={ROUTE.ADMIN}>
-                        <Redirect to={ROUTE.LOGIN} />
+                      <Route path={Routes.ADMIN}>
+                        <Redirect to={Routes.LOGIN} />
                       </Route>
                       <Route
-                        path={ROUTE.NOT_FOUND}
+                        path={Routes.NOT_FOUND}
                         exact
                         component={NotFound}
                       />
@@ -91,25 +91,25 @@ const App: React.FC<AppProps> = ({ tokens }) => {
                 case PrivilegeLevel.STANDARD:
                   return (
                     <Switch>
-                      <Route path={ROUTE.LANDING} exact component={Landing} />
-                      <Route path={ROUTE.LOGIN}>
-                        <Redirect to={ROUTE.HOME} />
+                      <Route path={Routes.LANDING} exact component={Landing} />
+                      <Route path={Routes.LOGIN}>
+                        <Redirect to={Routes.HOME} />
                       </Route>
-                      <Route path={ROUTE.SIGNUP}>
-                        <Redirect to={ROUTE.HOME} />
+                      <Route path={Routes.SIGNUP}>
+                        <Redirect to={Routes.HOME} />
                       </Route>
-                      <Route path={ROUTE.HOME} exact component={Home} />
-                      <Route path={ROUTE.SETTINGS} exact component={Settings} />
+                      <Route path={Routes.HOME} exact component={Home} />
+                      <Route path={Routes.SETTINGS} exact component={Settings} />
                       <Route
-                        path={ROUTE.VOLUNTEER}
+                        path={Routes.VOLUNTEER}
                         exact
                         component={VolunteerLeaderboard}
                       />
-                      <Route path={ROUTE.ADMIN}>
-                        <Redirect to={ROUTE.HOME} />
+                      <Route path={Routes.ADMIN}>
+                        <Redirect to={Routes.HOME} />
                       </Route>
                       <Route
-                        path={ROUTE.NOT_FOUND}
+                        path={Routes.NOT_FOUND}
                         exact
                         component={NotFound}
                       />
@@ -119,27 +119,27 @@ const App: React.FC<AppProps> = ({ tokens }) => {
                 case PrivilegeLevel.ADMIN:
                   return (
                     <Switch>
-                      <Route path={ROUTE.LANDING} exact component={Landing} />
-                      <Route path={ROUTE.LOGIN}>
-                        <Redirect to={ROUTE.HOME} />
+                      <Route path={Routes.LANDING} exact component={Landing} />
+                      <Route path={Routes.LOGIN}>
+                        <Redirect to={Routes.HOME} />
                       </Route>
-                      <Route path={ROUTE.SIGNUP}>
-                        <Redirect to={ROUTE.HOME} />
+                      <Route path={Routes.SIGNUP}>
+                        <Redirect to={Routes.HOME} />
                       </Route>
-                      <Route path={ROUTE.HOME} exact component={Home} />
-                      <Route path={ROUTE.SETTINGS} exact component={Settings} />
+                      <Route path={Routes.HOME} exact component={Home} />
+                      <Route path={Routes.SETTINGS} exact component={Settings} />
                       <Route
-                        path={ROUTE.VOLUNTEER}
+                        path={Routes.VOLUNTEER}
                         exact
                         component={VolunteerLeaderboard}
                       />
                       <Route
-                        path={ROUTE.ADMIN}
+                        path={Routes.ADMIN}
                         exact
                         component={AdminDashboard}
                       />
                       <Route
-                        path={ROUTE.NOT_FOUND}
+                        path={Routes.NOT_FOUND}
                         exact
                         component={NotFound}
                       />

@@ -19,7 +19,7 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/window-dimensions';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
-import { ROUTE } from '../../App';
+import { Routes } from '../../App';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 
 const { Title } = Typography;
@@ -88,7 +88,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
   );
 
   if (privilegeLevel !== PrivilegeLevel.NONE) {
-    history.push(ROUTE.HOME);
+    history.push(Routes.HOME);
   }
 
   const onFinish = (values: SignupRequest) => {

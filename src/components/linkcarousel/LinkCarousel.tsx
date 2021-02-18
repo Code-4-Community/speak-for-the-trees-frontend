@@ -1,5 +1,5 @@
 import React from 'react';
-import { ROUTE } from '../../App';
+import { Routes } from '../../App';
 import { Carousel } from 'antd';
 import styled from 'styled-components';
 import { LIGHT_GREEN } from '../../colors';
@@ -48,36 +48,36 @@ const LinkCarousel: React.FC = () => {
         <CarouselSlide>
           <LinkCard
             text="My Blocks"
-            path={ROUTE.NOT_FOUND}
+            path={Routes.NOT_FOUND}
             background="img1"
           />
         </CarouselSlide>
         <CarouselSlide>
           <LinkCard
             text="View Teams"
-            path={ROUTE.NOT_FOUND}
+            path={Routes.NOT_FOUND}
             background="img2"
           />
         </CarouselSlide>
         <CarouselSlide>
           <LinkCard
             text="Volunteer Leaderboard"
-            path={ROUTE.VOLUNTEER}
+            path={Routes.VOLUNTEER}
             background="img3"
           />
         </CarouselSlide>
         <CarouselSlide>
           <LinkCard
             text="Team Leaderboard"
-            path={ROUTE.NOT_FOUND}
+            path={Routes.NOT_FOUND}
             background="img4"
           />
         </CarouselSlide>
         <CarouselSlide>
-          <LinkCard text="5th Card" path={ROUTE.NOT_FOUND} background="img1" />
+          <LinkCard text="5th Card" path={Routes.NOT_FOUND} background="img1" />
         </CarouselSlide>
         <CarouselSlide>
-          <LinkCard text="6th Card" path={ROUTE.NOT_FOUND} background="img2" />
+          <LinkCard text="6th Card" path={Routes.NOT_FOUND} background="img2" />
         </CarouselSlide>
       </StyledCarousel>
     </>

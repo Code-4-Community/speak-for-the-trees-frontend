@@ -1,6 +1,6 @@
 import React from 'react';
 import { SignupRequest } from '../../auth/ducks/types';
-import { ROUTE } from '../../App';
+import { Routes } from '../../App';
 import { Button, Col, Form, Input, Row, Typography } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { Link } from 'react-router-dom';
@@ -131,7 +131,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
                     <Footer>
                       ALREADY HAVE AN ACCOUNT?
                       <br />
-                      LOGIN <Link to={ROUTE.LOGIN}>HERE!</Link>
+                      LOGIN <Link to={Routes.LOGIN}>HERE!</Link>
                     </Footer>
                   </>
                 );
@@ -153,7 +153,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
                         <Footer>
                           ALREADY HAVE AN ACCOUNT?
                           <br />
-                          LOGIN <Link to={ROUTE.LOGIN}>HERE!</Link>
+                          LOGIN <Link to={Routes.LOGIN}>HERE!</Link>
                         </Footer>
                       </Col>
                     </Row>

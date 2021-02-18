@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { ROUTE } from '../../App';
+import { Routes } from '../../App';
 import styled from 'styled-components';
 import { PageHeader, Button, Menu, Dropdown } from 'antd';
 import { PageHeaderProps } from 'antd/es/page-header';
@@ -65,7 +65,7 @@ const MobileNavBar: React.FC<MobileNavBarProps> = ({ isLoggedIn }) => {
           }}
         />
       }
-      onBack={() => history.push(ROUTE.LANDING)}
+      onBack={() => history.push(Routes.LANDING)}
       extra={
         isLoggedIn && (
           <FlexDiv>
@@ -74,7 +74,7 @@ const MobileNavBar: React.FC<MobileNavBarProps> = ({ isLoggedIn }) => {
                 <RightMenu>
                   <GreyItem
                     onClick={() => {
-                      history.push(ROUTE.SETTINGS);
+                      history.push(Routes.SETTINGS);
                     }}
                   >
                     Account Settings
@@ -84,7 +84,7 @@ const MobileNavBar: React.FC<MobileNavBarProps> = ({ isLoggedIn }) => {
                       type="primary"
                       size="large"
                       onClick={() => {
-                        history.push(ROUTE.LANDING);
+                        history.push(Routes.LANDING);
                       }}
                     >
                       Log Out
