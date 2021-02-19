@@ -3,8 +3,8 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { DARK_GREY, MID_GREEN } from '../../utils/colors';
 import { Typography } from 'antd';
-import PageHeader from '../../components/pageheader/PageHeader';
-import LinkCarousel from '../../components/linkcarousel/LinkCarousel';
+import PageHeader from '../../components/pageHeader';
+import LinkCarousel from '../../components/linkCarousel';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/window-dimensions';
@@ -19,6 +19,7 @@ const StyledSubtitle = styled(Paragraph)`
 
 const HomeContainer = styled.div`
   max-width: 1400px;
+  min-height: 80vh;
   margin: auto;
   padding: 24px;
   background: url(${HomeBackground}) no-repeat top right;
@@ -31,12 +32,11 @@ const Home: React.FC = () => {
       <Helmet>
         <title>Home</title>
         <meta
-          name="description"
+          name="User Home"
           content="The user's home page after logging in, has links directing them to the blocks, teams, and leaderboard pages."
         />
       </Helmet>
       <HomeContainer
-        className="home-container"
         style={{
           marginTop: `${windowType === WindowTypes.Mobile ? '0vh' : '10vh'}`,
         }}

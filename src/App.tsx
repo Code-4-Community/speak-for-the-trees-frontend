@@ -14,18 +14,23 @@ import {
 import { getPrivilegeLevel } from '../src/auth/ducks/selectors';
 import { C4CState } from './store';
 
-import Landing from './containers/landing/Landing';
-import AdminDashboard from './containers/admin-dashboard/AdminDashboard';
-import VolunteerLeaderboard from './containers/volunteer-leaderboard/VolunteerLeaderboard';
+import styled from 'styled-components';
+import Landing from './containers/landing';
+import AdminDashboard from './containers/adminDashboard';
+import VolunteerLeaderboard from './containers/volunteerLeaderboard';
 import { Layout } from 'antd';
 import Home from './containers/home';
 import Signup from './containers/signup';
 import Login from './containers/login';
 import Settings from './containers/settings';
 import NotFound from './containers/notFound';
-import NavBar from './components/navbar';
+import NavBar from './components/navBar';
 
 const { Content } = Layout;
+
+const AppLayout = styled(Layout)`
+  min-height: 100vh;
+`;
 
 type AppProps = UserAuthenticationReducerState;
 
@@ -55,7 +60,7 @@ const App: React.FC = () => {
         <meta name="description" content="Speak for the Trees Website" />
       </Helmet>
       <Router>
-        <Layout>
+        <AppLayout>
           <NavBar />
           <Content>
             {(() => {
@@ -154,7 +159,7 @@ const App: React.FC = () => {
               }
             })()}
           </Content>
-        </Layout>
+        </AppLayout>
       </Router>
     </>
   );

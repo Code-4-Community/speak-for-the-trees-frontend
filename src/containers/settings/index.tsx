@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Row, Button, Form, Input, Typography } from 'antd';
-import PageHeader from '../../components/pageheader/PageHeader';
+import PageHeader from '../../components/pageHeader';
 import styled from 'styled-components';
 import { MID_GREEN } from '../../utils/colors';
 import ProtectedApiClient from '../../api/protectedApiClient';
@@ -46,11 +46,7 @@ const Settings: React.FC = () => {
   return (
     <>
       <SettingsContainer>
-        <PageHeader
-          pageTitle="Account Settings"
-          pageSubtitle=""
-          subtitleColor=""
-        />
+        <PageHeader pageTitle="Account Settings" />
 
         <Row>
           <Col span={cSpan}>

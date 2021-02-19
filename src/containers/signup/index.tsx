@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Alert, Col, Row, Typography } from 'antd';
 import { Helmet } from 'react-helmet';
-import GreetingContainer from '../../components/greeting-container/GreetingContainer';
+import GreetingContainer from '../../components/greetingContainer';
 import { signup } from '../../auth/ducks/thunks';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import {
@@ -13,8 +13,8 @@ import {
 import { C4CState } from '../../store';
 import { BLACK, LIGHT_GREY, WHITE } from '../../utils/colors';
 import styled from 'styled-components';
-import MobilePageHeader from '../../components/mobile-pageheader/MobilePageHeader';
-import SignupForm from '../../components/signup-form/SignupForm';
+import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
+import SignupForm from '../../components/signupForm';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/window-dimensions';

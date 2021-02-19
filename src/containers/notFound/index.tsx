@@ -2,16 +2,19 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { Routes } from '../../App';
-import { Typography } from 'antd';
 import { ContentContainer } from '../../components';
+import { Typography } from 'antd';
 const { Title } = Typography;
 
 const NotFound: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Title goes here</title>
-        <meta name="description" content="Description goes here." />
+        <title>Not Found</title>
+        <meta
+          name="Not Found"
+          content="The page users are directed to after entering a route that does not exist."
+        />
       </Helmet>
       <ContentContainer>
         <Title>Oops! We can't find the page you're looking for.</Title>
