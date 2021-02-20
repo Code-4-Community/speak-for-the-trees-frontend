@@ -18,6 +18,7 @@ import styled from 'styled-components';
 import Landing from './containers/landing';
 import AdminDashboard from './containers/adminDashboard';
 import VolunteerLeaderboard from './containers/volunteerLeaderboard';
+import TeamLeaderboard from './containers/teamLeaderboard';
 import { Layout } from 'antd';
 import Home from './containers/home';
 import Signup from './containers/signup';
@@ -41,6 +42,7 @@ export enum Routes {
   HOME = '/home',
   SETTINGS = '/settings',
   VOLUNTEER = '/volunteer',
+  TEAM_LEADERBOARD = './team-leaderboard',
   ADMIN = '/admin',
   NOT_FOUND = '*',
 }
@@ -80,6 +82,9 @@ const App: React.FC = () => {
                       <Route path={Routes.VOLUNTEER}>
                         <Redirect to={Routes.LOGIN} />
                       </Route>
+                      <Route path={Routes.TEAM_LEADERBOARD}>
+                        <Redirect to={Routes.LOGIN} />
+                      </Route>
                       <Route path={Routes.ADMIN}>
                         <Redirect to={Routes.LOGIN} />
                       </Route>
@@ -112,6 +117,11 @@ const App: React.FC = () => {
                         exact
                         component={VolunteerLeaderboard}
                       />
+                      <Route
+                        path={Routes.TEAM_LEADERBOARD}
+                        exact
+                        component={TeamLeaderboard}
+                      />
                       <Route path={Routes.ADMIN}>
                         <Redirect to={Routes.HOME} />
                       </Route>
@@ -143,6 +153,11 @@ const App: React.FC = () => {
                         path={Routes.VOLUNTEER}
                         exact
                         component={VolunteerLeaderboard}
+                      />
+                      <Route
+                        path={Routes.TEAM_LEADERBOARD}
+                        exact
+                        component={TeamLeaderboard}
                       />
                       <Route
                         path={Routes.ADMIN}

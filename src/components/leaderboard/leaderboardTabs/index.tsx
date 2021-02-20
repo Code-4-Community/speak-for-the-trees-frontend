@@ -1,30 +1,35 @@
 import * as React from 'react';
 import { Tabs, Pagination } from 'antd';
-import LeaderboardTab, { LeaderboardItem } from '../leaderboardTab';
+import LeaderboardTab, { TabItem } from '../leaderboardTab';
+import { tabToDays } from '../constants';
 
 export interface TabInfo {
   name: string;
-  content: LeaderboardItem[];
+  content: TabItem[];
 }
 
 interface LeaderboardTabsProps {
-  tabs: TabInfo[];
-  defaultTab?: string;
+  items: TabItem[];
+  tabNames: string[];
+  currentTab: string;
   itemsPerPage: number;
+  onChangeTimeTab: (tab: string, days: number | null) => void;
 }
 
 const LeaderboardTabs: React.FC<LeaderboardTabsProps> = ({
-  tabs,
-  defaultTab,
+  items,
+  tabNames,
+  currentTab,
   itemsPerPage,
+  onChangeTimeTab,
 }) => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
-  const [currentTab, setCurrentTab] = React.useState<string>(
-    defaultTab ? defaultTab : tabs[0].name,
-  );
 
   const onChangePage = (page: number): void => setCurrentPage(page);
-  const onChangeTab = (tab: string): void => setCurrentTab(tab);
+  const onChangeTab = (tab: string): void => {
+    const days = tabToDays(tab);
+    onChangeTimeTab(tab, days);
+  };
 
   return (
     <Tabs
@@ -40,11 +45,11 @@ const LeaderboardTabs: React.FC<LeaderboardTabsProps> = ({
         />
       }
     >
-      {tabs.map((tabInfo, key) => {
+      {tabNames.map((name) => {
         return (
-          <Tabs.TabPane tab={tabInfo.name} key={key}>
+          <Tabs.TabPane tab={name} key={name}>
             <LeaderboardTab
-              tabItems={tabInfo.content}
+              tabItems={items}
               currentPage={currentPage}
               itemsPerPage={itemsPerPage}
             />

@@ -69,7 +69,7 @@ const LinkCarousel: React.FC = () => {
         <CarouselSlide>
           <LinkCard
             text="Team Leaderboard"
-            path={Routes.NOT_FOUND}
+            path={Routes.TEAM_LEADERBOARD}
             background="img4"
           />
         </CarouselSlide>
