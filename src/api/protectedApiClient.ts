@@ -1,11 +1,9 @@
 import App from '../App';
 import AppAxiosInstance from '../auth/axios';
-import { 
-  blockResponseToFrontend, 
-  BlockGeoData, 
-  neighborhoodResponseToFrontend,
+import {
+  BlockGeoData,
   NeighborhoodGeoData,
-} from '../containers/reservations/ducks/types';
+} from '../components/map-page-components/map-view/ducks/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -22,18 +20,20 @@ enum ProtectedApiClientRoutes {
 }
 
 const getBlockGeoData = (): Promise<BlockGeoData> => {
-  return AppAxiosInstance.get(ProtectedApiClientRoutes.GET_ALL_BLOCKS)
-  .then((response) => {
-    return blockResponseToFrontend(response.data)
-  })
-}
+  return AppAxiosInstance.get(ProtectedApiClientRoutes.GET_ALL_BLOCKS).then(
+    (response) => {
+      return response.data;
+    },
+  );
+};
 
 const getNeighborhoodGeoData = (): Promise<NeighborhoodGeoData> => {
-  return AppAxiosInstance.get(ProtectedApiClientRoutes.GET_ALL_NEIGHBORHOODS)
-  .then((response) => {
-    return neighborhoodResponseToFrontend(response.data)
-  })
-}
+  return AppAxiosInstance.get(
+    ProtectedApiClientRoutes.GET_ALL_NEIGHBORHOODS,
+  ).then((response) => {
+    return response.data;
+  });
+};
 
 const Client: ProtectedApiClient = Object.freeze({
   getBlockGeoData,

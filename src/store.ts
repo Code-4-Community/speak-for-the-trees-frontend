@@ -15,22 +15,23 @@ import userReducer, { initialUserState } from './auth/ducks/reducers';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import tokenService from './auth/token';
-import protectedApiClient, { ProtectedApiExtraArgs } from './api/protectedApiClient';
-import { 
+import protectedApiClient, {
+  ProtectedApiExtraArgs,
+} from './api/protectedApiClient';
+import {
   BlockGeoDataReducerState,
-  NeighborhoodGeoDataReducerState,  
-} from './containers/reservations/ducks/types';
-import { 
+  NeighborhoodGeoDataReducerState,
+} from './components/map-page-components/map-view/ducks/types';
+import {
   BlockGeoDataAction,
   NeighborhoodGeoDataAction,
-} from './containers/reservations/ducks/actions';
+} from './components/map-page-components/map-view/ducks/actions';
 import blockGeoDataReducer, {
-  initialBlockGeoDataState
-} from './containers/reservations/ducks/blockReducer';
+  initialBlockGeoDataState,
+} from './components/map-page-components/map-view/ducks/blockReducer';
 import neighborhoodGeoDataReducer, {
-  initialNeighborhoodGeoDataState
-} from './containers/reservations/ducks/neighbordhoodReducer';
-
+  initialNeighborhoodGeoDataState,
+} from './components/map-page-components/map-view/ducks/neighbordhoodReducer';
 
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
@@ -43,11 +44,13 @@ export interface Action<T, P> {
   readonly payload: P;
 }
 
-export type C4CAction = UserAuthenticationActions 
-                        & BlockGeoDataAction
-                        & NeighborhoodGeoDataAction;
+export type C4CAction =
+  | UserAuthenticationActions
+  | BlockGeoDataAction
+  | NeighborhoodGeoDataAction;
 
-export type ThunkExtraArgs = UserAuthenticationExtraArgs & ProtectedApiExtraArgs;
+export type ThunkExtraArgs = UserAuthenticationExtraArgs &
+  ProtectedApiExtraArgs;
 
 const reducers = combineReducers<C4CState, C4CAction>({
   authenticationState: userReducer,

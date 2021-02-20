@@ -2,6 +2,7 @@ import React from 'react';
 import { Input, message } from 'antd';
 import { Loader } from '@googlemaps/js-api-loader';
 import styled from 'styled-components';
+import { BlockGeoData, NeighborhoodGeoData } from './ducks/types';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -24,7 +25,12 @@ const MapDiv = styled.div`
   height: 100%;
 `;
 
-const MapView: React.FC = () => {
+interface MapViewProps {
+  blocks: BlockGeoData;
+  neighborhoods: NeighborhoodGeoData;
+}
+
+const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
   const loader = new Loader({
     apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY || '',
     libraries: ['places'],
@@ -108,9 +114,7 @@ const MapView: React.FC = () => {
     const blocksLayer = new google.maps.Data({ map });
 
     // Loads the objects into the layer
-    blocksLayer.loadGeoJson(
-      'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/blocks.json',
-    );
+    blocksLayer.addGeoJson(blocks);
 
     // Sets the style of the layer to colored blocks with black outline
     function setBlocksStyle(v: boolean) {

@@ -5,6 +5,7 @@ import authClient from '../authClient';
 import { C4CState, initialStoreState, ThunkExtraArgs } from '../../store';
 import tokenService from '../token';
 import { AxiosError } from 'axios';
+import protectedApiClient from '../../api/protectedApiClient';
 
 export const generateState = (partialState: Partial<C4CState>): C4CState => ({
   ...initialStoreState,
@@ -34,6 +35,7 @@ describe('User Authentication Thunks', () => {
           ...tokenService,
           setRefreshToken: mockSetRefreshToken,
         },
+        protectedApiClient,
       };
 
       await login({
@@ -73,6 +75,7 @@ describe('User Authentication Thunks', () => {
           ...tokenService,
           setRefreshToken: mockSetRefreshToken,
         },
+        protectedApiClient,
       };
 
       await login({
@@ -111,6 +114,7 @@ describe('User Authentication Thunks', () => {
           ...tokenService,
           setRefreshToken: mockSetRefreshToken,
         },
+        protectedApiClient,
       };
 
       await signup({
@@ -152,6 +156,7 @@ describe('User Authentication Thunks', () => {
           ...tokenService,
           setRefreshToken: mockSetRefreshToken,
         },
+        protectedApiClient,
       };
 
       await signup({

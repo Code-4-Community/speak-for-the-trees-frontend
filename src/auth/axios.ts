@@ -10,6 +10,7 @@ const AppAxiosInstance: AxiosInstance = axios.create({
   },
 });
 
+/*
 const listener = () => {
   const state: C4CState = store.getState();
   if (state.authenticationState.tokens.kind === AsyncRequestKinds.Completed) {
@@ -19,6 +20,7 @@ const listener = () => {
 };
 
 store.subscribe(listener);
+*/
 
 // const responseErrorInterceptor: (error: AxiosError) => void = (error) => {
 //   // const originalRequest = error.config;

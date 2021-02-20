@@ -1,6 +1,6 @@
 import React from 'react';
 import MapSidebar from '../map-sidebar/MapSidebar';
-import MapView from '../map-view/MapView';
+import MapContainer from '../map-view/MapContainer';
 import { Layout } from 'antd';
 
 const { Content, Sider } = Layout;
@@ -19,7 +19,7 @@ const MapPage: React.FC<MapPageProps> = ({
     <>
       <Layout style={{ height: 'calc(100vh - 83px)' }}>
         <Content>
-          <MapView />
+          <MapContainer />
         </Content>
         <Sider width="20vw">
           <MapSidebar header={sidebarHeader} description={sidebarDescription}>

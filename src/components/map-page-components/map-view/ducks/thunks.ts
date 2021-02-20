@@ -20,7 +20,9 @@ export const getBlockGeoData = (): BlockGeoDataThunkAction<void> => {
   };
 };
 
-export const getNeighborhoodGeoData = (): NeighborhoodGeoDataThunkAction<void> => {
+export const getNeighborhoodGeoData = (): NeighborhoodGeoDataThunkAction<
+  void
+> => {
   return (dispatch, getState, { protectedApiClient }) => {
     dispatch(neighborhoodGeoData.loading());
     return protectedApiClient

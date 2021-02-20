@@ -5,9 +5,9 @@ import {
   ASYNC_REQUEST_LOADING_ACTION,
   AsyncRequestNotStarted,
   generateAsyncRequestReducer,
-} from '../../../utils/asyncRequest';
+} from '../../../../utils/asyncRequest';
 import { blockGeoData } from './actions';
-import { C4CAction } from '../../../store';
+import { C4CAction } from '../../../../store';
 
 export const initialBlockGeoDataState: BlockGeoDataReducerState = {
   blockGeoData: AsyncRequestNotStarted<BlockGeoData, any>(),
@@ -23,17 +23,17 @@ const reducers = (
   state: BlockGeoDataReducerState = initialBlockGeoDataState,
   action: C4CAction,
 ): BlockGeoDataReducerState => {
-  switch(action.type) {
+  switch (action.type) {
     case ASYNC_REQUEST_LOADING_ACTION:
     case ASYNC_REQUEST_LOADED_ACTION:
-    case ASYNC_REQUEST_FAILED_ACTION:  
+    case ASYNC_REQUEST_FAILED_ACTION:
       return {
         ...state,
         blockGeoData: blockGeoDataReducer(state.blockGeoData, action),
       };
     default:
-      return state;  
+      return state;
   }
-}
+};
 
 export default reducers;
