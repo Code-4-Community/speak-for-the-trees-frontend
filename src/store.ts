@@ -14,18 +14,20 @@ import {
 import userReducer, { initialUserState } from './auth/ducks/reducers';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
-import tokenService from './auth/token';
 import apiClient, { ApiExtraArgs } from './api/apiClient';
-import { UserLeaderboardReducerState } from './containers/volunteer-leaderboard/ducks/types';
-import { VolunteerLeaderboardItemAction } from './containers/volunteer-leaderboard/ducks/actions';
-import { TeamLeaderboardItemAction } from './containers/team-leaderboard/ducks/actions';
+import { UserLeaderboardReducerState } from './containers/volunteerLeaderboard/ducks/types';
+import { VolunteerLeaderboardItemAction } from './containers/volunteerLeaderboard/ducks/actions';
+import { TeamLeaderboardItemAction } from './containers/teamLeaderboard/ducks/actions';
 import userLeaderboardReducer, {
   initialUserLeaderboardState,
-} from './containers/volunteer-leaderboard/ducks/reducer';
-import { TeamLeaderboardReducerState } from './containers/team-leaderboard/ducks/types';
+} from './containers/volunteerLeaderboard/ducks/reducer';
+import { TeamLeaderboardReducerState } from './containers/teamLeaderboard/ducks/types';
 import teamLeaderboardReducer, {
   initialTeamLeaderboardState,
-} from './containers/team-leaderboard/ducks/reducer';
+} from './containers/teamLeaderboard/ducks/reducer';
+import throttle from 'lodash/throttle';
+import AppAxiosInstance from './auth/axios';
+import { asyncRequestIsComplete } from './utils/asyncRequest';
 
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
@@ -57,9 +59,29 @@ export const initialStoreState: C4CState = {
   teamLeaderboardState: initialTeamLeaderboardState,
 };
 
+export const LOCALSTORAGE_STATE_KEY: string = 'state';
+
+const loadStateFromLocalStorage = (): C4CState | undefined => {
+  try {
+    const serializedState = localStorage.getItem(LOCALSTORAGE_STATE_KEY);
+    if (serializedState === null) {
+      return undefined;
+    }
+    const state: C4CState = JSON.parse(serializedState);
+    if (asyncRequestIsComplete(state.authenticationState.tokens)) {
+      AppAxiosInstance.defaults.headers['X-Access-Token'] =
+        state.authenticationState.tokens.result.accessToken;
+    }
+    return state;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+const preloadedState: C4CState | undefined = loadStateFromLocalStorage();
+
 const thunkExtraArgs: ThunkExtraArgs = {
   authClient,
-  tokenService,
   apiClient,
 };
 
@@ -81,6 +103,18 @@ const store: Store<C4CState, C4CAction> = createStore<
   C4CAction,
   {},
   {}
->(reducers, initialStoreState, enhancer);
+>(reducers, preloadedState || initialStoreState, enhancer);
+
+store.subscribe(
+  throttle(() => {
+    const state: C4CState = store.getState();
+    try {
+      const serializedState = JSON.stringify(state);
+      localStorage.setItem(LOCALSTORAGE_STATE_KEY, serializedState);
+    } catch {
+      // ignore write errors
+    }
+  }, 10000),
+);
 
 export default store;

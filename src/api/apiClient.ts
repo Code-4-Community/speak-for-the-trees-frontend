@@ -1,6 +1,6 @@
 import AppAxiosInstance from '../auth/axios';
-import { VolunteerLeaderboardItem } from '../containers/volunteer-leaderboard/ducks/types';
-import { TeamLeaderboardItem } from '../containers/team-leaderboard/ducks/types';
+import { VolunteerLeaderboardItem } from '../containers/volunteerLeaderboard/ducks/types';
+import { TeamLeaderboardItem } from '../containers/teamLeaderboard/ducks/types';
 
 export interface ApiExtraArgs {
   readonly apiClient: ApiClient;
