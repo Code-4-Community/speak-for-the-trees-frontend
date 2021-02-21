@@ -70,10 +70,9 @@ export type C4CAction =
   | VolunteerLeaderboardItemAction
   | TeamLeaderboardItemAction;
 
-export type ThunkExtraArgs = UserAuthenticationExtraArgs 
-                            & ProtectedApiExtraArgs
-                            & ApiExtraArgs;
-
+export type ThunkExtraArgs = UserAuthenticationExtraArgs &
+  ProtectedApiExtraArgs &
+  ApiExtraArgs;
 
 const reducers = combineReducers<C4CState, C4CAction>({
   authenticationState: userReducer,

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Layout } from 'antd';
-import MapView from '../mapView';
+import MapContainer from '../mapContainer';
 import MapLayout from '../mapLayout';
 import MobileFooter from '../../mobileComponents/mobileFooter';
 
@@ -18,7 +18,7 @@ const MobileMapPage: React.FC = ({ children }) => {
       <MainContent>
         <MapLayout>
           <Content>
-            <MapView />
+            <MapContainer />
           </Content>
           <Footer>{children}</Footer>
         </MapLayout>

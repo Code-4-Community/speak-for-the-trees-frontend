@@ -56,6 +56,6 @@ const Client: ProtectedApiClient = Object.freeze({
   getBlockGeoData,
   getNeighborhoodGeoData,
   changePassword,
-});  
+});
 
 export default Client;
