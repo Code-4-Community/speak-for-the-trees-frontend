@@ -4,10 +4,10 @@ import { TabItem } from '../../components/leaderboard/leaderboardTab';
 import { C4CState } from '../../store';
 import PageHeader from '../../components/pageHeader';
 import styled from 'styled-components';
-import { mapVolunteersToTabItems } from './ducks/selectors';
+import { mapTeamsToTabItems } from './ducks/selectors';
 import { connect, useDispatch } from 'react-redux';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
-import { getUsersLeaderboard } from './ducks/thunks';
+import { getTeamsLeaderboard } from './ducks/thunks';
 import { LEADERBOARD_TABS } from '../../components/leaderboard/constants';
 
 const LeaderboardContentContainer = styled.div`
@@ -18,24 +18,23 @@ const LeaderboardContainer = styled.div`
   margin: 80px 0px 40px;
 `;
 
-interface VolunteerLeaderboardProps {
-  readonly volunteerTabItems: TabItem[];
+interface TeamLeaderboardProps {
+  readonly teamTabItems: TabItem[];
   readonly leaderboardRequestKind: AsyncRequestKinds;
 }
 
-const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
-  volunteerTabItems,
+const TeamLeaderboard: React.FC<TeamLeaderboardProps> = ({
+  teamTabItems,
   leaderboardRequestKind,
 }) => {
   const dispatch = useDispatch();
-
   useEffect(() => {
-    // The default tab is weekly
-    dispatch(getUsersLeaderboard(7));
+    // The default tab is Weekly
+    dispatch(getTeamsLeaderboard(7));
   }, [dispatch]);
 
   const onChangeTab = (tab: string, previousDays: number | null) => {
-    dispatch(getUsersLeaderboard(previousDays));
+    dispatch(getTeamsLeaderboard(previousDays));
     setCurrentTab(tab);
   };
 
@@ -44,31 +43,32 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
   return (
     <LeaderboardContentContainer>
       <PageHeader
-        pageTitle="Volunteer Leaderboard"
-        pageSubtitle="Celebrate all the contributions of our Speak for the Trees volunteers!"
+        pageTitle="Team Leaderboard"
+        pageSubtitle="Let’s celebrate your team reaching for its goals!"
       />
-      {leaderboardRequestKind === AsyncRequestKinds.Completed && (
-        <LeaderboardContainer>
+
+      <LeaderboardContainer>
+        {leaderboardRequestKind === AsyncRequestKinds.Completed && (
           <LeaderboardTabs
-            items={volunteerTabItems}
+            items={teamTabItems}
             tabNames={LEADERBOARD_TABS}
             currentTab={currentTab}
             itemsPerPage={4}
             onChangeTimeTab={onChangeTab}
           />
-        </LeaderboardContainer>
-      )}
+        )}
+      </LeaderboardContainer>
     </LeaderboardContentContainer>
   );
 };
 
-const mapStateToProps = (state: C4CState): VolunteerLeaderboardProps => {
+const mapStateToProps = (state: C4CState): TeamLeaderboardProps => {
   return {
-    volunteerTabItems: mapVolunteersToTabItems(
-      state.userLeaderboardState.userLeaderboard,
+    teamTabItems: mapTeamsToTabItems(
+      state.teamLeaderboardState.teamLeaderboard,
     ),
-    leaderboardRequestKind: state.userLeaderboardState.userLeaderboard.kind,
+    leaderboardRequestKind: state.teamLeaderboardState.teamLeaderboard.kind,
   };
 };
 
-export default connect(mapStateToProps)(VolunteerLeaderboard);
+export default connect(mapStateToProps)(TeamLeaderboard);

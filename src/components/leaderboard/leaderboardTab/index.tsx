@@ -42,14 +42,15 @@ const LeaderboardItemRank = styled(Paragraph)<ParagraphProps>`
 `;
 
 interface LeaderboardTabProps {
-  tabItems: LeaderboardItem[];
+  tabItems: TabItem[];
   currentPage: number;
   itemsPerPage: number;
   activePanelKey?: number;
 }
 
-export interface LeaderboardItem {
+export interface TabItem {
   rank?: number;
+  id: number;
   name: string; // for now, these are assumed to be unique
   rightSide: React.ReactNode;
   collapseContent?: React.ReactNode;

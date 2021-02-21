@@ -11,12 +11,17 @@ export interface ProtectedApiClient {
   readonly markReservationForQa: (blockId: number) => Promise<void>;
   readonly passReservationQa: (blockId: number) => Promise<void>;
   readonly failReservationQa: (blockId: number) => Promise<void>;
+  readonly changePassword: (request: {
+    currentPassword: string;
+    newPassword: string;
+  }) => Promise<void>;
 }
 
 enum ProtectedApiClientRoutes {
   MAKE_RESERVATION = 'api/v1/protected/reservations/reserve',
   COMPLETE_RESERVATION = 'api/v1/protected/reservations/complete',
   RELEASE_RESERVATION = 'api/v1/protected/reservations/release',
+  CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
 }
 
 enum AdminApiClientRoutes {
@@ -75,6 +80,18 @@ const failReservationQa = (blockId: number): Promise<void> => {
   });
 };
 
+const changePassword = (request: {
+  currentPassword: string;
+  newPassword: string;
+}): Promise<void> => {
+  return AppAxiosInstance.post(
+    ProtectedApiClientRoutes.CHANGE_PASSWORD,
+    request,
+  )
+    .then((r) => r)
+    .catch((e) => e);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -83,6 +100,7 @@ const Client: ProtectedApiClient = Object.freeze({
   markReservationForQa,
   passReservationQa,
   failReservationQa,
+  changePassword
 });
 
 export default Client;

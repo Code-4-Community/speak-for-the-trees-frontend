@@ -1,22 +1,57 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { connect, useSelector } from 'react-redux';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import {
+  PrivilegeLevel,
+  UserAuthenticationReducerState,
+} from '../src/auth/ducks/types';
+import { getPrivilegeLevel } from '../src/auth/ducks/selectors';
+import { C4CState } from './store';
 
-import './App.less';
-import Landing from './containers/landing/Landing';
-import Login from './containers/login/Login';
-import Signup from './containers/signup/Signup';
-import AdminDashboard from './containers/admin-dashboard/AdminDashboard';
-import Home from './containers/home/Home';
-import Settings from './containers/settings/Settings';
-import VolunteerLeaderboard from './containers/volunteer-leaderboard/VolunteerLeaderboard';
-
-import NotFound from './containers/not-found/NotFound';
-import NavBar from './components/nav-bar/NavBar';
+import styled from 'styled-components';
+import Landing from './containers/landing';
+import AdminDashboard from './containers/adminDashboard';
+import VolunteerLeaderboard from './containers/volunteerLeaderboard';
+import TeamLeaderboard from './containers/teamLeaderboard';
 import { Layout } from 'antd';
+import Home from './containers/home';
+import Signup from './containers/signup';
+import Login from './containers/login';
+import Settings from './containers/settings';
+import NotFound from './containers/notFound';
+import NavBar from './components/navBar';
+
 const { Content } = Layout;
 
+const AppLayout = styled(Layout)`
+  min-height: 100vh;
+`;
+
+type AppProps = UserAuthenticationReducerState;
+
+export enum Routes {
+  LANDING = '/',
+  LOGIN = '/login',
+  SIGNUP = '/signup',
+  HOME = '/home',
+  SETTINGS = '/settings',
+  VOLUNTEER = '/volunteer',
+  TEAM_LEADERBOARD = './team-leaderboard',
+  ADMIN = '/admin',
+  NOT_FOUND = '*',
+}
+
 const App: React.FC = () => {
+  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
+    return getPrivilegeLevel(state.authenticationState.tokens);
+  });
+
   return (
     <>
       <Helmet>
@@ -26,26 +61,129 @@ const App: React.FC = () => {
         />
         <meta name="description" content="Speak for the Trees Website" />
       </Helmet>
-
       <Router>
-        <Layout className="app-flex-container">
+        <AppLayout>
           <NavBar />
-          <Content className="content-padding">
-            <Switch>
-              <Route path="/" exact component={Landing} />
-              <Route path="/login" exact component={Login} />
-              <Route path="/signup" exact component={Signup} />
-              <Route path="/home" exact component={Home} />
-              <Route path="/settings" exact component={Settings} />
-              <Route path="/volunteer" exact component={VolunteerLeaderboard} />
-              <Route path="/admin" exact component={AdminDashboard} />
-              <Route path="*" exact component={NotFound} />
-            </Switch>
+          <Content>
+            {(() => {
+              switch (privilegeLevel) {
+                case PrivilegeLevel.NONE:
+                  return (
+                    <Switch>
+                      <Route path={Routes.LANDING} exact component={Landing} />
+                      <Route path={Routes.LOGIN} exact component={Login} />
+                      <Route path={Routes.SIGNUP} exact component={Signup} />
+                      <Route path={Routes.HOME}>
+                        <Redirect to={Routes.LOGIN} />
+                      </Route>
+                      <Route path={Routes.SETTINGS}>
+                        <Redirect to={Routes.LOGIN} />
+                      </Route>
+                      <Route path={Routes.VOLUNTEER}>
+                        <Redirect to={Routes.LOGIN} />
+                      </Route>
+                      <Route path={Routes.TEAM_LEADERBOARD}>
+                        <Redirect to={Routes.LOGIN} />
+                      </Route>
+                      <Route path={Routes.ADMIN}>
+                        <Redirect to={Routes.LOGIN} />
+                      </Route>
+                      <Route
+                        path={Routes.NOT_FOUND}
+                        exact
+                        component={NotFound}
+                      />
+                    </Switch>
+                  );
+
+                case PrivilegeLevel.STANDARD:
+                  return (
+                    <Switch>
+                      <Route path={Routes.LANDING} exact component={Landing} />
+                      <Route path={Routes.LOGIN}>
+                        <Redirect to={Routes.HOME} />
+                      </Route>
+                      <Route path={Routes.SIGNUP}>
+                        <Redirect to={Routes.HOME} />
+                      </Route>
+                      <Route path={Routes.HOME} exact component={Home} />
+                      <Route
+                        path={Routes.SETTINGS}
+                        exact
+                        component={Settings}
+                      />
+                      <Route
+                        path={Routes.VOLUNTEER}
+                        exact
+                        component={VolunteerLeaderboard}
+                      />
+                      <Route
+                        path={Routes.TEAM_LEADERBOARD}
+                        exact
+                        component={TeamLeaderboard}
+                      />
+                      <Route path={Routes.ADMIN}>
+                        <Redirect to={Routes.HOME} />
+                      </Route>
+                      <Route
+                        path={Routes.NOT_FOUND}
+                        exact
+                        component={NotFound}
+                      />
+                    </Switch>
+                  );
+
+                case PrivilegeLevel.ADMIN:
+                  return (
+                    <Switch>
+                      <Route path={Routes.LANDING} exact component={Landing} />
+                      <Route path={Routes.LOGIN}>
+                        <Redirect to={Routes.HOME} />
+                      </Route>
+                      <Route path={Routes.SIGNUP}>
+                        <Redirect to={Routes.HOME} />
+                      </Route>
+                      <Route path={Routes.HOME} exact component={Home} />
+                      <Route
+                        path={Routes.SETTINGS}
+                        exact
+                        component={Settings}
+                      />
+                      <Route
+                        path={Routes.VOLUNTEER}
+                        exact
+                        component={VolunteerLeaderboard}
+                      />
+                      <Route
+                        path={Routes.TEAM_LEADERBOARD}
+                        exact
+                        component={TeamLeaderboard}
+                      />
+                      <Route
+                        path={Routes.ADMIN}
+                        exact
+                        component={AdminDashboard}
+                      />
+                      <Route
+                        path={Routes.NOT_FOUND}
+                        exact
+                        component={NotFound}
+                      />
+                    </Switch>
+                  );
+              }
+            })()}
           </Content>
-        </Layout>
+        </AppLayout>
       </Router>
     </>
   );
 };
 
-export default App;
+const mapStateToProps = (state: C4CState): AppProps => {
+  return {
+    tokens: state.authenticationState.tokens,
+  };
+};
+
+export default connect(mapStateToProps)(App);
