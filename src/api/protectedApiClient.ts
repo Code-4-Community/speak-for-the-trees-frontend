@@ -17,25 +17,27 @@ export interface ProtectedApiClient {
   }) => Promise<void>;
 }
 
-enum ProtectedApiClientRoutes {
-  MAKE_RESERVATION = 'api/v1/protected/reservations/reserve',
-  COMPLETE_RESERVATION = 'api/v1/protected/reservations/complete',
-  RELEASE_RESERVATION = 'api/v1/protected/reservations/release',
+export enum ProtectedApiClientRoutes {
+  MAKE_RESERVATION = '/api/v1/protected/reservations/reserve',
+  COMPLETE_RESERVATION = '/api/v1/protected/reservations/complete',
+  RELEASE_RESERVATION = '/api/v1/protected/reservations/release',
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
 }
 
 enum AdminApiClientRoutes {
-  UNCOMPLETE_RESERVATION = 'api/v1/protected/reservations/uncomplete',
-  MARK_RESERVATION_FOR_QA = 'api/v1/protected/reservations/qa',
-  PASS_RESERVATION_QA = 'api/v1/protected/reservations/pass_qa',
-  FAIL_RESERVATION_QA = 'api/v1/protected/reservations/fail_qa',
+  UNCOMPLETE_RESERVATION = '/api/v1/protected/reservations/uncomplete',
+  MARK_RESERVATION_FOR_QA = '/api/v1/protected/reservations/qa',
+  PASS_RESERVATION_QA = '/api/v1/protected/reservations/pass_qa',
+  FAIL_RESERVATION_QA = '/api/v1/protected/reservations/fail_qa',
 }
 
 const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.MAKE_RESERVATION, {
     block_id: blockId,
     team_id: teamId,
-  });
+  }).then(
+    (response) => response.data,
+  );
 };
 
 const completeReservation = (
