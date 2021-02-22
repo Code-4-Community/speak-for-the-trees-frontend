@@ -4,7 +4,7 @@ export interface ProtectedApiClient {
   readonly makeReservation: (blockId: number, teamId?: number) => Promise<void>;
   readonly completeReservation: (
     blockId: number,
-    teamId: number,
+    teamId?: number,
   ) => Promise<void>;
   readonly releaseReservation: (blockId: number) => Promise<void>;
   readonly uncompleteReservation: (blockId: number) => Promise<void>;
@@ -24,7 +24,7 @@ export enum ProtectedApiClientRoutes {
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
 }
 
-enum AdminApiClientRoutes {
+export enum AdminApiClientRoutes {
   UNCOMPLETE_RESERVATION = '/api/v1/protected/reservations/uncomplete',
   MARK_RESERVATION_FOR_QA = '/api/v1/protected/reservations/qa',
   PASS_RESERVATION_QA = '/api/v1/protected/reservations/pass_qa',
@@ -35,9 +35,9 @@ const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.MAKE_RESERVATION, {
     block_id: blockId,
     team_id: teamId,
-  }).then(
-    (response) => response.data,
-  );
+  })
+    .then((r) => r.data)
+    .catch((e) => e);
 };
 
 const completeReservation = (
@@ -47,13 +47,17 @@ const completeReservation = (
   return AppAxiosInstance.post(ProtectedApiClientRoutes.COMPLETE_RESERVATION, {
     block_id: blockId,
     team_id: teamId,
-  });
+  })
+    .then((r) => r.data)
+    .catch((e) => e);
 };
 
 const releaseReservation = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.RELEASE_RESERVATION, {
     block_id: blockId,
-  });
+  })
+    .then((r) => r.data)
+    .catch((e) => e);
 };
 
 // Admin routes
@@ -61,25 +65,33 @@ const releaseReservation = (blockId: number): Promise<void> => {
 const uncompleteReservation = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.UNCOMPLETE_RESERVATION, {
     block_id: blockId,
-  });
+  })
+    .then((r) => r.data)
+    .catch((e) => e);
 };
 
 const markReservationForQa = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.MARK_RESERVATION_FOR_QA, {
     block_id: blockId,
-  });
+  })
+    .then((r) => r.data)
+    .catch((e) => e);
 };
 
 const passReservationQa = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.PASS_RESERVATION_QA, {
     block_id: blockId,
-  });
+  })
+    .then((r) => r.data)
+    .catch((e) => e);
 };
 
 const failReservationQa = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.FAIL_RESERVATION_QA, {
     block_id: blockId,
-  });
+  })
+    .then((r) => r.data)
+    .catch((e) => e);
 };
 
 const changePassword = (request: {
@@ -102,7 +114,7 @@ const Client: ProtectedApiClient = Object.freeze({
   markReservationForQa,
   passReservationQa,
   failReservationQa,
-  changePassword
+  changePassword,
 });
 
 export default Client;
