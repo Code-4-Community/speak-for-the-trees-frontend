@@ -64,7 +64,6 @@ const changePrivilegeLevel = (request: {
   newLevel: string;
   password: string;
 }): Promise<void> => {
-  console.log(request);
   return AppAxiosInstance.post(AdminApiClientRoutes.CHANGE_PRIVILEGE, request)
     .then((r) => r.data)
     .catch((e) => e);

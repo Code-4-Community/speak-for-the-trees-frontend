@@ -1,6 +1,6 @@
 import ProtectedApiClient, {
   ProtectedApiClientRoutes,
-  AdminApiClientRoutes
+  AdminApiClientRoutes,
 } from '../protectedApiClient';
 import nock from 'nock';
 
@@ -68,12 +68,12 @@ describe('Admin Api Client Tests', () => {
         .reply(200, response);
 
       const result = await ProtectedApiClient.changePrivilegeLevel({
-      targetUserEmail: 'jblanc222@gmail.com',
+        targetUserEmail: 'jblanc222@gmail.com',
         newLevel: 'STANDARD',
-        password: 'password'
+        password: 'password',
       });
 
       expect(result).toEqual(response);
     });
-  });  
-});  
+  });
+});

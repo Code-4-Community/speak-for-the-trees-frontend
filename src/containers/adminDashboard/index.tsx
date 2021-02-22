@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { Row, Typography, Select, Button, Form, Input } from 'antd';
-import { PrivilegeLevel } from '../../auth/ducks/types';
 import PageHeader from '../../components/pageHeader';
 import styled from 'styled-components';
 import ProtectedApiClient from '../../api/protectedApiClient';
@@ -31,8 +30,10 @@ const AdminDashboard: React.FC = () => {
   const formRef = useRef<FormInstance>(null);
 
   const onRoleChange = (role: SelectValue) => {
-    formRef.current!.setFieldsValue({newLevel: role});
-  }
+    if (formRef.current !== null) {
+      formRef.current.setFieldsValue({ newLevel: role });
+    }
+  };
 
   const onFinishChangePrivilege = (value: any) => {
     ProtectedApiClient.changePrivilegeLevel(value)
@@ -69,10 +70,7 @@ const AdminDashboard: React.FC = () => {
               </Form.Item>
 
               <Form.Item name="newLevel">
-                <RoleDropdown 
-                  placeholder="New Role"
-                  onChange={onRoleChange}
-                >
+                <RoleDropdown placeholder="New Role" onChange={onRoleChange}>
                   <Option value="STANDARD">standard</Option>
                   <Option value="ADMIN">admin</Option>
                 </RoleDropdown>
@@ -83,7 +81,9 @@ const AdminDashboard: React.FC = () => {
               </Form.Item>
 
               <Form.Item className="row">
-                <Button type="primary" htmlType="submit">Confirm</Button>
+                <Button type="primary" htmlType="submit">
+                  Confirm
+                </Button>
               </Form.Item>
             </Form>
           </EditUser>
