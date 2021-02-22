@@ -43,6 +43,12 @@ const Settings: React.FC = () => {
       .catch((e) => e);
   };
 
+  const onFinishDeleteUser = (value: any) => {
+    ProtectedApiClient.deleteUser(value)
+      .then((res) => res)
+      .catch((e) => e);
+  };
+
   return (
     <>
       <SettingsContainer>
@@ -143,7 +149,7 @@ const Settings: React.FC = () => {
             </Form>
 
             <FormTitle>Deactivate or Delete Account</FormTitle>
-            <Form name="delete-account">
+            <Form name="delete-account" onFinish={onFinishDeleteUser}>
               <Form.Item>
                 <SubmitButton type="primary" htmlType="submit">
                   Continue

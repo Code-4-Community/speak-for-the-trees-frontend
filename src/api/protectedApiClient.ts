@@ -5,17 +5,26 @@ export interface ProtectedApiClient {
     currentPassword: string;
     newPassword: string;
   }) => Promise<void>;
-  readonly changeUsername: (request: {
+  /*readonly changeUsername: (request: {
     newUsername: string;
     password: string;
-  }) => Promise<void>;
+  }) => Promise<void>; */
   readonly deleteUser: (request: { password: string }) => Promise<void>;
+  readonly changePrivilegeLevel: (request: {
+    targetUserEmail: string;
+    newLevel: string;
+    password: string;
+  }) => Promise<void>;
 }
 
-enum ProtectedApiClientRoutes {
+export enum ProtectedApiClientRoutes {
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
-  CHANGE_USERNAME = '/api/v1/protected/user/change_username',
-  DELETE_USER = '/api/v1/protected/user/delete',
+  // CHANGE_USERNAME = '/api/v1/protected/user/change_username',
+  DELETE_USER = '/api/v1/protected/user/',
+}
+
+enum AdminApiClientRoutes {
+  CHANGE_PRIVILEGE = 'api/v1/protected/user/change_privilege',
 }
 
 const changePassword = (request: {
@@ -26,10 +35,11 @@ const changePassword = (request: {
     ProtectedApiClientRoutes.CHANGE_PASSWORD,
     request,
   )
-    .then((r) => r)
+    .then((r) => r.data)
     .catch((e) => e);
 };
 
+/*
 const changeUsername = (request: {
   newUsername: string;
   password: string;
@@ -41,6 +51,7 @@ const changeUsername = (request: {
     .then((r) => r)
     .catch((e) => e);
 };
+*/
 
 const deleteUser = (request: { password: string }): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.DELETE_USER, request)
@@ -48,10 +59,21 @@ const deleteUser = (request: { password: string }): Promise<void> => {
     .catch((e) => e);
 };
 
+const changePrivilegeLevel = (request: {
+  targetUserEmail: string;
+  newLevel: string;
+  password: string;
+}): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.CHANGE_PRIVILEGE, request)
+    .then((r) => r)
+    .catch((e) => e);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   changePassword,
-  changeUsername,
+  // changeUsername,
   deleteUser,
+  changePrivilegeLevel,
 });
 
 export default Client;
