@@ -1,7 +1,7 @@
 import { C4CState } from '../../../../store';
 import { ThunkAction } from 'redux-thunk';
 import { BlockGeoDataAction, NeighborhoodGeoDataAction } from './actions';
-import { ProtectedApiExtraArgs } from '../../../../api/protectedApiClient';
+import { ApiExtraArgs } from '../../../../api/apiClient';
 import { AsyncRequest } from '../../../../utils/asyncRequest';
 
 // ---------------------------------Blocks----------------------------------------
@@ -31,7 +31,7 @@ export interface BlockGeoDataReducerState {
 export type BlockGeoDataThunkAction<R> = ThunkAction<
   R,
   C4CState,
-  ProtectedApiExtraArgs,
+  ApiExtraArgs,
   BlockGeoDataAction
 >;
 
@@ -64,7 +64,7 @@ export interface NeighborhoodGeoDataReducerState {
 export type NeighborhoodGeoDataThunkAction<R> = ThunkAction<
   R,
   C4CState,
-  ProtectedApiExtraArgs,
+  ApiExtraArgs,
   NeighborhoodGeoDataAction
 >;
 

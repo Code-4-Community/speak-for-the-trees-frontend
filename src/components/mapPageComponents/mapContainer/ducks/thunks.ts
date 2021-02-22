@@ -7,9 +7,9 @@ import {
 import { blockGeoData, neighborhoodGeoData } from './actions';
 
 export const getBlockGeoData = (): BlockGeoDataThunkAction<void> => {
-  return (dispatch, getState, { protectedApiClient }) => {
+  return (dispatch, getState, { apiClient }) => {
     dispatch(blockGeoData.loading());
-    return protectedApiClient
+    return apiClient
       .getBlockGeoData()
       .then((response: BlockGeoData) => {
         dispatch(blockGeoData.loaded(response));
@@ -23,9 +23,9 @@ export const getBlockGeoData = (): BlockGeoDataThunkAction<void> => {
 export const getNeighborhoodGeoData = (): NeighborhoodGeoDataThunkAction<
   void
 > => {
-  return (dispatch, getState, { protectedApiClient }) => {
+  return (dispatch, getState, { apiClient }) => {
     dispatch(neighborhoodGeoData.loading());
-    return protectedApiClient
+    return apiClient
       .getNeighborhoodGeoData()
       .then((response: NeighborhoodGeoData) => {
         dispatch(neighborhoodGeoData.loaded(response));
