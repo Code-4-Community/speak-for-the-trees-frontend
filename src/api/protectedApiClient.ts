@@ -23,8 +23,8 @@ export enum ProtectedApiClientRoutes {
   DELETE_USER = '/api/v1/protected/user/',
 }
 
-enum AdminApiClientRoutes {
-  CHANGE_PRIVILEGE = 'api/v1/protected/user/change_privilege',
+export enum AdminApiClientRoutes {
+  CHANGE_PRIVILEGE = '/api/v1/protected/user/change_privilege',
 }
 
 const changePassword = (request: {
@@ -55,7 +55,7 @@ const changeUsername = (request: {
 
 const deleteUser = (request: { password: string }): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.DELETE_USER, request)
-    .then((r) => r)
+    .then((r) => r.data)
     .catch((e) => e);
 };
 
@@ -64,8 +64,9 @@ const changePrivilegeLevel = (request: {
   newLevel: string;
   password: string;
 }): Promise<void> => {
+  console.log(request);
   return AppAxiosInstance.post(AdminApiClientRoutes.CHANGE_PRIVILEGE, request)
-    .then((r) => r)
+    .then((r) => r.data)
     .catch((e) => e);
 };
 
