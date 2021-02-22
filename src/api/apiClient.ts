@@ -21,11 +21,11 @@ export interface ApiClient {
   readonly getNeighborhoodGeoData: () => Promise<NeighborhoodGeoData>;
 }
 
-enum ApiClientRoutes {
+export enum ApiClientRoutes {
   USERS_LEADERBOARD = '/api/v1/leaderboard/users',
   TEAMS_LEADERBOARD = '/api/v1/leaderboard/teams',
-  GET_ALL_BLOCKS = 'api/v1/map/blocks',
-  GET_ALL_NEIGHBORHOODS = 'api/v1/map/neighborhoods',
+  GET_ALL_BLOCKS = '/api/v1/map/blocks',
+  GET_ALL_NEIGHBORHOODS = '/api/v1/map/neighborhoods',
 }
 
 const getUsersLeaderboard = (
@@ -45,19 +45,15 @@ const getTeamsLeaderboard = (
 };
 
 const getBlockGeoData = (): Promise<BlockGeoData> => {
-  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_BLOCKS).then(
-    (response) => {
-      return response.data;
-    },
-  );
+  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_BLOCKS)
+    .then((r) => r.data)
+    .catch((e) => e);
 };
 
 const getNeighborhoodGeoData = (): Promise<NeighborhoodGeoData> => {
-  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_NEIGHBORHOODS).then(
-    (response) => {
-      return response.data;
-    },
-  );
+  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_NEIGHBORHOODS)
+    .then((r) => r.data)
+    .catch((e) => e);
 };
 
 const Client: ApiClient = Object.freeze({
