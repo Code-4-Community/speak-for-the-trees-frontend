@@ -1,6 +1,6 @@
 import { C4CState } from '../../../../store';
 import { ThunkAction } from 'redux-thunk';
-import { BlockGeoDataAction, NeighborhoodGeoDataAction } from './actions';
+import { MapActions } from './actions';
 import { ApiExtraArgs } from '../../../../api/apiClient';
 import { AsyncRequest } from '../../../../utils/asyncRequest';
 
@@ -28,13 +28,6 @@ export interface BlockGeoDataReducerState {
   readonly blockGeoData: AsyncRequest<BlockGeoData, any>;
 }
 
-export type BlockGeoDataThunkAction<R> = ThunkAction<
-  R,
-  C4CState,
-  ApiExtraArgs,
-  BlockGeoDataAction
->;
-
 // ---------------------------------Neighborhoods----------------------------------------
 
 export interface NeighborhoodGeoData {
@@ -61,13 +54,6 @@ export interface NeighborhoodGeoDataReducerState {
   readonly neighborhoodGeoData: AsyncRequest<NeighborhoodGeoData, any>;
 }
 
-export type NeighborhoodGeoDataThunkAction<R> = ThunkAction<
-  R,
-  C4CState,
-  ApiExtraArgs,
-  NeighborhoodGeoDataAction
->;
-
 // ---------------------------------Shared Types----------------------------------------
 
 interface MapGeometry {
@@ -76,3 +62,15 @@ interface MapGeometry {
 }
 
 type Coordinate = [number, number];
+
+export interface MapGeoDataReducerState {
+  readonly blockGeoData: AsyncRequest<BlockGeoData, any>;
+  readonly neighborhoodGeoData: AsyncRequest<NeighborhoodGeoData, any>;
+}
+
+export type MapGeoDataThunkAction<R> = ThunkAction<
+  R,
+  C4CState,
+  ApiExtraArgs,
+  MapActions
+>;

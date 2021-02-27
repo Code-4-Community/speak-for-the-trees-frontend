@@ -21,10 +21,7 @@ import {
   BlockGeoDataReducerState,
   NeighborhoodGeoDataReducerState,
 } from './components/mapPageComponents/mapContainer/ducks/types';
-import {
-  BlockGeoDataAction,
-  NeighborhoodGeoDataAction,
-} from './components/mapPageComponents/mapContainer/ducks/actions';
+import { MapActions } from './components/mapPageComponents/mapContainer/ducks/actions';
 import blockGeoDataReducer, {
   initialBlockGeoDataState,
 } from './components/mapPageComponents/mapContainer/ducks/blockReducer';
@@ -65,8 +62,7 @@ export interface Action<T, P> {
 
 export type C4CAction =
   | UserAuthenticationActions
-  | BlockGeoDataAction
-  | NeighborhoodGeoDataAction
+  | MapActions
   | VolunteerLeaderboardItemAction
   | TeamLeaderboardItemAction;
 

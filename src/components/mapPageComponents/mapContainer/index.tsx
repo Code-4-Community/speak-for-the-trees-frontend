@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { AsyncRequestKinds } from '../../../utils/asyncRequest';
-import { getNeighborhoodGeoData, getBlockGeoData } from './ducks/thunks';
+import { getMapGeoData } from './ducks/thunks';
 import {
   BlockGeoDataReducerState,
   NeighborhoodGeoDataReducerState,
@@ -21,8 +21,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getNeighborhoodGeoData());
-    dispatch(getBlockGeoData());
+    dispatch(getMapGeoData());
   }, [dispatch]);
 
   return (

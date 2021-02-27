@@ -1,36 +1,24 @@
 import {
   BlockGeoData,
-  BlockGeoDataThunkAction,
   NeighborhoodGeoData,
-  NeighborhoodGeoDataThunkAction,
+  MapGeoDataThunkAction,
 } from './types';
 import { blockGeoData, neighborhoodGeoData } from './actions';
 
-export const getBlockGeoData = (): BlockGeoDataThunkAction<void> => {
+export const getMapGeoData = (): MapGeoDataThunkAction<void> => {
   return (dispatch, getState, { apiClient }) => {
     dispatch(blockGeoData.loading());
-    return apiClient
-      .getBlockGeoData()
-      .then((response: BlockGeoData) => {
-        dispatch(blockGeoData.loaded(response));
+    dispatch(neighborhoodGeoData.loading());
+    return Promise.all([
+      apiClient.getBlockGeoData(),
+      apiClient.getNeighborhoodGeoData(),
+    ])
+      .then((response: [BlockGeoData, NeighborhoodGeoData]) => {
+        dispatch(blockGeoData.loaded(response[0]));
+        dispatch(neighborhoodGeoData.loaded(response[1]));
       })
       .catch((error: any) => {
         dispatch(blockGeoData.failed(error));
-      });
-  };
-};
-
-export const getNeighborhoodGeoData = (): NeighborhoodGeoDataThunkAction<
-  void
-> => {
-  return (dispatch, getState, { apiClient }) => {
-    dispatch(neighborhoodGeoData.loading());
-    return apiClient
-      .getNeighborhoodGeoData()
-      .then((response: NeighborhoodGeoData) => {
-        dispatch(neighborhoodGeoData.loaded(response));
-      })
-      .catch((error: any) => {
         dispatch(neighborhoodGeoData.failed(error));
       });
   };
