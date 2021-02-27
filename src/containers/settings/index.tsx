@@ -44,7 +44,7 @@ const Settings: React.FC = () => {
   }) => {
     ProtectedApiClient.changePassword({
       currentPassword: values.currentPassword,
-      newPassword: values.newPassword
+      newPassword: values.newPassword,
     })
       .then((res) => res)
       .catch((e) => e);
