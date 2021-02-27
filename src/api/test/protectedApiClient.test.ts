@@ -119,17 +119,17 @@ describe('Admin Protected Client Routes', () => {
     });
   });
 
-  /*
   describe('failReservationQa', () => {
     it('makes the right request', async () => {
-      const response = "";
+      const response = '';
 
-      nock(BASE_URL).post(AdminApiClientRoutes.PASS_RESERVATION_QA).reply(200, response);
+      nock(BASE_URL)
+        .post(AdminApiClientRoutes.FAIL_RESERVATION_QA)
+        .reply(200, response);
 
       const result = await ProtectedApiClient.failReservationQa(7);
 
       expect(result).toEqual(response);
-    }) 
+    });
   });
-  */
 });
