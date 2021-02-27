@@ -42,7 +42,7 @@ export enum Routes {
   HOME = '/home',
   SETTINGS = '/settings',
   VOLUNTEER = '/volunteer',
-  TEAM_LEADERBOARD = './team-leaderboard',
+  TEAM_LEADERBOARD = '/team-leaderboard',
   ADMIN = '/admin',
   NOT_FOUND = '*',
 }
