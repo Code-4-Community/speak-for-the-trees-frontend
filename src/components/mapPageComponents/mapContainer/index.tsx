@@ -39,8 +39,8 @@ const MapContainer: React.FC<MapContainerProps> = ({
 
 const mapStateToProps = (state: C4CState): MapContainerProps => {
   return {
-    neighborhoods: state.neighborhoodGeoDataState.neighborhoodGeoData,
-    blocks: state.blockGeoDataState.blockGeoData,
+    neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
+    blocks: state.mapGeoDataState.blockGeoData,
   };
 };
 

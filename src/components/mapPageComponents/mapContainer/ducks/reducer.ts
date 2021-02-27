@@ -35,20 +35,18 @@ const neighborhoodGeoDataReducer = generateAsyncRequestReducer<
 const reducers = (
   state: MapGeoDataReducerState = initialMapGeoDataState,
   action: C4CAction,
-): BlockGeoDataReducerState => {
+): MapGeoDataReducerState => {
   switch (action.type) {
     case ASYNC_REQUEST_LOADING_ACTION:
     case ASYNC_REQUEST_LOADED_ACTION:
     case ASYNC_REQUEST_FAILED_ACTION:
       return {
         ...state,
-        ...{
-          blockGeoData: blockGeoDataReducer(state.blockGeoData, action),
-          neighborhoodGeoData: neighborhoodGeoDataReducer(
-            state.neighborhoodGeoData,
-            action,
-          ),
-        },
+        blockGeoData: blockGeoDataReducer(state.blockGeoData, action),
+        neighborhoodGeoData: neighborhoodGeoDataReducer(
+          state.neighborhoodGeoData,
+          action,
+        ),
       };
     default:
       return state;

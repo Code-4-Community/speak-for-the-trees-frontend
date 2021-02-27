@@ -17,17 +17,11 @@ import thunk from 'redux-thunk';
 import protectedApiClient, {
   ProtectedApiExtraArgs,
 } from './api/protectedApiClient';
-import {
-  BlockGeoDataReducerState,
-  NeighborhoodGeoDataReducerState,
-} from './components/mapPageComponents/mapContainer/ducks/types';
+import { MapGeoDataReducerState } from './components/mapPageComponents/mapContainer/ducks/types';
 import { MapActions } from './components/mapPageComponents/mapContainer/ducks/actions';
-import blockGeoDataReducer, {
-  initialBlockGeoDataState,
-} from './components/mapPageComponents/mapContainer/ducks/blockReducer';
-import neighborhoodGeoDataReducer, {
-  initialNeighborhoodGeoDataState,
-} from './components/mapPageComponents/mapContainer/ducks/neighbordhoodReducer';
+import mapGeoDataReducer, {
+  initialMapGeoDataState,
+} from './components/mapPageComponents/mapContainer/ducks/reducer';
 import apiClient, { ApiExtraArgs } from './api/apiClient';
 import { UserLeaderboardReducerState } from './containers/volunteerLeaderboard/ducks/types';
 import { VolunteerLeaderboardItemAction } from './containers/volunteerLeaderboard/ducks/actions';
@@ -45,14 +39,9 @@ import { asyncRequestIsComplete } from './utils/asyncRequest';
 
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
-  blockGeoDataState: BlockGeoDataReducerState;
-  neighborhoodGeoDataState: NeighborhoodGeoDataReducerState;
-}
-
-export interface C4CState {
-  authenticationState: UserAuthenticationReducerState;
   userLeaderboardState: UserLeaderboardReducerState;
   teamLeaderboardState: TeamLeaderboardReducerState;
+  mapGeoDataState: MapGeoDataReducerState;
 }
 
 export interface Action<T, P> {
@@ -74,16 +63,14 @@ const reducers = combineReducers<C4CState, C4CAction>({
   authenticationState: userReducer,
   userLeaderboardState: userLeaderboardReducer,
   teamLeaderboardState: teamLeaderboardReducer,
-  blockGeoDataState: blockGeoDataReducer,
-  neighborhoodGeoDataState: neighborhoodGeoDataReducer,
+  mapGeoDataState: mapGeoDataReducer,
 });
 
 export const initialStoreState: C4CState = {
   authenticationState: initialUserState,
-  blockGeoDataState: initialBlockGeoDataState,
-  neighborhoodGeoDataState: initialNeighborhoodGeoDataState,
   userLeaderboardState: initialUserLeaderboardState,
   teamLeaderboardState: initialTeamLeaderboardState,
+  mapGeoDataState: initialMapGeoDataState,
 };
 
 export const LOCALSTORAGE_STATE_KEY: string = 'state';
