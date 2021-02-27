@@ -35,7 +35,11 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
-  const onFinishChangePrivilege = (value: any) => {
+  const onFinishChangePrivilege = (value: {
+    targetUserEmail: string;
+    newLevel: string;
+    password: string;
+  }) => {
     ProtectedApiClient.changePrivilegeLevel(value)
       .then((res) => res)
       .catch((e) => e);

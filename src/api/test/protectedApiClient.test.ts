@@ -24,12 +24,13 @@ describe('Protected Api Client Tests', () => {
     });
   });
 
-  /*
   describe('changeUsername', () => {
     it('makes the right request', async () => {
-      const response = "";
+      const response = '';
 
-      nock(BASE_URL).post(ProtectedApiClientRoutes.CHANGE_USERNAME).reply(200, response);
+      nock(BASE_URL)
+        .post(ProtectedApiClientRoutes.CHANGE_USERNAME)
+        .reply(200, response);
 
       const result = await ProtectedApiClient.changeUsername({
         newUsername: 'willthomas',
@@ -39,14 +40,31 @@ describe('Protected Api Client Tests', () => {
       expect(result).toEqual(response);
     });
   });
-  */
 
-  /*
+  describe('changeEmail', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ProtectedApiClientRoutes.CHANGE_EMAIL)
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.changeEmail({
+        newEmail: 'willthomas@c4c.com',
+        password: 'password',
+      });
+
+      expect(result).toEqual(response);
+    });
+  });
+
   describe('deleteUser', () => {
     it('makes the right request', async () => {
-      const response = "";
+      const response = '';
 
-      nock(BASE_URL).post(ProtectedApiClientRoutes.CHANGE_PASSWORD).reply(200, response);
+      nock(BASE_URL)
+        .delete(ProtectedApiClientRoutes.DELETE_USER)
+        .reply(200, response);
 
       const result = await ProtectedApiClient.deleteUser({
         password: 'password',
@@ -55,7 +73,6 @@ describe('Protected Api Client Tests', () => {
       expect(result).toEqual(response);
     });
   });
-*/
 });
 
 describe('Admin Api Client Tests', () => {

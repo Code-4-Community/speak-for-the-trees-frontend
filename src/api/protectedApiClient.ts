@@ -5,10 +5,14 @@ export interface ProtectedApiClient {
     currentPassword: string;
     newPassword: string;
   }) => Promise<void>;
-  /*readonly changeUsername: (request: {
+  readonly changeUsername: (request: {
     newUsername: string;
     password: string;
-  }) => Promise<void>; */
+  }) => Promise<void>;
+  readonly changeEmail: (request: {
+    newEmail: string;
+    password: string;
+  }) => Promise<void>;
   readonly deleteUser: (request: { password: string }) => Promise<void>;
   readonly changePrivilegeLevel: (request: {
     targetUserEmail: string;
@@ -19,7 +23,8 @@ export interface ProtectedApiClient {
 
 export enum ProtectedApiClientRoutes {
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
-  // CHANGE_USERNAME = '/api/v1/protected/user/change_username',
+  CHANGE_USERNAME = '/api/v1/protected/user/change_username',
+  CHANGE_EMAIL = '/api/v1/protected/user/change_email',
   DELETE_USER = '/api/v1/protected/user/',
 }
 
@@ -39,7 +44,6 @@ const changePassword = (request: {
     .catch((e) => e);
 };
 
-/*
 const changeUsername = (request: {
   newUsername: string;
   password: string;
@@ -48,13 +52,21 @@ const changeUsername = (request: {
     ProtectedApiClientRoutes.CHANGE_USERNAME,
     request,
   )
-    .then((r) => r)
+    .then((r) => r.data)
     .catch((e) => e);
 };
-*/
+
+const changeEmail = (request: {
+  newEmail: string;
+  password: string;
+}): Promise<void> => {
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.CHANGE_EMAIL, request)
+    .then((r) => r.data)
+    .catch((e) => e);
+};
 
 const deleteUser = (request: { password: string }): Promise<void> => {
-  return AppAxiosInstance.post(ProtectedApiClientRoutes.DELETE_USER, request)
+  return AppAxiosInstance.delete(ProtectedApiClientRoutes.DELETE_USER, request)
     .then((r) => r.data)
     .catch((e) => e);
 };
@@ -71,7 +83,8 @@ const changePrivilegeLevel = (request: {
 
 const Client: ProtectedApiClient = Object.freeze({
   changePassword,
-  // changeUsername,
+  changeUsername,
+  changeEmail,
   deleteUser,
   changePrivilegeLevel,
 });
