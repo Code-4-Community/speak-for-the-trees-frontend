@@ -225,6 +225,7 @@ const TeamPage: React.FC = () => {
                   />
                 );
               }
+              return <></>;
             })}
           </StyledMemberList>
         </MemberContainer>
