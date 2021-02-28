@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Tabs, Pagination } from 'antd';
-import LeaderboardTab, { TabItem } from '../leaderboardTab';
+import LeaderboardTab from '../leaderboardTab';
+import { TabItem } from '../leaderboardSpace';
 import { tabToDays } from '../constants';
 
 export interface TabInfo {
