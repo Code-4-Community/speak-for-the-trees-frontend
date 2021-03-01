@@ -26,7 +26,7 @@ const LeaderboardItemName = styled(Paragraph)`
   color: ${BLACK};
   display: inline-block;
   line-height: 0px;
-  ${(props: LeaderboardStyleProps) => props.large && 'font-size: 20px'};
+  ${(props: LeaderboardStyleProps) => props.large && 'font-size: 20px; font-weight: bold;'};
 `;
 
 const LeaderboardRankContainer = styled.span`

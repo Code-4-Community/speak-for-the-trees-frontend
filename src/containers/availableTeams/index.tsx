@@ -26,13 +26,18 @@ const TeamDivider = styled(Divider)`
   margin-bottom: 20px;
 `;
 
+const ArrowLink = styled(ArrowRightOutlined)`
+  line-height: 0px;
+  font-size: 20px;
+`;
+
 const dummy: TabItem[] = [
   {
     id: 1,
     name: 'team1',
     rightSide: (
       <Button type="text">
-        <ArrowRightOutlined />
+        <ArrowLink />
       </Button>
     ),
   },
@@ -41,7 +46,7 @@ const dummy: TabItem[] = [
     name: 'team2',
     rightSide: (
       <Button type="text">
-        <ArrowRightOutlined />
+        <ArrowLink />
       </Button>
     ),
   },
@@ -50,7 +55,7 @@ const dummy: TabItem[] = [
     name: 'team3',
     rightSide: (
       <Button type="text">
-        <ArrowRightOutlined />
+        <ArrowLink/>
       </Button>
     ),
   },
