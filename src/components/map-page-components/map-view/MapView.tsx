@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input, message } from 'antd';
 import { Loader } from '@googlemaps/js-api-loader';
 import styled from 'styled-components';
+import ReservationModal, {
+  ReservationModalType,
+} from '../../../components/ReservationModal';
+import { isReturnStatement } from 'typescript';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -24,7 +28,14 @@ const MapDiv = styled.div`
   height: 100%;
 `;
 
+let s: ReservationModalType = ReservationModalType.TAKEN;
+let b: number = 0; 
+let ok : () => void;
+
 const MapView: React.FC = () => {
+
+  const [visibility, setVisibility] = useState(true);
+
   const loader = new Loader({
     apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY || '',
     libraries: ['places'],
@@ -221,6 +232,46 @@ const MapView: React.FC = () => {
       });
     });
 
+    // const [visibility, setVisibility] = useState(true);
+
+    const handleOk = (status: ReservationModalType, feature: any): void => {
+      setVisibility(false);
+      switch (status) {
+        case ReservationModalType.OPEN:
+          feature.setProperty('red');
+        case ReservationModalType.TAKEN:
+          feature.setProperty('yellow');
+        case ReservationModalType.RESERVED:
+          feature.setProperty('green');add
+        default:
+          feature.setProperty('yellow');
+      }
+    };
+
+    const getStatus = (color: string): ReservationModalType => {
+      switch (color) {
+        case 'green':
+          return ReservationModalType.OPEN;
+        case 'red':
+          return ReservationModalType.TAKEN;
+        case 'yellow':
+          return ReservationModalType.RESERVED;
+        default:
+          return ReservationModalType.TAKEN;
+      }
+    };
+
+    // let s: ReservationModalType = ReservationModalType.TAKEN;
+    // let b: number = 0; 
+    // let ok : string = 'red';
+
+    // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
+    neighborhoodsLayer.addListener('click', (event) => {
+      s = getStatus(event.feature.getProperty('color'))
+      b = event.feature.getProperty('ID')
+      ok = handleOk(getStatus(event.feature.getProperty('color')), event.feature)
+    });
+
     // Asks user if they want to show their current location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -277,6 +328,7 @@ const MapView: React.FC = () => {
         <StyledSearch id="pac-input" placeholder="Address" />
       </div>
       <MapDiv id="map"></MapDiv>
+      <ReservationModal status={s} blockID={b} onOk={ok} onCancel={() => setVisibility(false)} isVisible={visibility} />
     </>
   );
 };
