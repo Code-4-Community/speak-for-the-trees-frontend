@@ -1,8 +1,8 @@
-import { C4CState } from '../../../../store';
+import { C4CState } from '../../../store';
 import { ThunkAction } from 'redux-thunk';
 import { MapActions } from './actions';
-import { ApiExtraArgs } from '../../../../api/apiClient';
-import { AsyncRequest } from '../../../../utils/asyncRequest';
+import { ApiExtraArgs } from '../../../api/apiClient';
+import { AsyncRequest } from '../../../utils/asyncRequest';
 
 // ---------------------------------Blocks----------------------------------------
 
@@ -22,10 +22,6 @@ interface BlockFeaturePropertiesResponse {
   block_id: number; // does not match linting
   lat: number;
   lng: number;
-}
-
-export interface BlockGeoDataReducerState {
-  readonly blockGeoData: AsyncRequest<BlockGeoData, any>;
 }
 
 // ---------------------------------Neighborhoods----------------------------------------
@@ -48,10 +44,6 @@ interface NeighborhoodFeaturePropertiesResponse {
   completion_perc: number;
   lat: number;
   lng: number;
-}
-
-export interface NeighborhoodGeoDataReducerState {
-  readonly neighborhoodGeoData: AsyncRequest<NeighborhoodGeoData, any>;
 }
 
 // ---------------------------------Shared Types----------------------------------------

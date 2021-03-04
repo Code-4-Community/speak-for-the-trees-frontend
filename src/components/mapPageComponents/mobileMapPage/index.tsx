@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Layout } from 'antd';
-import MapContainer from '../mapContainer';
+import MapView from '../mapView';
 import MapLayout from '../mapLayout';
 import MobileFooter from '../../mobileComponents/mobileFooter';
+import { BlockGeoData, NeighborhoodGeoData } from '../ducks/types';
 
 const { Content, Footer } = Layout;
 
@@ -12,13 +13,22 @@ const MainContent = styled.div`
   margin-bottom: 15px;
 `;
 
-const MobileMapPage: React.FC = ({ children }) => {
+type MobileMapPageProps = {
+  readonly blocks: BlockGeoData;
+  readonly neighborhoods: NeighborhoodGeoData;
+};
+
+const MobileMapPage: React.FC<MobileMapPageProps> = ({
+  blocks,
+  neighborhoods,
+  children,
+}) => {
   return (
     <>
       <MainContent>
         <MapLayout>
           <Content>
-            <MapContainer />
+            <MapView blocks={blocks} neighborhoods={neighborhoods} />
           </Content>
           <Footer>{children}</Footer>
         </MapLayout>
