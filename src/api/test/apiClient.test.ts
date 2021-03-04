@@ -1,7 +1,7 @@
 import {
   BlockGeoData,
   NeighborhoodGeoData,
-} from '../../components/mapPageComponents/mapContainer/ducks/types';
+} from '../../components/mapPageComponents/ducks/types';
 import ApiClient, { ApiClientRoutes } from '../apiClient';
 import nock from 'nock';
 

@@ -1,4 +1,4 @@
-import { genericAsyncActions } from '../../../../utils/asyncRequest';
+import { genericAsyncActions } from '../../../utils/asyncRequest';
 import { BlockGeoData, NeighborhoodGeoData } from './types';
 
 export const blockGeoData = genericAsyncActions<BlockGeoData, any>();

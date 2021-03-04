@@ -4,7 +4,7 @@ import { TeamLeaderboardItem } from '../containers/teamLeaderboard/ducks/types';
 import {
   BlockGeoData,
   NeighborhoodGeoData,
-} from '../components/mapPageComponents/mapContainer/ducks/types';
+} from '../components/mapPageComponents/ducks/types';
 
 export interface ApiExtraArgs {
   readonly apiClient: ApiClient;
