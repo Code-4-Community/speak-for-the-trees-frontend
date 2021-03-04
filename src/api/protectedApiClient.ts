@@ -149,7 +149,7 @@ const changeEmail = (request: {
 };
 
 const deleteUser = (request: { password: string }): Promise<void> => {
-  return AppAxiosInstance.delete(ProtectedApiClientRoutes.DELETE_USER, request)
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.DELETE_USER, request)
     .then((r) => r.data)
     .catch((e) => e);
 };
