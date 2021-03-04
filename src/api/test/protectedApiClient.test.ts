@@ -1,14 +1,81 @@
-import nock from 'nock';
 import ProtectedApiClient, {
   ProtectedApiClientRoutes,
   AdminApiClientRoutes,
 } from '../protectedApiClient';
+import nock from 'nock';
 
 const BASE_URL = 'http://localhost';
 
 // TODO: handle invalid cases
 
-describe('Protected Client Tests', () => {
+describe('Protected API Client Tests', () => {
+  describe('changePassword', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ProtectedApiClientRoutes.CHANGE_PASSWORD)
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.changePassword({
+        currentPassword: 'password',
+        newPassword: 'password2',
+      });
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('changeUsername', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ProtectedApiClientRoutes.CHANGE_USERNAME)
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.changeUsername({
+        newUsername: 'willthomas',
+        password: 'password',
+      });
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('changeEmail', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ProtectedApiClientRoutes.CHANGE_EMAIL)
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.changeEmail({
+        newEmail: 'willthomas@c4c.com',
+        password: 'password',
+      });
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('deleteUser', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ProtectedApiClientRoutes.DELETE_USER)
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.deleteUser({
+        password: 'password',
+      });
+
+      expect(result).toEqual(response);
+    });
+  });
+
   describe('makeReservation', () => {
     it('makes the right request with team', async () => {
       const response = '';
@@ -77,6 +144,24 @@ describe('Protected Client Tests', () => {
 });
 
 describe('Admin Protected Client Routes', () => {
+  describe('changePrivilegeLevel', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(AdminApiClientRoutes.CHANGE_PRIVILEGE)
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.changePrivilegeLevel({
+        targetUserEmail: 'jblanc222@gmail.com',
+        newLevel: 'STANDARD',
+        password: 'password',
+      });
+
+      expect(result).toEqual(response);
+    });
+  });
+
   describe('uncompleteReservation', () => {
     it('makes the right request', async () => {
       const response = '';

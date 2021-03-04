@@ -70,6 +70,15 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
       >
         Account Settings
       </Menu.Item>
+      {privilegeLevel === PrivilegeLevel.ADMIN && (
+        <Menu.Item
+          onClick={() => {
+            history.push(Routes.ADMIN);
+          }}
+        >
+          Admins
+        </Menu.Item>
+      )}
       <Menu.Item
         onClick={() => {
           history.push(Routes.LANDING);
