@@ -42,14 +42,11 @@ export enum ProtectedApiClientRoutes {
 }
 
 export enum AdminApiClientRoutes {
-  CHANGE_PRIVILEGE = '/api/v1/protected/user/change_privilege',
-}
-
-export enum AdminApiClientRoutes {
   UNCOMPLETE_RESERVATION = '/api/v1/protected/reservations/uncomplete',
   MARK_RESERVATION_FOR_QA = '/api/v1/protected/reservations/qa',
   PASS_RESERVATION_QA = '/api/v1/protected/reservations/pass_qa',
   FAIL_RESERVATION_QA = '/api/v1/protected/reservations/fail_qa',
+  CHANGE_PRIVILEGE = '/api/v1/protected/user/change_privilege',
 }
 
 const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
