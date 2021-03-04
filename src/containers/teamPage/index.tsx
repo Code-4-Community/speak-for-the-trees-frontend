@@ -233,7 +233,6 @@ const TeamPage: React.FC = () => {
           <SectionHeader>TEAM GOALS</SectionHeader>
           <LeaderboardCollapse
             bordered={false}
-            key={1}
             defaultActiveKey={sampleTeamData.goals[0].id}
             expandIconPosition={'right'}
           >

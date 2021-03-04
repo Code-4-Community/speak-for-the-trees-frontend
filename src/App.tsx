@@ -43,7 +43,7 @@ export enum Routes {
   HOME = '/home',
   SETTINGS = '/settings',
   VOLUNTEER = '/volunteer',
-  TEAM = '/team',
+  TEAM = '/team:id',
   TEAM_LEADERBOARD = '/team-leaderboard',
   ADMIN = '/admin',
   NOT_FOUND = '*',
@@ -75,29 +75,12 @@ const App: React.FC = () => {
                       <Route path={Routes.LANDING} exact component={Landing} />
                       <Route path={Routes.LOGIN} exact component={Login} />
                       <Route path={Routes.SIGNUP} exact component={Signup} />
-                      <Route path={Routes.HOME}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.SETTINGS}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.VOLUNTEER}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.TEAM}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.TEAM_LEADERBOARD}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.ADMIN}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
                       <Route
                         path={Routes.NOT_FOUND}
                         exact
                         component={NotFound}
                       />
+                      <Redirect to={Routes.LOGIN} />
                     </Switch>
                   );
 
