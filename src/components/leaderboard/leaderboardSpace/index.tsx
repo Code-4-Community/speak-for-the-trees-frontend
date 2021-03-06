@@ -19,7 +19,7 @@ const LeaderboardSpace = styled(Space)<SpaceProps>`
 const LeaderboardCollapse = styled(Collapse)`
   background-color: ${LIGHT_GREEN}80;
   border-radius: 0px;
-  ${(props: LeaderboardStyleProps) => props.large && 'padding: 15px 0px 10px'};
+  ${({ large }: LeaderboardStyleProps) => large && 'padding: 15px 0px 10px'};
 `;
 
 const LeaderboardItemName = styled(Paragraph)`
