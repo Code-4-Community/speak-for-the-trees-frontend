@@ -19,6 +19,7 @@ import Landing from './containers/landing';
 import AdminDashboard from './containers/adminDashboard';
 import VolunteerLeaderboard from './containers/volunteerLeaderboard';
 import TeamLeaderboard from './containers/teamLeaderboard';
+import TeamPage from './containers/teamPage';
 import AvailableTeams from './containers/availableTeams';
 import { Layout } from 'antd';
 import Home from './containers/home';
@@ -43,6 +44,7 @@ export enum Routes {
   HOME = '/home',
   SETTINGS = '/settings',
   VOLUNTEER = '/volunteer',
+  TEAM = '/team:id',
   TEAM_LEADERBOARD = '/team-leaderboard',
   ADMIN = '/admin',
   AVAILABLE_TEAMS = '/available',
@@ -122,6 +124,7 @@ const App: React.FC = () => {
                         exact
                         component={VolunteerLeaderboard}
                       />
+                      <Route path={Routes.TEAM} exact component={TeamPage} />
                       <Route
                         path={Routes.TEAM_LEADERBOARD}
                         exact
@@ -164,6 +167,7 @@ const App: React.FC = () => {
                         exact
                         component={VolunteerLeaderboard}
                       />
+                      <Route path={Routes.TEAM} exact component={TeamPage} />
                       <Route
                         path={Routes.TEAM_LEADERBOARD}
                         exact
