@@ -37,8 +37,30 @@ const FormTitle = styled(Paragraph)`
 `;
 
 const Settings: React.FC = () => {
-  const onFinishChangePassword = (values: any) => {
-    ProtectedApiClient.changePassword(values)
+  const onFinishChangePassword = (values: {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+  }) => {
+    ProtectedApiClient.changePassword({
+      currentPassword: values.currentPassword,
+      newPassword: values.newPassword,
+    })
+      .then((res) => res)
+      .catch((e) => e);
+  };
+
+  const onFinishChangeEmail = (values: {
+    newEmail: string;
+    password: string;
+  }) => {
+    ProtectedApiClient.changeEmail(values)
+      .then((res) => res)
+      .catch((e) => e);
+  };
+
+  const onFinishDeleteUser = (value: { password: string }) => {
+    ProtectedApiClient.deleteUser(value)
       .then((res) => res)
       .catch((e) => e);
   };
@@ -68,15 +90,33 @@ const Settings: React.FC = () => {
               <Form.Item {...formLayout} name="username">
                 <Input placeholder="Username" />
               </Form.Item>
-
-              <FormTitle>Change Email</FormTitle>
+            </Form>
+            <FormTitle>Change Email</FormTitle>
+            <Form
+              {...formLayout}
+              name="change-email"
+              onFinish={onFinishChangeEmail}
+            >
               <Form.Item {...formLayout} name="current-email">
                 <Input
                   placeholder="Current Address"
                   defaultValue="currentemail@email.com"
                 />
               </Form.Item>
-              <Form.Item {...formLayout} name="new-email">
+              <Form.Item
+                {...formLayout}
+                name="new-email"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input a new email address!',
+                  },
+                  {
+                    pattern: /^\S+@\S+\.\S{2,}$/,
+                    message: 'Not a valid email address',
+                  },
+                ]}
+              >
                 <Input placeholder="New Address" />
               </Form.Item>
               <Form.Item {...formLayout} name="confirm-new-email">
@@ -98,7 +138,7 @@ const Settings: React.FC = () => {
               onFinish={onFinishChangePassword}
             >
               <Form.Item
-                name="current-password"
+                name="currentPassword"
                 rules={[
                   {
                     required: true,
@@ -109,7 +149,7 @@ const Settings: React.FC = () => {
                 <Input placeholder="Current Password" />
               </Form.Item>
               <Form.Item
-                name="new-password"
+                name="newPassword"
                 help={passwordRules}
                 rules={[
                   {
@@ -125,7 +165,7 @@ const Settings: React.FC = () => {
                 <Input placeholder="New Password" />
               </Form.Item>
               <Form.Item
-                name="confirm-new-password"
+                name="confirmPassword"
                 rules={[
                   {
                     required: true,
@@ -143,7 +183,7 @@ const Settings: React.FC = () => {
             </Form>
 
             <FormTitle>Deactivate or Delete Account</FormTitle>
-            <Form name="delete-account">
+            <Form name="delete-account" onFinish={onFinishDeleteUser}>
               <Form.Item>
                 <SubmitButton type="primary" htmlType="submit">
                   Continue

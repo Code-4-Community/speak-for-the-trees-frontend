@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LeaderboardTabs from '../../components/leaderboard/leaderboardTabs';
-import { TabItem } from '../../components/leaderboard/leaderboardTab';
+import { TabItem } from '../../components/leaderboard/types';
 import { C4CState } from '../../store';
 import PageHeader from '../../components/pageHeader';
 import styled from 'styled-components';
