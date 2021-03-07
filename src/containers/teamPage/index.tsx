@@ -190,7 +190,7 @@ const TeamPage: React.FC = () => {
 
   return (
     <TeamContainer>
-      <StyledLinkButton to={Routes.LOGIN}>
+      <StyledLinkButton to={Routes.AVAILABLE_TEAMS}>
         {`<`} Return to Teams
       </StyledLinkButton>
       <TeamHeaderContainer>
