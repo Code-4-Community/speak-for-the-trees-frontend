@@ -1,13 +1,8 @@
 import * as React from 'react';
 import { Tabs, Pagination } from 'antd';
 import LeaderboardTab from '../leaderboardTab';
-import { TabItem } from '../leaderboardSpace';
+import { TabItem } from '../types';
 import { tabToDays } from '../constants';
-
-export interface TabInfo {
-  name: string;
-  content: TabItem[];
-}
 
 interface LeaderboardTabsProps {
   items: TabItem[];

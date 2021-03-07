@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import LeaderboardSpace, {
-  TabItem,
-} from '../../components/leaderboard/leaderboardSpace';
+import LeaderboardSpace from '../../components/leaderboard/leaderboardSpace';
+import { TabItem } from '../../components/leaderboard/types';
 import { Pagination, Divider } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import styled from 'styled-components';
@@ -55,7 +54,7 @@ const dummy: TabItem[] = [
     name: 'team3',
     rightSide: (
       <Button type="text">
-        <ArrowLink/>
+        <ArrowLink />
       </Button>
     ),
   },

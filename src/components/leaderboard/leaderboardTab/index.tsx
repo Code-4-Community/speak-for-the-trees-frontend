@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Col, Row } from 'antd';
-import LeaderboardPanels, { TabItem } from '../leaderboardSpace';
+import LeaderboardPanels from '../leaderboardSpace';
+import { TabItem } from '../types';
 
 interface LeaderboardTabProps {
   tabItems: TabItem[];

@@ -4,6 +4,7 @@ import { SpaceProps } from 'antd/lib/space/index';
 import { BLACK, LIGHT_GREEN } from '../../../utils/colors';
 import styled from 'styled-components';
 import { Collapse, Space, Typography } from 'antd';
+import { TabItem } from '../types';
 
 const { Panel } = Collapse;
 const { Paragraph } = Typography;
@@ -26,7 +27,8 @@ const LeaderboardItemName = styled(Paragraph)`
   color: ${BLACK};
   display: inline-block;
   line-height: 0px;
-  ${(props: LeaderboardStyleProps) => props.large && 'font-size: 20px; font-weight: bold;'};
+  ${({ large }: LeaderboardStyleProps) =>
+    large && 'font-size: 20px; font-weight: bold;'};
 `;
 
 const LeaderboardRankContainer = styled.span`
@@ -43,14 +45,6 @@ const LeaderboardItemRank = styled(Paragraph)<ParagraphProps>`
   line-height: 0px;
 `;
 
-export interface TabItem {
-  rank?: number;
-  id: number;
-  name: string; // for now, these are assumed to be unique
-  rightSide: React.ReactNode;
-  collapseContent?: React.ReactNode;
-}
-
 interface LeaderboardSpaceProps {
   tabItems: TabItem[];
   currentPage: number;
@@ -65,39 +59,37 @@ const LeaderboardPanels: React.FC<LeaderboardSpaceProps> = ({
   itemsPerPage,
   large,
 }) => {
-  const itemsOnPage = tabItems.slice(
+  const itemsOnPage: TabItem[] = tabItems.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
 
   return (
-    <LeaderboardSpace direction="vertical" size={large ? 22 : 'small'}>
-      {itemsOnPage.map((item) => {
-        return (
-          <LeaderboardCollapse bordered={true} key={item.name} large={large}>
-            <Panel
-              key={item.name}
-              header={
-                <>
-                  <LeaderboardRankContainer>
-                    <LeaderboardItemRank>
-                      {item.rank && item.rank}
-                    </LeaderboardItemRank>
-                  </LeaderboardRankContainer>
-                  <LeaderboardItemName large={large}>
-                    {item.name}
-                  </LeaderboardItemName>
-                </>
-              }
-              extra={item.rightSide}
-              showArrow={false}
-              disabled={!item.collapseContent}
-            >
-              {item.collapseContent}
-            </Panel>
-          </LeaderboardCollapse>
-        );
-      })}
+    <LeaderboardSpace direction="vertical" size={large ? 'large' : 'small'}>
+      {itemsOnPage.map((item) => (
+        <LeaderboardCollapse bordered={true} key={item.name} large={large}>
+          <Panel
+            key={item.id}
+            header={
+              <>
+                <LeaderboardRankContainer>
+                  <LeaderboardItemRank>
+                    {item.rank && item.rank}
+                  </LeaderboardItemRank>
+                </LeaderboardRankContainer>
+                <LeaderboardItemName large={large}>
+                  {item.name}
+                </LeaderboardItemName>
+              </>
+            }
+            extra={item.rightSide}
+            showArrow={false}
+            disabled={!item.collapseContent}
+          >
+            {item.collapseContent}
+          </Panel>
+        </LeaderboardCollapse>
+      ))}
     </LeaderboardSpace>
   );
 };

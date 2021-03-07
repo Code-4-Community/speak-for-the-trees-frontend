@@ -1,6 +1,6 @@
 import { AsyncRequest, AsyncRequestKinds } from '../../../utils/asyncRequest';
 import { TeamLeaderboardItem } from './types';
-import { TabItem } from '../../../components/leaderboard/leaderboardSpace';
+import { TabItem } from '../../../components/leaderboard/types';
 
 export const mapTeamsToTabItems = (
   items: AsyncRequest<TeamLeaderboardItem[], any>,
