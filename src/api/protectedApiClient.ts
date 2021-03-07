@@ -19,6 +19,20 @@ export interface ProtectedApiClient {
     currentPassword: string;
     newPassword: string;
   }) => Promise<void>;
+  readonly changeUsername: (request: {
+    newUsername: string;
+    password: string;
+  }) => Promise<void>;
+  readonly changeEmail: (request: {
+    newEmail: string;
+    password: string;
+  }) => Promise<void>;
+  readonly deleteUser: (request: { password: string }) => Promise<void>;
+  readonly changePrivilegeLevel: (request: {
+    targetUserEmail: string;
+    newLevel: string;
+    password: string;
+  }) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -26,6 +40,9 @@ export enum ProtectedApiClientRoutes {
   COMPLETE_RESERVATION = '/api/v1/protected/reservations/complete',
   RELEASE_RESERVATION = '/api/v1/protected/reservations/release',
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
+  CHANGE_USERNAME = '/api/v1/protected/user/change_username',
+  CHANGE_EMAIL = '/api/v1/protected/user/change_email',
+  DELETE_USER = '/api/v1/protected/user/',
 }
 
 export enum AdminApiClientRoutes {
@@ -33,6 +50,7 @@ export enum AdminApiClientRoutes {
   MARK_RESERVATION_FOR_QA = '/api/v1/protected/reservations/qa',
   PASS_RESERVATION_QA = '/api/v1/protected/reservations/pass_qa',
   FAIL_RESERVATION_QA = '/api/v1/protected/reservations/fail_qa',
+  CHANGE_PRIVILEGE = '/api/v1/protected/user/change_privilege',
 }
 
 const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
@@ -106,7 +124,44 @@ const changePassword = (request: {
     ProtectedApiClientRoutes.CHANGE_PASSWORD,
     request,
   )
-    .then((r) => r)
+    .then((r) => r.data)
+    .catch((e) => e);
+};
+
+const changeUsername = (request: {
+  newUsername: string;
+  password: string;
+}): Promise<void> => {
+  return AppAxiosInstance.post(
+    ProtectedApiClientRoutes.CHANGE_USERNAME,
+    request,
+  )
+    .then((r) => r.data)
+    .catch((e) => e);
+};
+
+const changeEmail = (request: {
+  newEmail: string;
+  password: string;
+}): Promise<void> => {
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.CHANGE_EMAIL, request)
+    .then((r) => r.data)
+    .catch((e) => e);
+};
+
+const deleteUser = (request: { password: string }): Promise<void> => {
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.DELETE_USER, request)
+    .then((r) => r.data)
+    .catch((e) => e);
+};
+
+const changePrivilegeLevel = (request: {
+  targetUserEmail: string;
+  newLevel: string;
+  password: string;
+}): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.CHANGE_PRIVILEGE, request)
+    .then((r) => r.data)
     .catch((e) => e);
 };
 
@@ -119,6 +174,10 @@ const Client: ProtectedApiClient = Object.freeze({
   passReservationQa,
   failReservationQa,
   changePassword,
+  changeUsername,
+  changeEmail,
+  deleteUser,
+  changePrivilegeLevel,
 });
 
 export default Client;
