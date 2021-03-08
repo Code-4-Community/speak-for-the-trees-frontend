@@ -9,9 +9,7 @@ import LandingTreeStats from '../../components/landingTreeStats';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/window-dimensions';
-import {
-  asyncRequestIsComplete,
-} from '../../utils/asyncRequest';
+import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
 import { MapGeoDataReducerState } from '../../components/mapPageComponents/ducks/types';
 import { C4CState } from '../../store';
