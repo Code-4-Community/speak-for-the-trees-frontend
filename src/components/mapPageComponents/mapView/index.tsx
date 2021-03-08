@@ -180,15 +180,13 @@ const MapView: React.FC = () => {
     blocksLayer.addListener('click', (event) => {
       //get status of block based on color
       const status: ReservationModalType = ((): ReservationModalType => {
-        switch (event.feature.getProperty('color')) {
-          case 'green':
-            return ReservationModalType.OPEN;
-          case 'red':
+        switch (event.feature.getProperty('ID') % 10) {
+          case 1:
             return ReservationModalType.TAKEN;
-          case 'yellow':
+          case 0:
             return ReservationModalType.RESERVED;
           default:
-            return ReservationModalType.TAKEN;
+            return ReservationModalType.OPEN;
         }
       })();
       //show modal
