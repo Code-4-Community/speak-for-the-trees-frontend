@@ -290,7 +290,7 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
         handleZoomChange();
       });
     }
-  }, []);
+  }, [blocks, neighborhoods, mapRef, markersArray, loader]);
 
   return (
     <>
