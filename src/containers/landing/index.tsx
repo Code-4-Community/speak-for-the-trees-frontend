@@ -9,7 +9,7 @@ import LandingTreeStats from '../../components/landingTreeStats';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/window-dimensions';
-import { AsyncRequestKinds } from '../../utils/asyncRequest';
+import { AsyncRequestKinds, asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
 import { MapGeoDataReducerState } from '../../components/mapPageComponents/ducks/types';
 import { C4CState } from '../../store';
@@ -45,8 +45,8 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
               content="The first page someone sees if they are not logged in, contains a read only map of Boston neighborhoods and some information about the tree counts of Speak for the Trees"
             />
           </Helmet>
-          {blocks.kind === AsyncRequestKinds.Completed &&
-            neighborhoods.kind === AsyncRequestKinds.Completed && (
+          {(asyncRequestIsComplete(blocks) &&
+            asyncRequestIsComplete(neighborhoods)) && (
               <MobileMapPage
                 neighborhoods={neighborhoods.result}
                 blocks={blocks.result}
@@ -75,8 +75,8 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
               content="The first page someone sees if they are not logged in, contains a read only map of Boston neighborhoods and some information about the tree counts of Speak for the Trees"
             />
           </Helmet>
-          {blocks.kind === AsyncRequestKinds.Completed &&
-            neighborhoods.kind === AsyncRequestKinds.Completed && (
+          {(asyncRequestIsComplete(blocks) &&
+            asyncRequestIsComplete(neighborhoods)) && (
               <MapPage
                 neighborhoods={neighborhoods.result}
                 blocks={blocks.result}
