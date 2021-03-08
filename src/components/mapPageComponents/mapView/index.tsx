@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import useWindowDimensions, { WindowTypes } from '../../window-dimensions';
 import { Input, message } from 'antd';
 import { Loader } from '@googlemaps/js-api-loader';
@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import ReservationModal, {
   ReservationModalType,
 } from '../../../components/ReservationModal';
-import { isReturnStatement } from 'typescript';
+import protectedApiClient from '../../../api/protectedApiClient';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -29,13 +29,32 @@ const MapDiv = styled.div`
   height: 100%;
 `;
 
-let s: ReservationModalType = ReservationModalType.TAKEN;
-let b: number = 0; 
-let ok : () => void;
-
 const MapView: React.FC = () => {
+  //visibility of reservation modal
+  const [showModal, setShowModal] = useState<boolean>(false);
+  //block status for modal
+  const [reservationType, setReservationType] = useState<ReservationModalType>(
+    ReservationModalType.OPEN,
+  );
+  //block id for modal
+  const [activeBlockId, setActiveBlockId] = useState<number>(-1);
+  //logic for reservation modal to complete action selected by user
+  const handleOk = (): void => {
+    setShowModal(false);
+    switch (reservationType) {
+      case ReservationModalType.OPEN:
+        //set block status to reserved
+        protectedApiClient.makeReservation(activeBlockId);
+        break;
+      case ReservationModalType.RESERVED:
+        //set block status to open
+        break;
+      default:
+        //block clicked not owned/open
+        break;
+    }
+  };
 
-  const [visibility, setVisibility] = useState(true);
   const { windowType } = useWindowDimensions();
 
   const loader = new Loader({
@@ -157,6 +176,29 @@ const MapView: React.FC = () => {
     // Initially false while the neighborhoods are shown
     setBlocksStyle(false);
 
+    //adds listener so reservation modal appears when block clicked
+    blocksLayer.addListener('click', (event) => {
+      //get status of block based on color
+      const status: ReservationModalType = ((): ReservationModalType => {
+        switch (event.feature.getProperty('color')) {
+          case 'green':
+            return ReservationModalType.OPEN;
+          case 'red':
+            return ReservationModalType.TAKEN;
+          case 'yellow':
+            return ReservationModalType.RESERVED;
+          default:
+            return ReservationModalType.TAKEN;
+        }
+      })();
+      //show modal
+      setShowModal(true);
+      //set status of block
+      setReservationType(status);
+      //set id of block
+      setActiveBlockId(event.feature.getProperty('ID'));
+    });
+
     // Creates a new layer
     const neighborhoodsLayer = new google.maps.Data({ map });
 
@@ -234,46 +276,6 @@ const MapView: React.FC = () => {
       });
     });
 
-    // const [visibility, setVisibility] = useState(true);
-
-    const handleOk = (status: ReservationModalType, feature: any): void => {
-      setVisibility(false);
-      switch (status) {
-        case ReservationModalType.OPEN:
-          feature.setProperty('red');
-        case ReservationModalType.TAKEN:
-          feature.setProperty('yellow');
-        case ReservationModalType.RESERVED:
-          feature.setProperty('green');
-        default:
-          feature.setProperty('yellow');
-      }
-    };
-
-    const getStatus = (color: string): ReservationModalType => {
-      switch (color) {
-        case 'green':
-          return ReservationModalType.OPEN;
-        case 'red':
-          return ReservationModalType.TAKEN;
-        case 'yellow':
-          return ReservationModalType.RESERVED;
-        default:
-          return ReservationModalType.TAKEN;
-      }
-    };
-
-    // let s: ReservationModalType = ReservationModalType.TAKEN;
-    // let b: number = 0; 
-    // let ok : string = 'red';
-
-    // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
-    neighborhoodsLayer.addListener('click', (event) => {
-      s = getStatus(event.feature.getProperty('color'))
-      b = event.feature.getProperty('ID')
-      ok = handleOk(getStatus(event.feature.getProperty('color')), event.feature)
-    });
-
     // Asks user if they want to show their current location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -332,7 +334,13 @@ const MapView: React.FC = () => {
         )}
       </div>
       <MapDiv id="map"></MapDiv>
-      <ReservationModal status={s} blockID={b} onOk={ok} onCancel={() => setVisibility(false)} isVisible={visibility} />
+      <ReservationModal
+        status={reservationType}
+        blockID={activeBlockId}
+        onOk={handleOk}
+        onCancel={() => setShowModal(false)}
+        isVisible={showModal}
+      />
     </>
   );
 };
