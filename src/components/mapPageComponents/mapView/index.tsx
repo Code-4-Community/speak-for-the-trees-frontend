@@ -92,7 +92,7 @@ const MapView: React.FC = () => {
 
     // Loads the objects into the layer
     privateStreetsLayer.loadGeoJson(
-      'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/private_streets.json',
+      'https://raw.githubusercontent.com/Code-4-Community/speak-for-the-trees-backend-v2/master/persist/src/main/resources/mapData/private_streets.json'
     );
 
     // Sets the style of the layer to simple red lines
