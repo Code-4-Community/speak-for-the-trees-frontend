@@ -13,7 +13,6 @@ import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { Routes } from '../../App';
 import { Alert, Col, Row, Typography } from 'antd';
-import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import styled from 'styled-components';
 import { BLACK, LIGHT_GREY, TEXT_GREY, WHITE } from '../../utils/colors';
 import GreetingContainer from '../../components/greetingContainer';
@@ -22,8 +21,14 @@ import LoginForm from '../../components/loginForm';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/window-dimensions';
+import {
+  LOGIN_BODY,
+  LOGIN_ERROR,
+  LOGIN_HEADER,
+  LOGIN_TITLE,
+} from '../../assets/content';
 
-const { Paragraph, Title } = Typography;
+const { Paragraph } = Typography;
 
 const LoginPageContainer = styled.div`
   padding: 120px;
@@ -61,11 +66,17 @@ const Line = styled.div`
   background: ${WHITE};
 `;
 
-const Footer: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
+const Footer = styled(Paragraph)`
   color: ${TEXT_GREY};
   line-height: 1.5;
   margin-top: 40px;
   margin-bottom: 10px;
+`;
+
+const Title = styled(Paragraph)`
+  color: ${BLACK};
+  font-size: 30px;
+  line-height: 36px;
 `;
 
 const LoginAlert = styled(Alert)`
@@ -78,14 +89,6 @@ const MobileLoginAlert = styled(Alert)`
   width: 90%;
   margin-bottom: 20px;
 `;
-
-const loginErrorMessage = 'The username or email you entered was incorrect.';
-const greetingHeader = 'Welcome Back!';
-const greetingBody =
-  'Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer\n' +
-  'cronut pok pok gentrify flannel salvia deep v pork belly\n' +
-  'pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts\n' +
-  'affogato PBR&B freegan bushwick vegan four loko pickled.';
 
 type LoginProps = UserAuthenticationReducerState;
 
@@ -136,9 +139,9 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
           case WindowTypes.Mobile:
             return (
               <MobileLoginPageContainer>
-                <MobilePageHeader pageTitle="Log In" />
+                <MobilePageHeader pageTitle={LOGIN_TITLE} />
                 {loginFailed && (
-                  <MobileLoginAlert message={loginErrorMessage} type="error" />
+                  <MobileLoginAlert message={LOGIN_ERROR} type="error" />
                 )}
                 <LoginForm onFinish={onFinish} />
                 {ForgotPasswordFooter}
@@ -150,22 +153,17 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
                 <CenterDiv>
                   <RightMargin>
                     <InputContainer>
-                      <Title level={2} style={{ color: BLACK }}>
-                        Log In
-                      </Title>
+                      <Title>{LOGIN_TITLE}</Title>
                       <Line />
                       {loginFailed && (
-                        <LoginAlert message={loginErrorMessage} type="error" />
+                        <LoginAlert message={LOGIN_ERROR} type="error" />
                       )}
                       <LoginForm onFinish={onFinish} />
                       {ForgotPasswordFooter}
                     </InputContainer>
                   </RightMargin>
 
-                  <GreetingContainer
-                    header={greetingHeader}
-                    body={greetingBody}
-                  />
+                  <GreetingContainer header={LOGIN_HEADER} body={LOGIN_BODY} />
                 </CenterDiv>
               </TabletLoginPageContainer>
             );
@@ -175,12 +173,10 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
               <LoginPageContainer>
                 <Row>
                   <InputContainer span={10}>
-                    <Title level={2} style={{ color: BLACK }}>
-                      Log In
-                    </Title>
+                    <Title>{LOGIN_TITLE}</Title>
                     <Line />
                     {loginFailed && (
-                      <LoginAlert message={loginErrorMessage} type="error" />
+                      <LoginAlert message={LOGIN_ERROR} type="error" />
                     )}
                     <LoginForm onFinish={onFinish} />
                     {ForgotPasswordFooter}
@@ -190,8 +186,8 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
 
                   <Col span={12}>
                     <GreetingContainer
-                      header={greetingHeader}
-                      body={greetingBody}
+                      header={LOGIN_HEADER}
+                      body={LOGIN_BODY}
                     />
                   </Col>
                 </Row>

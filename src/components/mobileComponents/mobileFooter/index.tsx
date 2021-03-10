@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Typography } from 'antd';
 import { BACKGROUND_GREY, TEXT_GREY, MID_GREEN } from '../../../utils/colors';
-import Logo from '../../../nav-bar-icon.png';
+import Logo from '../../../assets/nav-bar-icon.png';
 
 const { Paragraph } = Typography;
 

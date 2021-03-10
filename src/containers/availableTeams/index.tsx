@@ -6,6 +6,7 @@ import PageHeader from '../../components/pageHeader';
 import styled from 'styled-components';
 import { Button } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
+import { TEAMS_HEADER, TEAMS_TITLE } from '../../assets/content';
 
 const ContentContainer = styled.div`
   padding: 100px 134px;
@@ -65,10 +66,7 @@ const AvailableTeams: React.FC = () => {
 
   return (
     <ContentContainer>
-      <PageHeader
-        pageTitle="Available Teams"
-        pageSubtitle="Take a peak at the teams accepting new members!"
-      />
+      <PageHeader pageTitle={TEAMS_TITLE} pageSubtitle={TEAMS_HEADER} />
 
       <TeamsContainer>
         <TeamPagination

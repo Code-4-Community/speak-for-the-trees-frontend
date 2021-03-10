@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography } from 'antd';
 import { BLACK } from '../../utils/colors';
 import styled from 'styled-components';
-import logo from '../../SFTTicon.png';
+import logo from '../../assets/logo.png';
 
 const { Paragraph, Title } = Typography;
 

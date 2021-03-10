@@ -11,7 +11,7 @@ import {
   BACKGROUND_GREY,
   WHITE,
 } from '../../../utils/colors';
-import Logo from '../../../nav-bar-icon.png';
+import Logo from '../../../assets/nav-bar-icon.png';
 
 interface MobileNavBarProps {
   readonly isLoggedIn: boolean;
