@@ -36,9 +36,9 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
     switch (status) {
       case ReservationModalType.OPEN:
         return 'Reserve';
-      case ReservationModalType.TAKEN:
-        return 'Release';
       case ReservationModalType.RESERVED:
+        return 'Release';
+      case ReservationModalType.TAKEN:
         return 'Ok';
     }
   };
@@ -52,14 +52,14 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
             <br /> {`You want to reserve block ${blockID}`}
           </text>
         );
-      case ReservationModalType.TAKEN:
+      case ReservationModalType.RESERVED:
         return (
           <text>
             <b>{`Are you sure?`}</b>
             <br /> {`You want to release block ${blockID}`}
           </text>
         );
-      case ReservationModalType.RESERVED:
+      case ReservationModalType.TAKEN:
         return (
           <text>
             <b>{`Sorry!`}</b>

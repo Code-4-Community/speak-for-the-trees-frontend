@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useWindowDimensions, { WindowTypes } from '../../window-dimensions';
 import { Input, message } from 'antd';
 import { Loader } from '@googlemaps/js-api-loader';
 import styled from 'styled-components';
+import ReservationModal, {
+  ReservationModalType,
+} from '../../../components/ReservationModal';
+import protectedApiClient from '../../../api/protectedApiClient';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -26,6 +30,31 @@ const MapDiv = styled.div`
 `;
 
 const MapView: React.FC = () => {
+  //visibility of reservation modal
+  const [showModal, setShowModal] = useState<boolean>(false);
+  //block status for modal
+  const [reservationType, setReservationType] = useState<ReservationModalType>(
+    ReservationModalType.OPEN,
+  );
+  //block id for modal
+  const [activeBlockId, setActiveBlockId] = useState<number>(-1);
+  //logic for reservation modal to complete action selected by user
+  const handleOk = (): void => {
+    setShowModal(false);
+    switch (reservationType) {
+      case ReservationModalType.OPEN:
+        //set block status to reserved
+        protectedApiClient.makeReservation(activeBlockId);
+        break;
+      case ReservationModalType.RESERVED:
+        //set block status to open
+        break;
+      default:
+        //block clicked not owned/open
+        break;
+    }
+  };
+
   const { windowType } = useWindowDimensions();
 
   const loader = new Loader({
@@ -146,6 +175,27 @@ const MapView: React.FC = () => {
 
     // Initially false while the neighborhoods are shown
     setBlocksStyle(false);
+
+    //adds listener so reservation modal appears when block clicked
+    blocksLayer.addListener('click', (event) => {
+      //get status of block based on color
+      const status: ReservationModalType = ((): ReservationModalType => {
+        switch (event.feature.getProperty('ID') % 10) {
+          case 1:
+            return ReservationModalType.TAKEN;
+          case 0:
+            return ReservationModalType.RESERVED;
+          default:
+            return ReservationModalType.OPEN;
+        }
+      })();
+      //show modal
+      setShowModal(true);
+      //set status of block
+      setReservationType(status);
+      //set id of block
+      setActiveBlockId(event.feature.getProperty('ID'));
+    });
 
     // Creates a new layer
     const neighborhoodsLayer = new google.maps.Data({ map });
@@ -282,6 +332,13 @@ const MapView: React.FC = () => {
         )}
       </div>
       <MapDiv id="map"></MapDiv>
+      <ReservationModal
+        status={reservationType}
+        blockID={activeBlockId}
+        onOk={handleOk}
+        onCancel={() => setShowModal(false)}
+        isVisible={showModal}
+      />
     </>
   );
 };
