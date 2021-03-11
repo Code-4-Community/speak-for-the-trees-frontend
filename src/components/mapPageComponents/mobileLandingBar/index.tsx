@@ -67,7 +67,16 @@ const LandingStatsContainer = styled.div`
   margin: 0px -30px;
 `;
 
-const MobileLandingBar: React.FC = ({ children }) => {
+interface MobileLandingBarProps {
+  readonly barHeader: string;
+  readonly barDescription: string;
+}
+
+const MobileLandingBar: React.FC<MobileLandingBarProps> = ({
+  barHeader,
+  barDescription,
+  children,
+}) => {
   const history = useHistory();
 
   return (
@@ -75,13 +84,8 @@ const MobileLandingBar: React.FC = ({ children }) => {
       <MobileBarContentContainer>
         <TitleButtonsContainer>
           <TitleContainer>
-            <MobileTitle>Boston's Street Trees</MobileTitle>
-            <MobileParagraph>
-              Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer
-              cronut pok pok gentrify flannel salvia deep v pork belly
-              pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts
-              affogato PBR&B freegan bushwick vegan four loko pickled.
-            </MobileParagraph>
+            <MobileTitle>{barHeader}</MobileTitle>
+            <MobileParagraph>{barDescription}</MobileParagraph>
           </TitleContainer>
           <ButtonsContainer>
             <div>

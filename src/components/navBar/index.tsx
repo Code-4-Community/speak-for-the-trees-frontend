@@ -21,7 +21,7 @@ import {
   MID_GREEN,
   WHITE,
 } from '../../utils/colors';
-import Logo from '../../nav-bar-icon.png';
+import Logo from '../../assets/images/nav-bar-icon.png';
 
 const { Paragraph } = Typography;
 

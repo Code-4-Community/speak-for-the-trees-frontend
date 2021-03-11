@@ -8,7 +8,9 @@ import LinkCarousel from '../../components/linkCarousel';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/window-dimensions';
-import HomeBackground from '../../SFTTicon_GREY.png';
+import HomeBackground from '../../assets/images/grey-logo.png';
+import { HOME_HEADER, HOME_TITLE } from '../../assets/content';
+
 const { Paragraph } = Typography;
 
 const StyledSubtitle = styled(Paragraph)`
@@ -27,6 +29,10 @@ const HomeContainer = styled.div`
 
 const Home: React.FC = () => {
   const { windowType } = useWindowDimensions();
+
+  // TODO: connect to backend's userData route
+  const userName = 'Jack';
+
   return (
     <>
       <Helmet>
@@ -42,8 +48,8 @@ const Home: React.FC = () => {
         }}
       >
         <PageHeader
-          pageTitle="Welcome back, Jack!"
-          pageSubtitle="Let's get back to those trees, why don't we?"
+          pageTitle={HOME_TITLE + userName + '!'}
+          pageSubtitle={HOME_HEADER}
           subtitleColor={DARK_GREY}
         />
 

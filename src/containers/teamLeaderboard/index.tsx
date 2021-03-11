@@ -9,6 +9,10 @@ import { connect, useDispatch } from 'react-redux';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { getTeamsLeaderboard } from './ducks/thunks';
 import { LEADERBOARD_TABS } from '../../components/leaderboard/constants';
+import {
+  TEAM_LEADERBOARD_HEADER,
+  TEAM_LEADERBOARD_TITLE,
+} from '../../assets/content';
 
 const LeaderboardContentContainer = styled.div`
   padding: 100px 134px;
@@ -43,8 +47,8 @@ const TeamLeaderboard: React.FC<TeamLeaderboardProps> = ({
   return (
     <LeaderboardContentContainer>
       <PageHeader
-        pageTitle="Team Leaderboard"
-        pageSubtitle="Let’s celebrate your team reaching for its goals!"
+        pageTitle={TEAM_LEADERBOARD_TITLE}
+        pageSubtitle={TEAM_LEADERBOARD_HEADER}
       />
 
       <LeaderboardContainer>
