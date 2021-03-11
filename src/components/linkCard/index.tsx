@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { Card } from 'antd';
 import { LinkButton } from '../LinkButton';
 import { LIGHT_GREEN, PALE_GREEN, WHITE } from '../../utils/colors';
-import bkg1 from './bkg1.png';
-import bkg2 from './bkg2.png';
-import bkg3 from './bkg3.png';
-import bkg4 from './bkg4.png';
+import bkg1 from '../../assets/images/bkg1.png';
+import bkg2 from '../../assets/images/bkg2.png';
+import bkg3 from '../../assets/images/bkg3.png';
+import bkg4 from '../../assets/images/bkg4.png';
 
 interface LinkCardProps {
   readonly text: string;
