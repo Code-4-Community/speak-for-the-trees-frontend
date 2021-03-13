@@ -1,26 +1,49 @@
 import React, { useState, useRef } from 'react';
-import { CaretUpOutlined } from '@ant-design/icons';
-import './Accordion.css';
+import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
+import styled from 'styled-components';
+
+const AccordionButton = styled.button`
+  background-color: #61802e;
+  padding: 5px;
+  border: none;
+  outline: none;
+  transition: background-color 0.4s ease;
+`;
+
+const AccordionTextDiv = styled.div`
+  padding: 18px;
+`;
+
+const AccordionContentDiv = styled.div`
+  overflow: auto;
+  transition: height 0.4s ease;
+`;
+
+const AccordionSectionDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const Accordion: React.FC = ({ children }) => {
   const [setActive, setActiveState] = useState(false);
   const content = useRef(document.createElement('div'));
 
   return (
-    <div className="accordion__section">
-      <button className={`accordion ${setActive}`} onClick={() => setActiveState(!setActive)}>
-        <CaretUpOutlined className={setActive ? 'accordion__icon' : 'accordion__icon rotate'} style={{color: 'white'}} />
-      </button>
-      <div
+    <AccordionSectionDiv>
+      <AccordionButton onClick={() => setActiveState(!setActive)}>
+        {
+          setActive ? <CaretDownOutlined style={{color: 'white'}} /> : <CaretUpOutlined style={{color: 'white'}} />
+        }
+      </AccordionButton>
+      <AccordionContentDiv
         ref={content}
-        style={{ maxHeight: setActive ? '0px' : `${content.current.scrollHeight}px` }}
-        className="accordion__content"
+        style={{ height: setActive ? `${content.current.scrollHeight}px` : '0px' }}
       >
-        <div className="accordion__text">
+        <AccordionTextDiv>
           {children}
-        </div>
-      </div>
-    </div>
+        </AccordionTextDiv>
+      </AccordionContentDiv>
+    </AccordionSectionDiv>
   );
 };
 
