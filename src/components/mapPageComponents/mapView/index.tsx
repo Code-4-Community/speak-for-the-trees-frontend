@@ -36,27 +36,27 @@ interface MapViewProps {
 }
 
 const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
-  //visibility of reservation modal
+  // visibility of reservation modal
   const [showModal, setShowModal] = useState<boolean>(false);
-  //block status for modal
+  // block status for modal
   const [reservationType, setReservationType] = useState<ReservationModalType>(
     ReservationModalType.OPEN,
   );
-  //block id for modal
+  // block id for modal
   const [activeBlockId, setActiveBlockId] = useState<number>(-1);
-  //logic for reservation modal to complete action selected by user
+  // logic for reservation modal to complete action selected by user
   const handleOk = (): void => {
     setShowModal(false);
     switch (reservationType) {
       case ReservationModalType.OPEN:
-        //set block status to reserved
+        // set block status to reserved
         protectedApiClient.makeReservation(activeBlockId);
         break;
       case ReservationModalType.RESERVED:
-        //set block status to open
+        // set block status to open
         break;
       default:
-        //block clicked not owned/open
+        // block clicked not owned/open
         break;
     }
   };
@@ -259,9 +259,9 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
 
         // Initially true while the neighborhoods are shown by themselves
         setNeighborhoodsStyle(true);
-        //adds listener so reservation modal appears when block clicked
+        // adds listener so reservation modal appears when block clicked
         blocksLayer.addListener('click', (event) => {
-          //get status of block based on color
+          // get status of block based on color
           const status: ReservationModalType = ((): ReservationModalType => {
             switch (event.feature.getProperty('ID') % 10) {
               case 1:
@@ -272,11 +272,11 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
                 return ReservationModalType.OPEN;
             }
           })();
-          //show modal
+          // show modal
           setShowModal(true);
-          //set status of block
+          // set status of block
           setReservationType(status);
-          //set id of block
+          // set id of block
           setActiveBlockId(event.feature.getProperty('ID'));
         });
 

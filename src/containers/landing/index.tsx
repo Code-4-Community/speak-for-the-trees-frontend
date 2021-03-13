@@ -50,8 +50,8 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
                 blocks={blocks.result}
               >
                 <MobileLandingBar
-                  barHeader={ LANDING_TITLE }
-                  barDescription={ LANDING_BODY }
+                  barHeader={LANDING_TITLE}
+                  barDescription={LANDING_BODY}
                 >
                   <LandingTreeStats
                     moneySaved={statMoneySaved}
@@ -93,7 +93,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
             )}
         </>
       );
-  }        
+  }
 };
 
 const mapStateToProps = (state: C4CState): LandingProps => {
