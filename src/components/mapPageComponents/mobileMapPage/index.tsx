@@ -19,18 +19,18 @@ type MobileMapPageProps = {
 const MobileMapPage: React.FC<MobileMapPageProps> = ({
   blocks,
   neighborhoods,
-  children
+  children,
 }) => (
-    <>
-      <MainContent>
-        <MapLayout>
-          <Content>
-            <MapView blocks={blocks} neighborhoods={neighborhoods} />
-          </Content>
-          {children}
-        </MapLayout>
-      </MainContent>
-    </>
+  <>
+    <MainContent>
+      <MapLayout>
+        <Content>
+          <MapView blocks={blocks} neighborhoods={neighborhoods} />
+        </Content>
+        {children}
+      </MapLayout>
+    </MainContent>
+  </>
 );
 
 export default MobileMapPage;

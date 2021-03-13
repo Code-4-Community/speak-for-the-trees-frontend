@@ -31,17 +31,19 @@ const Accordion: React.FC = ({ children }) => {
   return (
     <AccordionSectionDiv>
       <AccordionButton onClick={() => setActiveState(!setActive)}>
-        {
-          setActive ? <CaretDownOutlined style={{color: 'white'}} /> : <CaretUpOutlined style={{color: 'white'}} />
-        }
+        {setActive ? (
+          <CaretDownOutlined style={{ color: 'white' }} />
+        ) : (
+          <CaretUpOutlined style={{ color: 'white' }} />
+        )}
       </AccordionButton>
       <AccordionContentDiv
         ref={content}
-        style={{ height: setActive ? `${content.current.scrollHeight}px` : '0px' }}
+        style={{
+          height: setActive ? `${content.current.scrollHeight}px` : '0px',
+        }}
       >
-        <AccordionTextDiv>
-          {children}
-        </AccordionTextDiv>
+        <AccordionTextDiv>{children}</AccordionTextDiv>
       </AccordionContentDiv>
     </AccordionSectionDiv>
   );

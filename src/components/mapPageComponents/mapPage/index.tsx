@@ -15,12 +15,12 @@ type MapPageProps = {
 };
 
 const MapPage: React.FC<MapPageProps> = ({
-                                           blocks,
-                                           neighborhoods,
-                                           sidebarHeader,
-                                           sidebarDescription,
-                                           children,
-                                         }) => (
+  blocks,
+  neighborhoods,
+  sidebarHeader,
+  sidebarDescription,
+  children,
+}) => (
   <>
     <MapLayout>
       <Content>

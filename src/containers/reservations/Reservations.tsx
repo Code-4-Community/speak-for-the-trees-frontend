@@ -3,12 +3,11 @@ import MapPage from '../../components/mapPageComponents/mapPage/index';
 import BlockTabs from '../../components/blockTabs/index';
 
 import { Helmet } from 'react-helmet';
-import { Collapse, Typography } from 'antd';
+import { Typography } from 'antd';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/window-dimensions';
 import MobileMapPage from '../../components/mapPageComponents/mobileMapPage';
-import { CaretRightOutlined } from '@ant-design/icons';
 import { MapProps, mapStateToProps } from '../../store';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { connect, useDispatch } from 'react-redux';
@@ -38,14 +37,16 @@ const Reservations: React.FC<MapProps> = ({ neighborhoods, blocks }) => {
             />
           </Helmet>
           {asyncRequestIsComplete(blocks) &&
-          asyncRequestIsComplete(neighborhoods) && (
-            <MobileMapPage blocks={blocks.result} neighborhoods={neighborhoods.result}>
-              <Accordion>
-                <BlockTabs />
-              </Accordion>
-            </MobileMapPage>
-          )}
-
+            asyncRequestIsComplete(neighborhoods) && (
+              <MobileMapPage
+                blocks={blocks.result}
+                neighborhoods={neighborhoods.result}
+              >
+                <Accordion>
+                  <BlockTabs />
+                </Accordion>
+              </MobileMapPage>
+            )}
         </>
       );
 
@@ -62,16 +63,16 @@ const Reservations: React.FC<MapProps> = ({ neighborhoods, blocks }) => {
             />
           </Helmet>
           {asyncRequestIsComplete(blocks) &&
-          asyncRequestIsComplete(neighborhoods) && (
-            <MapPage
-              blocks={blocks.result}
-              neighborhoods={neighborhoods.result}
-              sidebarHeader="My Blocks"
-              sidebarDescription="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer cronut pok pok gentrify flannel salvia deep v pork belly pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts affogato PBR&B freegan bushwick vegan four loko pickled."
-            >
-              <BlockTabs />
-            </MapPage>
-          )}
+            asyncRequestIsComplete(neighborhoods) && (
+              <MapPage
+                blocks={blocks.result}
+                neighborhoods={neighborhoods.result}
+                sidebarHeader="My Blocks"
+                sidebarDescription="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer cronut pok pok gentrify flannel salvia deep v pork belly pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts affogato PBR&B freegan bushwick vegan four loko pickled."
+              >
+                <BlockTabs />
+              </MapPage>
+            )}
         </>
       );
 
