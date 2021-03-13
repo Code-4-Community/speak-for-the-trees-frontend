@@ -30,7 +30,7 @@ const MapPage: React.FC<MapPageProps> = ({
         <>
           <Layout style={{ height: 'calc(100vh - 83px)' }}>
             <Content>
-              <MapView />
+              <MapView blocks={blocks} neighborhoods={neighborhoods} />
             </Content>
             <Footer>
               <MapSidebar

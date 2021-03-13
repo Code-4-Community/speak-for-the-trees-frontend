@@ -10,16 +10,10 @@ import useWindowDimensions, {
 } from '../../components/window-dimensions';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
-import { MapGeoDataReducerState } from '../../components/mapPageComponents/ducks/types';
-import { C4CState } from '../../store';
+import { MapProps, mapStateToProps } from '../../store';
 import { LANDING_BODY, LANDING_TITLE } from '../../assets/content';
 
-interface LandingProps {
-  readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
-  readonly blocks: MapGeoDataReducerState['blockGeoData'];
-}
-
-const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
+const Landing: React.FC<MapProps> = ({ neighborhoods, blocks }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -95,13 +89,6 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
         </>
       );
   }
-};
-
-const mapStateToProps = (state: C4CState): LandingProps => {
-  return {
-    neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
-    blocks: state.mapGeoDataState.blockGeoData,
-  };
 };
 
 export default connect(mapStateToProps)(Landing);
