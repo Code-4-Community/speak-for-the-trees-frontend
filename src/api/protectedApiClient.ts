@@ -1,5 +1,9 @@
 import AppAxiosInstance from '../auth/axios';
 
+export interface ProtectedApiExtraArgs {
+  readonly protectedApiClient: ProtectedApiClient;
+}
+
 export interface ProtectedApiClient {
   readonly makeReservation: (blockId: number, teamId?: number) => Promise<void>;
   readonly completeReservation: (

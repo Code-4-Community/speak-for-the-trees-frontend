@@ -14,6 +14,14 @@ import {
 import userReducer, { initialUserState } from './auth/ducks/reducers';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
+import protectedApiClient, {
+  ProtectedApiExtraArgs,
+} from './api/protectedApiClient';
+import { MapGeoDataReducerState } from './components/mapPageComponents/ducks/types';
+import { MapActions } from './components/mapPageComponents/ducks/actions';
+import mapGeoDataReducer, {
+  initialMapGeoDataState,
+} from './components/mapPageComponents/ducks/reducer';
 import apiClient, { ApiExtraArgs } from './api/apiClient';
 import { UserLeaderboardReducerState } from './containers/volunteerLeaderboard/ducks/types';
 import { VolunteerLeaderboardItemAction } from './containers/volunteerLeaderboard/ducks/actions';
@@ -33,6 +41,7 @@ export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
   userLeaderboardState: UserLeaderboardReducerState;
   teamLeaderboardState: TeamLeaderboardReducerState;
+  mapGeoDataState: MapGeoDataReducerState;
 }
 
 export interface Action<T, P> {
@@ -42,21 +51,26 @@ export interface Action<T, P> {
 
 export type C4CAction =
   | UserAuthenticationActions
+  | MapActions
   | VolunteerLeaderboardItemAction
   | TeamLeaderboardItemAction;
 
-export type ThunkExtraArgs = UserAuthenticationExtraArgs & ApiExtraArgs;
+export type ThunkExtraArgs = UserAuthenticationExtraArgs &
+  ProtectedApiExtraArgs &
+  ApiExtraArgs;
 
 const reducers = combineReducers<C4CState, C4CAction>({
   authenticationState: userReducer,
   userLeaderboardState: userLeaderboardReducer,
   teamLeaderboardState: teamLeaderboardReducer,
+  mapGeoDataState: mapGeoDataReducer,
 });
 
 export const initialStoreState: C4CState = {
   authenticationState: initialUserState,
   userLeaderboardState: initialUserLeaderboardState,
   teamLeaderboardState: initialTeamLeaderboardState,
+  mapGeoDataState: initialMapGeoDataState,
 };
 
 export const LOCALSTORAGE_STATE_KEY: string = 'state';
@@ -82,6 +96,7 @@ const preloadedState: C4CState | undefined = loadStateFromLocalStorage();
 
 const thunkExtraArgs: ThunkExtraArgs = {
   authClient,
+  protectedApiClient,
   apiClient,
 };
 

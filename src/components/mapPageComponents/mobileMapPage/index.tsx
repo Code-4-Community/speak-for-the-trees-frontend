@@ -4,6 +4,7 @@ import { Layout } from 'antd';
 import MapView from '../mapView';
 import MapLayout from '../mapLayout';
 import MobileFooter from '../../mobileComponents/mobileFooter';
+import { BlockGeoData, NeighborhoodGeoData } from '../ducks/types';
 
 const { Content, Footer } = Layout;
 
@@ -12,13 +13,22 @@ const MainContent = styled.div`
   margin-bottom: 15px;
 `;
 
-const MobileMapPage: React.FC = ({ children }) => {
+type MobileMapPageProps = {
+  readonly blocks: BlockGeoData;
+  readonly neighborhoods: NeighborhoodGeoData;
+};
+
+const MobileMapPage: React.FC<MobileMapPageProps> = ({
+  blocks,
+  neighborhoods,
+  children,
+}) => {
   return (
     <>
       <MainContent>
         <MapLayout>
           <Content>
-            <MapView />
+            <MapView blocks={blocks} neighborhoods={neighborhoods} />
           </Content>
           <Footer>{children}</Footer>
         </MapLayout>
