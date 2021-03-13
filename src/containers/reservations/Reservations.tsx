@@ -13,9 +13,9 @@ import { MapProps, mapStateToProps } from '../../store';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { connect, useDispatch } from 'react-redux';
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
+import Accordion from './Accordion';
 
 const { Paragraph } = Typography;
-const { Panel } = Collapse;
 
 const Reservations: React.FC<MapProps> = ({ neighborhoods, blocks }) => {
   const dispatch = useDispatch();
@@ -39,19 +39,10 @@ const Reservations: React.FC<MapProps> = ({ neighborhoods, blocks }) => {
           </Helmet>
           {asyncRequestIsComplete(blocks) &&
           asyncRequestIsComplete(neighborhoods) && (
-            <MobileMapPage isPadding={false} blocks={blocks.result} neighborhoods={neighborhoods.result}>
-              <Collapse
-                bordered={false}
-                defaultActiveKey={['1']}
-                expandIcon={({ isActive }) => (
-                  <CaretRightOutlined rotate={isActive ? 90 : 0} />
-                )}
-                className="site-collapse-custom-collapse"
-              >
-                <Panel key="1" header="Options">
-                  <BlockTabs />
-                </Panel>
-              </Collapse>
+            <MobileMapPage blocks={blocks.result} neighborhoods={neighborhoods.result}>
+              <Accordion>
+                <BlockTabs />
+              </Accordion>
             </MobileMapPage>
           )}
 
