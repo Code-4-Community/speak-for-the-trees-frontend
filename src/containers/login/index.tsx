@@ -32,8 +32,8 @@ import {
 const { Paragraph } = Typography;
 
 const LoginPageContainer = styled.div`
-  padding: 120px;
-  height: 100%;
+  margin: auto;
+  width: 80vw;
 `;
 
 const TabletLoginPageContainer = styled.div`
