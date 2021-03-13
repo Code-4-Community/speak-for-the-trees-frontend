@@ -19,7 +19,7 @@ interface BlockFeatureResponse {
 }
 
 interface BlockFeaturePropertiesResponse {
-  block_id: number; // does not match linting
+  blockId: number; // does not match linting
   lat: number;
   lng: number;
 }
@@ -39,9 +39,9 @@ interface NeighborhoodFeatureResponse {
 }
 
 interface NeighborhoodFeaturePropertiesResponse {
-  neighborhood_id: number;
+  neighborhoodId: number;
   name: string;
-  completion_perc: number;
+  completionPerc: number;
   lat: number;
   lng: number;
 }

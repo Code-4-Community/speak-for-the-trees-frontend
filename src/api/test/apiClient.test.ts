@@ -17,9 +17,9 @@ describe('Authentication Client Tests', () => {
           {
             type: 'Feature',
             properties: {
-              neighborhood_id: 15,
+              neighborhoodId: 15,
               name: 'Roslindale',
-              completion_perc: 0,
+              completionPerc: 0,
               lat: 42.2803,
               lng: -71.1266,
             },
@@ -57,7 +57,7 @@ describe('Authentication Client Tests', () => {
           {
             type: 'Feature',
             properties: {
-              block_id: 1714,
+              blockId: 1714,
               lat: 42.3488784985,
               lng: -71.0293810011,
             },

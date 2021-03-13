@@ -299,7 +299,7 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
           <StyledSearch id="pac-input" placeholder="Address" />
         )}
       </div>
-      <MapDiv id="map" ref={mapRef}></MapDiv>
+      <MapDiv id="map" ref={mapRef} />
     </>
   );
 };
