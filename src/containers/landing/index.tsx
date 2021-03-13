@@ -12,6 +12,11 @@ import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
 import { MapProps, mapStateToProps } from '../../store';
 import { LANDING_BODY, LANDING_TITLE } from '../../assets/content';
+import styled from 'styled-components';
+
+const PaddedContent = styled.div`
+  padding: 24px 50px;
+`;
 
 const Landing: React.FC<MapProps> = ({ neighborhoods, blocks }) => {
   const dispatch = useDispatch();
@@ -38,12 +43,12 @@ const Landing: React.FC<MapProps> = ({ neighborhoods, blocks }) => {
             />
           </Helmet>
           {asyncRequestIsComplete(blocks) &&
-            asyncRequestIsComplete(neighborhoods) && (
-              <MobileMapPage
-                isPadding={true}
-                neighborhoods={neighborhoods.result}
-                blocks={blocks.result}
-              >
+          asyncRequestIsComplete(neighborhoods) && (
+            <MobileMapPage
+              neighborhoods={neighborhoods.result}
+              blocks={blocks.result}
+            >
+              <PaddedContent>
                 <MobileLandingBar
                   barHeader={LANDING_TITLE}
                   barDescription={LANDING_BODY}
@@ -54,8 +59,9 @@ const Landing: React.FC<MapProps> = ({ neighborhoods, blocks }) => {
                     carbonEmissions={statCarbonEmissions}
                   />
                 </MobileLandingBar>
-              </MobileMapPage>
-            )}
+              </PaddedContent>
+            </MobileMapPage>
+          )}
         </>
       );
 
@@ -72,20 +78,20 @@ const Landing: React.FC<MapProps> = ({ neighborhoods, blocks }) => {
             />
           </Helmet>
           {asyncRequestIsComplete(blocks) &&
-            asyncRequestIsComplete(neighborhoods) && (
-              <MapPage
-                neighborhoods={neighborhoods.result}
-                blocks={blocks.result}
-                sidebarHeader={LANDING_TITLE}
-                sidebarDescription={LANDING_BODY}
-              >
-                <LandingTreeStats
-                  moneySaved={statMoneySaved}
-                  rainWater={statRainWater}
-                  carbonEmissions={statCarbonEmissions}
-                />
-              </MapPage>
-            )}
+          asyncRequestIsComplete(neighborhoods) && (
+            <MapPage
+              neighborhoods={neighborhoods.result}
+              blocks={blocks.result}
+              sidebarHeader={LANDING_TITLE}
+              sidebarDescription={LANDING_BODY}
+            >
+              <LandingTreeStats
+                moneySaved={statMoneySaved}
+                rainWater={statRainWater}
+                carbonEmissions={statCarbonEmissions}
+              />
+            </MapPage>
+          )}
         </>
       );
   }

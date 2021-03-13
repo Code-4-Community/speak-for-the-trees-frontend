@@ -28,7 +28,7 @@ const MapPage: React.FC<MapPageProps> = ({
     case WindowTypes.Mobile:
       return (
         <>
-          <Layout style={{ height: 'calc(100vh - 83px)' }}>
+          <Layout>
             <Content>
               <MapView blocks={blocks} neighborhoods={neighborhoods} />
             </Content>
