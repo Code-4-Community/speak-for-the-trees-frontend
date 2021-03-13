@@ -9,7 +9,6 @@ const { Content } = Layout;
 
 const MainContent = styled.div`
   height: 100%;
-  margin-bottom: 15px;
 `;
 
 type MobileMapPageProps = {

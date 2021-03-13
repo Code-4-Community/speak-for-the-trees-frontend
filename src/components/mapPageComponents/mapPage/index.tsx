@@ -4,9 +4,8 @@ import MapView from '../mapView';
 import MapLayout from '../mapLayout';
 import { Layout } from 'antd';
 import { BlockGeoData, NeighborhoodGeoData } from '../ducks/types';
-import useWindowDimensions, { WindowTypes } from '../../window-dimensions';
 
-const { Content, Sider, Footer } = Layout;
+const { Content, Sider } = Layout;
 
 type MapPageProps = {
   readonly blocks: BlockGeoData;
@@ -16,49 +15,24 @@ type MapPageProps = {
 };
 
 const MapPage: React.FC<MapPageProps> = ({
-  blocks,
-  neighborhoods,
-  sidebarHeader,
-  sidebarDescription,
-  children,
-}) => {
-  const { windowType } = useWindowDimensions();
-
-  switch (windowType) {
-    case WindowTypes.Mobile:
-      return (
-        <>
-          <Layout>
-            <Content>
-              <MapView blocks={blocks} neighborhoods={neighborhoods} />
-            </Content>
-            <Footer>
-              <MapSidebar
-                header={sidebarHeader}
-                description={sidebarDescription}
-              >
-                {children}
-              </MapSidebar>
-            </Footer>
-          </Layout>
-        </>
-      );
-  }
-
-  return (
-    <>
-      <MapLayout>
-        <Content>
-          <MapView blocks={blocks} neighborhoods={neighborhoods} />
-        </Content>
-        <Sider width="20vw">
-          <MapSidebar header={sidebarHeader} description={sidebarDescription}>
-            {children}
-          </MapSidebar>
-        </Sider>
-      </MapLayout>
-    </>
-  );
-};
+                                           blocks,
+                                           neighborhoods,
+                                           sidebarHeader,
+                                           sidebarDescription,
+                                           children,
+                                         }) => (
+  <>
+    <MapLayout>
+      <Content>
+        <MapView blocks={blocks} neighborhoods={neighborhoods} />
+      </Content>
+      <Sider width="20vw">
+        <MapSidebar header={sidebarHeader} description={sidebarDescription}>
+          {children}
+        </MapSidebar>
+      </Sider>
+    </MapLayout>
+  </>
+);
 
 export default MapPage;

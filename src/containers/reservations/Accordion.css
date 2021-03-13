@@ -1,35 +1,26 @@
-/* Style the accordion section */
 .accordion__section {
     display: flex;
     flex-direction: column;
 }
 
-/* Style the buttons that are used to open and close the accordion panel */
 .accordion {
     background-color: #61802e;
-    /*color: #444;*/
-    /*cursor: pointer;*/
     padding: 5px;
-    /*display: flex;*/
-    /*align-items: center;*/
     border: none;
     outline: none;
     transition: background-color 0.4s ease;
 }
 
-/* Style to rotate icon when state is active */
 .rotate {
     transform: rotate(180deg);
 }
 
-/* Style the accordion content panel. Note: hidden by default */
 .accordion__content {
-    background-color: white;
     overflow: auto;
     transition: max-height 0.4s ease;
 }
 
-/* Style the accordion content text */
 .accordion__text {
     padding: 18px;
+    height: 40vh;
 }
