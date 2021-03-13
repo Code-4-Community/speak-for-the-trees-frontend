@@ -23,7 +23,7 @@ import {
 } from '../../utils/colors';
 import Logo from '../../assets/images/nav-bar-icon.png';
 
-const { Paragraph } = Typography;
+const { Paragraph, Title } = Typography;
 
 const NavHeader: typeof PageHeader = styled(PageHeader)<PageHeaderProps>`
   box-shadow: '0 4px 2px -2px grey';
@@ -60,6 +60,12 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
       />
     );
   };
+
+  const HeaderTitle = (
+    <Button type="text" onClick={() => history.push(Routes.HOME)}>
+      <Title level={3}>Speak for the Trees</Title>
+    </Button>
+  );
 
   const menu = (
     <Menu>
@@ -148,9 +154,9 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
       return (
         <NavHeader
           className="page-header"
-          title="Speak for the Trees"
+          title={HeaderTitle}
           backIcon={<BackIcon />}
-          onBack={() => history.push('/')}
+          onBack={() => history.push(Routes.HOME)}
           extra={isLoggedIn ? <LoggedInExtra /> : <LandingExtra />}
         />
       );

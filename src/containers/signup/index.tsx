@@ -18,6 +18,7 @@ import SignupForm from '../../components/signupForm';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/window-dimensions';
+import PageLayout from '../../components/pageLayout';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { Routes } from '../../App';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
@@ -28,7 +29,8 @@ const { Paragraph } = Typography;
 const containerHeight = '525px';
 
 const SignupPageContainer = styled.div`
-  padding: 120px;
+  margin: auto;
+  width: 80vw;
 `;
 
 const TabletSignupPageContainer = styled.div`
@@ -153,28 +155,30 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
           case WindowTypes.Desktop:
             return (
               <>
-                <SignupPageContainer>
-                  {tokens.kind === AsyncRequestKinds.Failed && (
-                    <SignupAlert message={tokens.error} type="error" />
-                  )}
-                  <Row>
-                    <InputContainer span={10}>
-                      <Title>{SIGNUP_TITLE}</Title>
-                      <Line />
-                      <SignupForm onFinish={onFinish} />
-                    </InputContainer>
+                <PageLayout>
+                  <SignupPageContainer>
+                    {tokens.kind === AsyncRequestKinds.Failed && (
+                      <SignupAlert message={tokens.error} type="error" />
+                    )}
+                    <Row>
+                      <InputContainer span={10}>
+                        <Title>{SIGNUP_TITLE}</Title>
+                        <Line />
+                        <SignupForm onFinish={onFinish} />
+                      </InputContainer>
 
-                    <Col span={2} />
+                      <Col span={2} />
 
-                    <Col span={12}>
-                      <GreetingContainer
-                        header={SIGNUP_HEADER}
-                        body={SIGNUP_BODY}
-                        height={containerHeight}
-                      />
-                    </Col>
-                  </Row>
-                </SignupPageContainer>
+                      <Col span={12}>
+                        <GreetingContainer
+                          header={SIGNUP_HEADER}
+                          body={SIGNUP_BODY}
+                          height={containerHeight}
+                        />
+                      </Col>
+                    </Row>
+                  </SignupPageContainer>
+                </PageLayout>
               </>
             );
         }

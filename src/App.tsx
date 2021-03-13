@@ -124,7 +124,6 @@ const App: React.FC = () => {
                         exact
                         component={VolunteerLeaderboard}
                       />
-                      <Route path={Routes.TEAM} exact component={TeamPage} />
                       <Route
                         path={Routes.TEAM_LEADERBOARD}
                         exact
@@ -138,6 +137,7 @@ const App: React.FC = () => {
                       <Route path={Routes.ADMIN}>
                         <Redirect to={Routes.HOME} />
                       </Route>
+                      <Route path={Routes.TEAM} exact component={TeamPage} />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact
@@ -167,7 +167,6 @@ const App: React.FC = () => {
                         exact
                         component={VolunteerLeaderboard}
                       />
-                      <Route path={Routes.TEAM} exact component={TeamPage} />
                       <Route
                         path={Routes.TEAM_LEADERBOARD}
                         exact
@@ -183,6 +182,7 @@ const App: React.FC = () => {
                         exact
                         component={AdminDashboard}
                       />
+                      <Route path={Routes.TEAM} exact component={TeamPage} />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact

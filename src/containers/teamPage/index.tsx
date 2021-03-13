@@ -6,7 +6,7 @@ import { GoalProps, MemberProps, TeamProps, TeamRole } from './ducks/types';
 import GoalInfo from '../../components/goalInfo';
 import PageHeader from '../../components/pageHeader';
 import TeamMember from '../../components/teamMember';
-import { LinkButton } from '../../components/LinkButton';
+import ReturnButton from '../../components/returnButton';
 import { getDateString } from '../../utils/stringFormat';
 import {
   BLACK,
@@ -21,15 +21,6 @@ const { Panel } = Collapse;
 
 const TeamContainer = styled.div`
   padding: 70px 134px;
-`;
-
-const StyledLinkButton = styled(LinkButton)`
-  width: 190px;
-  height: 45px;
-  margin-bottom: 20px;
-  border-color: ${MID_GREEN};
-  font-size: 18px;
-  color: ${MID_GREEN};
 `;
 
 const TeamHeaderContainer = styled.div`
@@ -190,9 +181,9 @@ const TeamPage: React.FC = () => {
 
   return (
     <TeamContainer>
-      <StyledLinkButton to={Routes.AVAILABLE_TEAMS}>
+      <ReturnButton to={Routes.AVAILABLE_TEAMS}>
         {`<`} Return to Teams
-      </StyledLinkButton>
+      </ReturnButton>
       <TeamHeaderContainer>
         <PageHeaderContainer>
           <PageHeader
