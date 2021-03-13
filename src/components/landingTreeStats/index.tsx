@@ -5,6 +5,7 @@ import useWindowDimensions, { WindowTypes } from '../window-dimensions';
 import { TEXT_GREY, MID_GREEN } from '../../utils/colors';
 import MobileInfoCard from '../mobileComponents/mobileInfoCard';
 import InfoCard from '../infoCard';
+import { getMoneyString } from '../../utils/stringFormat';
 
 const TreeStatsContainer = styled.div`
   margin-top: 35px;
@@ -130,15 +131,5 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
       );
   }
 };
-
-// TODO: Move function to a common utilities file
-
-/**
- * Converts the given dollar amount to a formatted string
- * @param amount the amount to convert
- */
-export function getMoneyString(amount: number): string {
-  return `$${amount.toLocaleString('en-us', { maximumFractionDigits: 2 })}`;
-}
 
 export default LandingTreeStats;

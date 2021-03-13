@@ -1,14 +1,12 @@
 import React from 'react';
 import MapSidebar from '../mapPageComponents/mapSidebar';
 import BlockTabs from '../blockTabs';
+import { RESERVATION_BODY, RESERVATION_TITLE } from '../../assets/content';
 
 const ReservationSidebar: React.FC = () => {
   return (
     <>
-      <MapSidebar
-        header="My Blocks"
-        description="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer cronut pok pok gentrify flannel salvia deep v pork belly pitchfork. Swag fashion axe fam. Occupy shoreditch jean shorts affogato PBR&B freegan bushwick vegan four loko pickled."
-      >
+      <MapSidebar header={RESERVATION_TITLE} description={RESERVATION_BODY}>
         <BlockTabs />
       </MapSidebar>
     </>

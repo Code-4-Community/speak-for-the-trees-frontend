@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { Typography } from 'antd';
 import MapPage from '../../components/mapPageComponents/mapPage';
 import MobileMapPage from '../../components/mapPageComponents/mobileMapPage';
 import MobileLandingBar from '../../components/mapPageComponents/mobileLandingBar';
@@ -13,8 +12,7 @@ import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
 import { MapGeoDataReducerState } from '../../components/mapPageComponents/ducks/types';
 import { C4CState } from '../../store';
-
-const { Paragraph } = Typography;
+import { LANDING_BODY, LANDING_TITLE } from '../../assets/content';
 
 interface LandingProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
@@ -51,7 +49,10 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
                 neighborhoods={neighborhoods.result}
                 blocks={blocks.result}
               >
-                <MobileLandingBar>
+                <MobileLandingBar
+                  barHeader={ LANDING_TITLE }
+                  barDescription={ LANDING_BODY }
+                >
                   <LandingTreeStats
                     moneySaved={statMoneySaved}
                     rainWater={statRainWater}
@@ -80,8 +81,8 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
               <MapPage
                 neighborhoods={neighborhoods.result}
                 blocks={blocks.result}
-                sidebarHeader="Boston's Street Trees"
-                sidebarDescription="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer cronut pok pok gentrify flannel salvia deep v pork belly pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts affogato PBR&B freegan bushwick vegan four loko pickled."
+                sidebarHeader={LANDING_TITLE}
+                sidebarDescription={LANDING_BODY}
               >
                 <LandingTreeStats
                   moneySaved={statMoneySaved}
@@ -92,10 +93,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
             )}
         </>
       );
-
-    default:
-      return <Paragraph>This browser type is not supported.</Paragraph>;
-  }
+  }        
 };
 
 const mapStateToProps = (state: C4CState): LandingProps => {
