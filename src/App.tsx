@@ -28,6 +28,7 @@ import Login from './containers/login';
 import Settings from './containers/settings';
 import NotFound from './containers/notFound';
 import NavBar from './components/navBar';
+import AuthRedirect from './components/authRedirect';
 
 const { Content } = Layout;
 
@@ -36,6 +37,10 @@ const AppLayout = styled(Layout)`
 `;
 
 type AppProps = UserAuthenticationReducerState;
+
+export interface RedirectProps {
+  readonly destination?: Routes;
+}
 
 export enum Routes {
   LANDING = '/',
@@ -77,24 +82,12 @@ const App: React.FC = () => {
                       <Route path={Routes.LANDING} exact component={Landing} />
                       <Route path={Routes.LOGIN} exact component={Login} />
                       <Route path={Routes.SIGNUP} exact component={Signup} />
-                      <Route path={Routes.HOME}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.SETTINGS}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.VOLUNTEER}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.TEAM_LEADERBOARD}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.AVAILABLE_TEAMS}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.ADMIN}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
+                      <AuthRedirect from={Routes.HOME} />
+                      <AuthRedirect from={Routes.SETTINGS} />
+                      <AuthRedirect from={Routes.VOLUNTEER} />
+                      <AuthRedirect from={Routes.TEAM_LEADERBOARD} />
+                      <AuthRedirect from={Routes.AVAILABLE_TEAMS} />
+                      <AuthRedirect from={Routes.ADMIN} />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact
@@ -107,12 +100,8 @@ const App: React.FC = () => {
                   return (
                     <Switch>
                       <Route path={Routes.LANDING} exact component={Landing} />
-                      <Route path={Routes.LOGIN}>
-                        <Redirect to={Routes.HOME} />
-                      </Route>
-                      <Route path={Routes.SIGNUP}>
-                        <Redirect to={Routes.HOME} />
-                      </Route>
+                      <Route path={Routes.LOGIN} exact component={Login} />
+                      <Route path={Routes.SIGNUP} exact component={Signup} />
                       <Route path={Routes.HOME} exact component={Home} />
                       <Route
                         path={Routes.SETTINGS}

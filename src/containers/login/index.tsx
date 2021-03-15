@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { Redirect, Link } from 'react-router-dom';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { C4CState } from '../../store';
@@ -11,7 +12,7 @@ import {
 } from '../../auth/ducks/types';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
-import { Routes } from '../../App';
+import { RedirectProps, Routes } from '../../App';
 import { Alert, Col, Row, Typography } from 'antd';
 import styled from 'styled-components';
 import { BLACK, LIGHT_GREY, TEXT_GREY, WHITE } from '../../utils/colors';
@@ -90,21 +91,24 @@ const MobileLoginAlert = styled(Alert)`
   margin-bottom: 20px;
 `;
 
-type LoginProps = UserAuthenticationReducerState;
+type UserLoginProps = UserAuthenticationReducerState;
 
-const Login: React.FC<LoginProps> = ({ tokens }) => {
+interface LoginProps
+  extends UserLoginProps,
+    RouteComponentProps<never, never, RedirectProps> {}
+
+const Login: React.FC<LoginProps> = ({ tokens, location }) => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
-  const history = useHistory();
   const privilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
 
   const loginFailed: boolean = tokens.kind === AsyncRequestKinds.Failed;
 
-  if (privilegeLevel !== PrivilegeLevel.NONE) {
-    history.push(Routes.HOME);
-  }
+  // TODO: error - cannot read property when destination undefined
+  const destination: Routes =
+    location.state.destination || Routes.AVAILABLE_TEAMS;
 
   const onFinish = (values: LoginRequest) => {
     dispatch(login({ email: values.email, password: values.password }));
@@ -133,6 +137,8 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
           content="Where the user can log into their account."
         />
       </Helmet>
+
+      {privilegeLevel !== PrivilegeLevel.NONE && <Redirect to={destination} />}
 
       {(() => {
         switch (windowType) {
@@ -199,10 +205,10 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
   );
 };
 
-const mapStateToProps = (state: C4CState): LoginProps => {
+const mapStateToProps = (state: C4CState): UserLoginProps => {
   return {
     tokens: state.authenticationState.tokens,
   };
 };
 
-export default connect(mapStateToProps)(Login);
+export default withRouter(connect(mapStateToProps)(Login));
