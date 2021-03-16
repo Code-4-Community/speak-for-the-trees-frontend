@@ -102,10 +102,11 @@ const Login: React.FC<LoginProps> = ({ tokens, location }) => {
     getPrivilegeLevel(state.authenticationState.tokens),
   );
 
+  const destination: Routes = location.state
+    ? location.state.destination
+    : Routes.HOME;
+
   if (privilegeLevel !== PrivilegeLevel.NONE) {
-    const destination = location.state
-      ? location.state.destination
-      : Routes.HOME;
     history.push(destination);
   }
 
@@ -124,7 +125,15 @@ const Login: React.FC<LoginProps> = ({ tokens, location }) => {
       <Footer>
         NEW TO SPEAK FOR THE TREES?
         <br />
-        SIGN UP <Link to={Routes.SIGNUP}>HERE!</Link>
+        SIGN UP{' '}
+        <Link
+          to={{
+            pathname: Routes.SIGNUP,
+            state: { destination },
+          }}
+        >
+          HERE!
+        </Link>
       </Footer>
     </div>
   );

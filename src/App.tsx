@@ -46,10 +46,10 @@ export enum Routes {
   HOME = '/home',
   SETTINGS = '/settings',
   VOLUNTEER = '/volunteer',
-  TEAM = '/team:id',
+  TEAM = '/team/:id',
   TEAM_LEADERBOARD = '/team-leaderboard',
-  ADMIN = '/admin',
   AVAILABLE_TEAMS = '/available',
+  ADMIN = '/admin',
   NOT_FOUND = '*',
 }
 
@@ -92,6 +92,7 @@ const App: React.FC = () => {
                       <AuthRedirect from={Routes.HOME} />
                       <AuthRedirect from={Routes.SETTINGS} />
                       <AuthRedirect from={Routes.VOLUNTEER} />
+                      <AuthRedirect from={Routes.TEAM} />
                       <AuthRedirect from={Routes.TEAM_LEADERBOARD} />
                       <AuthRedirect from={Routes.AVAILABLE_TEAMS} />
                       <AuthRedirect from={Routes.ADMIN} />
