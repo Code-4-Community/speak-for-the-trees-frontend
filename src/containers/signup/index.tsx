@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { Alert, Col, Row, Typography } from 'antd';
 import { Helmet } from 'react-helmet';
@@ -19,7 +20,7 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/window-dimensions';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
-import { Routes } from '../../App';
+import { RedirectedRouteComponentProps, Routes } from '../../App';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { SIGNUP_BODY, SIGNUP_HEADER, SIGNUP_TITLE } from '../../assets/content';
 
@@ -78,9 +79,10 @@ const MobileSignupAlert = styled(Alert)`
   margin-bottom: 20px;
 `;
 
-type SignupProps = UserAuthenticationReducerState;
+type UserSignupProps = UserAuthenticationReducerState;
+type SignupProps = UserSignupProps & RedirectedRouteComponentProps;
 
-const Signup: React.FC<SignupProps> = ({ tokens }) => {
+const Signup: React.FC<SignupProps> = ({ tokens, location }) => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -89,7 +91,10 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
   );
 
   if (privilegeLevel !== PrivilegeLevel.NONE) {
-    history.push(Routes.HOME);
+    const destination = location.state
+      ? location.state.destination
+      : Routes.HOME;
+    history.push(destination);
   }
 
   const onFinish = (values: SignupRequest) => {
@@ -183,10 +188,10 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
   );
 };
 
-const mapStateToProps = (state: C4CState): SignupProps => {
+const mapStateToProps = (state: C4CState): UserSignupProps => {
   return {
     tokens: state.authenticationState.tokens,
   };
 };
 
-export default connect(mapStateToProps)(Signup);
+export default withRouter(connect(mapStateToProps)(Signup));

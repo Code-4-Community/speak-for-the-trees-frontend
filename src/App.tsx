@@ -29,6 +29,7 @@ import Settings from './containers/settings';
 import NotFound from './containers/notFound';
 import NavBar from './components/navBar';
 import AuthRedirect from './components/authRedirect';
+import { RouteComponentProps } from 'react-router';
 
 const { Content } = Layout;
 
@@ -37,10 +38,6 @@ const AppLayout = styled(Layout)`
 `;
 
 type AppProps = UserAuthenticationReducerState;
-
-export interface RedirectProps {
-  readonly destination?: Routes;
-}
 
 export enum Routes {
   LANDING = '/',
@@ -55,6 +52,16 @@ export enum Routes {
   AVAILABLE_TEAMS = '/available',
   NOT_FOUND = '*',
 }
+
+interface RedirectStateProps {
+  readonly destination: Routes;
+}
+
+export type RedirectedRouteComponentProps = RouteComponentProps<
+  any,
+  any,
+  RedirectStateProps
+>;
 
 const App: React.FC = () => {
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
@@ -124,9 +131,7 @@ const App: React.FC = () => {
                         exact
                         component={AvailableTeams}
                       />
-                      <Route path={Routes.ADMIN}>
-                        <Redirect to={Routes.HOME} />
-                      </Route>
+                      <Redirect from={Routes.ADMIN} to={Routes.HOME} />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact
@@ -139,12 +144,8 @@ const App: React.FC = () => {
                   return (
                     <Switch>
                       <Route path={Routes.LANDING} exact component={Landing} />
-                      <Route path={Routes.LOGIN}>
-                        <Redirect to={Routes.HOME} />
-                      </Route>
-                      <Route path={Routes.SIGNUP}>
-                        <Redirect to={Routes.HOME} />
-                      </Route>
+                      <Route path={Routes.LOGIN} exact component={Login} />
+                      <Route path={Routes.SIGNUP} exact component={Signup} />
                       <Route path={Routes.HOME} exact component={Home} />
                       <Route
                         path={Routes.SETTINGS}

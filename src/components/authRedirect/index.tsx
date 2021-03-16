@@ -12,7 +12,9 @@ const AuthRedirect: React.FC<AuthRedirectProps> = ({ from }) => {
       from={from}
       to={{
         pathname: Routes.LOGIN,
-        state: { destination: from },
+        state: {
+          destination: from,
+        },
       }}
     />
   );
