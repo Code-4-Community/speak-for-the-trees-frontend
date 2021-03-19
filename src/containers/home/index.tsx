@@ -40,7 +40,7 @@ const Home: React.FC = () => {
       <PageLayout>
         <HomeContainer>
           <PageHeader
-            pageTitle={HOME_TITLE + userName + '!'}
+            pageTitle={`${HOME_TITLE}${userName}!`}
             pageSubtitle={HOME_HEADER}
             subtitleColor={DARK_GREY}
           />

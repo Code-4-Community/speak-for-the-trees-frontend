@@ -44,7 +44,7 @@ export enum Routes {
   HOME = '/home',
   SETTINGS = '/settings',
   VOLUNTEER = '/volunteer',
-  TEAM = '/team:id',
+  TEAM = '/team/:id',
   TEAM_LEADERBOARD = '/team-leaderboard',
   ADMIN = '/admin',
   AVAILABLE_TEAMS = '/available',
