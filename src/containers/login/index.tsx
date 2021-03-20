@@ -17,6 +17,7 @@ import styled from 'styled-components';
 import { BLACK, LIGHT_GREY, TEXT_GREY, WHITE } from '../../utils/colors';
 import GreetingContainer from '../../components/greetingContainer';
 import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
+import PageLayout from '../../components/pageLayout';
 import LoginForm from '../../components/loginForm';
 import useWindowDimensions, {
   WindowTypes,
@@ -31,7 +32,8 @@ import {
 const { Paragraph } = Typography;
 
 const LoginPageContainer = styled.div`
-  padding: 120px;
+  margin: auto;
+  width: 80vw;
 `;
 
 const TabletLoginPageContainer = styled.div`
@@ -170,28 +172,30 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
           case WindowTypes.NarrowDesktop:
           case WindowTypes.Desktop:
             return (
-              <LoginPageContainer>
-                <Row>
-                  <InputContainer span={10}>
-                    <Title>{LOGIN_TITLE}</Title>
-                    <Line />
-                    {loginFailed && (
-                      <LoginAlert message={LOGIN_ERROR} type="error" />
-                    )}
-                    <LoginForm onFinish={onFinish} />
-                    {ForgotPasswordFooter}
-                  </InputContainer>
+              <PageLayout>
+                <LoginPageContainer>
+                  <Row>
+                    <InputContainer span={10}>
+                      <Title>{LOGIN_TITLE}</Title>
+                      <Line />
+                      {loginFailed && (
+                        <LoginAlert message={LOGIN_ERROR} type="error" />
+                      )}
+                      <LoginForm onFinish={onFinish} />
+                      {ForgotPasswordFooter}
+                    </InputContainer>
 
-                  <Col span={2} />
+                    <Col span={2} />
 
-                  <Col span={12}>
-                    <GreetingContainer
-                      header={LOGIN_HEADER}
-                      body={LOGIN_BODY}
-                    />
-                  </Col>
-                </Row>
-              </LoginPageContainer>
+                    <Col span={12}>
+                      <GreetingContainer
+                        header={LOGIN_HEADER}
+                        body={LOGIN_BODY}
+                      />
+                    </Col>
+                  </Row>
+                </LoginPageContainer>
+              </PageLayout>
             );
         }
       })()}
