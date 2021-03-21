@@ -7,18 +7,18 @@ export interface TeamProps {
 }
 
 export interface MemberProps {
-  user_id: number;
+  userId: number;
   username: string;
-  team_role: TeamRole;
+  teamRole: TeamRole;
 }
 
 export interface GoalProps {
   id: number;
   goal: number;
   progress: number;
-  start_date: Date;
-  complete_by: Date;
-  completion_date: Date | null;
+  startDate: Date;
+  completeBy: Date;
+  completionDate: Date | null;
 }
 
 export enum TeamRole {
@@ -26,4 +26,14 @@ export enum TeamRole {
   MEMBER = 'member',
   LEADER = 'leader',
   PENDING = 'pending',
+}
+
+export interface UserInvite {
+  name: string;
+  email: string;
+}
+
+export interface Applicant {
+  userId: number;
+  username: string;
 }
