@@ -3,7 +3,7 @@ import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { MID_GREEN } from '../../utils/colors';
 
-const AccordionButton = styled.button`
+const SlideDownButton = styled.button`
   background-color: ${MID_GREEN};
   padding: 5px;
   border: none;
@@ -11,22 +11,22 @@ const AccordionButton = styled.button`
   transition: background-color 0.4s ease;
 `;
 
-const AccordionTextDiv = styled.div`
+const SlideDownTextDiv = styled.div`
   padding: 18px;
 `;
 
-interface AccordionStyleProps {
+interface SlideDownStyleProps {
   setActive: boolean;
   scrollHeight: number;
 }
 
-const AccordionContentDiv = styled.div`
+const SlideDownContentDiv = styled.div`
   overflow: auto;
   transition: height 0.4s ease;
-  height: ${({ setActive, scrollHeight }: AccordionStyleProps) => setActive ? scrollHeight : 0}px;
+  height: ${({ setActive, scrollHeight }: SlideDownStyleProps) => setActive ? scrollHeight : 0}px;
 `;
 
-const AccordionSectionDiv = styled.div`
+const SlideDownSectionDiv = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -39,7 +39,7 @@ const CaretUpStyled = styled(CaretUpOutlined)`
   color: white;
 `;
 
-const Accordion: React.FC = ({ children }) => {
+const SlideDown: React.FC = ({ children }) => {
   const [setActive, setActiveState] = useState(false);
   const content = useRef(document.createElement('div'));
   function handleClick() {
@@ -47,19 +47,19 @@ const Accordion: React.FC = ({ children }) => {
   }
 
   return (
-    <AccordionSectionDiv>
-      <AccordionButton onClick={handleClick}>
+    <SlideDownSectionDiv>
+      <SlideDownButton onClick={handleClick}>
         {setActive ? <CaretDownStyled /> : <CaretUpStyled />}
-      </AccordionButton>
-      <AccordionContentDiv
+      </SlideDownButton>
+      <SlideDownContentDiv
         ref={content}
         setActive={setActive}
         scrollHeight={content.current.scrollHeight}
       >
-        <AccordionTextDiv>{children}</AccordionTextDiv>
-      </AccordionContentDiv>
-    </AccordionSectionDiv>
+        <SlideDownTextDiv>{children}</SlideDownTextDiv>
+      </SlideDownContentDiv>
+    </SlideDownSectionDiv>
   );
 };
 
-export default Accordion;
+export default SlideDown;

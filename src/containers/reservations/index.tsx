@@ -12,9 +12,9 @@ import { C4CState } from '../../store';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { connect, useDispatch } from 'react-redux';
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
-import Accordion from './Accordion';
 import { RESERVATION_BODY, RESERVATION_TITLE } from '../../assets/content';
 import { MapGeoDataReducerState } from '../../components/mapPageComponents/ducks/types';
+import SlideDown from '../../components/slideDown';
 
 const { Paragraph } = Typography;
 
@@ -56,9 +56,9 @@ const Reservations: React.FC<ReservationProps> = ({ neighborhoods, blocks }) => 
                 blocks={blocks.result}
                 neighborhoods={neighborhoods.result}
               >
-                <Accordion>
+                <SlideDown>
                   <BlockTabs />
-                </Accordion>
+                </SlideDown>
               </MobileMapPage>
             )}
         </>
