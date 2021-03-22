@@ -44,18 +44,6 @@ export interface C4CState {
   mapGeoDataState: MapGeoDataReducerState;
 }
 
-export interface MapProps {
-  readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
-  readonly blocks: MapGeoDataReducerState['blockGeoData'];
-}
-
-export const mapStateToProps = (state: C4CState): MapProps => {
-  return {
-    neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
-    blocks: state.mapGeoDataState.blockGeoData,
-  };
-};
-
 export interface Action<T, P> {
   readonly type: T;
   readonly payload: P;

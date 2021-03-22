@@ -10,15 +10,28 @@ import useWindowDimensions, {
 } from '../../components/window-dimensions';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
-import { MapProps, mapStateToProps } from '../../store';
 import { LANDING_BODY, LANDING_TITLE } from '../../assets/content';
 import styled from 'styled-components';
+import { MapGeoDataReducerState } from '../../components/mapPageComponents/ducks/types';
+import { C4CState } from '../../store';
+
+interface LandingProps {
+  readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
+  readonly blocks: MapGeoDataReducerState['blockGeoData'];
+}
+
+const mapStateToProps = (state: C4CState): LandingProps => {
+  return {
+    neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
+    blocks: state.mapGeoDataState.blockGeoData,
+  };
+};
 
 const PaddedContent = styled.div`
   padding: 24px 50px;
 `;
 
-const Landing: React.FC<MapProps> = ({ neighborhoods, blocks }) => {
+const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {

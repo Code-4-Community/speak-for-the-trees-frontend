@@ -28,7 +28,7 @@ import Login from './containers/login';
 import Settings from './containers/settings';
 import NotFound from './containers/notFound';
 import NavBar from './components/navBar';
-import Reservations from './containers/reservations/Reservations';
+import Reservations from './containers/reservations';
 
 const { Content } = Layout;
 

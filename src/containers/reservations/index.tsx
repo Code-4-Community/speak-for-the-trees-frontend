@@ -8,15 +8,29 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/window-dimensions';
 import MobileMapPage from '../../components/mapPageComponents/mobileMapPage';
-import { MapProps, mapStateToProps } from '../../store';
+import { C4CState } from '../../store';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { connect, useDispatch } from 'react-redux';
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
 import Accordion from './Accordion';
+import { RESERVATION_BODY, RESERVATION_TITLE } from '../../assets/content';
+import { MapGeoDataReducerState } from '../../components/mapPageComponents/ducks/types';
 
 const { Paragraph } = Typography;
 
-const Reservations: React.FC<MapProps> = ({ neighborhoods, blocks }) => {
+interface ReservationProps {
+  readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
+  readonly blocks: MapGeoDataReducerState['blockGeoData'];
+}
+
+const mapStateToProps = (state: C4CState): ReservationProps => {
+  return {
+    neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
+    blocks: state.mapGeoDataState.blockGeoData,
+  };
+};
+
+const Reservations: React.FC<ReservationProps> = ({ neighborhoods, blocks }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -67,8 +81,8 @@ const Reservations: React.FC<MapProps> = ({ neighborhoods, blocks }) => {
               <MapPage
                 blocks={blocks.result}
                 neighborhoods={neighborhoods.result}
-                sidebarHeader="My Blocks"
-                sidebarDescription="Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer cronut pok pok gentrify flannel salvia deep v pork belly pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts affogato PBR&B freegan bushwick vegan four loko pickled."
+                sidebarHeader={RESERVATION_TITLE}
+                sidebarDescription={RESERVATION_BODY}
               >
                 <BlockTabs />
               </MapPage>
