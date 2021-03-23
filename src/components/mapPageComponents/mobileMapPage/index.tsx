@@ -5,11 +5,10 @@ import MapView from '../mapView';
 import PageLayout from '../../pageLayout';
 import { BlockGeoData, NeighborhoodGeoData } from '../ducks/types';
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 const MainContent = styled.div`
   height: 100%;
-  margin-bottom: 15px;
 `;
 
 type MobileMapPageProps = {
@@ -21,19 +20,17 @@ const MobileMapPage: React.FC<MobileMapPageProps> = ({
   blocks,
   neighborhoods,
   children,
-}) => {
-  return (
-    <>
-      <MainContent>
-        <PageLayout>
-          <Content>
-            <MapView blocks={blocks} neighborhoods={neighborhoods} />
-          </Content>
-          <Footer>{children}</Footer>
-        </PageLayout>
-      </MainContent>
-    </>
-  );
-};
+}) => (
+  <>
+    <MainContent>
+      <PageLayout>
+        <Content>
+          <MapView blocks={blocks} neighborhoods={neighborhoods} />
+        </Content>
+        {children}
+      </PageLayout>
+    </MainContent>
+  </>
+);
 
 export default MobileMapPage;

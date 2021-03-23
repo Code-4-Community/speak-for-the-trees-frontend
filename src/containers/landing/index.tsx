@@ -10,14 +10,26 @@ import useWindowDimensions, {
 } from '../../components/window-dimensions';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
+import { LANDING_BODY, LANDING_TITLE } from '../../assets/content';
+import styled from 'styled-components';
 import { MapGeoDataReducerState } from '../../components/mapPageComponents/ducks/types';
 import { C4CState } from '../../store';
-import { LANDING_BODY, LANDING_TITLE } from '../../assets/content';
 
 interface LandingProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly blocks: MapGeoDataReducerState['blockGeoData'];
 }
+
+const mapStateToProps = (state: C4CState): LandingProps => {
+  return {
+    neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
+    blocks: state.mapGeoDataState.blockGeoData,
+  };
+};
+
+const PaddedContent = styled.div`
+  padding: 24px 50px;
+`;
 
 const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
   const dispatch = useDispatch();
@@ -49,16 +61,18 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
                 neighborhoods={neighborhoods.result}
                 blocks={blocks.result}
               >
-                <MobileLandingBar
-                  barHeader={LANDING_TITLE}
-                  barDescription={LANDING_BODY}
-                >
-                  <LandingTreeStats
-                    moneySaved={statMoneySaved}
-                    rainWater={statRainWater}
-                    carbonEmissions={statCarbonEmissions}
-                  />
-                </MobileLandingBar>
+                <PaddedContent>
+                  <MobileLandingBar
+                    barHeader={LANDING_TITLE}
+                    barDescription={LANDING_BODY}
+                  >
+                    <LandingTreeStats
+                      moneySaved={statMoneySaved}
+                      rainWater={statRainWater}
+                      carbonEmissions={statCarbonEmissions}
+                    />
+                  </MobileLandingBar>
+                </PaddedContent>
               </MobileMapPage>
             )}
         </>
@@ -94,13 +108,6 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
         </>
       );
   }
-};
-
-const mapStateToProps = (state: C4CState): LandingProps => {
-  return {
-    neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
-    blocks: state.mapGeoDataState.blockGeoData,
-  };
 };
 
 export default connect(mapStateToProps)(Landing);

@@ -10,8 +10,8 @@ import { Helmet } from 'react-helmet';
 import {
   PrivilegeLevel,
   UserAuthenticationReducerState,
-} from '../src/auth/ducks/types';
-import { getPrivilegeLevel } from '../src/auth/ducks/selectors';
+} from './auth/ducks/types';
+import { getPrivilegeLevel } from './auth/ducks/selectors';
 import { C4CState } from './store';
 
 import styled from 'styled-components';
@@ -28,6 +28,7 @@ import Login from './containers/login';
 import Settings from './containers/settings';
 import NotFound from './containers/notFound';
 import NavBar from './components/navBar';
+import Reservations from './containers/reservations';
 import AuthRedirect from './components/authRedirect';
 
 const { Content } = Layout;
@@ -47,6 +48,7 @@ export enum Routes {
   VOLUNTEER = '/volunteer',
   TEAM = '/team/:id',
   TEAM_LEADERBOARD = '/team-leaderboard',
+  RESERVATIONS = '/reservations',
   AVAILABLE_TEAMS = '/available',
   ADMIN = '/admin',
   NOT_FOUND = '*',
@@ -88,6 +90,7 @@ const App: React.FC = () => {
                       <AuthRedirect from={Routes.TEAM} />
                       <AuthRedirect from={Routes.TEAM_LEADERBOARD} />
                       <AuthRedirect from={Routes.AVAILABLE_TEAMS} />
+                      <AuthRedirect from={Routes.RESERVATIONS} />
                       <AuthRedirect from={Routes.ADMIN} />
                       <Route
                         path={Routes.NOT_FOUND}
@@ -124,7 +127,13 @@ const App: React.FC = () => {
                         exact
                         component={AvailableTeams}
                       />
+                      <Route
+                        path={Routes.RESERVATIONS}
+                        exact
+                        component={Reservations}
+                      />
                       <Redirect from={Routes.ADMIN} to={Routes.HOME} />
+                      <Route path={Routes.TEAM} exact component={TeamPage} />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact
@@ -159,6 +168,11 @@ const App: React.FC = () => {
                         path={Routes.AVAILABLE_TEAMS}
                         exact
                         component={AvailableTeams}
+                      />
+                      <Route
+                        path={Routes.RESERVATIONS}
+                        exact
+                        component={Reservations}
                       />
                       <Route
                         path={Routes.ADMIN}

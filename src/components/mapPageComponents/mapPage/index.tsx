@@ -25,23 +25,21 @@ const MapPage: React.FC<MapPageProps> = ({
   sidebarHeader,
   sidebarDescription,
   children,
-}) => {
-  return (
-    <>
-      <MainContent>
-        <PageLayout>
-          <Content>
-            <MapView blocks={blocks} neighborhoods={neighborhoods} />
-          </Content>
-          <Sider width="20vw">
-            <MapSidebar header={sidebarHeader} description={sidebarDescription}>
-              {children}
-            </MapSidebar>
-          </Sider>
-        </PageLayout>
-      </MainContent>
-    </>
-  );
-};
+}) => (
+  <>
+    <MainContent>
+      <PageLayout>
+        <Content>
+          <MapView blocks={blocks} neighborhoods={neighborhoods} />
+        </Content>
+        <Sider width="20vw">
+          <MapSidebar header={sidebarHeader} description={sidebarDescription}>
+            {children}
+          </MapSidebar>
+        </Sider>
+      </PageLayout>
+    </MainContent>
+  </>
+);
 
 export default MapPage;
