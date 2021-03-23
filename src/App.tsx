@@ -94,14 +94,9 @@ const App: React.FC = () => {
                       <Route path={Routes.AVAILABLE_TEAMS}>
                         <Redirect to={Routes.LOGIN} />
                       </Route>
-                      <Route
-                        path={Routes.RESERVATIONS}
-                        exact
-                        component={Reservations}
-                      />
-                      {/*<Route path={Routes.RESERVATIONS}>*/}
-                      {/*  <Redirect to={Routes.LOGIN} />*/}
-                      {/*</Route>*/}
+                      <Route path={Routes.RESERVATIONS}>
+                        <Redirect to={Routes.LOGIN} />
+                      </Route>
                       <Route path={Routes.ADMIN}>
                         <Redirect to={Routes.LOGIN} />
                       </Route>
