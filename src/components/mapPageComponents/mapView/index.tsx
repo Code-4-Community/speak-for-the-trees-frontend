@@ -44,13 +44,14 @@ const MapView: React.FC = () => {
     switch (reservationType) {
       case ReservationModalType.OPEN:
         //set block status to reserved
-        protectedApiClient.makeReservation(activeBlockId);
+        protectedApiClient.makeReservation(activeBlockId); //diff between complete and make?
         break;
       case ReservationModalType.RESERVED:
         //set block status to open
+        protectedApiClient.releaseReservation(activeBlockId);
         break;
       default:
-        //block clicked not owned/open
+        //block clicked not owned/open so do nothing
         break;
     }
   };
