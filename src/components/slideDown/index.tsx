@@ -23,7 +23,8 @@ interface SlideDownStyleProps {
 const SlideDownContentDiv = styled.div`
   overflow: auto;
   transition: height 0.4s ease;
-  height: ${({ setActive, scrollHeight }: SlideDownStyleProps) => setActive ? scrollHeight : 0}px;
+  height: ${({ setActive, scrollHeight }: SlideDownStyleProps) =>
+    setActive ? scrollHeight : 0}px;
 `;
 
 const SlideDownSectionDiv = styled.div`

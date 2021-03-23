@@ -29,6 +29,7 @@ import Settings from './containers/settings';
 import NotFound from './containers/notFound';
 import NavBar from './components/navBar';
 import Reservations from './containers/reservations';
+import AuthRedirect from './components/authRedirect';
 
 const { Content } = Layout;
 
@@ -48,9 +49,13 @@ export enum Routes {
   TEAM = '/team/:id',
   TEAM_LEADERBOARD = '/team-leaderboard',
   RESERVATIONS = '/reservations',
-  ADMIN = '/admin',
   AVAILABLE_TEAMS = '/available',
+  ADMIN = '/admin',
   NOT_FOUND = '*',
+}
+
+export interface RedirectStateProps {
+  readonly destination: Routes;
 }
 
 const App: React.FC = () => {
@@ -79,27 +84,14 @@ const App: React.FC = () => {
                       <Route path={Routes.LANDING} exact component={Landing} />
                       <Route path={Routes.LOGIN} exact component={Login} />
                       <Route path={Routes.SIGNUP} exact component={Signup} />
-                      <Route path={Routes.HOME}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.SETTINGS}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.VOLUNTEER}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.TEAM_LEADERBOARD}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.AVAILABLE_TEAMS}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.RESERVATIONS}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.ADMIN}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
+                      <AuthRedirect from={Routes.HOME} />
+                      <AuthRedirect from={Routes.SETTINGS} />
+                      <AuthRedirect from={Routes.VOLUNTEER} />
+                      <AuthRedirect from={Routes.TEAM} />
+                      <AuthRedirect from={Routes.TEAM_LEADERBOARD} />
+                      <AuthRedirect from={Routes.AVAILABLE_TEAMS} />
+                      <AuthRedirect from={Routes.RESERVATIONS} />
+                      <AuthRedirect from={Routes.ADMIN} />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact
@@ -112,12 +104,8 @@ const App: React.FC = () => {
                   return (
                     <Switch>
                       <Route path={Routes.LANDING} exact component={Landing} />
-                      <Route path={Routes.LOGIN}>
-                        <Redirect to={Routes.HOME} />
-                      </Route>
-                      <Route path={Routes.SIGNUP}>
-                        <Redirect to={Routes.HOME} />
-                      </Route>
+                      <Route path={Routes.LOGIN} exact component={Login} />
+                      <Route path={Routes.SIGNUP} exact component={Signup} />
                       <Route path={Routes.HOME} exact component={Home} />
                       <Route
                         path={Routes.SETTINGS}
@@ -144,9 +132,7 @@ const App: React.FC = () => {
                         exact
                         component={Reservations}
                       />
-                      <Route path={Routes.ADMIN}>
-                        <Redirect to={Routes.HOME} />
-                      </Route>
+                      <Redirect from={Routes.ADMIN} to={Routes.HOME} />
                       <Route path={Routes.TEAM} exact component={TeamPage} />
                       <Route
                         path={Routes.NOT_FOUND}
@@ -160,12 +146,8 @@ const App: React.FC = () => {
                   return (
                     <Switch>
                       <Route path={Routes.LANDING} exact component={Landing} />
-                      <Route path={Routes.LOGIN}>
-                        <Redirect to={Routes.HOME} />
-                      </Route>
-                      <Route path={Routes.SIGNUP}>
-                        <Redirect to={Routes.HOME} />
-                      </Route>
+                      <Route path={Routes.LOGIN} exact component={Login} />
+                      <Route path={Routes.SIGNUP} exact component={Signup} />
                       <Route path={Routes.HOME} exact component={Home} />
                       <Route
                         path={Routes.SETTINGS}

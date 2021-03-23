@@ -30,7 +30,10 @@ const mapStateToProps = (state: C4CState): ReservationProps => {
   };
 };
 
-const Reservations: React.FC<ReservationProps> = ({ neighborhoods, blocks }) => {
+const Reservations: React.FC<ReservationProps> = ({
+  neighborhoods,
+  blocks,
+}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {

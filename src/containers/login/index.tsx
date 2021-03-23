@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router';
 import { Link, useHistory } from 'react-router-dom';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -11,7 +12,7 @@ import {
 } from '../../auth/ducks/types';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
-import { Routes } from '../../App';
+import { RedirectStateProps, Routes } from '../../App';
 import { Alert, Col, Row, Typography } from 'antd';
 import styled from 'styled-components';
 import { BLACK, LIGHT_GREY, TEXT_GREY, WHITE } from '../../utils/colors';
@@ -98,15 +99,20 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation<RedirectStateProps>();
   const privilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
 
-  const loginFailed: boolean = tokens.kind === AsyncRequestKinds.Failed;
+  const destination: Routes = location.state
+    ? location.state.destination
+    : Routes.HOME;
 
   if (privilegeLevel !== PrivilegeLevel.NONE) {
-    history.push(Routes.HOME);
+    history.push(destination);
   }
+
+  const loginFailed: boolean = tokens.kind === AsyncRequestKinds.Failed;
 
   const onFinish = (values: LoginRequest) => {
     dispatch(login({ email: values.email, password: values.password }));
@@ -121,7 +127,15 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
       <Footer>
         NEW TO SPEAK FOR THE TREES?
         <br />
-        SIGN UP <Link to={Routes.SIGNUP}>HERE!</Link>
+        SIGN UP{' '}
+        <Link
+          to={{
+            pathname: Routes.SIGNUP,
+            state: { destination },
+          }}
+        >
+          HERE!
+        </Link>
       </Footer>
     </div>
   );

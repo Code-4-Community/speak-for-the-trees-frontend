@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { Alert, Col, Row, Typography } from 'antd';
 import { Helmet } from 'react-helmet';
@@ -20,7 +21,7 @@ import useWindowDimensions, {
 } from '../../components/window-dimensions';
 import PageLayout from '../../components/pageLayout';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
-import { Routes } from '../../App';
+import { RedirectStateProps, Routes } from '../../App';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { SIGNUP_BODY, SIGNUP_HEADER, SIGNUP_TITLE } from '../../assets/content';
 
@@ -86,12 +87,16 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation<RedirectStateProps>();
   const privilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
 
   if (privilegeLevel !== PrivilegeLevel.NONE) {
-    history.push(Routes.HOME);
+    const destination = location.state
+      ? location.state.destination
+      : Routes.HOME;
+    history.push(destination);
   }
 
   const onFinish = (values: SignupRequest) => {
