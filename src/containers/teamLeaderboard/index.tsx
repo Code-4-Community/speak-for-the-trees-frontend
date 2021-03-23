@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import LeaderboardTabs from '../../components/leaderboard/leaderboardTabs';
+import ReturnButton from '../../components/returnButton';
+import { Routes } from '../../App';
 import { TabItem } from '../../components/leaderboard/types';
 import { C4CState } from '../../store';
 import PageHeader from '../../components/pageHeader';
+import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
 import { mapTeamsToTabItems } from './ducks/selectors';
 import { connect, useDispatch } from 'react-redux';
@@ -15,7 +18,8 @@ import {
 } from '../../assets/content';
 
 const LeaderboardContentContainer = styled.div`
-  padding: 100px 134px;
+  margin: 100px auto auto;
+  width: 80vw;
 `;
 
 const LeaderboardContainer = styled.div`
@@ -45,24 +49,27 @@ const TeamLeaderboard: React.FC<TeamLeaderboardProps> = ({
   const [currentTab, setCurrentTab] = useState<string>(LEADERBOARD_TABS[0]);
 
   return (
-    <LeaderboardContentContainer>
-      <PageHeader
-        pageTitle={TEAM_LEADERBOARD_TITLE}
-        pageSubtitle={TEAM_LEADERBOARD_HEADER}
-      />
+    <PageLayout>
+      <LeaderboardContentContainer>
+        <ReturnButton to={Routes.HOME}>{`<`} Return to Dashboard</ReturnButton>
+        <PageHeader
+          pageTitle={TEAM_LEADERBOARD_TITLE}
+          pageSubtitle={TEAM_LEADERBOARD_HEADER}
+        />
 
-      <LeaderboardContainer>
-        {leaderboardRequestKind === AsyncRequestKinds.Completed && (
-          <LeaderboardTabs
-            items={teamTabItems}
-            tabNames={LEADERBOARD_TABS}
-            currentTab={currentTab}
-            itemsPerPage={4}
-            onChangeTimeTab={onChangeTab}
-          />
-        )}
-      </LeaderboardContainer>
-    </LeaderboardContentContainer>
+        <LeaderboardContainer>
+          {leaderboardRequestKind === AsyncRequestKinds.Completed && (
+            <LeaderboardTabs
+              items={teamTabItems}
+              tabNames={LEADERBOARD_TABS}
+              currentTab={currentTab}
+              itemsPerPage={4}
+              onChangeTimeTab={onChangeTab}
+            />
+          )}
+        </LeaderboardContainer>
+      </LeaderboardContentContainer>
+    </PageLayout>
   );
 };
 

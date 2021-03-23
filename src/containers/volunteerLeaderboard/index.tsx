@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import LeaderboardTabs from '../../components/leaderboard/leaderboardTabs';
+import ReturnButton from '../../components/returnButton';
+import { Routes } from '../../App';
 import { TabItem } from '../../components/leaderboard/types';
 import { C4CState } from '../../store';
 import PageHeader from '../../components/pageHeader';
+import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
 import { mapVolunteersToTabItems } from './ducks/selectors';
 import { connect, useDispatch } from 'react-redux';
@@ -11,7 +14,8 @@ import { getUsersLeaderboard } from './ducks/thunks';
 import { LEADERBOARD_TABS } from '../../components/leaderboard/constants';
 
 const LeaderboardContentContainer = styled.div`
-  padding: 100px 134px;
+  margin: 100px auto auto;
+  width: 80vw;
 `;
 
 const LeaderboardContainer = styled.div`
@@ -42,23 +46,26 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
   const [currentTab, setCurrentTab] = useState<string>(LEADERBOARD_TABS[0]);
 
   return (
-    <LeaderboardContentContainer>
-      <PageHeader
-        pageTitle="Volunteer Leaderboard"
-        pageSubtitle="Celebrate all the contributions of our Speak for the Trees volunteers!"
-      />
-      {leaderboardRequestKind === AsyncRequestKinds.Completed && (
-        <LeaderboardContainer>
-          <LeaderboardTabs
-            items={volunteerTabItems}
-            tabNames={LEADERBOARD_TABS}
-            currentTab={currentTab}
-            itemsPerPage={4}
-            onChangeTimeTab={onChangeTab}
-          />
-        </LeaderboardContainer>
-      )}
-    </LeaderboardContentContainer>
+    <PageLayout>
+      <LeaderboardContentContainer>
+        <ReturnButton to={Routes.HOME}>{`<`} Return to Dashboard</ReturnButton>
+        <PageHeader
+          pageTitle="Volunteer Leaderboard"
+          pageSubtitle="Celebrate all the contributions of our Speak for the Trees volunteers!"
+        />
+        {leaderboardRequestKind === AsyncRequestKinds.Completed && (
+          <LeaderboardContainer>
+            <LeaderboardTabs
+              items={volunteerTabItems}
+              tabNames={LEADERBOARD_TABS}
+              currentTab={currentTab}
+              itemsPerPage={4}
+              onChangeTimeTab={onChangeTab}
+            />
+          </LeaderboardContainer>
+        )}
+      </LeaderboardContentContainer>
+    </PageLayout>
   );
 };
 

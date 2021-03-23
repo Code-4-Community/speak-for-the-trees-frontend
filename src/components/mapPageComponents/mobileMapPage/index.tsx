@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Layout } from 'antd';
 import MapView from '../mapView';
-import MapLayout from '../mapLayout';
-import MobileFooter from '../../mobileComponents/mobileFooter';
+import PageLayout from '../../pageLayout';
 import { BlockGeoData, NeighborhoodGeoData } from '../ducks/types';
 
 const { Content, Footer } = Layout;
@@ -26,14 +25,13 @@ const MobileMapPage: React.FC<MobileMapPageProps> = ({
   return (
     <>
       <MainContent>
-        <MapLayout>
+        <PageLayout>
           <Content>
             <MapView blocks={blocks} neighborhoods={neighborhoods} />
           </Content>
           <Footer>{children}</Footer>
-        </MapLayout>
+        </PageLayout>
       </MainContent>
-      <MobileFooter />
     </>
   );
 };
