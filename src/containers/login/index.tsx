@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { useLocation } from 'react-router';
 import { Link, useHistory } from 'react-router-dom';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -12,7 +12,7 @@ import {
 } from '../../auth/ducks/types';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
-import { RedirectedRouteComponentProps, Routes } from '../../App';
+import { RedirectStateProps, Routes } from '../../App';
 import { Alert, Col, Row, Typography } from 'antd';
 import styled from 'styled-components';
 import { BLACK, LIGHT_GREY, TEXT_GREY, WHITE } from '../../utils/colors';
@@ -91,13 +91,13 @@ const MobileLoginAlert = styled(Alert)`
   margin-bottom: 20px;
 `;
 
-type UserLoginProps = UserAuthenticationReducerState;
-type LoginProps = UserLoginProps & RedirectedRouteComponentProps;
+type LoginProps = UserAuthenticationReducerState;
 
-const Login: React.FC<LoginProps> = ({ tokens, location }) => {
+const Login: React.FC<LoginProps> = ({ tokens }) => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation<RedirectStateProps>();
   const privilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
@@ -213,10 +213,10 @@ const Login: React.FC<LoginProps> = ({ tokens, location }) => {
   );
 };
 
-const mapStateToProps = (state: C4CState): UserLoginProps => {
+const mapStateToProps = (state: C4CState): LoginProps => {
   return {
     tokens: state.authenticationState.tokens,
   };
 };
 
-export default withRouter(connect(mapStateToProps)(Login));
+export default connect(mapStateToProps)(Login);

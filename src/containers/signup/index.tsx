@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { Alert, Col, Row, Typography } from 'antd';
 import { Helmet } from 'react-helmet';
@@ -20,7 +20,7 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/window-dimensions';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
-import { RedirectedRouteComponentProps, Routes } from '../../App';
+import { RedirectStateProps, Routes } from '../../App';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { SIGNUP_BODY, SIGNUP_HEADER, SIGNUP_TITLE } from '../../assets/content';
 
@@ -79,13 +79,13 @@ const MobileSignupAlert = styled(Alert)`
   margin-bottom: 20px;
 `;
 
-type UserSignupProps = UserAuthenticationReducerState;
-type SignupProps = UserSignupProps & RedirectedRouteComponentProps;
+type SignupProps = UserAuthenticationReducerState;
 
-const Signup: React.FC<SignupProps> = ({ tokens, location }) => {
+const Signup: React.FC<SignupProps> = ({ tokens }) => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation<RedirectStateProps>();
   const privilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
@@ -188,10 +188,10 @@ const Signup: React.FC<SignupProps> = ({ tokens, location }) => {
   );
 };
 
-const mapStateToProps = (state: C4CState): UserSignupProps => {
+const mapStateToProps = (state: C4CState): SignupProps => {
   return {
     tokens: state.authenticationState.tokens,
   };
 };
 
-export default withRouter(connect(mapStateToProps)(Signup));
+export default connect(mapStateToProps)(Signup);

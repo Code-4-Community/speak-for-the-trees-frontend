@@ -29,7 +29,6 @@ import Settings from './containers/settings';
 import NotFound from './containers/notFound';
 import NavBar from './components/navBar';
 import AuthRedirect from './components/authRedirect';
-import { RouteComponentProps } from 'react-router';
 
 const { Content } = Layout;
 
@@ -53,15 +52,9 @@ export enum Routes {
   NOT_FOUND = '*',
 }
 
-interface RedirectStateProps {
+export interface RedirectStateProps {
   readonly destination: Routes;
 }
-
-export type RedirectedRouteComponentProps = RouteComponentProps<
-  any,
-  any,
-  RedirectStateProps
->;
 
 const App: React.FC = () => {
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
