@@ -30,6 +30,7 @@ import NotFound from './containers/notFound';
 import NavBar from './components/navBar';
 import Reservations from './containers/reservations';
 import AuthRedirect from './components/authRedirect';
+import SiteFooter from './components/siteFooter';
 
 const { Content } = Layout;
 
@@ -190,6 +191,7 @@ const App: React.FC = () => {
               }
             })()}
           </Content>
+          <SiteFooter />
         </AppLayout>
       </Router>
     </>
