@@ -3,6 +3,8 @@ import {
   LoginRequest,
   SignupRequest,
   RefreshTokenResponse,
+  ForgotPasswordRequest,
+  ForgotPasswordResetRequest,
 } from './ducks/types';
 import axios, { AxiosInstance } from 'axios';
 
@@ -11,12 +13,16 @@ export interface AuthClient {
   signup: (user: SignupRequest) => Promise<TokenPayload>;
   logout: (refreshToken: string) => Promise<void>;
   refresh: (refreshToken: string) => Promise<RefreshTokenResponse>;
+  forgotPassword: (user: ForgotPasswordRequest) => Promise<void>;
+  forgotPasswordReset: (user: ForgotPasswordResetRequest) => Promise<void>;
 }
 
 export enum API_ROUTE {
   LOGIN = '/api/v1/user/login/',
   SIGNUP = '/api/v1/user/signup/',
   REFRESH = '/api/v1/user/login/refresh/',
+  FORGOT_PASSWORD = '/api/v1/user/forgot_password/request',
+  FORGOT_PASSWORD_RESET = '/api/v1/user/forgot_password/reset',
 }
 
 const AuthAxiosInstance: AxiosInstance = axios.create({
@@ -60,11 +66,22 @@ const refresh: (refreshToken: string) => Promise<RefreshTokenResponse> = (
     },
   }).then((response) => response.data);
 
+const forgotPassword: (user: ForgotPasswordRequest) => Promise<void> = (
+  user: ForgotPasswordRequest,
+) => AuthAxiosInstance.post(API_ROUTE.FORGOT_PASSWORD, user);
+
+const forgotPasswordReset: (
+  user: ForgotPasswordResetRequest,
+) => Promise<void> = (user: ForgotPasswordResetRequest) =>
+  AuthAxiosInstance.post(API_ROUTE.FORGOT_PASSWORD_RESET, user);
+
 const Client: AuthClient = Object.freeze({
   login,
   signup,
   logout,
   refresh,
+  forgotPassword,
+  forgotPasswordReset,
 });
 
 export default Client;

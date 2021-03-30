@@ -29,6 +29,8 @@ import Settings from './containers/settings';
 import NotFound from './containers/notFound';
 import NavBar from './components/navBar';
 import Reservations from './containers/reservations';
+import ForgotPassword from './containers/forgotPassword';
+import ForgotPasswordReset from './containers/forgotPasswordReset';
 import AuthRedirect from './components/authRedirect';
 
 const { Content } = Layout;
@@ -51,6 +53,8 @@ export enum Routes {
   RESERVATIONS = '/reservations',
   AVAILABLE_TEAMS = '/available',
   ADMIN = '/admin',
+  FORGOT_PASSWORD_REQUEST = '/forgot-password',
+  FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
   NOT_FOUND = '*',
 }
 
@@ -92,6 +96,16 @@ const App: React.FC = () => {
                       <AuthRedirect from={Routes.AVAILABLE_TEAMS} />
                       <AuthRedirect from={Routes.RESERVATIONS} />
                       <AuthRedirect from={Routes.ADMIN} />
+                      <Route
+                        path={Routes.FORGOT_PASSWORD_REQUEST}
+                        exact
+                        component={ForgotPassword}
+                      />
+                      <Route
+                        path={Routes.FORGOT_PASSWORD_RESET}
+                        exact
+                        component={ForgotPasswordReset}
+                      />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact
