@@ -121,7 +121,7 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
   const ForgotPasswordFooter = (
     <div>
       <Paragraph>
-        <Link to={Routes.NOT_FOUND}>FORGOT PASSWORD?</Link>
+        <Link to={Routes.FORGOT_PASSWORD_REQUEST}>FORGOT PASSWORD?</Link>
       </Paragraph>
 
       <Footer>
