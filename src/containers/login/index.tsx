@@ -29,6 +29,7 @@ import {
   LOGIN_HEADER,
   LOGIN_TITLE,
 } from '../../assets/content';
+import { getUserData } from '../home/ducks/thunks';
 
 const { Paragraph } = Typography;
 
@@ -109,6 +110,7 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
     : Routes.HOME;
 
   if (privilegeLevel !== PrivilegeLevel.NONE) {
+    dispatch(getUserData());
     history.push(destination);
   }
 

@@ -4,6 +4,7 @@ import {
   PrivilegeLevel,
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
+import { UserDataReducerState } from '../../containers/home/ducks/types';
 import { Routes } from '../../App';
 import styled from 'styled-components';
 import { Avatar, Button, Dropdown, Menu, PageHeader, Typography } from 'antd';
@@ -11,7 +12,7 @@ import { PageHeaderProps } from 'antd/es/page-header';
 import { UserOutlined } from '@ant-design/icons';
 import useWindowDimensions, { WindowTypes } from '../window-dimensions';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import MobileNavBar from '../mobileComponents/mobileNavBar';
 import {
@@ -22,6 +23,9 @@ import {
   WHITE,
 } from '../../utils/colors';
 import Logo from '../../assets/images/nav-bar-icon.png';
+import { getUserFullName } from '../../containers/home/ducks/selectors';
+import { asyncRequestIsComplete } from '../../utils/asyncRequest';
+import { logout } from '../../auth/ducks/thunks';
 
 const { Paragraph, Title } = Typography;
 
@@ -36,14 +40,18 @@ const FlexDiv = styled.div`
   display: flex;
 `;
 
-type NavBarProps = UserAuthenticationReducerState;
+type NavBarProps = UserAuthenticationReducerState & UserDataReducerState;
 
-const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
+const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
   const { windowType } = useWindowDimensions();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const privilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
+  );
+  const userFullName = useSelector((state: C4CState) =>
+    getUserFullName(state.userDataState.userData),
   );
 
   const isLoggedIn: boolean = privilegeLevel !== PrivilegeLevel.NONE;
@@ -87,7 +95,10 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
       )}
       <Menu.Item
         onClick={() => {
-          history.push(Routes.LANDING);
+          if (asyncRequestIsComplete(tokens)) {
+            dispatch(logout());
+            history.push(Routes.LANDING);
+          }
         }}
       >
         Log Out
@@ -132,7 +143,9 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
     return (
       <FlexDiv>
         {/* This needs to changed, not a constant */}
-        <Paragraph style={{ margin: 'auto 20px auto 0' }}>Jack Blanc</Paragraph>
+        <Paragraph style={{ margin: 'auto 20px auto 0' }}>
+          {userFullName}
+        </Paragraph>
         <Dropdown overlay={menu} placement="bottomLeft">
           <Avatar
             size="large"
@@ -169,6 +182,7 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
 const mapStateToProps = (state: C4CState): NavBarProps => {
   return {
     tokens: state.authenticationState.tokens,
+    userData: state.userDataState.userData,
   };
 };
 

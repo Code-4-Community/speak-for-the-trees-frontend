@@ -8,6 +8,10 @@ import PageLayout from '../../components/pageLayout';
 import LinkCarousel from '../../components/linkCarousel';
 import HomeBackground from '../../assets/images/grey-logo.png';
 import { HOME_HEADER, HOME_TITLE } from '../../assets/content';
+import { getUserFirstName } from './ducks/selectors';
+import { connect, useSelector } from 'react-redux';
+import { C4CState } from '../../store';
+import { UserDataReducerState } from './ducks/types';
 
 const { Paragraph } = Typography;
 
@@ -24,9 +28,12 @@ const HomeContainer = styled.div`
   background: url(${HomeBackground}) no-repeat top right;
 `;
 
-const Home: React.FC = () => {
-  // TODO: connect to backend's userData route
-  const userName = 'Jack';
+type HomeProps = UserDataReducerState;
+
+const Home: React.FC<HomeProps> = (userData) => {
+  const userName = useSelector((state: C4CState) =>
+    getUserFirstName(state.userDataState.userData),
+  );
 
   return (
     <>
@@ -53,4 +60,10 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = (state: C4CState): HomeProps => {
+  return {
+    userData: state.userDataState.userData,
+  };
+};
+
+export default connect(mapStateToProps)(Home);
