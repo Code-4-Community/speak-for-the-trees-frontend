@@ -1,4 +1,5 @@
 import AppAxiosInstance from '../auth/axios';
+import { UserData } from '../containers/home/ducks/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -33,6 +34,7 @@ export interface ProtectedApiClient {
     newLevel: string;
     password: string;
   }) => Promise<void>;
+  readonly getUserData: () => Promise<UserData>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -43,6 +45,7 @@ export enum ProtectedApiClientRoutes {
   CHANGE_USERNAME = '/api/v1/protected/user/change_username',
   CHANGE_EMAIL = '/api/v1/protected/user/change_email',
   DELETE_USER = '/api/v1/protected/user/',
+  GET_USER_DATA = '/api/v1/protected/user/data',
 }
 
 export enum AdminApiClientRoutes {
@@ -165,6 +168,12 @@ const changePrivilegeLevel = (request: {
     .catch((e) => e);
 };
 
+const getUserData = (): Promise<UserData> => {
+  return AppAxiosInstance.get(ProtectedApiClientRoutes.GET_USER_DATA)
+    .then((r) => r.data)
+    .catch((e) => e);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -178,6 +187,7 @@ const Client: ProtectedApiClient = Object.freeze({
   changeEmail,
   deleteUser,
   changePrivilegeLevel,
+  getUserData,
 });
 
 export default Client;
