@@ -33,14 +33,14 @@ const StyledCrown = styled(CrownOutlined)`
 
 interface TeamMemberProps {
   readonly id: number;
-  readonly team_role: TeamRole;
+  readonly teamRole: TeamRole;
   readonly username: string;
 }
 
-const TeamMember: React.FC<TeamMemberProps> = ({ id, team_role, username }) => {
+const TeamMember: React.FC<TeamMemberProps> = ({ id, teamRole, username }) => {
   return (
     <StyledListItem key={id} style={{ borderBottom: '0px' }}>
-      {team_role === TeamRole.LEADER && <StyledCrown />}
+      {teamRole === TeamRole.LEADER && <StyledCrown />}
       <MemberName>{username}</MemberName>
     </StyledListItem>
   );
