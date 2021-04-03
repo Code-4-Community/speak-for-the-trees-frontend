@@ -3,6 +3,7 @@ import {
   TeamResponse,
   UserInvite,
   Applicant,
+  CreateTeamRequest
 } from '../containers/teamPage/ducks/types';
 
 export interface ProtectedApiExtraArgs {
@@ -38,11 +39,7 @@ export interface ProtectedApiClient {
     newLevel: string;
     password: string;
   }) => Promise<void>;
-  readonly createTeam: (request: {
-    name: string;
-    bio: string;
-    inviteEmails: string[];
-  }) => Promise<void>;
+  readonly createTeam: (request: CreateTeamRequest) => Promise<void>;
   readonly getTeams: () => Promise<TeamResponse[]>;
   readonly getTeam: (teamId: number) => Promise<TeamResponse>;
   readonly addGoal: (
@@ -228,26 +225,22 @@ const changePrivilegeLevel = (request: {
     .catch((e) => e);
 };
 
-const createTeam = (request: {
-  name: string;
-  bio: string;
-  inviteEmails: string[];
-}): Promise<void> => {
+const createTeam = (request: CreateTeamRequest): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.CREATE_TEAM, request)
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const getTeams = (): Promise<TeamResponse[]> => {
   return AppAxiosInstance.get(baseTeamRoute)
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const getTeam = (teamId: number): Promise<TeamResponse> => {
   return AppAxiosInstance.get(ParameterizedApiRoutes.GET_TEAM(teamId))
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const addGoal = (
@@ -259,16 +252,16 @@ const addGoal = (
   },
 ): Promise<void> => {
   return AppAxiosInstance.post(ParameterizedApiRoutes.ADD_GOAL(teamId), request)
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const deleteGoal = (teamId: number, goalId: number): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.DELETE_GOAL(teamId, goalId),
   )
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const inviteUser = (
@@ -281,56 +274,56 @@ const inviteUser = (
     ParameterizedApiRoutes.INVITE_USER(teamId),
     request,
   )
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const getApplicants = (teamId: number): Promise<Applicant[]> => {
   return AppAxiosInstance.get(ParameterizedApiRoutes.GET_APPLICANTS(teamId))
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const applyToTeam = (teamId: number): Promise<void> => {
   return AppAxiosInstance.post(ParameterizedApiRoutes.APPLY_TO_TEAM(teamId))
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const approveUser = (teamId: number, userId: number): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.APPROVE_USER(teamId, userId),
   )
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const rejectUser = (teamId: number, userId: number): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.REJECT_USER(teamId, userId),
   )
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const kickUser = (teamId: number, memberId: number): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.KICK_USER(teamId, memberId),
   )
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const leaveTeam = (teamId: number): Promise<void> => {
   return AppAxiosInstance.post(ParameterizedApiRoutes.LEAVE_TEAM(teamId))
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const disbandTeam = (teamId: number): Promise<void> => {
   return AppAxiosInstance.post(ParameterizedApiRoutes.DISBAND_TEAM(teamId))
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const transferOwnership = (
@@ -341,8 +334,8 @@ const transferOwnership = (
     ParameterizedApiRoutes.TRANSFER_OWNERSHIP(teamId),
     request,
   )
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const Client: ProtectedApiClient = Object.freeze({

@@ -24,7 +24,7 @@ export interface GoalProps {
   progress: number;
   startDate: Date;
   completeBy: Date;
-  completionDate: Date | null;
+  completionDate?: Date;
 }
 
 export enum TeamRole {
@@ -44,6 +44,12 @@ export interface Applicant {
   username: string;
 }
 
+export interface CreateTeamRequest {
+  name: string;
+  bio: string;
+  inviteEmails: string[];
+}
+
 // JSON response types
 
 export interface TeamResponse {
@@ -54,7 +60,7 @@ export interface TeamResponse {
   goals: GoalResponseJSON[];
   finished: boolean;
   createdAt: string;
-  deletedAt: string | null;
+  deletedAt?: string;
 }
 
 export interface GoalResponseJSON {
@@ -63,7 +69,7 @@ export interface GoalResponseJSON {
   progress: number;
   startDate: number;
   completeBy: number;
-  completionDate: number | null;
+  completionDate?: number;
 }
 
 // Redux Types

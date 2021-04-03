@@ -1,16 +1,16 @@
-import { AsyncRequest, AsyncRequestKinds } from '../../../utils/asyncRequest';
+import { AsyncRequest, asyncRequestIsComplete} from '../../../utils/asyncRequest';
 import { TeamResponse, TeamProps, GoalProps, GoalResponseJSON } from './types';
 
 export const teamResponseRequestToTeamProps = (
   team: AsyncRequest<TeamResponse, any>,
 ): TeamProps => {
-  if (team.kind === AsyncRequestKinds.Completed) {
+  if (asyncRequestIsComplete(team)) {
     return teamResponseToTeamProps(team.result);
   }
-  return emptyTeam;
+  return emptyTeam();
 };
 
-export const teamResponseToTeamProps = (team: TeamResponse): TeamProps => {
+const teamResponseToTeamProps = (team: TeamResponse): TeamProps => {
   return {
     id: team.id,
     name: team.name,
@@ -36,10 +36,10 @@ const mapGoalResponseJSONToGoalProps = (
 
 // In case the team request has not been completed.
 // This is to prevent the TeamProps from being undefined
-const emptyTeam: TeamProps = {
+const emptyTeam: () => TeamProps = () => ({
   id: 0,
   name: '',
   bio: '',
   members: [],
   goals: [],
-};
+});

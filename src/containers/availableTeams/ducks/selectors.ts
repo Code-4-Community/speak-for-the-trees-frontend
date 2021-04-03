@@ -1,11 +1,11 @@
-import { AsyncRequest, AsyncRequestKinds } from '../../../utils/asyncRequest';
+import { AsyncRequest, asyncRequestIsComplete } from '../../../utils/asyncRequest';
 import { AvailableTeam } from './types';
 import { TabItem } from '../../../components/leaderboard/types';
 
 export const availableTeamsToTabItems = (
   availableTeams: AsyncRequest<AvailableTeam[], any>,
 ): TabItem[] => {
-  if (availableTeams.kind === AsyncRequestKinds.Completed) {
+  if (asyncRequestIsComplete(availableTeams)) {
     return availableTeams.result.map((team) => {
       return {
         id: team.id,

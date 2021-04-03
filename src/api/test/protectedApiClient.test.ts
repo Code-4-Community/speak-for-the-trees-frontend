@@ -190,7 +190,6 @@ describe('Protected API Client Tests', () => {
           ],
           finished: false,
           createdAt: '2/19/2021',
-          deletedAt: null,
         },
         {
           id: 2,
@@ -254,7 +253,6 @@ describe('Protected API Client Tests', () => {
         ],
         finished: false,
         createdAt: '2/19/2021',
-        deletedAt: null,
       };
 
       nock(BASE_URL)
