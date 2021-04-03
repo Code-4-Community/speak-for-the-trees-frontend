@@ -1,7 +1,6 @@
 import AppAxiosInstance from '../auth/axios';
 import {
   TeamResponse,
-  UserInvite,
   Applicant,
   CreateTeamRequest,
   AddGoalRequest,
