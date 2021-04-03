@@ -44,10 +44,25 @@ export interface Applicant {
   username: string;
 }
 
+// Request bodies
 export interface CreateTeamRequest {
   name: string;
   bio: string;
   inviteEmails: string[];
+}
+
+export interface AddGoalRequest {
+  goal: number;
+  startAt: string;
+  completeBy: string;
+}
+
+export interface InviteUserRequest {
+  invites: UserInvite[];
+}
+
+export interface TransferOwnershipRequest {
+  newLeaderId: number;
 }
 
 // JSON response types

@@ -3,7 +3,10 @@ import {
   TeamResponse,
   UserInvite,
   Applicant,
-  CreateTeamRequest
+  CreateTeamRequest,
+  AddGoalRequest,
+  InviteUserRequest,
+  TransferOwnershipRequest,
 } from '../containers/teamPage/ducks/types';
 
 export interface ProtectedApiExtraArgs {
@@ -42,20 +45,11 @@ export interface ProtectedApiClient {
   readonly createTeam: (request: CreateTeamRequest) => Promise<void>;
   readonly getTeams: () => Promise<TeamResponse[]>;
   readonly getTeam: (teamId: number) => Promise<TeamResponse>;
-  readonly addGoal: (
-    teamId: number,
-    request: {
-      goal: number;
-      startAt: string;
-      completeBy: string;
-    },
-  ) => Promise<void>;
+  readonly addGoal: (teamId: number, request: AddGoalRequest) => Promise<void>;
   readonly deleteGoal: (teamId: number, goalId: number) => Promise<void>;
   readonly inviteUser: (
-    teamIId: number,
-    request: {
-      invites: UserInvite[];
-    },
+    teamId: number,
+    request: InviteUserRequest,
   ) => Promise<void>;
   readonly getApplicants: (teamId: number) => Promise<Applicant[]>;
   readonly applyToTeam: (teamId: number) => Promise<void>;
@@ -66,7 +60,7 @@ export interface ProtectedApiClient {
   readonly disbandTeam: (teamId: number) => Promise<void>;
   readonly transferOwnership: (
     teamId: number,
-    request: { newLeaderId: number },
+    request: TransferOwnershipRequest,
   ) => Promise<void>;
 }
 
@@ -243,14 +237,7 @@ const getTeam = (teamId: number): Promise<TeamResponse> => {
     .catch((err) => err);
 };
 
-const addGoal = (
-  teamId: number,
-  request: {
-    goal: number;
-    startAt: string;
-    completeBy: string;
-  },
-): Promise<void> => {
+const addGoal = (teamId: number, request: AddGoalRequest): Promise<void> => {
   return AppAxiosInstance.post(ParameterizedApiRoutes.ADD_GOAL(teamId), request)
     .then((res) => res.data)
     .catch((err) => err);
@@ -266,9 +253,7 @@ const deleteGoal = (teamId: number, goalId: number): Promise<void> => {
 
 const inviteUser = (
   teamId: number,
-  request: {
-    invites: UserInvite[];
-  },
+  request: InviteUserRequest,
 ): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.INVITE_USER(teamId),
@@ -328,7 +313,7 @@ const disbandTeam = (teamId: number): Promise<void> => {
 
 const transferOwnership = (
   teamId: number,
-  request: { newLeaderId: number },
+  request: TransferOwnershipRequest,
 ): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.TRANSFER_OWNERSHIP(teamId),

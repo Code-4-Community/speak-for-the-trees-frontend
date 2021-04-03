@@ -1,4 +1,7 @@
-import { AsyncRequest, asyncRequestIsComplete } from '../../../utils/asyncRequest';
+import {
+  AsyncRequest,
+  asyncRequestIsComplete,
+} from '../../../utils/asyncRequest';
 import { AvailableTeam } from './types';
 import { TabItem } from '../../../components/leaderboard/types';
 

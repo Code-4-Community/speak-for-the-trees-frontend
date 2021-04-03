@@ -1,4 +1,7 @@
-import { AsyncRequest, asyncRequestIsComplete} from '../../../utils/asyncRequest';
+import {
+  AsyncRequest,
+  asyncRequestIsComplete,
+} from '../../../utils/asyncRequest';
 import { TeamResponse, TeamProps, GoalProps, GoalResponseJSON } from './types';
 
 export const teamResponseRequestToTeamProps = (
@@ -29,7 +32,7 @@ const mapGoalResponseJSONToGoalProps = (
       id: goal.goalId,
       startDate: new Date(goal.startDate),
       completeBy: new Date(goal.completeBy),
-      completionDate: !!goal.completeBy ? new Date(goal.completeBy) : null,
+      completionDate: !!goal.completeBy ? new Date(goal.completeBy) : undefined,
     };
   });
 };

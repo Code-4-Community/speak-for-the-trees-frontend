@@ -146,7 +146,6 @@ const sampleGoalData: GoalProps[] = [
     progress: 5,
     startDate: new Date(2021, 0, 1),
     completeBy: new Date(2022, 0, 1),
-    completionDate: null,
   },
   {
     id: 2,
@@ -154,7 +153,6 @@ const sampleGoalData: GoalProps[] = [
     progress: 71,
     startDate: new Date(2021, 2, 20),
     completeBy: new Date(2021, 4, 21),
-    completionDate: null,
   },
   {
     id: 3,
