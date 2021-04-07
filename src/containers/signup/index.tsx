@@ -44,22 +44,22 @@ const MobileSignupPageContainer = styled.div`
 export const TabletInputContainer = styled.div`
   height: 55vh;
   width: 100%;
-  padding: 3vh 20px 0px 50px;
+  padding: 2vh 120px 0px 50px;
   background: ${LIGHT_GREY};
   box-shadow: 2px 3px 6px ${BLACK}25;
   border-radius: 6px;
-  overflow: scroll;
+  overflow: auto;
 `;
 
 const Line = styled.div`
   height: 2px;
-  margin: 0px -20px 30px -50px;
+  margin: 0px -120px 30px -50px;
   background: ${WHITE};
 `;
 
 const TabletLine = styled.div`
   height: 2px;
-  margin: -10px -20px 10px -50px;
+  margin: -10px -120px 2vh -50px;
   background: ${WHITE};
 `;
 
@@ -149,7 +149,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                     <GreetingContainer
                       header={SIGNUP_HEADER}
                       body={SIGNUP_BODY}
-                      padding={'20px 5vw'}
+                      padding={'2vh 5vw 0px'}
                       height={'25vh'}
                     />
                   </CenterDiv>

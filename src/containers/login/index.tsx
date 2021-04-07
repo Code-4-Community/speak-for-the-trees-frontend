@@ -49,7 +49,7 @@ const MobileLoginPageContainer = styled.div`
 export const TabletInputContainer = styled.div`
   height: 50vh;
   width: 100%;
-  padding: 3vh 20px 0px 50px;
+  padding: 3vh 120px 0px 50px;
   background: ${LIGHT_GREY};
   box-shadow: 2px 3px 6px ${BLACK}25;
   border-radius: 6px;
@@ -58,13 +58,13 @@ export const TabletInputContainer = styled.div`
 
 const Line = styled.div`
   height: 2px;
-  margin: 10px -20px 8vh -50px;
+  margin: 10px -120px 8vh -50px;
   background: ${WHITE};
 `;
 
 const TabletLine = styled.div`
   height: 2px;
-  margin: 10px -20px 4vh -50px;
+  margin: 10px -120px 4vh -50px;
   background: ${WHITE};
 `;
 

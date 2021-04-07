@@ -1,15 +1,9 @@
 import React from 'react';
 import { LoginRequest } from '../../auth/ducks/types';
-import { Button, Col, Form, Input, Row } from 'antd';
+import { Button, Form, Input } from 'antd';
 import styled from 'styled-components';
 import useWindowDimensions, { WindowTypes } from '../windowDimensions';
-
-const formHalfItemSpan = 8;
-const offsetSpan = 1;
-
-const formLayout = {
-  wrapperCol: { span: 17 },
-};
+import { FormHalfItem, FormRow, Gap } from '../styledComponents';
 
 interface LoginFormProps {
   readonly onFinish: (values: LoginRequest) => void;
@@ -66,7 +60,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onFinish }) => {
                     <Input.Password placeholder="Password" />
                   </Form.Item>
 
-                  <Form.Item {...formLayout}>
+                  <Form.Item>
                     <LoginButton type="primary" htmlType="submit" size="large">
                       Log In
                     </LoginButton>
@@ -77,39 +71,35 @@ const LoginForm: React.FC<LoginFormProps> = ({ onFinish }) => {
             case WindowTypes.Desktop:
               return (
                 <>
-                  <Row>
-                    <Col span={formHalfItemSpan}>
-                      <Form.Item
-                        name="email"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please input your email!',
-                          },
-                          {
-                            pattern: /^\S+@\S+\.\S{2,}$/,
-                            message: 'Not a valid email address',
-                          },
-                        ]}
-                      >
-                        <Input placeholder="Email" />
-                      </Form.Item>
-                    </Col>
-                    <Col span={offsetSpan} />
-                    <Col span={formHalfItemSpan}>
-                      <Form.Item
-                        name="password"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please input your password!',
-                          },
-                        ]}
-                      >
-                        <Input.Password placeholder="Password" />
-                      </Form.Item>
-                    </Col>
-                  </Row>
+                  <FormRow>
+                    <FormHalfItem
+                      name="email"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your email!',
+                        },
+                        {
+                          pattern: /^\S+@\S+\.\S{2,}$/,
+                          message: 'Not a valid email address',
+                        },
+                      ]}
+                    >
+                      <Input placeholder="Email" />
+                    </FormHalfItem>
+                    <Gap />
+                    <FormHalfItem
+                      name="password"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your password!',
+                        },
+                      ]}
+                    >
+                      <Input.Password placeholder="Password" />
+                    </FormHalfItem>
+                  </FormRow>
 
                   <StyledFormItem>
                     <LoginButton type="primary" htmlType="submit" size="large">
