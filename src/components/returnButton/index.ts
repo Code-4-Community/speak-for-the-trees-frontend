@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { LinkButton } from '../LinkButton';
+import { LinkButton } from '../linkButton';
 import { MID_GREEN } from '../../utils/colors';
 
 const ReturnButton = styled(LinkButton)`

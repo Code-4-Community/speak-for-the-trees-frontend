@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { Routes } from '../../App';
-import { ContentContainer } from '../../components';
+import { ContentContainer } from '../../components/styledComponents';
 import { Typography } from 'antd';
 const { Title } = Typography;
 

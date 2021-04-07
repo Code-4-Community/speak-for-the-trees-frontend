@@ -14,11 +14,16 @@ import {
 import { C4CState } from '../../store';
 import { BLACK, LIGHT_GREY, WHITE } from '../../utils/colors';
 import styled from 'styled-components';
+import {
+  CenterDiv,
+  InputContainer,
+  TabletPageContainer,
+} from '../../components/styledComponents';
 import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
 import SignupForm from '../../components/signupForm';
 import useWindowDimensions, {
   WindowTypes,
-} from '../../components/window-dimensions';
+} from '../../components/windowDimensions';
 import PageLayout from '../../components/pageLayout';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { RedirectStateProps, Routes } from '../../App';
@@ -27,49 +32,41 @@ import { SIGNUP_BODY, SIGNUP_HEADER, SIGNUP_TITLE } from '../../assets/content';
 
 const { Paragraph } = Typography;
 
-const containerHeight = '525px';
-
 const SignupPageContainer = styled.div`
   margin: auto;
   width: 80vw;
-`;
-
-const TabletSignupPageContainer = styled.div`
-  padding: 90px 60px;
 `;
 
 const MobileSignupPageContainer = styled.div`
   padding: 30px;
 `;
 
-const CenterDiv = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const RightMargin = styled.div`
-  margin-right: 30px;
-`;
-
-const InputContainer = styled(Col)`
-  height: ${containerHeight};
-  min-width: 275px;
-  padding: 30px 20px 20px 50px;
+export const TabletInputContainer = styled.div`
+  height: 55vh;
+  width: 100%;
+  padding: 3vh 20px 0px 50px;
   background: ${LIGHT_GREY};
-  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.09);
+  box-shadow: 2px 3px 6px ${BLACK}25;
   border-radius: 6px;
+  overflow: scroll;
 `;
 
 const Line = styled.div`
   height: 2px;
-  margin: 10px -20px 25px -50px;
+  margin: 0px -20px 30px -50px;
+  background: ${WHITE};
+`;
+
+const TabletLine = styled.div`
+  height: 2px;
+  margin: -10px -20px 10px -50px;
   background: ${WHITE};
 `;
 
 const Title = styled(Paragraph)`
   color: ${BLACK};
   font-size: 30px;
-  line-height: 36px;
+  line-height: 33px;
 `;
 
 const SignupAlert = styled(Alert)`
@@ -133,28 +130,31 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
             );
           case WindowTypes.Tablet:
             return (
-              <>
-                <TabletSignupPageContainer>
+              <PageLayout>
+                <TabletPageContainer>
                   {tokens.kind === AsyncRequestKinds.Failed && (
                     <SignupAlert message={tokens.error} type="error" />
                   )}
                   <CenterDiv>
-                    <RightMargin>
-                      <InputContainer>
-                        <Title>{SIGNUP_TITLE}</Title>
-                        <Line />
-                        <SignupForm onFinish={onFinish} />
-                      </InputContainer>
-                    </RightMargin>
+                    <TabletInputContainer>
+                      <Title>{SIGNUP_TITLE}</Title>
+                      <TabletLine />
+                      <SignupForm onFinish={onFinish} />
+                    </TabletInputContainer>
+                  </CenterDiv>
 
+                  <br />
+
+                  <CenterDiv>
                     <GreetingContainer
                       header={SIGNUP_HEADER}
                       body={SIGNUP_BODY}
-                      height={containerHeight}
+                      padding={'20px 5vw'}
+                      height={'25vh'}
                     />
                   </CenterDiv>
-                </TabletSignupPageContainer>
-              </>
+                </TabletPageContainer>
+              </PageLayout>
             );
           case WindowTypes.NarrowDesktop:
           case WindowTypes.Desktop:
@@ -166,7 +166,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                       <SignupAlert message={tokens.error} type="error" />
                     )}
                     <Row>
-                      <InputContainer span={10}>
+                      <InputContainer span={11}>
                         <Title>{SIGNUP_TITLE}</Title>
                         <Line />
                         <SignupForm onFinish={onFinish} />
@@ -174,11 +174,10 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
 
                       <Col span={2} />
 
-                      <Col span={12}>
+                      <Col span={11}>
                         <GreetingContainer
                           header={SIGNUP_HEADER}
                           body={SIGNUP_BODY}
-                          height={containerHeight}
                         />
                       </Col>
                     </Row>

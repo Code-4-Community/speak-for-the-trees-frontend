@@ -2,9 +2,7 @@ import React from 'react';
 import { LoginRequest } from '../../auth/ducks/types';
 import { Button, Col, Form, Input, Row } from 'antd';
 import styled from 'styled-components';
-import useWindowDimensions, {
-  WindowTypes,
-} from '../../components/window-dimensions';
+import useWindowDimensions, { WindowTypes } from '../windowDimensions';
 
 const formHalfItemSpan = 8;
 const offsetSpan = 1;
@@ -19,7 +17,7 @@ interface LoginFormProps {
 
 const LoginButton = styled(Button)`
   width: 96px;
-  margin-top: 20px;
+  margin-top: 1.5vh;
 `;
 
 const StyledFormItem = styled(Form.Item)`
@@ -41,10 +39,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onFinish }) => {
         {(() => {
           switch (windowType) {
             case WindowTypes.Mobile:
+            case WindowTypes.Tablet:
               return (
                 <>
                   <Form.Item
-                    {...formLayout}
                     name="email"
                     rules={[
                       { required: true, message: 'Please input your email!' },
@@ -57,7 +55,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onFinish }) => {
                     <Input placeholder="Email" />
                   </Form.Item>
                   <Form.Item
-                    {...formLayout}
                     name="password"
                     rules={[
                       {
@@ -76,7 +73,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onFinish }) => {
                   </Form.Item>
                 </>
               );
-            case WindowTypes.Tablet:
             case WindowTypes.NarrowDesktop:
             case WindowTypes.Desktop:
               return (

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
-const breakpointDesktop = 1150;
-const breakpointTablet = 900;
-const breakpointMobile = 650;
+const breakpointDesktop = 1300;
+const breakpointTablet = 1025;
+const breakpointMobile = 680;
 
 export enum WindowTypes {
   Mobile = 'MOBILE',

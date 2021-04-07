@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { WHITE, BLACK } from '../utils/colors';
+import { WHITE, BLACK } from '../../utils/colors';
 import { Modal } from 'antd';
 
 export enum ReservationModalType {
