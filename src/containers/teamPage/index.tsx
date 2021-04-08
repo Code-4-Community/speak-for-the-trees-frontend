@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button, Collapse, List, Typography } from 'antd';
 import { Routes } from '../../App';
-import { GoalProps, MemberProps, TeamProps, TeamRole } from './ducks/types';
+import { TeamProps, TeamRole } from './ducks/types';
 import GoalInfo from '../../components/goalInfo';
 import PageHeader from '../../components/pageHeader';
 import TeamMember from '../../components/teamMember';
@@ -110,13 +110,13 @@ interface TeamPageProps {
 const TeamPage: React.FC<TeamPageProps> = ({ teamProps, teamRequestKind }) => {
   const dispatch = useDispatch();
 
+  const { id } = useParams<{ id: string }>();
+  const numId = +id;
+
   useEffect(() => {
     // The default tab is weekly
     dispatch(getTeam(numId));
-  }, [dispatch]);
-
-  const { id } = useParams<{ id: string }>();
-  const numId = +id;
+  }, [dispatch, numId]);
 
   const applyToTeam = () => {
     ProtectedApiClient.applyToTeam(numId);
