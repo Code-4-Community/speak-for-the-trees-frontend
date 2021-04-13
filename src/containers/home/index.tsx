@@ -5,7 +5,10 @@ import { DARK_GREY, MID_GREEN } from '../../utils/colors';
 import { List, Typography } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
-import LinkCard, { LinkCardProps } from '../../components/linkCard';
+import LinkCard, {
+  Backgrounds,
+  LinkCardProps,
+} from '../../components/linkCard';
 import LinkCarousel from '../../components/linkCarousel';
 import HomeBackground from '../../assets/images/grey-logo.png';
 import { HOME_HEADER, HOME_TITLE } from '../../assets/content';
@@ -42,32 +45,32 @@ const Home: React.FC = () => {
     {
       text: 'My Blocks',
       path: `${Routes.RESERVATIONS}`,
-      background: 'img1',
+      background: Backgrounds.IMAGE_ONE,
     },
     {
       text: 'View Teams',
       path: `${Routes.AVAILABLE_TEAMS}`,
-      background: 'img2',
+      background: Backgrounds.IMAGE_TWO,
     },
     {
       text: 'Volunteer Leaderboard',
       path: `${Routes.VOLUNTEER}`,
-      background: 'img3',
+      background: Backgrounds.IMAGE_THREE,
     },
     {
       text: 'Team Leaderboard',
       path: `${Routes.TEAM_LEADERBOARD}`,
-      background: 'img4',
+      background: Backgrounds.IMAGE_FOUR,
     },
     {
       text: 'Trees',
       path: `${Routes.NOT_FOUND}`,
-      background: 'img1',
+      background: Backgrounds.IMAGE_ONE,
     },
     {
       text: 'Settings',
       path: `${Routes.SETTINGS}`,
-      background: 'img2',
+      background: Backgrounds.IMAGE_TWO,
     },
   ];
 
