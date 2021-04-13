@@ -18,7 +18,7 @@ import {
   CenterDiv,
   InputContainer,
   TabletPageContainer,
-} from '../../components/styledComponents';
+} from '../../components/themedComponents';
 import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
 import SignupForm from '../../components/signupForm';
 import useWindowDimensions, {

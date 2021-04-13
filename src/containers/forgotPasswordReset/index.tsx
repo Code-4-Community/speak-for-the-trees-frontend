@@ -7,7 +7,7 @@ import useWindowDimensions, {
 } from '../../components/windowDimensions';
 import { Button, Form, Input } from 'antd';
 import PageHeader from '../../components/pageHeader';
-import { ContentContainer } from '../../components/styledComponents';
+import { ContentContainer } from '../../components/themedComponents';
 import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
 
 export interface NewPasswords {

@@ -1,12 +1,17 @@
 import React from 'react';
 import { SignupRequest } from '../../auth/ducks/types';
 import { Routes } from '../../App';
-import { Button, Col, Form, Input, Row, Space, Typography } from 'antd';
+import { Button, Col, Form, Input, Row, Typography } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { Link } from 'react-router-dom';
 import { TEXT_GREY } from '../../utils/colors';
 import styled from 'styled-components';
-import { FormHalfItem, FormRow, Gap } from '../styledComponents';
+import {
+  FormHalfItem,
+  FormRow,
+  FullWidthSpace,
+  Gap,
+} from '../themedComponents';
 import useWindowDimensions, { WindowTypes } from '../windowDimensions';
 
 const { Paragraph } = Typography;
@@ -16,10 +21,6 @@ const offsetSpan = 1;
 const Footer: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
   color: ${TEXT_GREY};
   line-height: 1.5;
-`;
-
-const StyledSpace = styled(Space)`
-  width: 100%;
 `;
 
 interface SignupFormProps {
@@ -32,7 +33,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
   return (
     <>
       <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish}>
-        <StyledSpace direction="vertical" size={1}>
+        <FullWidthSpace direction="vertical" size={1}>
           <FormRow>
             <FormHalfItem
               rules={[
@@ -108,7 +109,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
           >
             <Input.Password placeholder="Confirm Password" />
           </Form.Item>
-        </StyledSpace>
+        </FullWidthSpace>
         <div>
           {(() => {
             switch (windowType) {

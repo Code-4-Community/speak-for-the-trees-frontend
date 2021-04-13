@@ -3,7 +3,7 @@ import { LoginRequest } from '../../auth/ducks/types';
 import { Button, Form, Input } from 'antd';
 import styled from 'styled-components';
 import useWindowDimensions, { WindowTypes } from '../windowDimensions';
-import { FormHalfItem, FormRow, Gap } from '../styledComponents';
+import { FormHalfItem, FormRow, Gap } from '../themedComponents';
 
 interface LoginFormProps {
   readonly onFinish: (values: LoginRequest) => void;

@@ -20,7 +20,7 @@ import {
   CenterDiv,
   InputContainer,
   TabletPageContainer,
-} from '../../components/styledComponents';
+} from '../../components/themedComponents';
 import GreetingContainer from '../../components/greetingContainer';
 import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
 import PageLayout from '../../components/pageLayout';

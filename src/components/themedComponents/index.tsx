@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Col, Form } from 'antd';
+import { Col, Form, Space } from 'antd';
 import { FormItemProps } from 'antd/es/form';
 import { BLACK, LIGHT_GREY } from '../../utils/colors';
 
@@ -41,4 +41,8 @@ export const Gap = styled.div`
 export const FormHalfItem = styled(Form.Item)<FormItemProps>`
   width: 46%;
   display: inline-block;
+`;
+
+export const FullWidthSpace = styled(Space)`
+  width: 100%;
 `;
