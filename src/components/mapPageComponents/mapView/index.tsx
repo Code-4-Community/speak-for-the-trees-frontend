@@ -81,7 +81,7 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
   }
   // This KeyValuePair array that stores names to be shortHand-ed.
   // To add a new area, wrap a key value pair with {}.
-  /*
+  
   const shortHandNames: KeyValuePair[] = [
     { key: 'North End', value: 'NE' },
     { key: 'West End', value: 'WE' },
@@ -92,7 +92,7 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
     { key: 'Chinatown', value: 'CT' },
     { key: 'Bay Village', value: 'BV' },
   ];
-  */
+
   useEffect(() => {
     const mapElement = mapRef.current;
 
@@ -193,7 +193,6 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
         const neighborhoodsLayer = new google.maps.Data({ map });
 
         // Function: Returns name in shortHand
-        /*
         function shortHand(name: string): string {
           for (const shName of shortHandNames) {
             if (shName.key === name) {
@@ -202,14 +201,12 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
           }
           return name;
         }
-        */
+       
         // Loads the objects into the layer
-        neighborhoodsLayer.addGeoJson(neighborhoods);
-        /*
-          () => {
+         neighborhoodsLayer.addGeoJson(neighborhoods);
+        neighborhoodsLayer.forEach(feature => {
             // For each feature in neighbourhoodsLayer, add a marker
             // We need to do it here as the GeoJson needs to load first
-            neighborhoodsLayer.forEach((feature) => {
               // If you want, check here for some constraints.
               const marker = new google.maps.Marker({
                 map,
@@ -217,7 +214,7 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
                 label: {
                   color: 'white',
                   fontWeight: 'bold',
-                  text: shortHand(feature.getProperty('Name')),
+                  text: shortHand(feature.getProperty('name')),
                 },
                 // Removed the icon here, only text on map.
                 icon: {
@@ -226,24 +223,24 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
                   size: new google.maps.Size(22, 40),
                 },
                 position: {
-                  lat: feature.getProperty('Latitude'),
-                  lng: feature.getProperty('Longitude'),
+                  lat: feature.getProperty('lat'),
+                  lng: feature.getProperty('lng'),
                 },
               });
               markersArray.push(marker);
               marker.setMap(map);
             });
-          },
-        );
-        */
+
 
         // Sets the style of the layer to green shades based on property values with white outline
-        function setNeighborhoodsStyle(v: boolean) {
+        function setNeighborhoodsStyle(v: boolean) {          
           neighborhoodsLayer.setStyle((feature) => {
+            console.log(feature);
+
             return {
               fillColor: 'green',
               fillOpacity:
-                (feature.getProperty('Neighborhood_ID') / 100) * 2 + 0.1, // TODO: replace this with completion percentage
+                (feature.getProperty('neighborhood_id') / 100) * 2 + 0.1, // TODO: replace this with completion percentage
               strokeWeight: 1,
               strokeColor: 'white',
               visible: v,
@@ -339,7 +336,7 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
         handleZoomChange();
       });
     }
-  }, [blocks, neighborhoods, mapRef, markersArray, loader]);
+  }, [blocks, neighborhoods, mapRef, markersArray, loader, shortHandNames]);
 
   return (
     <>
