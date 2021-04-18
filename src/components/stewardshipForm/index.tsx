@@ -1,0 +1,59 @@
+import React from 'react';
+import moment from 'moment';
+import { Button, Form, Checkbox, Typography, DatePicker, InputNumber } from 'antd';
+import styled from 'styled-components';
+
+const { Paragraph } = Typography;
+
+const ItemLabel = styled(Paragraph)`
+  line-height: 0px;
+`;
+
+const StewardshipForm: React.FC = () => {
+
+  const stewardshipOptions = ['Watered', 'Mulched', 'Weeded', 'Cleared Waste & Litter'];
+  
+  return (
+    <>
+      <Form>
+        {/* Use the half item and gap Sophie wrote for this styling once merged*/}
+        <ItemLabel>
+          Activity Date
+        </ItemLabel>
+        <Form.Item
+          name="Activity Date"
+          rules={[
+            {
+              required: true,
+              message: 'Please input the date of the activity!',
+            },
+          ]}
+        >
+          <DatePicker defaultValue={moment()} format={'MM/DD/YYYY'} />
+        </Form.Item>
+        <ItemLabel>
+          Stewardship Activites
+        </ItemLabel>
+        <Form.Item
+          name="Stewardship Activites"
+          rules={[
+            {
+              required: true,
+              message: 'Please select at least one activity',
+            },
+          ]}
+        >
+          <Checkbox.Group options={stewardshipOptions} />
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit" size="small">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>  
+    </>
+  );
+
+}
+
+export default StewardshipForm;

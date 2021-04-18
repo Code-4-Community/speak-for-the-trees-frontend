@@ -74,7 +74,7 @@ const LinkCarousel: React.FC = () => {
           />
         </CarouselSlide>
         <CarouselSlide>
-          <LinkCard text="5th Card" path={Routes.NOT_FOUND} background="img1" />
+          <LinkCard text="5th Card" path={Routes.TREE} background="img1" />
         </CarouselSlide>
         <CarouselSlide>
           <LinkCard text="6th Card" path={Routes.NOT_FOUND} background="img2" />
