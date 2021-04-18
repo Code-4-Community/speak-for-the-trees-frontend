@@ -1,16 +1,17 @@
 import React from 'react';
 import PageLayout from '../../components/pageLayout';
 import ReturnButton from '../../components/returnButton';
-import { Row, Col, Image, Typography, Button, Space, Card } from 'antd';
+import { Row, Col, Image, Typography, Button, Card } from 'antd';
 import { Routes } from '../../App';
 import { Helmet } from 'react-helmet';
-import { SiteProps, SiteEntry, TreeCare } from './ducks/types';
+import { SiteProps, SiteEntry, TreeCare, SiteEntryNames } from './ducks/types';
 import PageHeader from '../../components/pageHeader';
 import { TitleProps } from 'antd/lib/typography/Title';
 import StewardshipForm from '../../components/stewardshipForm';
 import placeholder from '../../assets/images/placeholder.png';
 import { connect } from 'react-redux';
-import { LIGHT_GREY } from '../../utils/colors';
+import { LIGHT_GREY, DARK_GREEN, TEXT_GREY } from '../../utils/colors';
+import { Gap } from '../../components/themedComponents';
 import styled from 'styled-components';
 
 const { Paragraph, Title } = Typography;
@@ -23,8 +24,12 @@ const StyledCard = styled(Card)`
 `;
 
 const TreePageContainer = styled.div`
-  width: 90vw;
-  margin: auto;
+  width: 95vw;
+  margin: 30px auto auto;
+`;
+
+const TreeMainContainer = styled.div`
+  margin: 50px 30px 30px;
 `;
 
 const TreeImage = styled(Image)`
@@ -41,29 +46,42 @@ const EntrySpace = styled.div`
   flex-wrap: wrap;
 `;
 
-const TreeCareTitle = styled(Title)`
+const TreeCareTitle = styled(Paragraph)`
   margin: 15px 15px 50px;
+  font-size: 24px;
+  font-weight: bold;
+  color: ${ DARK_GREEN }
 `;
 
 const TreeCareContainer = styled.div`
   border: solid 1px ${LIGHT_GREY};
-  height: 90%;
-  margin-top: 20px;
+  height: 80%;
+  margin-top: 80px;
+  overflow: auto;
 `;
 
-const EntryDate = styled(Title)<TitleProps>`
+const CareEntry = styled.div`
+  margin: 15px;
+`;
+
+const StewardshipContainer = styled.div`
+  margin-top: 40px;
+`;
+
+const EntryDate = styled(Paragraph)<TitleProps>`
   display: inline;
   text-align: center;
   line-height: 0px;
-  margin: 5px 15px;
+  font-size: 18px;
+  font-weight: bold;
+  color: ${ DARK_GREEN }
 `;
 
 const EntryMessage = styled(Paragraph)`
   display: inline;
   text-align: center;
   line-height: 0px;
-  color: ${LIGHT_GREY};
-  margin: 5px 15px;
+  color: ${TEXT_GREY};
 `;
 
 const dummyCare: TreeCare[] = [
@@ -122,15 +140,9 @@ const dummyTree: SiteProps = {
     treeNotes: 'I think it looks pretty good',
     siteNotes: 'dirty',
   }]
-}
+};
 
 const TreePage: React.FC<SiteProps> = ({
-  siteId,
-  blockId,
-  lat,
-  lng,
-  city,
-  zip,
   address,
   entries
 }) => {
@@ -150,10 +162,11 @@ const TreePage: React.FC<SiteProps> = ({
       </Helmet>
       <PageLayout>
         {/*Change to tree map route once that page is finished*/}
-        <ReturnButton to={Routes.HOME}> 
-          {`<`} Return to Tree Map
-        </ReturnButton>
-        <TreePageContainer>  
+        <TreePageContainer> 
+          <ReturnButton to={Routes.HOME}> 
+              {`<`} Return to Tree Map
+          </ReturnButton> 
+          <TreeMainContainer>
           <Row>
             <Col span={7}>
               <TreeInfoContainer>
@@ -175,43 +188,47 @@ const TreePage: React.FC<SiteProps> = ({
                 <Paragraph>
                   { description }
                 </Paragraph>
-                <Button type="primary">
+                <Button type="primary" size="large">
                   Adopt
                 </Button>  
-                <Title level={3}>Record Tree Care</Title>
-                <StewardshipForm />
+                <StewardshipContainer>
+                  <Title level={3}>Record Tree Care</Title>
+                  <StewardshipForm />
+                </StewardshipContainer>
               </TreeInfoContainer>
             </Col>
             <Col span={7}>
               <TreeCareContainer>   
-                <TreeCareTitle level={3}>
+                <TreeCareTitle>
                   Tree Care Activity
                 </TreeCareTitle>
                 {
                   dummyCare.map((value: TreeCare) => {
                     return (
-                      <div>
-                        <EntryDate level={4}>
+                      <CareEntry>
+                        <EntryDate>
                           {value.date}
                         </EntryDate>
+                        <Gap />
                         <EntryMessage>
                           {value.message}
                         </EntryMessage>
-                      </div>
+                      </CareEntry>
                     )
                   })
                 }
               </TreeCareContainer>
             </Col>
-          </Row>
+            </Row>
+          </TreeMainContainer>
           <Row>
             <EntrySpace>
               {
                 Object.entries(latestEntry).map(([key, value]) => {
                   return (
                     <StyledCard>
-                      <Title level={3}>{ key }</Title>
-                      <Paragraph>{ value }</Paragraph>
+                      <Title level={3}>{ SiteEntryNames[key] }</Title>
+                      <EntryMessage>{ value.toString() }</EntryMessage>
                     </StyledCard>
                   )
                 })

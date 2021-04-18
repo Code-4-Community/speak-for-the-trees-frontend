@@ -50,7 +50,7 @@ export enum Routes {
   SETTINGS = '/settings',
   VOLUNTEER = '/volunteer',
   TEAM = '/team/:id',
-  TREE = '/tree',
+  TREE = '/tree/:id',
   TEAM_LEADERBOARD = '/team-leaderboard',
   RESERVATIONS = '/reservations',
   AVAILABLE_TEAMS = '/available',

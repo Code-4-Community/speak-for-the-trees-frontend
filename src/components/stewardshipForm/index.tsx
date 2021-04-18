@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { Button, Form, Checkbox, Typography, DatePicker, InputNumber } from 'antd';
+import { Button, Form, Checkbox, Typography, DatePicker } from 'antd';
 import styled from 'styled-components';
 
 const { Paragraph } = Typography;
@@ -9,9 +9,13 @@ const ItemLabel = styled(Paragraph)`
   line-height: 0px;
 `;
 
+const TreeDatePicker = styled(DatePicker)`
+  width: 50%;
+`;
+
 const StewardshipForm: React.FC = () => {
 
-  const stewardshipOptions = ['Watered', 'Mulched', 'Weeded', 'Cleared Waste & Litter'];
+const stewardshipOptions = ['Watered', 'Mulched', 'Weeded', 'Cleared Waste & Litter'];
   
   return (
     <>
@@ -29,7 +33,7 @@ const StewardshipForm: React.FC = () => {
             },
           ]}
         >
-          <DatePicker defaultValue={moment()} format={'MM/DD/YYYY'} />
+          <TreeDatePicker defaultValue={moment()} format={'MM/DD/YYYY'} />
         </Form.Item>
         <ItemLabel>
           Stewardship Activites
@@ -46,7 +50,7 @@ const StewardshipForm: React.FC = () => {
           <Checkbox.Group options={stewardshipOptions} />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit" size="small">
+          <Button type="primary" htmlType="submit">
             Submit
           </Button>
         </Form.Item>

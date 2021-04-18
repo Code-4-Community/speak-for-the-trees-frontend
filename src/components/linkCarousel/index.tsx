@@ -36,42 +36,6 @@ const LinkCarousel: React.FC<CarouselProps> = ({ data, slidesPerPage }) => {
           autoplay: true,
         }}
       >
-<<<<<<< HEAD
-        <CarouselSlide>
-          <LinkCard
-            text="My Blocks"
-            path={Routes.NOT_FOUND}
-            background="img1"
-          />
-        </CarouselSlide>
-        <CarouselSlide>
-          <LinkCard
-            text="View Teams"
-            path={Routes.AVAILABLE_TEAMS}
-            background="img2"
-          />
-        </CarouselSlide>
-        <CarouselSlide>
-          <LinkCard
-            text="Volunteer Leaderboard"
-            path={Routes.VOLUNTEER}
-            background="img3"
-          />
-        </CarouselSlide>
-        <CarouselSlide>
-          <LinkCard
-            text="Team Leaderboard"
-            path={Routes.TEAM_LEADERBOARD}
-            background="img4"
-          />
-        </CarouselSlide>
-        <CarouselSlide>
-          <LinkCard text="5th Card" path={Routes.TREE} background="img1" />
-        </CarouselSlide>
-        <CarouselSlide>
-          <LinkCard text="6th Card" path={Routes.NOT_FOUND} background="img2" />
-        </CarouselSlide>
-=======
         {data.map((item) => {
           return (
             <CarouselSlide key={item.text}>
@@ -83,7 +47,6 @@ const LinkCarousel: React.FC<CarouselProps> = ({ data, slidesPerPage }) => {
             </CarouselSlide>
           );
         })}
->>>>>>> master
       </StyledCarousel>
     </>
   );
