@@ -161,8 +161,8 @@ const TreePage: React.FC<SiteProps> = ({
         />
       </Helmet>
       <PageLayout>
-        {/*Change to tree map route once that page is finished*/}
         <TreePageContainer> 
+          {/*Change to tree map route once that page is finished*/}
           <ReturnButton to={Routes.HOME}> 
               {`<`} Return to Tree Map
           </ReturnButton> 
