@@ -1,10 +1,8 @@
 import React from 'react';
-import { Routes } from '../../App';
 import { Carousel } from 'antd';
 import styled from 'styled-components';
 import { LIGHT_GREEN } from '../../utils/colors';
-import LinkCard from '../linkCard';
-import useWindowDimensions, { WindowTypes } from '../window-dimensions';
+import LinkCard, { LinkCardProps } from '../linkCard';
 
 const StyledCarousel = styled(Carousel)`
   max-width: 1350px;
@@ -23,19 +21,12 @@ const CarouselSlide = styled.div`
   text-align: center;
 `;
 
-const LinkCarousel: React.FC = () => {
-  const { windowType } = useWindowDimensions();
-  const slidesPerPage = Number(
-    `${
-      windowType === WindowTypes.Desktop
-        ? 4
-        : `${
-            windowType === WindowTypes.NarrowDesktop
-              ? 3
-              : `${windowType === WindowTypes.Mobile ? 1 : 2}`
-          }`
-    }`,
-  );
+interface CarouselProps {
+  data: LinkCardProps[];
+  slidesPerPage: number;
+}
+
+const LinkCarousel: React.FC<CarouselProps> = ({ data, slidesPerPage }) => {
   return (
     <>
       <StyledCarousel
@@ -45,6 +36,7 @@ const LinkCarousel: React.FC = () => {
           autoplay: true,
         }}
       >
+<<<<<<< HEAD
         <CarouselSlide>
           <LinkCard
             text="My Blocks"
@@ -79,6 +71,19 @@ const LinkCarousel: React.FC = () => {
         <CarouselSlide>
           <LinkCard text="6th Card" path={Routes.NOT_FOUND} background="img2" />
         </CarouselSlide>
+=======
+        {data.map((item) => {
+          return (
+            <CarouselSlide key={item.text}>
+              <LinkCard
+                text={item.text}
+                path={item.path}
+                background={item.background}
+              />
+            </CarouselSlide>
+          );
+        })}
+>>>>>>> master
       </StyledCarousel>
     </>
   );

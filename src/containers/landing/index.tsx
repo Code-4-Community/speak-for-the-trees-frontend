@@ -7,7 +7,7 @@ import MobileLandingBar from '../../components/mapPageComponents/mobileLandingBa
 import LandingTreeStats from '../../components/landingTreeStats';
 import useWindowDimensions, {
   WindowTypes,
-} from '../../components/window-dimensions';
+} from '../../components/windowDimensions';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
 import { LANDING_BODY, LANDING_TITLE } from '../../assets/content';

@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { Avatar, Button, Dropdown, Menu, PageHeader, Typography } from 'antd';
 import { PageHeaderProps } from 'antd/es/page-header';
 import { UserOutlined } from '@ant-design/icons';
-import useWindowDimensions, { WindowTypes } from '../window-dimensions';
+import useWindowDimensions, { WindowTypes } from '../windowDimensions';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { connect, useSelector } from 'react-redux';
 import { C4CState } from '../../store';
