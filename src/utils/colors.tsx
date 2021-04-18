@@ -9,4 +9,5 @@ export const DARK_GREEN = '#3A681A';
 export const MID_GREEN = '#61802E';
 export const LIGHT_GREEN = '#9AC356';
 export const PALE_GREEN = '#E5EBDA';
+export const BACKGROUND_GREEN = '#D4EDAA';
 export const WHITE = '#FFFFFF';

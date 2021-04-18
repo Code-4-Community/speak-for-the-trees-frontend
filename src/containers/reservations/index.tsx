@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 import { Typography } from 'antd';
 import useWindowDimensions, {
   WindowTypes,
-} from '../../components/window-dimensions';
+} from '../../components/windowDimensions';
 import MobileMapPage from '../../components/mapPageComponents/mobileMapPage';
 import { C4CState } from '../../store';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';

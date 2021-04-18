@@ -1,12 +1,10 @@
 import React, { createRef, useEffect, useState } from 'react';
-import useWindowDimensions, { WindowTypes } from '../../window-dimensions';
+import useWindowDimensions, { WindowTypes } from '../../windowDimensions';
 import { Input, message } from 'antd';
 import { Loader } from '@googlemaps/js-api-loader';
 import styled from 'styled-components';
 import { BlockGeoData, NeighborhoodGeoData } from '../ducks/types';
-import ReservationModal, {
-  ReservationModalType,
-} from '../../../components/ReservationModal';
+import ReservationModal, { ReservationModalType } from '../../reservationModal';
 import protectedApiClient from '../../../api/protectedApiClient';
 
 const StyledSearch = styled(Input.Search)`
