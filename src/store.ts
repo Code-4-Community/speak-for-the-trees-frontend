@@ -36,18 +36,12 @@ import teamLeaderboardReducer, {
 import throttle from 'lodash/throttle';
 import AppAxiosInstance from './auth/axios';
 import { asyncRequestIsComplete } from './utils/asyncRequest';
-import { UserDataReducerState } from './containers/home/ducks/types';
-import { UserDataAction } from './containers/home/ducks/actions';
-import userDataReducer, {
-  initialUserDataState,
-} from './containers/home/ducks/reducer';
 
 export interface C4CState {
   authenticationState: UserAuthenticationReducerState;
   userLeaderboardState: UserLeaderboardReducerState;
   teamLeaderboardState: TeamLeaderboardReducerState;
   mapGeoDataState: MapGeoDataReducerState;
-  userDataState: UserDataReducerState;
 }
 
 export interface Action<T, P> {
@@ -59,8 +53,7 @@ export type C4CAction =
   | UserAuthenticationActions
   | MapActions
   | VolunteerLeaderboardItemAction
-  | TeamLeaderboardItemAction
-  | UserDataAction;
+  | TeamLeaderboardItemAction;
 
 export type ThunkExtraArgs = UserAuthenticationExtraArgs &
   ProtectedApiExtraArgs &
@@ -71,7 +64,6 @@ const reducers = combineReducers<C4CState, C4CAction>({
   userLeaderboardState: userLeaderboardReducer,
   teamLeaderboardState: teamLeaderboardReducer,
   mapGeoDataState: mapGeoDataReducer,
-  userDataState: userDataReducer,
 });
 
 export const initialStoreState: C4CState = {
@@ -79,7 +71,6 @@ export const initialStoreState: C4CState = {
   userLeaderboardState: initialUserLeaderboardState,
   teamLeaderboardState: initialTeamLeaderboardState,
   mapGeoDataState: initialMapGeoDataState,
-  userDataState: initialUserDataState,
 };
 
 export const LOCALSTORAGE_STATE_KEY: string = 'state';

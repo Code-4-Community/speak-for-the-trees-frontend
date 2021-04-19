@@ -3,7 +3,7 @@ import ProtectedApiClient, {
   AdminApiClientRoutes,
 } from '../protectedApiClient';
 import nock from 'nock';
-import { UserData } from '../../containers/home/ducks/types';
+import { UserData } from '../../auth/ducks/types';
 
 const BASE_URL = 'http://localhost';
 

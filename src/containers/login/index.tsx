@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { C4CState } from '../../store';
-import { login } from '../../auth/ducks/thunks';
+import { login, getUserData } from '../../auth/ducks/thunks';
 import {
   LoginRequest,
   PrivilegeLevel,
@@ -29,7 +29,6 @@ import {
   LOGIN_HEADER,
   LOGIN_TITLE,
 } from '../../assets/content';
-import { getUserData } from '../home/ducks/thunks';
 
 const { Paragraph } = Typography;
 
@@ -96,7 +95,7 @@ const MobileLoginAlert = styled(Alert)`
 
 type LoginProps = UserAuthenticationReducerState;
 
-const Login: React.FC<LoginProps> = ({ tokens }) => {
+const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -222,6 +221,7 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
 const mapStateToProps = (state: C4CState): LoginProps => {
   return {
     tokens: state.authenticationState.tokens,
+    userData: state.authenticationState.userData,
   };
 };
 

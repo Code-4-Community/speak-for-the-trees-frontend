@@ -4,14 +4,13 @@ import {
   PrivilegeLevel,
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
-import { UserDataReducerState } from '../../containers/home/ducks/types';
 import { Routes } from '../../App';
 import styled from 'styled-components';
 import { Avatar, Button, Dropdown, Menu, PageHeader, Typography } from 'antd';
 import { PageHeaderProps } from 'antd/es/page-header';
 import { UserOutlined } from '@ant-design/icons';
 import useWindowDimensions, { WindowTypes } from '../window-dimensions';
-import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { getPrivilegeLevel, getUserFullName } from '../../auth/ducks/selectors';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import MobileNavBar from '../mobileComponents/mobileNavBar';
@@ -23,7 +22,6 @@ import {
   WHITE,
 } from '../../utils/colors';
 import Logo from '../../assets/images/nav-bar-icon.png';
-import { getUserFullName } from '../../containers/home/ducks/selectors';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { logout } from '../../auth/ducks/thunks';
 
@@ -40,7 +38,7 @@ const FlexDiv = styled.div`
   display: flex;
 `;
 
-type NavBarProps = UserAuthenticationReducerState & UserDataReducerState;
+type NavBarProps = UserAuthenticationReducerState;
 
 const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
   const { windowType } = useWindowDimensions();
@@ -51,7 +49,7 @@ const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
     getPrivilegeLevel(state.authenticationState.tokens),
   );
   const userFullName = useSelector((state: C4CState) =>
-    getUserFullName(state.userDataState.userData),
+    getUserFullName(state.authenticationState.userData),
   );
 
   const isLoggedIn: boolean = privilegeLevel !== PrivilegeLevel.NONE;
@@ -142,7 +140,6 @@ const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
   const LoggedInExtra = () => {
     return (
       <FlexDiv>
-        {/* This needs to changed, not a constant */}
         <Paragraph style={{ margin: 'auto 20px auto 0' }}>
           {userFullName}
         </Paragraph>
@@ -182,7 +179,7 @@ const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
 const mapStateToProps = (state: C4CState): NavBarProps => {
   return {
     tokens: state.authenticationState.tokens,
-    userData: state.userDataState.userData,
+    userData: state.authenticationState.userData,
   };
 };
 

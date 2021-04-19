@@ -1,5 +1,5 @@
 import AppAxiosInstance from '../auth/axios';
-import { UserData } from '../containers/home/ducks/types';
+import { UserData } from '../auth/ducks/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;

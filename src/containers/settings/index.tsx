@@ -7,8 +7,8 @@ import styled from 'styled-components';
 import { MID_GREEN } from '../../utils/colors';
 import ProtectedApiClient from '../../api/protectedApiClient';
 import { C4CState } from '../../store';
-import { UserDataReducerState } from '../home/ducks/types';
-import { getUserEmail, getUserFullName } from '../home/ducks/selectors';
+import { UserAuthenticationReducerState } from '../../auth/ducks/types';
+import { getUserEmail, getUserFullName } from '../../auth/ducks/selectors';
 const { Paragraph } = Typography;
 
 const cSpan = 10;
@@ -42,14 +42,14 @@ const UserInformationText = styled(Paragraph)`
   font-size: 15px;
 `;
 
-type SettingsProps = UserDataReducerState;
+type SettingsProps = UserAuthenticationReducerState;
 
-const Settings: React.FC<SettingsProps> = (userData) => {
+const Settings: React.FC<SettingsProps> = ({ tokens, userData }) => {
   const userFullName = useSelector((state: C4CState) =>
-    getUserFullName(state.userDataState.userData),
+    getUserFullName(state.authenticationState.userData),
   );
   const userEmail = useSelector((state: C4CState) =>
-    getUserEmail(state.userDataState.userData),
+    getUserEmail(state.authenticationState.userData),
   );
 
   const onFinishChangePassword = (values: {
@@ -208,7 +208,8 @@ const Settings: React.FC<SettingsProps> = (userData) => {
 
 const mapStateToProps = (state: C4CState): SettingsProps => {
   return {
-    userData: state.userDataState.userData,
+    tokens: state.authenticationState.tokens,
+    userData: state.authenticationState.userData,
   };
 };
 

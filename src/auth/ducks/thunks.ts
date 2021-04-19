@@ -4,10 +4,12 @@ import {
   TokenPayload,
   UserAuthenticationThunkAction,
 } from './types';
-import { authenticateUser, logoutUser } from './actions';
+import { authenticateUser, logoutUser, userData } from './actions';
 import { C4CState, LOCALSTORAGE_STATE_KEY } from '../../store';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import AppAxiosInstance from '../axios';
+import { UserData } from './types';
+import Client from '../../api/protectedApiClient';
 
 export const login = (
   loginRequest: LoginRequest,
@@ -66,5 +68,18 @@ export const logout = (): UserAuthenticationThunkAction<void> => {
       dispatch(logoutUser.loaded());
       return Promise.resolve();
     }
+  };
+};
+
+export const getUserData = (): UserAuthenticationThunkAction<void> => {
+  return (dispatch, getState, { protectedApiClient }): Promise<void> => {
+    dispatch(userData.loading());
+    return Client.getUserData()
+      .then((response: UserData) => {
+        dispatch(userData.loaded(response));
+      })
+      .catch((error) => {
+        dispatch(userData.failed(error.response.data));
+      });
   };
 };

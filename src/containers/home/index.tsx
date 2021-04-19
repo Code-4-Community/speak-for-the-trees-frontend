@@ -8,10 +8,10 @@ import PageLayout from '../../components/pageLayout';
 import LinkCarousel from '../../components/linkCarousel';
 import HomeBackground from '../../assets/images/grey-logo.png';
 import { HOME_HEADER, HOME_TITLE } from '../../assets/content';
-import { getUserFirstName } from './ducks/selectors';
+import { getUserFirstName } from '../../auth/ducks/selectors';
 import { connect, useSelector } from 'react-redux';
 import { C4CState } from '../../store';
-import { UserDataReducerState } from './ducks/types';
+import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 
 const { Paragraph } = Typography;
 
@@ -28,11 +28,11 @@ const HomeContainer = styled.div`
   background: url(${HomeBackground}) no-repeat top right;
 `;
 
-type HomeProps = UserDataReducerState;
+type HomeProps = UserAuthenticationReducerState;
 
-const Home: React.FC<HomeProps> = (userData) => {
+const Home: React.FC<HomeProps> = ({ tokens, userData }) => {
   const userName = useSelector((state: C4CState) =>
-    getUserFirstName(state.userDataState.userData),
+    getUserFirstName(state.authenticationState.userData),
   );
 
   return (
@@ -62,7 +62,8 @@ const Home: React.FC<HomeProps> = (userData) => {
 
 const mapStateToProps = (state: C4CState): HomeProps => {
   return {
-    userData: state.userDataState.userData,
+    tokens: state.authenticationState.tokens,
+    userData: state.authenticationState.userData,
   };
 };
 
