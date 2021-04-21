@@ -12,7 +12,8 @@ import {
   FullWidthSpace,
   Gap,
 } from '../themedComponents';
-import useWindowDimensions, { WindowTypes } from '../windowDimensions';
+import { WindowTypes } from '../windowDimensions';
+import { FormInstance } from 'antd/es/form';
 
 const { Paragraph } = Typography;
 
@@ -24,18 +25,23 @@ const Footer: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
 `;
 
 interface SignupFormProps {
+  readonly formInstance: FormInstance;
   readonly onFinish: (values: SignupRequest) => void;
+  readonly windowType: WindowTypes;
 }
 
-const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
-  const { windowType } = useWindowDimensions();
-
+const SignupForm: React.FC<SignupFormProps> = ({
+  formInstance,
+  onFinish,
+  windowType,
+}) => {
   return (
     <>
-      <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish}>
+      <Form name="basic" form={formInstance} onFinish={onFinish}>
         <FullWidthSpace direction="vertical" size={1}>
           <FormRow>
             <FormHalfItem
+              name="firstName"
               rules={[
                 {
                   required: true,
@@ -68,10 +74,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onFinish }) => {
             name="email"
             rules={[
               { required: true, message: 'Please input your email!' },
-              {
-                pattern: /^\S+@\S+\.\S{2,}$/,
-                message: 'Not a valid email address',
-              },
+              { type: 'email', message: 'Not a valid email address' },
             ]}
           >
             <Input placeholder="Email" />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import { Alert, Col, Row, Typography } from 'antd';
+import { Alert, Col, Form, Row, Typography } from 'antd';
 import { Helmet } from 'react-helmet';
 import GreetingContainer from '../../components/greetingContainer';
 import { signup } from '../../auth/ducks/thunks';
@@ -88,6 +88,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
   const privilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
+  const [signupForm] = Form.useForm();
 
   if (privilegeLevel !== PrivilegeLevel.NONE) {
     const destination = location.state
@@ -124,7 +125,11 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                   {tokens.kind === AsyncRequestKinds.Failed && (
                     <MobileSignupAlert message={tokens.error} type="error" />
                   )}
-                  <SignupForm onFinish={onFinish} />
+                  <SignupForm
+                    formInstance={signupForm}
+                    onFinish={onFinish}
+                    windowType={windowType}
+                  />
                 </MobileSignupPageContainer>
               </>
             );
@@ -139,7 +144,11 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                     <TabletInputContainer>
                       <Title>{SIGNUP_TITLE}</Title>
                       <TabletLine />
-                      <SignupForm onFinish={onFinish} />
+                      <SignupForm
+                        formInstance={signupForm}
+                        onFinish={onFinish}
+                        windowType={windowType}
+                      />
                     </TabletInputContainer>
                   </CenterDiv>
 
@@ -169,7 +178,11 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                       <InputContainer span={11}>
                         <Title>{SIGNUP_TITLE}</Title>
                         <Line />
-                        <SignupForm onFinish={onFinish} />
+                        <SignupForm
+                          formInstance={signupForm}
+                          onFinish={onFinish}
+                          windowType={windowType}
+                        />
                       </InputContainer>
 
                       <Col span={2} />
