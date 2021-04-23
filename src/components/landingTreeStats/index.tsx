@@ -1,11 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Typography } from 'antd';
-import useWindowDimensions, { WindowTypes } from '../window-dimensions';
+import useWindowDimensions, { WindowTypes } from '../windowDimensions';
 import { TEXT_GREY, MID_GREEN } from '../../utils/colors';
 import MobileInfoCard from '../mobileComponents/mobileInfoCard';
 import InfoCard from '../infoCard';
 import { getMoneyString } from '../../utils/stringFormat';
+import {
+  MONEY_STAT_TITLE,
+  RAIN_STAT_TITLE,
+  EMISSIONS_STAT_TITLE,
+  STATS_HEADER,
+} from '../../assets/content';
 
 const TreeStatsContainer = styled.div`
   margin-top: 35px;
@@ -55,24 +61,24 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
     case WindowTypes.Mobile:
       return (
         <TreeStatsContainer>
-          <MobileTitle>Current Status of our Trees</MobileTitle>
+          <MobileTitle>{STATS_HEADER}</MobileTitle>
           <MobileMapCardsContainer>
             <RightMargin>
               <MobileInfoCard
-                header="Money Saved"
+                header={MONEY_STAT_TITLE}
                 body={getMoneyString(moneySaved)}
               />
             </RightMargin>
 
             <RightMargin>
               <MobileInfoCard
-                header="Rain Water Caught"
+                header={RAIN_STAT_TITLE}
                 body={`${rainWater.toLocaleString()} gallons`}
               />
             </RightMargin>
 
             <MobileInfoCard
-              header="Carbon Emissions"
+              header={EMISSIONS_STAT_TITLE}
               body={`${carbonEmissions}%`}
             />
           </MobileMapCardsContainer>
@@ -89,28 +95,26 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
     case WindowTypes.Desktop:
       return (
         <TreeStatsContainer>
-          <Typography.Title level={3}>
-            Current Status of our Trees
-          </Typography.Title>
+          <Typography.Title level={3}>{STATS_HEADER}</Typography.Title>
 
           <MapCardsContainer>
             <MapCard>
               <InfoCard
-                header="Money Saved"
+                header={MONEY_STAT_TITLE}
                 body={getMoneyString(moneySaved)}
               />
             </MapCard>
 
             <MapCard>
               <InfoCard
-                header="Rain Water Caught"
+                header={RAIN_STAT_TITLE}
                 body={`${rainWater.toLocaleString()} gallons`}
               />
             </MapCard>
 
             <MapCard>
               <InfoCard
-                header="Carbon Emissions"
+                header={EMISSIONS_STAT_TITLE}
                 body={`${carbonEmissions}%`}
               />
             </MapCard>

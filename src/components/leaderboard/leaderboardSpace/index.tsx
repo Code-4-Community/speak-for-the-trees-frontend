@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
-import { SpaceProps } from 'antd/lib/space/index';
 import { BLACK, LIGHT_GREEN } from '../../../utils/colors';
 import styled from 'styled-components';
-import { Collapse, Space, Typography } from 'antd';
+import { Collapse, Typography } from 'antd';
 import { TabItem } from '../types';
+import { FullWidthSpace } from '../../themedComponents';
 
 const { Panel } = Collapse;
 const { Paragraph } = Typography;
@@ -12,10 +12,6 @@ const { Paragraph } = Typography;
 interface LeaderboardStyleProps {
   large?: boolean;
 }
-
-const LeaderboardSpace = styled(Space)<SpaceProps>`
-  width: 100%;
-`;
 
 const LeaderboardCollapse = styled(Collapse)`
   background-color: ${LIGHT_GREEN}80;
@@ -65,7 +61,7 @@ const LeaderboardPanels: React.FC<LeaderboardSpaceProps> = ({
   );
 
   return (
-    <LeaderboardSpace direction="vertical" size={large ? 'large' : 'small'}>
+    <FullWidthSpace direction="vertical" size={large ? 'large' : 'small'}>
       {itemsOnPage.map((item) => (
         <LeaderboardCollapse bordered={true} key={item.name} large={large}>
           <Panel
@@ -90,7 +86,7 @@ const LeaderboardPanels: React.FC<LeaderboardSpaceProps> = ({
           </Panel>
         </LeaderboardCollapse>
       ))}
-    </LeaderboardSpace>
+    </FullWidthSpace>
   );
 };
 

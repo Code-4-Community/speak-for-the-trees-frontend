@@ -11,18 +11,23 @@ import {
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
-import { AsyncRequestKinds } from '../../utils/asyncRequest';
+import { asyncRequestIsFailed } from '../../utils/asyncRequest';
 import { RedirectStateProps, Routes } from '../../App';
 import { Alert, Col, Row, Typography } from 'antd';
 import styled from 'styled-components';
 import { BLACK, LIGHT_GREY, TEXT_GREY, WHITE } from '../../utils/colors';
+import {
+  CenterDiv,
+  InputContainer,
+  TabletPageContainer,
+} from '../../components/themedComponents';
 import GreetingContainer from '../../components/greetingContainer';
 import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
 import PageLayout from '../../components/pageLayout';
 import LoginForm from '../../components/loginForm';
 import useWindowDimensions, {
   WindowTypes,
-} from '../../components/window-dimensions';
+} from '../../components/windowDimensions';
 import {
   LOGIN_BODY,
   LOGIN_ERROR,
@@ -37,43 +42,37 @@ const LoginPageContainer = styled.div`
   width: 80vw;
 `;
 
-const TabletLoginPageContainer = styled.div`
-  padding: 90px 60px;
-`;
-
 const MobileLoginPageContainer = styled.div`
   padding: 30px;
 `;
 
-const CenterDiv = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const RightMargin = styled.div`
-  margin-right: 30px;
-`;
-
-const InputContainer = styled(Col)`
-  height: 481px;
-  min-width: 250px;
-  padding: 30px 20px 20px 50px;
+export const TabletInputContainer = styled.div`
+  height: 50vh;
+  width: 100%;
+  padding: 3vh 120px 0px 50px;
   background: ${LIGHT_GREY};
-  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.09);
+  box-shadow: 2px 3px 6px ${BLACK}25;
   border-radius: 6px;
+  overflow: scroll;
 `;
 
 const Line = styled.div`
   height: 2px;
-  margin: 10px -20px 80px -50px;
+  margin: 10px -120px 8vh -50px;
+  background: ${WHITE};
+`;
+
+const TabletLine = styled.div`
+  height: 2px;
+  margin: 10px -120px 4vh -50px;
   background: ${WHITE};
 `;
 
 const Footer = styled(Paragraph)`
   color: ${TEXT_GREY};
   line-height: 1.5;
-  margin-top: 40px;
-  margin-bottom: 10px;
+  margin-top: 1.5vh;
+  margin-bottom: -10px;
 `;
 
 const Title = styled(Paragraph)`
@@ -84,7 +83,6 @@ const Title = styled(Paragraph)`
 
 const LoginAlert = styled(Alert)`
   width: 90%;
-  margin-top: -60px;
   margin-bottom: 20px;
 `;
 
@@ -113,7 +111,7 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
     history.push(destination);
   }
 
-  const loginFailed: boolean = tokens.kind === AsyncRequestKinds.Failed;
+  const loginFailed: boolean = asyncRequestIsFailed(tokens);
 
   const onFinish = (values: LoginRequest) => {
     dispatch(login({ email: values.email, password: values.password }));
@@ -121,9 +119,7 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
 
   const ForgotPasswordFooter = (
     <div>
-      <Paragraph>
-        <Link to={Routes.FORGOT_PASSWORD_REQUEST}>FORGOT PASSWORD?</Link>
-      </Paragraph>
+      <Link to={Routes.FORGOT_PASSWORD_REQUEST}>FORGOT PASSWORD?</Link>
 
       <Footer>
         NEW TO SPEAK FOR THE TREES?
@@ -166,23 +162,31 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
             );
           case WindowTypes.Tablet:
             return (
-              <TabletLoginPageContainer>
-                <CenterDiv>
-                  <RightMargin>
-                    <InputContainer>
+              <PageLayout>
+                <TabletPageContainer>
+                  <CenterDiv>
+                    <TabletInputContainer>
                       <Title>{LOGIN_TITLE}</Title>
-                      <Line />
+                      <TabletLine />
                       {loginFailed && (
                         <LoginAlert message={LOGIN_ERROR} type="error" />
                       )}
                       <LoginForm onFinish={onFinish} />
                       {ForgotPasswordFooter}
-                    </InputContainer>
-                  </RightMargin>
+                    </TabletInputContainer>
+                  </CenterDiv>
 
-                  <GreetingContainer header={LOGIN_HEADER} body={LOGIN_BODY} />
-                </CenterDiv>
-              </TabletLoginPageContainer>
+                  <br />
+
+                  <CenterDiv>
+                    <GreetingContainer
+                      header={LOGIN_HEADER}
+                      body={LOGIN_BODY}
+                      height="30vh"
+                    />
+                  </CenterDiv>
+                </TabletPageContainer>
+              </PageLayout>
             );
           case WindowTypes.NarrowDesktop:
           case WindowTypes.Desktop:

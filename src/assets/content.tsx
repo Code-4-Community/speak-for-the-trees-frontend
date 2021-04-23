@@ -33,3 +33,9 @@ export const TEAM_LEADERBOARD_HEADER =
 export const RESERVATION_TITLE = 'My Blocks';
 export const RESERVATION_BODY =
   "Here are the blocks you can sign up to inventory and the ones you've reserved! Did you know that we take care of over 500 blocks of trees? We couldn't do it without you! ";
+
+// Tree Stats
+export const STATS_HEADER = 'Current Status of our Trees';
+export const MONEY_STAT_TITLE = 'Money Saved';
+export const RAIN_STAT_TITLE = 'Rain Water Caught';
+export const EMISSIONS_STAT_TITLE = 'Carbon Emissions Captured';
