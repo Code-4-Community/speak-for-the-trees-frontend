@@ -100,10 +100,6 @@ const loadStateFromLocalStorage = (): C4CState | undefined => {
       return undefined;
     }
     const state: C4CState = JSON.parse(serializedState);
-    if (asyncRequestIsComplete(state.authenticationState.tokens)) {
-      AppAxiosInstance.defaults.headers['X-Access-Token'] =
-        state.authenticationState.tokens.result.accessToken;
-    }
     return state;
   } catch (err) {
     return undefined;
@@ -141,13 +137,17 @@ const store: Store<C4CState, C4CAction> = createStore<
 store.subscribe(
   throttle(() => {
     const state: C4CState = store.getState();
+    if (asyncRequestIsComplete(state.authenticationState.tokens)) {
+      AppAxiosInstance.defaults.headers['X-Access-Token'] =
+        state.authenticationState.tokens.result.accessToken;
+    }
     try {
       const serializedState = JSON.stringify(state);
       localStorage.setItem(LOCALSTORAGE_STATE_KEY, serializedState);
     } catch {
       // ignore write errors
     }
-  }, 10000),
+  }, 1000),
 );
 
 export default store;
