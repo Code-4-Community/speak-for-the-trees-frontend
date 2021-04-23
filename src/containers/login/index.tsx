@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { C4CState } from '../../store';
-import { login } from '../../auth/ducks/thunks';
+import { login, getUserData } from '../../auth/ducks/thunks';
 import {
   LoginRequest,
   PrivilegeLevel,
@@ -93,7 +93,7 @@ const MobileLoginAlert = styled(Alert)`
 
 type LoginProps = UserAuthenticationReducerState;
 
-const Login: React.FC<LoginProps> = ({ tokens }) => {
+const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -107,6 +107,7 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
     : Routes.HOME;
 
   if (privilegeLevel !== PrivilegeLevel.NONE) {
+    dispatch(getUserData());
     history.push(destination);
   }
 
@@ -224,6 +225,7 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
 const mapStateToProps = (state: C4CState): LoginProps => {
   return {
     tokens: state.authenticationState.tokens,
+    userData: state.authenticationState.userData,
   };
 };
 

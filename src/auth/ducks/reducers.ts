@@ -1,5 +1,9 @@
-import { TokenPayload, UserAuthenticationReducerState } from './types';
-import { authenticateUser } from './actions';
+import {
+  TokenPayload,
+  UserAuthenticationReducerState,
+  UserData,
+} from './types';
+import { authenticateUser, userData } from './actions';
 import { C4CAction } from '../../store';
 import {
   ASYNC_REQUEST_FAILED_ACTION,
@@ -11,6 +15,7 @@ import {
 
 export const initialUserState: UserAuthenticationReducerState = {
   tokens: AsyncRequestNotStarted<TokenPayload, any>(),
+  userData: AsyncRequestNotStarted<UserData, any>(),
 };
 
 const userAuthenticationRequestReducer = generateAsyncRequestReducer<
@@ -18,6 +23,12 @@ const userAuthenticationRequestReducer = generateAsyncRequestReducer<
   TokenPayload,
   void
 >(authenticateUser.key);
+
+const userDataRequestReducer = generateAsyncRequestReducer<
+  UserAuthenticationReducerState,
+  UserData,
+  void
+>(userData.key);
 
 const reducers = (
   state: UserAuthenticationReducerState = initialUserState,
@@ -30,6 +41,7 @@ const reducers = (
       return {
         ...state,
         tokens: userAuthenticationRequestReducer(state.tokens, action),
+        userData: userDataRequestReducer(state.userData, action),
       };
     default:
       return state;

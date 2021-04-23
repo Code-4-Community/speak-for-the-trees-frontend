@@ -16,6 +16,10 @@ import { Routes } from '../../App';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
+import { getUserFirstName } from '../../auth/ducks/selectors';
+import { connect, useSelector } from 'react-redux';
+import { C4CState } from '../../store';
+import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 
 const { Paragraph } = Typography;
 
@@ -34,11 +38,13 @@ const HomeContainer = styled.div`
   background: url(${HomeBackground}) no-repeat top right;
 `;
 
-const Home: React.FC = () => {
-  const { windowType } = useWindowDimensions();
+type HomeProps = UserAuthenticationReducerState;
 
-  // TODO: connect to backend's userData route
-  const userName = 'Jack';
+const Home: React.FC<HomeProps> = ({ tokens, userData }) => {
+  const { windowType } = useWindowDimensions();
+  const userName = useSelector((state: C4CState) =>
+    getUserFirstName(state.authenticationState.userData),
+  );
   const greeting = `${HOME_TITLE}${userName}!`;
 
   const links: LinkCardProps[] = [
@@ -161,4 +167,11 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = (state: C4CState): HomeProps => {
+  return {
+    tokens: state.authenticationState.tokens,
+    userData: state.authenticationState.userData,
+  };
+};
+
+export default connect(mapStateToProps)(Home);
