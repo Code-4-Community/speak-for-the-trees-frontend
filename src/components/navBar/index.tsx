@@ -9,13 +9,14 @@ import styled from 'styled-components';
 import { Avatar, Button, Dropdown, Menu, PageHeader, Typography } from 'antd';
 import { PageHeaderProps } from 'antd/es/page-header';
 import { UserOutlined } from '@ant-design/icons';
-import useWindowDimensions, { WindowTypes } from '../window-dimensions';
+import useWindowDimensions, { WindowTypes } from '../windowDimensions';
 import { getPrivilegeLevel, getUserFullName } from '../../auth/ducks/selectors';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import MobileNavBar from '../mobileComponents/mobileNavBar';
 import {
   BACKGROUND_GREY,
+  BLACK,
   DARK_GREEN,
   LIGHT_GREEN,
   MID_GREEN,
@@ -38,6 +39,30 @@ const FlexDiv = styled.div`
   display: flex;
 `;
 
+const BackLogo = styled.img`
+  height: 40px;
+`;
+
+const LandingExtraContainer = styled.div`
+  padding-right: 3vw;
+`;
+
+const SignupButton = styled(Button)`
+  margin-right: 2vw;
+  background-color: ${LIGHT_GREEN},
+  border-color: ${LIGHT_GREEN};
+`;
+
+const LoginButton = styled(Button)`
+  background-color: ${WHITE};
+  border-color: ${WHITE};
+  color: ${BLACK};
+`;
+
+const GreenAvatar = styled(Avatar)`
+  background-color: ${DARK_GREEN};
+`;
+
 type NavBarProps = UserAuthenticationReducerState;
 
 const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
@@ -53,19 +78,6 @@ const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
   );
 
   const isLoggedIn: boolean = privilegeLevel !== PrivilegeLevel.NONE;
-
-  const BackIcon = () => {
-    return (
-      <img
-        className="back-icon"
-        src={Logo}
-        alt="icon"
-        style={{
-          height: '40px',
-        }}
-      />
-    );
-  };
 
   const HeaderTitle = (
     <Button type="text" onClick={() => history.push(Routes.HOME)}>
@@ -106,34 +118,24 @@ const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
 
   const LandingExtra = () => {
     return (
-      <div className="landing-extra" style={{ paddingRight: '3vw' }}>
-        <Button
+      <LandingExtraContainer>
+        <SignupButton
           type="primary"
           htmlType="submit"
           size={'large'}
-          style={{
-            backgroundColor: LIGHT_GREEN,
-            borderColor: LIGHT_GREEN,
-            margin: '0 2vw 0 0',
-          }}
           onClick={() => history.push(Routes.SIGNUP)}
         >
           Sign Up
-        </Button>
-        <Button
+        </SignupButton>
+        <LoginButton
           type="primary"
           htmlType="submit"
           size={'large'}
-          style={{
-            backgroundColor: WHITE,
-            borderColor: WHITE,
-            color: 'black',
-          }}
           onClick={() => history.push(Routes.LOGIN)}
         >
           Log In
-        </Button>
-      </div>
+        </LoginButton>
+      </LandingExtraContainer>
     );
   };
 
@@ -144,11 +146,7 @@ const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
           {userFullName}
         </Paragraph>
         <Dropdown overlay={menu} placement="bottomLeft">
-          <Avatar
-            size="large"
-            icon={<UserOutlined />}
-            style={{ backgroundColor: DARK_GREEN }}
-          />
+          <GreenAvatar size="large" icon={<UserOutlined />} />
         </Dropdown>
       </FlexDiv>
     );
@@ -163,9 +161,8 @@ const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
     case WindowTypes.Desktop:
       return (
         <NavHeader
-          className="page-header"
           title={HeaderTitle}
-          backIcon={<BackIcon />}
+          backIcon={<BackLogo src={Logo} alt="icon" />}
           onBack={() => history.push(Routes.HOME)}
           extra={isLoggedIn ? <LoggedInExtra /> : <LandingExtra />}
         />
