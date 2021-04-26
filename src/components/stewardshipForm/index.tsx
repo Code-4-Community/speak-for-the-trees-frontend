@@ -21,12 +21,19 @@ const StewardshipForm: React.FC = () => {
     'Cleared Waste & Litter',
   ];
 
+  const onFinishRecordStewardship = (values: {
+    activityDate: moment.Moment;
+    stewardshipActivities: string[];
+  }) => {
+    /*Placeholder */
+  };
+
   return (
     <>
-      <Form>
+      <Form name="recordStewardship" onFinish={onFinishRecordStewardship}>
         <ItemLabel>Activity Date</ItemLabel>
         <Form.Item
-          name="Activity Date"
+          name="activityDate"
           rules={[
             {
               required: true,
@@ -38,7 +45,7 @@ const StewardshipForm: React.FC = () => {
         </Form.Item>
         <ItemLabel>Stewardship Activites</ItemLabel>
         <Form.Item
-          name="Stewardship Activites"
+          name="stewardshipActivites"
           rules={[
             {
               required: true,
