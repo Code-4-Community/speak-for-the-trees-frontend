@@ -1,4 +1,4 @@
-import { FormInstance, Rule, RuleObject } from 'antd/es/form';
+import { FormInstance, Rule } from 'antd/es/form';
 
 export const enterEmailRules: Rule[] = [
   { required: true, message: 'Please input your email!' },
