@@ -207,6 +207,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
 const mapStateToProps = (state: C4CState): SignupProps => {
   return {
     tokens: state.authenticationState.tokens,
+    userData: state.authenticationState.userData,
   };
 };
 

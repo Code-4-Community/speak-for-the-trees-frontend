@@ -213,6 +213,7 @@ const App: React.FC = () => {
 const mapStateToProps = (state: C4CState): AppProps => {
   return {
     tokens: state.authenticationState.tokens,
+    userData: state.authenticationState.userData,
   };
 };
 
