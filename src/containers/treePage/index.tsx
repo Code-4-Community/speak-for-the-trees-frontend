@@ -120,10 +120,7 @@ const dummyTree: SiteProps = {
   zip: '02115',
   address: '100 Super Tree Way',
   entries: [{
-    id: 1,
-    username: 'Speak for the trees user',
     updatedAt: 100000000,
-    treePresent: true,
     status: 'good',
     genus: 'biggus treebus',
     species: 'larggeus',
@@ -148,8 +145,6 @@ const TreePage: React.FC<SiteProps> = ({
 }) => {
 
   const latestEntry: SiteEntry = entries[entries.length - 1];
-
-  const description = "Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer cronut pok pok gentrify flannel salvia deep v pork belly"
 
   return(
     <>
@@ -185,9 +180,6 @@ const TreePage: React.FC<SiteProps> = ({
                 <Title level={2}>
                   { address }
                 </Title>  
-                <Paragraph>
-                  { description }
-                </Paragraph>
                 <Button type="primary" size="large">
                   Adopt
                 </Button>  

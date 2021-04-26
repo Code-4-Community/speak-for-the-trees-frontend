@@ -20,7 +20,6 @@ const stewardshipOptions = ['Watered', 'Mulched', 'Weeded', 'Cleared Waste & Lit
   return (
     <>
       <Form>
-        {/* Use the half item and gap Sophie wrote for this styling once merged*/}
         <ItemLabel>
           Activity Date
         </ItemLabel>

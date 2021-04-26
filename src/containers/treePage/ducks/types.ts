@@ -10,10 +10,7 @@ export interface SiteProps {
 }
 
 export interface SiteEntry {
-  id: number;
-  username: string;
   updatedAt: number;
-  treePresent?: boolean;
   status?: string;
   genus?: string;
   species?: string;
@@ -53,10 +50,7 @@ export interface SiteEntry {
 }
 
 export const SiteEntryNames: Record<string, string> = {
-  id: 'Id',
-  username: 'Username',
   updatedAt: 'Updated At',
-  treePresent: 'Tree Present',
   status: 'Status',
   genus: 'Genus',
   species: 'Species',

@@ -90,11 +90,11 @@ const App: React.FC = () => {
                       <Route path={Routes.LANDING} exact component={Landing} />
                       <Route path={Routes.LOGIN} exact component={Login} />
                       <Route path={Routes.SIGNUP} exact component={Signup} />
+                      <Route path={Routes.TREE} exact component={TreePage} />
                       <AuthRedirect from={Routes.HOME} />
                       <AuthRedirect from={Routes.SETTINGS} />
                       <AuthRedirect from={Routes.VOLUNTEER} />
                       <AuthRedirect from={Routes.TEAM} />
-                      <AuthRedirect from={Routes.TREE} />
                       <AuthRedirect from={Routes.TEAM_LEADERBOARD} />
                       <AuthRedirect from={Routes.AVAILABLE_TEAMS} />
                       <AuthRedirect from={Routes.RESERVATIONS} />
