@@ -50,7 +50,7 @@ const TreeCareTitle = styled(Paragraph)`
   margin: 15px 15px 50px;
   font-size: 24px;
   font-weight: bold;
-  color: ${ DARK_GREEN }
+  color: ${DARK_GREEN};
 `;
 
 const TreeCareContainer = styled.div`
@@ -74,7 +74,7 @@ const EntryDate = styled(Paragraph)<TitleProps>`
   line-height: 0px;
   font-size: 18px;
   font-weight: bold;
-  color: ${ DARK_GREEN }
+  color: ${DARK_GREEN};
 `;
 
 const EntryMessage = styled(Paragraph)`
@@ -86,30 +86,30 @@ const EntryMessage = styled(Paragraph)`
 
 const dummyCare: TreeCare[] = [
   {
-    date: "March 28th",
-    message: "Was cleared of waste and weeded"
+    date: 'March 28th',
+    message: 'Was cleared of waste and weeded',
   },
   {
-    date: "March 27th",
-    message: "Was cleared of waste and weeded"
+    date: 'March 27th',
+    message: 'Was cleared of waste and weeded',
   },
   {
-    date: "March 26th",
-    message: "Was cleared of waste and weeded"
+    date: 'March 26th',
+    message: 'Was cleared of waste and weeded',
   },
   {
-    date: "March 25th",
-    message: "Was cleared of waste and weeded"
+    date: 'March 25th',
+    message: 'Was cleared of waste and weeded',
   },
   {
-    date: "March 24th",
-    message: "Was cleared of waste and weeded"
+    date: 'March 24th',
+    message: 'Was cleared of waste and weeded',
   },
   {
-    date: "March 23rd",
-    message: "Was cleared of waste and weeded"
+    date: 'March 23rd',
+    message: 'Was cleared of waste and weeded',
   },
-]
+];
 
 const dummyTree: SiteProps = {
   siteId: 1,
@@ -119,34 +119,32 @@ const dummyTree: SiteProps = {
   city: 'Boston',
   zip: '02115',
   address: '100 Super Tree Way',
-  entries: [{
-    updatedAt: 100000000,
-    status: 'good',
-    genus: 'biggus treebus',
-    species: 'larggeus',
-    commonName: 'large tree', 
-    confidence: 'good',
-    diameter: 1000000,
-    circumference: 3140000,
-    coverage: 'leaves',
-    discoloring: true,
-    pooling: false,
-    light: true,
-    bicycle: true,
-    fence: 'yes',
-    treeNotes: 'I think it looks pretty good',
-    siteNotes: 'dirty',
-  }]
+  entries: [
+    {
+      updatedAt: 100000000,
+      status: 'good',
+      genus: 'biggus treebus',
+      species: 'larggeus',
+      commonName: 'large tree',
+      confidence: 'good',
+      diameter: 1000000,
+      circumference: 3140000,
+      coverage: 'leaves',
+      discoloring: true,
+      pooling: false,
+      light: true,
+      bicycle: true,
+      fence: 'yes',
+      treeNotes: 'I think it looks pretty good',
+      siteNotes: 'dirty',
+    },
+  ],
 };
 
-const TreePage: React.FC<SiteProps> = ({
-  address,
-  entries
-}) => {
-
+const TreePage: React.FC<SiteProps> = ({ address, entries }) => {
   const latestEntry: SiteEntry = entries[entries.length - 1];
 
-  return(
+  return (
     <>
       <Helmet>
         <title>Tree</title>
@@ -156,85 +154,67 @@ const TreePage: React.FC<SiteProps> = ({
         />
       </Helmet>
       <PageLayout>
-        <TreePageContainer> 
+        <TreePageContainer>
           {/*Change to tree map route once that page is finished*/}
-          <ReturnButton to={Routes.HOME}> 
-              {`<`} Return to Tree Map
-          </ReturnButton> 
+          <ReturnButton to={Routes.HOME}>{`<`} Return to Tree Map</ReturnButton>
           <TreeMainContainer>
-          <Row>
-            <Col span={7}>
-              <TreeInfoContainer>
-                <TreeImage
-                  src={placeholder}
-                />
-              </TreeInfoContainer>
-            </Col>
-            <Col span={10}>
-              <TreeInfoContainer>
-                { latestEntry.commonName && 
-                  <PageHeader 
-                    pageTitle={ latestEntry.commonName }
-                  />
-                }
-                <Title level={2}>
-                  { address }
-                </Title>  
-                <Button type="primary" size="large">
-                  Adopt
-                </Button>  
-                <StewardshipContainer>
-                  <Title level={3}>Record Tree Care</Title>
-                  <StewardshipForm />
-                </StewardshipContainer>
-              </TreeInfoContainer>
-            </Col>
-            <Col span={7}>
-              <TreeCareContainer>   
-                <TreeCareTitle>
-                  Tree Care Activity
-                </TreeCareTitle>
-                {
-                  dummyCare.map((value: TreeCare) => {
+            <Row>
+              <Col span={7}>
+                <TreeInfoContainer>
+                  <TreeImage src={placeholder} />
+                </TreeInfoContainer>
+              </Col>
+              <Col span={10}>
+                <TreeInfoContainer>
+                  {latestEntry.commonName && (
+                    <PageHeader pageTitle={latestEntry.commonName} />
+                  )}
+                  <Title level={2}>{address}</Title>
+                  <Button type="primary" size="large">
+                    Adopt
+                  </Button>
+                  <StewardshipContainer>
+                    <Title level={3}>Record Tree Care</Title>
+                    <StewardshipForm />
+                  </StewardshipContainer>
+                </TreeInfoContainer>
+              </Col>
+              <Col span={7}>
+                <TreeCareContainer>
+                  <TreeCareTitle>Tree Care Activity</TreeCareTitle>
+                  {dummyCare.map((value: TreeCare, key) => {
                     return (
-                      <CareEntry>
-                        <EntryDate>
-                          {value.date}
-                        </EntryDate>
+                      <CareEntry key={key}>
+                        <EntryDate>{value.date}</EntryDate>
                         <Gap />
-                        <EntryMessage>
-                          {value.message}
-                        </EntryMessage>
+                        <EntryMessage>{value.message}</EntryMessage>
                       </CareEntry>
-                    )
-                  })
-                }
-              </TreeCareContainer>
-            </Col>
+                    );
+                  })}
+                </TreeCareContainer>
+              </Col>
             </Row>
           </TreeMainContainer>
           <Row>
             <EntrySpace>
-              {
-                Object.entries(latestEntry).map(([key, value]) => {
-                  return (
-                    <StyledCard>
-                      <Title level={3}>{ SiteEntryNames[key] }</Title>
-                      <EntryMessage>{ value.toString() }</EntryMessage>
-                    </StyledCard>
-                  )
-                })
-              }
-            </EntrySpace> 
+              {Object.entries(latestEntry).map(([key, value]) => {
+                return (
+                  <StyledCard key={key}>
+                    <Title level={3}>{SiteEntryNames[key]}</Title>
+                    <EntryMessage>{value.toString()}</EntryMessage>
+                  </StyledCard>
+                );
+              })}
+            </EntrySpace>
           </Row>
         </TreePageContainer>
       </PageLayout>
     </>
-  ); 
-}
+  );
+};
 
 const mapStateToProps = (): SiteProps => {
-  return dummyTree
+  return dummyTree;
 };
 
 export default connect(mapStateToProps)(TreePage);

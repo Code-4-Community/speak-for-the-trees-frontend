@@ -14,15 +14,17 @@ const TreeDatePicker = styled(DatePicker)`
 `;
 
 const StewardshipForm: React.FC = () => {
+  const stewardshipOptions = [
+    'Watered',
+    'Mulched',
+    'Weeded',
+    'Cleared Waste & Litter',
+  ];
 
-const stewardshipOptions = ['Watered', 'Mulched', 'Weeded', 'Cleared Waste & Litter'];
-  
   return (
     <>
       <Form>
-        <ItemLabel>
-          Activity Date
-        </ItemLabel>
+        <ItemLabel>Activity Date</ItemLabel>
         <Form.Item
           name="Activity Date"
           rules={[
@@ -34,9 +36,7 @@ const stewardshipOptions = ['Watered', 'Mulched', 'Weeded', 'Cleared Waste & Lit
         >
           <TreeDatePicker defaultValue={moment()} format={'MM/DD/YYYY'} />
         </Form.Item>
-        <ItemLabel>
-          Stewardship Activites
-        </ItemLabel>
+        <ItemLabel>Stewardship Activites</ItemLabel>
         <Form.Item
           name="Stewardship Activites"
           rules={[
@@ -53,10 +53,9 @@ const stewardshipOptions = ['Watered', 'Mulched', 'Weeded', 'Cleared Waste & Lit
             Submit
           </Button>
         </Form.Item>
-      </Form>  
+      </Form>
     </>
   );
-
-}
+};
 
 export default StewardshipForm;

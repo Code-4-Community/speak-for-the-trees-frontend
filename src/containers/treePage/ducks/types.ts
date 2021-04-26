@@ -87,9 +87,9 @@ export const SiteEntryNames: Record<string, string> = {
   stump: 'Stump',
   treeNotes: 'Tree Notes',
   siteNotes: 'Site Notes',
-} 
+};
 
 export interface TreeCare {
-  date: string,
-  message: string,
+  date: string;
+  message: string;
 }
