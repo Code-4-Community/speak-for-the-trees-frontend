@@ -14,6 +14,14 @@ import {
 } from '../themedComponents';
 import { WindowTypes } from '../windowDimensions';
 import { FormInstance } from 'antd/es/form';
+import {
+  confirmPasswordRules,
+  enterEmailRules,
+  firstNameRules,
+  lastNameRules,
+  newPasswordRules,
+  usernameRules,
+} from '../../utils/formRules';
 
 const { Paragraph } = Typography;
 
@@ -40,75 +48,27 @@ const SignupForm: React.FC<SignupFormProps> = ({
       <Form name="basic" form={formInstance} onFinish={onFinish}>
         <FullWidthSpace direction="vertical" size={1}>
           <FormRow>
-            <FormHalfItem
-              name="firstName"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your first name!',
-                },
-              ]}
-            >
+            <FormHalfItem name="firstName" rules={firstNameRules}>
               <Input placeholder="First Name" />
             </FormHalfItem>
             <Gap />
-            <FormHalfItem
-              name="lastName"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your last name!',
-                },
-              ]}
-            >
+            <FormHalfItem name="lastName" rules={lastNameRules}>
               <Input placeholder="Last Name" />
             </FormHalfItem>
           </FormRow>
-          <Form.Item
-            name="username"
-            rules={[{ required: true, message: 'Please enter a username!' }]}
-          >
+          <Form.Item name="username" rules={usernameRules}>
             <Input placeholder="Username" />
           </Form.Item>
-          <Form.Item
-            name="email"
-            rules={[
-              { required: true, message: 'Please input your email!' },
-              { type: 'email', message: 'Not a valid email address' },
-            ]}
-          >
+          <Form.Item name="email" rules={enterEmailRules}>
             <Input placeholder="Email" />
           </Form.Item>
-          <Form.Item
-            name="password"
-            rules={[
-              { required: true, message: 'Please enter a password!' },
-              {
-                min: 8,
-                message: 'Password must be at least 8 characters long',
-              },
-            ]}
-          >
+          <Form.Item name="password" rules={newPasswordRules}>
             <Input.Password placeholder="Password" />
           </Form.Item>
           <Form.Item
             name="confirmPassword"
             dependencies={['password']}
-            rules={[
-              {
-                required: true,
-                message: 'Please confirm your password!',
-              },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  const password = getFieldValue('password');
-                  if (value && password !== value) {
-                    return Promise.reject('Passwords do not match');
-                  }
-                  return Promise.resolve();
-                },
-              }),
-            ]}
+            rules={confirmPasswordRules(formInstance)}
           >
             <Input.Password placeholder="Confirm Password" />
           </Form.Item>

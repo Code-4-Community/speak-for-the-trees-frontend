@@ -4,7 +4,8 @@ import { Button, Form, Input } from 'antd';
 import styled from 'styled-components';
 import { WindowTypes } from '../windowDimensions';
 import { FormHalfItem, FormRow, Gap } from '../themedComponents';
-import { FormInstance, Rule } from 'antd/es/form';
+import { FormInstance } from 'antd/es/form';
+import { enterEmailRules, loginPasswordRules } from '../../utils/formRules';
 
 interface LoginFormProps {
   readonly formInstance: FormInstance;
@@ -21,18 +22,6 @@ const StyledFormItem = styled(Form.Item)`
   margin-bottom: 10px;
 `;
 
-const emailRules: Rule[] = [
-  { required: true, message: 'Please input your email!' },
-  { type: 'email', message: 'Not a valid email address' },
-];
-
-const passwordRules: Rule[] = [
-  {
-    required: true,
-    message: 'Please input your password!',
-  },
-];
-
 const LoginForm: React.FC<LoginFormProps> = ({
   formInstance,
   onFinish,
@@ -47,10 +36,10 @@ const LoginForm: React.FC<LoginFormProps> = ({
             case WindowTypes.Tablet:
               return (
                 <>
-                  <Form.Item name="email" rules={emailRules}>
+                  <Form.Item name="email" rules={enterEmailRules}>
                     <Input placeholder="Email" />
                   </Form.Item>
-                  <Form.Item name="password" rules={passwordRules}>
+                  <Form.Item name="password" rules={loginPasswordRules}>
                     <Input.Password placeholder="Password" />
                   </Form.Item>
 
@@ -66,11 +55,11 @@ const LoginForm: React.FC<LoginFormProps> = ({
               return (
                 <>
                   <FormRow>
-                    <FormHalfItem name="email" rules={emailRules}>
+                    <FormHalfItem name="email" rules={enterEmailRules}>
                       <Input placeholder="Email" />
                     </FormHalfItem>
                     <Gap />
-                    <FormHalfItem name="password" rules={passwordRules}>
+                    <FormHalfItem name="password" rules={loginPasswordRules}>
                       <Input.Password placeholder="Password" />
                     </FormHalfItem>
                   </FormRow>
