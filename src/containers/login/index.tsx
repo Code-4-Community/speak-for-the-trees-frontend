@@ -13,7 +13,7 @@ import {
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { asyncRequestIsFailed } from '../../utils/asyncRequest';
 import { RedirectStateProps, Routes } from '../../App';
-import { Alert, Col, Row, Typography } from 'antd';
+import { Alert, Col, Form, Row, Typography } from 'antd';
 import styled from 'styled-components';
 import { BLACK, LIGHT_GREY, TEXT_GREY, WHITE } from '../../utils/colors';
 import {
@@ -101,6 +101,7 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
   const privilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
+  const [loginForm] = Form.useForm();
 
   const destination: Routes = location.state
     ? location.state.destination
@@ -156,7 +157,11 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
                 {loginFailed && (
                   <MobileLoginAlert message={LOGIN_ERROR} type="error" />
                 )}
-                <LoginForm onFinish={onFinish} />
+                <LoginForm
+                  formInstance={loginForm}
+                  onFinish={onFinish}
+                  windowType={windowType}
+                />
                 {ForgotPasswordFooter}
               </MobileLoginPageContainer>
             );
@@ -171,7 +176,11 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
                       {loginFailed && (
                         <LoginAlert message={LOGIN_ERROR} type="error" />
                       )}
-                      <LoginForm onFinish={onFinish} />
+                      <LoginForm
+                        formInstance={loginForm}
+                        onFinish={onFinish}
+                        windowType={windowType}
+                      />
                       {ForgotPasswordFooter}
                     </TabletInputContainer>
                   </CenterDiv>
@@ -200,7 +209,11 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
                       {loginFailed && (
                         <LoginAlert message={LOGIN_ERROR} type="error" />
                       )}
-                      <LoginForm onFinish={onFinish} />
+                      <LoginForm
+                        formInstance={loginForm}
+                        onFinish={onFinish}
+                        windowType={windowType}
+                      />
                       {ForgotPasswordFooter}
                     </InputContainer>
 
