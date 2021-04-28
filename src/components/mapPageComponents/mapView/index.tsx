@@ -82,16 +82,16 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
   // This KeyValuePair array that stores names to be shortHand-ed.
   // To add a new area, wrap a key value pair with {}.
 
-  const shortHandNames: KeyValuePair[] = [
-    { key: 'North End', value: 'NE' },
-    { key: 'West End', value: 'WE' },
-    { key: 'Leather District', value: 'LD' },
-    { key: 'Beacon Hill', value: 'BH' },
-    { key: 'Back Bay', value: 'BB' },
-    { key: 'Downtown', value: 'DT' },
-    { key: 'Chinatown', value: 'CT' },
-    { key: 'Bay Village', value: 'BV' },
-  ];
+  const shortHandNames: {[fullName: string] : string} = {
+    'North End': 'NE',
+    'West End': 'WE',
+    'Leather District': 'LD',
+    'Beacon Hill': 'BH',
+    'Back Bay': 'BB',
+    'Downtown': 'DT',
+    'Chinatown': 'CT',
+    'Bay Village': 'BV',
+  };
 
   useEffect(() => {
     const mapElement = mapRef.current;
@@ -193,14 +193,9 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
         const neighborhoodsLayer = new google.maps.Data({ map });
 
         // Function: Returns name in shortHand
-        function shortHand(name: string): string {
-          for (const shName of shortHandNames) {
-            if (shName.key === name) {
-              return shName.value;
-            }
-          }
-          return name;
-        }
+        function shortHand(name:string, shortHandNames:{ [key:string]: string }) {
+          return shortHandNames[name] || name
+      }
 
         // Loads the objects into the layer
         neighborhoodsLayer.addGeoJson(neighborhoods);
@@ -214,7 +209,7 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
             label: {
               color: 'white',
               fontWeight: 'bold',
-              text: shortHand(feature.getProperty('name')),
+              text: shortHand(feature.getProperty('name'), shortHandNames),
             },
             // Removed the icon here, only text on map.
             icon: {
