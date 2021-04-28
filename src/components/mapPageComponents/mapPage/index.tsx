@@ -4,7 +4,7 @@ import MapView from '../mapView';
 import PageLayout from '../../pageLayout';
 import { Layout } from 'antd';
 import styled from 'styled-components';
-import { BlockGeoData, NeighborhoodGeoData } from '../ducks/types';
+import { BlockGeoData, NeighborhoodGeoData, SiteGeoData } from '../ducks/types';
 
 const { Content, Sider } = Layout;
 
@@ -15,6 +15,7 @@ const MainContent = styled.div`
 type MapPageProps = {
   readonly blocks: BlockGeoData;
   readonly neighborhoods: NeighborhoodGeoData;
+  readonly sites: SiteGeoData;
   readonly sidebarHeader: string;
   readonly sidebarDescription: string;
 };
@@ -22,6 +23,7 @@ type MapPageProps = {
 const MapPage: React.FC<MapPageProps> = ({
   blocks,
   neighborhoods,
+  sites,
   sidebarHeader,
   sidebarDescription,
   children,
@@ -30,7 +32,11 @@ const MapPage: React.FC<MapPageProps> = ({
     <MainContent>
       <PageLayout>
         <Content>
-          <MapView blocks={blocks} neighborhoods={neighborhoods} />
+          <MapView
+            blocks={blocks}
+            neighborhoods={neighborhoods}
+            sites={sites}
+          />
         </Content>
         <Sider width="20vw">
           <MapSidebar header={sidebarHeader} description={sidebarDescription}>

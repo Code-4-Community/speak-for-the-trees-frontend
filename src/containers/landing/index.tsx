@@ -18,12 +18,14 @@ import { C4CState } from '../../store';
 interface LandingProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly blocks: MapGeoDataReducerState['blockGeoData'];
+  readonly sites: MapGeoDataReducerState['siteGeoData'];
 }
 
 const mapStateToProps = (state: C4CState): LandingProps => {
   return {
     neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
     blocks: state.mapGeoDataState.blockGeoData,
+    sites: state.mapGeoDataState.siteGeoData,
   };
 };
 
@@ -31,7 +33,7 @@ const PaddedContent = styled.div`
   padding: 24px 50px;
 `;
 
-const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
+const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks, sites }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -56,10 +58,12 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
             />
           </Helmet>
           {asyncRequestIsComplete(blocks) &&
-            asyncRequestIsComplete(neighborhoods) && (
+            asyncRequestIsComplete(neighborhoods) &&
+            asyncRequestIsComplete(sites) && (
               <MobileMapPage
                 neighborhoods={neighborhoods.result}
                 blocks={blocks.result}
+                sites={sites.result}
               >
                 <PaddedContent>
                   <MobileLandingBar
@@ -91,10 +95,12 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, blocks }) => {
             />
           </Helmet>
           {asyncRequestIsComplete(blocks) &&
-            asyncRequestIsComplete(neighborhoods) && (
+            asyncRequestIsComplete(neighborhoods) &&
+            asyncRequestIsComplete(sites) && (
               <MapPage
                 neighborhoods={neighborhoods.result}
                 blocks={blocks.result}
+                sites={sites.result}
                 sidebarHeader={LANDING_TITLE}
                 sidebarDescription={LANDING_BODY}
               >

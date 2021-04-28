@@ -46,11 +46,37 @@ interface NeighborhoodFeaturePropertiesResponse {
   lng: number;
 }
 
+// ---------------------------------Sites----------------------------------------
+
+export interface SiteGeoData {
+  type: string;
+  name: string;
+  features: SiteFeatureResponse[];
+}
+
+interface SiteFeatureResponse {
+  type: string;
+  properties: SiteFeaturePropertiesResponse;
+  geometry: MapGeometry;
+}
+
+interface SiteFeaturePropertiesResponse {
+  id: number;
+  treePresent: boolean;
+  diameter: number;
+  species: string;
+  updatedAt: string;
+  updatedBy: string;
+  address: string;
+  lat: number;
+  lng: number;
+}
+
 // ---------------------------------Shared Types----------------------------------------
 
 interface MapGeometry {
   type: string;
-  coordinates: Coordinate[][][];
+  coordinates: Coordinate[][][] | Coordinate;
 }
 
 type Coordinate = [number, number];
@@ -58,6 +84,7 @@ type Coordinate = [number, number];
 export interface MapGeoDataReducerState {
   readonly blockGeoData: AsyncRequest<BlockGeoData, any>;
   readonly neighborhoodGeoData: AsyncRequest<NeighborhoodGeoData, any>;
+  readonly siteGeoData: AsyncRequest<SiteGeoData, any>;
 }
 
 export type MapGeoDataThunkAction<R> = ThunkAction<
