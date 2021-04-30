@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Button, Form, Checkbox, Typography, DatePicker } from 'antd';
 import styled from 'styled-components';
+import { activitiesDateRules, activitiesRules } from '../../utils/formRules';
 
 const { Paragraph } = Typography;
 
@@ -34,24 +35,14 @@ const StewardshipForm: React.FC = () => {
         <ItemLabel>Activity Date</ItemLabel>
         <Form.Item
           name="activityDate"
-          rules={[
-            {
-              required: true,
-              message: 'Please input the date of the activity!',
-            },
-          ]}
+          rules={ activitiesDateRules }
         >
           <TreeDatePicker defaultValue={moment()} format={'MM/DD/YYYY'} />
         </Form.Item>
         <ItemLabel>Stewardship Activites</ItemLabel>
         <Form.Item
           name="stewardshipActivites"
-          rules={[
-            {
-              required: true,
-              message: 'Please select at least one activity',
-            },
-          ]}
+          rules={ activitiesRules } 
         >
           <Checkbox.Group options={stewardshipOptions} />
         </Form.Item>

@@ -8,7 +8,6 @@ import { SiteProps, SiteEntry, TreeCare, SiteEntryNames } from './ducks/types';
 import PageHeader from '../../components/pageHeader';
 import { TitleProps } from 'antd/lib/typography/Title';
 import StewardshipForm from '../../components/stewardshipForm';
-import placeholder from '../../assets/images/placeholder.png';
 import { connect } from 'react-redux';
 import { LIGHT_GREY, DARK_GREEN, TEXT_GREY } from '../../utils/colors';
 import { Gap } from '../../components/themedComponents';
@@ -159,12 +158,7 @@ const TreePage: React.FC<SiteProps> = ({ address, entries }) => {
           <ReturnButton to={Routes.HOME}>{`<`} Return to Tree Map</ReturnButton>
           <TreeMainContainer>
             <Row>
-              <Col span={7}>
-                <TreeInfoContainer>
-                  <TreeImage src={placeholder} />
-                </TreeInfoContainer>
-              </Col>
-              <Col span={10}>
+              <Col span={17}>
                 <TreeInfoContainer>
                   {latestEntry.commonName && (
                     <PageHeader pageTitle={latestEntry.commonName} />
