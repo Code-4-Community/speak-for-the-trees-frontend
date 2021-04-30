@@ -43,18 +43,20 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
   // block id for modal
   const [activeBlockId, setActiveBlockId] = useState<number>(-1);
   // logic for reservation modal to complete action selected by user
-  const handleOk = (): void => {
+  const handleOk = (team?: number) => {
+    //check if team defined, if not throw error
     setShowModal(false);
     switch (reservationType) {
       case ReservationModalType.OPEN:
         // set block status to reserved
-        protectedApiClient.makeReservation(activeBlockId);
+        protectedApiClient.makeReservation(activeBlockId, team);
         break;
       case ReservationModalType.RESERVED:
         // set block status to open
+        protectedApiClient.releaseReservation(activeBlockId);
         break;
       default:
-        // block clicked not owned/open
+        // block clicked not owned/open so do nothing
         break;
     }
   };
