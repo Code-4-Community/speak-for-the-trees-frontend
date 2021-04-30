@@ -10,8 +10,8 @@ import { Helmet } from 'react-helmet';
 import {
   PrivilegeLevel,
   UserAuthenticationReducerState,
-} from '../src/auth/ducks/types';
-import { getPrivilegeLevel } from '../src/auth/ducks/selectors';
+} from './auth/ducks/types';
+import { getPrivilegeLevel } from './auth/ducks/selectors';
 import { C4CState } from './store';
 
 import styled from 'styled-components';
@@ -21,6 +21,7 @@ import VolunteerLeaderboard from './containers/volunteerLeaderboard';
 import TeamLeaderboard from './containers/teamLeaderboard';
 import TeamPage from './containers/teamPage';
 import AvailableTeams from './containers/availableTeams';
+import TreePage from './containers/treePage';
 import { Layout } from 'antd';
 import Home from './containers/home';
 import Signup from './containers/signup';
@@ -28,6 +29,10 @@ import Login from './containers/login';
 import Settings from './containers/settings';
 import NotFound from './containers/notFound';
 import NavBar from './components/navBar';
+import Reservations from './containers/reservations';
+import ForgotPassword from './containers/forgotPassword';
+import ForgotPasswordReset from './containers/forgotPasswordReset';
+import AuthRedirect from './components/authRedirect';
 
 const { Content } = Layout;
 
@@ -44,11 +49,19 @@ export enum Routes {
   HOME = '/home',
   SETTINGS = '/settings',
   VOLUNTEER = '/volunteer',
-  TEAM = '/team:id',
+  TEAM = '/team/:id',
+  TREE = '/tree/:id',
   TEAM_LEADERBOARD = '/team-leaderboard',
-  ADMIN = '/admin',
+  RESERVATIONS = '/reservations',
   AVAILABLE_TEAMS = '/available',
+  ADMIN = '/admin',
+  FORGOT_PASSWORD_REQUEST = '/forgot-password',
+  FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
   NOT_FOUND = '*',
+}
+
+export interface RedirectStateProps {
+  readonly destination: Routes;
 }
 
 const App: React.FC = () => {
@@ -77,24 +90,25 @@ const App: React.FC = () => {
                       <Route path={Routes.LANDING} exact component={Landing} />
                       <Route path={Routes.LOGIN} exact component={Login} />
                       <Route path={Routes.SIGNUP} exact component={Signup} />
-                      <Route path={Routes.HOME}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.SETTINGS}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.VOLUNTEER}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.TEAM_LEADERBOARD}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.AVAILABLE_TEAMS}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
-                      <Route path={Routes.ADMIN}>
-                        <Redirect to={Routes.LOGIN} />
-                      </Route>
+                      <Route path={Routes.TREE} exact component={TreePage} />
+                      <AuthRedirect from={Routes.HOME} />
+                      <AuthRedirect from={Routes.SETTINGS} />
+                      <AuthRedirect from={Routes.VOLUNTEER} />
+                      <AuthRedirect from={Routes.TEAM} />
+                      <AuthRedirect from={Routes.TEAM_LEADERBOARD} />
+                      <AuthRedirect from={Routes.AVAILABLE_TEAMS} />
+                      <AuthRedirect from={Routes.RESERVATIONS} />
+                      <AuthRedirect from={Routes.ADMIN} />
+                      <Route
+                        path={Routes.FORGOT_PASSWORD_REQUEST}
+                        exact
+                        component={ForgotPassword}
+                      />
+                      <Route
+                        path={Routes.FORGOT_PASSWORD_RESET}
+                        exact
+                        component={ForgotPasswordReset}
+                      />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact
@@ -107,12 +121,8 @@ const App: React.FC = () => {
                   return (
                     <Switch>
                       <Route path={Routes.LANDING} exact component={Landing} />
-                      <Route path={Routes.LOGIN}>
-                        <Redirect to={Routes.HOME} />
-                      </Route>
-                      <Route path={Routes.SIGNUP}>
-                        <Redirect to={Routes.HOME} />
-                      </Route>
+                      <Route path={Routes.LOGIN} exact component={Login} />
+                      <Route path={Routes.SIGNUP} exact component={Signup} />
                       <Route path={Routes.HOME} exact component={Home} />
                       <Route
                         path={Routes.SETTINGS}
@@ -124,7 +134,6 @@ const App: React.FC = () => {
                         exact
                         component={VolunteerLeaderboard}
                       />
-                      <Route path={Routes.TEAM} exact component={TeamPage} />
                       <Route
                         path={Routes.TEAM_LEADERBOARD}
                         exact
@@ -135,9 +144,14 @@ const App: React.FC = () => {
                         exact
                         component={AvailableTeams}
                       />
-                      <Route path={Routes.ADMIN}>
-                        <Redirect to={Routes.HOME} />
-                      </Route>
+                      <Route
+                        path={Routes.RESERVATIONS}
+                        exact
+                        component={Reservations}
+                      />
+                      <Redirect from={Routes.ADMIN} to={Routes.HOME} />
+                      <Route path={Routes.TEAM} exact component={TeamPage} />
+                      <Route path={Routes.TREE} exact component={TreePage} />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact
@@ -150,12 +164,8 @@ const App: React.FC = () => {
                   return (
                     <Switch>
                       <Route path={Routes.LANDING} exact component={Landing} />
-                      <Route path={Routes.LOGIN}>
-                        <Redirect to={Routes.HOME} />
-                      </Route>
-                      <Route path={Routes.SIGNUP}>
-                        <Redirect to={Routes.HOME} />
-                      </Route>
+                      <Route path={Routes.LOGIN} exact component={Login} />
+                      <Route path={Routes.SIGNUP} exact component={Signup} />
                       <Route path={Routes.HOME} exact component={Home} />
                       <Route
                         path={Routes.SETTINGS}
@@ -167,7 +177,6 @@ const App: React.FC = () => {
                         exact
                         component={VolunteerLeaderboard}
                       />
-                      <Route path={Routes.TEAM} exact component={TeamPage} />
                       <Route
                         path={Routes.TEAM_LEADERBOARD}
                         exact
@@ -179,10 +188,17 @@ const App: React.FC = () => {
                         component={AvailableTeams}
                       />
                       <Route
+                        path={Routes.RESERVATIONS}
+                        exact
+                        component={Reservations}
+                      />
+                      <Route
                         path={Routes.ADMIN}
                         exact
                         component={AdminDashboard}
                       />
+                      <Route path={Routes.TEAM} exact component={TeamPage} />
+                      <Route path={Routes.TREE} exact component={TreePage} />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact
@@ -202,6 +218,7 @@ const App: React.FC = () => {
 const mapStateToProps = (state: C4CState): AppProps => {
   return {
     tokens: state.authenticationState.tokens,
+    userData: state.authenticationState.userData,
   };
 };
 

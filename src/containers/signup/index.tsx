@@ -1,6 +1,7 @@
 import React from 'react';
+import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import { Alert, Col, Row, Typography } from 'antd';
+import { Alert, Col, Form, Row, Typography } from 'antd';
 import { Helmet } from 'react-helmet';
 import GreetingContainer from '../../components/greetingContainer';
 import { signup } from '../../auth/ducks/thunks';
@@ -13,59 +14,59 @@ import {
 import { C4CState } from '../../store';
 import { BLACK, LIGHT_GREY, WHITE } from '../../utils/colors';
 import styled from 'styled-components';
+import {
+  CenterDiv,
+  InputContainer,
+  TabletPageContainer,
+} from '../../components/themedComponents';
 import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
 import SignupForm from '../../components/signupForm';
 import useWindowDimensions, {
   WindowTypes,
-} from '../../components/window-dimensions';
+} from '../../components/windowDimensions';
+import PageLayout from '../../components/pageLayout';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
-import { Routes } from '../../App';
+import { RedirectStateProps, Routes } from '../../App';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { SIGNUP_BODY, SIGNUP_HEADER, SIGNUP_TITLE } from '../../assets/content';
 
-const { Title } = Typography;
-
-const containerHeight = '525px';
-const greetingHeader = 'Welcome Back!';
-const greetingBody =
-  'Dreamcatcher kogi taiyaki keytar. Swag typewriter craft beer\n' +
-  'cronut pok pok gentrify flannel salvia deep v pork belly\n' +
-  'pitchfork. Swag fashion axe fam. Occupy biodiesel jean shorts\n' +
-  'affogato PBR&B freegan bushwick vegan four loko pickled.';
+const { Paragraph } = Typography;
 
 const SignupPageContainer = styled.div`
-  padding: 120px;
-`;
-
-const TabletSignupPageContainer = styled.div`
-  padding: 90px 60px;
+  margin: auto;
+  width: 80vw;
 `;
 
 const MobileSignupPageContainer = styled.div`
   padding: 30px;
 `;
 
-const CenterDiv = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const RightMargin = styled.div`
-  margin-right: 30px;
-`;
-
-const InputContainer = styled(Col)`
-  height: ${containerHeight};
-  min-width: 275px;
-  padding: 30px 20px 20px 50px;
+export const TabletInputContainer = styled.div`
+  height: 55vh;
+  width: 100%;
+  padding: 2vh 120px 0px 50px;
   background: ${LIGHT_GREY};
-  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.09);
+  box-shadow: 2px 3px 6px ${BLACK}25;
   border-radius: 6px;
+  overflow: auto;
 `;
 
 const Line = styled.div`
   height: 2px;
-  margin: 10px -20px 25px -50px;
+  margin: 0px -120px 30px -50px;
   background: ${WHITE};
+`;
+
+const TabletLine = styled.div`
+  height: 2px;
+  margin: -10px -120px 2vh -50px;
+  background: ${WHITE};
+`;
+
+const Title = styled(Paragraph)`
+  color: ${BLACK};
+  font-size: 30px;
+  line-height: 33px;
 `;
 
 const SignupAlert = styled(Alert)`
@@ -83,12 +84,17 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation<RedirectStateProps>();
   const privilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
+  const [signupForm] = Form.useForm();
 
   if (privilegeLevel !== PrivilegeLevel.NONE) {
-    history.push(Routes.HOME);
+    const destination = location.state
+      ? location.state.destination
+      : Routes.HOME;
+    history.push(destination);
   }
 
   const onFinish = (values: SignupRequest) => {
@@ -109,81 +115,91 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
         <title>Sign Up</title>
         <meta name="signup" content="Where the user can create a new account" />
       </Helmet>
-      <div>
-        {(() => {
-          switch (windowType) {
-            case WindowTypes.Mobile:
-              return (
-                <>
-                  <MobileSignupPageContainer>
-                    <MobilePageHeader pageTitle="Sign Up" />
-                    {tokens.kind === AsyncRequestKinds.Failed && (
-                      <MobileSignupAlert message={tokens.error} type="error" />
-                    )}
-                    <SignupForm onFinish={onFinish} />
-                  </MobileSignupPageContainer>
-                </>
-              );
-            case WindowTypes.Tablet:
-              return (
-                <>
-                  <TabletSignupPageContainer>
-                    {tokens.kind === AsyncRequestKinds.Failed && (
-                      <SignupAlert message={tokens.error} type="error" />
-                    )}
-                    <CenterDiv>
-                      <RightMargin>
-                        <InputContainer>
-                          <Title level={2} style={{ color: BLACK }}>
-                            Sign Up
-                          </Title>
-                          <Line />
-                          <SignupForm onFinish={onFinish} />
-                        </InputContainer>
-                      </RightMargin>
-
-                      <GreetingContainer
-                        header={greetingHeader}
-                        body={greetingBody}
-                        height={containerHeight}
+      {(() => {
+        switch (windowType) {
+          case WindowTypes.Mobile:
+            return (
+              <>
+                <MobileSignupPageContainer>
+                  <MobilePageHeader pageTitle={SIGNUP_TITLE} />
+                  {tokens.kind === AsyncRequestKinds.Failed && (
+                    <MobileSignupAlert message={tokens.error} type="error" />
+                  )}
+                  <SignupForm
+                    formInstance={signupForm}
+                    onFinish={onFinish}
+                    windowType={windowType}
+                  />
+                </MobileSignupPageContainer>
+              </>
+            );
+          case WindowTypes.Tablet:
+            return (
+              <PageLayout>
+                <TabletPageContainer>
+                  {tokens.kind === AsyncRequestKinds.Failed && (
+                    <SignupAlert message={tokens.error} type="error" />
+                  )}
+                  <CenterDiv>
+                    <TabletInputContainer>
+                      <Title>{SIGNUP_TITLE}</Title>
+                      <TabletLine />
+                      <SignupForm
+                        formInstance={signupForm}
+                        onFinish={onFinish}
+                        windowType={windowType}
                       />
-                    </CenterDiv>
-                  </TabletSignupPageContainer>
-                </>
-              );
-            case WindowTypes.NarrowDesktop:
-            case WindowTypes.Desktop:
-              return (
-                <>
+                    </TabletInputContainer>
+                  </CenterDiv>
+
+                  <br />
+
+                  <CenterDiv>
+                    <GreetingContainer
+                      header={SIGNUP_HEADER}
+                      body={SIGNUP_BODY}
+                      padding={'2vh 5vw 0px'}
+                      height={'25vh'}
+                    />
+                  </CenterDiv>
+                </TabletPageContainer>
+              </PageLayout>
+            );
+          case WindowTypes.NarrowDesktop:
+          case WindowTypes.Desktop:
+            return (
+              <>
+                <PageLayout>
                   <SignupPageContainer>
                     {tokens.kind === AsyncRequestKinds.Failed && (
                       <SignupAlert message={tokens.error} type="error" />
                     )}
                     <Row>
-                      <InputContainer span={10}>
-                        <Title level={2} style={{ color: BLACK }}>
-                          Sign Up
-                        </Title>
+                      <InputContainer span={11}>
+                        <Title>{SIGNUP_TITLE}</Title>
                         <Line />
-                        <SignupForm onFinish={onFinish} />
+                        <SignupForm
+                          formInstance={signupForm}
+                          onFinish={onFinish}
+                          windowType={windowType}
+                        />
                       </InputContainer>
 
                       <Col span={2} />
 
-                      <Col span={12}>
+                      <Col span={11}>
                         <GreetingContainer
-                          header={greetingHeader}
-                          body={greetingBody}
-                          height={containerHeight}
+                          header={SIGNUP_HEADER}
+                          body={SIGNUP_BODY}
                         />
                       </Col>
                     </Row>
                   </SignupPageContainer>
-                </>
-              );
-          }
-        })()}
-      </div>
+                </PageLayout>
+              </>
+            );
+        }
+      })()}
     </>
   );
 };
@@ -191,6 +207,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
 const mapStateToProps = (state: C4CState): SignupProps => {
   return {
     tokens: state.authenticationState.tokens,
+    userData: state.authenticationState.userData,
   };
 };
 

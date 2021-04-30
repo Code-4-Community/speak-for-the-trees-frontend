@@ -6,7 +6,7 @@ import { GoalProps, MemberProps, TeamProps, TeamRole } from './ducks/types';
 import GoalInfo from '../../components/goalInfo';
 import PageHeader from '../../components/pageHeader';
 import TeamMember from '../../components/teamMember';
-import { LinkButton } from '../../components/LinkButton';
+import ReturnButton from '../../components/returnButton';
 import { getDateString } from '../../utils/stringFormat';
 import {
   BLACK,
@@ -21,15 +21,6 @@ const { Panel } = Collapse;
 
 const TeamContainer = styled.div`
   padding: 70px 134px;
-`;
-
-const StyledLinkButton = styled(LinkButton)`
-  width: 190px;
-  height: 45px;
-  margin-bottom: 20px;
-  border-color: ${MID_GREEN};
-  font-size: 18px;
-  color: ${MID_GREEN};
 `;
 
 const TeamHeaderContainer = styled.div`
@@ -107,44 +98,44 @@ const Line = styled.div`
 // dummy data
 const sampleMemberData: MemberProps[] = [
   {
-    user_id: 1,
+    userId: 1,
     username: 'florisdobber',
-    team_role: TeamRole.LEADER,
+    teamRole: TeamRole.LEADER,
   },
   {
-    user_id: 2,
+    userId: 2,
     username: 'jackblanc',
-    team_role: TeamRole.MEMBER,
+    teamRole: TeamRole.MEMBER,
   },
   {
-    user_id: 3,
+    userId: 3,
     username: 'atreecounter',
-    team_role: TeamRole.NONE,
+    teamRole: TeamRole.NONE,
   },
   {
-    user_id: 4,
+    userId: 4,
     username: 'speakerofthetrees',
-    team_role: TeamRole.PENDING,
+    teamRole: TeamRole.PENDING,
   },
   {
-    user_id: 5,
+    userId: 5,
     username: 'vrushalitarte01',
-    team_role: TeamRole.MEMBER,
+    teamRole: TeamRole.MEMBER,
   },
   {
-    user_id: 6,
+    userId: 6,
     username: 'willmt80',
-    team_role: TeamRole.MEMBER,
+    teamRole: TeamRole.MEMBER,
   },
   {
-    user_id: 7,
+    userId: 7,
     username: 'apradhan12',
-    team_role: TeamRole.MEMBER,
+    teamRole: TeamRole.MEMBER,
   },
   {
-    user_id: 8,
+    userId: 8,
     username: 'SofieDunt',
-    team_role: TeamRole.MEMBER,
+    teamRole: TeamRole.MEMBER,
   },
 ];
 
@@ -153,25 +144,23 @@ const sampleGoalData: GoalProps[] = [
     id: 1,
     goal: 50,
     progress: 5,
-    start_date: new Date(2021, 0, 1),
-    complete_by: new Date(2022, 0, 1),
-    completion_date: null,
+    startDate: new Date(2021, 0, 1),
+    completeBy: new Date(2022, 0, 1),
   },
   {
     id: 2,
     goal: 500,
     progress: 71,
-    start_date: new Date(2021, 2, 20),
-    complete_by: new Date(2021, 4, 21),
-    completion_date: null,
+    startDate: new Date(2021, 2, 20),
+    completeBy: new Date(2021, 4, 21),
   },
   {
     id: 3,
     goal: 10,
     progress: 10,
-    start_date: new Date(2020, 5, 10),
-    complete_by: new Date(2020, 7, 10),
-    completion_date: new Date(2020, 6, 13),
+    startDate: new Date(2020, 5, 10),
+    completeBy: new Date(2020, 7, 10),
+    completionDate: new Date(2020, 6, 13),
   },
 ];
 
@@ -190,9 +179,9 @@ const TeamPage: React.FC = () => {
 
   return (
     <TeamContainer>
-      <StyledLinkButton to={Routes.AVAILABLE_TEAMS}>
+      <ReturnButton to={Routes.AVAILABLE_TEAMS}>
         {`<`} Return to Teams
-      </StyledLinkButton>
+      </ReturnButton>
       <TeamHeaderContainer>
         <PageHeaderContainer>
           <PageHeader
@@ -214,13 +203,13 @@ const TeamPage: React.FC = () => {
           >
             {sampleTeamData.members.map((member) => {
               if (
-                member.team_role === TeamRole.LEADER ||
-                member.team_role === TeamRole.MEMBER
+                member.teamRole === TeamRole.LEADER ||
+                member.teamRole === TeamRole.MEMBER
               ) {
                 return (
                   <TeamMember
-                    id={member.user_id}
-                    team_role={member.team_role}
+                    id={member.userId}
+                    teamRole={member.teamRole}
                     username={member.username}
                   />
                 );
@@ -242,7 +231,7 @@ const TeamPage: React.FC = () => {
                   key={item.id}
                   header={<BlackText>Goal {item.id}</BlackText>}
                   extra={
-                    item.completion_date == null && (
+                    item.completionDate == null && (
                       <BlackText>Incomplete</BlackText>
                     )
                   }
@@ -251,8 +240,8 @@ const TeamPage: React.FC = () => {
                   <GoalInfo
                     blockProgress={item.progress}
                     blockGoal={item.goal}
-                    startDate={getDateString(item.start_date)}
-                    targetDate={getDateString(item.complete_by)}
+                    startDate={getDateString(item.startDate)}
+                    targetDate={getDateString(item.completeBy)}
                   />
                 </StyledPanel>
               );

@@ -3,8 +3,13 @@ import {
   AsyncRequestCompleted,
   AsyncRequestNotStarted,
 } from '../../utils/asyncRequest';
-import { PrivilegeLevel, TokenPayload } from '../ducks/types';
-import { getPrivilegeLevel } from '../ducks/selectors';
+import { PrivilegeLevel, TokenPayload, UserData } from '../ducks/types';
+import {
+  getPrivilegeLevel,
+  getUserEmail,
+  getUserFirstName,
+  getUserFullName,
+} from '../ducks/selectors';
 
 describe('User Authentication Selectors', () => {
   describe('getPrivilegeLevel', () => {
@@ -28,6 +33,72 @@ describe('User Authentication Selectors', () => {
       const tokens: AsyncRequest<TokenPayload, any> = AsyncRequestNotStarted();
 
       expect(getPrivilegeLevel(tokens)).toEqual(PrivilegeLevel.NONE);
+    });
+  });
+
+  describe('getUserFirstName', () => {
+    it("returns the user's first name when user data has been loaded", () => {
+      const data: UserData = {
+        firstName: 'First',
+        lastName: 'Last',
+        email: 'test@email.com',
+      };
+      const userData: AsyncRequest<UserData, any> = AsyncRequestCompleted<
+        UserData,
+        any
+      >(data);
+
+      expect(getUserFirstName(userData)).toEqual('First');
+    });
+
+    it('returns empty string when no user data has been loaded', () => {
+      const userData: AsyncRequest<UserData, any> = AsyncRequestNotStarted();
+
+      expect(getUserFirstName(userData)).toEqual('');
+    });
+  });
+
+  describe('getUserFullName', () => {
+    it("returns the user's full name when user data has been loaded", () => {
+      const data: UserData = {
+        firstName: 'First',
+        lastName: 'Last',
+        email: 'test@email.com',
+      };
+      const userData: AsyncRequest<UserData, any> = AsyncRequestCompleted<
+        UserData,
+        any
+      >(data);
+
+      expect(getUserFullName(userData)).toEqual('First Last');
+    });
+
+    it('returns empty string when no user data has been loaded', () => {
+      const userData: AsyncRequest<UserData, any> = AsyncRequestNotStarted();
+
+      expect(getUserFullName(userData)).toEqual('');
+    });
+  });
+
+  describe('getUserEmail', () => {
+    it("returns the user's email when user data has been loaded", () => {
+      const data: UserData = {
+        firstName: 'First',
+        lastName: 'Last',
+        email: 'test@email.com',
+      };
+      const userData: AsyncRequest<UserData, any> = AsyncRequestCompleted<
+        UserData,
+        any
+      >(data);
+
+      expect(getUserEmail(userData)).toEqual('test@email.com');
+    });
+
+    it('returns empty string when no user data has been loaded', () => {
+      const userData: AsyncRequest<UserData, any> = AsyncRequestNotStarted();
+
+      expect(getUserEmail(userData)).toEqual('');
     });
   });
 });

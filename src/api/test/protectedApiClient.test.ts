@@ -1,8 +1,11 @@
 import ProtectedApiClient, {
   ProtectedApiClientRoutes,
   AdminApiClientRoutes,
+  ParameterizedApiRoutes,
 } from '../protectedApiClient';
+import { TeamResponse, TeamRole } from '../../containers/teamPage/ducks/types';
 import nock from 'nock';
+import { UserData } from '../../auth/ducks/types';
 
 const BASE_URL = 'http://localhost';
 
@@ -76,6 +79,24 @@ describe('Protected API Client Tests', () => {
     });
   });
 
+  describe('getUserData', () => {
+    it('makes the right request', async () => {
+      const response: UserData = {
+        firstName: '',
+        lastName: '',
+        email: '',
+      };
+
+      nock(BASE_URL)
+        .get(ProtectedApiClientRoutes.GET_USER_DATA)
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.getUserData();
+
+      expect(result).toEqual(response);
+    });
+  });
+
   describe('makeReservation', () => {
     it('makes the right request with team', async () => {
       const response = '';
@@ -137,6 +158,321 @@ describe('Protected API Client Tests', () => {
         .reply(200, response);
 
       const result = await ProtectedApiClient.releaseReservation(2);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  // Teams tests
+
+  describe('createTeam', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ProtectedApiClientRoutes.CREATE_TEAM)
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.createTeam({
+        name: 'team 1',
+        bio: 'this is team 1',
+        inviteEmails: ['will.thomas@c4cneu.com'],
+      });
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('getTeams', () => {
+    it('makes the right request', async () => {
+      const response: TeamResponse[] = [
+        {
+          id: 1,
+          name: 'team 1',
+          bio: 'this is team 1',
+          members: [
+            {
+              userId: 1,
+              username: 'will.thomas',
+              teamRole: TeamRole.MEMBER,
+            },
+          ],
+          goals: [
+            {
+              goalId: 1,
+              goal: 2,
+              progress: 3,
+              startDate: 1615420800000,
+              completeBy: 1617148800000,
+              completionDate: 1617148800000,
+            },
+          ],
+          finished: false,
+          createdAt: '2/19/2021',
+        },
+        {
+          id: 2,
+          name: 'team 2',
+          bio: 'this is team 2',
+          members: [
+            {
+              userId: 1,
+              username: 'jack.blanc',
+              teamRole: TeamRole.PENDING,
+            },
+          ],
+          goals: [
+            {
+              goalId: 2,
+              goal: 10,
+              progress: 3,
+              startDate: 1615420800000,
+              completeBy: 1617148800000,
+              completionDate: 1617148800000,
+            },
+          ],
+          finished: true,
+          createdAt: '2/18/2021',
+          deletedAt: '2/22/2021',
+        },
+      ];
+
+      nock(BASE_URL)
+        .get(ProtectedApiClientRoutes.GET_TEAMS)
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.getTeams();
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('getTeam', () => {
+    it('makes the right request', async () => {
+      const response: TeamResponse = {
+        id: 1,
+        name: 'team 1',
+        bio: 'this is team 1',
+        members: [
+          {
+            userId: 1,
+            username: 'will.thomas',
+            teamRole: TeamRole.MEMBER,
+          },
+        ],
+        goals: [
+          {
+            goalId: 1,
+            goal: 2,
+            progress: 3,
+            startDate: 1615420800000,
+            completeBy: 1617148800000,
+            completionDate: 1617148800000,
+          },
+        ],
+        finished: false,
+        createdAt: '2/19/2021',
+      };
+
+      nock(BASE_URL)
+        .get(ParameterizedApiRoutes.GET_TEAM(1))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.getTeam(1);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('addGoal', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.ADD_GOAL(1))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.addGoal(1, {
+        goal: 1,
+        startAt: '2/20/2021',
+        completeBy: '2/22/2021',
+      });
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('deleteGoal', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.DELETE_GOAL(1, 2))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.deleteGoal(1, 2);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('inviteUser', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.INVITE_USER(1))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.inviteUser(1, {
+        invites: [
+          {
+            name: 'person1',
+            email: 'person.1@c4cneu.com',
+          },
+          {
+            name: 'person 2',
+            email: 'person.1@c4cneu.com',
+          },
+        ],
+      });
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('getApplicants', () => {
+    it('makes the right request', async () => {
+      const response = [
+        {
+          userId: 1,
+          username: 'person 1',
+        },
+        {
+          userId: 2,
+          username: 'person 2',
+        },
+      ];
+
+      nock(BASE_URL)
+        .get(ParameterizedApiRoutes.GET_APPLICANTS(1))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.getApplicants(1);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('applyToTeam', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.APPLY_TO_TEAM(1))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.applyToTeam(1);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('approveUser', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.APPROVE_USER(1, 2))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.approveUser(1, 2);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('rejectUser', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.REJECT_USER(1, 2))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.rejectUser(1, 2);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('kickUser', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.KICK_USER(1, 2))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.kickUser(1, 2);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('leaveTeam', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.LEAVE_TEAM(1))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.leaveTeam(1);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('leaveTeam', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.LEAVE_TEAM(1))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.leaveTeam(1);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('disbandTeam', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.DISBAND_TEAM(1))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.disbandTeam(1);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('transferOwnership', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.TRANSFER_OWNERSHIP(1))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.transferOwnership(1, {
+        newLeaderId: 2,
+      });
 
       expect(result).toEqual(response);
     });

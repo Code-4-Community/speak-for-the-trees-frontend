@@ -1,8 +1,8 @@
 import React from 'react';
 import { Typography } from 'antd';
-import { BLACK } from '../../utils/colors';
+import { BACKGROUND_GREEN, BLACK } from '../../utils/colors';
 import styled from 'styled-components';
-import logo from '../../SFTTicon.png';
+import logo from '../../assets/images/logo.png';
 
 const { Paragraph, Title } = Typography;
 
@@ -10,37 +10,37 @@ interface GreetingContainerProps {
   readonly header: string;
   readonly body: string;
   readonly height?: string;
+  readonly padding?: string;
 }
 
 interface InfoContainerProps {
   readonly height?: string;
+  readonly padding?: string;
 }
 
 const InfoContainer = styled.div`
-  padding: 70px 70px 20px;
+  padding: ${(props: InfoContainerProps) =>
+    props.padding ? props.padding : '70px 70px 20px'};
+  width: 100%;
   height: ${(props: InfoContainerProps) =>
-    props.height ? props.height : '481px'};
-  background: url(${logo}) no-repeat bottom right #d4edaa;
-  box-shadow: 1.58105px 3.16211px 6.32421px rgba(0, 0, 0, 0.09);
+    props.height ? props.height : '60vh'};
+  background: url(${logo}) no-repeat bottom right ${BACKGROUND_GREEN};
+  background-size: 65%;
+  box-shadow: 1.58105px 3.16211px 6.32421px ${BLACK}25;
   border-radius: 6.32421px;
-  min-width: 300px;
-`;
-
-const TextContainer = styled.div`
-  max-width: 380px;
+  overflow: auto;
 `;
 
 const GreetingContainer: React.FC<GreetingContainerProps> = ({
   header,
   body,
   height,
+  padding,
 }) => {
   return (
-    <InfoContainer height={height}>
+    <InfoContainer height={height} padding={padding}>
       <Title style={{ color: BLACK }}>{header}</Title>
-      <TextContainer>
-        <Paragraph>{body}</Paragraph>
-      </TextContainer>
+      <Paragraph>{body}</Paragraph>
     </InfoContainer>
   );
 };

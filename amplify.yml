@@ -6,6 +6,8 @@ frontend:
         - npm ci
     build:
       commands:
+        - echo "REACT_APP_API_DOMAIN=$REACT_APP_API_DOMAIN" >> .env
+        - echo "REACT_APP_GOOGLE_MAPS_KEY=$REACT_APP_GOOGLE_MAPS_KEY" >> .env
         - npm run build
   artifacts:
     baseDirectory: build

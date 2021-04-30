@@ -3,6 +3,8 @@ import { login, signup } from '../ducks/thunks';
 import { authenticateUser } from '../ducks/actions';
 import authClient from '../authClient';
 import { C4CState, initialStoreState, ThunkExtraArgs } from '../../store';
+import { AxiosError } from 'axios';
+import protectedApiClient from '../../api/protectedApiClient';
 import apiClient from '../../api/apiClient';
 
 export const generateState = (partialState: Partial<C4CState>): C4CState => ({
@@ -28,6 +30,7 @@ describe('User Authentication Thunks', () => {
           ...authClient,
           login: mockLogin,
         },
+        protectedApiClient,
         apiClient,
       };
 
@@ -59,6 +62,7 @@ describe('User Authentication Thunks', () => {
           ...authClient,
           login: mockLogin,
         },
+        protectedApiClient,
         apiClient,
       };
 
@@ -93,6 +97,7 @@ describe('User Authentication Thunks', () => {
           ...authClient,
           signup: mockSignup,
         },
+        protectedApiClient,
         apiClient,
       };
 
@@ -126,6 +131,7 @@ describe('User Authentication Thunks', () => {
           ...authClient,
           signup: mockSignup,
         },
+        protectedApiClient,
         apiClient,
       };
 
