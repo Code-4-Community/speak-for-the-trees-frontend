@@ -2,11 +2,15 @@ import React from 'react';
 import { LoginRequest } from '../../auth/ducks/types';
 import { Button, Form, Input } from 'antd';
 import styled from 'styled-components';
-import useWindowDimensions, { WindowTypes } from '../windowDimensions';
+import { WindowTypes } from '../windowDimensions';
 import { FormHalfItem, FormRow, Gap } from '../themedComponents';
+import { FormInstance } from 'antd/es/form';
+import { enterEmailRules, loginPasswordRules } from '../../utils/formRules';
 
 interface LoginFormProps {
+  readonly formInstance: FormInstance;
   readonly onFinish: (values: LoginRequest) => void;
+  readonly windowType: WindowTypes;
 }
 
 const LoginButton = styled(Button)`
@@ -18,45 +22,24 @@ const StyledFormItem = styled(Form.Item)`
   margin-bottom: 10px;
 `;
 
-const LoginForm: React.FC<LoginFormProps> = ({ onFinish }) => {
-  const { windowType } = useWindowDimensions();
-
+const LoginForm: React.FC<LoginFormProps> = ({
+  formInstance,
+  onFinish,
+  windowType,
+}) => {
   return (
     <>
-      <Form
-        name="basic"
-        initialValues={{
-          remember: true,
-        }}
-        onFinish={onFinish}
-      >
+      <Form name="basic" form={formInstance} onFinish={onFinish}>
         {(() => {
           switch (windowType) {
             case WindowTypes.Mobile:
             case WindowTypes.Tablet:
               return (
                 <>
-                  <Form.Item
-                    name="email"
-                    rules={[
-                      { required: true, message: 'Please input your email!' },
-                      {
-                        pattern: /^\S+@\S+\.\S{2,}$/,
-                        message: 'Not a valid email address',
-                      },
-                    ]}
-                  >
+                  <Form.Item name="email" rules={enterEmailRules}>
                     <Input placeholder="Email" />
                   </Form.Item>
-                  <Form.Item
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your password!',
-                      },
-                    ]}
-                  >
+                  <Form.Item name="password" rules={loginPasswordRules}>
                     <Input.Password placeholder="Password" />
                   </Form.Item>
 
@@ -72,31 +55,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onFinish }) => {
               return (
                 <>
                   <FormRow>
-                    <FormHalfItem
-                      name="email"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input your email!',
-                        },
-                        {
-                          pattern: /^\S+@\S+\.\S{2,}$/,
-                          message: 'Not a valid email address',
-                        },
-                      ]}
-                    >
+                    <FormHalfItem name="email" rules={enterEmailRules}>
                       <Input placeholder="Email" />
                     </FormHalfItem>
                     <Gap />
-                    <FormHalfItem
-                      name="password"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input your password!',
-                        },
-                      ]}
-                    >
+                    <FormHalfItem name="password" rules={loginPasswordRules}>
                       <Input.Password placeholder="Password" />
                     </FormHalfItem>
                   </FormRow>

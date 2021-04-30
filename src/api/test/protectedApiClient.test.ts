@@ -5,6 +5,7 @@ import ProtectedApiClient, {
 } from '../protectedApiClient';
 import { TeamResponse, TeamRole } from '../../containers/teamPage/ducks/types';
 import nock from 'nock';
+import { UserData } from '../../auth/ducks/types';
 
 const BASE_URL = 'http://localhost';
 
@@ -73,6 +74,24 @@ describe('Protected API Client Tests', () => {
       const result = await ProtectedApiClient.deleteUser({
         password: 'password',
       });
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('getUserData', () => {
+    it('makes the right request', async () => {
+      const response: UserData = {
+        firstName: '',
+        lastName: '',
+        email: '',
+      };
+
+      nock(BASE_URL)
+        .get(ProtectedApiClientRoutes.GET_USER_DATA)
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.getUserData();
 
       expect(result).toEqual(response);
     });

@@ -1,15 +1,17 @@
 import React from 'react';
+import { connect, useSelector } from 'react-redux';
 import { Col, Row, Button, Form, Input, Typography } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
 import { MID_GREEN } from '../../utils/colors';
 import ProtectedApiClient from '../../api/protectedApiClient';
+import { C4CState } from '../../store';
+import { UserAuthenticationReducerState } from '../../auth/ducks/types';
+import { getUserEmail, getUserFullName } from '../../auth/ducks/selectors';
 const { Paragraph } = Typography;
 
 const cSpan = 10;
-const formHalfItemSpan = 8;
-const offsetSpan = 1;
 
 const formLayout = {
   wrapperCol: { span: 17 },
@@ -36,7 +38,20 @@ const FormTitle = styled(Paragraph)`
   line-height: 28px;
 `;
 
-const Settings: React.FC = () => {
+const UserInformationText = styled(Paragraph)`
+  font-size: 15px;
+`;
+
+type SettingsProps = UserAuthenticationReducerState;
+
+const Settings: React.FC<SettingsProps> = ({ tokens, userData }) => {
+  const userFullName = useSelector((state: C4CState) =>
+    getUserFullName(state.authenticationState.userData),
+  );
+  const userEmail = useSelector((state: C4CState) =>
+    getUserEmail(state.authenticationState.userData),
+  );
+
   const onFinishChangePassword = (values: {
     currentPassword: string;
     newPassword: string;
@@ -74,36 +89,19 @@ const Settings: React.FC = () => {
           <Row>
             <Col span={cSpan}>
               <FormTitle>Profile</FormTitle>
-              <Form name="edit-profile">
-                <Row>
-                  <Col span={formHalfItemSpan}>
-                    <Form.Item name="first-name">
-                      <Input placeholder="First Name" />
-                    </Form.Item>
-                  </Col>
-                  <Col span={offsetSpan}></Col>
-                  <Col span={formHalfItemSpan}>
-                    <Form.Item name="last-name">
-                      <Input placeholder="Last Name" />
-                    </Form.Item>
-                  </Col>
-                </Row>
+              <UserInformationText>{userFullName}</UserInformationText>
+              <Form name="change-username">
                 <Form.Item {...formLayout} name="username">
                   <Input placeholder="Username" />
                 </Form.Item>
               </Form>
               <FormTitle>Change Email</FormTitle>
+              <UserInformationText>{userEmail}</UserInformationText>
               <Form
                 {...formLayout}
                 name="change-email"
                 onFinish={onFinishChangeEmail}
               >
-                <Form.Item {...formLayout} name="current-email">
-                  <Input
-                    placeholder="Current Address"
-                    defaultValue="currentemail@email.com"
-                  />
-                </Form.Item>
                 <Form.Item
                   {...formLayout}
                   name="new-email"
@@ -120,8 +118,17 @@ const Settings: React.FC = () => {
                 >
                   <Input placeholder="New Address" />
                 </Form.Item>
-                <Form.Item {...formLayout} name="confirm-new-email">
-                  <Input placeholder="Confirm New Address" />
+                <Form.Item
+                  {...formLayout}
+                  name="password"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your current password!',
+                    },
+                  ]}
+                >
+                  <Input placeholder="Password" />
                 </Form.Item>
                 <Form.Item>
                   <SubmitButton type="primary" htmlType="submit">
@@ -199,4 +206,11 @@ const Settings: React.FC = () => {
   );
 };
 
-export default Settings;
+const mapStateToProps = (state: C4CState): SettingsProps => {
+  return {
+    tokens: state.authenticationState.tokens,
+    userData: state.authenticationState.userData,
+  };
+};
+
+export default connect(mapStateToProps)(Settings);
