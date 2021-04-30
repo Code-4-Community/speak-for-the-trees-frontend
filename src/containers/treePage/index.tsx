@@ -1,7 +1,7 @@
 import React from 'react';
 import PageLayout from '../../components/pageLayout';
 import ReturnButton from '../../components/returnButton';
-import { Row, Col, Image, Typography, Button, Card } from 'antd';
+import { Row, Col, Typography, Button, Card } from 'antd';
 import { Routes } from '../../App';
 import { Helmet } from 'react-helmet';
 import { SiteProps, SiteEntry, TreeCare, SiteEntryNames } from './ducks/types';
