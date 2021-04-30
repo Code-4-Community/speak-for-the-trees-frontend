@@ -55,3 +55,17 @@ export const lastNameRules: Rule[] = [
 export const usernameRules: Rule[] = [
   { required: true, message: 'Please enter a username!' },
 ];
+
+export const activitiesRules: Rule[] = [
+  {
+    required: true,
+    message: 'Please select at least one activity',
+  },
+];
+
+export const activitiesDateRules: Rule[] = [
+  {
+    required: true,
+    message: 'Please input the date of the activity!',
+  },
+];
