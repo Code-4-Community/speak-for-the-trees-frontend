@@ -31,10 +31,6 @@ const TreeMainContainer = styled.div`
   margin: 50px 30px 30px;
 `;
 
-const TreeImage = styled(Image)`
-  margin-top: 20px;
-`;
-
 const TreeInfoContainer = styled.div`
   width: 90%;
   margin: auto;

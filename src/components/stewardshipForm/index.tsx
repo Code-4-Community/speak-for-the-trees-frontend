@@ -33,17 +33,11 @@ const StewardshipForm: React.FC = () => {
     <>
       <Form name="recordStewardship" onFinish={onFinishRecordStewardship}>
         <ItemLabel>Activity Date</ItemLabel>
-        <Form.Item
-          name="activityDate"
-          rules={ activitiesDateRules }
-        >
+        <Form.Item name="activityDate" rules={activitiesDateRules}>
           <TreeDatePicker defaultValue={moment()} format={'MM/DD/YYYY'} />
         </Form.Item>
         <ItemLabel>Stewardship Activites</ItemLabel>
-        <Form.Item
-          name="stewardshipActivites"
-          rules={ activitiesRules } 
-        >
+        <Form.Item name="stewardshipActivites" rules={activitiesRules}>
           <Checkbox.Group options={stewardshipOptions} />
         </Form.Item>
         <Form.Item>
