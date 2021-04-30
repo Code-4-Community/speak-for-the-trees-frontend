@@ -57,6 +57,7 @@ export enum PrivilegeLevel {
   NONE = 'none',
   STANDARD = 'standard',
   ADMIN = 'admin',
+  SUPER_ADMIN = 'superAdmin',
 }
 
 export const NO_USER_ID = -1;

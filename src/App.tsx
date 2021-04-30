@@ -160,6 +160,7 @@ const App: React.FC = () => {
                     </Switch>
                   );
 
+                case PrivilegeLevel.SUPER_ADMIN:
                 case PrivilegeLevel.ADMIN:
                   return (
                     <Switch>
