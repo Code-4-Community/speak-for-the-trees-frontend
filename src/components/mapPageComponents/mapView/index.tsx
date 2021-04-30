@@ -43,11 +43,11 @@ const MapView: React.FC = () => {
     setShowModal(false);
     switch (reservationType) {
       case ReservationModalType.OPEN:
-        //set block status to reserved
-        protectedApiClient.makeReservation(activeBlockId); //diff between complete and make?
+        //reserve block
+        protectedApiClient.makeReservation(activeBlockId); 
         break;
       case ReservationModalType.RESERVED:
-        //set block status to open
+        //release block
         protectedApiClient.releaseReservation(activeBlockId);
         break;
       default:
