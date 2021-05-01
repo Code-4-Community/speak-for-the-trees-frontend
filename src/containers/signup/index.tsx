@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { Alert, Col, Form, Row, Typography } from 'antd';
 import { Helmet } from 'react-helmet';
 import GreetingContainer from '../../components/greetingContainer';
-import { signup } from '../../auth/ducks/thunks';
+import { getUserData, signup } from '../../auth/ducks/thunks';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import {
   PrivilegeLevel,
@@ -91,6 +91,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
   const [signupForm] = Form.useForm();
 
   if (privilegeLevel !== PrivilegeLevel.NONE) {
+    dispatch(getUserData());
     const destination = location.state
       ? location.state.destination
       : Routes.HOME;
