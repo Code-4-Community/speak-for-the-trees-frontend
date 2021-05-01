@@ -8,6 +8,12 @@ import {
   InviteUserRequest,
   TransferOwnershipRequest,
 } from '../containers/teamPage/ducks/types';
+import {
+  AuthRequest,
+  ChangeEmailRequest,
+  ChangePasswordRequest,
+  ChangeUsernameRequest,
+} from '../components/forms/ducks/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -72,7 +78,7 @@ export enum ProtectedApiClientRoutes {
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
   CHANGE_USERNAME = '/api/v1/protected/user/change_username',
   CHANGE_EMAIL = '/api/v1/protected/user/change_email',
-  DELETE_USER = '/api/v1/protected/user/',
+  DELETE_USER = '/api/v1/protected/user/delete',
   GET_USER_DATA = '/api/v1/protected/user/data',
   CREATE_TEAM = '/api/v1/protected/teams/create',
   GET_TEAMS = '/api/v1/protected/teams/',
@@ -172,43 +178,26 @@ const failReservationQa = (blockId: number): Promise<void> => {
     .catch((err) => err);
 };
 
-const changePassword = (request: {
-  currentPassword: string;
-  newPassword: string;
-}): Promise<void> => {
+const changePassword = (request: ChangePasswordRequest): Promise<void> => {
   return AppAxiosInstance.post(
     ProtectedApiClientRoutes.CHANGE_PASSWORD,
     request,
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  );
 };
 
-const changeUsername = (request: {
-  newUsername: string;
-  password: string;
-}): Promise<void> => {
+const changeUsername = (request: ChangeUsernameRequest): Promise<void> => {
   return AppAxiosInstance.post(
     ProtectedApiClientRoutes.CHANGE_USERNAME,
     request,
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  );
 };
 
-const changeEmail = (request: {
-  newEmail: string;
-  password: string;
-}): Promise<void> => {
-  return AppAxiosInstance.post(ProtectedApiClientRoutes.CHANGE_EMAIL, request)
-    .then((res) => res.data)
-    .catch((err) => err);
+const changeEmail = (request: ChangeEmailRequest): Promise<void> => {
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.CHANGE_EMAIL, request);
 };
 
-const deleteUser = (request: { password: string }): Promise<void> => {
-  return AppAxiosInstance.post(ProtectedApiClientRoutes.DELETE_USER, request)
-    .then((res) => res.data)
-    .catch((err) => err);
+const deleteUser = (request: AuthRequest): Promise<void> => {
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.DELETE_USER, request);
 };
 
 const changePrivilegeLevel = (request: {
