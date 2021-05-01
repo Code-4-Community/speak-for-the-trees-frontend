@@ -8,6 +8,7 @@ import ReservationModal, {
   ReservationModalType,
 } from '../../../components/ReservationModal';
 import protectedApiClient from '../../../api/protectedApiClient';
+import { shortHand } from '../../../utils/stringFormat';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -75,21 +76,16 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
   const mapId = '76c08a2450c223d9';
   const markersArray: google.maps.Marker[] = [];
 
-  interface KeyValuePair {
-    key: string;
-    value: string;
-  }
-  // This KeyValuePair array that stores names to be shortHand-ed.
-  // To add a new area, wrap a key value pair with {}.
-
-  const shortHandNames: {[fullName: string] : string} = {
+  // This dictionary that stores names to be shortHand-ed.
+  // To add a new area, add the full name and then the shorthand name seperated by a colon.
+  const shortHandNames: { [fullName: string]: string } = {
     'North End': 'NE',
     'West End': 'WE',
     'Leather District': 'LD',
     'Beacon Hill': 'BH',
     'Back Bay': 'BB',
-    'Downtown': 'DT',
-    'Chinatown': 'CT',
+    Downtown: 'DT',
+    Chinatown: 'CT',
     'Bay Village': 'BV',
   };
 
@@ -191,11 +187,6 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
 
         // Creates a new layer
         const neighborhoodsLayer = new google.maps.Data({ map });
-
-        // Function: Returns name in shortHand
-        function shortHand(name:string, shortHandNames:{ [key:string]: string }) {
-          return shortHandNames[name] || name
-      }
 
         // Loads the objects into the layer
         neighborhoodsLayer.addGeoJson(neighborhoods);

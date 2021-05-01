@@ -13,3 +13,16 @@ export function getMoneyString(amount: number): string {
 export function getDateString(date: Date): string {
   return `${new Intl.DateTimeFormat('en-US').format(date)}`;
 }
+
+/**
+ * Converts the given date to a formatted string
+ * @param name the name to shorten
+ * @param shortHandNames the dictionary containing the mappings
+ */
+// Function: Returns name in shortHand
+export function shortHand(
+  name: string,
+  shortHandNames: { [key: string]: string },
+) {
+  return shortHandNames[name] || name;
+}
