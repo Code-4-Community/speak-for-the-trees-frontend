@@ -73,6 +73,7 @@ interface SiteFeaturePropertiesResponse {
 }
 
 // ---------------------------------Shared Types----------------------------------------
+// These types follow the GeoJSON format: https://tools.ietf.org/html/rfc7946
 
 interface MapGeometry {
   type: string;
@@ -80,6 +81,8 @@ interface MapGeometry {
 }
 
 type Coordinate = [number, number];
+
+// ---------------------------------Redux----------------------------------------
 
 export interface MapGeoDataReducerState {
   readonly blockGeoData: AsyncRequest<BlockGeoData, any>;
