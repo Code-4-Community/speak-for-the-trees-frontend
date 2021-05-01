@@ -22,6 +22,6 @@ export function getDateString(date: Date): string {
 export function shortHand(
   name: string,
   shortHandNames: { [key: string]: string },
-) {
+): string {
   return shortHandNames[name] || name;
 }
