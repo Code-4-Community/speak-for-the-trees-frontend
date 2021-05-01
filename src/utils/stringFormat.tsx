@@ -15,11 +15,10 @@ export function getDateString(date: Date): string {
 }
 
 /**
- * Converts the given date to a formatted string
+ * Returns the shorthand name of the neighborhoods
  * @param name the name to shorten
  * @param shortHandNames the dictionary containing the mappings
  */
-// Function: Returns name in shortHand
 export function shortHand(
   name: string,
   shortHandNames: { [key: string]: string },
