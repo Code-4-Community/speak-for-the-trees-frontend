@@ -1,6 +1,7 @@
 import {
   BlockGeoData,
   NeighborhoodGeoData,
+  SiteGeoData,
 } from '../../components/mapPageComponents/ducks/types';
 import ApiClient, { ApiClientRoutes } from '../apiClient';
 import nock from 'nock';
@@ -81,6 +82,41 @@ describe('Authentication Client Tests', () => {
       const result = await ApiClient.getBlockGeoData();
 
       expect(result).toEqual(response);
+    });
+
+    describe('Sites', () => {
+      it('makes the right request', async () => {
+        const response: SiteGeoData = {
+          type: 'FeatureCollection',
+          name: 'sites',
+          features: [
+            {
+              type: 'Feature',
+              properties: {
+                id: 213,
+                treePresent: true,
+                diameter: 29.8,
+                species: 'Willow',
+                updatedAt: 'December 17, 1995 03:24:00',
+                updatedBy: 'username',
+                address: '123 Street',
+                lat: 42.3488784985,
+                lng: -71.0293810011,
+              },
+              geometry: {
+                type: 'Point',
+                coordinates: [-71.0293810011, 42.3488784985],
+              },
+            },
+          ],
+        };
+
+        nock(BASE_URL).get(ApiClientRoutes.GET_ALL_SITES).reply(200, response);
+
+        const result = await ApiClient.getSiteGeoData();
+
+        expect(result).toEqual(response);
+      });
     });
   });
 });

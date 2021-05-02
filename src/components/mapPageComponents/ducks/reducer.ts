@@ -2,6 +2,7 @@ import {
   BlockGeoData,
   NeighborhoodGeoData,
   MapGeoDataReducerState,
+  SiteGeoData,
 } from './types';
 import {
   ASYNC_REQUEST_FAILED_ACTION,
@@ -10,12 +11,13 @@ import {
   AsyncRequestNotStarted,
   generateAsyncRequestReducer,
 } from '../../../utils/asyncRequest';
-import { blockGeoData, neighborhoodGeoData } from './actions';
+import { blockGeoData, neighborhoodGeoData, siteGeoData } from './actions';
 import { C4CAction } from '../../../store';
 
 export const initialMapGeoDataState: MapGeoDataReducerState = {
   blockGeoData: AsyncRequestNotStarted<BlockGeoData, any>(),
   neighborhoodGeoData: AsyncRequestNotStarted<NeighborhoodGeoData, any>(),
+  siteGeoData: AsyncRequestNotStarted<SiteGeoData, any>(),
 };
 
 const blockGeoDataReducer = generateAsyncRequestReducer<
@@ -29,6 +31,12 @@ const neighborhoodGeoDataReducer = generateAsyncRequestReducer<
   NeighborhoodGeoData,
   void
 >(neighborhoodGeoData.key);
+
+const siteGeoDataReducer = generateAsyncRequestReducer<
+  MapGeoDataReducerState,
+  SiteGeoData,
+  void
+>(siteGeoData.key);
 
 const reducers = (
   state: MapGeoDataReducerState = initialMapGeoDataState,
@@ -45,6 +53,7 @@ const reducers = (
           state.neighborhoodGeoData,
           action,
         ),
+        siteGeoData: siteGeoDataReducer(state.siteGeoData, action),
       };
     default:
       return state;

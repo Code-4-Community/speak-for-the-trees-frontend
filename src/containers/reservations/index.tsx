@@ -21,18 +21,21 @@ const { Paragraph } = Typography;
 interface ReservationProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly blocks: MapGeoDataReducerState['blockGeoData'];
+  readonly sites: MapGeoDataReducerState['siteGeoData'];
 }
 
 const mapStateToProps = (state: C4CState): ReservationProps => {
   return {
     neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
     blocks: state.mapGeoDataState.blockGeoData,
+    sites: state.mapGeoDataState.siteGeoData,
   };
 };
 
 const Reservations: React.FC<ReservationProps> = ({
   neighborhoods,
   blocks,
+  sites,
 }) => {
   const dispatch = useDispatch();
 
@@ -54,10 +57,12 @@ const Reservations: React.FC<ReservationProps> = ({
             />
           </Helmet>
           {asyncRequestIsComplete(blocks) &&
-            asyncRequestIsComplete(neighborhoods) && (
+            asyncRequestIsComplete(neighborhoods) &&
+            asyncRequestIsComplete(sites) && (
               <MobileMapPage
                 blocks={blocks.result}
                 neighborhoods={neighborhoods.result}
+                sites={sites.result}
               >
                 <SlideDown>
                   <BlockTabs />
@@ -80,10 +85,12 @@ const Reservations: React.FC<ReservationProps> = ({
             />
           </Helmet>
           {asyncRequestIsComplete(blocks) &&
-            asyncRequestIsComplete(neighborhoods) && (
+            asyncRequestIsComplete(neighborhoods) &&
+            asyncRequestIsComplete(sites) && (
               <MapPage
                 blocks={blocks.result}
                 neighborhoods={neighborhoods.result}
+                sites={sites.result}
                 sidebarHeader={RESERVATION_TITLE}
                 sidebarDescription={RESERVATION_BODY}
               >
