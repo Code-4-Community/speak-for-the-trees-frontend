@@ -7,7 +7,6 @@ import { C4CState } from '../../store';
 import { login, getUserData } from '../../auth/ducks/thunks';
 import {
   LoginRequest,
-  PrivilegeLevel,
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
@@ -22,7 +21,7 @@ import {
   TabletPageContainer,
 } from '../../components/themedComponents';
 import GreetingContainer from '../../components/greetingContainer';
-import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
+import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import LoginForm from '../../components/loginForm';
 import useWindowDimensions, {
@@ -34,6 +33,7 @@ import {
   LOGIN_HEADER,
   LOGIN_TITLE,
 } from '../../assets/content';
+import { isLoggedIn } from '../../utils/isCheck';
 
 const { Paragraph } = Typography;
 
@@ -107,7 +107,7 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
     ? location.state.destination
     : Routes.HOME;
 
-  if (privilegeLevel !== PrivilegeLevel.NONE) {
+  if (isLoggedIn(privilegeLevel)) {
     dispatch(getUserData());
     history.push(destination);
   }
@@ -153,7 +153,7 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
           case WindowTypes.Mobile:
             return (
               <MobileLoginPageContainer>
-                <MobilePageHeader pageTitle={LOGIN_TITLE} />
+                <PageHeader pageTitle={LOGIN_TITLE} isMobile={true} />
                 {loginFailed && (
                   <MobileLoginAlert message={LOGIN_ERROR} type="error" />
                 )}

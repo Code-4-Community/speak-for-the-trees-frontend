@@ -2,13 +2,12 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import authClient from '../../auth/authClient';
 import { ForgotPasswordRequest } from '../../auth/ducks/types';
-import useWindowDimensions, {
-  WindowTypes,
-} from '../../components/windowDimensions';
+import useWindowDimensions from '../../components/windowDimensions';
 import { Button, Form, Input } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import { ContentContainer } from '../../components/themedComponents';
-import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
+import { isMobile } from '../../utils/isCheck';
+import { enterEmailRules } from '../../utils/formRules';
 
 const ForgotPassword: React.FC = () => {
   const { windowType } = useWindowDimensions();
@@ -33,22 +32,12 @@ const ForgotPassword: React.FC = () => {
         />
       </Helmet>
       <ContentContainer>
-        {windowType === WindowTypes.Mobile ? (
-          <MobilePageHeader pageTitle="Forgot Password" />
-        ) : (
-          <PageHeader pageTitle="Forgot Password" />
-        )}
-        <Form name="basic" onFinish={onFinish}>
-          <Form.Item
-            name="email"
-            rules={[
-              { required: true, message: 'Please input your email!' },
-              {
-                pattern: /^\S+@\S+\.\S{2,}$/,
-                message: 'Not a valid email address',
-              },
-            ]}
-          >
+        <PageHeader
+          pageTitle="Forgot Password"
+          isMobile={isMobile(windowType)}
+        />
+        <Form name="forgotPassword" onFinish={onFinish}>
+          <Form.Item name="email" rules={enterEmailRules}>
             <Input placeholder="Email" />
           </Form.Item>
           <Form.Item>

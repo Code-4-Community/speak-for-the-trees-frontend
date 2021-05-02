@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
-import { MID_GREEN } from '../../utils/colors';
+import { MID_GREEN, WHITE } from '../../utils/colors';
 
 const SlideDownButton = styled.button`
   background-color: ${MID_GREEN};
@@ -33,11 +33,11 @@ const SlideDownSectionDiv = styled.div`
 `;
 
 const CaretDownStyled = styled(CaretDownOutlined)`
-  color: white;
+  color: ${WHITE};
 `;
 
 const CaretUpStyled = styled(CaretUpOutlined)`
-  color: white;
+  color: ${WHITE};
 `;
 
 const SlideDown: React.FC = ({ children }) => {

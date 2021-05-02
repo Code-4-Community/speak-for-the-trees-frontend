@@ -7,7 +7,6 @@ import GreetingContainer from '../../components/greetingContainer';
 import { signup } from '../../auth/ducks/thunks';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import {
-  PrivilegeLevel,
   SignupRequest,
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
@@ -19,7 +18,7 @@ import {
   InputContainer,
   TabletPageContainer,
 } from '../../components/themedComponents';
-import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
+import PageHeader from '../../components/pageHeader';
 import SignupForm from '../../components/signupForm';
 import useWindowDimensions, {
   WindowTypes,
@@ -29,6 +28,7 @@ import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { RedirectStateProps, Routes } from '../../App';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { SIGNUP_BODY, SIGNUP_HEADER, SIGNUP_TITLE } from '../../assets/content';
+import { isLoggedIn } from '../../utils/isCheck';
 
 const { Paragraph } = Typography;
 
@@ -90,7 +90,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
   );
   const [signupForm] = Form.useForm();
 
-  if (privilegeLevel !== PrivilegeLevel.NONE) {
+  if (isLoggedIn(privilegeLevel)) {
     const destination = location.state
       ? location.state.destination
       : Routes.HOME;
@@ -98,22 +98,17 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
   }
 
   const onFinish = (values: SignupRequest) => {
-    dispatch(
-      signup({
-        email: values.email,
-        username: values.username,
-        password: values.password,
-        firstName: values.firstName,
-        lastName: values.lastName,
-      }),
-    );
+    dispatch(signup(values));
   };
 
   return (
     <>
       <Helmet>
         <title>Sign Up</title>
-        <meta name="signup" content="Where the user can create a new account" />
+        <meta
+          name="description"
+          content="Where the user can create a new account"
+        />
       </Helmet>
       {(() => {
         switch (windowType) {
@@ -121,7 +116,7 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
             return (
               <>
                 <MobileSignupPageContainer>
-                  <MobilePageHeader pageTitle={SIGNUP_TITLE} />
+                  <PageHeader pageTitle={SIGNUP_TITLE} isMobile={true} />
                   {tokens.kind === AsyncRequestKinds.Failed && (
                     <MobileSignupAlert message={tokens.error} type="error" />
                   )}
