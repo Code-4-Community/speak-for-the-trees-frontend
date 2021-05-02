@@ -46,3 +46,7 @@ export const FormHalfItem = styled(Form.Item)<FormItemProps>`
 export const FullWidthSpace = styled(Space)`
   width: 100%;
 `;
+
+export const MainContent = styled.div`
+  height: 100%;
+`;
