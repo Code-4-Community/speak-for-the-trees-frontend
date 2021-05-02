@@ -27,7 +27,7 @@ const shortHandNames: { [fullName: string]: string } = {
 test('shortHand tests', () => {
   expect(shortHand('North End', shortHandNames)).toBe('NE');
   expect(shortHand('West End', shortHandNames)).toBe('WE');
-  expect(shortHand('Leather District', shortHandNames)).toBe('NE');
+  expect(shortHand('Leather District', shortHandNames)).toBe('LD');
   expect(shortHand('Beacon Hill', shortHandNames)).toBe('BH');
   expect(shortHand('Back Bay', shortHandNames)).toBe('BB');
   expect(shortHand('Downtown', shortHandNames)).toBe('DT');
