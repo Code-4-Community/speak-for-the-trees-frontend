@@ -69,7 +69,7 @@ const Settings: React.FC<SettingsProps> = ({ tokens, userData }) => {
       <Helmet>
         <title>Settings</title>
         <meta
-          name="Settings"
+          name="description"
           content="Where the user can change their account settings, including their username, email, and password, and delete their account."
         />
       </Helmet>
