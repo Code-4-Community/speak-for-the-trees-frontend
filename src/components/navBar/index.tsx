@@ -108,7 +108,7 @@ const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
         onClick={() => {
           if (asyncRequestIsComplete(tokens)) {
             dispatch(logout());
-            history.push(Routes.LANDING);
+            history.go(0);
           }
         }}
       >
