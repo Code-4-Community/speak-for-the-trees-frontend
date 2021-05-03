@@ -12,23 +12,29 @@ export const loginPasswordRules: Rule[] = [
   },
 ];
 
+export const passwordHelp =
+  'Your new password must be at least 8 characters long.';
+
 export const newPasswordRules: Rule[] = [
-  { required: true, message: 'Please enter a password!' },
+  { required: true, message: 'Please enter a new password!' },
   {
     min: 8,
-    message: 'Password must be at least 8 characters long',
+    message: passwordHelp,
   },
 ];
 
-export const confirmPasswordRules = (form: FormInstance): Rule[] => {
+export const confirmPasswordRules = (
+  form: FormInstance,
+  check: string,
+): Rule[] => {
   return [
     {
       required: true,
-      message: 'Please confirm your password!',
+      message: 'Please confirm your new password!',
     },
     {
       validator(_, value) {
-        const password = form.getFieldValue('password');
+        const password = form.getFieldValue(check);
         if (value && password !== value) {
           return Promise.reject('Passwords do not match');
         }

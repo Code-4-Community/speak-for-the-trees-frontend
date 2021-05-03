@@ -50,10 +50,9 @@ const ForgotPasswordReset: React.FC = () => {
             <Input.Password placeholder="New Password" />
           </Form.Item>
 
-          {/* TODO: update to confirmPasswordRules(resetPasswordForm, 'password') after merging settings fix ticket */}
           <Form.Item
             name="confirmPassword"
-            rules={confirmPasswordRules(resetPasswordForm)}
+            rules={confirmPasswordRules(resetPasswordForm, 'password')}
           >
             <Input.Password placeholder="Confirm Password" />
           </Form.Item>

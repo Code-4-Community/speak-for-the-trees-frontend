@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { Alert, Col, Form, Row, Typography } from 'antd';
 import { Helmet } from 'react-helmet';
 import GreetingContainer from '../../components/greetingContainer';
-import { signup } from '../../auth/ducks/thunks';
+import { getUserData, signup } from '../../auth/ducks/thunks';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import {
   SignupRequest,
@@ -19,7 +19,7 @@ import {
   TabletPageContainer,
 } from '../../components/themedComponents';
 import PageHeader from '../../components/pageHeader';
-import SignupForm from '../../components/signupForm';
+import SignupForm from '../../components/forms/signupForm';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
@@ -91,15 +91,12 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
   const [signupForm] = Form.useForm();
 
   if (isLoggedIn(privilegeLevel)) {
+    dispatch(getUserData());
     const destination = location.state
       ? location.state.destination
       : Routes.HOME;
     history.push(destination);
   }
-
-  const onFinish = (values: SignupRequest) => {
-    dispatch(signup(values));
-  };
 
   return (
     <>
@@ -122,7 +119,6 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                   )}
                   <SignupForm
                     formInstance={signupForm}
-                    onFinish={onFinish}
                     windowType={windowType}
                   />
                 </MobileSignupPageContainer>
@@ -141,7 +137,6 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                       <TabletLine />
                       <SignupForm
                         formInstance={signupForm}
-                        onFinish={onFinish}
                         windowType={windowType}
                       />
                     </TabletInputContainer>
@@ -175,7 +170,6 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                         <Line />
                         <SignupForm
                           formInstance={signupForm}
-                          onFinish={onFinish}
                           windowType={windowType}
                         />
                       </InputContainer>

@@ -23,7 +23,7 @@ import {
 import GreetingContainer from '../../components/greetingContainer';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
-import LoginForm from '../../components/loginForm';
+import LoginForm from '../../components/forms/loginForm';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
