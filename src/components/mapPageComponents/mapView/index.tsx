@@ -9,6 +9,7 @@ import ReservationModal, {
 } from '../../../components/ReservationModal';
 import protectedApiClient from '../../../api/protectedApiClient';
 import { shortHand } from '../../../utils/stringFormat';
+import { shortHandNames } from '../../../assets/content';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -75,19 +76,6 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
   // eslint-disable-next-line
   const mapId = '76c08a2450c223d9';
   const markersArray: google.maps.Marker[] = [];
-
-  // This dictionary that stores names to be shortHand-ed.
-  // To add a new area, add the full name and then the shorthand name seperated by a colon.
-  const shortHandNames: { [fullName: string]: string } = {
-    'North End': 'NE',
-    'West End': 'WE',
-    'Leather District': 'LD',
-    'Beacon Hill': 'BH',
-    'Back Bay': 'BB',
-    Downtown: 'DT',
-    Chinatown: 'CT',
-    'Bay Village': 'BV',
-  };
 
   useEffect(() => {
     const mapElement = mapRef.current;
@@ -319,7 +307,7 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
         handleZoomChange();
       });
     }
-  }, [blocks, neighborhoods, mapRef, markersArray, loader, shortHandNames]);
+  }, [blocks, neighborhoods, mapRef, markersArray, loader]);
 
   return (
     <>
