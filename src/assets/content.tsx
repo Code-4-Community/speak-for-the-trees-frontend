@@ -36,7 +36,7 @@ export const RESERVATION_BODY =
 
 // This dictionary that stores names to be shortHand-ed.
 // To add a new area, add the full name and then the shorthand name seperated by a colon.
-export const shortHandNames: { [fullName: string]: string } = {
+export const SHORT_HAND_NAMES: { [fullName: string]: string } = {
   'North End': 'NE',
   'West End': 'WE',
   'Leather District': 'LD',

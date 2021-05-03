@@ -9,7 +9,7 @@ import ReservationModal, {
 } from '../../../components/ReservationModal';
 import protectedApiClient from '../../../api/protectedApiClient';
 import { shortHand } from '../../../utils/stringFormat';
-import { shortHandNames } from '../../../assets/content';
+import { SHORT_HAND_NAMES } from '../../../assets/content';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -188,7 +188,7 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
             label: {
               color: 'white',
               fontWeight: 'bold',
-              text: shortHand(feature.getProperty('name'), shortHandNames),
+              text: shortHand(feature.getProperty('name'), SHORT_HAND_NAMES),
             },
             // Removed the icon here, only text on map.
             icon: {

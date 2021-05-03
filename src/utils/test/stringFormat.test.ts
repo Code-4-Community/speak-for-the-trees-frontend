@@ -1,7 +1,7 @@
 import { getMoneyString } from '../stringFormat';
 import { getDateString } from '../stringFormat';
 import { shortHand } from '../stringFormat';
-import { shortHandNames } from '../../assets/content';
+import { SHORT_HAND_NAMES } from '../../assets/content';
 
 test('getMoneyString tests', () => {
   expect(getMoneyString(100000)).toBe('$100,000');
@@ -14,13 +14,13 @@ test('getDateString tests', () => {
 });
 
 test('shortHand tests', () => {
-  expect(shortHand('North End', shortHandNames)).toBe('NE');
-  expect(shortHand('West End', shortHandNames)).toBe('WE');
-  expect(shortHand('Leather District', shortHandNames)).toBe('LD');
-  expect(shortHand('Beacon Hill', shortHandNames)).toBe('BH');
-  expect(shortHand('Back Bay', shortHandNames)).toBe('BB');
-  expect(shortHand('Downtown', shortHandNames)).toBe('DT');
-  expect(shortHand('Chinatown', shortHandNames)).toBe('CT');
-  expect(shortHand('Bay Village', shortHandNames)).toBe('BV');
-  expect(shortHand('Roxbury', shortHandNames)).toBe('Roxbury');
+  expect(shortHand('North End', SHORT_HAND_NAMES)).toBe('NE');
+  expect(shortHand('West End', SHORT_HAND_NAMES)).toBe('WE');
+  expect(shortHand('Leather District', SHORT_HAND_NAMES)).toBe('LD');
+  expect(shortHand('Beacon Hill', SHORT_HAND_NAMES)).toBe('BH');
+  expect(shortHand('Back Bay', SHORT_HAND_NAMES)).toBe('BB');
+  expect(shortHand('Downtown', SHORT_HAND_NAMES)).toBe('DT');
+  expect(shortHand('Chinatown', SHORT_HAND_NAMES)).toBe('CT');
+  expect(shortHand('Bay Village', SHORT_HAND_NAMES)).toBe('BV');
+  expect(shortHand('Roxbury', SHORT_HAND_NAMES)).toBe('Roxbury');
 });
