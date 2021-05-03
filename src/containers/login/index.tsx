@@ -90,9 +90,11 @@ const MobileLoginAlert = styled(Alert)`
   margin-bottom: 20px;
 `;
 
-type LoginProps = UserAuthenticationReducerState;
+interface LoginProps {
+  tokens: UserAuthenticationReducerState['tokens'];
+}
 
-const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
+const Login: React.FC<LoginProps> = ({ tokens }) => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -142,7 +144,7 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
       <Helmet>
         <title>Login</title>
         <meta
-          name="login"
+          name="description"
           content="Where the user can log into their account."
         />
       </Helmet>
@@ -237,7 +239,6 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
 const mapStateToProps = (state: C4CState): LoginProps => {
   return {
     tokens: state.authenticationState.tokens,
-    userData: state.authenticationState.userData,
   };
 };
 

@@ -45,18 +45,18 @@ const PageHeader: React.FC<PageHeaderProps> = ({
 }) => {
   if (isMobile) {
     return (
-      <div>
+      <>
         <MobileStyledTitle>{pageTitle}</MobileStyledTitle>
-      </div>
+      </>
     );
   } else {
     return (
-      <div>
+      <>
         <StyledTitle>{pageTitle}</StyledTitle>
         <StyledSubtitle subtitleColor={subtitleColor}>
           {pageSubtitle}
         </StyledSubtitle>
-      </div>
+      </>
     );
   }
 };

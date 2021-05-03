@@ -35,7 +35,7 @@ const ForgotPasswordReset: React.FC = () => {
       <Helmet>
         <title>Forgot Password</title>
         <meta
-          name="Forgot Password Reset"
+          name="description"
           content="User can reset their forgotten password."
         />
       </Helmet>

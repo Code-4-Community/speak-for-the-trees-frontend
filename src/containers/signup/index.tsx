@@ -74,7 +74,9 @@ const MobileSignupAlert = styled(Alert)`
   margin-bottom: 20px;
 `;
 
-type SignupProps = UserAuthenticationReducerState;
+interface SignupProps {
+  tokens: UserAuthenticationReducerState['tokens'];
+}
 
 const Signup: React.FC<SignupProps> = ({ tokens }) => {
   const { windowType } = useWindowDimensions();
@@ -192,7 +194,6 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
 const mapStateToProps = (state: C4CState): SignupProps => {
   return {
     tokens: state.authenticationState.tokens,
-    userData: state.authenticationState.userData,
   };
 };
 

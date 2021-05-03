@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import MapPage from '../../components/mapPageComponents/mapPage';
 import LandingTreeStats from '../../components/landingTreeStats';
@@ -9,7 +9,6 @@ import useWindowDimensions, {
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
 import { LANDING_BODY, LANDING_TITLE } from '../../assets/content';
 import { C4CState } from '../../store';
-import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
 import MobileMapPage from '../../components/mapPageComponents/mobileMapPage';
@@ -19,11 +18,7 @@ const PaddedContent = styled.div`
   padding: 24px 50px;
 `;
 
-interface LandingProps {
-  readonly tokens: UserAuthenticationReducerState['tokens'];
-}
-
-const Landing: React.FC<LandingProps> = () => {
+const Landing: React.FC = () => {
   const dispatch = useDispatch();
   const loggedIn: boolean = useSelector((state: C4CState) =>
     isLoggedIn(state.authenticationState.tokens),
@@ -89,10 +84,4 @@ const Landing: React.FC<LandingProps> = () => {
   );
 };
 
-const mapStateToProps = (state: C4CState): LandingProps => {
-  return {
-    tokens: state.authenticationState.tokens,
-  };
-};
-
-export default connect(mapStateToProps)(Landing);
+export default Landing;

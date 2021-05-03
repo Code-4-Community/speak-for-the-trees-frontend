@@ -51,9 +51,7 @@ const UserInformationText = styled(Paragraph)`
   font-size: 15px;
 `;
 
-type SettingsProps = UserAuthenticationReducerState;
-
-const Settings: React.FC<SettingsProps> = ({ tokens, userData }) => {
+const Settings: React.FC = () => {
   const [showDeleteForm, setShowDeleteForm] = useState<boolean>(false);
   const { windowType } = useWindowDimensions();
   const userFullName = useSelector((state: C4CState) =>
@@ -167,11 +165,4 @@ const Settings: React.FC<SettingsProps> = ({ tokens, userData }) => {
   );
 };
 
-const mapStateToProps = (state: C4CState): SettingsProps => {
-  return {
-    tokens: state.authenticationState.tokens,
-    userData: state.authenticationState.userData,
-  };
-};
-
-export default connect(mapStateToProps)(Settings);
+export default Settings;

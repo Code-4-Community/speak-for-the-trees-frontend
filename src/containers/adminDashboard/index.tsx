@@ -52,7 +52,7 @@ const AdminDashboard: React.FC = () => {
       <Helmet>
         <title>Admin Dashboard</title>
         <meta
-          name="Admin Dashboard"
+          name="description"
           content="The page for admin users to modify accounts and download team data."
         />
       </Helmet>
