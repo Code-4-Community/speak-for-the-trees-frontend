@@ -9,7 +9,7 @@ import {
   LoginRequest,
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
-import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { isLoggedIn } from '../../auth/ducks/selectors';
 import { asyncRequestIsFailed } from '../../utils/asyncRequest';
 import { RedirectStateProps, Routes } from '../../App';
 import { Alert, Col, Form, Row, Typography } from 'antd';
@@ -33,7 +33,6 @@ import {
   LOGIN_HEADER,
   LOGIN_TITLE,
 } from '../../assets/content';
-import { isLoggedIn } from '../../utils/isCheck';
 
 const { Paragraph } = Typography;
 
@@ -98,8 +97,8 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation<RedirectStateProps>();
-  const privilegeLevel = useSelector((state: C4CState) =>
-    getPrivilegeLevel(state.authenticationState.tokens),
+  const loggedIn = useSelector((state: C4CState) =>
+    isLoggedIn(state.authenticationState.tokens),
   );
   const [loginForm] = Form.useForm();
 
@@ -107,7 +106,7 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
     ? location.state.destination
     : Routes.HOME;
 
-  if (isLoggedIn(privilegeLevel)) {
+  if (loggedIn) {
     dispatch(getUserData());
     history.push(destination);
   }

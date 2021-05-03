@@ -4,12 +4,9 @@ import { useHistory } from 'react-router-dom';
 import { Alert, Col, Form, Row, Typography } from 'antd';
 import { Helmet } from 'react-helmet';
 import GreetingContainer from '../../components/greetingContainer';
-import { getUserData, signup } from '../../auth/ducks/thunks';
+import { getUserData } from '../../auth/ducks/thunks';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import {
-  SignupRequest,
-  UserAuthenticationReducerState,
-} from '../../auth/ducks/types';
+import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { C4CState } from '../../store';
 import { BLACK, LIGHT_GREY, WHITE } from '../../utils/colors';
 import styled from 'styled-components';
@@ -26,9 +23,8 @@ import useWindowDimensions, {
 import PageLayout from '../../components/pageLayout';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { RedirectStateProps, Routes } from '../../App';
-import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { isLoggedIn } from '../../auth/ducks/selectors';
 import { SIGNUP_BODY, SIGNUP_HEADER, SIGNUP_TITLE } from '../../assets/content';
-import { isLoggedIn } from '../../utils/isCheck';
 
 const { Paragraph } = Typography;
 
@@ -85,12 +81,12 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation<RedirectStateProps>();
-  const privilegeLevel = useSelector((state: C4CState) =>
-    getPrivilegeLevel(state.authenticationState.tokens),
+  const loggedIn = useSelector((state: C4CState) =>
+    isLoggedIn(state.authenticationState.tokens),
   );
   const [signupForm] = Form.useForm();
 
-  if (isLoggedIn(privilegeLevel)) {
+  if (loggedIn) {
     dispatch(getUserData());
     const destination = location.state
       ? location.state.destination

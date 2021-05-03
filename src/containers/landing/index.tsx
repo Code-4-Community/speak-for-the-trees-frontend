@@ -10,8 +10,7 @@ import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
 import { LANDING_BODY, LANDING_TITLE } from '../../assets/content';
 import { C4CState } from '../../store';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
-import { getPrivilegeLevel } from '../../auth/ducks/selectors';
-import { isLoggedIn } from '../../utils/isCheck';
+import { isLoggedIn } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
 import MobileMapPage from '../../components/mapPageComponents/mobileMapPage';
 import MobileLandingBar from '../../components/mapPageComponents/mobileLandingBar';
@@ -26,8 +25,8 @@ interface LandingProps {
 
 const Landing: React.FC<LandingProps> = () => {
   const dispatch = useDispatch();
-  const privilegeLevel = useSelector((state: C4CState) =>
-    getPrivilegeLevel(state.authenticationState.tokens),
+  const loggedIn: boolean = useSelector((state: C4CState) =>
+    isLoggedIn(state.authenticationState.tokens),
   );
 
   useEffect(() => {
@@ -58,7 +57,7 @@ const Landing: React.FC<LandingProps> = () => {
                   <MobileLandingBar
                     barHeader={LANDING_TITLE}
                     barDescription={LANDING_BODY}
-                    isLoggedIn={isLoggedIn(privilegeLevel)}
+                    isLoggedIn={loggedIn}
                   >
                     <LandingTreeStats
                       moneySaved={statMoneySaved}
