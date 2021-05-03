@@ -68,7 +68,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
           <Form.Item
             name="confirmPassword"
             dependencies={['password']}
-            rules={confirmPasswordRules(formInstance)}
+            rules={confirmPasswordRules(formInstance, 'password')}
           >
             <Input.Password placeholder="Confirm Password" />
           </Form.Item>
