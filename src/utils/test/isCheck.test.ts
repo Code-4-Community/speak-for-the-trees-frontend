@@ -1,9 +1,9 @@
-import { isLoggedIn } from '../isCheck';
-import { PrivilegeLevel } from '../../auth/ducks/types';
+import { isMobile } from '../isCheck';
+import { WindowTypes } from '../../components/windowDimensions';
 
-test('isLoggedIn tests', () => {
-  expect(isLoggedIn(PrivilegeLevel.NONE)).toBe(false);
-  expect(isLoggedIn(PrivilegeLevel.STANDARD)).toBe(true);
-  expect(isLoggedIn(PrivilegeLevel.ADMIN)).toBe(true);
-  expect(isLoggedIn(PrivilegeLevel.SUPER_ADMIN)).toBe(true);
+test('isMobile tests', () => {
+  expect(isMobile(WindowTypes.Desktop)).toBe(false);
+  expect(isMobile(WindowTypes.NarrowDesktop)).toBe(false);
+  expect(isMobile(WindowTypes.Tablet)).toBe(false);
+  expect(isMobile(WindowTypes.Mobile)).toBe(true);
 });
