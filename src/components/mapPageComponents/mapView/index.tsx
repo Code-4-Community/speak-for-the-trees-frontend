@@ -301,20 +301,23 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
 
         function setSitesStyle(v: boolean) {
           sitesLayer.setStyle((feature) => {
-            let isVisible = v;
+            let visible = false;
             let icon = treeIcon;
 
+            // Only shows sites if there is a tree there
             if (feature.getProperty('tree_present')) {
-              isVisible = isVisible && true;
+              visible = v && true;
             }
 
+            // TODO: update this to if the tree was planted within the past three years
+            // If the tree has not been updated within the past three years, use youngTreeIcon
             const updatedDate = feature.getProperty('updated_at');
             if (updatedDate < breakpointDate) {
               icon = youngTreeIcon;
             }
 
             return {
-              visible: isVisible,
+              visible,
               icon,
             };
           });
