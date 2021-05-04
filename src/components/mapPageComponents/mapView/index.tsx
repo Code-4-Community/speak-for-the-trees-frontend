@@ -33,13 +33,24 @@ const MapDiv = styled.div`
 // Three years before the current date
 const breakpointDate = new Date().setFullYear(new Date().getFullYear() - 3);
 
+export enum MapViews {
+  BLOCKS,
+  TREES,
+}
+
 interface MapViewProps {
   blocks: BlockGeoData;
   neighborhoods: NeighborhoodGeoData;
   sites: SiteGeoData;
+  view: MapViews;
 }
 
-const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
+const MapView: React.FC<MapViewProps> = ({
+  blocks,
+  neighborhoods,
+  sites,
+  view,
+}) => {
   // visibility of reservation modal
   const [showModal, setShowModal] = useState<boolean>(false);
   // block status for modal
@@ -367,9 +378,16 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
             }
             setNeighborhoodsStyle(!zoomedIn);
             toggleMarkers(!zoomedIn);
-            // setBlocksStyle(zoomedIn);
-            setSitesStyle(zoomedIn);
             setPrivateStreetsStyle(zoomedIn);
+
+            switch (view) {
+              case MapViews.BLOCKS:
+                setBlocksStyle(zoomedIn);
+                break;
+              case MapViews.TREES:
+                setSitesStyle(zoomedIn);
+                break;
+            }
           });
         }
 

@@ -13,6 +13,7 @@ import { isLoggedIn } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
 import MobileMapPage from '../../components/mapPageComponents/mobileMapPage';
 import MobileLandingBar from '../../components/mapPageComponents/mobileLandingBar';
+import { MapViews } from '../../components/mapPageComponents/mapView';
 
 const PaddedContent = styled.div`
   padding: 24px 50px;
@@ -34,6 +35,8 @@ const Landing: React.FC = () => {
   const statRainWater = 100000;
   const statCarbonEmissions = 31;
 
+  const landingMapView = MapViews.TREES;
+
   return (
     <>
       <Helmet>
@@ -47,7 +50,7 @@ const Landing: React.FC = () => {
         switch (windowType) {
           case WindowTypes.Mobile:
             return (
-              <MobileMapPage>
+              <MobileMapPage view={landingMapView}>
                 <PaddedContent>
                   <MobileLandingBar
                     barHeader={LANDING_TITLE}
@@ -70,6 +73,7 @@ const Landing: React.FC = () => {
               <MapPage
                 sidebarHeader={LANDING_TITLE}
                 sidebarDescription={LANDING_BODY}
+                view={landingMapView}
               >
                 <LandingTreeStats
                   moneySaved={statMoneySaved}
