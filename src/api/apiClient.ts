@@ -4,6 +4,7 @@ import { TeamLeaderboardItem } from '../containers/teamLeaderboard/ducks/types';
 import {
   BlockGeoData,
   NeighborhoodGeoData,
+  SiteGeoData,
 } from '../components/mapPageComponents/ducks/types';
 
 export interface ApiExtraArgs {
@@ -19,6 +20,7 @@ export interface ApiClient {
   ) => Promise<TeamLeaderboardItem[]>;
   readonly getBlockGeoData: () => Promise<BlockGeoData>;
   readonly getNeighborhoodGeoData: () => Promise<NeighborhoodGeoData>;
+  readonly getSiteGeoData: () => Promise<SiteGeoData>;
 }
 
 export enum ApiClientRoutes {
@@ -26,6 +28,7 @@ export enum ApiClientRoutes {
   TEAMS_LEADERBOARD = '/api/v1/leaderboard/teams',
   GET_ALL_BLOCKS = '/api/v1/map/blocks',
   GET_ALL_NEIGHBORHOODS = '/api/v1/map/neighborhoods',
+  GET_ALL_SITES = '/api/v1/map/sites',
 }
 
 const getUsersLeaderboard = (
@@ -56,11 +59,18 @@ const getNeighborhoodGeoData = (): Promise<NeighborhoodGeoData> => {
     .catch((e) => e);
 };
 
+const getSiteGeoData = (): Promise<SiteGeoData> => {
+  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_SITES)
+    .then((res) => res.data)
+    .catch((err) => err);
+};
+
 const Client: ApiClient = Object.freeze({
   getUsersLeaderboard,
   getTeamsLeaderboard,
   getBlockGeoData,
   getNeighborhoodGeoData,
+  getSiteGeoData,
 });
 
 export default Client;

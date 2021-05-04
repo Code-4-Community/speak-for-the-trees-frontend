@@ -1,12 +1,10 @@
 import React, { createRef, useEffect, useState } from 'react';
-import useWindowDimensions, { WindowTypes } from '../../window-dimensions';
+import useWindowDimensions, { WindowTypes } from '../../windowDimensions';
 import { Input, message } from 'antd';
 import { Loader } from '@googlemaps/js-api-loader';
 import styled from 'styled-components';
-import { BlockGeoData, NeighborhoodGeoData } from '../ducks/types';
-import ReservationModal, {
-  ReservationModalType,
-} from '../../../components/ReservationModal';
+import { BlockGeoData, NeighborhoodGeoData, SiteGeoData } from '../ducks/types';
+import ReservationModal, { ReservationModalType } from '../../reservationModal';
 import protectedApiClient from '../../../api/protectedApiClient';
 import { shortHand } from '../../../utils/stringFormat';
 import { SHORT_HAND_NAMES } from '../../../assets/content';
@@ -35,9 +33,10 @@ const MapDiv = styled.div`
 interface MapViewProps {
   blocks: BlockGeoData;
   neighborhoods: NeighborhoodGeoData;
+  sites: SiteGeoData;
 }
 
-const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods }) => {
+const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
   // visibility of reservation modal
   const [showModal, setShowModal] = useState<boolean>(false);
   // block status for modal

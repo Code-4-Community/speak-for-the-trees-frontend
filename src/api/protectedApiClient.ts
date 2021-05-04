@@ -1,4 +1,5 @@
 import AppAxiosInstance from '../auth/axios';
+import { UserData } from '../auth/ducks/types';
 import {
   TeamResponse,
   Applicant,
@@ -7,6 +8,12 @@ import {
   InviteUserRequest,
   TransferOwnershipRequest,
 } from '../containers/teamPage/ducks/types';
+import {
+  AuthRequest,
+  ChangeEmailRequest,
+  ChangePasswordRequest,
+  ChangeUsernameRequest,
+} from '../components/forms/ducks/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -41,6 +48,7 @@ export interface ProtectedApiClient {
     newLevel: string;
     password: string;
   }) => Promise<void>;
+  readonly getUserData: () => Promise<UserData>;
   readonly createTeam: (request: CreateTeamRequest) => Promise<void>;
   readonly getTeams: () => Promise<TeamResponse[]>;
   readonly getTeam: (teamId: number) => Promise<TeamResponse>;
@@ -70,7 +78,8 @@ export enum ProtectedApiClientRoutes {
   CHANGE_PASSWORD = '/api/v1/protected/user/change_password',
   CHANGE_USERNAME = '/api/v1/protected/user/change_username',
   CHANGE_EMAIL = '/api/v1/protected/user/change_email',
-  DELETE_USER = '/api/v1/protected/user',
+  DELETE_USER = '/api/v1/protected/user/delete',
+  GET_USER_DATA = '/api/v1/protected/user/data',
   CREATE_TEAM = '/api/v1/protected/teams/create',
   GET_TEAMS = '/api/v1/protected/teams/',
 }
@@ -111,8 +120,8 @@ const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
     block_id: blockId,
     team_id: teamId,
   })
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const completeReservation = (
@@ -123,16 +132,16 @@ const completeReservation = (
     block_id: blockId,
     team_id: teamId,
   })
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const releaseReservation = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.RELEASE_RESERVATION, {
     block_id: blockId,
   })
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 // Admin routes
@@ -141,71 +150,54 @@ const uncompleteReservation = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.UNCOMPLETE_RESERVATION, {
     block_id: blockId,
   })
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const markReservationForQa = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.MARK_RESERVATION_FOR_QA, {
     block_id: blockId,
   })
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const passReservationQa = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.PASS_RESERVATION_QA, {
     block_id: blockId,
   })
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const failReservationQa = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.FAIL_RESERVATION_QA, {
     block_id: blockId,
   })
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
-const changePassword = (request: {
-  currentPassword: string;
-  newPassword: string;
-}): Promise<void> => {
+const changePassword = (request: ChangePasswordRequest): Promise<void> => {
   return AppAxiosInstance.post(
     ProtectedApiClientRoutes.CHANGE_PASSWORD,
     request,
-  )
-    .then((r) => r.data)
-    .catch((e) => e);
+  );
 };
 
-const changeUsername = (request: {
-  newUsername: string;
-  password: string;
-}): Promise<void> => {
+const changeUsername = (request: ChangeUsernameRequest): Promise<void> => {
   return AppAxiosInstance.post(
     ProtectedApiClientRoutes.CHANGE_USERNAME,
     request,
-  )
-    .then((r) => r.data)
-    .catch((e) => e);
+  );
 };
 
-const changeEmail = (request: {
-  newEmail: string;
-  password: string;
-}): Promise<void> => {
-  return AppAxiosInstance.post(ProtectedApiClientRoutes.CHANGE_EMAIL, request)
-    .then((r) => r.data)
-    .catch((e) => e);
+const changeEmail = (request: ChangeEmailRequest): Promise<void> => {
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.CHANGE_EMAIL, request);
 };
 
-const deleteUser = (request: { password: string }): Promise<void> => {
-  return AppAxiosInstance.post(ProtectedApiClientRoutes.DELETE_USER, request)
-    .then((r) => r.data)
-    .catch((e) => e);
+const deleteUser = (request: AuthRequest): Promise<void> => {
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.DELETE_USER, request);
 };
 
 const changePrivilegeLevel = (request: {
@@ -214,8 +206,14 @@ const changePrivilegeLevel = (request: {
   password: string;
 }): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.CHANGE_PRIVILEGE, request)
-    .then((r) => r.data)
-    .catch((e) => e);
+    .then((res) => res.data)
+    .catch((err) => err);
+};
+
+const getUserData = (): Promise<UserData> => {
+  return AppAxiosInstance.get(ProtectedApiClientRoutes.GET_USER_DATA)
+    .then((res) => res.data)
+    .catch((err) => err);
 };
 
 const createTeam = (request: CreateTeamRequest): Promise<void> => {
@@ -335,6 +333,7 @@ const Client: ProtectedApiClient = Object.freeze({
   changeEmail,
   deleteUser,
   changePrivilegeLevel,
+  getUserData,
   createTeam,
   getTeams,
   getTeam,

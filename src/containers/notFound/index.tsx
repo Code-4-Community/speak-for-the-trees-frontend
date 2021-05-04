@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { Routes } from '../../App';
-import { ContentContainer } from '../../components';
+import { ContentContainer } from '../../components/themedComponents';
 import { Typography } from 'antd';
 const { Title } = Typography;
 
@@ -12,7 +12,7 @@ const NotFound: React.FC = () => {
       <Helmet>
         <title>Not Found</title>
         <meta
-          name="Not Found"
+          name="description"
           content="The page users are directed to after entering a route that does not exist."
         />
       </Helmet>

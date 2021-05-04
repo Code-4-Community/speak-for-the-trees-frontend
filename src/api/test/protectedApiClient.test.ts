@@ -5,6 +5,7 @@ import ProtectedApiClient, {
 } from '../protectedApiClient';
 import { TeamResponse, TeamRole } from '../../containers/teamPage/ducks/types';
 import nock from 'nock';
+import { UserData } from '../../auth/ducks/types';
 
 const BASE_URL = 'http://localhost';
 
@@ -13,16 +14,31 @@ const BASE_URL = 'http://localhost';
 describe('Protected API Client Tests', () => {
   describe('changePassword', () => {
     it('makes the right request', async () => {
-      const response = '';
+      const response = new Promise((res) => res);
 
       nock(BASE_URL)
         .post(ProtectedApiClientRoutes.CHANGE_PASSWORD)
         .reply(200, response);
 
-      const result = await ProtectedApiClient.changePassword({
+      const result = ProtectedApiClient.changePassword({
         currentPassword: 'password',
         newPassword: 'password2',
       });
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request, wrong password', async () => {
+      const response = 'Given password is not correct';
+
+      nock(BASE_URL)
+        .post(ProtectedApiClientRoutes.CHANGE_PASSWORD)
+        .reply(401, response);
+
+      const result = await ProtectedApiClient.changePassword({
+        currentPassword: 'password',
+        newPassword: 'password2',
+      }).catch((err) => err.response.data);
 
       expect(result).toEqual(response);
     });
@@ -30,16 +46,47 @@ describe('Protected API Client Tests', () => {
 
   describe('changeUsername', () => {
     it('makes the right request', async () => {
-      const response = '';
+      const response = new Promise((res) => res);
 
       nock(BASE_URL)
         .post(ProtectedApiClientRoutes.CHANGE_USERNAME)
         .reply(200, response);
 
-      const result = await ProtectedApiClient.changeUsername({
+      const result = ProtectedApiClient.changeUsername({
         newUsername: 'willthomas',
         password: 'password',
       });
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request, wrong password', async () => {
+      const response = 'Given password is not correct';
+
+      nock(BASE_URL)
+        .post(ProtectedApiClientRoutes.CHANGE_USERNAME)
+        .reply(401, response);
+
+      const result = await ProtectedApiClient.changeUsername({
+        newUsername: 'willthomas',
+        password: 'password',
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a conflicting request, username in use', async () => {
+      const response =
+        'Error creating new user, given username willthomas already used';
+
+      nock(BASE_URL)
+        .post(ProtectedApiClientRoutes.CHANGE_USERNAME)
+        .reply(409, response);
+
+      const result = await ProtectedApiClient.changeUsername({
+        newUsername: 'willthomas',
+        password: 'password',
+      }).catch((err) => err.response.data);
 
       expect(result).toEqual(response);
     });
@@ -47,16 +94,47 @@ describe('Protected API Client Tests', () => {
 
   describe('changeEmail', () => {
     it('makes the right request', async () => {
-      const response = '';
+      const response = new Promise((res) => res);
 
       nock(BASE_URL)
         .post(ProtectedApiClientRoutes.CHANGE_EMAIL)
         .reply(200, response);
 
-      const result = await ProtectedApiClient.changeEmail({
+      const result = ProtectedApiClient.changeEmail({
         newEmail: 'willthomas@c4c.com',
         password: 'password',
       });
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request, wrong password', async () => {
+      const response = 'Given password is not correct';
+
+      nock(BASE_URL)
+        .post(ProtectedApiClientRoutes.CHANGE_EMAIL)
+        .reply(401, response);
+
+      const result = await ProtectedApiClient.changeEmail({
+        newEmail: 'willthomas@c4c.com',
+        password: 'password',
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a conflicting request, username in use', async () => {
+      const response =
+        'Error creating new user, given username willthomas@c4c.com already used';
+
+      nock(BASE_URL)
+        .post(ProtectedApiClientRoutes.CHANGE_EMAIL)
+        .reply(409, response);
+
+      const result = await ProtectedApiClient.changeEmail({
+        newEmail: 'willthomas@c4c.com',
+        password: 'password',
+      }).catch((err) => err.response.data);
 
       expect(result).toEqual(response);
     });
@@ -64,15 +142,47 @@ describe('Protected API Client Tests', () => {
 
   describe('deleteUser', () => {
     it('makes the right request', async () => {
-      const response = '';
+      const response = new Promise((res) => res);
 
       nock(BASE_URL)
         .post(ProtectedApiClientRoutes.DELETE_USER)
         .reply(200, response);
 
-      const result = await ProtectedApiClient.deleteUser({
+      const result = ProtectedApiClient.deleteUser({
         password: 'password',
       });
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request, wrong password', async () => {
+      const response = 'Given password is not correct';
+
+      nock(BASE_URL)
+        .post(ProtectedApiClientRoutes.DELETE_USER)
+        .reply(401, response);
+
+      const result = await ProtectedApiClient.deleteUser({
+        password: 'password',
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('getUserData', () => {
+    it('makes the right request', async () => {
+      const response: UserData = {
+        firstName: '',
+        lastName: '',
+        email: '',
+      };
+
+      nock(BASE_URL)
+        .get(ProtectedApiClientRoutes.GET_USER_DATA)
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.getUserData();
 
       expect(result).toEqual(response);
     });

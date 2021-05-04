@@ -46,3 +46,9 @@ export const SHORT_HAND_NAMES: { [fullName: string]: string } = {
   Chinatown: 'CT',
   'Bay Village': 'BV',
 };
+
+// Tree Stats
+export const STATS_HEADER = 'Current Status of our Trees';
+export const MONEY_STAT_TITLE = 'Money Saved';
+export const RAIN_STAT_TITLE = 'Rain Water Caught';
+export const EMISSIONS_STAT_TITLE = 'Carbon Emissions Captured';
