@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Col, Row, Button, Typography, Modal } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
 import { MID_GREEN } from '../../utils/colors';
 import { C4CState } from '../../store';
-import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { getUserEmail, getUserFullName } from '../../auth/ducks/selectors';
 import ChangeUsernameForm from '../../components/forms/changeUsernameForm';
 import DeleteAccountForm from '../../components/forms/deleteAccountForm';
@@ -16,7 +15,6 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import { Helmet } from 'react-helmet';
-import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
 const { Paragraph, Title } = Typography;
 
 const formLayout = {
@@ -52,9 +50,7 @@ const UserInformationText = styled(Paragraph)`
   font-size: 15px;
 `;
 
-type SettingsProps = UserAuthenticationReducerState;
-
-const Settings: React.FC<SettingsProps> = ({ tokens, userData }) => {
+const Settings: React.FC = () => {
   const [showDeleteForm, setShowDeleteForm] = useState<boolean>(false);
   const { windowType } = useWindowDimensions();
   const userFullName = useSelector((state: C4CState) =>
@@ -128,7 +124,7 @@ const Settings: React.FC<SettingsProps> = ({ tokens, userData }) => {
           case WindowTypes.Mobile:
             return (
               <MobileSettingsContainer>
-                <MobilePageHeader pageTitle="Account Settings" />
+                <PageHeader pageTitle="Account Settings" isMobile={true} />
                 <FormTitle>Profile</FormTitle>
                 <UserInformationText>{userFullName}</UserInformationText>
                 <UserInformationText>{userEmail}</UserInformationText>
@@ -168,11 +164,4 @@ const Settings: React.FC<SettingsProps> = ({ tokens, userData }) => {
   );
 };
 
-const mapStateToProps = (state: C4CState): SettingsProps => {
-  return {
-    tokens: state.authenticationState.tokens,
-    userData: state.authenticationState.userData,
-  };
-};
-
-export default connect(mapStateToProps)(Settings);
+export default Settings;

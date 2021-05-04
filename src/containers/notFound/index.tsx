@@ -12,7 +12,7 @@ const NotFound: React.FC = () => {
       <Helmet>
         <title>Not Found</title>
         <meta
-          name="Not Found"
+          name="description"
           content="The page users are directed to after entering a route that does not exist."
         />
       </Helmet>

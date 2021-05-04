@@ -1,18 +1,19 @@
 import React from 'react';
-import { SignupRequest } from '../../auth/ducks/types';
-import { Routes } from '../../App';
+import { useDispatch } from 'react-redux';
+import { signup } from '../../../auth/ducks/thunks';
+import { Routes } from '../../../App';
 import { Button, Col, Form, Input, Row, Typography } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { Link } from 'react-router-dom';
-import { TEXT_GREY } from '../../utils/colors';
+import { TEXT_GREY } from '../../../utils/colors';
 import styled from 'styled-components';
 import {
   FormHalfItem,
   FormRow,
   FullWidthSpace,
   Gap,
-} from '../themedComponents';
-import { WindowTypes } from '../windowDimensions';
+} from '../../themedComponents';
+import { WindowTypes } from '../../windowDimensions';
 import { FormInstance } from 'antd/es/form';
 import {
   confirmPasswordRules,
@@ -21,7 +22,8 @@ import {
   lastNameRules,
   newPasswordRules,
   usernameRules,
-} from '../../utils/formRules';
+} from '../../../utils/formRules';
+import { SignupFormValues } from '../ducks/types';
 
 const { Paragraph } = Typography;
 
@@ -34,15 +36,27 @@ const Footer: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
 
 interface SignupFormProps {
   readonly formInstance: FormInstance;
-  readonly onFinish: (values: SignupRequest) => void;
   readonly windowType: WindowTypes;
 }
 
 const SignupForm: React.FC<SignupFormProps> = ({
   formInstance,
-  onFinish,
   windowType,
 }) => {
+  const dispatch = useDispatch();
+
+  const onFinish = (values: SignupFormValues) => {
+    dispatch(
+      signup({
+        email: values.email,
+        username: values.username,
+        password: values.password,
+        firstName: values.firstName,
+        lastName: values.lastName,
+      }),
+    );
+  };
+
   return (
     <>
       <Form name="basic" form={formInstance} onFinish={onFinish}>

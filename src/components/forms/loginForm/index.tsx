@@ -1,11 +1,11 @@
 import React from 'react';
-import { LoginRequest } from '../../auth/ducks/types';
+import { LoginRequest } from '../../../auth/ducks/types';
 import { Button, Form, Input } from 'antd';
 import styled from 'styled-components';
-import { WindowTypes } from '../windowDimensions';
-import { FormHalfItem, FormRow, Gap } from '../themedComponents';
+import { WindowTypes } from '../../windowDimensions';
+import { FormHalfItem, FormRow, Gap } from '../../themedComponents';
 import { FormInstance } from 'antd/es/form';
-import { enterEmailRules, loginPasswordRules } from '../../utils/formRules';
+import { enterEmailRules, loginPasswordRules } from '../../../utils/formRules';
 
 interface LoginFormProps {
   readonly formInstance: FormInstance;

@@ -7,10 +7,9 @@ import { C4CState } from '../../store';
 import { login, getUserData } from '../../auth/ducks/thunks';
 import {
   LoginRequest,
-  PrivilegeLevel,
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
-import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { isLoggedIn } from '../../auth/ducks/selectors';
 import { asyncRequestIsFailed } from '../../utils/asyncRequest';
 import { RedirectStateProps, Routes } from '../../App';
 import { Alert, Col, Form, Row, Typography } from 'antd';
@@ -22,9 +21,9 @@ import {
   TabletPageContainer,
 } from '../../components/themedComponents';
 import GreetingContainer from '../../components/greetingContainer';
-import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
+import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
-import LoginForm from '../../components/loginForm';
+import LoginForm from '../../components/forms/loginForm';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
@@ -91,15 +90,17 @@ const MobileLoginAlert = styled(Alert)`
   margin-bottom: 20px;
 `;
 
-type LoginProps = UserAuthenticationReducerState;
+interface LoginProps {
+  tokens: UserAuthenticationReducerState['tokens'];
+}
 
-const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
+const Login: React.FC<LoginProps> = ({ tokens }) => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation<RedirectStateProps>();
-  const privilegeLevel = useSelector((state: C4CState) =>
-    getPrivilegeLevel(state.authenticationState.tokens),
+  const loggedIn = useSelector((state: C4CState) =>
+    isLoggedIn(state.authenticationState.tokens),
   );
   const [loginForm] = Form.useForm();
 
@@ -107,7 +108,7 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
     ? location.state.destination
     : Routes.HOME;
 
-  if (privilegeLevel !== PrivilegeLevel.NONE) {
+  if (loggedIn) {
     dispatch(getUserData());
     history.push(destination);
   }
@@ -143,7 +144,7 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
       <Helmet>
         <title>Login</title>
         <meta
-          name="login"
+          name="description"
           content="Where the user can log into their account."
         />
       </Helmet>
@@ -153,7 +154,7 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
           case WindowTypes.Mobile:
             return (
               <MobileLoginPageContainer>
-                <MobilePageHeader pageTitle={LOGIN_TITLE} />
+                <PageHeader pageTitle={LOGIN_TITLE} isMobile={true} />
                 {loginFailed && (
                   <MobileLoginAlert message={LOGIN_ERROR} type="error" />
                 )}
@@ -238,7 +239,6 @@ const Login: React.FC<LoginProps> = ({ tokens, userData }) => {
 const mapStateToProps = (state: C4CState): LoginProps => {
   return {
     tokens: state.authenticationState.tokens,
-    userData: state.authenticationState.userData,
   };
 };
 

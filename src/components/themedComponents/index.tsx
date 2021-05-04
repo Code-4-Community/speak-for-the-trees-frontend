@@ -52,3 +52,7 @@ export const SubmitButton = styled(Button)`
   height: 40px;
   font-size: 16px;
 `;
+
+export const MainContent = styled.div`
+  height: 100%;
+`;

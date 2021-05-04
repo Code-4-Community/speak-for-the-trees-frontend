@@ -1,3 +1,5 @@
+import { SignupRequest } from '../../../auth/ducks/types';
+
 export interface AuthRequest {
   readonly password: string;
 }
@@ -16,5 +18,9 @@ export interface ChangePasswordRequest {
 }
 
 export interface ChangePasswordFormValues extends ChangePasswordRequest {
+  readonly confirmPassword: string;
+}
+
+export interface SignupFormValues extends SignupRequest {
   readonly confirmPassword: string;
 }

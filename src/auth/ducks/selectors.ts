@@ -15,6 +15,15 @@ export const getPrivilegeLevel = (
   return PrivilegeLevel.NONE;
 };
 
+export const isLoggedIn = (
+  tokens: UserAuthenticationReducerState['tokens'],
+): boolean => {
+  if (asyncRequestIsComplete(tokens)) {
+    return true;
+  }
+  return false;
+};
+
 export const getUserID = (tokens: UserAuthenticationReducerState['tokens']) => {
   if (asyncRequestIsComplete(tokens)) {
     const payload = JSON.parse(atob(tokens.result.accessToken.split('.')[1]));
