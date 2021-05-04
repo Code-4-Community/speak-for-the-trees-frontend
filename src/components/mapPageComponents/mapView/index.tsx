@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { BlockGeoData, NeighborhoodGeoData, SiteGeoData } from '../ducks/types';
 import ReservationModal, { ReservationModalType } from '../../reservationModal';
 import protectedApiClient from '../../../api/protectedApiClient';
+import { shortHand } from '../../../utils/stringFormat';
+import { SHORT_HAND_NAMES } from '../../../assets/content';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -74,24 +76,6 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
   const mapId = '76c08a2450c223d9';
   const markersArray: google.maps.Marker[] = [];
 
-  interface KeyValuePair {
-    key: string;
-    value: string;
-  }
-  // This KeyValuePair array that stores names to be shortHand-ed.
-  // To add a new area, wrap a key value pair with {}.
-  /*
-  const shortHandNames: KeyValuePair[] = [
-    { key: 'North End', value: 'NE' },
-    { key: 'West End', value: 'WE' },
-    { key: 'Leather District', value: 'LD' },
-    { key: 'Beacon Hill', value: 'BH' },
-    { key: 'Back Bay', value: 'BB' },
-    { key: 'Downtown', value: 'DT' },
-    { key: 'Chinatown', value: 'CT' },
-    { key: 'Bay Village', value: 'BV' },
-  ];
-  */
   useEffect(() => {
     const mapElement = mapRef.current;
 
@@ -191,50 +175,34 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
         // Creates a new layer
         const neighborhoodsLayer = new google.maps.Data({ map });
 
-        // Function: Returns name in shortHand
-        /*
-        function shortHand(name: string): string {
-          for (const shName of shortHandNames) {
-            if (shName.key === name) {
-              return shName.value;
-            }
-          }
-          return name;
-        }
-        */
         // Loads the objects into the layer
         neighborhoodsLayer.addGeoJson(neighborhoods);
-        /*
-          () => {
-            // For each feature in neighbourhoodsLayer, add a marker
-            // We need to do it here as the GeoJson needs to load first
-            neighborhoodsLayer.forEach((feature) => {
-              // If you want, check here for some constraints.
-              const marker = new google.maps.Marker({
-                map,
-                draggable: false,
-                label: {
-                  color: 'white',
-                  fontWeight: 'bold',
-                  text: shortHand(feature.getProperty('Name')),
-                },
-                // Removed the icon here, only text on map.
-                icon: {
-                  labelOrigin: new google.maps.Point(11, 50),
-                  url: '',
-                  size: new google.maps.Size(22, 40),
-                },
-                position: {
-                  lat: feature.getProperty('Latitude'),
-                  lng: feature.getProperty('Longitude'),
-                },
-              });
-              markersArray.push(marker);
-              marker.setMap(map);
-            });
-          },
-        );
-        */
+        neighborhoodsLayer.forEach((feature) => {
+          // For each feature in neighbourhoodsLayer, add a marker
+          // We need to do it here as the GeoJson needs to load first
+          // If you want, check here for some constraints.
+          const marker = new google.maps.Marker({
+            map,
+            draggable: false,
+            label: {
+              color: 'white',
+              fontWeight: 'bold',
+              text: shortHand(feature.getProperty('name'), SHORT_HAND_NAMES),
+            },
+            // Removed the icon here, only text on map.
+            icon: {
+              labelOrigin: new google.maps.Point(11, 50),
+              url: '',
+              size: new google.maps.Size(22, 40),
+            },
+            position: {
+              lat: feature.getProperty('lat'),
+              lng: feature.getProperty('lng'),
+            },
+          });
+          markersArray.push(marker);
+          marker.setMap(map);
+        });
 
         // Sets the style of the layer to green shades based on property values with white outline
         function setNeighborhoodsStyle(v: boolean) {
@@ -242,7 +210,7 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
             return {
               fillColor: 'green',
               fillOpacity:
-                (feature.getProperty('Neighborhood_ID') / 100) * 2 + 0.1, // TODO: replace this with completion percentage
+                (feature.getProperty('neighborhood_id') / 100) * 2 + 0.1, // TODO: replace this with completion percentage
               strokeWeight: 1,
               strokeColor: 'white',
               visible: v,

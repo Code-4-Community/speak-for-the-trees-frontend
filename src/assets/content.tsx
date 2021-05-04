@@ -34,6 +34,19 @@ export const RESERVATION_TITLE = 'My Blocks';
 export const RESERVATION_BODY =
   "Here are the blocks you can sign up to inventory and the ones you've reserved! Did you know that we take care of over 500 blocks of trees? We couldn't do it without you! ";
 
+// This dictionary that stores names to be shortHand-ed.
+// To add a new area, add the full name and then the shorthand name seperated by a colon.
+export const SHORT_HAND_NAMES: { [fullName: string]: string } = {
+  'North End': 'NE',
+  'West End': 'WE',
+  'Leather District': 'LD',
+  'Beacon Hill': 'BH',
+  'Back Bay': 'BB',
+  Downtown: 'DT',
+  Chinatown: 'CT',
+  'Bay Village': 'BV',
+};
+
 // Tree Stats
 export const STATS_HEADER = 'Current Status of our Trees';
 export const MONEY_STAT_TITLE = 'Money Saved';
