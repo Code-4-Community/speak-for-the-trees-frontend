@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { BlockGeoData, NeighborhoodGeoData, SiteGeoData } from '../ducks/types';
 import ReservationModal, { ReservationModalType } from '../../reservationModal';
 import protectedApiClient from '../../../api/protectedApiClient';
+import treeIcon from '../../../assets/images/treeIcon.png';
+import youngTreeIcon from '../../../assets/images/youngTreeIcon.png';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -27,6 +29,9 @@ const BOSTON_BOUNDS = {
 const MapDiv = styled.div`
   height: 100%;
 `;
+
+// Three years before the current date
+const breakpointDate = new Date().setFullYear(new Date().getFullYear() - 3);
 
 interface MapViewProps {
   blocks: BlockGeoData;
@@ -288,6 +293,35 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
           });
         });
 
+        // Creates a new layer
+        const sitesLayer = new google.maps.Data({ map });
+
+        // Loads the objects into the layer
+        sitesLayer.addGeoJson(sites);
+
+        function setSitesStyle(v: boolean) {
+          sitesLayer.setStyle((feature) => {
+            let isVisible = v;
+            let icon = treeIcon;
+
+            if (feature.getProperty('tree_present')) {
+              isVisible = isVisible && true;
+            }
+
+            const updatedDate = feature.getProperty('updated_at');
+            if (updatedDate < breakpointDate) {
+              icon = youngTreeIcon;
+            }
+
+            return {
+              visible: isVisible,
+              icon,
+            };
+          });
+        }
+
+        setSitesStyle(false);
+
         // Asks user if they want to show their current location
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
@@ -330,7 +364,8 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
             }
             setNeighborhoodsStyle(!zoomedIn);
             toggleMarkers(!zoomedIn);
-            setBlocksStyle(zoomedIn);
+            // setBlocksStyle(zoomedIn);
+            setSitesStyle(zoomedIn);
             setPrivateStreetsStyle(zoomedIn);
           });
         }
@@ -338,7 +373,7 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
         handleZoomChange();
       });
     }
-  }, [blocks, neighborhoods, mapRef, markersArray, loader]);
+  }, [blocks, neighborhoods, sites, mapRef, markersArray, loader]);
 
   return (
     <>
