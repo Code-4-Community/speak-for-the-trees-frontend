@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Col, Row, Button, Typography, Modal } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
 import { MID_GREEN } from '../../utils/colors';
 import { C4CState } from '../../store';
-import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { getUserEmail, getUserFullName } from '../../auth/ducks/selectors';
 import ChangeUsernameForm from '../../components/forms/changeUsernameForm';
 import DeleteAccountForm from '../../components/forms/deleteAccountForm';
