@@ -94,7 +94,8 @@ const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
       >
         Account Settings
       </Menu.Item>
-      {privilegeLevel === PrivilegeLevel.ADMIN && (
+      {(privilegeLevel === PrivilegeLevel.ADMIN ||
+        privilegeLevel === PrivilegeLevel.SUPER_ADMIN) && (
         <Menu.Item
           onClick={() => {
             history.push(Routes.ADMIN);
@@ -107,7 +108,7 @@ const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
         onClick={() => {
           if (asyncRequestIsComplete(tokens)) {
             dispatch(logout());
-            history.push(Routes.LANDING);
+            history.go(0);
           }
         }}
       >

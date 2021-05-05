@@ -21,6 +21,7 @@ import VolunteerLeaderboard from './containers/volunteerLeaderboard';
 import TeamLeaderboard from './containers/teamLeaderboard';
 import TeamPage from './containers/teamPage';
 import AvailableTeams from './containers/availableTeams';
+import TreePage from './containers/treePage';
 import { Layout } from 'antd';
 import Home from './containers/home';
 import Signup from './containers/signup';
@@ -49,6 +50,7 @@ export enum Routes {
   SETTINGS = '/settings',
   VOLUNTEER = '/volunteer',
   TEAM = '/team/:id',
+  TREE = '/tree/:id',
   TEAM_LEADERBOARD = '/team-leaderboard',
   RESERVATIONS = '/reservations',
   AVAILABLE_TEAMS = '/available',
@@ -88,6 +90,7 @@ const App: React.FC = () => {
                       <Route path={Routes.LANDING} exact component={Landing} />
                       <Route path={Routes.LOGIN} exact component={Login} />
                       <Route path={Routes.SIGNUP} exact component={Signup} />
+                      <Route path={Routes.TREE} exact component={TreePage} />
                       <AuthRedirect from={Routes.HOME} />
                       <AuthRedirect from={Routes.SETTINGS} />
                       <AuthRedirect from={Routes.VOLUNTEER} />
@@ -148,6 +151,7 @@ const App: React.FC = () => {
                       />
                       <Redirect from={Routes.ADMIN} to={Routes.HOME} />
                       <Route path={Routes.TEAM} exact component={TeamPage} />
+                      <Route path={Routes.TREE} exact component={TreePage} />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact
@@ -156,6 +160,7 @@ const App: React.FC = () => {
                     </Switch>
                   );
 
+                case PrivilegeLevel.SUPER_ADMIN:
                 case PrivilegeLevel.ADMIN:
                   return (
                     <Switch>
@@ -194,6 +199,7 @@ const App: React.FC = () => {
                         component={AdminDashboard}
                       />
                       <Route path={Routes.TEAM} exact component={TeamPage} />
+                      <Route path={Routes.TREE} exact component={TreePage} />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact

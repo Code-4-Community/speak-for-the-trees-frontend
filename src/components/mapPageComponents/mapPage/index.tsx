@@ -1,27 +1,18 @@
 import React from 'react';
 import MapSidebar from '../mapSidebar';
-import MapView from '../mapView';
 import PageLayout from '../../pageLayout';
 import { Layout } from 'antd';
-import styled from 'styled-components';
-import { BlockGeoData, NeighborhoodGeoData } from '../ducks/types';
+import { MainContent } from '../../themedComponents';
+import MapContent from '../mapContent';
 
-const { Content, Sider } = Layout;
+const { Sider } = Layout;
 
-const MainContent = styled.div`
-  height: 100%;
-`;
-
-type MapPageProps = {
-  readonly blocks: BlockGeoData;
-  readonly neighborhoods: NeighborhoodGeoData;
+interface MapPageProps {
   readonly sidebarHeader: string;
   readonly sidebarDescription: string;
-};
+}
 
 const MapPage: React.FC<MapPageProps> = ({
-  blocks,
-  neighborhoods,
   sidebarHeader,
   sidebarDescription,
   children,
@@ -29,9 +20,7 @@ const MapPage: React.FC<MapPageProps> = ({
   <>
     <MainContent>
       <PageLayout>
-        <Content>
-          <MapView blocks={blocks} neighborhoods={neighborhoods} />
-        </Content>
+        <MapContent />
         <Sider width="20vw">
           <MapSidebar header={sidebarHeader} description={sidebarDescription}>
             {children}

@@ -17,9 +17,8 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import { getUserFirstName } from '../../auth/ducks/selectors';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
-import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 
 const { Paragraph } = Typography;
 
@@ -38,9 +37,7 @@ const HomeContainer = styled.div`
   background: url(${HomeBackground}) no-repeat top right;
 `;
 
-type HomeProps = UserAuthenticationReducerState;
-
-const Home: React.FC<HomeProps> = ({ tokens, userData }) => {
+const Home: React.FC = () => {
   const { windowType } = useWindowDimensions();
   const userName = useSelector((state: C4CState) =>
     getUserFirstName(state.authenticationState.userData),
@@ -85,7 +82,7 @@ const Home: React.FC<HomeProps> = ({ tokens, userData }) => {
       <Helmet>
         <title>Home</title>
         <meta
-          name="User Home"
+          name="description"
           content="The user's home page after logging in, has links directing them to the blocks, teams, and leaderboard pages."
         />
       </Helmet>
@@ -96,7 +93,7 @@ const Home: React.FC<HomeProps> = ({ tokens, userData }) => {
               case WindowTypes.Mobile:
                 return (
                   <>
-                    <PageHeader pageTitle={greeting} />
+                    <PageHeader pageTitle={greeting} isMobile={true} />
                     <StyledSubtitle>Quick Links</StyledSubtitle>
                     <LinkCarousel data={links} slidesPerPage={1} />
                   </>
@@ -167,11 +164,4 @@ const Home: React.FC<HomeProps> = ({ tokens, userData }) => {
   );
 };
 
-const mapStateToProps = (state: C4CState): HomeProps => {
-  return {
-    tokens: state.authenticationState.tokens,
-    userData: state.authenticationState.userData,
-  };
-};
-
-export default connect(mapStateToProps)(Home);
+export default Home;

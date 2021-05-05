@@ -4,13 +4,9 @@ import { useHistory } from 'react-router-dom';
 import { Alert, Col, Form, Row, Typography } from 'antd';
 import { Helmet } from 'react-helmet';
 import GreetingContainer from '../../components/greetingContainer';
-import { signup } from '../../auth/ducks/thunks';
+import { getUserData } from '../../auth/ducks/thunks';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import {
-  PrivilegeLevel,
-  SignupRequest,
-  UserAuthenticationReducerState,
-} from '../../auth/ducks/types';
+import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { C4CState } from '../../store';
 import { BLACK, LIGHT_GREY, WHITE } from '../../utils/colors';
 import styled from 'styled-components';
@@ -19,15 +15,15 @@ import {
   InputContainer,
   TabletPageContainer,
 } from '../../components/themedComponents';
-import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
-import SignupForm from '../../components/signupForm';
+import PageHeader from '../../components/pageHeader';
+import SignupForm from '../../components/forms/signupForm';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import PageLayout from '../../components/pageLayout';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { RedirectStateProps, Routes } from '../../App';
-import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { isLoggedIn } from '../../auth/ducks/selectors';
 import { SIGNUP_BODY, SIGNUP_HEADER, SIGNUP_TITLE } from '../../assets/content';
 
 const { Paragraph } = Typography;
@@ -78,42 +74,36 @@ const MobileSignupAlert = styled(Alert)`
   margin-bottom: 20px;
 `;
 
-type SignupProps = UserAuthenticationReducerState;
+interface SignupProps {
+  tokens: UserAuthenticationReducerState['tokens'];
+}
 
 const Signup: React.FC<SignupProps> = ({ tokens }) => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation<RedirectStateProps>();
-  const privilegeLevel = useSelector((state: C4CState) =>
-    getPrivilegeLevel(state.authenticationState.tokens),
+  const loggedIn = useSelector((state: C4CState) =>
+    isLoggedIn(state.authenticationState.tokens),
   );
   const [signupForm] = Form.useForm();
 
-  if (privilegeLevel !== PrivilegeLevel.NONE) {
+  if (loggedIn) {
+    dispatch(getUserData());
     const destination = location.state
       ? location.state.destination
       : Routes.HOME;
     history.push(destination);
   }
 
-  const onFinish = (values: SignupRequest) => {
-    dispatch(
-      signup({
-        email: values.email,
-        username: values.username,
-        password: values.password,
-        firstName: values.firstName,
-        lastName: values.lastName,
-      }),
-    );
-  };
-
   return (
     <>
       <Helmet>
         <title>Sign Up</title>
-        <meta name="signup" content="Where the user can create a new account" />
+        <meta
+          name="description"
+          content="Where the user can create a new account"
+        />
       </Helmet>
       {(() => {
         switch (windowType) {
@@ -121,13 +111,12 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
             return (
               <>
                 <MobileSignupPageContainer>
-                  <MobilePageHeader pageTitle={SIGNUP_TITLE} />
+                  <PageHeader pageTitle={SIGNUP_TITLE} isMobile={true} />
                   {tokens.kind === AsyncRequestKinds.Failed && (
                     <MobileSignupAlert message={tokens.error} type="error" />
                   )}
                   <SignupForm
                     formInstance={signupForm}
-                    onFinish={onFinish}
                     windowType={windowType}
                   />
                 </MobileSignupPageContainer>
@@ -146,7 +135,6 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                       <TabletLine />
                       <SignupForm
                         formInstance={signupForm}
-                        onFinish={onFinish}
                         windowType={windowType}
                       />
                     </TabletInputContainer>
@@ -180,7 +168,6 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                         <Line />
                         <SignupForm
                           formInstance={signupForm}
-                          onFinish={onFinish}
                           windowType={windowType}
                         />
                       </InputContainer>
@@ -207,7 +194,6 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
 const mapStateToProps = (state: C4CState): SignupProps => {
   return {
     tokens: state.authenticationState.tokens,
-    userData: state.authenticationState.userData,
   };
 };
 
