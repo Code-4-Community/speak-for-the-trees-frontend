@@ -9,7 +9,8 @@ import {
   asyncRequestIsLoading,
 } from '../../../utils/asyncRequest';
 import { MapGeoDataReducerState } from '../ducks/types';
-import MapView, { MapViews } from '../mapView';
+import MapView from '../mapView';
+import { MapViews } from '../ducks/types';
 
 const { Content } = Layout;
 

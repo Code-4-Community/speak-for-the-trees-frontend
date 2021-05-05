@@ -4,7 +4,7 @@ import PageLayout from '../../pageLayout';
 import { Layout } from 'antd';
 import { MainContent } from '../../themedComponents';
 import MapContent from '../mapContent';
-import { MapViews } from '../mapView';
+import { MapViews } from '../ducks/types';
 
 const { Sider } = Layout;
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PageLayout from '../../pageLayout';
 import MapContent from '../mapContent';
 import { MainContent } from '../../themedComponents';
-import { MapViews } from '../mapView';
+import { MapViews } from '../ducks/types';
 
 interface MobileMapPageProps {
   readonly view: MapViews;

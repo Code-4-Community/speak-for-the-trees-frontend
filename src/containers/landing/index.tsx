@@ -13,7 +13,7 @@ import { isLoggedIn } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
 import MobileMapPage from '../../components/mapPageComponents/mobileMapPage';
 import MobileLandingBar from '../../components/mapPageComponents/mobileLandingBar';
-import { MapViews } from '../../components/mapPageComponents/mapView';
+import { MapViews } from '../../components/mapPageComponents/ducks/types';
 
 const PaddedContent = styled.div`
   padding: 24px 50px;

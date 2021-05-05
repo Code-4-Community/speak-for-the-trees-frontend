@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
 import { RESERVATION_BODY, RESERVATION_TITLE } from '../../assets/content';
 import SlideDown from '../../components/slideDown';
-import { MapViews } from '../../components/mapPageComponents/mapView';
+import { MapViews } from '../../components/mapPageComponents/ducks/types';
 
 const Reservations: React.FC = () => {
   const dispatch = useDispatch();

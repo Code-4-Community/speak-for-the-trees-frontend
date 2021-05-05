@@ -3,7 +3,12 @@ import useWindowDimensions, { WindowTypes } from '../../windowDimensions';
 import { Input, message } from 'antd';
 import { Loader } from '@googlemaps/js-api-loader';
 import styled from 'styled-components';
-import { BlockGeoData, NeighborhoodGeoData, SiteGeoData } from '../ducks/types';
+import {
+  BlockGeoData,
+  NeighborhoodGeoData,
+  SiteGeoData,
+  MapViews,
+} from '../ducks/types';
 import ReservationModal, { ReservationModalType } from '../../reservationModal';
 import protectedApiClient from '../../../api/protectedApiClient';
 import { shortHand } from '../../../utils/stringFormat';
@@ -34,11 +39,6 @@ const MapDiv = styled.div`
 
 // Three years before the current date
 const breakpointDate = new Date().setFullYear(new Date().getFullYear() - 3);
-
-export enum MapViews {
-  BLOCKS,
-  TREES,
-}
 
 interface MapViewProps {
   blocks: BlockGeoData;
@@ -265,10 +265,10 @@ const MapView: React.FC<MapViewProps> = ({
 
         // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
         neighborhoodsLayer.addListener('click', (event) => {
-          map.setZoom(14);
+          map.setZoom(15);
           map.panTo({
-            lat: event.feature.getProperty('Latitude'),
-            lng: event.feature.getProperty('Longitude'),
+            lat: event.feature.getProperty('lat'),
+            lng: event.feature.getProperty('lng'),
           });
         });
 
@@ -302,6 +302,7 @@ const MapView: React.FC<MapViewProps> = ({
           });
         }
 
+        // Initially false while the neighborhoods are shown
         setSitesStyle(false);
 
         // Asks user if they want to show their current location
@@ -341,7 +342,7 @@ const MapView: React.FC<MapViewProps> = ({
             const zoomLevel = map.getZoom();
             let zoomedIn = false;
 
-            if (zoomLevel >= 13) {
+            if (zoomLevel >= view) {
               zoomedIn = true;
             }
             setNeighborhoodsStyle(!zoomedIn);
