@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
 import { RESERVATION_BODY, RESERVATION_TITLE } from '../../assets/content';
 import SlideDown from '../../components/slideDown';
+import { MapViews } from '../../components/mapPageComponents/ducks/types';
 
 const Reservations: React.FC = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,8 @@ const Reservations: React.FC = () => {
   }, [dispatch]);
 
   const { windowType } = useWindowDimensions();
+
+  const reservationMapView = MapViews.BLOCKS;
 
   return (
     <>
@@ -31,7 +34,7 @@ const Reservations: React.FC = () => {
         switch (windowType) {
           case WindowTypes.Mobile:
             return (
-              <MobileMapPage>
+              <MobileMapPage view={reservationMapView}>
                 <SlideDown>
                   <BlockTabs />
                 </SlideDown>
@@ -44,6 +47,7 @@ const Reservations: React.FC = () => {
               <MapPage
                 sidebarHeader={RESERVATION_TITLE}
                 sidebarDescription={RESERVATION_BODY}
+                view={reservationMapView}
               >
                 <BlockTabs />
               </MapPage>

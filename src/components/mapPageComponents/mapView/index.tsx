@@ -3,11 +3,18 @@ import useWindowDimensions, { WindowTypes } from '../../windowDimensions';
 import { Input, message } from 'antd';
 import { Loader } from '@googlemaps/js-api-loader';
 import styled from 'styled-components';
-import { BlockGeoData, NeighborhoodGeoData, SiteGeoData } from '../ducks/types';
+import {
+  BlockGeoData,
+  NeighborhoodGeoData,
+  SiteGeoData,
+  MapViews,
+} from '../ducks/types';
 import ReservationModal, { ReservationModalType } from '../../reservationModal';
 import protectedApiClient from '../../../api/protectedApiClient';
 import { shortHand } from '../../../utils/stringFormat';
 import { SHORT_HAND_NAMES } from '../../../assets/content';
+import treeIcon from '../../../assets/images/treeIcon.png';
+import youngTreeIcon from '../../../assets/images/youngTreeIcon.png';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -30,13 +37,22 @@ const MapDiv = styled.div`
   height: 100%;
 `;
 
+// Three years before the current date
+const breakpointDate = new Date().setFullYear(new Date().getFullYear() - 3);
+
 interface MapViewProps {
   blocks: BlockGeoData;
   neighborhoods: NeighborhoodGeoData;
   sites: SiteGeoData;
+  view: MapViews;
 }
 
-const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
+const MapView: React.FC<MapViewProps> = ({
+  blocks,
+  neighborhoods,
+  sites,
+  view,
+}) => {
   // visibility of reservation modal
   const [showModal, setShowModal] = useState<boolean>(false);
   // block status for modal
@@ -249,12 +265,45 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
 
         // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
         neighborhoodsLayer.addListener('click', (event) => {
-          map.setZoom(14);
+          map.setZoom(15);
           map.panTo({
-            lat: event.feature.getProperty('Latitude'),
-            lng: event.feature.getProperty('Longitude'),
+            lat: event.feature.getProperty('lat'),
+            lng: event.feature.getProperty('lng'),
           });
         });
+
+        // Creates a new layer
+        const sitesLayer = new google.maps.Data({ map });
+
+        // Loads the objects into the layer
+        sitesLayer.addGeoJson(sites);
+
+        function setSitesStyle(v: boolean) {
+          sitesLayer.setStyle((feature) => {
+            let visible = false;
+            let icon = treeIcon;
+
+            // Only shows sites if there is a tree there
+            if (feature.getProperty('tree_present')) {
+              visible = v && true;
+            }
+
+            // TODO: update this to if the tree was planted within the past three years
+            // If the tree has not been updated within the past three years, use youngTreeIcon
+            const updatedDate = feature.getProperty('updated_at');
+            if (updatedDate < breakpointDate) {
+              icon = youngTreeIcon;
+            }
+
+            return {
+              visible,
+              icon,
+            };
+          });
+        }
+
+        // Initially false while the neighborhoods are shown
+        setSitesStyle(false);
 
         // Asks user if they want to show their current location
         if (navigator.geolocation) {
@@ -293,20 +342,28 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
             const zoomLevel = map.getZoom();
             let zoomedIn = false;
 
-            if (zoomLevel >= 13) {
+            if (zoomLevel >= view) {
               zoomedIn = true;
             }
             setNeighborhoodsStyle(!zoomedIn);
             toggleMarkers(!zoomedIn);
-            setBlocksStyle(zoomedIn);
             setPrivateStreetsStyle(zoomedIn);
+
+            switch (view) {
+              case MapViews.BLOCKS:
+                setBlocksStyle(zoomedIn);
+                break;
+              case MapViews.TREES:
+                setSitesStyle(zoomedIn);
+                break;
+            }
           });
         }
 
         handleZoomChange();
       });
     }
-  }, [blocks, neighborhoods, mapRef, markersArray, loader]);
+  }, [blocks, neighborhoods, sites, mapRef, markersArray, loader, view]);
 
   return (
     <>
