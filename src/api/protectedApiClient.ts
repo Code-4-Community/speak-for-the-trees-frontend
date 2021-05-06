@@ -12,6 +12,7 @@ import {
   AuthRequest,
   ChangeEmailRequest,
   ChangePasswordRequest,
+  ChangePrivilegeRequest,
   ChangeUsernameRequest,
 } from '../components/forms/ducks/types';
 
@@ -43,11 +44,9 @@ export interface ProtectedApiClient {
     password: string;
   }) => Promise<void>;
   readonly deleteUser: (request: { password: string }) => Promise<void>;
-  readonly changePrivilegeLevel: (request: {
-    targetUserEmail: string;
-    newLevel: string;
-    password: string;
-  }) => Promise<void>;
+  readonly changePrivilegeLevel: (
+    request: ChangePrivilegeRequest,
+  ) => Promise<void>;
   readonly getUserData: () => Promise<UserData>;
   readonly createTeam: (request: CreateTeamRequest) => Promise<void>;
   readonly getTeams: () => Promise<TeamResponse[]>;
@@ -200,14 +199,10 @@ const deleteUser = (request: AuthRequest): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.DELETE_USER, request);
 };
 
-const changePrivilegeLevel = (request: {
-  targetUserEmail: string;
-  newLevel: string;
-  password: string;
-}): Promise<void> => {
-  return AppAxiosInstance.post(AdminApiClientRoutes.CHANGE_PRIVILEGE, request)
-    .then((res) => res.data)
-    .catch((err) => err);
+const changePrivilegeLevel = (
+  request: ChangePrivilegeRequest,
+): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.CHANGE_PRIVILEGE, request);
 };
 
 const getUserData = (): Promise<UserData> => {

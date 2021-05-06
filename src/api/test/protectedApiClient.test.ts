@@ -1,11 +1,11 @@
 import ProtectedApiClient, {
-  ProtectedApiClientRoutes,
   AdminApiClientRoutes,
   ParameterizedApiRoutes,
+  ProtectedApiClientRoutes,
 } from '../protectedApiClient';
 import { TeamResponse, TeamRole } from '../../containers/teamPage/ducks/types';
 import nock from 'nock';
-import { UserData } from '../../auth/ducks/types';
+import { PrivilegeLevel, UserData } from '../../auth/ducks/types';
 
 const BASE_URL = 'http://localhost';
 
@@ -525,20 +525,6 @@ describe('Protected API Client Tests', () => {
     });
   });
 
-  describe('leaveTeam', () => {
-    it('makes the right request', async () => {
-      const response = '';
-
-      nock(BASE_URL)
-        .post(ParameterizedApiRoutes.LEAVE_TEAM(1))
-        .reply(200, response);
-
-      const result = await ProtectedApiClient.leaveTeam(1);
-
-      expect(result).toEqual(response);
-    });
-  });
-
   describe('disbandTeam', () => {
     it('makes the right request', async () => {
       const response = '';
@@ -573,17 +559,49 @@ describe('Protected API Client Tests', () => {
 describe('Admin Protected Client Routes', () => {
   describe('changePrivilegeLevel', () => {
     it('makes the right request', async () => {
-      const response = '';
+      const response = new Promise((res) => res);
 
       nock(BASE_URL)
         .post(AdminApiClientRoutes.CHANGE_PRIVILEGE)
         .reply(200, response);
 
-      const result = await ProtectedApiClient.changePrivilegeLevel({
+      const result = ProtectedApiClient.changePrivilegeLevel({
         targetUserEmail: 'jblanc222@gmail.com',
-        newLevel: 'STANDARD',
+        newLevel: PrivilegeLevel.STANDARD,
         password: 'password',
       });
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request, user already has privilege level', async () => {
+      const response = 'Given user already standard';
+
+      nock(BASE_URL)
+        .post(AdminApiClientRoutes.CHANGE_PRIVILEGE)
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.changePrivilegeLevel({
+        targetUserEmail: 'jblanc222@gmail.com',
+        newLevel: PrivilegeLevel.STANDARD,
+        password: 'password',
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request, wrong password', async () => {
+      const response = 'Given password is not correct';
+
+      nock(BASE_URL)
+        .post(AdminApiClientRoutes.CHANGE_PRIVILEGE)
+        .reply(401, response);
+
+      const result = await ProtectedApiClient.changePrivilegeLevel({
+        targetUserEmail: 'jblanc222@gmail.com',
+        newLevel: PrivilegeLevel.STANDARD,
+        password: 'password',
+      }).catch((err) => err.response.data);
 
       expect(result).toEqual(response);
     });

@@ -1,4 +1,4 @@
-import { SignupRequest } from '../../../auth/ducks/types';
+import { PrivilegeLevel, SignupRequest } from '../../../auth/ducks/types';
 
 export interface AuthRequest {
   readonly password: string;
@@ -23,4 +23,10 @@ export interface ChangePasswordFormValues extends ChangePasswordRequest {
 
 export interface SignupFormValues extends SignupRequest {
   readonly confirmPassword: string;
+}
+
+export interface ChangePrivilegeRequest {
+  readonly targetUserEmail: string;
+  readonly newLevel: PrivilegeLevel;
+  readonly password: string;
 }
