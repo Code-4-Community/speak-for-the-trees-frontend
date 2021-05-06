@@ -120,14 +120,14 @@ const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
       {isVisible && (
         <PopupAnchor>
           <PopupBubble>
-            <div>
+            <>
               <TreeTitle>
                 {isEmptyString(treeInfo.species)
                   ? 'Unknown Species'
                   : treeInfo.species}
               </TreeTitle>
               <CloseIcon onClick={hidePopup} />
-            </div>
+            </>
             <Line />
             {!isEmptyString(treeInfo.address) && (
               <GreyText strong>Nearby Address</GreyText>

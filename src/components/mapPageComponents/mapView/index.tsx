@@ -90,7 +90,7 @@ const MapView: React.FC<MapViewProps> = ({
   const { windowType } = useWindowDimensions();
 
   const mapRef = createRef<HTMLDivElement>();
-  const treePopoverRef = createRef<HTMLDivElement>();
+  const treePopupRef = createRef<HTMLDivElement>();
 
   const loader = new Loader({
     apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY || '',
@@ -102,8 +102,8 @@ const MapView: React.FC<MapViewProps> = ({
   const mapId = '76c08a2450c223d9';
 
   const [mapElement, setMapElement] = useState(mapRef.current);
-  const [treePopoverElement, setTreePopoverElement] = useState(
-    treePopoverRef.current,
+  const [treePopupElement, setTreePopupElement] = useState(
+    treePopupRef.current,
   );
 
   useEffect(() => {
@@ -111,11 +111,11 @@ const MapView: React.FC<MapViewProps> = ({
   }, [mapRef]);
 
   useEffect(() => {
-    setTreePopoverElement(treePopoverRef.current);
-  }, [treePopoverRef]);
+    setTreePopupElement(treePopupRef.current);
+  }, [treePopupRef]);
 
   useEffect(() => {
-    if (mapElement && treePopoverElement) {
+    if (mapElement && treePopupElement) {
       const markersArray: google.maps.Marker[] = [];
 
       loader.load().then(() => {
@@ -171,7 +171,7 @@ const MapView: React.FC<MapViewProps> = ({
         }
 
         // Create and add the tree popup to the map
-        const popup = new Popup(treePopoverElement);
+        const popup = new Popup(treePopupElement);
         popup.setMap(map);
 
         const input = document.getElementById('pac-input') as HTMLInputElement;
@@ -450,7 +450,7 @@ const MapView: React.FC<MapViewProps> = ({
     blocks,
     loader,
     mapElement,
-    treePopoverElement,
+    treePopupElement,
     neighborhoods,
     sites,
     view,
@@ -464,7 +464,7 @@ const MapView: React.FC<MapViewProps> = ({
         )}
       </div>
       <MapDiv id="map" ref={mapRef} />
-      <TreePopup treeInfo={activeTreeInfo} popRef={treePopoverRef} />
+      <TreePopup treeInfo={activeTreeInfo} popRef={treePopupRef} />
       <ReservationModal
         status={reservationType}
         blockID={activeBlockId}
