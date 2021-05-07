@@ -76,19 +76,23 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
         //add type guard to asyncRequestIsFailed
         return (
           <>
-          {asyncRequestIsLoading(teamsRequest) && (<Spin/>)}
+            {asyncRequestIsLoading(teamsRequest) && <Spin />}
             {asyncRequestIsComplete(teamsRequest) && (
               <>
                 <b>{`Are you sure?`}</b>
                 <br /> {`You want to reserve block ${blockID}`}
                 <br></br>
-                <Select placeholder="Select a Team" onChange={(chosen) => setTeam(Number(chosen))}>
-                  {Object.values(teamsRequest.result).map(ind =>
-                  Object.values(ind).map((team, i) => (
-                    <Select.Option key={i} value={team.id}>
-                      {team.teamName}
-                    </Select.Option>
-                  )))}
+                <Select
+                  placeholder="Select a Team"
+                  onChange={(chosen) => setTeam(Number(chosen))}
+                >
+                  {Object.values(teamsRequest.result).map((ind) =>
+                    Object.values(ind).map((team, i) => (
+                      <Select.Option key={i} value={team.id}>
+                        {team.teamName}
+                      </Select.Option>
+                    )),
+                  )}
                 </Select>
               </>
             )}
