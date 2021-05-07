@@ -52,7 +52,10 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
     switch (reservationType) {
       case ReservationModalType.OPEN:
         // set block status to reserved
+        console.log('block', activeBlockId);
+        console.log('team', team);
         protectedApiClient.makeReservation(activeBlockId, team);
+        protectedApiClient.completeReservation(activeBlockId, team);
         break;
       case ReservationModalType.RESERVED:
         // set block status to open
@@ -148,11 +151,11 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
             let color = 'green';
 
             // Use this for coloring reserved/completed blocks a different color
-            if (feature.getProperty('ID') % 10 === 0) {
+            if (feature.getProperty('block_id') % 10 === 0) {
               color = 'yellow';
             }
 
-            if (feature.getProperty('ID') % 10 === 1) {
+            if (feature.getProperty('block_id') % 10 === 1) {
               color = 'red';
             }
 
@@ -232,7 +235,7 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
         blocksLayer.addListener('click', (event) => {
           // get status of block based on color
           const status: ReservationModalType = ((): ReservationModalType => {
-            switch (event.feature.getProperty('ID') % 10) {
+            switch (event.feature.getProperty('block_id') % 10) {
               case 1:
                 return ReservationModalType.TAKEN;
               case 0:
@@ -246,7 +249,7 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
           // set status of block
           setReservationType(status);
           // set id of block
-          setActiveBlockId(event.feature.getProperty('ID'));
+          setActiveBlockId(event.feature.getProperty('block_id'));
         });
 
         // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
