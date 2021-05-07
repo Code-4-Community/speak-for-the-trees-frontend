@@ -1,11 +1,11 @@
 import { asyncRequestIsComplete, AsyncRequest } from '../../../utils/asyncRequest';
-import { StewardshipActivities, AdoptedSites, TreeCare } from './types';
+import { StewardshipActivities, AdoptedSites, TreeCare, SiteProps, Entry, SiteEntryNames } from './types';
 
 export const mapStewardshipToTreeCare = (
   items: AsyncRequest<StewardshipActivities, any>,
 ): TreeCare[] => {
   if (asyncRequestIsComplete(items)) {
-    return items.result.activities.map((item) => {
+    return items.result.stewardshipActivities.map((item) => {
       const month = item.date.toLocaleString('default', { month: 'long' });
       const day = item.date.getDate();
 
@@ -17,6 +17,23 @@ export const mapStewardshipToTreeCare = (
   }
   return [];
 };
+
+export const getLatestEntry = (
+  items: AsyncRequest<SiteProps, any>,
+): Entry[] => {
+  if (asyncRequestIsComplete(items)) {
+    return Object.entries(items.result.entries[0]).reduce<Entry[]>((soFar, [key, value]) => {
+      if(SiteEntryNames[key] && value !== null) {
+        soFar.push({
+          title: SiteEntryNames[key],
+          value: value.toString()
+        });
+      }
+      return soFar;
+    }, [])
+  }
+  return []
+}
 
 export const isTreeAdopted = (
   items: AsyncRequest<AdoptedSites, any>,

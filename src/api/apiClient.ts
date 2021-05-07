@@ -34,7 +34,7 @@ export enum ApiClientRoutes {
   GET_ALL_SITES = '/api/v1/map/sites',
 }
 
-const baseSiteRoute = '/api/v1/protected/sites/';
+const baseSiteRoute = '/api/v1/sites/';
 
 export const ParameterizedApiRoutes = {
   GET_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}`, 

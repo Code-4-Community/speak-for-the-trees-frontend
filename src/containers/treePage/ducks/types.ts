@@ -102,17 +102,20 @@ export interface TreeCare {
 }
 
 export interface StewardshipActivities {
-  activities: Activity[]
+  stewardshipActivities: ActivityLog[]
 }
 
 export interface Activity {
-  id: number;
-  userId: number;
-  date: Date;
   watered: boolean;
   mulched: boolean;
   cleaned: boolean;
   weeded: boolean;
+}
+
+export interface ActivityLog extends Activity {
+  id: number;
+  userId: number;
+  date: Date;
 }
 
 export interface AdoptedSites {
@@ -128,6 +131,11 @@ export interface SiteReducerState {
 
 export interface ProtectedSitesReducerState {
   readonly adoptedSites: AsyncRequest<AdoptedSites, any>
+}
+
+export interface Entry {
+  title: string;
+  value: string;
 }
 
 export type SiteReducerThunkAction<R> = ThunkAction<
