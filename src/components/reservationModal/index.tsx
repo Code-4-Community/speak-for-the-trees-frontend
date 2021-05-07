@@ -81,12 +81,14 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
               <>
                 <b>{`Are you sure?`}</b>
                 <br /> {`You want to reserve block ${blockID}`}
+                <br></br>
                 <Select onChange={(chosen) => setTeam(Number(chosen))}>
-                  {teamsRequest.result.map((team, i) => (
+                  {Object.values(teamsRequest.result).map(ind =>
+                  Object.values(ind).map((team, i) => (
                     <Select.Option key={i} value={team.id}>
-                      {team.name}
+                      {team.id}
                     </Select.Option>
-                  ))}
+                  )))}
                 </Select>
               </>
             )}
