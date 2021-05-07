@@ -12,6 +12,7 @@ import {
   AuthRequest,
   ChangeEmailRequest,
   ChangePasswordRequest,
+  ChangePrivilegeRequest,
   ChangeUsernameRequest,
 } from '../components/forms/ducks/types';
 
@@ -43,11 +44,9 @@ export interface ProtectedApiClient {
     password: string;
   }) => Promise<void>;
   readonly deleteUser: (request: { password: string }) => Promise<void>;
-  readonly changePrivilegeLevel: (request: {
-    targetUserEmail: string;
-    newLevel: string;
-    password: string;
-  }) => Promise<void>;
+  readonly changePrivilegeLevel: (
+    request: ChangePrivilegeRequest,
+  ) => Promise<void>;
   readonly getUserData: () => Promise<UserData>;
   readonly createTeam: (request: CreateTeamRequest) => Promise<void>;
   readonly getTeams: () => Promise<TeamResponse[]>;
@@ -117,8 +116,8 @@ export const ParameterizedApiRoutes = {
 
 const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.MAKE_RESERVATION, {
-    block_id: blockId,
-    team_id: teamId,
+    blockID: blockId,
+    teamID: teamId,
   })
     .then((res) => res.data)
     .catch((err) => err);
@@ -129,8 +128,8 @@ const completeReservation = (
   teamId?: number,
 ): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.COMPLETE_RESERVATION, {
-    block_id: blockId,
-    team_id: teamId,
+    blockID: blockId,
+    teamID: teamId,
   })
     .then((res) => res.data)
     .catch((err) => err);
@@ -138,7 +137,7 @@ const completeReservation = (
 
 const releaseReservation = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.RELEASE_RESERVATION, {
-    block_id: blockId,
+    blockID: blockId,
   })
     .then((res) => res.data)
     .catch((err) => err);
@@ -148,7 +147,7 @@ const releaseReservation = (blockId: number): Promise<void> => {
 
 const uncompleteReservation = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.UNCOMPLETE_RESERVATION, {
-    block_id: blockId,
+    blockID: blockId,
   })
     .then((res) => res.data)
     .catch((err) => err);
@@ -156,7 +155,7 @@ const uncompleteReservation = (blockId: number): Promise<void> => {
 
 const markReservationForQa = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.MARK_RESERVATION_FOR_QA, {
-    block_id: blockId,
+    blockID: blockId,
   })
     .then((res) => res.data)
     .catch((err) => err);
@@ -164,7 +163,7 @@ const markReservationForQa = (blockId: number): Promise<void> => {
 
 const passReservationQa = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.PASS_RESERVATION_QA, {
-    block_id: blockId,
+    blockID: blockId,
   })
     .then((res) => res.data)
     .catch((err) => err);
@@ -172,7 +171,7 @@ const passReservationQa = (blockId: number): Promise<void> => {
 
 const failReservationQa = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.FAIL_RESERVATION_QA, {
-    block_id: blockId,
+    blockID: blockId,
   })
     .then((res) => res.data)
     .catch((err) => err);
@@ -200,14 +199,10 @@ const deleteUser = (request: AuthRequest): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.DELETE_USER, request);
 };
 
-const changePrivilegeLevel = (request: {
-  targetUserEmail: string;
-  newLevel: string;
-  password: string;
-}): Promise<void> => {
-  return AppAxiosInstance.post(AdminApiClientRoutes.CHANGE_PRIVILEGE, request)
-    .then((res) => res.data)
-    .catch((err) => err);
+const changePrivilegeLevel = (
+  request: ChangePrivilegeRequest,
+): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.CHANGE_PRIVILEGE, request);
 };
 
 const getUserData = (): Promise<UserData> => {

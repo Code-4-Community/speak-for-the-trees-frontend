@@ -10,6 +10,7 @@ import {
 } from '../../../utils/asyncRequest';
 import { MapGeoDataReducerState } from '../ducks/types';
 import MapView from '../mapView';
+import { MapViews } from '../ducks/types';
 
 const { Content } = Layout;
 
@@ -18,16 +19,21 @@ const EmptyMapContainer = styled.div`
   padding: 20vh 5vw;
 `;
 
-interface MapContentProps {
+interface MapContentStateProps {
   readonly blocks: MapGeoDataReducerState['blockGeoData'];
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly sites: MapGeoDataReducerState['siteGeoData'];
+}
+
+interface MapContentProps extends MapContentStateProps {
+  readonly view: MapViews;
 }
 
 const MapContent: React.FC<MapContentProps> = ({
   blocks,
   neighborhoods,
   sites,
+  view,
 }) => (
   <Content>
     {asyncRequestIsComplete(blocks) &&
@@ -37,6 +43,7 @@ const MapContent: React.FC<MapContentProps> = ({
           blocks={blocks.result}
           neighborhoods={neighborhoods.result}
           sites={sites.result}
+          view={view}
         />
       )}
     {(asyncRequestIsFailed(blocks) ||
@@ -61,7 +68,7 @@ const MapContent: React.FC<MapContentProps> = ({
   </Content>
 );
 
-const mapStateToProps = (state: C4CState): MapContentProps => {
+const mapStateToProps = (state: C4CState): MapContentStateProps => {
   return {
     neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
     blocks: state.mapGeoDataState.blockGeoData,

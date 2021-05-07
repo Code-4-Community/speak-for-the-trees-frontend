@@ -5,6 +5,15 @@ export const enterEmailRules: Rule[] = [
   { type: 'email', message: 'Not a valid email address' },
 ];
 
+export const targetUserEmailRules: Rule[] = [
+  {
+    required: true,
+    message:
+      'Please input the email of the user whose privilege level you wish to change!',
+  },
+  { type: 'email', message: 'Not a valid email address' },
+];
+
 export const loginPasswordRules: Rule[] = [
   {
     required: true,
@@ -73,5 +82,12 @@ export const activitiesDateRules: Rule[] = [
   {
     required: true,
     message: 'Please input the date of the activity!',
+  },
+];
+
+export const newLevelRules: Rule[] = [
+  {
+    required: true,
+    message: 'Please pick a privilege level for this user!',
   },
 ];
