@@ -59,7 +59,7 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
         // set block status to open
         protectedApiClient.releaseReservation(activeBlockId);
         break;
-      default:
+      case ReservationModalType.TAKEN:
         // block clicked not owned/open so do nothing
         break;
     }
