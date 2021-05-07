@@ -86,7 +86,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
                   {Object.values(teamsRequest.result).map(ind =>
                   Object.values(ind).map((team, i) => (
                     <Select.Option key={i} value={team.id}>
-                      {team.id}
+                      {team.teamName}
                     </Select.Option>
                   )))}
                 </Select>
