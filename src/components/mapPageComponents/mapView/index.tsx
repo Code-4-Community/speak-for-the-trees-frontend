@@ -52,8 +52,6 @@ const MapView: React.FC<MapViewProps> = ({ blocks, neighborhoods, sites }) => {
     switch (reservationType) {
       case ReservationModalType.OPEN:
         // set block status to reserved
-        console.log('block', activeBlockId);
-        console.log('team', team);
         protectedApiClient.makeReservation(activeBlockId, team);
         protectedApiClient.completeReservation(activeBlockId, team);
         break;
