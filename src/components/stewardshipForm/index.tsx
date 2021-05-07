@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { Button, Form, Checkbox, Typography, DatePicker } from 'antd';
+import { Button, Form, Checkbox, Typography, DatePicker, FormInstance } from 'antd';
 import styled from 'styled-components';
 import { activitiesDateRules, activitiesRules } from '../../utils/formRules';
 
@@ -19,9 +19,10 @@ interface StewardshipFormProps {
     activityDate: moment.Moment;
     stewardshipActivities: string[];
   }) => void;
+  form: FormInstance;
 }
 
-const StewardshipForm: React.FC<StewardshipFormProps> = ({ onFinish }) => {
+const StewardshipForm: React.FC<StewardshipFormProps> = ({ onFinish, form }) => {
   const stewardshipOptions = [
     'Watered',
     'Mulched',
@@ -31,13 +32,18 @@ const StewardshipForm: React.FC<StewardshipFormProps> = ({ onFinish }) => {
 
   return (
     <>
-      <Form name="recordStewardship" onFinish={onFinish}>
+      <Form 
+      name="recordStewardship" 
+      onFinish={onFinish}
+      form={form}
+      initialValues={{ activityDate: moment()}}
+      >
         <ItemLabel>Activity Date</ItemLabel>
         <Form.Item name="activityDate" rules={activitiesDateRules}>
-          <TreeDatePicker defaultValue={moment()} format={'MM/DD/YYYY'} />
+          <TreeDatePicker format={'MM/DD/YYYY'} />
         </Form.Item>
         <ItemLabel>Stewardship Activites</ItemLabel>
-        <Form.Item name="stewardshipActivites" rules={activitiesRules}>
+        <Form.Item name="stewardshipActivities" rules={activitiesRules}>
           <Checkbox.Group options={stewardshipOptions} />
         </Form.Item>
         <Form.Item>

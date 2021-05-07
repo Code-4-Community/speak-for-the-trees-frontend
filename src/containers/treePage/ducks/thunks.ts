@@ -1,4 +1,4 @@
-import { SiteProps, StewardshipActivities, AdoptedSites, SiteReducerThunkAction, ProtectedSiteReducerThunkAction } from './types';
+import { SiteProps, StewardshipActivities, AdoptedSites, SiteReducerThunkAction, ProtectedSiteReducerThunkAction, ActivityRequest } from './types';
 import { siteData, stewardshipActivities, adoptedSites } from './actions';
 import protectedApiClient from '../../../api/protectedApiClient';
 

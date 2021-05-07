@@ -112,10 +112,13 @@ export interface Activity {
   weeded: boolean;
 }
 
-export interface ActivityLog extends Activity {
+export interface ActivityRequest extends Activity {
+  date: string;
+}
+
+export interface ActivityLog extends ActivityRequest {
   id: number;
   userId: number;
-  date: Date;
 }
 
 export interface AdoptedSites {

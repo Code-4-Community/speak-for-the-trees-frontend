@@ -14,7 +14,7 @@ import {
   ChangePasswordRequest,
   ChangeUsernameRequest,
 } from '../components/forms/ducks/types';
-import { AdoptedSites } from '../containers/treePage/ducks/types';
+import { ActivityRequest, AdoptedSites } from '../containers/treePage/ducks/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -72,7 +72,7 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
   readonly adoptSite: (siteId: number) => Promise<void>;
   readonly unadoptSite: (siteId: number) => Promise<void>;
-  readonly recordStewardship: (siteId: number) => Promise<void>;
+  readonly recordStewardship: (siteId: number, request: ActivityRequest) => Promise<void>;
   readonly deleteStewardship: (activityId: number) => Promise<void>;
   readonly getAdoptedSites: () => Promise<AdoptedSites>;
 }
@@ -353,10 +353,12 @@ const unadoptSite = (
 }
 
 const recordStewardship = (
-  siteId: number
+  siteId: number,
+  request: ActivityRequest,
 ): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.RECORD_STEWARDSHIP(siteId),
+    request
   )
     .then((res) => res.data)
     .catch((err) => err);

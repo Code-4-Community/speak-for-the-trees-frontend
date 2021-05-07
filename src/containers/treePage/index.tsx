@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
 import ReturnButton from '../../components/returnButton';
-import { Row, Col, Typography, Button, Card } from 'antd';
+import { Row, Col, Typography, Button, Card, message, Form } from 'antd';
 import { Routes } from '../../App';
 import { Helmet } from 'react-helmet';
 import {
@@ -10,7 +10,7 @@ import {
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
-import { SiteProps, SiteEntry, TreeCare, SiteEntryNames, Activity } from './ducks/types';
+import { SiteProps, SiteEntry, TreeCare, SiteEntryNames, Activity, ActivityRequest } from './ducks/types';
 import PageHeader from '../../components/pageHeader';
 import { TitleProps } from 'antd/lib/typography/Title';
 import StewardshipForm from '../../components/stewardshipForm';
@@ -24,6 +24,7 @@ import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { C4CState } from '../../store';
 import { getAdoptedSites, getSiteData } from './ducks/thunks';
 import { stewardshipActivities } from './ducks/actions';
+import protectedApiClient from '../../api/protectedApiClient';
 
 const { Paragraph, Title } = Typography;
 
@@ -106,25 +107,47 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, adoptedSites, to
   const dispatch = useDispatch();
   const id = Number(useParams<TreeParams>().id);
 
+  const [stewardshipFormInstance] = Form.useForm();
+
   useEffect(() => {
     dispatch(getSiteData(id));
     if (asyncRequestIsComplete(tokens)) {
       dispatch(getAdoptedSites());
     }
-  }, [dispatch, id, tokens]);
+  }, [dispatch, id, tokens ]);
 
   const onFinishRecordStewardship = (values: {
     activityDate: moment.Moment;
     stewardshipActivities: string[];
   }) => {
-    const activities: Activity = {
+    console.log(values)
+    const activities: ActivityRequest = {
+      date: values.activityDate.toDate().toISOString().slice(0, 19).replace('T', ' '),
       watered: values.stewardshipActivities.includes('Watered'),
       mulched: values.stewardshipActivities.includes('Mulched'),
       cleaned: values.stewardshipActivities.includes('Cleaned'),
       weeded: values.stewardshipActivities.includes('Weeded'),
     }
-    
+    protectedApiClient.recordStewardship(id, activities)
+    .then(() => {
+      message.success('Stwardship Recorded');
+      stewardshipFormInstance.resetFields();
+      dispatch(getSiteData(id));
+    })
+    .catch((err) =>
+      message.error(`Failed to record stewardship: ${err.response.data}`),
+    );
   };
+
+  const onClickAdopt = () => {
+    protectedApiClient.adoptSite(id);
+    dispatch(getAdoptedSites());
+  }
+
+  const onClickUnadopt = () => {
+    protectedApiClient.unadoptSite(id);
+    dispatch(getAdoptedSites());
+  }
 
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
     return getPrivilegeLevel(state.authenticationState.tokens);
@@ -162,12 +185,19 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, adoptedSites, to
                     <Title level={2}>{siteData.result.address}</Title>
                     {privilegeLevel !== PrivilegeLevel.NONE ? (
                       <>
-                        <Button type="primary" size="large">
-                          { doesUserOwnTree ? "Unadopt" : "Adopt" }
-                        </Button>
+                        {doesUserOwnTree ? (
+                          <Button type="primary" size="large" onClick={onClickUnadopt}>
+                            Unadopt
+                          </Button>
+                        ) : (
+                          <Button type="primary" size="large" onClick={onClickAdopt}>
+                            Adopt
+                          </Button>
+                        )}
+              
                         <StewardshipContainer>
                           <Title level={3}>Record Tree Care</Title>
-                          <StewardshipForm onFinish={onFinishRecordStewardship}/>
+                          <StewardshipForm onFinish={onFinishRecordStewardship} form = {stewardshipFormInstance}/>
                         </StewardshipContainer>
                       </>
                     ) : (
