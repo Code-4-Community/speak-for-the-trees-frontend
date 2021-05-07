@@ -42,6 +42,12 @@ const AppLayout = styled(Layout)`
 
 type AppProps = UserAuthenticationReducerState;
 
+export enum ParameterizedRouteBases {
+  TEAM = '/team/',
+  TREE = '/tree/',
+  FORGOT_PASSWORD_RESET = '/forgot-password-reset/',
+}
+
 export enum Routes {
   LANDING = '/',
   LOGIN = '/login',

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Typography } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
 import { LinkButton } from '../linkButton';
-import { Routes } from '../../App';
+import { ParameterizedRouteBases } from '../../App';
 import {
   BLACK,
   DARK_GREY,
@@ -11,6 +12,7 @@ import {
   MID_GREEN,
   WHITE,
 } from '../../utils/colors';
+import { isEmptyString } from '../../utils/isCheck';
 
 const { Paragraph } = Typography;
 
@@ -22,7 +24,7 @@ const PopupAnchor = styled.div`
   /* position tip */
   position: absolute;
   width: 100%;
-  bottom: 8px;
+  bottom: 17px;
   left: 0;
 
   /* draw tip */
@@ -47,16 +49,27 @@ const PopupBubble = styled.div`
   transform: translate(-50%, -100%);
   background-color: ${WHITE};
   width: 250px;
-  height: 150px;
+  max-height: 150px;
   padding: 7px 15px;
   border-radius: 2px;
   box-shadow: 0px 2px 10px 1px ${BLACK}50;
+  overflow-y: scroll;
 `;
 
 const TreeTitle = styled(Paragraph)`
+  display: inline-block;
   font-size: 20px;
   line-height: 28px;
   color: ${MID_GREEN};
+  text-transform: capitalize;
+`;
+
+const CloseIcon = styled(CloseOutlined)`
+  display: inline-block;
+  float: right;
+  font-size: 15px;
+  line-height: 28px;
+  color: ${DARK_GREY};
 `;
 
 const Line = styled.div`
@@ -80,7 +93,7 @@ const GreenLinkButton = styled(LinkButton)`
 
 export interface BasicTreeInfo {
   id: number;
-  commonName: string;
+  species: string;
   address: string;
 }
 
@@ -89,21 +102,45 @@ interface TreePopupProps {
   treeInfo: BasicTreeInfo;
 }
 
-export const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
+const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+
+  const hidePopup = () => {
+    setIsVisible(false);
+  };
+
+  useEffect(() => {
+    if (treeInfo.id !== -1) {
+      setIsVisible(true);
+    }
+  }, [treeInfo]);
+
   return (
     <PopupContainer ref={popRef}>
-      <PopupAnchor>
-        <PopupBubble>
-          <TreeTitle>{treeInfo.commonName}</TreeTitle>
-          <Line />
-          <GreyText strong>Nearby Address</GreyText>
-          <GreyText>{treeInfo.address}</GreyText>
-          {/* TODO change to tree page route */}
-          <GreenLinkButton to={`${Routes.NOT_FOUND}/${treeInfo.id}`}>
-            More Info
-          </GreenLinkButton>
-        </PopupBubble>
-      </PopupAnchor>
+      {isVisible && (
+        <PopupAnchor>
+          <PopupBubble>
+            <>
+              <TreeTitle>
+                {isEmptyString(treeInfo.species)
+                  ? 'Unknown Species'
+                  : treeInfo.species}
+              </TreeTitle>
+              <CloseIcon onClick={hidePopup} />
+            </>
+            <Line />
+            {!isEmptyString(treeInfo.address) && (
+              <GreyText strong>Nearby Address</GreyText>
+            )}
+            <GreyText>{treeInfo.address}</GreyText>
+            <GreenLinkButton
+              to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
+            >
+              More Info
+            </GreenLinkButton>
+          </PopupBubble>
+        </PopupAnchor>
+      )}
     </PopupContainer>
   );
 };

@@ -7,3 +7,11 @@ import { WindowTypes } from '../components/windowDimensions';
 export function isMobile(windowType: WindowTypes): boolean {
   return windowType === WindowTypes.Mobile;
 }
+
+/**
+ * Checks if the string is empty
+ * @param str the string
+ */
+export function isEmptyString(str: string): boolean {
+  return str === '';
+}
