@@ -102,18 +102,6 @@ interface TreeParams {
   id: string;
 }
 
-const onFinishRecordStewardship = (values: {
-  activityDate: moment.Moment;
-  stewardshipActivities: string[];
-}) => {
-  const activities: Activity = {
-    watered: values.stewardshipActivities.includes('Watered'),
-    mulched: values.stewardshipActivities.includes('Mulched'),
-    cleaned: values.stewardshipActivities.includes('Cleaned'),
-    weeded: values.stewardshipActivities.includes('Weeded')
-  }
-};
-
 const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, adoptedSites, tokens }) => {
   const dispatch = useDispatch();
   const id = Number(useParams<TreeParams>().id);
@@ -124,6 +112,19 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, adoptedSites, to
       dispatch(getAdoptedSites());
     }
   }, [dispatch, id, tokens]);
+
+  const onFinishRecordStewardship = (values: {
+    activityDate: moment.Moment;
+    stewardshipActivities: string[];
+  }) => {
+    const activities: Activity = {
+      watered: values.stewardshipActivities.includes('Watered'),
+      mulched: values.stewardshipActivities.includes('Mulched'),
+      cleaned: values.stewardshipActivities.includes('Cleaned'),
+      weeded: values.stewardshipActivities.includes('Weeded'),
+    }
+    
+  };
 
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
     return getPrivilegeLevel(state.authenticationState.tokens);
