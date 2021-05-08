@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
 import ReturnButton from '../../components/returnButton';
@@ -6,10 +7,9 @@ import { Row, Col, Typography, Button, Card, message, Form } from 'antd';
 import { Routes } from '../../App';
 import { Helmet } from 'react-helmet';
 import {
-  PrivilegeLevel,
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
-import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { isLoggedIn } from '../../auth/ducks/selectors';
 import { TreeCare, ActivityRequest } from './ducks/types';
 import PageHeader from '../../components/pageHeader';
 import { TitleProps } from 'antd/lib/typography/Title';
@@ -113,6 +113,7 @@ interface TreeParams {
 const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
   const dispatch = useDispatch();
   const id = Number(useParams<TreeParams>().id);
+  const history = useHistory();
 
   const [stewardshipFormInstance] = Form.useForm();
 
@@ -137,7 +138,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
     protectedApiClient
       .recordStewardship(id, activities)
       .then(() => {
-        message.success('Stwardship Recorded');
+        message.success('Stewardship Recorded');
         stewardshipFormInstance.resetFields();
         dispatch(getSiteData(id));
       })
@@ -147,21 +148,35 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
   };
 
   const onClickAdopt = () => {
-    protectedApiClient.adoptSite(id);
-    dispatch(getAdoptedSites());
+    protectedApiClient
+      .adoptSite(id)
+      .then(() => {
+        message.success('Adopted site!');
+        dispatch(getAdoptedSites());
+      })
+      .catch((err) => {
+        message.error(`Failed to adopt site: ${err.response.data}`);
+      });
   };
 
   const onClickUnadopt = () => {
-    protectedApiClient.unadoptSite(id);
-    dispatch(getAdoptedSites());
+    protectedApiClient
+      .unadoptSite(id)
+      .then(() => {
+        message.success('Unadopted site!');
+        dispatch(getAdoptedSites());
+      })
+      .catch((err) => {
+        message.error(`Failed to unadopt site: ${err.response.data}`);
+      });
   };
 
-  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
-    return getPrivilegeLevel(state.authenticationState.tokens);
-  });
+  const loggedIn: boolean = useSelector((state: C4CState) =>
+    isLoggedIn(state.authenticationState.tokens),
+  );
 
   const doesUserOwnTree: boolean = useSelector((state: C4CState) => {
-    if (privilegeLevel !== PrivilegeLevel.NONE) {
+    if (loggedIn) {
       return isTreeAdopted(state.adoptedSitesState.adoptedSites, id);
     } else {
       return false;
@@ -184,8 +199,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
       <PageLayout>
         {asyncRequestIsComplete(siteData) && (
           <TreePageContainer>
-            {/*Change to tree map route once that page is finished*/}
-            <ReturnButton to={Routes.HOME}>
+            <ReturnButton to={Routes.LANDING}>
               {`<`} Return to Tree Map
             </ReturnButton>
             <TreeMainContainer>
@@ -198,7 +212,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
                       />
                     )}
                     <Title level={2}>{siteData.result.address}</Title>
-                    {privilegeLevel !== PrivilegeLevel.NONE ? (
+                    {loggedIn ? (
                       <>
                         {doesUserOwnTree ? (
                           <Button
@@ -227,7 +241,16 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
                         </StewardshipContainer>
                       </>
                     ) : (
-                      <Paragraph>Log in to adopt this tree!</Paragraph>
+                      <>
+                        <Paragraph>Log in to adopt this tree!</Paragraph>
+                        <Button
+                          type="primary"
+                          size={'large'}
+                          onClick={() => history.push(Routes.LOGIN)}
+                        >
+                          Log In
+                        </Button>
+                      </>
                     )}
                   </TreeInfoContainer>
                 </Col>

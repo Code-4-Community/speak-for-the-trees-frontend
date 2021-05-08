@@ -341,15 +341,15 @@ const transferOwnership = (
 };
 
 const adoptSite = (siteId: number): Promise<void> => {
-  return AppAxiosInstance.post(ParameterizedApiRoutes.ADOPT_SITE(siteId))
-    .then((res) => res.data)
-    .catch((err) => err);
+  return AppAxiosInstance.post(ParameterizedApiRoutes.ADOPT_SITE(siteId)).then(
+    (res) => res.data,
+  );
 };
 
 const unadoptSite = (siteId: number): Promise<void> => {
-  return AppAxiosInstance.post(ParameterizedApiRoutes.UNADOPT_SITE(siteId))
-    .then((res) => res.data)
-    .catch((err) => err);
+  return AppAxiosInstance.post(
+    ParameterizedApiRoutes.UNADOPT_SITE(siteId),
+  ).then((res) => res.data);
 };
 
 const recordStewardship = (
@@ -359,9 +359,7 @@ const recordStewardship = (
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.RECORD_STEWARDSHIP(siteId),
     request,
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const deleteStewardship = (siteId: number): Promise<void> => {
