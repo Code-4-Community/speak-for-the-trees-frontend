@@ -1,7 +1,10 @@
 import AppAxiosInstance from '../auth/axios';
 import { VolunteerLeaderboardItem } from '../containers/volunteerLeaderboard/ducks/types';
 import { TeamLeaderboardItem } from '../containers/teamLeaderboard/ducks/types';
-import { StewardshipActivities, SiteProps } from '../containers/treePage/ducks/types';
+import {
+  StewardshipActivities,
+  SiteProps,
+} from '../containers/treePage/ducks/types';
 import {
   BlockGeoData,
   NeighborhoodGeoData,
@@ -23,7 +26,9 @@ export interface ApiClient {
   readonly getNeighborhoodGeoData: () => Promise<NeighborhoodGeoData>;
   readonly getSiteGeoData: () => Promise<SiteGeoData>;
   readonly getSite: (siteId: number) => Promise<SiteProps>;
-  readonly getStewardshipActivities: (siteId: number) => Promise<StewardshipActivities>;
+  readonly getStewardshipActivities: (
+    siteId: number,
+  ) => Promise<StewardshipActivities>;
 }
 
 export enum ApiClientRoutes {
@@ -37,9 +42,10 @@ export enum ApiClientRoutes {
 const baseSiteRoute = '/api/v1/sites/';
 
 export const ParameterizedApiRoutes = {
-  GET_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}`, 
-  GET_STEWARSHIP_ACTIVITIES: (siteId: number): string => `${baseSiteRoute}${siteId}/stewardship_activities`, 
-}
+  GET_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}`,
+  GET_STEWARSHIP_ACTIVITIES: (siteId: number): string =>
+    `${baseSiteRoute}${siteId}/stewardship_activities`,
+};
 
 const getUsersLeaderboard = (
   previousDays: number | null,
@@ -79,13 +85,17 @@ const getSite = (siteId: number): Promise<SiteProps> => {
   return AppAxiosInstance.get(ParameterizedApiRoutes.GET_SITE(siteId))
     .then((r) => r.data)
     .catch((e) => e);
-}
+};
 
-const getStewardshipActivities = (siteId: number): Promise<StewardshipActivities> => {
-  return AppAxiosInstance.get(ParameterizedApiRoutes.GET_STEWARSHIP_ACTIVITIES(siteId))
+const getStewardshipActivities = (
+  siteId: number,
+): Promise<StewardshipActivities> => {
+  return AppAxiosInstance.get(
+    ParameterizedApiRoutes.GET_STEWARSHIP_ACTIVITIES(siteId),
+  )
     .then((r) => r.data)
     .catch((e) => e);
-}
+};
 
 const Client: ApiClient = Object.freeze({
   getUsersLeaderboard,

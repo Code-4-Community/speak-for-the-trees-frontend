@@ -1,6 +1,13 @@
 import React from 'react';
 import moment from 'moment';
-import { Button, Form, Checkbox, Typography, DatePicker, FormInstance } from 'antd';
+import {
+  Button,
+  Form,
+  Checkbox,
+  Typography,
+  DatePicker,
+  FormInstance,
+} from 'antd';
 import styled from 'styled-components';
 import { activitiesDateRules, activitiesRules } from '../../utils/formRules';
 
@@ -22,7 +29,10 @@ interface StewardshipFormProps {
   form: FormInstance;
 }
 
-const StewardshipForm: React.FC<StewardshipFormProps> = ({ onFinish, form }) => {
+const StewardshipForm: React.FC<StewardshipFormProps> = ({
+  onFinish,
+  form,
+}) => {
   const stewardshipOptions = [
     'Watered',
     'Mulched',
@@ -32,11 +42,11 @@ const StewardshipForm: React.FC<StewardshipFormProps> = ({ onFinish, form }) => 
 
   return (
     <>
-      <Form 
-      name="recordStewardship" 
-      onFinish={onFinish}
-      form={form}
-      initialValues={{ activityDate: moment()}}
+      <Form
+        name="recordStewardship"
+        onFinish={onFinish}
+        form={form}
+        initialValues={{ activityDate: moment() }}
       >
         <ItemLabel>Activity Date</ItemLabel>
         <Form.Item name="activityDate" rules={activitiesDateRules}>

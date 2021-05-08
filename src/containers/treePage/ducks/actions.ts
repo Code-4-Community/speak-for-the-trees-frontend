@@ -3,7 +3,10 @@ import { SiteProps, StewardshipActivities, AdoptedSites } from './types';
 
 export const siteData = genericAsyncActions<SiteProps, any>();
 
-export const stewardshipActivities = genericAsyncActions<StewardshipActivities, any>();
+export const stewardshipActivities = genericAsyncActions<
+  StewardshipActivities,
+  any
+>();
 
 export const adoptedSites = genericAsyncActions<AdoptedSites, any>();
 
@@ -18,4 +21,4 @@ export type SiteActions =
 export type ProtectedSiteActions =
   | ReturnType<typeof adoptedSites.loading>
   | ReturnType<typeof adoptedSites.loaded>
-  | ReturnType<typeof adoptedSites.failed>;  
+  | ReturnType<typeof adoptedSites.failed>;

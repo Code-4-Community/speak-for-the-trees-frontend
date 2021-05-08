@@ -102,7 +102,7 @@ export interface TreeCare {
 }
 
 export interface StewardshipActivities {
-  stewardshipActivities: ActivityLog[]
+  stewardshipActivities: ActivityLog[];
 }
 
 export interface Activity {
@@ -122,7 +122,7 @@ export interface ActivityLog extends ActivityRequest {
 }
 
 export interface AdoptedSites {
-  adoptedSites: number[] 
+  adoptedSites: number[];
 }
 
 // ---------------------------------Redux----------------------------------------
@@ -133,7 +133,7 @@ export interface SiteReducerState {
 }
 
 export interface ProtectedSitesReducerState {
-  readonly adoptedSites: AsyncRequest<AdoptedSites, any>
+  readonly adoptedSites: AsyncRequest<AdoptedSites, any>;
 }
 
 export interface Entry {

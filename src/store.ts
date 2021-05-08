@@ -43,13 +43,19 @@ import { AvailableTeamsReducerState } from './containers/availableTeams/ducks/ty
 import availableTeamsReducer, {
   initialAvailableTeamsState,
 } from './containers/availableTeams/ducks/reducer';
-import { SiteActions, ProtectedSiteActions } from './containers/treePage/ducks/actions';
-import { SiteReducerState, ProtectedSitesReducerState } from './containers/treePage/ducks/types';
+import {
+  SiteActions,
+  ProtectedSiteActions,
+} from './containers/treePage/ducks/actions';
+import {
+  SiteReducerState,
+  ProtectedSitesReducerState,
+} from './containers/treePage/ducks/types';
 import siteDataReducer, {
-  initialSiteState
+  initialSiteState,
 } from './containers/treePage/ducks/reducer';
 import protectedSitesDataReducer, {
-  initialProtectedSiteState
+  initialProtectedSiteState,
 } from './containers/treePage/ducks/protectedReducer';
 import throttle from 'lodash/throttle';
 import AppAxiosInstance from './auth/axios';
@@ -104,7 +110,7 @@ export const initialStoreState: C4CState = {
   teamState: initialTeamState,
   availableTeamsState: initialAvailableTeamsState,
   siteState: initialSiteState,
-  adoptedSitesState: initialProtectedSiteState
+  adoptedSitesState: initialProtectedSiteState,
 };
 
 export const LOCALSTORAGE_STATE_KEY: string = 'state';

@@ -14,7 +14,10 @@ import {
   ChangePasswordRequest,
   ChangeUsernameRequest,
 } from '../components/forms/ducks/types';
-import { ActivityRequest, AdoptedSites } from '../containers/treePage/ducks/types';
+import {
+  ActivityRequest,
+  AdoptedSites,
+} from '../containers/treePage/ducks/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -72,7 +75,10 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
   readonly adoptSite: (siteId: number) => Promise<void>;
   readonly unadoptSite: (siteId: number) => Promise<void>;
-  readonly recordStewardship: (siteId: number, request: ActivityRequest) => Promise<void>;
+  readonly recordStewardship: (
+    siteId: number,
+    request: ActivityRequest,
+  ) => Promise<void>;
   readonly deleteStewardship: (activityId: number) => Promise<void>;
   readonly getAdoptedSites: () => Promise<AdoptedSites>;
 }
@@ -122,9 +128,11 @@ export const ParameterizedApiRoutes = {
   TRANSFER_OWNERSHIP: (teamId: number): string =>
     `${baseTeamRoute}${teamId}/transfer_ownership`,
   ADOPT_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/adopt`,
-  UNADOPT_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/unadopt`,  
-  RECORD_STEWARDSHIP: (siteId: number): string => `${baseSiteRoute}${siteId}/record_stewardship`, 
-  DELETE_STEWARDSHIP: (actvityId: number): string => `${baseSiteRoute}remove_stewardship/${actvityId}`, 
+  UNADOPT_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/unadopt`,
+  RECORD_STEWARDSHIP: (siteId: number): string =>
+    `${baseSiteRoute}${siteId}/record_stewardship`,
+  DELETE_STEWARDSHIP: (actvityId: number): string =>
+    `${baseSiteRoute}remove_stewardship/${actvityId}`,
 };
 
 const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
@@ -332,25 +340,17 @@ const transferOwnership = (
     .catch((err) => err);
 };
 
-const adoptSite = (
-  siteId: number
-): Promise<void> => {
-  return AppAxiosInstance.post(
-    ParameterizedApiRoutes.ADOPT_SITE(siteId),
-  )
+const adoptSite = (siteId: number): Promise<void> => {
+  return AppAxiosInstance.post(ParameterizedApiRoutes.ADOPT_SITE(siteId))
     .then((res) => res.data)
     .catch((err) => err);
-}
+};
 
-const unadoptSite = (
-  siteId: number
-): Promise<void> => {
-  return AppAxiosInstance.post(
-    ParameterizedApiRoutes.UNADOPT_SITE(siteId),
-  )
+const unadoptSite = (siteId: number): Promise<void> => {
+  return AppAxiosInstance.post(ParameterizedApiRoutes.UNADOPT_SITE(siteId))
     .then((res) => res.data)
     .catch((err) => err);
-}
+};
 
 const recordStewardship = (
   siteId: number,
@@ -358,29 +358,25 @@ const recordStewardship = (
 ): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.RECORD_STEWARDSHIP(siteId),
-    request
+    request,
   )
     .then((res) => res.data)
     .catch((err) => err);
-}
+};
 
-const deleteStewardship = (
-  siteId: number
-): Promise<void> => {
+const deleteStewardship = (siteId: number): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.DELETE_STEWARDSHIP(siteId),
   )
     .then((res) => res.data)
     .catch((err) => err);
-}
+};
 
 const getAdoptedSites = (): Promise<AdoptedSites> => {
-  return AppAxiosInstance.get(
-    ProtectedApiClientRoutes.GET_ADOPTED_SITES,
-  )
+  return AppAxiosInstance.get(ProtectedApiClientRoutes.GET_ADOPTED_SITES)
     .then((res) => res.data)
     .catch((err) => err);
-}
+};
 
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,

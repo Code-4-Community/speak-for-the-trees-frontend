@@ -37,7 +37,10 @@ const reducers = (
       return {
         ...state,
         siteData: siteDataReducer(state.siteData, action),
-        stewarshipActivityData: stewarshipActivityReducer(state.stewarshipActivityData, action),
+        stewarshipActivityData: stewarshipActivityReducer(
+          state.stewarshipActivityData,
+          action,
+        ),
       };
     default:
       return state;
