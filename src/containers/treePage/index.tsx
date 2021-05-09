@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
 import ReturnButton from '../../components/returnButton';
 import { Row, Col, Typography, Button, Card, message, Form } from 'antd';
-import { Routes } from '../../App';
+import { RedirectStateProps, Routes } from '../../App';
 import { Helmet } from 'react-helmet';
-import {
-  UserAuthenticationReducerState,
-} from '../../auth/ducks/types';
+import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import { TreeCare, ActivityRequest } from './ducks/types';
 import PageHeader from '../../components/pageHeader';
@@ -114,6 +112,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
   const dispatch = useDispatch();
   const id = Number(useParams<TreeParams>().id);
   const history = useHistory();
+  const location = useLocation<RedirectStateProps>();
 
   const [stewardshipFormInstance] = Form.useForm();
 
@@ -223,22 +222,23 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
                             Unadopt
                           </Button>
                         ) : (
-                          <Button
-                            type="primary"
-                            size="large"
-                            onClick={onClickAdopt}
-                          >
-                            Adopt
-                          </Button>
+                          <>
+                            <Button
+                              type="primary"
+                              size="large"
+                              onClick={onClickAdopt}
+                            >
+                              Adopt
+                            </Button>
+                            <StewardshipContainer>
+                              <Title level={3}>Record Tree Care</Title>
+                              <StewardshipForm
+                                onFinish={onFinishRecordStewardship}
+                                form={stewardshipFormInstance}
+                              />
+                            </StewardshipContainer>
+                          </>
                         )}
-
-                        <StewardshipContainer>
-                          <Title level={3}>Record Tree Care</Title>
-                          <StewardshipForm
-                            onFinish={onFinishRecordStewardship}
-                            form={stewardshipFormInstance}
-                          />
-                        </StewardshipContainer>
                       </>
                     ) : (
                       <>
@@ -246,7 +246,11 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
                         <Button
                           type="primary"
                           size={'large'}
-                          onClick={() => history.push(Routes.LOGIN)}
+                          onClick={() =>
+                            history.push(Routes.LOGIN, {
+                              destination: location.pathname,
+                            })
+                          }
                         >
                           Log In
                         </Button>
