@@ -214,13 +214,22 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
                     {loggedIn ? (
                       <>
                         {doesUserOwnTree ? (
-                          <Button
-                            type="primary"
-                            size="large"
-                            onClick={onClickUnadopt}
-                          >
-                            Unadopt
-                          </Button>
+                          <>
+                            <Button
+                              type="primary"
+                              size="large"
+                              onClick={onClickUnadopt}
+                            >
+                              Unadopt
+                            </Button>
+                            <StewardshipContainer>
+                              <Title level={3}>Record Tree Care</Title>
+                              <StewardshipForm
+                                onFinish={onFinishRecordStewardship}
+                                form={stewardshipFormInstance}
+                              />
+                            </StewardshipContainer>
+                          </>
                         ) : (
                           <>
                             <Button
@@ -230,13 +239,6 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
                             >
                               Adopt
                             </Button>
-                            <StewardshipContainer>
-                              <Title level={3}>Record Tree Care</Title>
-                              <StewardshipForm
-                                onFinish={onFinishRecordStewardship}
-                                form={stewardshipFormInstance}
-                              />
-                            </StewardshipContainer>
                           </>
                         )}
                       </>
