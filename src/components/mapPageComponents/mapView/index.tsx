@@ -62,14 +62,13 @@ const MapView: React.FC<MapViewProps> = ({
   // block id for modal
   const [activeBlockId, setActiveBlockId] = useState<number>(-1);
   // logic for reservation modal to complete action selected by user
-  const handleOk = (team?: number) => {
-    //check if team defined, if not throw error
+  const handleOk = async (team?: number) => {
     setShowModal(false);
     switch (reservationType) {
       case ReservationModalType.OPEN:
         // set block status to reserved
-        protectedApiClient.makeReservation(activeBlockId, team);
-        protectedApiClient.completeReservation(activeBlockId, team);
+        await protectedApiClient.makeReservation(activeBlockId, team);
+        await protectedApiClient.completeReservation(activeBlockId, team);
         break;
       case ReservationModalType.RESERVED:
         // set block status to open
