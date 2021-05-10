@@ -1,17 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
 import ReturnButton from '../../components/returnButton';
-import { Row, Col, Typography, Button, Card } from 'antd';
-import { Routes } from '../../App';
+import { Row, Col, Typography, Button, Card, message, Form } from 'antd';
+import { RedirectStateProps, Routes } from '../../App';
 import { Helmet } from 'react-helmet';
-import { SiteProps, SiteEntry, TreeCare, SiteEntryNames } from './ducks/types';
+import { UserAuthenticationReducerState } from '../../auth/ducks/types';
+import { isLoggedIn } from '../../auth/ducks/selectors';
+import { TreeCare, ActivityRequest } from './ducks/types';
 import PageHeader from '../../components/pageHeader';
 import { TitleProps } from 'antd/lib/typography/Title';
 import StewardshipForm from '../../components/stewardshipForm';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { LIGHT_GREY, DARK_GREEN, TEXT_GREY } from '../../utils/colors';
 import { Gap } from '../../components/themedComponents';
 import styled from 'styled-components';
+import {
+  SiteReducerState,
+  ProtectedSitesReducerState,
+  Entry,
+} from './ducks/types';
+import {
+  mapStewardshipToTreeCare,
+  isTreeAdopted,
+  getLatestEntry,
+} from './ducks/selectors';
+import { asyncRequestIsComplete } from '../../utils/asyncRequest';
+import { C4CState } from '../../store';
+import { getAdoptedSites, getSiteData } from './ducks/thunks';
+import protectedApiClient from '../../api/protectedApiClient';
 
 const { Paragraph, Title } = Typography;
 
@@ -50,7 +68,7 @@ const TreeCareTitle = styled(Paragraph)`
 
 const TreeCareContainer = styled.div`
   border: solid 1px ${LIGHT_GREY};
-  height: 80%;
+  max-height: 80%;
   margin-top: 80px;
   overflow: auto;
 `;
@@ -79,65 +97,94 @@ const EntryMessage = styled(Paragraph)`
   color: ${TEXT_GREY};
 `;
 
-const dummyCare: TreeCare[] = [
-  {
-    date: 'March 28th',
-    message: 'Was cleared of waste and weeded',
-  },
-  {
-    date: 'March 27th',
-    message: 'Was cleared of waste and weeded',
-  },
-  {
-    date: 'March 26th',
-    message: 'Was cleared of waste and weeded',
-  },
-  {
-    date: 'March 25th',
-    message: 'Was cleared of waste and weeded',
-  },
-  {
-    date: 'March 24th',
-    message: 'Was cleared of waste and weeded',
-  },
-  {
-    date: 'March 23rd',
-    message: 'Was cleared of waste and weeded',
-  },
-];
+interface TreeProps {
+  readonly tokens: UserAuthenticationReducerState['tokens'];
+  readonly siteData: SiteReducerState['siteData'];
+  readonly stewardShip: TreeCare[];
+  readonly adoptedSites: ProtectedSitesReducerState['adoptedSites'];
+}
 
-const dummyTree: SiteProps = {
-  siteId: 1,
-  blockId: 1,
-  lat: 2,
-  lng: 2,
-  city: 'Boston',
-  zip: '02115',
-  address: '100 Super Tree Way',
-  entries: [
-    {
-      updatedAt: 100000000,
-      status: 'good',
-      genus: 'biggus treebus',
-      species: 'larggeus',
-      commonName: 'large tree',
-      confidence: 'good',
-      diameter: 1000000,
-      circumference: 3140000,
-      coverage: 'leaves',
-      discoloring: true,
-      pooling: false,
-      light: true,
-      bicycle: true,
-      fence: 'yes',
-      treeNotes: 'I think it looks pretty good',
-      siteNotes: 'dirty',
-    },
-  ],
-};
+interface TreeParams {
+  id: string;
+}
 
-const TreePage: React.FC<SiteProps> = ({ address, entries }) => {
-  const latestEntry: SiteEntry = entries[entries.length - 1];
+const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
+  const dispatch = useDispatch();
+  const id = Number(useParams<TreeParams>().id);
+  const history = useHistory();
+  const location = useLocation<RedirectStateProps>();
+
+  const [stewardshipFormInstance] = Form.useForm();
+
+  useEffect(() => {
+    dispatch(getSiteData(id));
+    if (asyncRequestIsComplete(tokens)) {
+      dispatch(getAdoptedSites());
+    }
+  }, [dispatch, id, tokens]);
+
+  const onFinishRecordStewardship = (values: {
+    activityDate: moment.Moment;
+    stewardshipActivities: string[];
+  }) => {
+    const activities: ActivityRequest = {
+      date: values.activityDate.format('L'),
+      watered: values.stewardshipActivities.includes('Watered'),
+      mulched: values.stewardshipActivities.includes('Mulched'),
+      cleaned: values.stewardshipActivities.includes('Cleared Waste & Litter'),
+      weeded: values.stewardshipActivities.includes('Weeded'),
+    };
+    protectedApiClient
+      .recordStewardship(id, activities)
+      .then(() => {
+        message.success('Stewardship Recorded');
+        stewardshipFormInstance.resetFields();
+        dispatch(getSiteData(id));
+      })
+      .catch((err) =>
+        message.error(`Failed to record stewardship: ${err.response.data}`),
+      );
+  };
+
+  const onClickAdopt = () => {
+    protectedApiClient
+      .adoptSite(id)
+      .then(() => {
+        message.success('Adopted site!');
+        dispatch(getAdoptedSites());
+      })
+      .catch((err) => {
+        message.error(`Failed to adopt site: ${err.response.data}`);
+      });
+  };
+
+  const onClickUnadopt = () => {
+    protectedApiClient
+      .unadoptSite(id)
+      .then(() => {
+        message.success('Unadopted site!');
+        dispatch(getAdoptedSites());
+      })
+      .catch((err) => {
+        message.error(`Failed to unadopt site: ${err.response.data}`);
+      });
+  };
+
+  const loggedIn: boolean = useSelector((state: C4CState) =>
+    isLoggedIn(state.authenticationState.tokens),
+  );
+
+  const doesUserOwnTree: boolean = useSelector((state: C4CState) => {
+    if (loggedIn) {
+      return isTreeAdopted(state.adoptedSitesState.adoptedSites, id);
+    } else {
+      return false;
+    }
+  });
+
+  const latestEntry: Entry[] = useSelector((state: C4CState) => {
+    return getLatestEntry(state.siteState.siteData);
+  });
 
   return (
     <>
@@ -149,62 +196,114 @@ const TreePage: React.FC<SiteProps> = ({ address, entries }) => {
         />
       </Helmet>
       <PageLayout>
-        <TreePageContainer>
-          {/*Change to tree map route once that page is finished*/}
-          <ReturnButton to={Routes.HOME}>{`<`} Return to Tree Map</ReturnButton>
-          <TreeMainContainer>
+        {asyncRequestIsComplete(siteData) && (
+          <TreePageContainer>
+            <ReturnButton to={Routes.LANDING}>
+              {`<`} Return to Tree Map
+            </ReturnButton>
+            <TreeMainContainer>
+              <Row>
+                <Col span={17}>
+                  <TreeInfoContainer>
+                    {siteData.result.entries[0].commonName && (
+                      <PageHeader
+                        pageTitle={siteData.result.entries[0].commonName}
+                      />
+                    )}
+                    <Title level={2}>{siteData.result.address}</Title>
+                    {loggedIn ? (
+                      <>
+                        {doesUserOwnTree ? (
+                          <>
+                            <Button
+                              type="primary"
+                              size="large"
+                              onClick={onClickUnadopt}
+                            >
+                              Unadopt
+                            </Button>
+                            <StewardshipContainer>
+                              <Title level={3}>Record Tree Care</Title>
+                              <StewardshipForm
+                                onFinish={onFinishRecordStewardship}
+                                form={stewardshipFormInstance}
+                              />
+                            </StewardshipContainer>
+                          </>
+                        ) : (
+                          <>
+                            <Button
+                              type="primary"
+                              size="large"
+                              onClick={onClickAdopt}
+                            >
+                              Adopt
+                            </Button>
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <Paragraph>Log in to adopt this tree!</Paragraph>
+                        <Button
+                          type="primary"
+                          size={'large'}
+                          onClick={() =>
+                            history.push(Routes.LOGIN, {
+                              destination: location.pathname,
+                            })
+                          }
+                        >
+                          Log In
+                        </Button>
+                      </>
+                    )}
+                  </TreeInfoContainer>
+                </Col>
+                <Col span={7}>
+                  <TreeCareContainer>
+                    <TreeCareTitle>Tree Care Activity</TreeCareTitle>
+                    {stewardShip.map((value: TreeCare, key) => {
+                      return (
+                        <CareEntry key={key}>
+                          <EntryDate>{value.date}</EntryDate>
+                          <Gap />
+                          <EntryMessage>{value.message}</EntryMessage>
+                        </CareEntry>
+                      );
+                    })}
+                  </TreeCareContainer>
+                </Col>
+              </Row>
+            </TreeMainContainer>
             <Row>
-              <Col span={17}>
-                <TreeInfoContainer>
-                  {latestEntry.commonName && (
-                    <PageHeader pageTitle={latestEntry.commonName} />
-                  )}
-                  <Title level={2}>{address}</Title>
-                  <Button type="primary" size="large">
-                    Adopt
-                  </Button>
-                  <StewardshipContainer>
-                    <Title level={3}>Record Tree Care</Title>
-                    <StewardshipForm />
-                  </StewardshipContainer>
-                </TreeInfoContainer>
-              </Col>
-              <Col span={7}>
-                <TreeCareContainer>
-                  <TreeCareTitle>Tree Care Activity</TreeCareTitle>
-                  {dummyCare.map((value: TreeCare, key) => {
-                    return (
-                      <CareEntry key={key}>
-                        <EntryDate>{value.date}</EntryDate>
-                        <Gap />
-                        <EntryMessage>{value.message}</EntryMessage>
-                      </CareEntry>
-                    );
-                  })}
-                </TreeCareContainer>
-              </Col>
+              <EntrySpace>
+                {latestEntry.map((entry: Entry) => {
+                  return (
+                    <StyledCard key={entry.title}>
+                      <Title level={3}>{entry.title}</Title>
+                      <EntryMessage>{entry.value}</EntryMessage>
+                    </StyledCard>
+                  );
+                })}
+              </EntrySpace>
             </Row>
-          </TreeMainContainer>
-          <Row>
-            <EntrySpace>
-              {Object.entries(latestEntry).map(([key, value]) => {
-                return (
-                  <StyledCard key={key}>
-                    <Title level={3}>{SiteEntryNames[key]}</Title>
-                    <EntryMessage>{value.toString()}</EntryMessage>
-                  </StyledCard>
-                );
-              })}
-            </EntrySpace>
-          </Row>
-        </TreePageContainer>
+          </TreePageContainer>
+        )}
       </PageLayout>
     </>
   );
 };
 
-const mapStateToProps = (): SiteProps => {
-  return dummyTree;
+const mapStateToProps = (state: C4CState): TreeProps => {
+  return {
+    tokens: state.authenticationState.tokens,
+    siteData: state.siteState.siteData,
+    stewardShip: mapStewardshipToTreeCare(
+      state.siteState.stewarshipActivityData,
+    ),
+    adoptedSites: state.adoptedSitesState.adoptedSites,
+  };
 };
 
 export default connect(mapStateToProps)(TreePage);

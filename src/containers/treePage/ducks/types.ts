@@ -1,3 +1,10 @@
+import { C4CState } from '../../../store';
+import { ThunkAction } from 'redux-thunk';
+import { SiteActions, ProtectedSiteActions } from './actions';
+import { ApiExtraArgs } from '../../../api/apiClient';
+import { ProtectedApiExtraArgs } from '../../../api/protectedApiClient';
+import { AsyncRequest } from '../../../utils/asyncRequest';
+
 export interface SiteProps {
   siteId: number;
   blockId: number;
@@ -93,3 +100,57 @@ export interface TreeCare {
   date: string;
   message: string;
 }
+
+export interface StewardshipActivities {
+  stewardshipActivities: ActivityLog[];
+}
+
+export interface Activity {
+  watered: boolean;
+  mulched: boolean;
+  cleaned: boolean;
+  weeded: boolean;
+}
+
+export interface ActivityRequest extends Activity {
+  date: string;
+}
+
+export interface ActivityLog extends ActivityRequest {
+  id: number;
+  userId: number;
+}
+
+export interface AdoptedSites {
+  adoptedSites: number[];
+}
+
+// ---------------------------------Redux----------------------------------------
+
+export interface SiteReducerState {
+  readonly siteData: AsyncRequest<SiteProps, any>;
+  readonly stewarshipActivityData: AsyncRequest<StewardshipActivities, any>;
+}
+
+export interface ProtectedSitesReducerState {
+  readonly adoptedSites: AsyncRequest<AdoptedSites, any>;
+}
+
+export interface Entry {
+  title: string;
+  value: string;
+}
+
+export type SiteReducerThunkAction<R> = ThunkAction<
+  R,
+  C4CState,
+  ApiExtraArgs,
+  SiteActions
+>;
+
+export type ProtectedSiteReducerThunkAction<R> = ThunkAction<
+  R,
+  C4CState,
+  ProtectedApiExtraArgs,
+  ProtectedSiteActions
+>;
