@@ -71,18 +71,20 @@ const MapView: React.FC<MapViewProps> = ({
   });
 
   // logic for reservation modal to complete action selected by user
-  const handleOk = (): void => {
+  const handleOk = async (team?: number) => {
     setShowModal(false);
     switch (reservationType) {
       case ReservationModalType.OPEN:
         // set block status to reserved
-        protectedApiClient.makeReservation(activeBlockId);
+        await protectedApiClient.makeReservation(activeBlockId, team);
+        await protectedApiClient.completeReservation(activeBlockId, team);
         break;
       case ReservationModalType.RESERVED:
         // set block status to open
+        protectedApiClient.releaseReservation(activeBlockId);
         break;
-      default:
-        // block clicked not owned/open
+      case ReservationModalType.TAKEN:
+        // block clicked not owned/open so do nothing
         break;
     }
   };
@@ -227,11 +229,11 @@ const MapView: React.FC<MapViewProps> = ({
             let color = 'green';
 
             // Use this for coloring reserved/completed blocks a different color
-            if (feature.getProperty('ID') % 10 === 0) {
+            if (feature.getProperty('block_id') % 10 === 0) {
               color = 'yellow';
             }
 
-            if (feature.getProperty('ID') % 10 === 1) {
+            if (feature.getProperty('block_id') % 10 === 1) {
               color = 'red';
             }
 
@@ -311,7 +313,7 @@ const MapView: React.FC<MapViewProps> = ({
         blocksLayer.addListener('click', (event) => {
           // get status of block based on color
           const status: ReservationModalType = ((): ReservationModalType => {
-            switch (event.feature.getProperty('ID') % 10) {
+            switch (event.feature.getProperty('block_id') % 10) {
               case 1:
                 return ReservationModalType.TAKEN;
               case 0:
@@ -325,7 +327,7 @@ const MapView: React.FC<MapViewProps> = ({
           // set status of block
           setReservationType(status);
           // set id of block
-          setActiveBlockId(event.feature.getProperty('ID'));
+          setActiveBlockId(event.feature.getProperty('block_id'));
         });
 
         // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood

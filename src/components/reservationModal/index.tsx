@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { WHITE, BLACK } from '../../utils/colors';
-import { Modal } from 'antd';
+import { Spin, Alert, Select, Modal } from 'antd';
+import protectedApiClient from '../../api/protectedApiClient';
+import {
+  AsyncRequest,
+  AsyncRequestNotStarted,
+  AsyncRequestLoading,
+  AsyncRequestCompleted,
+  AsyncRequestFailed,
+  asyncRequestIsComplete,
+  AsyncRequestKinds,
+  asyncRequestIsLoading,
+} from '../../utils/asyncRequest';
+import { TeamResponse } from '../../containers/teamPage/ducks/types';
 
 export enum ReservationModalType {
   OPEN = 'OPEN',
@@ -12,7 +24,7 @@ export enum ReservationModalType {
 interface ReservationModalProps {
   readonly status: ReservationModalType;
   readonly blockID: number;
-  readonly onOk: () => void;
+  readonly onOk: (teamId: number | undefined) => void;
   readonly onCancel: () => void;
   readonly isVisible: boolean;
 }
@@ -43,15 +55,56 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
     }
   };
 
+  const [team, setTeam] = useState<number | undefined>(undefined);
+  const [teamsRequest, setTeamsRequest] = useState<
+    AsyncRequest<TeamResponse[], Error>
+  >(AsyncRequestNotStarted());
+
+  useEffect(() => {
+    setTeamsRequest(AsyncRequestLoading());
+    protectedApiClient
+      .getTeams()
+      .then((teams) => {
+        setTeamsRequest(AsyncRequestCompleted(teams));
+      })
+      .catch((e) => setTeamsRequest(AsyncRequestFailed(e)));
+  }, [setTeamsRequest]);
   const getModalContent = () => {
     switch (status) {
       case ReservationModalType.OPEN:
         return (
-          <text>
-            <b>{`Are you sure?`}</b>
-            <br /> {`You want to reserve block ${blockID}`}
-          </text>
+          <>
+            {asyncRequestIsLoading(teamsRequest) && <Spin />}
+            {asyncRequestIsComplete(teamsRequest) && (
+              <>
+                <b>{`Are you sure?`}</b>
+                <br /> {`You want to reserve block ${blockID}`}
+                <br />
+                <Select
+                  placeholder="Select a Team"
+                  onChange={(chosen) => setTeam(Number(chosen))}
+                >
+                  {Object.values(teamsRequest.result).map((ind) =>
+                    Object.values(ind).map((chosen, i) => (
+                      <Select.Option key={i} value={chosen.id}>
+                        {chosen.teamName}
+                      </Select.Option>
+                    )),
+                  )}
+                </Select>
+              </>
+            )}
+            {teamsRequest.kind === AsyncRequestKinds.Failed && (
+              <Alert
+                message="Error"
+                description={teamsRequest.error.message}
+                type="error"
+                showIcon
+              />
+            )}
+          </>
         );
+
       case ReservationModalType.RESERVED:
         return (
           <text>
@@ -73,7 +126,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
     <StyledModal
       visible={isVisible}
       title=""
-      onOk={onOk}
+      onOk={() => onOk(team)}
       okText={getOkText()}
       onCancel={onCancel}
       closable={false}
