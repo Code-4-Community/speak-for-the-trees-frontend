@@ -155,6 +155,9 @@ const MapView: React.FC<MapViewProps> = ({
 
         // Loads the objects into the layer
         blocksLayer.addGeoJson(blocks);
+        blocksLayer.forEach((block) => {
+        console.log(block);
+        })
 
         // Sets the style of the layer to colored blocks with black outline
         function setBlocksStyle(v: boolean) {
