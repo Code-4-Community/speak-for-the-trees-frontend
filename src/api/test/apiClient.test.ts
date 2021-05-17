@@ -3,7 +3,10 @@ import {
   NeighborhoodGeoData,
   SiteGeoData,
 } from '../../components/mapPageComponents/ducks/types';
-import ApiClient, { ApiClientRoutes } from '../apiClient';
+import ApiClient, {
+  ApiClientRoutes,
+  ParameterizedApiRoutes,
+} from '../apiClient';
 import nock from 'nock';
 
 const BASE_URL = 'http://localhost';
@@ -117,6 +120,78 @@ describe('Authentication Client Tests', () => {
 
         expect(result).toEqual(response);
       });
+    });
+  });
+
+  describe('Get a site', () => {
+    it('makes the right request', async () => {
+      const response = {
+        siteId: 1000,
+        blockId: 10,
+        lat: 1,
+        lng: 1,
+        city: 'Boston',
+        zip: '02115',
+        address: '1000 boston ave',
+        entries: [
+          {
+            id: 1,
+            username: 'will',
+            updatedAt: 10000000,
+            treePresent: true,
+            genus: 'bad',
+          },
+          {
+            id: 1,
+            username: 'will',
+            updatedAt: 1000000,
+            treePresent: false,
+          },
+        ],
+      };
+
+      nock(BASE_URL)
+        .get(ParameterizedApiRoutes.GET_SITE(1000))
+        .reply(200, response);
+
+      const result = await ApiClient.getSite(1000);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('Get stewardship activities', () => {
+    it('makes the right request', async () => {
+      const response = {
+        activities: [
+          {
+            id: 3,
+            userId: 'will',
+            date: 100000,
+            watered: true,
+            mulched: false,
+            cleaned: false,
+            weeded: true,
+          },
+          {
+            id: 2,
+            userId: 'will',
+            date: 10000,
+            watered: false,
+            mulched: false,
+            cleaned: true,
+            weeded: true,
+          },
+        ],
+      };
+
+      nock(BASE_URL)
+        .get(ParameterizedApiRoutes.GET_STEWARSHIP_ACTIVITIES(1000))
+        .reply(200, response);
+
+      const result = await ApiClient.getStewardshipActivities(1000);
+
+      expect(result).toEqual(response);
     });
   });
 });

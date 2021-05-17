@@ -1,5 +1,5 @@
 import React, { createRef, useEffect, useState } from 'react';
-import useWindowDimensions, { WindowTypes } from '../../windowDimensions';
+import useWindowDimensions from '../../windowDimensions';
 import { Input, message } from 'antd';
 import { Loader } from '@googlemaps/js-api-loader';
 import styled from 'styled-components';
@@ -11,10 +11,12 @@ import {
 } from '../ducks/types';
 import ReservationModal, { ReservationModalType } from '../../reservationModal';
 import protectedApiClient from '../../../api/protectedApiClient';
+import TreePopup, { BasicTreeInfo } from '../../treePopup';
 import { shortHand } from '../../../utils/stringFormat';
 import { SHORT_HAND_NAMES } from '../../../assets/content';
 import treeIcon from '../../../assets/images/treeIcon.png';
 import youngTreeIcon from '../../../assets/images/youngTreeIcon.png';
+import { isMobile } from '../../../utils/isCheck';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -61,19 +63,28 @@ const MapView: React.FC<MapViewProps> = ({
   );
   // block id for modal
   const [activeBlockId, setActiveBlockId] = useState<number>(-1);
+  // BasicTreeInfo to display in tree popup
+  const [activeTreeInfo, setActiveTreeInfo] = useState<BasicTreeInfo>({
+    id: -1,
+    species: '',
+    address: '',
+  });
+
   // logic for reservation modal to complete action selected by user
-  const handleOk = (): void => {
+  const handleOk = async (team?: number) => {
     setShowModal(false);
     switch (reservationType) {
       case ReservationModalType.OPEN:
         // set block status to reserved
-        protectedApiClient.makeReservation(activeBlockId);
+        await protectedApiClient.makeReservation(activeBlockId, team);
+        await protectedApiClient.completeReservation(activeBlockId, team);
         break;
       case ReservationModalType.RESERVED:
         // set block status to open
+        protectedApiClient.releaseReservation(activeBlockId);
         break;
-      default:
-        // block clicked not owned/open
+      case ReservationModalType.TAKEN:
+        // block clicked not owned/open so do nothing
         break;
     }
   };
@@ -81,6 +92,7 @@ const MapView: React.FC<MapViewProps> = ({
   const { windowType } = useWindowDimensions();
 
   const mapRef = createRef<HTMLDivElement>();
+  const treePopupRef = createRef<HTMLDivElement>();
 
   const loader = new Loader({
     apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY || '',
@@ -90,12 +102,24 @@ const MapView: React.FC<MapViewProps> = ({
 
   // eslint-disable-next-line
   const mapId = '76c08a2450c223d9';
-  const markersArray: google.maps.Marker[] = [];
+
+  const [mapElement, setMapElement] = useState(mapRef.current);
+  const [treePopupElement, setTreePopupElement] = useState(
+    treePopupRef.current,
+  );
 
   useEffect(() => {
-    const mapElement = mapRef.current;
+    setMapElement(mapRef.current);
+  }, [mapRef]);
 
-    if (mapElement) {
+  useEffect(() => {
+    setTreePopupElement(treePopupRef.current);
+  }, [treePopupRef]);
+
+  useEffect(() => {
+    if (mapElement && treePopupElement) {
+      const markersArray: google.maps.Marker[] = [];
+
       loader.load().then(() => {
         map = new google.maps.Map(mapElement, {
           center: BOSTON,
@@ -108,6 +132,49 @@ const MapView: React.FC<MapViewProps> = ({
             strictBounds: false,
           },
         });
+
+        class Popup extends google.maps.OverlayView {
+          position: google.maps.LatLng;
+          content: HTMLDivElement;
+
+          constructor(content: HTMLDivElement) {
+            super();
+            this.content = content;
+            this.position = new google.maps.LatLng(0, 0);
+          }
+
+          // Appears at the given position
+          popAtPosition(pos: google.maps.LatLng) {
+            this.position = pos;
+            this.draw();
+          }
+
+          // Called when the popup is added to the map.
+          onAdd() {
+            this.getPanes().floatPane.appendChild(this.content);
+          }
+
+          // Called when the popup is removed from the map.
+          onRemove() {
+            if (this.content && this.content.parentElement) {
+              this.content.parentElement.removeChild(this.content);
+            }
+          }
+
+          // Called each frame when the popup needs to draw itself.
+          draw() {
+            const divPosition = this.getProjection().fromLatLngToDivPixel(
+              this.position,
+            );
+
+            this.content.style.left = divPosition.x + 'px';
+            this.content.style.top = divPosition.y + 'px';
+          }
+        }
+
+        // Create and add the tree popup to the map
+        const popup = new Popup(treePopupElement);
+        popup.setMap(map);
 
         const input = document.getElementById('pac-input') as HTMLInputElement;
         const autocomplete = new google.maps.places.Autocomplete(input);
@@ -165,11 +232,11 @@ const MapView: React.FC<MapViewProps> = ({
             let color = 'green';
 
             // Use this for coloring reserved/completed blocks a different color
-            if (feature.getProperty('ID') % 10 === 0) {
+            if (feature.getProperty('block_id') % 10 === 0) {
               color = 'yellow';
             }
 
-            if (feature.getProperty('ID') % 10 === 1) {
+            if (feature.getProperty('block_id') % 10 === 1) {
               color = 'red';
             }
 
@@ -249,7 +316,7 @@ const MapView: React.FC<MapViewProps> = ({
         blocksLayer.addListener('click', (event) => {
           // get status of block based on color
           const status: ReservationModalType = ((): ReservationModalType => {
-            switch (event.feature.getProperty('ID') % 10) {
+            switch (event.feature.getProperty('block_id') % 10) {
               case 1:
                 return ReservationModalType.TAKEN;
               case 0:
@@ -263,7 +330,7 @@ const MapView: React.FC<MapViewProps> = ({
           // set status of block
           setReservationType(status);
           // set id of block
-          setActiveBlockId(event.feature.getProperty('ID'));
+          setActiveBlockId(event.feature.getProperty('block_id'));
         });
 
         // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
@@ -280,6 +347,24 @@ const MapView: React.FC<MapViewProps> = ({
 
         // Loads the objects into the layer
         sitesLayer.addGeoJson(sites);
+
+        // Adds listener so reservation modal appears when block clicked
+        sitesLayer.addListener('click', (event) => {
+          const eventFeature = event.feature;
+
+          // Sets the information to display in the popup
+          setActiveTreeInfo({
+            id: eventFeature.getProperty('id'),
+            species: eventFeature.getProperty('species'),
+            address: eventFeature.getProperty('address'),
+          });
+          // Popup appears at the site
+          eventFeature
+            .getGeometry()
+            .forEachLatLng((latLng: google.maps.LatLng) =>
+              popup.popAtPosition(latLng),
+            );
+        });
 
         function setSitesStyle(v: boolean) {
           sitesLayer.setStyle((feature) => {
@@ -366,16 +451,25 @@ const MapView: React.FC<MapViewProps> = ({
         handleZoomChange();
       });
     }
-  }, [blocks, neighborhoods, sites, mapRef, markersArray, loader, view]);
+  }, [
+    blocks,
+    loader,
+    mapElement,
+    treePopupElement,
+    neighborhoods,
+    sites,
+    view,
+  ]);
 
   return (
     <>
       <div id="pac-container">
-        {windowType !== WindowTypes.Mobile && (
+        {!isMobile(windowType) && (
           <StyledSearch id="pac-input" placeholder="Address" />
         )}
       </div>
       <MapDiv id="map" ref={mapRef} />
+      <TreePopup treeInfo={activeTreeInfo} popRef={treePopupRef} />
       <ReservationModal
         status={reservationType}
         blockID={activeBlockId}

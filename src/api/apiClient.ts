@@ -2,6 +2,10 @@ import AppAxiosInstance from '../auth/axios';
 import { VolunteerLeaderboardItem } from '../containers/volunteerLeaderboard/ducks/types';
 import { TeamLeaderboardItem } from '../containers/teamLeaderboard/ducks/types';
 import {
+  StewardshipActivities,
+  SiteProps,
+} from '../containers/treePage/ducks/types';
+import {
   BlockGeoData,
   NeighborhoodGeoData,
   SiteGeoData,
@@ -21,6 +25,10 @@ export interface ApiClient {
   readonly getBlockGeoData: () => Promise<BlockGeoData>;
   readonly getNeighborhoodGeoData: () => Promise<NeighborhoodGeoData>;
   readonly getSiteGeoData: () => Promise<SiteGeoData>;
+  readonly getSite: (siteId: number) => Promise<SiteProps>;
+  readonly getStewardshipActivities: (
+    siteId: number,
+  ) => Promise<StewardshipActivities>;
 }
 
 export enum ApiClientRoutes {
@@ -30,6 +38,14 @@ export enum ApiClientRoutes {
   GET_ALL_NEIGHBORHOODS = '/api/v1/map/neighborhoods',
   GET_ALL_SITES = '/api/v1/map/sites',
 }
+
+const baseSiteRoute = '/api/v1/sites/';
+
+export const ParameterizedApiRoutes = {
+  GET_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}`,
+  GET_STEWARSHIP_ACTIVITIES: (siteId: number): string =>
+    `${baseSiteRoute}${siteId}/stewardship_activities`,
+};
 
 const getUsersLeaderboard = (
   previousDays: number | null,
@@ -65,12 +81,30 @@ const getSiteGeoData = (): Promise<SiteGeoData> => {
     .catch((err) => err);
 };
 
+const getSite = (siteId: number): Promise<SiteProps> => {
+  return AppAxiosInstance.get(ParameterizedApiRoutes.GET_SITE(siteId))
+    .then((r) => r.data)
+    .catch((e) => e);
+};
+
+const getStewardshipActivities = (
+  siteId: number,
+): Promise<StewardshipActivities> => {
+  return AppAxiosInstance.get(
+    ParameterizedApiRoutes.GET_STEWARSHIP_ACTIVITIES(siteId),
+  )
+    .then((r) => r.data)
+    .catch((e) => e);
+};
+
 const Client: ApiClient = Object.freeze({
   getUsersLeaderboard,
   getTeamsLeaderboard,
   getBlockGeoData,
   getNeighborhoodGeoData,
   getSiteGeoData,
+  getSite,
+  getStewardshipActivities,
 });
 
 export default Client;
