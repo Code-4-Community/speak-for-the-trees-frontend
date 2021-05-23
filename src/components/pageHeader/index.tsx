@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const { Paragraph } = Typography;
 
 interface StyledSubtitleProps {
-  readonly subtitleColor?: string;
+  readonly subtitlecolor?: string;
 }
 
 const StyledTitle = styled(Paragraph)`
@@ -28,7 +28,7 @@ const StyledSubtitle = styled(Paragraph)`
   line-height: 32px;
   margin-top: -40px;
   color: ${(props: StyledSubtitleProps) =>
-    props.subtitleColor ? props.subtitleColor : { DARK_GREY }};
+    props.subtitlecolor ? props.subtitlecolor : { DARK_GREY }};
 `;
 
 interface PageHeaderProps extends StyledSubtitleProps {
@@ -41,7 +41,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   pageTitle,
   isMobile,
   pageSubtitle,
-  subtitleColor,
+  subtitlecolor,
 }) => {
   if (isMobile) {
     return (
@@ -53,7 +53,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
     return (
       <>
         <StyledTitle>{pageTitle}</StyledTitle>
-        <StyledSubtitle subtitleColor={subtitleColor}>
+        <StyledSubtitle subtitlecolor={subtitlecolor}>
           {pageSubtitle}
         </StyledSubtitle>
       </>
