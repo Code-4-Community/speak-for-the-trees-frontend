@@ -112,7 +112,7 @@ const Home: React.FC = () => {
                     <PageHeader
                       pageTitle={greeting}
                       pageSubtitle={HOME_HEADER}
-                      subtitleColor={DARK_GREY}
+                      subtitlecolor={DARK_GREY}
                     />
                     <StyledSubtitle>Quick Links</StyledSubtitle>
                     <List
@@ -137,7 +137,7 @@ const Home: React.FC = () => {
                     <PageHeader
                       pageTitle={greeting}
                       pageSubtitle={HOME_HEADER}
-                      subtitleColor={DARK_GREY}
+                      subtitlecolor={DARK_GREY}
                     />
                     <StyledSubtitle>Quick Links</StyledSubtitle>
                     <List
