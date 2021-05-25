@@ -16,6 +16,7 @@ import { shortHand } from '../../../utils/stringFormat';
 import { SHORT_HAND_NAMES } from '../../../assets/content';
 import treeIcon from '../../../assets/images/treeIcon.png';
 import youngTreeIcon from '../../../assets/images/youngTreeIcon.png';
+import adoptedTreeIcon from '../../../assets/images/adoptedTreeIcon.png';
 import { isMobile } from '../../../utils/isCheck';
 
 const StyledSearch = styled(Input.Search)`
@@ -373,11 +374,16 @@ const MapView: React.FC<MapViewProps> = ({
               visible = v && true;
             }
 
-            // TODO: update this to if the tree was planted within the past three years
-            // If the tree has not been updated within the past three years, use youngTreeIcon
-            const updatedDate = feature.getProperty('updated_at');
-            if (updatedDate < breakpointDate) {
+            // If the tree was planted within the past three years, use youngTreeIcon
+            // If the tree is adopted, use the adoptedTreeIcon
+            const plantedDate = feature.getProperty('plantingDate');
+            const adopted = !!feature.getProperty('adopterId');
+            if (adopted) {
+              icon = adoptedTreeIcon;
+            } else if (!!plantedDate && plantedDate > breakpointDate) {
               icon = youngTreeIcon;
+            } else {
+              icon = treeIcon;
             }
 
             return {
