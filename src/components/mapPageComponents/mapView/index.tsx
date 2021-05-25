@@ -374,8 +374,8 @@ const MapView: React.FC<MapViewProps> = ({
               visible = v && true;
             }
 
-            // TODO: update this to if the tree was planted within the past three years
-            // If the tree has not been updated within the past three years, use youngTreeIcon
+            // If the tree was planted within the past three years, use youngTreeIcon
+            // If the tree is adopted, use the adoptedTreeIcon
             const plantedDate = feature.getProperty('plantingDate');
             const adopted = !!feature.getProperty('adopterId');
             if (adopted) {

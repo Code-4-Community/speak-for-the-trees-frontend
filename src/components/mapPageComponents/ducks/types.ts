@@ -63,11 +63,11 @@ interface SiteFeatureResponse {
 interface SiteFeaturePropertiesResponse {
   id: number;
   treePresent: boolean;
-  diameter: number;
-  species: string;
+  diameter?: number;
+  species?: string;
   updatedAt: string;
   updatedBy: string;
-  address: string;
+  address?: string;
   lat: number;
   lng: number;
   plantingDate?: number;
