@@ -70,6 +70,8 @@ interface SiteFeaturePropertiesResponse {
   address: string;
   lat: number;
   lng: number;
+  plantingDate?: number;
+  adopterId?: string;
 }
 
 // ---------------------------------Shared Types----------------------------------------
