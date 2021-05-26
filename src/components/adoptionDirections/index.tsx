@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Typography } from 'antd';
-import { WindowTypes } from '../windowDimensions';
 import {
   ADOPTION_DIRECTIONS_HEADER,
   FIND_DIRECTION,
