@@ -238,8 +238,7 @@ const createTeam = (request: CreateTeamRequest): Promise<void> => {
 };
 
 const getTeams = (): Promise<TeamResponse[]> => {
-  return AppAxiosInstance.get(baseTeamRoute)
-    .then((res) => res.data)
+  return AppAxiosInstance.get(baseTeamRoute).then((res) => res.data);
 };
 
 const getTeam = (teamId: number): Promise<TeamResponse> => {

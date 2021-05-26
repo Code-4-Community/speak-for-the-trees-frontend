@@ -10,6 +10,18 @@ export const HOME_HEADER = "Let's get back to those trees, why don't we?";
 export const LANDING_TITLE = "Boston's Street Trees";
 export const LANDING_BODY =
   "Boston's trees do a lot for our community - they clean our polluted air, offer shade on scorching summer days and warmth on freezing winter nights, and prevent flooding during storms. At Speak for the Trees, we're determined to improve the size and health of our urban forest, especially in under-served and under-canopied communities.";
+export const ADOPTION_DIRECTIONS_HEADER = 'How to Adopt a Tree';
+export const FIND_DIRECTION =
+  'Find a tree near you by entering your address in the search bar at the at the top left of the map.';
+export const ICONS_DIRECTION =
+  'Click on the icons of trees you might be interested in adopting.';
+export const ADOPTED_TREE_ICON_DESCRIPTION = 'have already been adopted';
+export const TREE_ICON_DESCRIPTION =
+  'need less help but would still love to be adopted';
+export const YOUNG_TREE_ICON_DESCRIPTION =
+  'are young trees in the most in need of adopting';
+export const REDIRECTED_DIRECTION =
+  'Once you\'ve found a tree to adopt, click on "More Info" to go to that tree\'s page, where you can adopt it!';
 
 // Login
 export const LOGIN_TITLE = 'Log In';
@@ -35,7 +47,7 @@ export const RESERVATION_BODY =
   "Here are the blocks you can sign up to inventory and the ones you've reserved! Did you know that we take care of over 500 blocks of trees? We couldn't do it without you! ";
 
 // This dictionary that stores names to be shortHand-ed.
-// To add a new area, add the full name and then the shorthand name seperated by a colon.
+// To add a new area, add the full name and then the shorthand name separated by a colon.
 export const SHORT_HAND_NAMES: { [fullName: string]: string } = {
   'North End': 'NE',
   'West End': 'WE',
