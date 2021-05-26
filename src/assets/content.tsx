@@ -34,6 +34,11 @@ export const RESERVATION_TITLE = 'My Blocks';
 export const RESERVATION_BODY =
   "Here are the blocks you can sign up to inventory and the ones you've reserved! Did you know that we take care of over 500 blocks of trees? We couldn't do it without you! ";
 
+// My TRees
+export const MY_TREES_TITLE = 'My Trees';
+export const MY_TREES_BODY =
+  'Here are the trees you have adopted. From here you can select a tree to see more information or you can adopt even more!';
+
 // This dictionary that stores names to be shortHand-ed.
 // To add a new area, add the full name and then the shorthand name seperated by a colon.
 export const SHORT_HAND_NAMES: { [fullName: string]: string } = {

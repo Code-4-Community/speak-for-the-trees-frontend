@@ -60,7 +60,7 @@ interface SiteFeatureResponse {
   geometry: MapGeometry;
 }
 
-interface SiteFeaturePropertiesResponse {
+export interface SiteFeaturePropertiesResponse {
   id: number;
   treePresent: boolean;
   diameter: number;
