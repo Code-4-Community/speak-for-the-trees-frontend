@@ -14,6 +14,7 @@ import MobileMapPage from '../../components/mapPageComponents/mobileMapPage';
 import MobileLandingBar from '../../components/mapPageComponents/mobileLandingBar';
 import { MapViews } from '../../components/mapPageComponents/ducks/types';
 import AdoptionDirections from '../../components/adoptionDirections';
+import MapLegend from '../../components/mapPageComponents/mapLegend';
 
 const PaddedContent = styled.div`
   padding: 24px 50px;
@@ -53,7 +54,8 @@ const Landing: React.FC = () => {
                     barDescription={LANDING_BODY}
                     isLoggedIn={loggedIn}
                   >
-                    <AdoptionDirections isMobile={true} />
+                    <MapLegend view={landingMapView} mobile={true} />
+                    <AdoptionDirections mobile={true} />
                   </MobileLandingBar>
                 </PaddedContent>
               </MobileMapPage>
@@ -67,7 +69,7 @@ const Landing: React.FC = () => {
                 sidebarDescription={LANDING_BODY}
                 view={landingMapView}
               >
-                <AdoptionDirections isMobile={false} />
+                <AdoptionDirections mobile={false} />
               </MapPage>
             );
         }

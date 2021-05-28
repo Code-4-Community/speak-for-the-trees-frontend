@@ -15,13 +15,22 @@ export const FIND_DIRECTION =
   'Find a tree near you by entering your address in the search bar at the at the top left of the map.';
 export const ICONS_DIRECTION =
   'Click on the icons of trees you might be interested in adopting.';
-export const ADOPTED_TREE_ICON_DESCRIPTION = 'have already been adopted';
-export const TREE_ICON_DESCRIPTION =
-  'need less help but would still love to be adopted';
-export const YOUNG_TREE_ICON_DESCRIPTION =
-  'are young trees in the most in need of adopting';
 export const REDIRECTED_DIRECTION =
   'Once you\'ve found a tree to adopt, click on "More Info" to go to that tree\'s page, where you can adopt it!';
+
+// Map Legend
+export const ADOPTED_TREE_ICON_DESCRIPTION =
+  "can't be adopted - they already have someone looking after them!";
+export const TREE_ICON_DESCRIPTION =
+  "are older trees who don't need as much help but would still love to be adopted";
+export const YOUNG_TREE_ICON_DESCRIPTION =
+  'are newly planted trees who need the most care';
+export const OPEN_BLOCK_DESCRIPTION = 'are open blocks ready to be reserved';
+export const RESERVED_BLOCK_DESCRIPTION = "are blocks you've already reserved";
+export const CLOSED_BLOCK_DESCRIPTION =
+  "can't be reserved - someone else has already reserved them!";
+export const PRIVATE_STREET_DESCRIPTION =
+  "are private streets that volunteers shouldn't enter!";
 
 // Login
 export const LOGIN_TITLE = 'Log In';

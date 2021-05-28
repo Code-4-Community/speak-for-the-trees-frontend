@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Typography } from 'antd';
+import { Col, Row, Typography } from 'antd';
 import {
   ADOPTION_DIRECTIONS_HEADER,
   FIND_DIRECTION,
   ICONS_DIRECTION,
   REDIRECTED_DIRECTION,
 } from '../../assets/content';
-import TreeIconLegend from '../treeIconLegend';
 import { MID_GREEN } from '../../utils/colors';
 
 const { Paragraph, Text, Title } = Typography;
@@ -18,67 +17,54 @@ const MobileTitle = styled(Paragraph)`
   line-height: 12px;
 `;
 
-const MobileParagraph = styled(Paragraph)`
-  font-size: 10px;
+const FlexibleParagraph = styled(Row)`
+  font-size: ${(props: FlexibleParagraphProps) => props.fontSize};
+  display: inline-block;
 `;
 
-const TreeStatsContainer = styled.div`
-  margin-top: 35px;
-`;
-
-interface AdoptionDirectionsProps {
-  readonly isMobile: boolean;
+interface FlexibleParagraphProps {
+  readonly fontSize: string;
 }
 
-const AdoptionDirections: React.FC<AdoptionDirectionsProps> = ({
-  isMobile,
-}) => {
+interface AdoptionDirectionsProps {
+  readonly mobile: boolean;
+}
+
+const AdoptionDirections: React.FC<AdoptionDirectionsProps> = ({ mobile }) => {
+  const fontSize = `${mobile ? '10px' : '12px'}`;
+
   return (
     <>
-      {(() => {
-        switch (isMobile) {
-          case true:
-            return (
-              <TreeStatsContainer>
-                <MobileTitle>{ADOPTION_DIRECTIONS_HEADER}</MobileTitle>
+      <>
+        {mobile ? (
+          <MobileTitle>{ADOPTION_DIRECTIONS_HEADER}</MobileTitle>
+        ) : (
+          <Title level={3}>{ADOPTION_DIRECTIONS_HEADER}</Title>
+        )}
 
-                <MobileParagraph>
-                  <Text strong>1. </Text>
-                  {FIND_DIRECTION}
-                </MobileParagraph>
-                <MobileParagraph>
-                  <Text strong>2. </Text>
-                  {ICONS_DIRECTION}
-                </MobileParagraph>
-                <TreeIconLegend />
-                <MobileParagraph>
-                  <Text strong>3. </Text> {REDIRECTED_DIRECTION}
-                </MobileParagraph>
-              </TreeStatsContainer>
-            );
+        <FlexibleParagraph fontSize={fontSize}>
+          <Row>
+            <Col span={1}>
+              <Text strong>1.</Text>
+            </Col>
+            <Col span={23}>{FIND_DIRECTION}</Col>
+          </Row>
 
-          case false:
-            return (
-              <TreeStatsContainer>
-                <Title level={3}>{ADOPTION_DIRECTIONS_HEADER}</Title>
+          <Row>
+            <Col span={1}>
+              <Text strong>2.</Text>
+            </Col>
+            <Col span={23}>{ICONS_DIRECTION}</Col>
+          </Row>
 
-                <Paragraph>
-                  <Text strong>1. </Text>
-                  {FIND_DIRECTION}
-                </Paragraph>
-                <Paragraph>
-                  <Text strong>2. </Text>
-                  {ICONS_DIRECTION}
-                </Paragraph>
-                <TreeIconLegend />
-                <Paragraph>
-                  <Text strong>3. </Text>
-                  {REDIRECTED_DIRECTION}
-                </Paragraph>
-              </TreeStatsContainer>
-            );
-        }
-      })()}
+          <Row>
+            <Col span={1}>
+              <Text strong>3.</Text>
+            </Col>
+            <Col span={23}>{REDIRECTED_DIRECTION}</Col>
+          </Row>
+        </FlexibleParagraph>
+      </>
     </>
   );
 };

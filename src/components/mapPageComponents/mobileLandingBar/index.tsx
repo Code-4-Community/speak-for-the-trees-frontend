@@ -29,17 +29,18 @@ const TitleButtonsContainer = styled.div`
 const TitleContainer = styled.div`
   display: inline-block;
   min-width: 200px;
-  max-width: 90%;
+  max-width: 95%;
 `;
 
 const MobileTitle = styled(Paragraph)`
   color: ${MID_GREEN};
   font-size: 18px;
   font-weight: 500;
+  line-height: 15px;
 `;
 
 const MobileParagraph = styled(Paragraph)`
-  font-size: 7px;
+  font-size: 9px;
 `;
 
 const ButtonsContainer = styled.div`
@@ -65,7 +66,7 @@ const SignUpButton = styled(Button)`
 
 const LandingStatsContainer = styled.div`
   width: 90vw;
-  margin: -3vh -30px;
+  margin: 0vh -30px;
 `;
 
 interface MobileLandingBarProps {
