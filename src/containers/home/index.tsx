@@ -67,7 +67,7 @@ const Home: React.FC = () => {
     },
     {
       text: 'Trees',
-      path: `${Routes.NOT_FOUND}`,
+      path: `${Routes.LANDING}`,
       background: Backgrounds.IMAGE_ONE,
     },
     {

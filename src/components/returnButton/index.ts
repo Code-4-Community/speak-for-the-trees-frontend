@@ -7,6 +7,7 @@ const ReturnButton = styled(LinkButton)`
   border-color: ${MID_GREEN};
   font-size: 18px;
   color: ${MID_GREEN};
+  margin-bottom: 20px;
 `;
 
 export default ReturnButton;

@@ -38,6 +38,7 @@ const StyledCard = styled(Card)`
   height: 100px;
   border: solid 1px ${LIGHT_GREY};
   margin: 7px;
+  overflow: scroll;
 `;
 
 const TreePageContainer = styled.div`

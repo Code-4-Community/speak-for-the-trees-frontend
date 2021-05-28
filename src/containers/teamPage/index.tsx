@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Collapse, List, Typography } from 'antd';
+import { Button, Collapse, List, Typography, message } from 'antd';
 import { Routes } from '../../App';
 import { GoalProps, MemberProps, TeamProps, TeamRole } from './ducks/types';
 import GoalInfo from '../../components/goalInfo';
@@ -35,7 +35,7 @@ const PageHeaderContainer = styled.div`
 `;
 
 const JoinButton = styled(Button)`
-  width: 125px;
+  min-width: 125px;
   height: 45px;
   color: ${WHITE};
   background-color: ${MID_GREEN};
@@ -167,14 +167,22 @@ const sampleGoalData: GoalProps[] = [
 const sampleTeamData: TeamProps = {
   id: 1,
   name: 'Code4Community',
-  bio: 'Short description about how cool of a team Code4Community is!',
+  bio: 'A team creating software solutions for our community!',
   members: sampleMemberData,
   goals: sampleGoalData,
 };
 
 const TeamPage: React.FC = () => {
+  const [hasJoined, setHasJoined] = useState(false);
+
   const onClick = () => {
     // TODO: join team
+    setHasJoined((curState) => !curState);
+    if (hasJoined) {
+      message.success('Request to join team has been sent!');
+    } else {
+      message.success('Request to join team has been canceled!');
+    }
   };
 
   return (
@@ -190,7 +198,7 @@ const TeamPage: React.FC = () => {
           />
         </PageHeaderContainer>
         <JoinButton type="primary" onClick={onClick}>
-          Join Team
+          {hasJoined ? 'Cancel Join Request' : 'Join Team'}
         </JoinButton>
       </TeamHeaderContainer>
 

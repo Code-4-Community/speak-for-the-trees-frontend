@@ -37,7 +37,7 @@ const LeaderboardTabs: React.FC<LeaderboardTabsProps> = ({
           showSizeChanger={false}
           current={currentPage}
           onChange={onChangePage}
-          total={50}
+          total={10}
         />
       }
     >

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import LeaderboardSpace from '../../components/leaderboard/leaderboardSpace';
 import { TabItem } from '../../components/leaderboard/types';
-import { Routes } from '../../App';
+import { ParameterizedRouteBases, Routes } from '../../App';
 import { Pagination, Divider } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
@@ -13,7 +13,7 @@ import { TEAMS_HEADER, TEAMS_TITLE } from '../../assets/content';
 
 const ContentContainer = styled.div`
   width: 80vw;
-  margin: 100px auto auto;
+  margin: 80px auto auto;
 `;
 
 const TeamsContainer = styled.div`
@@ -35,38 +35,56 @@ const ArrowLink = styled(ArrowRightOutlined)`
   font-size: 20px;
 `;
 
-const dummy: TabItem[] = [
-  {
-    id: 1,
-    name: 'team1',
-    rightSide: (
-      <LinkButton type="text">
-        <ArrowLink />
-      </LinkButton>
-    ),
-  },
-  {
-    id: 2,
-    name: 'team2',
-    rightSide: (
-      <LinkButton type="text">
-        <ArrowLink />
-      </LinkButton>
-    ),
-  },
-  {
-    id: 3,
-    name: 'team3',
-    rightSide: (
-      <LinkButton type="text">
-        <ArrowLink />
-      </LinkButton>
-    ),
-  },
-];
-
 const AvailableTeams: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const dummy: TabItem[] = [
+    {
+      id: 1,
+      name: 'Code4Community',
+      rightSide: (
+        <LinkButton type="text" to={`${ParameterizedRouteBases.TEAM}1`}>
+          <ArrowLink />
+        </LinkButton>
+      ),
+    },
+    {
+      id: 2,
+      name: 'NortheasternForestry',
+      rightSide: (
+        <LinkButton type="text">
+          <ArrowLink />
+        </LinkButton>
+      ),
+    },
+    {
+      id: 3,
+      name: 'Team Birch',
+      rightSide: (
+        <LinkButton type="text">
+          <ArrowLink />
+        </LinkButton>
+      ),
+    },
+    {
+      id: 4,
+      name: 'Pine Team',
+      rightSide: (
+        <LinkButton type="text">
+          <ArrowLink />
+        </LinkButton>
+      ),
+    },
+    {
+      id: 5,
+      name: 'Team Maple',
+      rightSide: (
+        <LinkButton type="text">
+          <ArrowLink />
+        </LinkButton>
+      ),
+    },
+  ];
 
   return (
     <PageLayout>
@@ -79,12 +97,13 @@ const AvailableTeams: React.FC = () => {
             showSizeChanger={false}
             current={currentPage}
             onChange={setCurrentPage}
-            total={50}
+            pageSize={4}
+            total={5}
           />
           <TeamDivider />
           <LeaderboardSpace
             tabItems={dummy}
-            itemsPerPage={2}
+            itemsPerPage={4}
             currentPage={currentPage}
             large
           />
