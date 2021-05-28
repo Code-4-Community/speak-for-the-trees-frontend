@@ -1,5 +1,3 @@
-export const PRIMARY = '#1da57a';
-export const LINK = '#1890ff';
 export const BLACK = '#000000';
 export const TEXT_GREY = '#AFAEAE';
 export const LIGHT_GREY = '#E5E5E5';
@@ -11,3 +9,9 @@ export const LIGHT_GREEN = '#9AC356';
 export const PALE_GREEN = '#E5EBDA';
 export const BACKGROUND_GREEN = '#D4EDAA';
 export const WHITE = '#FFFFFF';
+export const RED = '#FF0000';
+
+// Map Colors
+export const MAP_GREEN = '#117733';
+export const MAP_YELLOW = '#DDCC77';
+export const MAP_RED = '#882255';
