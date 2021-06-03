@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Typography } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
-import { CardInfo } from "../themedComponents";
+import { CardInfo } from '../themedComponents';
 import { MID_GREEN, TEXT_GREY, LIGHT_GREY } from '../../utils/colors';
 
 const { Paragraph } = Typography;

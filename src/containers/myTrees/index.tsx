@@ -98,13 +98,13 @@ const MyTrees: React.FC<MyTreesStateProps> = ({
                 neighborhoods={neighborhoods}
                 sites={sites}
               >
-                {(asyncRequestIsComplete(sites)) && (
+                {asyncRequestIsComplete(sites) && (
                   <TreeSidebar mySites={mySites} />
                 )}
-                {(asyncRequestIsLoading(sites)) && (
+                {asyncRequestIsLoading(sites) && (
                   <EmptyTreesContainer>
                     <Spin size="large" />
-                  </EmptyTreesContainer>  
+                  </EmptyTreesContainer>
                 )}
               </MapPage>
             );

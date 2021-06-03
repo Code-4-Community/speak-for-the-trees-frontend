@@ -1,7 +1,7 @@
 import React from 'react';
 import { List, Tabs } from 'antd';
 import styled from 'styled-components';
-import { StyledListItem, ScrollableListContainer } from "../themedComponents";
+import { StyledListItem, ScrollableListContainer } from '../themedComponents';
 import { DARK_GREY } from '../../utils/colors';
 import BlockCard from '../blockCard';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { ParameterizedRouteBases } from '../../App';
 import { Card, Typography } from 'antd';
 import styled from 'styled-components';
-import { CardInfo } from "../themedComponents";
+import { CardInfo } from '../themedComponents';
 import {
   MID_GREEN,
   TEXT_GREY,

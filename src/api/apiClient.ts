@@ -64,18 +64,21 @@ const getTeamsLeaderboard = (
 };
 
 const getBlockGeoData = (): Promise<BlockGeoData> => {
-  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_BLOCKS)
-    .then((r) => r.data);
+  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_BLOCKS).then(
+    (r) => r.data,
+  );
 };
 
 const getNeighborhoodGeoData = (): Promise<NeighborhoodGeoData> => {
-  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_NEIGHBORHOODS)
-    .then((r) => r.data);
+  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_NEIGHBORHOODS).then(
+    (r) => r.data,
+  );
 };
 
 const getSiteGeoData = (): Promise<SiteGeoData> => {
-  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_SITES)
-    .then((res) => res.data);
+  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_SITES).then(
+    (res) => res.data,
+  );
 };
 
 const getSite = (siteId: number): Promise<SiteProps> => {
