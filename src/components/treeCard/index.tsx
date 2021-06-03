@@ -2,6 +2,7 @@ import React from 'react';
 import { ParameterizedRouteBases } from '../../App';
 import { Card, Typography } from 'antd';
 import styled from 'styled-components';
+import { CardInfo } from "../themedComponents";
 import {
   MID_GREEN,
   TEXT_GREY,
@@ -22,11 +23,6 @@ const StyledCard = styled(Card)`
 
 const CardContent = styled.div`
   align-items: center;
-`;
-
-const BlockInfo = styled.div`
-  display: inline-block;
-  width: 90%;
 `;
 
 const TreeTitle = styled(Paragraph)`
@@ -56,13 +52,13 @@ const TreeCard: React.FC<TreeCardProps> = ({ site }) => {
     <>
       <StyledCard>
         <CardContent>
-          <BlockInfo>
+          <CardInfo>
             {site.address && <TreeTitle>Address: {site.address}</TreeTitle>}
             {site.species && <TreeBody>Species: {site.species}</TreeBody>}
             {site.id && <TreeBody>ID: {site.id}</TreeBody>}
-          </BlockInfo>
+          </CardInfo>
           <GreenLinkButton to={`${ParameterizedRouteBases.TREE}${site.id}`}>
-            Tree Page
+            More Info
           </GreenLinkButton>
         </CardContent>
       </StyledCard>

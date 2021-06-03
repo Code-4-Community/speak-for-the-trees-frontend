@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import MapPage from '../../components/mapPageComponents/mapPage/index';
 import TreeSidebar from '../../components/treeSidebar/index';
+import { Spin } from 'antd';
+import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 import useWindowDimensions, {
   WindowTypes,
@@ -13,6 +15,10 @@ import { getAdoptedSites } from '../treePage/ducks/thunks';
 import { MY_TREES_BODY, MY_TREES_TITLE } from '../../assets/content';
 import SlideDown from '../../components/slideDown';
 import {
+  asyncRequestIsComplete,
+  asyncRequestIsLoading,
+} from '../../utils/asyncRequest';
+import {
   MapViews,
   SiteFeaturePropertiesResponse,
   MapGeoDataReducerState,
@@ -24,6 +30,11 @@ interface MyTreesStateProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly sites: MapGeoDataReducerState['siteGeoData'];
 }
+
+const EmptyTreesContainer = styled.div`
+  text-align: center;
+  padding: 10vh 5vw;
+`;
 
 const MyTrees: React.FC<MyTreesStateProps> = ({
   blocks,
@@ -87,7 +98,14 @@ const MyTrees: React.FC<MyTreesStateProps> = ({
                 neighborhoods={neighborhoods}
                 sites={sites}
               >
-                <TreeSidebar mySites={mySites} />
+                {(asyncRequestIsComplete(sites)) && (
+                  <TreeSidebar mySites={mySites} />
+                )}
+                {(asyncRequestIsLoading(sites)) && (
+                  <EmptyTreesContainer>
+                    <Spin size="large" />
+                  </EmptyTreesContainer>  
+                )}
               </MapPage>
             );
         }

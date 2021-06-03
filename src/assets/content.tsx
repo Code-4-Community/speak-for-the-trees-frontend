@@ -37,7 +37,7 @@ export const RESERVATION_BODY =
 // My TRees
 export const MY_TREES_TITLE = 'My Trees';
 export const MY_TREES_BODY =
-  'Here are the trees you have adopted. From here you can select a tree to see more information or you can adopt even more!';
+  'Here are the trees you have adopted. From here you can select a tree to record stewardship activities or you can adopt even more!';
 
 // This dictionary that stores names to be shortHand-ed.
 // To add a new area, add the full name and then the shorthand name seperated by a colon.

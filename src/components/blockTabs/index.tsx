@@ -1,6 +1,7 @@
 import React from 'react';
 import { List, Tabs } from 'antd';
 import styled from 'styled-components';
+import { StyledListItem, ScrollableListContainer } from "../themedComponents";
 import { DARK_GREY } from '../../utils/colors';
 import BlockCard from '../blockCard';
 
@@ -9,15 +10,6 @@ const { TabPane } = Tabs;
 const StyledTabs = styled(Tabs)`
   color: ${DARK_GREY};
   max-height: 50vh;
-`;
-
-const ScrollableListContainer = styled.div`
-  max-height: 57vh;
-  overflow: auto;
-`;
-
-const StyledListItem = styled(List.Item)`
-  padding: 3px;
 `;
 
 interface BlockProps {
