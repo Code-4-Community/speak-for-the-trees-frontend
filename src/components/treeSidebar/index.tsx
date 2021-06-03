@@ -1,6 +1,5 @@
 import React from 'react';
 import { List } from 'antd';
-import styled from 'styled-components';
 import { StyledListItem, ScrollableListContainer } from '../themedComponents';
 import TreeCard from '../treeCard';
 import { SiteFeaturePropertiesResponse } from '../mapPageComponents/ducks/types';
