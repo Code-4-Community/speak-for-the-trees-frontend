@@ -9,11 +9,6 @@ interface TreeSidebarProps {
   readonly mySites: SiteFeaturePropertiesResponse[];
 }
 
-const EmptyMapContainer = styled.div`
-  text-align: center;
-  padding: 20vh 5vw;
-`;
-
 const TreeSidebar: React.FC<TreeSidebarProps> = ({ mySites }) => {
   return (
     <>
