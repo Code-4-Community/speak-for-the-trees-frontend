@@ -90,7 +90,7 @@ const MapView: React.FC<MapViewProps> = ({
         break;
       case ReservationModalType.RESERVED:
         // set block status to open
-        protectedApiClient.releaseReservation(activeBlockId);
+        await protectedApiClient.releaseReservation(activeBlockId);
         break;
       case ReservationModalType.TAKEN:
         // block clicked not owned/open so do nothing
@@ -375,7 +375,7 @@ const MapView: React.FC<MapViewProps> = ({
         function setSitesStyle(v: boolean) {
           sitesLayer.setStyle((feature) => {
             let visible = false;
-            let icon = treeIcon;
+            let icon;
 
             // Only shows sites if there is a tree there
             if (feature.getProperty('tree_present')) {
