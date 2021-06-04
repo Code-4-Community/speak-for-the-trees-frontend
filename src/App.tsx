@@ -22,6 +22,7 @@ import TeamLeaderboard from './containers/teamLeaderboard';
 import TeamPage from './containers/teamPage';
 import AvailableTeams from './containers/availableTeams';
 import TreePage from './containers/treePage';
+import MyTrees from './containers/myTrees';
 import { Layout } from 'antd';
 import Home from './containers/home';
 import Signup from './containers/signup';
@@ -57,6 +58,7 @@ export enum Routes {
   VOLUNTEER = '/volunteer',
   TEAM = '/team/:id',
   TREE = '/tree/:id',
+  MY_TREES = '/my-trees',
   TEAM_LEADERBOARD = '/team-leaderboard',
   RESERVATIONS = '/reservations',
   AVAILABLE_TEAMS = '/available',
@@ -101,6 +103,7 @@ const App: React.FC = () => {
                       <AuthRedirect from={Routes.SETTINGS} />
                       <AuthRedirect from={Routes.VOLUNTEER} />
                       <AuthRedirect from={Routes.TEAM} />
+                      <AuthRedirect from={Routes.MY_TREES} />
                       <AuthRedirect from={Routes.TEAM_LEADERBOARD} />
                       <AuthRedirect from={Routes.AVAILABLE_TEAMS} />
                       <AuthRedirect from={Routes.RESERVATIONS} />
@@ -145,6 +148,7 @@ const App: React.FC = () => {
                         exact
                         component={TeamLeaderboard}
                       />
+                      <Route path={Routes.MY_TREES} exact component={MyTrees} />
                       <Route
                         path={Routes.AVAILABLE_TEAMS}
                         exact
@@ -189,6 +193,7 @@ const App: React.FC = () => {
                         exact
                         component={TeamLeaderboard}
                       />
+                      <Route path={Routes.MY_TREES} exact component={MyTrees} />
                       <Route
                         path={Routes.AVAILABLE_TEAMS}
                         exact
