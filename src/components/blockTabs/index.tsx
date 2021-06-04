@@ -8,11 +8,11 @@ const { TabPane } = Tabs;
 
 const StyledTabs = styled(Tabs)`
   color: ${DARK_GREY};
-  max-height: 50vh;
+  max-height: 55vh;
 `;
 
 const ScrollableListContainer = styled.div`
-  max-height: 57vh;
+  max-height: 49vh;
   overflow: auto;
 `;
 

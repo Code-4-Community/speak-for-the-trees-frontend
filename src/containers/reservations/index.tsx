@@ -11,6 +11,7 @@ import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
 import { RESERVATION_BODY, RESERVATION_TITLE } from '../../assets/content';
 import SlideDown from '../../components/slideDown';
 import { MapViews } from '../../components/mapPageComponents/ducks/types';
+import MapLegend from '../../components/mapPageComponents/mapLegend';
 
 const Reservations: React.FC = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ const Reservations: React.FC = () => {
             return (
               <MobileMapPage view={reservationMapView}>
                 <SlideDown>
+                  <MapLegend view={reservationMapView} mobile={true} />
                   <BlockTabs />
                 </SlideDown>
               </MobileMapPage>

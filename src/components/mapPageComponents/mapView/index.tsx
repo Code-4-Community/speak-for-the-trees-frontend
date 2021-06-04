@@ -18,6 +18,14 @@ import treeIcon from '../../../assets/images/treeIcon.png';
 import youngTreeIcon from '../../../assets/images/youngTreeIcon.png';
 import adoptedTreeIcon from '../../../assets/images/adoptedTreeIcon.png';
 import { isMobile } from '../../../utils/isCheck';
+import {
+  BLACK,
+  MAP_GREEN,
+  MAP_RED,
+  MAP_YELLOW,
+  RED,
+  WHITE,
+} from '../../../utils/colors';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -209,7 +217,7 @@ const MapView: React.FC<MapViewProps> = ({
         // Sets the style of the layer to simple red lines
         function setPrivateStreetsStyle(v: boolean) {
           privateStreetsLayer.setStyle({
-            strokeColor: 'red',
+            strokeColor: `${RED}`,
             strokeWeight: 2,
             visible: v,
           });
@@ -227,26 +235,26 @@ const MapView: React.FC<MapViewProps> = ({
         // Sets the style of the layer to colored blocks with black outline
         function setBlocksStyle(v: boolean) {
           blocksLayer.setStyle((feature) => {
-            let color = 'green';
+            let color = `${MAP_GREEN}`;
 
             // Use this for coloring reserved/completed blocks a different color
             if (feature.getProperty('block_id') % 10 === 0) {
-              color = 'yellow';
+              color = `${MAP_YELLOW}`;
             }
 
             if (feature.getProperty('block_id') % 10 === 1) {
-              color = 'red';
+              color = `${MAP_RED}`;
             }
 
             // Use this for selecting blocks
             if (feature.getProperty('PRECINCT') === 'YES') {
-              color = 'black';
+              color = `${BLACK}`;
             }
 
             // Set styling here
             return {
               fillColor: color,
-              strokeColor: 'black',
+              strokeColor: `${BLACK}`,
               strokeWeight: 1,
               visible: v,
             };
@@ -269,7 +277,7 @@ const MapView: React.FC<MapViewProps> = ({
             map,
             draggable: false,
             label: {
-              color: 'white',
+              color: `${WHITE}`,
               fontWeight: 'bold',
               text: shortHand(feature.getProperty('name'), SHORT_HAND_NAMES),
             },
@@ -292,11 +300,11 @@ const MapView: React.FC<MapViewProps> = ({
         function setNeighborhoodsStyle(v: boolean) {
           neighborhoodsLayer.setStyle((feature) => {
             return {
-              fillColor: 'green',
+              fillColor: `${MAP_GREEN}`,
               fillOpacity:
                 (feature.getProperty('neighborhood_id') / 100) * 2 + 0.1, // TODO: replace this with completion percentage
               strokeWeight: 1,
-              strokeColor: 'white',
+              strokeColor: `${WHITE}`,
               visible: v,
             };
           });

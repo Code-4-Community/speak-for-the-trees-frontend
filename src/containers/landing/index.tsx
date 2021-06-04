@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import MapPage from '../../components/mapPageComponents/mapPage';
-import LandingTreeStats from '../../components/landingTreeStats';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
@@ -14,6 +13,8 @@ import styled from 'styled-components';
 import MobileMapPage from '../../components/mapPageComponents/mobileMapPage';
 import MobileLandingBar from '../../components/mapPageComponents/mobileLandingBar';
 import { MapViews } from '../../components/mapPageComponents/ducks/types';
+import AdoptionDirections from '../../components/adoptionDirections';
+import MapLegend from '../../components/mapPageComponents/mapLegend';
 
 const PaddedContent = styled.div`
   padding: 24px 50px;
@@ -30,10 +31,6 @@ const Landing: React.FC = () => {
   }, [dispatch]);
 
   const { windowType } = useWindowDimensions();
-
-  const statMoneySaved = 100000;
-  const statRainWater = 100000;
-  const statCarbonEmissions = 31;
 
   const landingMapView = MapViews.TREES;
 
@@ -57,11 +54,8 @@ const Landing: React.FC = () => {
                     barDescription={LANDING_BODY}
                     isLoggedIn={loggedIn}
                   >
-                    <LandingTreeStats
-                      moneySaved={statMoneySaved}
-                      rainWater={statRainWater}
-                      carbonEmissions={statCarbonEmissions}
-                    />
+                    <MapLegend view={landingMapView} mobile={true} />
+                    <AdoptionDirections mobile={true} />
                   </MobileLandingBar>
                 </PaddedContent>
               </MobileMapPage>
@@ -75,11 +69,7 @@ const Landing: React.FC = () => {
                 sidebarDescription={LANDING_BODY}
                 view={landingMapView}
               >
-                <LandingTreeStats
-                  moneySaved={statMoneySaved}
-                  rainWater={statRainWater}
-                  carbonEmissions={statCarbonEmissions}
-                />
+                <AdoptionDirections mobile={false} />
               </MapPage>
             );
         }
