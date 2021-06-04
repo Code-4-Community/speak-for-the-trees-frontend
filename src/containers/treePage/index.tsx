@@ -33,7 +33,6 @@ import useWindowDimensions, {
 import ReturnButton from '../../components/returnButton';
 import TreeInfo from '../../components/treeInfo';
 import TreeActivity from '../../components/treeActivity';
-import { getDateString } from '../../utils/stringFormat';
 
 const { Paragraph, Title } = Typography;
 
