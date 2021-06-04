@@ -10,6 +10,7 @@ import {
   Entry,
   SiteEntryNames,
 } from './types';
+import { formatDateSuffix } from '../../../utils/stringFormat';
 
 export const mapStewardshipToTreeCare = (
   items: AsyncRequest<StewardshipActivities, any>,
@@ -17,18 +18,17 @@ export const mapStewardshipToTreeCare = (
   if (asyncRequestIsComplete(items)) {
     return items.result.stewardshipActivities.map((item) => {
       const month = new Date(item.date).toLocaleString('default', {
-        month: 'long',
+        month: 'short',
       });
       const day = new Date(item.date).getDate();
 
       const activityStrings = [];
-      // These cause linting errors for some reason
       if (item.cleaned) activityStrings.push('cleared of waste');
       if (item.mulched) activityStrings.push('mulched');
       if (item.watered) activityStrings.push('watered');
       if (item.weeded) activityStrings.push('weeded');
       return {
-        date: `${month} ${day}th`,
+        date: `${month} ${formatDateSuffix(day)}`,
         message: `Was ${activityStrings.join(' and ')}.`,
       };
     });
@@ -42,7 +42,7 @@ export const getLatestEntry = (
   if (asyncRequestIsComplete(items)) {
     return Object.entries(items.result.entries[0]).reduce<Entry[]>(
       (soFar, [key, value]) => {
-        if (SiteEntryNames[key] && value !== null) {
+        if (SiteEntryNames[key] && (value || value === false)) {
           soFar.push({
             title: SiteEntryNames[key],
             value: value.toString(),

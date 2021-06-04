@@ -15,6 +15,24 @@ export function getDateString(date: Date): string {
 }
 
 /**
+ * Returns the numeric date formatted with the appropriate suffix.
+ * @param date the numeric day to format
+ */
+export function formatDateSuffix(date: number): string {
+  const lastNumber: number = date % 10;
+  switch (lastNumber) {
+    case 1:
+      return date + 'st';
+    case 2:
+      return date + 'nd';
+    case 3:
+      return date + 'rd';
+    default:
+      return date + 'th';
+  }
+}
+
+/**
  * Returns the shorthand name of the neighborhoods
  * @param name the name to shorten
  * @param shortHandNames the dictionary containing the mappings
