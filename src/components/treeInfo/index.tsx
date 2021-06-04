@@ -50,7 +50,11 @@ const TreeInfo: React.FC<TreeProps> = ({
   const location = useLocation<RedirectStateProps>();
 
   const getSiteLocation = (): string => {
-    const baseLocation = `${siteData.city} ${siteData.zip}`;
+    // TODO change to siteData.city and remove check for zip after data is cleaned
+    let baseLocation = `Boston`;
+    if (siteData.zip) {
+      baseLocation += ` 0${siteData.zip}`;
+    }
 
     if (siteData.address) {
       return `${siteData.address}, ${baseLocation}`;

@@ -113,7 +113,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
 
   const onFinishRecordStewardship = (values: RecordStewardshipRequest) => {
     const activities: ActivityRequest = {
-      date: values.activityDate.format('L'),
+      date: values.activityDate.add(1, 'day').format('L'),
       watered: values.stewardshipActivities.includes('Watered'),
       mulched: values.stewardshipActivities.includes('Mulched'),
       cleaned: values.stewardshipActivities.includes('Cleared Waste & Litter'),
