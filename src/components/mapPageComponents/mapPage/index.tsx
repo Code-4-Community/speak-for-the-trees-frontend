@@ -6,6 +6,7 @@ import { MainContent } from '../../themedComponents';
 import MapContent from '../mapContent';
 import { MapViews } from '../ducks/types';
 import { MapGeoDataReducerState } from '../ducks/types';
+import MapLegend from '../mapLegend';
 
 const { Sider } = Layout;
 
@@ -38,6 +39,7 @@ const MapPage: React.FC<MapPageProps> = ({
         />
         <Sider width="20vw">
           <MapSidebar header={sidebarHeader} description={sidebarDescription}>
+            <MapLegend view={view} mobile={false} />
             {children}
           </MapSidebar>
         </Sider>

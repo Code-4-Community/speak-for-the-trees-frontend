@@ -210,7 +210,9 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
                         pageTitle={siteData.result.entries[0].commonName}
                       />
                     )}
-                    <Title level={2}>{siteData.result.address}</Title>
+                    {siteData.result.address && (
+                      <Title level={2}>{siteData.result.address}</Title>
+                    )}
                     {loggedIn ? (
                       <>
                         {doesUserOwnTree ? (

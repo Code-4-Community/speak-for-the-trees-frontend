@@ -25,6 +25,7 @@ const SlideDownContentDiv = styled.div`
   transition: height 0.4s ease;
   height: ${({ setActive, scrollHeight }: SlideDownStyleProps) =>
     setActive ? scrollHeight : 0}px;
+  max-height: 50vh;
 `;
 
 const SlideDownSectionDiv = styled.div`

@@ -9,7 +9,7 @@ const { TabPane } = Tabs;
 
 const StyledTabs = styled(Tabs)`
   color: ${DARK_GREY};
-  max-height: 50vh;
+  max-height: 55vh;
 `;
 
 interface BlockProps {

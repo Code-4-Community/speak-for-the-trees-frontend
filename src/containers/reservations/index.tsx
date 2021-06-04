@@ -15,6 +15,7 @@ import {
   MapViews,
 } from '../../components/mapPageComponents/ducks/types';
 import { C4CState } from '../../store';
+import MapLegend from '../../components/mapPageComponents/mapLegend';
 
 interface ReservationsProps {
   readonly blocks: MapGeoDataReducerState['blockGeoData'];
@@ -55,6 +56,7 @@ const Reservations: React.FC<ReservationsProps> = ({
                 sites={sites}
               >
                 <SlideDown>
+                  <MapLegend view={reservationMapView} mobile={true} />
                   <BlockTabs />
                 </SlideDown>
               </MobileMapPage>
