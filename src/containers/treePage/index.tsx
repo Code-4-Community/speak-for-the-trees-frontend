@@ -33,6 +33,7 @@ import useWindowDimensions, {
 import ReturnButton from '../../components/returnButton';
 import TreeInfo from '../../components/treeInfo';
 import TreeActivity from '../../components/treeActivity';
+import { getDateString } from '../../utils/stringFormat';
 
 const { Paragraph, Title } = Typography;
 
@@ -113,7 +114,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
 
   const onFinishRecordStewardship = (values: RecordStewardshipRequest) => {
     const activities: ActivityRequest = {
-      date: values.activityDate.add(1, 'day').format('L'),
+      date: values.activityDate.format('L'),
       watered: values.stewardshipActivities.includes('Watered'),
       mulched: values.stewardshipActivities.includes('Mulched'),
       cleaned: values.stewardshipActivities.includes('Cleared Waste & Litter'),

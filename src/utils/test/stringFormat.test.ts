@@ -19,7 +19,12 @@ test('formatDateSuffix tests', () => {
   expect(formatDateSuffix(3)).toBe('3rd');
   expect(formatDateSuffix(4)).toBe('4th');
   expect(formatDateSuffix(7)).toBe('7th');
-  expect(formatDateSuffix(10)).toBe('10th');
+  expect(formatDateSuffix(11)).toBe('11th');
+  expect(formatDateSuffix(12)).toBe('12th');
+  expect(formatDateSuffix(15)).toBe('15th');
+  expect(formatDateSuffix(19)).toBe('19th');
+  expect(formatDateSuffix(20)).toBe('20th');
+  expect(formatDateSuffix(21)).toBe('21st');
   expect(formatDateSuffix(31)).toBe('31st');
   expect(formatDateSuffix(42)).toBe('42nd');
   expect(formatDateSuffix(109)).toBe('109th');

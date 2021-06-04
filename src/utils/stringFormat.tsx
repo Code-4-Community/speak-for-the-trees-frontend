@@ -19,6 +19,11 @@ export function getDateString(date: Date): string {
  * @param date the numeric day to format
  */
 export function formatDateSuffix(date: number): string {
+  const tensNum: number = date % 100;
+  if (tensNum > 9 && tensNum < 20) {
+    return date + 'th';
+  }
+
   const lastNumber: number = date % 10;
   switch (lastNumber) {
     case 1:
