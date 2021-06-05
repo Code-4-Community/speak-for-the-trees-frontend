@@ -5,14 +5,16 @@ import {
   ADOPTED_TREE_ICON_DESCRIPTION,
   CLOSED_BLOCK_DESCRIPTION,
   OPEN_BLOCK_DESCRIPTION,
+  OPEN_SITE_DESCRIPTION,
   PRIVATE_STREET_DESCRIPTION,
   RESERVED_BLOCK_DESCRIPTION,
   TREE_ICON_DESCRIPTION,
   YOUNG_TREE_ICON_DESCRIPTION,
 } from '../../../assets/content';
-import adoptedTreeIcon from '../../../assets/images/adoptedTreeIcon.png';
-import treeIcon from '../../../assets/images/treeIcon.png';
-import youngTreeIcon from '../../../assets/images/youngTreeIcon.png';
+import adoptedTreeIcon from '../../../assets/images/siteIcons/adoptedLarge.png';
+import treeIcon from '../../../assets/images/siteIcons/standardLarge.png';
+import youngTreeIcon from '../../../assets/images/siteIcons/youngLarge.png';
+import openSiteIcon from '../../../assets/images/siteIcons/openLarge.png';
 import { MAP_GREEN, MAP_RED, MAP_YELLOW, RED } from '../../../utils/colors';
 import { MapViews } from '../ducks/types';
 
@@ -86,7 +88,7 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile }) => {
               <>
                 {showLegend && (
                   <>
-                    <Text strong>Trees represented by</Text>
+                    <Text strong>What does each icon mean?</Text>
                     <br />
                     <Row>
                       <CenterCol span={3}>
@@ -115,6 +117,16 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile }) => {
                       <Col span={21}>
                         <FlexibleParagraph fontSize={fontSize}>
                           {ADOPTED_TREE_ICON_DESCRIPTION}
+                        </FlexibleParagraph>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <CenterCol span={3}>
+                        <LegendIcon src={openSiteIcon} preview={false} />
+                      </CenterCol>
+                      <Col span={21}>
+                        <FlexibleParagraph fontSize={fontSize}>
+                          {OPEN_SITE_DESCRIPTION}
                         </FlexibleParagraph>
                       </Col>
                     </Row>

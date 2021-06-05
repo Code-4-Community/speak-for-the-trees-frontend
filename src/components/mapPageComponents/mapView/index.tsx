@@ -11,12 +11,13 @@ import {
 } from '../ducks/types';
 import ReservationModal, { ReservationModalType } from '../../reservationModal';
 import protectedApiClient from '../../../api/protectedApiClient';
-import TreePopup, { BasicTreeInfo } from '../../treePopup';
+import TreePopup, {
+  BasicTreeInfo,
+  NO_SITE_SELECTED,
+  NO_TREE_PRESENT,
+} from '../../treePopup';
 import { shortHand } from '../../../utils/stringFormat';
 import { SHORT_HAND_NAMES } from '../../../assets/content';
-import treeIcon from '../../../assets/images/treeIcon.png';
-import youngTreeIcon from '../../../assets/images/youngTreeIcon.png';
-import adoptedTreeIcon from '../../../assets/images/adoptedTreeIcon.png';
 import { isMobile } from '../../../utils/isCheck';
 import {
   BLACK,
@@ -26,6 +27,12 @@ import {
   RED,
   WHITE,
 } from '../../../utils/colors';
+import {
+  ADOPTED_ICONS,
+  OPEN_ICONS,
+  STANDARD_ICONS,
+  YOUNG_ICONS,
+} from '../../../assets/images/siteIcons';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -74,7 +81,7 @@ const MapView: React.FC<MapViewProps> = ({
   const [activeBlockId, setActiveBlockId] = useState<number>(-1);
   // BasicTreeInfo to display in tree popup
   const [activeTreeInfo, setActiveTreeInfo] = useState<BasicTreeInfo>({
-    id: -1,
+    id: NO_SITE_SELECTED,
     species: '',
     address: '',
   });
@@ -90,7 +97,7 @@ const MapView: React.FC<MapViewProps> = ({
         break;
       case ReservationModalType.RESERVED:
         // set block status to open
-        protectedApiClient.releaseReservation(activeBlockId);
+        await protectedApiClient.releaseReservation(activeBlockId);
         break;
       case ReservationModalType.TAKEN:
         // block clicked not owned/open so do nothing
@@ -341,7 +348,7 @@ const MapView: React.FC<MapViewProps> = ({
 
         // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
         neighborhoodsLayer.addListener('click', (event) => {
-          map.setZoom(15);
+          map.setZoom(view);
           map.panTo({
             lat: event.feature.getProperty('lat'),
             lng: event.feature.getProperty('lng'),
@@ -357,10 +364,16 @@ const MapView: React.FC<MapViewProps> = ({
         // Adds listener so reservation modal appears when block clicked
         sitesLayer.addListener('click', (event) => {
           const eventFeature = event.feature;
+          let siteId = eventFeature.getProperty('id');
+
+          // Set site ID to tell tree popup this is an open planting site
+          if (!eventFeature.getProperty('tree_present')) {
+            siteId = NO_TREE_PRESENT;
+          }
 
           // Sets the information to display in the popup
           setActiveTreeInfo({
-            id: eventFeature.getProperty('id'),
+            id: siteId,
             species: eventFeature.getProperty('species'),
             address: eventFeature.getProperty('address'),
           });
@@ -372,26 +385,31 @@ const MapView: React.FC<MapViewProps> = ({
             );
         });
 
-        function setSitesStyle(v: boolean) {
+        function setSitesStyle(visible: boolean) {
           sitesLayer.setStyle((feature) => {
-            let visible = false;
-            let icon = treeIcon;
+            let icon;
+            let imageSize = 0;
 
-            // Only shows sites if there is a tree there
-            if (feature.getProperty('tree_present')) {
-              visible = v && true;
+            const zoomLevel = map.getZoom();
+            if (zoomLevel > 17 && zoomLevel < 20) {
+              imageSize = 1;
+            } else if (zoomLevel >= 20) {
+              imageSize = 2;
             }
 
+            // If there is no tree present, use the openSiteIcon
             // If the tree was planted within the past three years, use youngTreeIcon
             // If the tree is adopted, use the adoptedTreeIcon
             const plantedDate = feature.getProperty('plantingDate');
             const adopted = !!feature.getProperty('adopterId');
-            if (adopted) {
-              icon = adoptedTreeIcon;
+            if (!feature.getProperty('tree_present')) {
+              icon = OPEN_ICONS[imageSize];
+            } else if (adopted) {
+              icon = ADOPTED_ICONS[imageSize];
             } else if (!!plantedDate && plantedDate > breakpointDate) {
-              icon = youngTreeIcon;
+              icon = YOUNG_ICONS[imageSize];
             } else {
-              icon = treeIcon;
+              icon = STANDARD_ICONS[imageSize];
             }
 
             return {

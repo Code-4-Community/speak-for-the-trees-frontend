@@ -25,6 +25,8 @@ export const TREE_ICON_DESCRIPTION =
   "are older trees who don't need as much help but would still love to be adopted";
 export const YOUNG_TREE_ICON_DESCRIPTION =
   'are newly planted trees who need the most care';
+export const OPEN_SITE_DESCRIPTION =
+  'are empty sites where future trees could be planted';
 export const OPEN_BLOCK_DESCRIPTION = 'are open blocks ready to be reserved';
 export const RESERVED_BLOCK_DESCRIPTION = "are blocks you've already reserved";
 export const CLOSED_BLOCK_DESCRIPTION =
