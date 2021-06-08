@@ -6,7 +6,7 @@ import {
 } from '../../auth/ducks/types';
 import { Routes } from '../../App';
 import styled from 'styled-components';
-import { Avatar, Button, Dropdown, Menu, Typography } from 'antd';
+import { Avatar, Button, Dropdown, Menu, Row, Col, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import useWindowDimensions, { WindowTypes } from '../windowDimensions';
 import { getPrivilegeLevel, getUserFullName } from '../../auth/ducks/selectors';
@@ -21,9 +21,9 @@ import {
   MID_GREEN,
   WHITE,
 } from '../../utils/colors';
-import sfttLogo from '../../assets/images/nav-bar-icon.png';
+import sfttLogo from '../../assets/images/sfttNameLogo.png';
 import bostonLogo from '../../assets/images/bostonParksLogo.png';
-import c4cLogo from '../../assets/images/c4cLogo.png';
+import c4cLogo from '../../assets/images/c4cTextLogo.png';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { logout } from '../../auth/ducks/thunks';
 
@@ -48,12 +48,16 @@ const FlexDiv = styled.div`
 `;
 
 const MainLogo = styled.img`
-  height: 50px;
+  height: 70px;
   margin-right: 10px;
 `;
 
-const Logo = styled.img`
-  height: 45px;
+const BostonLogo = styled.img`
+  height: 55px;
+`;
+
+const C4CLogo = styled.img`
+  height: 27px;
 `;
 
 const LandingExtraContainer = styled.div`
@@ -86,7 +90,6 @@ const GreenAvatar = styled(Avatar)`
 
 const NoHoverShadeButton = styled(Button)`
   height: 100%;
-  line-height: 9vh;
   overflow: hidden;
   &:hover {
     background: ${BACKGROUND_GREY};
@@ -100,16 +103,19 @@ const MainTitle = styled(Paragraph)`
   display: inline-block;
 `;
 
-const NavTitle = styled(Paragraph)`
-  color: ${MID_GREEN};
-  font-size: ${(props: FlexibleFontSizeProps) => props.fontSize};
-  font-weight: bold;
-  display: inline-block;
+const LogoCol = styled(Col)`
+  height: 100%;
+  line-height: 6vh;
 `;
 
-interface FlexibleFontSizeProps {
-  readonly fontSize: string;
-}
+const NavTitleText = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+  height: 100%;
+  display: inline-block;
+  color: ${MID_GREEN};
+  margin-bottom: 10px;
+`;
 
 interface NavBarProps {
   readonly tokens: UserAuthenticationReducerState['tokens'];
@@ -131,13 +137,23 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
 
   const HeaderTitle = () => (
     <NoHoverShadeButton type="text" onClick={() => history.push(Routes.HOME)}>
-      <NavTitle fontSize={windowType === WindowTypes.Desktop ? '18px' : '14px'}>
-        <MainTitle>
-          <MainLogo src={sfttLogo} alt="icon" /> SFTT
-        </MainTitle>
-        , in partnership with <Logo src={bostonLogo} /> Boston Parks and
-        Recreation Department and <Logo src={c4cLogo} /> C4C
-      </NavTitle>
+      <Row align="bottom">
+        <Col span={6}>
+          <MainLogo src={sfttLogo} alt="icon" />
+        </Col>
+        <Col span={6}>
+          <NavTitleText>in partnership with</NavTitleText>
+        </Col>
+        <LogoCol span={4}>
+          <BostonLogo src={bostonLogo} />
+        </LogoCol>
+        <Col span={2}>
+          <NavTitleText>and</NavTitleText>
+        </Col>
+        <LogoCol span={4}>
+          <C4CLogo src={c4cLogo} />
+        </LogoCol>
+      </Row>
     </NoHoverShadeButton>
   );
 
