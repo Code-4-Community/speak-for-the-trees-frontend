@@ -6,8 +6,7 @@ import {
 } from '../../auth/ducks/types';
 import { Routes } from '../../App';
 import styled from 'styled-components';
-import { Avatar, Button, Dropdown, Menu, PageHeader, Typography } from 'antd';
-import { PageHeaderProps } from 'antd/es/page-header';
+import { Avatar, Button, Dropdown, Menu, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import useWindowDimensions, { WindowTypes } from '../windowDimensions';
 import { getPrivilegeLevel, getUserFullName } from '../../auth/ducks/selectors';
@@ -22,29 +21,46 @@ import {
   MID_GREEN,
   WHITE,
 } from '../../utils/colors';
-import Logo from '../../assets/images/nav-bar-icon.png';
+import sfttLogo from '../../assets/images/nav-bar-icon.png';
+import bostonLogo from '../../assets/images/bostonParksLogo.png';
+import c4cLogo from '../../assets/images/c4cLogo.png';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { logout } from '../../auth/ducks/thunks';
 
-const { Paragraph, Title } = Typography;
+const { Paragraph } = Typography;
 
-const NavHeader: typeof PageHeader = styled(PageHeader)<PageHeaderProps>`
+const NavContainer = styled.div`
   box-shadow: '0 4px 2px -2px grey';
   margin: '0 0 3px 0';
   background: ${BACKGROUND_GREY};
   color: ${MID_GREEN};
+  height: 9vh;
+  padding: 0;
+  overflow: hidden;
 `;
 
 const FlexDiv = styled.div`
   display: flex;
+  float: right;
+  margin-right: 20px;
+  height: 100%;
+  line-height: 9vh;
 `;
 
-const BackLogo = styled.img`
-  height: 40px;
+const MainLogo = styled.img`
+  height: 50px;
+  margin-right: 10px;
+`;
+
+const Logo = styled.img`
+  height: 45px;
 `;
 
 const LandingExtraContainer = styled.div`
-  padding-right: 3vw;
+  float: right;
+  padding-right: 2vw;
+  height: 100%;
+  line-height: 9vh;
 `;
 
 const SignupButton = styled(Button)`
@@ -59,13 +75,47 @@ const LoginButton = styled(Button)`
   color: ${BLACK};
 `;
 
+const Name = styled(Paragraph)`
+  display: inline-block;
+  margin-right: 20px;
+`;
+
 const GreenAvatar = styled(Avatar)`
   background-color: ${DARK_GREEN};
 `;
 
-type NavBarProps = UserAuthenticationReducerState;
+const NoHoverShadeButton = styled(Button)`
+  height: 100%;
+  line-height: 9vh;
+  overflow: hidden;
+  &:hover {
+    background: ${BACKGROUND_GREY};
+  }
+`;
 
-const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
+const MainTitle = styled(Paragraph)`
+  color: ${MID_GREEN};
+  font-size: 20px;
+  font-weight: bold;
+  display: inline-block;
+`;
+
+const NavTitle = styled(Paragraph)`
+  color: ${MID_GREEN};
+  font-size: ${(props: FlexibleFontSizeProps) => props.fontSize};
+  font-weight: bold;
+  display: inline-block;
+`;
+
+interface FlexibleFontSizeProps {
+  readonly fontSize: string;
+}
+
+interface NavBarProps {
+  readonly tokens: UserAuthenticationReducerState['tokens'];
+}
+
+const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
   const { windowType } = useWindowDimensions();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -79,10 +129,24 @@ const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
 
   const isLoggedIn: boolean = privilegeLevel !== PrivilegeLevel.NONE;
 
-  const HeaderTitle = (
-    <Button type="text" onClick={() => history.push(Routes.HOME)}>
-      <Title level={3}>Speak for the Trees</Title>
-    </Button>
+  const HeaderTitle = () => (
+    <NoHoverShadeButton type="text" onClick={() => history.push(Routes.HOME)}>
+      <NavTitle fontSize={windowType === WindowTypes.Desktop ? '18px' : '14px'}>
+        <MainTitle>
+          <MainLogo src={sfttLogo} alt="icon" /> SFTT
+        </MainTitle>
+        , in partnership with <Logo src={bostonLogo} /> Boston Parks and
+        Recreation Department and <Logo src={c4cLogo} /> C4C
+      </NavTitle>
+    </NoHoverShadeButton>
+  );
+
+  const ShortHeaderTitle = () => (
+    <NoHoverShadeButton type="text" onClick={() => history.push(Routes.HOME)}>
+      <MainTitle>
+        <MainLogo src={sfttLogo} alt="icon" /> Speak For The Trees
+      </MainTitle>
+    </NoHoverShadeButton>
   );
 
   const menu = (
@@ -143,11 +207,11 @@ const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
   const LoggedInExtra = () => {
     return (
       <FlexDiv>
-        <Paragraph style={{ margin: 'auto 20px auto 0' }}>
-          {userFullName}
-        </Paragraph>
-        <Dropdown overlay={menu} placement="bottomLeft">
-          <GreenAvatar size="large" icon={<UserOutlined />} />
+        <Dropdown overlay={menu} placement="bottomRight" arrow>
+          <Paragraph>
+            <Name>{userFullName}</Name>
+            <GreenAvatar size="large" icon={<UserOutlined />} />
+          </Paragraph>
         </Dropdown>
       </FlexDiv>
     );
@@ -158,15 +222,19 @@ const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
       return <MobileNavBar isLoggedIn={isLoggedIn} />;
 
     case WindowTypes.Tablet:
+      return (
+        <NavContainer>
+          <ShortHeaderTitle />
+          {isLoggedIn ? <LoggedInExtra /> : <LandingExtra />}
+        </NavContainer>
+      );
     case WindowTypes.NarrowDesktop:
     case WindowTypes.Desktop:
       return (
-        <NavHeader
-          title={HeaderTitle}
-          backIcon={<BackLogo src={Logo} alt="icon" />}
-          onBack={() => history.push(Routes.HOME)}
-          extra={isLoggedIn ? <LoggedInExtra /> : <LandingExtra />}
-        />
+        <NavContainer>
+          <HeaderTitle />
+          {isLoggedIn ? <LoggedInExtra /> : <LandingExtra />}
+        </NavContainer>
       );
 
     default:
@@ -177,7 +245,6 @@ const NavBar: React.FC<NavBarProps> = ({ tokens, userData }) => {
 const mapStateToProps = (state: C4CState): NavBarProps => {
   return {
     tokens: state.authenticationState.tokens,
-    userData: state.authenticationState.userData,
   };
 };
 
