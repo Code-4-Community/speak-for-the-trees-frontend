@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
 import { Col, Form, message, Row, Typography } from 'antd';
 import { Routes } from '../../App';
@@ -172,79 +172,53 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
       </Helmet>
       <PageLayout>
         <TreePageContainer>
+          <ReturnButton to={Routes.LANDING}>
+            {`<`} Return to Tree Map
+          </ReturnButton>
+
           {asyncRequestIsComplete(siteData) && (
             <>
-              <ReturnButton to={Routes.LANDING}>
-                {`<`} Return to Tree Map
-              </ReturnButton>
-
               {(() => {
                 switch (windowType) {
                   case WindowTypes.Desktop:
                   case WindowTypes.NarrowDesktop:
                     return (
-                      asyncRequestIsComplete(siteData) && (
-                        <TreeMainContainer>
-                          <Row>
-                            <Col span={14}>
-                              <TreeInfoContainer>
-                                <TreeInfo
-                                  siteData={siteData.result}
-                                  loggedIn={loggedIn}
-                                  userOwnsTree={doesUserOwnTree}
-                                  onClickAdopt={onClickAdopt}
-                                  onClickUnadopt={onClickUnadopt}
-                                  onFinishRecordStewardship={
-                                    onFinishRecordStewardship
-                                  }
-                                  stewardshipFormInstance={
-                                    stewardshipFormInstance
-                                  }
-                                />
-                              </TreeInfoContainer>
-                            </Col>
-                            <Col span={1} />
-                            <Col span={9}>
-                              <TreeCareContainer>
-                                <TreeActivity stewardship={stewardship} />
-                              </TreeCareContainer>
-                            </Col>
-                          </Row>
-                        </TreeMainContainer>
-                      )
+                      <TreeMainContainer>
+                        <Row>
+                          <Col span={14}>
+                            <TreeInfoContainer>
+                              <TreeInfo
+                                siteData={siteData.result}
+                                loggedIn={loggedIn}
+                                userOwnsTree={doesUserOwnTree}
+                                onClickAdopt={onClickAdopt}
+                                onClickUnadopt={onClickUnadopt}
+                                onFinishRecordStewardship={
+                                  onFinishRecordStewardship
+                                }
+                                stewardshipFormInstance={
+                                  stewardshipFormInstance
+                                }
+                              />
+                            </TreeInfoContainer>
+                          </Col>
+                          <Col span={1} />
+                          <Col span={9}>
+                            <TreeCareContainer>
+                              <TreeActivity stewardship={stewardship} />
+                            </TreeCareContainer>
+                          </Col>
+                        </Row>
+                      </TreeMainContainer>
                     );
                   case WindowTypes.Tablet:
                     return (
-                      asyncRequestIsComplete(siteData) && (
-                        <TreeMainContainer>
-                          <TreeInfoContainer>
-                            <TreeInfo
-                              siteData={siteData.result}
-                              loggedIn={loggedIn}
-                              userOwnsTree={doesUserOwnTree}
-                              onClickAdopt={onClickAdopt}
-                              onClickUnadopt={onClickUnadopt}
-                              onFinishRecordStewardship={
-                                onFinishRecordStewardship
-                              }
-                              stewardshipFormInstance={stewardshipFormInstance}
-                            />
-                          </TreeInfoContainer>
-                          <TreeCareContainer>
-                            <TreeActivity stewardship={stewardship} />
-                          </TreeCareContainer>
-                        </TreeMainContainer>
-                      )
-                    );
-                  case WindowTypes.Mobile:
-                    return (
-                      asyncRequestIsComplete(siteData) && (
-                        <MobileTreeMainContainer>
+                      <TreeMainContainer>
+                        <TreeInfoContainer>
                           <TreeInfo
                             siteData={siteData.result}
                             loggedIn={loggedIn}
                             userOwnsTree={doesUserOwnTree}
-                            mobile={true}
                             onClickAdopt={onClickAdopt}
                             onClickUnadopt={onClickUnadopt}
                             onFinishRecordStewardship={
@@ -252,11 +226,29 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                             }
                             stewardshipFormInstance={stewardshipFormInstance}
                           />
-                          <MobileTreeCareContainer>
-                            <TreeActivity stewardship={stewardship} limit={4} />
-                          </MobileTreeCareContainer>
-                        </MobileTreeMainContainer>
-                      )
+                        </TreeInfoContainer>
+                        <TreeCareContainer>
+                          <TreeActivity stewardship={stewardship} />
+                        </TreeCareContainer>
+                      </TreeMainContainer>
+                    );
+                  case WindowTypes.Mobile:
+                    return (
+                      <MobileTreeMainContainer>
+                        <TreeInfo
+                          siteData={siteData.result}
+                          loggedIn={loggedIn}
+                          userOwnsTree={doesUserOwnTree}
+                          mobile={true}
+                          onClickAdopt={onClickAdopt}
+                          onClickUnadopt={onClickUnadopt}
+                          onFinishRecordStewardship={onFinishRecordStewardship}
+                          stewardshipFormInstance={stewardshipFormInstance}
+                        />
+                        <MobileTreeCareContainer>
+                          <TreeActivity stewardship={stewardship} limit={4} />
+                        </MobileTreeCareContainer>
+                      </MobileTreeMainContainer>
                     );
                 }
               })()}
@@ -279,10 +271,9 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
             </>
           )}
           {asyncRequestIsFailed(siteData) && (
-            <>
+            <TreeMainContainer>
               <Title level={2}>Tree could not be found.</Title>
-              <Link to={Routes.LANDING}>Search for another tree!</Link>
-            </>
+            </TreeMainContainer>
           )}
         </TreePageContainer>
       </PageLayout>
