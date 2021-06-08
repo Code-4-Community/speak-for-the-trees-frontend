@@ -1,47 +1,50 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
-import ReturnButton from '../../components/returnButton';
-import { Row, Col, Typography, Button, Card, message, Form } from 'antd';
-import { RedirectStateProps, Routes } from '../../App';
+import { Card, Col, Form, List, message, Row, Typography } from 'antd';
+import { Routes } from '../../App';
 import { Helmet } from 'react-helmet';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { isLoggedIn } from '../../auth/ducks/selectors';
-import { TreeCare, ActivityRequest } from './ducks/types';
-import PageHeader from '../../components/pageHeader';
-import { TitleProps } from 'antd/lib/typography/Title';
-import StewardshipForm from '../../components/stewardshipForm';
+import {
+  ActivityRequest,
+  Entry,
+  ProtectedSitesReducerState,
+  SiteReducerState,
+  TreeCare,
+} from './ducks/types';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { LIGHT_GREY, DARK_GREEN, TEXT_GREY } from '../../utils/colors';
-import { Gap } from '../../components/themedComponents';
+import { LIGHT_GREY, TEXT_GREY } from '../../utils/colors';
 import styled from 'styled-components';
 import {
-  SiteReducerState,
-  ProtectedSitesReducerState,
-  Entry,
-} from './ducks/types';
-import {
-  mapStewardshipToTreeCare,
-  isTreeAdopted,
   getLatestEntry,
+  isTreeAdopted,
+  mapStewardshipToTreeCare,
 } from './ducks/selectors';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { C4CState } from '../../store';
 import { getAdoptedSites, getSiteData } from './ducks/thunks';
 import protectedApiClient from '../../api/protectedApiClient';
+import TreeBackground from '../../assets/images/grey-logo.png';
+import { RecordStewardshipRequest } from '../../components/forms/ducks/types';
+import useWindowDimensions, {
+  WindowTypes,
+} from '../../components/windowDimensions';
+import ReturnButton from '../../components/returnButton';
+import TreeInfo from '../../components/treeInfo';
+import TreeActivity from '../../components/treeActivity';
 
 const { Paragraph, Title } = Typography;
 
 const StyledCard = styled(Card)`
-  width: 250px;
   height: 100px;
+  line-height: 15px;
   border: solid 1px ${LIGHT_GREY};
-  margin: 7px;
+  overflow: auto;
 `;
 
 const TreePageContainer = styled.div`
-  width: 95vw;
+  width: 90vw;
   margin: 30px auto auto;
 `;
 
@@ -49,45 +52,31 @@ const TreeMainContainer = styled.div`
   margin: 50px 30px 30px;
 `;
 
+const MobileTreeMainContainer = styled.div`
+  margin: 50px 10px 30px;
+`;
+
 const TreeInfoContainer = styled.div`
-  width: 90%;
+  height: 100%;
+  background: url(${TreeBackground}) no-repeat bottom right;
+  background-size: contain;
   margin: auto;
 `;
 
-const EntrySpace = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const TreeCareTitle = styled(Paragraph)`
-  margin: 15px 15px 50px;
-  font-size: 24px;
-  font-weight: bold;
-  color: ${DARK_GREEN};
-`;
-
 const TreeCareContainer = styled.div`
+  margin-top: 5vh;
   border: solid 1px ${LIGHT_GREY};
   max-height: 80%;
-  margin-top: 80px;
+  padding: 30px 15px 5px;
   overflow: auto;
 `;
 
-const CareEntry = styled.div`
-  margin: 15px;
-`;
-
-const StewardshipContainer = styled.div`
-  margin-top: 40px;
-`;
-
-const EntryDate = styled(Paragraph)<TitleProps>`
-  display: inline;
-  text-align: center;
-  line-height: 0px;
-  font-size: 18px;
-  font-weight: bold;
-  color: ${DARK_GREEN};
+const MobileTreeCareContainer = styled.div`
+  margin-top: 5vh;
+  border: solid 1px ${LIGHT_GREY};
+  max-height: 50vh;
+  padding: 30px 15px 5px;
+  overflow: auto;
 `;
 
 const EntryMessage = styled(Paragraph)`
@@ -100,7 +89,7 @@ const EntryMessage = styled(Paragraph)`
 interface TreeProps {
   readonly tokens: UserAuthenticationReducerState['tokens'];
   readonly siteData: SiteReducerState['siteData'];
-  readonly stewardShip: TreeCare[];
+  readonly stewardship: TreeCare[];
   readonly adoptedSites: ProtectedSitesReducerState['adoptedSites'];
 }
 
@@ -108,11 +97,10 @@ interface TreeParams {
   id: string;
 }
 
-const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
+const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
   const dispatch = useDispatch();
   const id = Number(useParams<TreeParams>().id);
-  const history = useHistory();
-  const location = useLocation<RedirectStateProps>();
+  const { windowType } = useWindowDimensions();
 
   const [stewardshipFormInstance] = Form.useForm();
 
@@ -123,10 +111,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
     }
   }, [dispatch, id, tokens]);
 
-  const onFinishRecordStewardship = (values: {
-    activityDate: moment.Moment;
-    stewardshipActivities: string[];
-  }) => {
+  const onFinishRecordStewardship = (values: RecordStewardshipRequest) => {
     const activities: ActivityRequest = {
       date: values.activityDate.format('L'),
       watered: values.stewardshipActivities.includes('Watered'),
@@ -196,102 +181,109 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardShip, tokens }) => {
         />
       </Helmet>
       <PageLayout>
-        {asyncRequestIsComplete(siteData) && (
-          <TreePageContainer>
-            <ReturnButton to={Routes.LANDING}>
-              {`<`} Return to Tree Map
-            </ReturnButton>
-            <TreeMainContainer>
-              <Row>
-                <Col span={17}>
-                  <TreeInfoContainer>
-                    {siteData.result.entries[0].commonName && (
-                      <PageHeader
-                        pageTitle={siteData.result.entries[0].commonName}
+        <TreePageContainer>
+          <ReturnButton to={Routes.LANDING}>
+            {`<`} Return to Tree Map
+          </ReturnButton>
+          {(() => {
+            switch (windowType) {
+              case WindowTypes.Desktop:
+              case WindowTypes.NarrowDesktop:
+                return (
+                  asyncRequestIsComplete(siteData) && (
+                    <TreeMainContainer>
+                      <Row>
+                        <Col span={14}>
+                          <TreeInfoContainer>
+                            <TreeInfo
+                              siteData={siteData.result}
+                              loggedIn={loggedIn}
+                              userOwnsTree={doesUserOwnTree}
+                              onClickAdopt={onClickAdopt}
+                              onClickUnadopt={onClickUnadopt}
+                              onFinishRecordStewardship={
+                                onFinishRecordStewardship
+                              }
+                              stewardshipFormInstance={stewardshipFormInstance}
+                            />
+                          </TreeInfoContainer>
+                        </Col>
+                        <Col span={1} />
+                        <Col span={9}>
+                          <TreeCareContainer>
+                            <TreeActivity stewardship={stewardship} />
+                          </TreeCareContainer>
+                        </Col>
+                      </Row>
+                    </TreeMainContainer>
+                  )
+                );
+              case WindowTypes.Tablet:
+                return (
+                  asyncRequestIsComplete(siteData) && (
+                    <TreeMainContainer>
+                      <TreeInfoContainer>
+                        <TreeInfo
+                          siteData={siteData.result}
+                          loggedIn={loggedIn}
+                          userOwnsTree={doesUserOwnTree}
+                          onClickAdopt={onClickAdopt}
+                          onClickUnadopt={onClickUnadopt}
+                          onFinishRecordStewardship={onFinishRecordStewardship}
+                          stewardshipFormInstance={stewardshipFormInstance}
+                        />
+                      </TreeInfoContainer>
+                      <TreeCareContainer>
+                        <TreeActivity stewardship={stewardship} />
+                      </TreeCareContainer>
+                    </TreeMainContainer>
+                  )
+                );
+              case WindowTypes.Mobile:
+                return (
+                  asyncRequestIsComplete(siteData) && (
+                    <MobileTreeMainContainer>
+                      <TreeInfo
+                        siteData={siteData.result}
+                        loggedIn={loggedIn}
+                        userOwnsTree={doesUserOwnTree}
+                        mobile={true}
+                        onClickAdopt={onClickAdopt}
+                        onClickUnadopt={onClickUnadopt}
+                        onFinishRecordStewardship={onFinishRecordStewardship}
+                        stewardshipFormInstance={stewardshipFormInstance}
                       />
-                    )}
-                    {siteData.result.address && (
-                      <Title level={2}>{siteData.result.address}</Title>
-                    )}
-                    {loggedIn ? (
-                      <>
-                        {doesUserOwnTree ? (
-                          <>
-                            <Button
-                              type="primary"
-                              size="large"
-                              onClick={onClickUnadopt}
-                            >
-                              Unadopt
-                            </Button>
-                            <StewardshipContainer>
-                              <Title level={3}>Record Tree Care</Title>
-                              <StewardshipForm
-                                onFinish={onFinishRecordStewardship}
-                                form={stewardshipFormInstance}
-                              />
-                            </StewardshipContainer>
-                          </>
-                        ) : (
-                          <>
-                            <Button
-                              type="primary"
-                              size="large"
-                              onClick={onClickAdopt}
-                            >
-                              Adopt
-                            </Button>
-                          </>
-                        )}
-                      </>
-                    ) : (
-                      <>
-                        <Paragraph>Log in to adopt this tree!</Paragraph>
-                        <Button
-                          type="primary"
-                          size={'large'}
-                          onClick={() =>
-                            history.push(Routes.LOGIN, {
-                              destination: location.pathname,
-                            })
-                          }
-                        >
-                          Log In
-                        </Button>
-                      </>
-                    )}
-                  </TreeInfoContainer>
-                </Col>
-                <Col span={7}>
-                  <TreeCareContainer>
-                    <TreeCareTitle>Tree Care Activity</TreeCareTitle>
-                    {stewardShip.map((value: TreeCare, key) => {
-                      return (
-                        <CareEntry key={key}>
-                          <EntryDate>{value.date}</EntryDate>
-                          <Gap />
-                          <EntryMessage>{value.message}</EntryMessage>
-                        </CareEntry>
-                      );
-                    })}
-                  </TreeCareContainer>
-                </Col>
-              </Row>
-            </TreeMainContainer>
-            <Row>
-              <EntrySpace>
-                {latestEntry.map((entry: Entry) => {
-                  return (
-                    <StyledCard key={entry.title}>
-                      <Title level={3}>{entry.title}</Title>
-                      <EntryMessage>{entry.value}</EntryMessage>
-                    </StyledCard>
-                  );
-                })}
-              </EntrySpace>
-            </Row>
-          </TreePageContainer>
-        )}
+                      <MobileTreeCareContainer>
+                        <TreeActivity stewardship={stewardship} />
+                      </MobileTreeCareContainer>
+                    </MobileTreeMainContainer>
+                  )
+                );
+            }
+          })()}
+          <Row>
+            <List
+              dataSource={latestEntry}
+              grid={{
+                gutter: 16,
+                xs: 1,
+                sm: 1,
+                md: 3,
+                lg: 3,
+                xl: 5,
+                xxl: 5,
+              }}
+              renderItem={(entry: Entry) => (
+                <List.Item>
+                  <StyledCard key={entry.title}>
+                    <Title level={4}>{entry.title}</Title>
+                    <EntryMessage>{entry.value}</EntryMessage>
+                  </StyledCard>
+                </List.Item>
+              )}
+            />
+          </Row>
+        </TreePageContainer>
       </PageLayout>
     </>
   );
@@ -301,7 +293,7 @@ const mapStateToProps = (state: C4CState): TreeProps => {
   return {
     tokens: state.authenticationState.tokens,
     siteData: state.siteState.siteData,
-    stewardShip: mapStewardshipToTreeCare(
+    stewardship: mapStewardshipToTreeCare(
       state.siteState.stewarshipActivityData,
     ),
     adoptedSites: state.adoptedSitesState.adoptedSites,
