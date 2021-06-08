@@ -9,7 +9,7 @@ import {
   FormInstance,
 } from 'antd';
 import styled from 'styled-components';
-import { activitiesDateRules, activitiesRules } from '../../utils/formRules';
+import { activitiesDateRules, activitiesRules } from '../../../utils/formRules';
 
 const { Paragraph } = Typography;
 
@@ -18,7 +18,7 @@ const ItemLabel = styled(Paragraph)`
 `;
 
 const TreeDatePicker = styled(DatePicker)`
-  width: 50%;
+  width: 45%;
 `;
 
 interface StewardshipFormProps {
@@ -40,6 +40,13 @@ const StewardshipForm: React.FC<StewardshipFormProps> = ({
     'Cleared Waste & Litter',
   ];
 
+  const disabledDate = (current: moment.Moment): boolean => {
+    // Can not select future days or days more than two weeks ago
+    return (
+      current > moment().endOf('day') || current < moment().subtract(2, 'weeks')
+    );
+  };
+
   return (
     <>
       <Form
@@ -50,7 +57,7 @@ const StewardshipForm: React.FC<StewardshipFormProps> = ({
       >
         <ItemLabel>Activity Date</ItemLabel>
         <Form.Item name="activityDate" rules={activitiesDateRules}>
-          <TreeDatePicker format={'MM/DD/YYYY'} />
+          <TreeDatePicker format={'MM/DD/YYYY'} disabledDate={disabledDate} />
         </Form.Item>
         <ItemLabel>Stewardship Activites</ItemLabel>
         <Form.Item name="stewardshipActivities" rules={activitiesRules}>
