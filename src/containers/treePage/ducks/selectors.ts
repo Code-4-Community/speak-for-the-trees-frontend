@@ -8,9 +8,11 @@ import {
   TreeCare,
   SiteProps,
   Entry,
-  SiteEntryNames,
+  MainSiteEntryNames,
+  ExtraSiteEntryNames,
+  SplitSiteEntries,
 } from './types';
-import { formatDateSuffix } from '../../../utils/stringFormat';
+import { booleanToString, formatDateSuffix } from '../../../utils/stringFormat';
 
 export const mapStewardshipToTreeCare = (
   items: AsyncRequest<StewardshipActivities, any>,
@@ -36,16 +38,51 @@ export const mapStewardshipToTreeCare = (
   return [];
 };
 
+export const getLatestSplitEntry = (
+  items: AsyncRequest<SiteProps, any>,
+): SplitSiteEntries => {
+  const mains: Entry[] = getLatestEntry(items, MainSiteEntryNames);
+  const newMains: Entry[] = [];
+  let species;
+  let genus;
+  mains.forEach((entry: Entry) => {
+    switch (entry.title) {
+      case 'Species':
+        species = entry.value;
+        break;
+      case 'Genus':
+        genus = entry.value;
+        break;
+      default:
+        newMains.push(entry);
+        break;
+    }
+  });
+  if (species && genus) {
+    newMains.push({ title: 'Scientific Name', value: `${genus} ${species}` });
+  } else if (species) {
+    newMains.push({ title: 'Species', value: species });
+  } else if (genus) {
+    newMains.push({ title: 'Genus', value: genus });
+  }
+
+  return {
+    main: newMains,
+    extra: getLatestEntry(items, ExtraSiteEntryNames),
+  };
+};
+
 export const getLatestEntry = (
   items: AsyncRequest<SiteProps, any>,
+  namesList: Record<string, string>,
 ): Entry[] => {
   if (asyncRequestIsComplete(items)) {
     return Object.entries(items.result.entries[0]).reduce<Entry[]>(
       (soFar, [key, value]) => {
-        if (SiteEntryNames[key] && (value || value === false)) {
+        if (namesList[key] && (value || value === false)) {
           soFar.push({
-            title: SiteEntryNames[key],
-            value: value.toString(),
+            title: namesList[key],
+            value: booleanToString(value.toString()),
           });
         }
         return soFar;

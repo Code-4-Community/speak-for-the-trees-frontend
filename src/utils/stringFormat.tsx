@@ -48,3 +48,18 @@ export function shortHand(
 ): string {
   return shortHandNames[name] || name;
 }
+
+/**
+ * Translates true/false to Yes/No strings
+ * @param str the string to translate
+ */
+export function booleanToString(str: string): string {
+  switch (str) {
+    case 'true':
+      return 'Yes';
+    case 'false':
+      return 'No';
+    default:
+      return str;
+  }
+}

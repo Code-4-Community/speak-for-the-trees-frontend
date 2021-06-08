@@ -11,7 +11,7 @@ import { MID_GREEN } from '../../utils/colors';
 
 const { Title } = Typography;
 
-const TreeInfoContainer = styled.div`
+const TreeHeader = styled.div`
   text-transform: capitalize;
 `;
 
@@ -64,15 +64,17 @@ const TreeInfo: React.FC<TreeProps> = ({
   };
 
   return (
-    <TreeInfoContainer>
-      {siteData.entries[0].commonName && (
-        <PageHeader
-          pageTitle={siteData.entries[0].commonName}
-          isMobile={mobile}
-          pageSubtitle={getSiteLocation()}
-          subtitlecolor={MID_GREEN}
-        />
-      )}
+    <>
+      <TreeHeader>
+        {siteData.entries[0].commonName && (
+          <PageHeader
+            pageTitle={siteData.entries[0].commonName}
+            isMobile={mobile}
+            pageSubtitle={getSiteLocation()}
+            subtitlecolor={MID_GREEN}
+          />
+        )}
+      </TreeHeader>
 
       {(() => {
         switch (loggedIn) {
@@ -89,7 +91,9 @@ const TreeInfo: React.FC<TreeProps> = ({
                       Unadopt
                     </Button>
                     <StewardshipContainer>
-                      <Title level={3}>Record Tree Care</Title>
+                      <Title level={3}>
+                        Record your tree care activity below.
+                      </Title>
                       <StewardshipForm
                         onFinish={onFinishRecordStewardship}
                         form={stewardshipFormInstance}
@@ -125,7 +129,7 @@ const TreeInfo: React.FC<TreeProps> = ({
             );
         }
       })()}
-    </TreeInfoContainer>
+    </>
   );
 };
 

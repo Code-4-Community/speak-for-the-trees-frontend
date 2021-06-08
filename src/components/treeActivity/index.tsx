@@ -37,14 +37,17 @@ const EntryMessage = styled(Paragraph)`
 
 interface TreeActivityProps {
   readonly stewardship: TreeCare[];
+  readonly limit?: number;
 }
 
-const TreeActivity: React.FC<TreeActivityProps> = ({ stewardship }) => {
+const TreeActivity: React.FC<TreeActivityProps> = ({ stewardship, limit }) => {
   return (
     <>
-      <TreeCareTitle>Tree Care Activity</TreeCareTitle>
+      <TreeCareTitle>Recent Tree Care Activity</TreeCareTitle>
       <List
-        dataSource={stewardship}
+        dataSource={
+          limit ? stewardship.splice(stewardship.length - limit) : stewardship
+        }
         itemLayout="vertical"
         locale={{
           emptyText: 'No Stewardship Activities Recorded for this Tree',
