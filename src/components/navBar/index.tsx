@@ -96,13 +96,6 @@ const NoHoverShadeButton = styled(Button)`
   }
 `;
 
-const MainTitle = styled(Paragraph)`
-  color: ${MID_GREEN};
-  font-size: 20px;
-  font-weight: bold;
-  display: inline-block;
-`;
-
 const LogoCol = styled(Col)`
   height: 100%;
   line-height: 6vh;
@@ -159,9 +152,7 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
 
   const ShortHeaderTitle = () => (
     <NoHoverShadeButton type="text" onClick={() => history.push(Routes.HOME)}>
-      <MainTitle>
-        <MainLogo src={sfttLogo} alt="icon" /> Speak For The Trees
-      </MainTitle>
+      <MainLogo src={sfttLogo} alt="icon" />
     </NoHoverShadeButton>
   );
 
