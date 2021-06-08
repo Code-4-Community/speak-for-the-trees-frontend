@@ -70,6 +70,16 @@ export const MainSiteEntryNames: Record<string, string> = {
   diameter: 'Diameter at Breast Height (inches)',
 };
 
+export const MainSiteEntryOrder: Record<string, number> = {
+  'Updated At': 1,
+  'Common Name': 2,
+  Genus: 3,
+  Species: 4,
+  'Scientific Name': 3,
+  'Diameter at Breast Height (inches)': 5,
+  Status: 6,
+};
+
 export const ExtraSiteEntryNames: Record<string, string> = {
   confidence: 'Confidence',
   circumference: 'Circumference',
@@ -97,9 +107,9 @@ export const ExtraSiteEntryNames: Record<string, string> = {
   raisedBed: 'Is there a raised bed?',
   fence: 'Is there a fence?',
   trash: 'Is there trash?',
-  wires: 'Wires',
-  grate: 'Grate',
-  stump: 'Stump',
+  wires: 'Are there wires overhead?',
+  grate: 'Is there a grate around the tree base?',
+  stump: 'Is there a stump?',
   treeNotes: 'Tree Notes',
   siteNotes: 'Site Notes',
 };

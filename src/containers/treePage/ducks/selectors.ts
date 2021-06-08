@@ -12,7 +12,12 @@ import {
   ExtraSiteEntryNames,
   SplitSiteEntries,
 } from './types';
-import { booleanToString, formatDateSuffix } from '../../../utils/stringFormat';
+import {
+  booleanToString,
+  combineScientificName,
+  compareMainEntries,
+  formatDateSuffix,
+} from '../../../utils/stringFormat';
 
 export const mapStewardshipToTreeCare = (
   items: AsyncRequest<StewardshipActivities, any>,
@@ -41,33 +46,10 @@ export const mapStewardshipToTreeCare = (
 export const getLatestSplitEntry = (
   items: AsyncRequest<SiteProps, any>,
 ): SplitSiteEntries => {
-  const mains: Entry[] = getLatestEntry(items, MainSiteEntryNames);
-  const newMains: Entry[] = [];
-  let species;
-  let genus;
-  mains.forEach((entry: Entry) => {
-    switch (entry.title) {
-      case 'Species':
-        species = entry.value;
-        break;
-      case 'Genus':
-        genus = entry.value;
-        break;
-      default:
-        newMains.push(entry);
-        break;
-    }
-  });
-  if (species && genus) {
-    newMains.push({ title: 'Scientific Name', value: `${genus} ${species}` });
-  } else if (species) {
-    newMains.push({ title: 'Species', value: species });
-  } else if (genus) {
-    newMains.push({ title: 'Genus', value: genus });
-  }
-
   return {
-    main: newMains,
+    main: combineScientificName(getLatestEntry(items, MainSiteEntryNames)).sort(
+      compareMainEntries,
+    ),
     extra: getLatestEntry(items, ExtraSiteEntryNames),
   };
 };
