@@ -82,9 +82,9 @@ const getSiteGeoData = (): Promise<SiteGeoData> => {
 };
 
 const getSite = (siteId: number): Promise<SiteProps> => {
-  return AppAxiosInstance.get(ParameterizedApiRoutes.GET_SITE(siteId))
-    .then((r) => r.data)
-    .catch((e) => e);
+  return AppAxiosInstance.get(ParameterizedApiRoutes.GET_SITE(siteId)).then(
+    (res) => res.data,
+  );
 };
 
 const getStewardshipActivities = (
@@ -92,9 +92,7 @@ const getStewardshipActivities = (
 ): Promise<StewardshipActivities> => {
   return AppAxiosInstance.get(
     ParameterizedApiRoutes.GET_STEWARSHIP_ACTIVITIES(siteId),
-  )
-    .then((r) => r.data)
-    .catch((e) => e);
+  ).then((res) => res.data);
 };
 
 const Client: ApiClient = Object.freeze({
