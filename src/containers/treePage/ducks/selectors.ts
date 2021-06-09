@@ -8,9 +8,16 @@ import {
   TreeCare,
   SiteProps,
   Entry,
-  SiteEntryNames,
+  MainSiteEntryNames,
+  ExtraSiteEntryNames,
+  SplitSiteEntries,
 } from './types';
-import { formatDateSuffix } from '../../../utils/stringFormat';
+import {
+  booleanToString,
+  combineScientificName,
+  compareMainEntries,
+  formatDateSuffix,
+} from '../../../utils/stringFormat';
 
 export const mapStewardshipToTreeCare = (
   items: AsyncRequest<StewardshipActivities, any>,
@@ -36,16 +43,28 @@ export const mapStewardshipToTreeCare = (
   return [];
 };
 
+export const getLatestSplitEntry = (
+  items: AsyncRequest<SiteProps, any>,
+): SplitSiteEntries => {
+  return {
+    main: combineScientificName(getLatestEntry(items, MainSiteEntryNames)).sort(
+      compareMainEntries,
+    ),
+    extra: getLatestEntry(items, ExtraSiteEntryNames),
+  };
+};
+
 export const getLatestEntry = (
   items: AsyncRequest<SiteProps, any>,
+  namesList: Record<string, string>,
 ): Entry[] => {
   if (asyncRequestIsComplete(items)) {
     return Object.entries(items.result.entries[0]).reduce<Entry[]>(
       (soFar, [key, value]) => {
-        if (SiteEntryNames[key] && (value || value === false)) {
+        if (namesList[key] && (value || value === false)) {
           soFar.push({
-            title: SiteEntryNames[key],
-            value: value.toString(),
+            title: namesList[key],
+            value: booleanToString(value.toString()),
           });
         }
         return soFar;

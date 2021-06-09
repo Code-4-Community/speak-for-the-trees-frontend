@@ -1,27 +1,30 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
-import { Card, Col, Form, List, message, Row, Typography } from 'antd';
+import { Col, Form, message, Row, Typography } from 'antd';
 import { Routes } from '../../App';
 import { Helmet } from 'react-helmet';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import {
   ActivityRequest,
-  Entry,
   ProtectedSitesReducerState,
   SiteReducerState,
+  SplitSiteEntries,
   TreeCare,
 } from './ducks/types';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { LIGHT_GREY, TEXT_GREY } from '../../utils/colors';
+import { LIGHT_GREY } from '../../utils/colors';
 import styled from 'styled-components';
 import {
-  getLatestEntry,
+  getLatestSplitEntry,
   isTreeAdopted,
   mapStewardshipToTreeCare,
 } from './ducks/selectors';
-import { asyncRequestIsComplete } from '../../utils/asyncRequest';
+import {
+  asyncRequestIsComplete,
+  asyncRequestIsFailed,
+} from '../../utils/asyncRequest';
 import { C4CState } from '../../store';
 import { getAdoptedSites, getSiteData } from './ducks/thunks';
 import protectedApiClient from '../../api/protectedApiClient';
@@ -33,15 +36,10 @@ import useWindowDimensions, {
 import ReturnButton from '../../components/returnButton';
 import TreeInfo from '../../components/treeInfo';
 import TreeActivity from '../../components/treeActivity';
+import EntryList from '../../components/entryList';
+import { CenterDiv } from '../../components/themedComponents';
 
-const { Paragraph, Title } = Typography;
-
-const StyledCard = styled(Card)`
-  height: 100px;
-  line-height: 15px;
-  border: solid 1px ${LIGHT_GREY};
-  overflow: auto;
-`;
+const { Title } = Typography;
 
 const TreePageContainer = styled.div`
   width: 90vw;
@@ -66,7 +64,7 @@ const TreeInfoContainer = styled.div`
 const TreeCareContainer = styled.div`
   margin-top: 5vh;
   border: solid 1px ${LIGHT_GREY};
-  max-height: 80%;
+  max-height: 70vh;
   padding: 30px 15px 5px;
   overflow: auto;
 `;
@@ -76,14 +74,6 @@ const MobileTreeCareContainer = styled.div`
   border: solid 1px ${LIGHT_GREY};
   max-height: 50vh;
   padding: 30px 15px 5px;
-  overflow: auto;
-`;
-
-const EntryMessage = styled(Paragraph)`
-  display: inline;
-  text-align: center;
-  line-height: 0px;
-  color: ${TEXT_GREY};
 `;
 
 interface TreeProps {
@@ -167,8 +157,8 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
     }
   });
 
-  const latestEntry: Entry[] = useSelector((state: C4CState) => {
-    return getLatestEntry(state.siteState.siteData);
+  const latestEntry: SplitSiteEntries = useSelector((state: C4CState) => {
+    return getLatestSplitEntry(state.siteState.siteData);
   });
 
   return (
@@ -185,104 +175,106 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
           <ReturnButton to={Routes.LANDING}>
             {`<`} Return to Tree Map
           </ReturnButton>
-          {(() => {
-            switch (windowType) {
-              case WindowTypes.Desktop:
-              case WindowTypes.NarrowDesktop:
-                return (
-                  asyncRequestIsComplete(siteData) && (
-                    <TreeMainContainer>
-                      <Row>
-                        <Col span={14}>
-                          <TreeInfoContainer>
-                            <TreeInfo
-                              siteData={siteData.result}
-                              loggedIn={loggedIn}
-                              userOwnsTree={doesUserOwnTree}
-                              onClickAdopt={onClickAdopt}
-                              onClickUnadopt={onClickUnadopt}
-                              onFinishRecordStewardship={
-                                onFinishRecordStewardship
-                              }
-                              stewardshipFormInstance={stewardshipFormInstance}
-                            />
-                          </TreeInfoContainer>
-                        </Col>
-                        <Col span={1} />
-                        <Col span={9}>
-                          <TreeCareContainer>
-                            <TreeActivity stewardship={stewardship} />
-                          </TreeCareContainer>
-                        </Col>
-                      </Row>
-                    </TreeMainContainer>
-                  )
-                );
-              case WindowTypes.Tablet:
-                return (
-                  asyncRequestIsComplete(siteData) && (
-                    <TreeMainContainer>
-                      <TreeInfoContainer>
+
+          {asyncRequestIsComplete(siteData) && (
+            <>
+              {(() => {
+                switch (windowType) {
+                  case WindowTypes.Desktop:
+                  case WindowTypes.NarrowDesktop:
+                    return (
+                      <TreeMainContainer>
+                        <Row>
+                          <Col span={14}>
+                            <TreeInfoContainer>
+                              <TreeInfo
+                                siteData={siteData.result}
+                                loggedIn={loggedIn}
+                                userOwnsTree={doesUserOwnTree}
+                                onClickAdopt={onClickAdopt}
+                                onClickUnadopt={onClickUnadopt}
+                                onFinishRecordStewardship={
+                                  onFinishRecordStewardship
+                                }
+                                stewardshipFormInstance={
+                                  stewardshipFormInstance
+                                }
+                              />
+                            </TreeInfoContainer>
+                          </Col>
+                          <Col span={1} />
+                          <Col span={9}>
+                            <TreeCareContainer>
+                              <TreeActivity stewardship={stewardship} />
+                            </TreeCareContainer>
+                          </Col>
+                        </Row>
+                      </TreeMainContainer>
+                    );
+                  case WindowTypes.Tablet:
+                    return (
+                      <TreeMainContainer>
+                        <TreeInfoContainer>
+                          <TreeInfo
+                            siteData={siteData.result}
+                            loggedIn={loggedIn}
+                            userOwnsTree={doesUserOwnTree}
+                            onClickAdopt={onClickAdopt}
+                            onClickUnadopt={onClickUnadopt}
+                            onFinishRecordStewardship={
+                              onFinishRecordStewardship
+                            }
+                            stewardshipFormInstance={stewardshipFormInstance}
+                          />
+                        </TreeInfoContainer>
+                        <TreeCareContainer>
+                          <TreeActivity stewardship={stewardship} />
+                        </TreeCareContainer>
+                      </TreeMainContainer>
+                    );
+                  case WindowTypes.Mobile:
+                    return (
+                      <MobileTreeMainContainer>
                         <TreeInfo
                           siteData={siteData.result}
                           loggedIn={loggedIn}
                           userOwnsTree={doesUserOwnTree}
+                          mobile={true}
                           onClickAdopt={onClickAdopt}
                           onClickUnadopt={onClickUnadopt}
                           onFinishRecordStewardship={onFinishRecordStewardship}
                           stewardshipFormInstance={stewardshipFormInstance}
                         />
-                      </TreeInfoContainer>
-                      <TreeCareContainer>
-                        <TreeActivity stewardship={stewardship} />
-                      </TreeCareContainer>
-                    </TreeMainContainer>
-                  )
-                );
-              case WindowTypes.Mobile:
-                return (
-                  asyncRequestIsComplete(siteData) && (
-                    <MobileTreeMainContainer>
-                      <TreeInfo
-                        siteData={siteData.result}
-                        loggedIn={loggedIn}
-                        userOwnsTree={doesUserOwnTree}
-                        mobile={true}
-                        onClickAdopt={onClickAdopt}
-                        onClickUnadopt={onClickUnadopt}
-                        onFinishRecordStewardship={onFinishRecordStewardship}
-                        stewardshipFormInstance={stewardshipFormInstance}
-                      />
-                      <MobileTreeCareContainer>
-                        <TreeActivity stewardship={stewardship} />
-                      </MobileTreeCareContainer>
-                    </MobileTreeMainContainer>
-                  )
-                );
-            }
-          })()}
-          <Row>
-            <List
-              dataSource={latestEntry}
-              grid={{
-                gutter: 16,
-                xs: 1,
-                sm: 1,
-                md: 3,
-                lg: 3,
-                xl: 5,
-                xxl: 5,
-              }}
-              renderItem={(entry: Entry) => (
-                <List.Item>
-                  <StyledCard key={entry.title}>
-                    <Title level={4}>{entry.title}</Title>
-                    <EntryMessage>{entry.value}</EntryMessage>
-                  </StyledCard>
-                </List.Item>
-              )}
-            />
-          </Row>
+                        <MobileTreeCareContainer>
+                          <TreeActivity stewardship={stewardship} limit={4} />
+                        </MobileTreeCareContainer>
+                      </MobileTreeMainContainer>
+                    );
+                }
+              })()}
+              <CenterDiv>
+                <EntryList
+                  entries={latestEntry.main}
+                  canHide={false}
+                  title="About This Tree"
+                />
+              </CenterDiv>
+              <CenterDiv>
+                <EntryList
+                  entries={latestEntry.extra}
+                  canHide={true}
+                  hideText="Hide Extra Tree Details"
+                  showText="Click to Read More About This Tree"
+                  title="Additional Information"
+                />
+              </CenterDiv>
+            </>
+          )}
+          {asyncRequestIsFailed(siteData) && (
+            <TreeMainContainer>
+              <Title level={2}>Tree could not be found.</Title>
+            </TreeMainContainer>
+          )}
         </TreePageContainer>
       </PageLayout>
     </>
