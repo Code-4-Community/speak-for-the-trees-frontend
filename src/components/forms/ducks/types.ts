@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { PrivilegeLevel, SignupRequest } from '../../../auth/ducks/types';
 
 export interface AuthRequest {
@@ -29,4 +30,9 @@ export interface ChangePrivilegeRequest {
   readonly targetUserEmail: string;
   readonly newLevel: PrivilegeLevel;
   readonly password: string;
+}
+
+export interface RecordStewardshipRequest {
+  readonly activityDate: moment.Moment;
+  readonly stewardshipActivities: string[];
 }

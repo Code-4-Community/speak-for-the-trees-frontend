@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Col, Form, Space } from 'antd';
+import { Button, Col, Form, Space, List } from 'antd';
 import { FormItemProps } from 'antd/es/form';
 import { BLACK, LIGHT_GREY } from '../../utils/colors';
 
@@ -55,4 +55,18 @@ export const SubmitButton = styled(Button)`
 
 export const MainContent = styled.div`
   height: 100%;
+`;
+
+export const ScrollableListContainer = styled.div`
+  max-height: 57vh;
+  overflow: auto;
+`;
+
+export const StyledListItem = styled(List.Item)`
+  padding: 3px;
+`;
+
+export const CardInfo = styled.div`
+  display: inline-block;
+  width: 90%;
 `;

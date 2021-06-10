@@ -91,6 +91,9 @@ const GreenLinkButton = styled(LinkButton)`
   color: ${WHITE};
 `;
 
+export const NO_SITE_SELECTED = -1;
+export const NO_TREE_PRESENT = -2;
+
 export interface BasicTreeInfo {
   id: number;
   species: string;
@@ -110,7 +113,7 @@ const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
   };
 
   useEffect(() => {
-    if (treeInfo.id !== -1) {
+    if (treeInfo.id !== NO_SITE_SELECTED) {
       setIsVisible(true);
     }
   }, [treeInfo]);
@@ -120,24 +123,33 @@ const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
       {isVisible && (
         <PopupAnchor>
           <PopupBubble>
-            <>
-              <TreeTitle>
-                {isEmptyString(treeInfo.species)
-                  ? 'Unknown Species'
-                  : treeInfo.species}
-              </TreeTitle>
-              <CloseIcon onClick={hidePopup} />
-            </>
-            <Line />
-            {!isEmptyString(treeInfo.address) && (
-              <GreyText strong>Nearby Address</GreyText>
+            {treeInfo.id !== NO_TREE_PRESENT ? (
+              <>
+                <>
+                  <TreeTitle>
+                    {isEmptyString(treeInfo.species)
+                      ? 'Unknown Species'
+                      : treeInfo.species}
+                  </TreeTitle>
+                  <CloseIcon onClick={hidePopup} />
+                </>
+                <Line />
+                {!isEmptyString(treeInfo.address) && (
+                  <GreyText strong>Nearby Address</GreyText>
+                )}
+                <GreyText>{treeInfo.address}</GreyText>
+                <GreenLinkButton
+                  to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
+                >
+                  More Info
+                </GreenLinkButton>
+              </>
+            ) : (
+              <>
+                <TreeTitle>Open Planting Site</TreeTitle>
+                <CloseIcon onClick={hidePopup} />
+              </>
             )}
-            <GreyText>{treeInfo.address}</GreyText>
-            <GreenLinkButton
-              to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
-            >
-              More Info
-            </GreenLinkButton>
           </PopupBubble>
         </PopupAnchor>
       )}

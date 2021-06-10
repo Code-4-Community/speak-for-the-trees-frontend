@@ -6,13 +6,28 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import MobileMapPage from '../../components/mapPageComponents/mobileMapPage';
-import { useDispatch } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
 import { RESERVATION_BODY, RESERVATION_TITLE } from '../../assets/content';
 import SlideDown from '../../components/slideDown';
-import { MapViews } from '../../components/mapPageComponents/ducks/types';
+import {
+  MapGeoDataReducerState,
+  MapViews,
+} from '../../components/mapPageComponents/ducks/types';
+import { C4CState } from '../../store';
+import MapLegend from '../../components/mapPageComponents/mapLegend';
 
-const Reservations: React.FC = () => {
+interface ReservationsProps {
+  readonly blocks: MapGeoDataReducerState['blockGeoData'];
+  readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
+  readonly sites: MapGeoDataReducerState['siteGeoData'];
+}
+
+const Reservations: React.FC<ReservationsProps> = ({
+  blocks,
+  neighborhoods,
+  sites,
+}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,8 +49,14 @@ const Reservations: React.FC = () => {
         switch (windowType) {
           case WindowTypes.Mobile:
             return (
-              <MobileMapPage view={reservationMapView}>
+              <MobileMapPage
+                view={reservationMapView}
+                blocks={blocks}
+                neighborhoods={neighborhoods}
+                sites={sites}
+              >
                 <SlideDown>
+                  <MapLegend view={reservationMapView} mobile={true} />
                   <BlockTabs />
                 </SlideDown>
               </MobileMapPage>
@@ -47,6 +68,9 @@ const Reservations: React.FC = () => {
               <MapPage
                 sidebarHeader={RESERVATION_TITLE}
                 sidebarDescription={RESERVATION_BODY}
+                blocks={blocks}
+                neighborhoods={neighborhoods}
+                sites={sites}
                 view={reservationMapView}
               >
                 <BlockTabs />
@@ -58,4 +82,12 @@ const Reservations: React.FC = () => {
   );
 };
 
-export default Reservations;
+const mapStateToProps = (state: C4CState): ReservationsProps => {
+  return {
+    neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
+    blocks: state.mapGeoDataState.blockGeoData,
+    sites: state.mapGeoDataState.siteGeoData,
+  };
+};
+
+export default connect(mapStateToProps)(Reservations);

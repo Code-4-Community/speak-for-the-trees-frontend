@@ -9,14 +9,28 @@ import {
   SiteGeoData,
   MapViews,
 } from '../ducks/types';
-import ReservationModal, { ReservationModalType } from '../../reservationModal';
-import protectedApiClient from '../../../api/protectedApiClient';
-import TreePopup, { BasicTreeInfo } from '../../treePopup';
+import TreePopup, {
+  BasicTreeInfo,
+  NO_SITE_SELECTED,
+  NO_TREE_PRESENT,
+} from '../../treePopup';
 import { shortHand } from '../../../utils/stringFormat';
 import { SHORT_HAND_NAMES, blocksList } from '../../../assets/content';
-import treeIcon from '../../../assets/images/treeIcon.png';
-import youngTreeIcon from '../../../assets/images/youngTreeIcon.png';
 import { isMobile } from '../../../utils/isCheck';
+import {
+  BLACK,
+  MAP_GREEN,
+  MAP_RED,
+  MAP_YELLOW,
+  RED,
+  WHITE,
+} from '../../../utils/colors';
+import {
+  ADOPTED_ICONS,
+  OPEN_ICONS,
+  STANDARD_ICONS,
+  YOUNG_ICONS,
+} from '../../../assets/images/siteIcons';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -56,6 +70,7 @@ const MapView: React.FC<MapViewProps> = ({
   sites,
   view,
 }) => {
+  /*
   // visibility of reservation modal
   const [showModal, setShowModal] = useState<boolean>(false);
   // block status for modal
@@ -64,14 +79,16 @@ const MapView: React.FC<MapViewProps> = ({
   );
   // block id for modal
   const [activeBlockId, setActiveBlockId] = useState<number>(-1);
+   */
   // BasicTreeInfo to display in tree popup
   const [activeTreeInfo, setActiveTreeInfo] = useState<BasicTreeInfo>({
-    id: -1,
+    id: NO_SITE_SELECTED,
     species: '',
     address: '',
   });
 
   // logic for reservation modal to complete action selected by user
+  /*
   const handleOk = async (team?: number) => {
     setShowModal(false);
     switch (reservationType) {
@@ -82,13 +99,14 @@ const MapView: React.FC<MapViewProps> = ({
         break;
       case ReservationModalType.RESERVED:
         // set block status to open
-        protectedApiClient.releaseReservation(activeBlockId);
+        await protectedApiClient.releaseReservation(activeBlockId);
         break;
       case ReservationModalType.TAKEN:
         // block clicked not owned/open so do nothing
         break;
     }
   };
+  */
 
   const { windowType } = useWindowDimensions();
 
@@ -209,7 +227,7 @@ const MapView: React.FC<MapViewProps> = ({
         // Sets the style of the layer to simple red lines
         function setPrivateStreetsStyle(v: boolean) {
           privateStreetsLayer.setStyle({
-            strokeColor: 'red',
+            strokeColor: `${RED}`,
             strokeWeight: 2,
             visible: v,
           });
@@ -230,26 +248,26 @@ const MapView: React.FC<MapViewProps> = ({
         // Sets the style of the layer to colored blocks with black outline
         function setBlocksStyle(v: boolean) {
           blocksLayer.setStyle((feature) => {
-            let color = 'green';
+            let color = `${MAP_GREEN}`;
 
             // Use this for coloring reserved/completed blocks a different color
             if (feature.getProperty('block_id') % 10 === 0) {
-              color = 'yellow';
+              color = `${MAP_YELLOW}`;
             }
 
             if (feature.getProperty('block_id') % 10 === 1) {
-              color = 'red';
+              color = `${MAP_RED}`;
             }
 
             // Use this for selecting blocks
             if (feature.getProperty('PRECINCT') === 'YES') {
-              color = 'black';
+              color = `${BLACK}`;
             }
 
             // Set styling here
             return {
               fillColor: color,
-              strokeColor: 'black',
+              strokeColor: `${BLACK}`,
               strokeWeight: 1,
               visible: v,
             };
@@ -272,7 +290,7 @@ const MapView: React.FC<MapViewProps> = ({
             map,
             draggable: false,
             label: {
-              color: 'white',
+              color: `${WHITE}`,
               fontWeight: 'bold',
               text: shortHand(feature.getProperty('name'), SHORT_HAND_NAMES),
             },
@@ -295,11 +313,11 @@ const MapView: React.FC<MapViewProps> = ({
         function setNeighborhoodsStyle(v: boolean) {
           neighborhoodsLayer.setStyle((feature) => {
             return {
-              fillColor: 'green',
+              fillColor: `${MAP_GREEN}`,
               fillOpacity:
                 (feature.getProperty('neighborhood_id') / 100) * 2 + 0.1, // TODO: replace this with completion percentage
               strokeWeight: 1,
-              strokeColor: 'white',
+              strokeColor: `${WHITE}`,
               visible: v,
             };
           });
@@ -314,6 +332,7 @@ const MapView: React.FC<MapViewProps> = ({
         // Initially true while the neighborhoods are shown by themselves
         setNeighborhoodsStyle(true);
         // adds listener so reservation modal appears when block clicked
+        /*
         blocksLayer.addListener('click', (event) => {
           // get status of block based on color
           const status: ReservationModalType = ((): ReservationModalType => {
@@ -333,10 +352,11 @@ const MapView: React.FC<MapViewProps> = ({
           // set id of block
           setActiveBlockId(event.feature.getProperty('block_id'));
         });
+        */
 
         // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
         neighborhoodsLayer.addListener('click', (event) => {
-          map.setZoom(15);
+          map.setZoom(view);
           map.panTo({
             lat: event.feature.getProperty('lat'),
             lng: event.feature.getProperty('lng'),
@@ -352,10 +372,16 @@ const MapView: React.FC<MapViewProps> = ({
         // Adds listener so reservation modal appears when block clicked
         sitesLayer.addListener('click', (event) => {
           const eventFeature = event.feature;
+          let siteId = eventFeature.getProperty('id');
+
+          // Set site ID to tell tree popup this is an open planting site
+          if (!eventFeature.getProperty('tree_present')) {
+            siteId = NO_TREE_PRESENT;
+          }
 
           // Sets the information to display in the popup
           setActiveTreeInfo({
-            id: eventFeature.getProperty('id'),
+            id: siteId,
             species: eventFeature.getProperty('species'),
             address: eventFeature.getProperty('address'),
           });
@@ -367,21 +393,31 @@ const MapView: React.FC<MapViewProps> = ({
             );
         });
 
-        function setSitesStyle(v: boolean) {
+        function setSitesStyle(visible: boolean) {
           sitesLayer.setStyle((feature) => {
-            let visible = false;
-            let icon = treeIcon;
+            let icon;
+            let imageSize = 0;
 
-            // Only shows sites if there is a tree there
-            if (feature.getProperty('tree_present')) {
-              visible = v && true;
+            const zoomLevel = map.getZoom();
+            if (zoomLevel > 17 && zoomLevel < 20) {
+              imageSize = 1;
+            } else if (zoomLevel >= 20) {
+              imageSize = 2;
             }
 
-            // TODO: update this to if the tree was planted within the past three years
-            // If the tree has not been updated within the past three years, use youngTreeIcon
-            const updatedDate = feature.getProperty('updated_at');
-            if (updatedDate < breakpointDate) {
-              icon = youngTreeIcon;
+            // If there is no tree present, use the openSiteIcon
+            // If the tree was planted within the past three years, use youngTreeIcon
+            // If the tree is adopted, use the adoptedTreeIcon
+            const plantedDate = feature.getProperty('plantingDate');
+            const adopted = !!feature.getProperty('adopterId');
+            if (!feature.getProperty('tree_present')) {
+              icon = OPEN_ICONS[imageSize];
+            } else if (adopted) {
+              icon = ADOPTED_ICONS[imageSize];
+            } else if (!!plantedDate && plantedDate > breakpointDate) {
+              icon = YOUNG_ICONS[imageSize];
+            } else {
+              icon = STANDARD_ICONS[imageSize];
             }
 
             return {
@@ -471,6 +507,7 @@ const MapView: React.FC<MapViewProps> = ({
       </div>
       <MapDiv id="map" ref={mapRef} />
       <TreePopup treeInfo={activeTreeInfo} popRef={treePopupRef} />
+      {/*
       <ReservationModal
         status={reservationType}
         blockID={activeBlockId}
@@ -478,6 +515,7 @@ const MapView: React.FC<MapViewProps> = ({
         onCancel={() => setShowModal(false)}
         isVisible={showModal}
       />
+      */}
     </>
   );
 };
