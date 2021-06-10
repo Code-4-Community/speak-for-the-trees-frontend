@@ -75,7 +75,7 @@ export const getLatestEntry = (
   return [];
 };
 
-export const isTreeAdopted = (
+export const isTreeAdoptedByUser = (
   items: AsyncRequest<AdoptedSites, any>,
   siteId: number,
 ): boolean => {

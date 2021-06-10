@@ -54,6 +54,7 @@ export interface SiteEntry {
   stump?: string;
   treeNotes?: string;
   siteNotes?: string;
+  adopter?: string;
 }
 
 export interface SplitSiteEntries {
@@ -147,7 +148,7 @@ export interface AdoptedSites {
 
 export interface SiteReducerState {
   readonly siteData: AsyncRequest<SiteProps, any>;
-  readonly stewarshipActivityData: AsyncRequest<StewardshipActivities, any>;
+  readonly stewardshipActivityData: AsyncRequest<StewardshipActivities, any>;
 }
 
 export interface ProtectedSitesReducerState {
