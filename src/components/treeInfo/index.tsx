@@ -49,6 +49,8 @@ const TreeInfo: React.FC<TreeProps> = ({
   const history = useHistory();
   const location = useLocation<RedirectStateProps>();
 
+  const adopted = siteData.entries[0].adopter !== null;
+
   const getSiteLocation = (): string => {
     // TODO change to siteData.city and remove check for zip after data is cleaned
     let baseLocation = `Boston`;
@@ -106,8 +108,9 @@ const TreeInfo: React.FC<TreeProps> = ({
                       type="primary"
                       size={mobile ? 'middle' : 'large'}
                       onClick={onClickAdopt}
+                      disabled={adopted}
                     >
-                      Adopt
+                      {adopted ? 'Already Adopted' : 'Adopt'}
                     </Button>
                   </>
                 )}

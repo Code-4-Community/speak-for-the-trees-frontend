@@ -18,7 +18,7 @@ import { LIGHT_GREY } from '../../utils/colors';
 import styled from 'styled-components';
 import {
   getLatestSplitEntry,
-  isTreeAdopted,
+  isTreeAdoptedByUser,
   mapStewardshipToTreeCare,
 } from './ducks/selectors';
 import {
@@ -138,6 +138,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
       .unadoptSite(id)
       .then(() => {
         message.success('Unadopted site!');
+        dispatch(getSiteData(id));
         dispatch(getAdoptedSites());
       })
       .catch((err) => {
@@ -151,7 +152,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
 
   const doesUserOwnTree: boolean = useSelector((state: C4CState) => {
     if (loggedIn) {
-      return isTreeAdopted(state.adoptedSitesState.adoptedSites, id);
+      return isTreeAdoptedByUser(state.adoptedSitesState.adoptedSites, id);
     } else {
       return false;
     }
@@ -286,7 +287,7 @@ const mapStateToProps = (state: C4CState): TreeProps => {
     tokens: state.authenticationState.tokens,
     siteData: state.siteState.siteData,
     stewardship: mapStewardshipToTreeCare(
-      state.siteState.stewarshipActivityData,
+      state.siteState.stewardshipActivityData,
     ),
     adoptedSites: state.adoptedSitesState.adoptedSites,
   };

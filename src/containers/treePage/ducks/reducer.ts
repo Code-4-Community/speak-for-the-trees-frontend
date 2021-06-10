@@ -11,7 +11,7 @@ import { C4CAction } from '../../../store';
 
 export const initialSiteState: SiteReducerState = {
   siteData: AsyncRequestNotStarted<SiteProps, any>(),
-  stewarshipActivityData: AsyncRequestNotStarted<StewardshipActivities, any>(),
+  stewardshipActivityData: AsyncRequestNotStarted<StewardshipActivities, any>(),
 };
 
 const siteDataReducer = generateAsyncRequestReducer<
@@ -37,8 +37,8 @@ const reducers = (
       return {
         ...state,
         siteData: siteDataReducer(state.siteData, action),
-        stewarshipActivityData: stewarshipActivityReducer(
-          state.stewarshipActivityData,
+        stewardshipActivityData: stewarshipActivityReducer(
+          state.stewardshipActivityData,
           action,
         ),
       };
