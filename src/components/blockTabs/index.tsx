@@ -3,6 +3,8 @@ import { List, Tabs } from 'antd';
 import styled from 'styled-components';
 import { DARK_GREY } from '../../utils/colors';
 import BlockCard from '../blockCard';
+import { blocksList } from '../../assets/content';
+
 
 const { TabPane } = Tabs;
 
@@ -25,17 +27,26 @@ interface BlockProps {
 }
 
 const sampleAllBlocksData: BlockProps[] = [
-  { block_id: 1 },
-  { block_id: 20 },
-  { block_id: 321 },
-  { block_id: 400 },
-  { block_id: 542 },
-  { block_id: 652 },
-  { block_id: 715 },
-  { block_id: 811 },
-  { block_id: 910 },
-  { block_id: 1041 },
+  { block_id: 1714 },
+  { block_id: 5142 },
+  { block_id: 1249 },
+  { block_id: 1250 },
+  { block_id: 3726 },
+  { block_id: 3725 },
+  { block_id: 3715 },
+  { block_id: 1732 },
+  { block_id: 1735 },
+  { block_id: 3727 },
+  { block_id: 2194 },
+  { block_id: 2195 },
+  { block_id: 4992 },
+  { block_id: 4990 },
+  { block_id: 2942 },
+  { block_id: 2936 },
+  { block_id: 5494 },
+  { block_id: 2205 }
 ];
+
 
 const sampleUserReservedBlocks: BlockProps[] = [
   { block_id: 20 },
@@ -51,7 +62,7 @@ const BlockTabs: React.FC = () => {
         <TabPane tab="All Blocks" key="1">
           <ScrollableListContainer>
             <List
-              dataSource={sampleAllBlocksData}
+              dataSource={blocksList}
               itemLayout="vertical"
               renderItem={(item) => (
                 <StyledListItem>
@@ -61,10 +72,10 @@ const BlockTabs: React.FC = () => {
             />
           </ScrollableListContainer>
         </TabPane>
-        {/*
+        
         <TabPane tab="Near Me" key="2">
         </TabPane>
-        */}
+       
         <TabPane tab="Reservations" key="3">
           <ScrollableListContainer>
             <List

@@ -13,7 +13,7 @@ import ReservationModal, { ReservationModalType } from '../../reservationModal';
 import protectedApiClient from '../../../api/protectedApiClient';
 import TreePopup, { BasicTreeInfo } from '../../treePopup';
 import { shortHand } from '../../../utils/stringFormat';
-import { SHORT_HAND_NAMES } from '../../../assets/content';
+import { SHORT_HAND_NAMES, blocksList } from '../../../assets/content';
 import treeIcon from '../../../assets/images/treeIcon.png';
 import youngTreeIcon from '../../../assets/images/youngTreeIcon.png';
 import { isMobile } from '../../../utils/isCheck';
@@ -38,6 +38,7 @@ const BOSTON_BOUNDS = {
 const MapDiv = styled.div`
   height: 100%;
 `;
+
 
 // Three years before the current date
 const breakpointDate = new Date().setFullYear(new Date().getFullYear() - 3);
@@ -223,7 +224,7 @@ const MapView: React.FC<MapViewProps> = ({
         // Loads the objects into the layer
         blocksLayer.addGeoJson(blocks);
         blocksLayer.forEach((block) => {
-        console.log(block);
+          blocksList.push(({block_id: block.getProperty('block_id')}))
         })
 
         // Sets the style of the layer to colored blocks with black outline
