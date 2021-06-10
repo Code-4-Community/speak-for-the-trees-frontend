@@ -45,6 +45,7 @@ const Home: React.FC = () => {
   const greeting = `${HOME_TITLE}${userName}!`;
 
   const links: LinkCardProps[] = [
+    /*
     {
       text: 'My Blocks',
       path: `${Routes.RESERVATIONS}`,
@@ -65,6 +66,7 @@ const Home: React.FC = () => {
       path: `${Routes.TEAM_LEADERBOARD}`,
       background: Backgrounds.IMAGE_FOUR,
     },
+    */
     {
       text: 'My Trees',
       path: `${Routes.MY_TREES}`,
@@ -118,9 +120,11 @@ const Home: React.FC = () => {
                     <List
                       dataSource={links}
                       grid={{ gutter: 1, column: 3 }}
+                      /*
                       pagination={{
                         pageSize: 3,
                       }}
+                       */
                       renderItem={(item: LinkCardProps) => (
                         <LinkCard
                           text={item.text}
@@ -143,9 +147,11 @@ const Home: React.FC = () => {
                     <List
                       dataSource={links}
                       grid={{ gutter: 16, column: 4 }}
+                      /* Remove comment when more links are accessible from home
                       pagination={{
                         pageSize: 4,
                       }}
+                       */
                       renderItem={(item: LinkCardProps) => (
                         <LinkCard
                           text={item.text}
