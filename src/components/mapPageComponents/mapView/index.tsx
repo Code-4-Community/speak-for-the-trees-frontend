@@ -9,8 +9,6 @@ import {
   SiteGeoData,
   MapViews,
 } from '../ducks/types';
-import ReservationModal, { ReservationModalType } from '../../reservationModal';
-import protectedApiClient from '../../../api/protectedApiClient';
 import TreePopup, {
   BasicTreeInfo,
   NO_SITE_SELECTED,
@@ -71,6 +69,7 @@ const MapView: React.FC<MapViewProps> = ({
   sites,
   view,
 }) => {
+  /*
   // visibility of reservation modal
   const [showModal, setShowModal] = useState<boolean>(false);
   // block status for modal
@@ -79,6 +78,7 @@ const MapView: React.FC<MapViewProps> = ({
   );
   // block id for modal
   const [activeBlockId, setActiveBlockId] = useState<number>(-1);
+   */
   // BasicTreeInfo to display in tree popup
   const [activeTreeInfo, setActiveTreeInfo] = useState<BasicTreeInfo>({
     id: NO_SITE_SELECTED,
@@ -87,6 +87,7 @@ const MapView: React.FC<MapViewProps> = ({
   });
 
   // logic for reservation modal to complete action selected by user
+  /*
   const handleOk = async (team?: number) => {
     setShowModal(false);
     switch (reservationType) {
@@ -104,6 +105,7 @@ const MapView: React.FC<MapViewProps> = ({
         break;
     }
   };
+  */
 
   const { windowType } = useWindowDimensions();
 
@@ -326,6 +328,7 @@ const MapView: React.FC<MapViewProps> = ({
         // Initially true while the neighborhoods are shown by themselves
         setNeighborhoodsStyle(true);
         // adds listener so reservation modal appears when block clicked
+        /*
         blocksLayer.addListener('click', (event) => {
           // get status of block based on color
           const status: ReservationModalType = ((): ReservationModalType => {
@@ -345,6 +348,7 @@ const MapView: React.FC<MapViewProps> = ({
           // set id of block
           setActiveBlockId(event.feature.getProperty('block_id'));
         });
+        */
 
         // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
         neighborhoodsLayer.addListener('click', (event) => {
@@ -499,6 +503,7 @@ const MapView: React.FC<MapViewProps> = ({
       </div>
       <MapDiv id="map" ref={mapRef} />
       <TreePopup treeInfo={activeTreeInfo} popRef={treePopupRef} />
+      {/*
       <ReservationModal
         status={reservationType}
         blockID={activeBlockId}
@@ -506,6 +511,7 @@ const MapView: React.FC<MapViewProps> = ({
         onCancel={() => setShowModal(false)}
         isVisible={showModal}
       />
+      */}
     </>
   );
 };
