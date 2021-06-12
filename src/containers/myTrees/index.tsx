@@ -1,29 +1,42 @@
 import React, { useEffect } from 'react';
 import MapPage from '../../components/mapPageComponents/mapPage/index';
-import BlockTabs from '../../components/blockTabs/index';
+import TreeSidebar from '../../components/treeSidebar/index';
+import { Spin } from 'antd';
+import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
+import { C4CState } from '../../store';
 import MobileMapPage from '../../components/mapPageComponents/mobileMapPage';
-import { useDispatch, connect } from 'react-redux';
+import { useDispatch, useSelector, connect } from 'react-redux';
 import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
-import { RESERVATION_BODY, RESERVATION_TITLE } from '../../assets/content';
+import { getAdoptedSites } from '../treePage/ducks/thunks';
+import { MY_TREES_BODY, MY_TREES_TITLE } from '../../assets/content';
 import SlideDown from '../../components/slideDown';
 import {
-  MapGeoDataReducerState,
+  asyncRequestIsComplete,
+  asyncRequestIsLoading,
+} from '../../utils/asyncRequest';
+import {
   MapViews,
+  SiteFeaturePropertiesResponse,
+  MapGeoDataReducerState,
 } from '../../components/mapPageComponents/ducks/types';
-import { C4CState } from '../../store';
-import MapLegend from '../../components/mapPageComponents/mapLegend';
+import { getMySites } from './ducks/selectors';
 
-interface ReservationsProps {
+interface MyTreesStateProps {
   readonly blocks: MapGeoDataReducerState['blockGeoData'];
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly sites: MapGeoDataReducerState['siteGeoData'];
 }
 
-const Reservations: React.FC<ReservationsProps> = ({
+const EmptyTreesContainer = styled.div`
+  text-align: center;
+  padding: 10vh 5vw;
+`;
+
+const MyTrees: React.FC<MyTreesStateProps> = ({
   blocks,
   neighborhoods,
   sites,
@@ -32,17 +45,30 @@ const Reservations: React.FC<ReservationsProps> = ({
 
   useEffect(() => {
     dispatch(getMapGeoData());
+    dispatch(getAdoptedSites());
   }, [dispatch]);
 
   const { windowType } = useWindowDimensions();
 
-  const reservationMapView = MapViews.BLOCKS;
+  const treeMapView = MapViews.TREES;
+
+  const mySites: SiteFeaturePropertiesResponse[] = useSelector(
+    (state: C4CState) => {
+      return getMySites(
+        state.adoptedSitesState.adoptedSites,
+        state.mapGeoDataState.siteGeoData,
+      );
+    },
+  );
 
   return (
     <>
       <Helmet>
-        <title>Reservations</title>
-        <meta name="description" content="Reserve blocks" />
+        <title>My Trees</title>
+        <meta
+          name="description"
+          content="A user may view the trees they have adopted"
+        />
       </Helmet>
 
       {(() => {
@@ -50,14 +76,13 @@ const Reservations: React.FC<ReservationsProps> = ({
           case WindowTypes.Mobile:
             return (
               <MobileMapPage
-                view={reservationMapView}
+                view={treeMapView}
                 blocks={blocks}
                 neighborhoods={neighborhoods}
                 sites={sites}
               >
                 <SlideDown>
-                  <MapLegend view={reservationMapView} mobile={true} />
-                  <BlockTabs />
+                  <TreeSidebar mySites={mySites} />
                 </SlideDown>
               </MobileMapPage>
             );
@@ -66,14 +91,21 @@ const Reservations: React.FC<ReservationsProps> = ({
           case WindowTypes.Desktop:
             return (
               <MapPage
-                sidebarHeader={RESERVATION_TITLE}
-                sidebarDescription={RESERVATION_BODY}
+                sidebarHeader={MY_TREES_TITLE}
+                sidebarDescription={MY_TREES_BODY}
+                view={treeMapView}
                 blocks={blocks}
                 neighborhoods={neighborhoods}
                 sites={sites}
-                view={reservationMapView}
               >
-                <BlockTabs />
+                {asyncRequestIsComplete(sites) && (
+                  <TreeSidebar mySites={mySites} />
+                )}
+                {asyncRequestIsLoading(sites) && (
+                  <EmptyTreesContainer>
+                    <Spin size="large" />
+                  </EmptyTreesContainer>
+                )}
               </MapPage>
             );
         }
@@ -82,7 +114,7 @@ const Reservations: React.FC<ReservationsProps> = ({
   );
 };
 
-const mapStateToProps = (state: C4CState): ReservationsProps => {
+const mapStateToProps = (state: C4CState): MyTreesStateProps => {
   return {
     neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
     blocks: state.mapGeoDataState.blockGeoData,
@@ -90,4 +122,4 @@ const mapStateToProps = (state: C4CState): ReservationsProps => {
   };
 };
 
-export default connect(mapStateToProps)(Reservations);
+export default connect(mapStateToProps)(MyTrees);

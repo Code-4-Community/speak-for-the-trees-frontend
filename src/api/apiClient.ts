@@ -64,27 +64,27 @@ const getTeamsLeaderboard = (
 };
 
 const getBlockGeoData = (): Promise<BlockGeoData> => {
-  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_BLOCKS)
-    .then((r) => r.data)
-    .catch((e) => e);
+  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_BLOCKS).then(
+    (r) => r.data,
+  );
 };
 
 const getNeighborhoodGeoData = (): Promise<NeighborhoodGeoData> => {
-  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_NEIGHBORHOODS)
-    .then((r) => r.data)
-    .catch((e) => e);
+  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_NEIGHBORHOODS).then(
+    (r) => r.data,
+  );
 };
 
 const getSiteGeoData = (): Promise<SiteGeoData> => {
-  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_SITES)
-    .then((res) => res.data)
-    .catch((err) => err);
+  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_SITES).then(
+    (res) => res.data,
+  );
 };
 
 const getSite = (siteId: number): Promise<SiteProps> => {
-  return AppAxiosInstance.get(ParameterizedApiRoutes.GET_SITE(siteId))
-    .then((r) => r.data)
-    .catch((e) => e);
+  return AppAxiosInstance.get(ParameterizedApiRoutes.GET_SITE(siteId)).then(
+    (res) => res.data,
+  );
 };
 
 const getStewardshipActivities = (
@@ -92,9 +92,7 @@ const getStewardshipActivities = (
 ): Promise<StewardshipActivities> => {
   return AppAxiosInstance.get(
     ParameterizedApiRoutes.GET_STEWARSHIP_ACTIVITIES(siteId),
-  )
-    .then((r) => r.data)
-    .catch((e) => e);
+  ).then((res) => res.data);
 };
 
 const Client: ApiClient = Object.freeze({

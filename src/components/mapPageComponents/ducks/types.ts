@@ -60,7 +60,7 @@ interface SiteFeatureResponse {
   geometry: MapGeometry;
 }
 
-interface SiteFeaturePropertiesResponse {
+export interface SiteFeaturePropertiesResponse {
   id: number;
   treePresent: boolean;
   lat: number;
@@ -99,5 +99,5 @@ export type MapGeoDataThunkAction<R> = ThunkAction<
 // The different map views and zoom value the associated data layer appears at
 export enum MapViews {
   BLOCKS = 13,
-  TREES = 15,
+  TREES = 16,
 }

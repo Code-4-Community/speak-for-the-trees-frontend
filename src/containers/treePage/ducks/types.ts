@@ -54,44 +54,63 @@ export interface SiteEntry {
   stump?: string;
   treeNotes?: string;
   siteNotes?: string;
+  adopter?: string;
 }
 
-export const SiteEntryNames: Record<string, string> = {
+export interface SplitSiteEntries {
+  main: Entry[];
+  extra: Entry[];
+}
+
+export const MainSiteEntryNames: Record<string, string> = {
   updatedAt: 'Updated At',
   status: 'Status',
   genus: 'Genus',
   species: 'Species',
   commonName: 'Common Name',
+  diameter: 'Diameter at Breast Height (inches)',
+};
+
+export const MainSiteEntryOrder: Record<string, number> = {
+  'Updated At': 1,
+  'Common Name': 2,
+  Genus: 3,
+  Species: 4,
+  'Scientific Name': 3,
+  'Diameter at Breast Height (inches)': 5,
+  Status: 6,
+};
+
+export const ExtraSiteEntryNames: Record<string, string> = {
   confidence: 'Confidence',
-  diameter: 'Diameter',
   circumference: 'Circumference',
   coverage: 'Coverage',
-  pruning: 'Pruning',
+  pruning: 'Amount of Pruning',
   condition: 'Condition',
-  discoloring: 'Discoloring',
-  leaning: 'Leaning',
+  discoloring: 'Discolored leaves?',
+  leaning: 'Is the tree leaning?',
   constrictingGrate: 'Constricting Grate',
-  wounds: 'Wounds',
-  pooling: 'Pooling',
+  wounds: 'Trunk wounds?',
+  pooling: 'Pooling water?',
   stakesWith: 'Stakes With',
   stakesWithout: 'Stakes Without',
-  light: 'Light',
-  bicycle: 'Bicycle',
+  light: 'Lights around tree?',
+  bicycle: 'Bicycle tied to tree?',
   bagWith: 'Bag With',
   bagWithout: 'Bag Without',
-  tape: 'Tape',
-  suckerGrowth: 'Sucker Growth',
+  tape: 'Tape on tree?',
+  suckerGrowth: 'Is there sucker growth?',
   siteType: 'Site Type',
   sidewalkWidth: 'Sidewalk Width',
-  siteWidth: 'Site Width',
-  siteLength: 'Site Length',
-  material: 'Material',
-  raisedBed: 'Raised Bed',
-  fence: 'Fence',
-  trash: 'Trash',
-  wires: 'Wires',
-  grate: 'Grate',
-  stump: 'Stump',
+  siteWidth: 'Site Width (in inches)',
+  siteLength: 'Site Length (in inches)',
+  material: 'Material in Pit',
+  raisedBed: 'Is there a raised bed?',
+  fence: 'Is there a fence?',
+  trash: 'Is there trash?',
+  wires: 'Are there wires overhead?',
+  grate: 'Is there a grate around the tree base?',
+  stump: 'Is there a stump?',
   treeNotes: 'Tree Notes',
   siteNotes: 'Site Notes',
 };
@@ -129,7 +148,7 @@ export interface AdoptedSites {
 
 export interface SiteReducerState {
   readonly siteData: AsyncRequest<SiteProps, any>;
-  readonly stewarshipActivityData: AsyncRequest<StewardshipActivities, any>;
+  readonly stewardshipActivityData: AsyncRequest<StewardshipActivities, any>;
 }
 
 export interface ProtectedSitesReducerState {

@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Typography } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
+import { CardInfo } from '../themedComponents';
 import { MID_GREEN, TEXT_GREY, LIGHT_GREY } from '../../utils/colors';
 
 const { Paragraph } = Typography;
@@ -16,11 +17,6 @@ const StyledCard = styled(Card)`
 const CardContent = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const BlockInfo = styled.div`
-  display: inline-block;
-  width: 90%;
 `;
 
 const BlockTitle = styled(Paragraph)`
@@ -45,9 +41,9 @@ const BlockCard: React.FC<BlockCardProps> = ({ id, reserved }) => {
     <>
       <StyledCard>
         <CardContent>
-          <BlockInfo>
+          <CardInfo>
             <BlockTitle>Block {id}</BlockTitle>
-          </BlockInfo>
+          </CardInfo>
           {reserved && <CancelIcon />}
         </CardContent>
       </StyledCard>

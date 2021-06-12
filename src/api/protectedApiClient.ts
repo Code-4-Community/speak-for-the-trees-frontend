@@ -226,9 +226,9 @@ const changePrivilegeLevel = (
 };
 
 const getUserData = (): Promise<UserData> => {
-  return AppAxiosInstance.get(ProtectedApiClientRoutes.GET_USER_DATA)
-    .then((res) => res.data)
-    .catch((err) => err);
+  return AppAxiosInstance.get(ProtectedApiClientRoutes.GET_USER_DATA).then(
+    (res) => res.data,
+  );
 };
 
 const createTeam = (request: CreateTeamRequest): Promise<void> => {

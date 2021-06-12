@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import MapPage from '../../components/mapPageComponents/mapPage';
 import useWindowDimensions, {
@@ -12,7 +12,10 @@ import { isLoggedIn } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
 import MobileMapPage from '../../components/mapPageComponents/mobileMapPage';
 import MobileLandingBar from '../../components/mapPageComponents/mobileLandingBar';
-import { MapViews } from '../../components/mapPageComponents/ducks/types';
+import {
+  MapGeoDataReducerState,
+  MapViews,
+} from '../../components/mapPageComponents/ducks/types';
 import AdoptionDirections from '../../components/adoptionDirections';
 import MapLegend from '../../components/mapPageComponents/mapLegend';
 
@@ -20,7 +23,13 @@ const PaddedContent = styled.div`
   padding: 24px 50px;
 `;
 
-const Landing: React.FC = () => {
+interface LandingProps {
+  readonly blocks: MapGeoDataReducerState['blockGeoData'];
+  readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
+  readonly sites: MapGeoDataReducerState['siteGeoData'];
+}
+
+const Landing: React.FC<LandingProps> = ({ blocks, neighborhoods, sites }) => {
   const dispatch = useDispatch();
   const loggedIn: boolean = useSelector((state: C4CState) =>
     isLoggedIn(state.authenticationState.tokens),
@@ -47,7 +56,12 @@ const Landing: React.FC = () => {
         switch (windowType) {
           case WindowTypes.Mobile:
             return (
-              <MobileMapPage view={landingMapView}>
+              <MobileMapPage
+                blocks={blocks}
+                neighborhoods={neighborhoods}
+                sites={sites}
+                view={landingMapView}
+              >
                 <PaddedContent>
                   <MobileLandingBar
                     barHeader={LANDING_TITLE}
@@ -67,6 +81,9 @@ const Landing: React.FC = () => {
               <MapPage
                 sidebarHeader={LANDING_TITLE}
                 sidebarDescription={LANDING_BODY}
+                blocks={blocks}
+                neighborhoods={neighborhoods}
+                sites={sites}
                 view={landingMapView}
               >
                 <AdoptionDirections mobile={false} />
@@ -78,4 +95,12 @@ const Landing: React.FC = () => {
   );
 };
 
-export default Landing;
+const mapStateToProps = (state: C4CState): LandingProps => {
+  return {
+    neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
+    blocks: state.mapGeoDataState.blockGeoData,
+    sites: state.mapGeoDataState.siteGeoData,
+  };
+};
+
+export default connect(mapStateToProps)(Landing);

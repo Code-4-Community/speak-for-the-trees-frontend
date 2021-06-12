@@ -1,8 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Alert, Layout, Spin } from 'antd';
 import styled from 'styled-components';
-import { C4CState } from '../../../store';
 import {
   asyncRequestIsComplete,
   asyncRequestIsFailed,
@@ -68,12 +66,4 @@ const MapContent: React.FC<MapContentProps> = ({
   </Content>
 );
 
-const mapStateToProps = (state: C4CState): MapContentStateProps => {
-  return {
-    neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
-    blocks: state.mapGeoDataState.blockGeoData,
-    sites: state.mapGeoDataState.siteGeoData,
-  };
-};
-
-export default connect(mapStateToProps)(MapContent);
+export default MapContent;
