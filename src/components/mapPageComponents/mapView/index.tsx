@@ -82,7 +82,7 @@ const MapView: React.FC<MapViewProps> = ({
   // BasicTreeInfo to display in tree popup
   const [activeTreeInfo, setActiveTreeInfo] = useState<BasicTreeInfo>({
     id: NO_SITE_SELECTED,
-    species: '',
+    commonName: '',
     address: '',
   });
 
@@ -378,7 +378,7 @@ const MapView: React.FC<MapViewProps> = ({
           // Sets the information to display in the popup
           setActiveTreeInfo({
             id: siteId,
-            species: eventFeature.getProperty('commonName'),
+            commonName: eventFeature.getProperty('commonName'),
             address: eventFeature.getProperty('address'),
           });
           // Popup appears at the site

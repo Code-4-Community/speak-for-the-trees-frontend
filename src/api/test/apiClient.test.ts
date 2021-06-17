@@ -98,10 +98,8 @@ describe('Authentication Client Tests', () => {
               properties: {
                 id: 213,
                 treePresent: true,
-                diameter: 29.8,
-                species: 'Willow',
-                updatedAt: 'December 17, 1995 03:24:00',
-                updatedBy: 'username',
+                commonName: 'Willow',
+                adopterId: 'username',
                 address: '123 Street',
                 lat: 42.3488784985,
                 lng: -71.0293810011,

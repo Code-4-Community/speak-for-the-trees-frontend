@@ -96,7 +96,7 @@ export const NO_TREE_PRESENT = -2;
 
 export interface BasicTreeInfo {
   id: number;
-  species: string;
+  commonName: string;
   address: string;
 }
 
@@ -127,9 +127,9 @@ const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
               <>
                 <>
                   <TreeTitle>
-                    {isEmptyString(treeInfo.species)
+                    {isEmptyString(treeInfo.commonName)
                       ? 'Unknown Species'
-                      : treeInfo.species}
+                      : treeInfo.commonName}
                   </TreeTitle>
                   <CloseIcon onClick={hidePopup} />
                 </>
