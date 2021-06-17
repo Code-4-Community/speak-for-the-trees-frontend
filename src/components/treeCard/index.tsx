@@ -54,7 +54,7 @@ const TreeCard: React.FC<TreeCardProps> = ({ site }) => {
         <CardContent>
           <CardInfo>
             {site.address && <TreeTitle>Address: {site.address}</TreeTitle>}
-            {site.species && <TreeBody>Species: {site.species}</TreeBody>}
+            {site.commonName && <TreeBody>Species: {site.commonName}</TreeBody>}
             {site.id && <TreeBody>ID: {site.id}</TreeBody>}
           </CardInfo>
           <GreenLinkButton to={`${ParameterizedRouteBases.TREE}${site.id}`}>

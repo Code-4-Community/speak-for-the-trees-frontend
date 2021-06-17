@@ -82,7 +82,7 @@ const MapView: React.FC<MapViewProps> = ({
   // BasicTreeInfo to display in tree popup
   const [activeTreeInfo, setActiveTreeInfo] = useState<BasicTreeInfo>({
     id: NO_SITE_SELECTED,
-    species: '',
+    commonName: '',
     address: '',
   });
 
@@ -371,14 +371,14 @@ const MapView: React.FC<MapViewProps> = ({
           let siteId = eventFeature.getProperty('id');
 
           // Set site ID to tell tree popup this is an open planting site
-          if (!eventFeature.getProperty('tree_present')) {
+          if (!eventFeature.getProperty('treePresent')) {
             siteId = NO_TREE_PRESENT;
           }
 
           // Sets the information to display in the popup
           setActiveTreeInfo({
             id: siteId,
-            species: eventFeature.getProperty('species'),
+            commonName: eventFeature.getProperty('commonName'),
             address: eventFeature.getProperty('address'),
           });
           // Popup appears at the site
@@ -406,7 +406,7 @@ const MapView: React.FC<MapViewProps> = ({
             // If the tree is adopted, use the adoptedTreeIcon
             const plantedDate = feature.getProperty('plantingDate');
             const adopted = !!feature.getProperty('adopterId');
-            if (!feature.getProperty('tree_present')) {
+            if (!feature.getProperty('treePresent')) {
               icon = OPEN_ICONS[imageSize];
             } else if (adopted) {
               icon = ADOPTED_ICONS[imageSize];
