@@ -67,6 +67,8 @@ export interface SiteFeaturePropertiesResponse {
   lng: number;
   plantingDate?: number;
   adopterId?: string;
+  commonName?: string;
+  address?: string;
 }
 
 // ---------------------------------Shared Types----------------------------------------
