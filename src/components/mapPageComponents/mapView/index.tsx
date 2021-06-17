@@ -378,7 +378,7 @@ const MapView: React.FC<MapViewProps> = ({
           // Sets the information to display in the popup
           setActiveTreeInfo({
             id: siteId,
-            species: eventFeature.getProperty('species'),
+            species: eventFeature.getProperty('commonName'),
             address: eventFeature.getProperty('address'),
           });
           // Popup appears at the site
