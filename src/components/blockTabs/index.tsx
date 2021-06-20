@@ -6,7 +6,6 @@ import { DARK_GREY } from '../../utils/colors';
 import BlockCard from '../blockCard';
 import { blocksList } from '../../assets/content';
 
-
 const { TabPane } = Tabs;
 
 const StyledTabs = styled(Tabs)`
@@ -36,9 +35,8 @@ const sampleAllBlocksData: BlockProps[] = [
   { block_id: 2942 },
   { block_id: 2936 },
   { block_id: 5494 },
-  { block_id: 2205 }
+  { block_id: 2205 },
 ];
-
 
 const sampleUserReservedBlocks: BlockProps[] = [
   { block_id: 20 },
@@ -64,10 +62,9 @@ const BlockTabs: React.FC = () => {
             />
           </ScrollableListContainer>
         </TabPane>
-        
-        <TabPane tab="Near Me" key="2">
-        </TabPane>
-       
+
+        <TabPane tab="Near Me" key="2"></TabPane>
+
         <TabPane tab="Reservations" key="3">
           <ScrollableListContainer>
             <List

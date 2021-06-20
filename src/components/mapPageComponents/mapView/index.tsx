@@ -53,7 +53,6 @@ const MapDiv = styled.div`
   height: 100%;
 `;
 
-
 // Three years before the current date
 const breakpointDate = new Date().setFullYear(new Date().getFullYear() - 3);
 
@@ -242,8 +241,8 @@ const MapView: React.FC<MapViewProps> = ({
         // Loads the objects into the layer
         blocksLayer.addGeoJson(blocks);
         blocksLayer.forEach((block) => {
-          blocksList.push(({block_id: block.getProperty('block_id')}))
-        })
+          blocksList.push({ block_id: block.getProperty('block_id') });
+        });
 
         // Sets the style of the layer to colored blocks with black outline
         function setBlocksStyle(v: boolean) {
