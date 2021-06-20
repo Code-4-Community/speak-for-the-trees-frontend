@@ -15,7 +15,7 @@ import TreePopup, {
   NO_TREE_PRESENT,
 } from '../../treePopup';
 import { shortHand } from '../../../utils/stringFormat';
-import { SHORT_HAND_NAMES } from '../../../assets/content';
+import { SHORT_HAND_NAMES, blocksList } from '../../../assets/content';
 import { isMobile } from '../../../utils/isCheck';
 import {
   BLACK,
@@ -240,6 +240,9 @@ const MapView: React.FC<MapViewProps> = ({
 
         // Loads the objects into the layer
         blocksLayer.addGeoJson(blocks);
+        blocksLayer.forEach((block) => {
+          blocksList.push({ block_id: block.getProperty('block_id') });
+        });
 
         // Sets the style of the layer to colored blocks with black outline
         function setBlocksStyle(v: boolean) {

@@ -85,6 +85,8 @@ export const SHORT_HAND_NAMES: { [fullName: string]: string } = {
   'Bay Village': 'BV',
 };
 
+export const blocksList: { block_id: number }[] = [];
+
 // Tree Stats
 export const STATS_HEADER = 'Current Status of our Trees';
 export const MONEY_STAT_TITLE = 'Money Saved';
