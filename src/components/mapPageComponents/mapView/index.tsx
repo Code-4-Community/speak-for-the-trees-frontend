@@ -5,9 +5,9 @@ import { Loader } from '@googlemaps/js-api-loader';
 import styled from 'styled-components';
 import {
   BlockGeoData,
+  MapViews,
   NeighborhoodGeoData,
   SiteGeoData,
-  MapViews,
 } from '../ducks/types';
 import TreePopup, {
   BasicTreeInfo,
@@ -31,6 +31,8 @@ import {
   STANDARD_ICONS,
   YOUNG_ICONS,
 } from '../../../assets/images/siteIcons';
+import { goToPlace, zoomToLocation } from '../logic/view';
+import { predictPlace } from '../logic/predict';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -39,15 +41,22 @@ const StyledSearch = styled(Input.Search)`
 `;
 
 let map: google.maps.Map;
+const mapId = '76c08a2450c223d9';
 
-const zoomedInLevel = 16;
+const loader = new Loader({
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY || '',
+  libraries: ['places'],
+  mapIds: [mapId],
+});
+
 const BOSTON: google.maps.LatLngLiteral = { lat: 42.315, lng: -71.0589 };
-const BOSTON_BOUNDS = {
+export const BOSTON_BOUNDS = {
   north: 42.42,
   south: 42.2,
   west: -71.28,
   east: -70.83,
 };
+const STREET_ZOOM = 20;
 
 const MapDiv = styled.div`
   height: 100%;
@@ -107,19 +116,11 @@ const MapView: React.FC<MapViewProps> = ({
   };
   */
 
-  const { windowType } = useWindowDimensions();
+  const [searchInput, setSearchInput] = useState('');
 
+  const { windowType } = useWindowDimensions();
   const mapRef = createRef<HTMLDivElement>();
   const treePopupRef = createRef<HTMLDivElement>();
-
-  const loader = new Loader({
-    apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY || '',
-    libraries: ['places'],
-    mapIds: ['76c08a2450c223d9'],
-  });
-
-  // eslint-disable-next-line
-  const mapId = '76c08a2450c223d9';
 
   const [mapElement, setMapElement] = useState(mapRef.current);
   const [treePopupElement, setTreePopupElement] = useState(
@@ -155,10 +156,11 @@ const MapView: React.FC<MapViewProps> = ({
           position: google.maps.LatLng;
           content: HTMLDivElement;
 
-          constructor(content: HTMLDivElement) {
+          constructor(content: HTMLDivElement, hostMap: google.maps.Map) {
             super();
             this.content = content;
             this.position = new google.maps.LatLng(0, 0);
+            this.setMap(hostMap);
           }
 
           // Appears at the given position
@@ -190,29 +192,47 @@ const MapView: React.FC<MapViewProps> = ({
           }
         }
 
-        // Create and add the tree popup to the map
-        const popup = new Popup(treePopupElement);
-        popup.setMap(map);
+        // Creates and adds the tree popup to the map
+        const popup = new Popup(treePopupElement, map);
 
+        // Sets up the autocomplete search bar, only shows places in Boston for suggestions)
         const input = document.getElementById('pac-input') as HTMLInputElement;
-        const autocomplete = new google.maps.places.Autocomplete(input);
-        autocomplete.addListener('place_changed', () => {
-          const place = autocomplete.getPlace();
+        const autocomplete = new google.maps.places.Autocomplete(input, {
+          bounds: BOSTON_BOUNDS,
+          strictBounds: true,
+        });
+        // Services provided by Google Maps
+        const autoService = new google.maps.places.AutocompleteService(); // to retrieve autocomplete predictions
+        const placesService = new google.maps.places.PlacesService(map); // to search for and find details about places
 
+        // A marker to show at the location a user searches for
+        const searchMarker: google.maps.Marker = new google.maps.Marker({
+          map,
+        });
+
+        // Callback function sets searchMarker at place and updates the text in the search input
+        function goToPredictedPlace(
+          place: google.maps.places.PlaceResult,
+          status: google.maps.places.PlacesServiceStatus,
+        ): void {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            goToPlace(place, searchMarker, map, STREET_ZOOM);
+            setSearchInput(place.name);
+          }
+        }
+
+        // Listener for when the user enters a new location
+        autocomplete.addListener('place_changed', () => {
+          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          // If the place does not have a geometry (if the user did not enter a valid location)
           if (!place.geometry) {
-            window.alert(
-              "No details available for input: '" + place.name + "'",
-            );
+            // Predicts the place the user wanted and sets the search marker at that place
+            predictPlace(place, autoService, placesService, goToPredictedPlace);
             return;
           }
 
-          // If the place has a geometry, then present it on a map.
-          if (place.geometry.viewport) {
-            map.fitBounds(place.geometry.viewport);
-          } else {
-            map.setCenter(place.geometry.location);
-            map.setZoom(zoomedInLevel);
-          }
+          // Otherwise just goes to the place they searched for
+          goToPlace(place, searchMarker, map, STREET_ZOOM);
         });
 
         // Creates a new layer
@@ -352,11 +372,14 @@ const MapView: React.FC<MapViewProps> = ({
 
         // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
         neighborhoodsLayer.addListener('click', (event) => {
-          map.setZoom(view);
-          map.panTo({
-            lat: event.feature.getProperty('lat'),
-            lng: event.feature.getProperty('lng'),
-          });
+          zoomToLocation(
+            new google.maps.LatLng(
+              event.feature.getProperty('lat'),
+              event.feature.getProperty('lng'),
+            ),
+            map,
+            view,
+          );
         });
 
         // Creates a new layer
@@ -395,9 +418,9 @@ const MapView: React.FC<MapViewProps> = ({
             let imageSize = 0;
 
             const zoomLevel = map.getZoom();
-            if (zoomLevel > 17 && zoomLevel < 20) {
+            if (zoomLevel > view + 1 && zoomLevel < STREET_ZOOM) {
               imageSize = 1;
-            } else if (zoomLevel >= 20) {
+            } else if (zoomLevel >= STREET_ZOOM) {
               imageSize = 2;
             }
 
@@ -449,10 +472,12 @@ const MapView: React.FC<MapViewProps> = ({
               });
             },
             () => {
-              message.info(
-                'Enable access to your location to display where you are on the map.',
-                5,
-              );
+              message
+                .info(
+                  'Enable access to your location to display where you are on the map.',
+                  5,
+                )
+                .then();
             },
           );
         }
@@ -498,7 +523,12 @@ const MapView: React.FC<MapViewProps> = ({
     <>
       <div id="pac-container">
         {!isMobile(windowType) && (
-          <StyledSearch id="pac-input" placeholder="Address" />
+          <StyledSearch
+            id={'pac-input'}
+            placeholder="Address"
+            value={searchInput}
+            onChange={(event) => setSearchInput(event.target.value)}
+          />
         )}
       </div>
       <MapDiv id="map" ref={mapRef} />
