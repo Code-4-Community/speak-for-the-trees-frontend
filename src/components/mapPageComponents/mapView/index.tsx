@@ -509,15 +509,7 @@ const MapView: React.FC<MapViewProps> = ({
         handleZoomChange();
       });
     }
-  }, [
-    blocks,
-    loader,
-    mapElement,
-    treePopupElement,
-    neighborhoods,
-    sites,
-    view,
-  ]);
+  }, [blocks, mapElement, treePopupElement, neighborhoods, sites, view]);
 
   return (
     <>
