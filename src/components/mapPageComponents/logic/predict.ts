@@ -1,4 +1,4 @@
-import { BOSTON_BOUNDS } from '../mapView';
+import { BOSTON_BOUNDS } from '../constants';
 
 // Map logic for making predictions from user input
 

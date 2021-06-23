@@ -1,7 +1,6 @@
 import React, { createRef, useEffect, useState } from 'react';
 import useWindowDimensions from '../../windowDimensions';
 import { Input, message } from 'antd';
-import { Loader } from '@googlemaps/js-api-loader';
 import styled from 'styled-components';
 import {
   BlockGeoData,
@@ -33,6 +32,13 @@ import {
 } from '../../../assets/images/siteIcons';
 import { goToPlace, zoomToLocation } from '../logic/view';
 import { predictPlace } from '../logic/predict';
+import {
+  BOSTON,
+  BOSTON_BOUNDS,
+  LOADER,
+  STREET_ZOOM,
+  YOUNG_TREE_DATE,
+} from '../constants';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -40,30 +46,11 @@ const StyledSearch = styled(Input.Search)`
   z-index: 2;
 `;
 
-let map: google.maps.Map;
-const mapId = '76c08a2450c223d9';
-
-const loader = new Loader({
-  apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY || '',
-  libraries: ['places'],
-  mapIds: [mapId],
-});
-
-const BOSTON: google.maps.LatLngLiteral = { lat: 42.315, lng: -71.0589 };
-export const BOSTON_BOUNDS = {
-  north: 42.42,
-  south: 42.2,
-  west: -71.28,
-  east: -70.83,
-};
-const STREET_ZOOM = 20;
-
 const MapDiv = styled.div`
   height: 100%;
 `;
 
-// Three years before the current date
-const breakpointDate = new Date().setFullYear(new Date().getFullYear() - 3);
+let map: google.maps.Map;
 
 interface MapViewProps {
   blocks: BlockGeoData;
@@ -139,7 +126,7 @@ const MapView: React.FC<MapViewProps> = ({
     if (mapElement && treePopupElement) {
       const markersArray: google.maps.Marker[] = [];
 
-      loader.load().then(() => {
+      LOADER.load().then(() => {
         map = new google.maps.Map(mapElement, {
           center: BOSTON,
           zoom: 12,
@@ -433,7 +420,7 @@ const MapView: React.FC<MapViewProps> = ({
               icon = OPEN_ICONS[imageSize];
             } else if (adopted) {
               icon = ADOPTED_ICONS[imageSize];
-            } else if (!!plantedDate && plantedDate > breakpointDate) {
+            } else if (!!plantedDate && plantedDate > YOUNG_TREE_DATE) {
               icon = YOUNG_ICONS[imageSize];
             } else {
               icon = STANDARD_ICONS[imageSize];
