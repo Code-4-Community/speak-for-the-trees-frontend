@@ -35,6 +35,7 @@ const NavContainer = styled.div`
   background: ${BACKGROUND_GREY};
   color: ${MID_GREEN};
   height: 9vh;
+  min-height: 80px;
   padding: 0;
   overflow: hidden;
 `;
@@ -65,8 +66,8 @@ const C4CLogo = styled.img`
 const LandingExtraContainer = styled.div`
   float: right;
   padding-right: 2vw;
+  padding-top: 22px;
   height: 100%;
-  line-height: 9vh;
 `;
 
 const SignupButton = styled(Button)`
