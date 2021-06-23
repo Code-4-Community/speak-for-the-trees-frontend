@@ -48,12 +48,11 @@ const PopupBubble = styled.div`
   left: 0;
   transform: translate(-50%, -100%);
   background-color: ${WHITE};
-  width: 250px;
-  max-height: 150px;
+  min-width: 250px;
+  min-height: 150px;
   padding: 7px 15px;
   border-radius: 2px;
   box-shadow: 0px 2px 10px 1px ${BLACK}50;
-  overflow-y: scroll;
 `;
 
 const TreeTitle = styled(Paragraph)`
