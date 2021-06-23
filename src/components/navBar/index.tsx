@@ -54,10 +54,12 @@ const MainLogo = styled.img`
 
 const BostonLogo = styled.img`
   height: 55px;
+  line-height: 0px;
 `;
 
 const C4CLogo = styled.img`
   height: 27px;
+  line-height: 0px;
 `;
 
 const LandingExtraContainer = styled.div`
@@ -98,7 +100,6 @@ const NoHoverShadeButton = styled(Button)`
 
 const LogoCol = styled(Col)`
   height: 100%;
-  line-height: 6vh;
 `;
 
 const NavTitleText = styled.div`
@@ -108,6 +109,7 @@ const NavTitleText = styled.div`
   display: inline-block;
   color: ${MID_GREEN};
   margin-bottom: 10px;
+  line-height: 0px;
 `;
 
 interface NavBarProps {
@@ -130,7 +132,7 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
 
   const HeaderTitle = () => (
     <NoHoverShadeButton type="text" onClick={() => history.push(Routes.HOME)}>
-      <Row align="bottom">
+      <Row align="middle">
         <Col span={6}>
           <MainLogo src={sfttLogo} alt="icon" />
         </Col>
