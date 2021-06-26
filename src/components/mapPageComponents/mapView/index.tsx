@@ -16,29 +16,16 @@ import TreePopup, {
 import { shortHand } from '../../../utils/stringFormat';
 import { SHORT_HAND_NAMES } from '../../../assets/content';
 import { isMobile } from '../../../utils/isCheck';
-import {
-  BLACK,
-  MAP_GREEN,
-  MAP_RED,
-  MAP_YELLOW,
-  RED,
-  WHITE,
-} from '../../../utils/colors';
-import {
-  ADOPTED_ICONS,
-  OPEN_ICONS,
-  STANDARD_ICONS,
-  YOUNG_ICONS,
-} from '../../../assets/images/siteIcons';
+import { WHITE } from '../../../utils/colors';
 import { goToPlace, zoomToLocation } from '../logic/view';
 import { predictPlace } from '../logic/predict';
+import { BOSTON, BOSTON_BOUNDS, LOADER, STREET_ZOOM } from '../constants';
 import {
-  BOSTON,
-  BOSTON_BOUNDS,
-  LOADER,
-  STREET_ZOOM,
-  YOUNG_TREE_DATE,
-} from '../constants';
+  setBlocksStyle,
+  setNeighborhoodsStyle,
+  setPrivateStreetsStyle,
+  setSitesStyle,
+} from '../logic/style';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -230,17 +217,8 @@ const MapView: React.FC<MapViewProps> = ({
           'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/private_streets.json',
         );
 
-        // Sets the style of the layer to simple red lines
-        function setPrivateStreetsStyle(v: boolean) {
-          privateStreetsLayer.setStyle({
-            strokeColor: `${RED}`,
-            strokeWeight: 2,
-            visible: v,
-          });
-        }
-
         // Initially false while the neighborhoods are shown
-        setPrivateStreetsStyle(false);
+        setPrivateStreetsStyle(privateStreetsLayer, false);
 
         // Creates a new layer
         const blocksLayer = new google.maps.Data({ map });
@@ -248,37 +226,8 @@ const MapView: React.FC<MapViewProps> = ({
         // Loads the objects into the layer
         blocksLayer.addGeoJson(blocks);
 
-        // Sets the style of the layer to colored blocks with black outline
-        function setBlocksStyle(v: boolean) {
-          blocksLayer.setStyle((feature) => {
-            let color = `${MAP_GREEN}`;
-
-            // Use this for coloring reserved/completed blocks a different color
-            if (feature.getProperty('block_id') % 10 === 0) {
-              color = `${MAP_YELLOW}`;
-            }
-
-            if (feature.getProperty('block_id') % 10 === 1) {
-              color = `${MAP_RED}`;
-            }
-
-            // Use this for selecting blocks
-            if (feature.getProperty('PRECINCT') === 'YES') {
-              color = `${BLACK}`;
-            }
-
-            // Set styling here
-            return {
-              fillColor: color,
-              strokeColor: `${BLACK}`,
-              strokeWeight: 1,
-              visible: v,
-            };
-          });
-        }
-
-        // Initially false while the neighborhoods are shown
-        setBlocksStyle(false);
+        // Sets the style of the layer to colored blocks with black outline, initially hidden while neighborhoods are shown
+        setBlocksStyle(blocksLayer, false);
 
         // Creates a new layer
         const neighborhoodsLayer = new google.maps.Data({ map });
@@ -312,28 +261,15 @@ const MapView: React.FC<MapViewProps> = ({
           marker.setMap(map);
         });
 
-        // Sets the style of the layer to green shades based on property values with white outline
-        function setNeighborhoodsStyle(v: boolean) {
-          neighborhoodsLayer.setStyle((feature) => {
-            return {
-              fillColor: `${MAP_GREEN}`,
-              fillOpacity:
-                (feature.getProperty('neighborhood_id') / 100) * 2 + 0.1, // TODO: replace this with completion percentage
-              strokeWeight: 1,
-              strokeColor: `${WHITE}`,
-              visible: v,
-            };
-          });
-        }
-
         function toggleMarkers(v: boolean) {
           for (const marker of markersArray) {
             marker.setVisible(v);
           }
         }
 
-        // Initially true while the neighborhoods are shown by themselves
-        setNeighborhoodsStyle(true);
+        // Sets the style of the layer to green shades based on property values with white outline,
+        // initially the neighborhoods are shown by themselves
+        setNeighborhoodsStyle(neighborhoodsLayer, true);
         // adds listener so reservation modal appears when block clicked
         /*
         blocksLayer.addListener('click', (event) => {
@@ -399,42 +335,8 @@ const MapView: React.FC<MapViewProps> = ({
             );
         });
 
-        function setSitesStyle(visible: boolean) {
-          sitesLayer.setStyle((feature) => {
-            let icon;
-            let imageSize = 0;
-
-            const zoomLevel = map.getZoom();
-            if (zoomLevel > view + 1 && zoomLevel < STREET_ZOOM) {
-              imageSize = 1;
-            } else if (zoomLevel >= STREET_ZOOM) {
-              imageSize = 2;
-            }
-
-            // If there is no tree present, use the openSiteIcon
-            // If the tree was planted within the past three years, use youngTreeIcon
-            // If the tree is adopted, use the adoptedTreeIcon
-            const plantedDate = feature.getProperty('plantingDate');
-            const adopted = !!feature.getProperty('adopterId');
-            if (!feature.getProperty('treePresent')) {
-              icon = OPEN_ICONS[imageSize];
-            } else if (adopted) {
-              icon = ADOPTED_ICONS[imageSize];
-            } else if (!!plantedDate && plantedDate > YOUNG_TREE_DATE) {
-              icon = YOUNG_ICONS[imageSize];
-            } else {
-              icon = STANDARD_ICONS[imageSize];
-            }
-
-            return {
-              visible,
-              icon,
-            };
-          });
-        }
-
-        // Initially false while the neighborhoods are shown
-        setSitesStyle(false);
+        // Initially hidden while the neighborhoods are shown
+        setSitesStyle(sitesLayer, 0, false);
 
         // Asks user if they want to show their current location
         if (navigator.geolocation) {
@@ -478,16 +380,22 @@ const MapView: React.FC<MapViewProps> = ({
             if (zoomLevel >= view) {
               zoomedIn = true;
             }
-            setNeighborhoodsStyle(!zoomedIn);
+            setNeighborhoodsStyle(neighborhoodsLayer, !zoomedIn);
             toggleMarkers(!zoomedIn);
-            setPrivateStreetsStyle(zoomedIn);
+            setPrivateStreetsStyle(privateStreetsLayer, zoomedIn);
 
+            let imageSize = 0;
             switch (view) {
               case MapViews.BLOCKS:
-                setBlocksStyle(zoomedIn);
+                setBlocksStyle(blocksLayer, zoomedIn);
                 break;
               case MapViews.TREES:
-                setSitesStyle(zoomedIn);
+                if (zoomLevel >= STREET_ZOOM) {
+                  imageSize = 2;
+                } else if (zoomLevel > view + 1) {
+                  imageSize = 1;
+                }
+                setSitesStyle(sitesLayer, imageSize, zoomedIn);
                 break;
             }
           });
