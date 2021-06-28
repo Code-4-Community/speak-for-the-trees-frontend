@@ -15,7 +15,7 @@ export const BOSTON_BOUNDS = {
   east: -70.83,
 };
 
-export const STREET_ZOOM = 20;
+export const STREET_ZOOM = 19;
 
 // Three years before the current date
 export const YOUNG_TREE_DATE = new Date().setFullYear(

@@ -1,5 +1,4 @@
 import React, { createRef, useEffect, useState } from 'react';
-import useWindowDimensions from '../../windowDimensions';
 import { Input, message } from 'antd';
 import styled from 'styled-components';
 import {
@@ -15,30 +14,16 @@ import TreePopup, {
 } from '../../treePopup';
 import { shortHand } from '../../../utils/stringFormat';
 import { SHORT_HAND_NAMES } from '../../../assets/content';
-import { isMobile } from '../../../utils/isCheck';
-import {
-  BLACK,
-  MAP_GREEN,
-  MAP_RED,
-  MAP_YELLOW,
-  RED,
-  WHITE,
-} from '../../../utils/colors';
-import {
-  ADOPTED_ICONS,
-  OPEN_ICONS,
-  STANDARD_ICONS,
-  YOUNG_ICONS,
-} from '../../../assets/images/siteIcons';
+import { WHITE } from '../../../utils/colors';
 import { goToPlace, zoomToLocation } from '../logic/view';
 import { predictPlace } from '../logic/predict';
+import { BOSTON, BOSTON_BOUNDS, LOADER, STREET_ZOOM } from '../constants';
 import {
-  BOSTON,
-  BOSTON_BOUNDS,
-  LOADER,
-  STREET_ZOOM,
-  YOUNG_TREE_DATE,
-} from '../constants';
+  setBlocksStyle,
+  setNeighborhoodsStyle,
+  setPrivateStreetsStyle,
+  setSitesStyle,
+} from '../logic/style';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -105,7 +90,6 @@ const MapView: React.FC<MapViewProps> = ({
 
   const [searchInput, setSearchInput] = useState('');
 
-  const { windowType } = useWindowDimensions();
   const mapRef = createRef<HTMLDivElement>();
   const treePopupRef = createRef<HTMLDivElement>();
 
@@ -126,216 +110,173 @@ const MapView: React.FC<MapViewProps> = ({
     if (mapElement && treePopupElement) {
       const markersArray: google.maps.Marker[] = [];
 
-      LOADER.load().then(() => {
-        map = new google.maps.Map(mapElement, {
-          center: BOSTON,
-          zoom: 12,
-          fullscreenControl: false,
-          mapTypeControl: false,
-          // mapId: mapId,
-          restriction: {
-            latLngBounds: BOSTON_BOUNDS,
-            strictBounds: false,
-          },
-        });
-
-        class Popup extends google.maps.OverlayView {
-          position: google.maps.LatLng;
-          content: HTMLDivElement;
-
-          constructor(content: HTMLDivElement, hostMap: google.maps.Map) {
-            super();
-            this.content = content;
-            this.position = new google.maps.LatLng(0, 0);
-            this.setMap(hostMap);
-          }
-
-          // Appears at the given position
-          popAtPosition(pos: google.maps.LatLng) {
-            this.position = pos;
-            this.draw();
-          }
-
-          // Called when the popup is added to the map.
-          onAdd() {
-            this.getPanes().floatPane.appendChild(this.content);
-          }
-
-          // Called when the popup is removed from the map.
-          onRemove() {
-            if (this.content && this.content.parentElement) {
-              this.content.parentElement.removeChild(this.content);
-            }
-          }
-
-          // Called each frame when the popup needs to draw itself.
-          draw() {
-            const divPosition = this.getProjection().fromLatLngToDivPixel(
-              this.position,
-            );
-
-            this.content.style.left = divPosition.x + 'px';
-            this.content.style.top = divPosition.y + 'px';
-          }
-        }
-
-        // Creates and adds the tree popup to the map
-        const popup = new Popup(treePopupElement, map);
-
-        // Sets up the autocomplete search bar, only shows places in Boston for suggestions)
-        const input = document.getElementById('pac-input') as HTMLInputElement;
-        const autocomplete = new google.maps.places.Autocomplete(input, {
-          bounds: BOSTON_BOUNDS,
-          strictBounds: true,
-        });
-        // Services provided by Google Maps
-        const autoService = new google.maps.places.AutocompleteService(); // to retrieve autocomplete predictions
-        const placesService = new google.maps.places.PlacesService(map); // to search for and find details about places
-
-        // A marker to show at the location a user searches for
-        const searchMarker: google.maps.Marker = new google.maps.Marker({
-          map,
-        });
-
-        // Callback function sets searchMarker at place and updates the text in the search input
-        function goToPredictedPlace(
-          place: google.maps.places.PlaceResult,
-          status: google.maps.places.PlacesServiceStatus,
-        ): void {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-            goToPlace(place, searchMarker, map, STREET_ZOOM);
-            setSearchInput(place.name);
-          }
-        }
-
-        // Listener for when the user enters a new location
-        autocomplete.addListener('place_changed', () => {
-          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
-          // If the place does not have a geometry (if the user did not enter a valid location)
-          if (!place.geometry) {
-            // Predicts the place the user wanted and sets the search marker at that place
-            predictPlace(place, autoService, placesService, goToPredictedPlace);
-            return;
-          }
-
-          // Otherwise just goes to the place they searched for
-          goToPlace(place, searchMarker, map, STREET_ZOOM);
-        });
-
-        // Creates a new layer
-        const privateStreetsLayer = new google.maps.Data({ map });
-
-        // Loads the objects into the layer
-        privateStreetsLayer.loadGeoJson(
-          'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/private_streets.json',
-        );
-
-        // Sets the style of the layer to simple red lines
-        function setPrivateStreetsStyle(v: boolean) {
-          privateStreetsLayer.setStyle({
-            strokeColor: `${RED}`,
-            strokeWeight: 2,
-            visible: v,
+      LOADER.load()
+        .then(() => {
+          map = new google.maps.Map(mapElement, {
+            center: BOSTON,
+            zoom: 12,
+            fullscreenControl: false,
+            mapTypeControl: false,
+            // mapId: mapId,
+            restriction: {
+              latLngBounds: BOSTON_BOUNDS,
+              strictBounds: false,
+            },
           });
-        }
 
-        // Initially false while the neighborhoods are shown
-        setPrivateStreetsStyle(false);
+          class Popup extends google.maps.OverlayView {
+            position: google.maps.LatLng;
+            content: HTMLDivElement;
 
-        // Creates a new layer
-        const blocksLayer = new google.maps.Data({ map });
-
-        // Loads the objects into the layer
-        blocksLayer.addGeoJson(blocks);
-
-        // Sets the style of the layer to colored blocks with black outline
-        function setBlocksStyle(v: boolean) {
-          blocksLayer.setStyle((feature) => {
-            let color = `${MAP_GREEN}`;
-
-            // Use this for coloring reserved/completed blocks a different color
-            if (feature.getProperty('block_id') % 10 === 0) {
-              color = `${MAP_YELLOW}`;
+            constructor(content: HTMLDivElement, hostMap: google.maps.Map) {
+              super();
+              this.content = content;
+              this.position = new google.maps.LatLng(0, 0);
+              this.setMap(hostMap);
             }
 
-            if (feature.getProperty('block_id') % 10 === 1) {
-              color = `${MAP_RED}`;
+            // Appears at the given position
+            popAtPosition(pos: google.maps.LatLng) {
+              this.position = pos;
+              this.draw();
             }
 
-            // Use this for selecting blocks
-            if (feature.getProperty('PRECINCT') === 'YES') {
-              color = `${BLACK}`;
+            // Called when the popup is added to the map.
+            onAdd() {
+              this.getPanes().floatPane.appendChild(this.content);
             }
 
-            // Set styling here
-            return {
-              fillColor: color,
-              strokeColor: `${BLACK}`,
-              strokeWeight: 1,
-              visible: v,
-            };
+            // Called when the popup is removed from the map.
+            onRemove() {
+              if (this.content && this.content.parentElement) {
+                this.content.parentElement.removeChild(this.content);
+              }
+            }
+
+            // Called each frame when the popup needs to draw itself.
+            draw() {
+              const divPosition = this.getProjection().fromLatLngToDivPixel(
+                this.position,
+              );
+
+              this.content.style.left = divPosition.x + 'px';
+              this.content.style.top = divPosition.y + 'px';
+            }
+          }
+
+          // Creates and adds the tree popup to the map
+          const popup = new Popup(treePopupElement, map);
+
+          // Sets up the autocomplete search bar, only shows places in Boston for suggestions)
+          const input = document.getElementById(
+            'pac-input',
+          ) as HTMLInputElement;
+          const autocomplete = new google.maps.places.Autocomplete(input, {
+            bounds: BOSTON_BOUNDS,
+            strictBounds: true,
           });
-        }
+          // Services provided by Google Maps
+          const autoService = new google.maps.places.AutocompleteService(); // to retrieve autocomplete predictions
+          const placesService = new google.maps.places.PlacesService(map); // to search for and find details about places
 
-        // Initially false while the neighborhoods are shown
-        setBlocksStyle(false);
-
-        // Creates a new layer
-        const neighborhoodsLayer = new google.maps.Data({ map });
-
-        // Loads the objects into the layer
-        neighborhoodsLayer.addGeoJson(neighborhoods);
-        neighborhoodsLayer.forEach((feature) => {
-          // For each feature in neighbourhoodsLayer, add a marker
-          // We need to do it here as the GeoJson needs to load first
-          // If you want, check here for some constraints.
-          const marker = new google.maps.Marker({
+          // A marker to show at the location a user searches for
+          const searchMarker: google.maps.Marker = new google.maps.Marker({
             map,
-            draggable: false,
-            label: {
-              color: `${WHITE}`,
-              fontWeight: 'bold',
-              text: shortHand(feature.getProperty('name'), SHORT_HAND_NAMES),
-            },
-            // Removed the icon here, only text on map.
-            icon: {
-              labelOrigin: new google.maps.Point(11, 50),
-              url: '',
-              size: new google.maps.Size(22, 40),
-            },
-            position: {
-              lat: feature.getProperty('lat'),
-              lng: feature.getProperty('lng'),
-            },
           });
-          markersArray.push(marker);
-          marker.setMap(map);
-        });
 
-        // Sets the style of the layer to green shades based on property values with white outline
-        function setNeighborhoodsStyle(v: boolean) {
-          neighborhoodsLayer.setStyle((feature) => {
-            return {
-              fillColor: `${MAP_GREEN}`,
-              fillOpacity:
-                (feature.getProperty('neighborhood_id') / 100) * 2 + 0.1, // TODO: replace this with completion percentage
-              strokeWeight: 1,
-              strokeColor: `${WHITE}`,
-              visible: v,
-            };
-          });
-        }
-
-        function toggleMarkers(v: boolean) {
-          for (const marker of markersArray) {
-            marker.setVisible(v);
+          // Callback function sets searchMarker at place and updates the text in the search input
+          function goToPredictedPlace(
+            place: google.maps.places.PlaceResult,
+            status: google.maps.places.PlacesServiceStatus,
+          ): void {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+              goToPlace(place, searchMarker, map, STREET_ZOOM);
+              setSearchInput(place.name);
+            }
           }
-        }
 
-        // Initially true while the neighborhoods are shown by themselves
-        setNeighborhoodsStyle(true);
-        // adds listener so reservation modal appears when block clicked
-        /*
+          // Listener for when the user enters a new location
+          autocomplete.addListener('place_changed', () => {
+            const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+            // If the place does not have a geometry (if the user did not enter a valid location)
+            if (!place.geometry) {
+              // Predicts the place the user wanted and sets the search marker at that place
+              predictPlace(
+                place,
+                autoService,
+                placesService,
+                goToPredictedPlace,
+              );
+              return;
+            }
+
+            // Otherwise just goes to the place they searched for
+            goToPlace(place, searchMarker, map, STREET_ZOOM);
+          });
+
+          // Creates a new layer
+          const privateStreetsLayer = new google.maps.Data({ map });
+
+          // Loads the objects into the layer
+          privateStreetsLayer.loadGeoJson(
+            'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/private_streets.json',
+          );
+
+          // Initially false while the neighborhoods are shown
+          setPrivateStreetsStyle(privateStreetsLayer, false);
+
+          // Creates a new layer
+          const blocksLayer = new google.maps.Data({ map });
+
+          // Loads the objects into the layer
+          blocksLayer.addGeoJson(blocks);
+
+          // Sets the style of the layer to colored blocks with black outline, initially hidden while neighborhoods are shown
+          setBlocksStyle(blocksLayer, false);
+
+          // Creates a new layer
+          const neighborhoodsLayer = new google.maps.Data({ map });
+
+          // Loads the objects into the layer
+          neighborhoodsLayer.addGeoJson(neighborhoods);
+          neighborhoodsLayer.forEach((feature) => {
+            // For each feature in neighbourhoodsLayer, add a marker
+            // We need to do it here as the GeoJson needs to load first
+            // If you want, check here for some constraints.
+            const marker = new google.maps.Marker({
+              map,
+              draggable: false,
+              label: {
+                color: `${WHITE}`,
+                fontWeight: 'bold',
+                text: shortHand(feature.getProperty('name'), SHORT_HAND_NAMES),
+              },
+              // Removed the icon here, only text on map.
+              icon: {
+                labelOrigin: new google.maps.Point(11, 50),
+                url: '',
+                size: new google.maps.Size(22, 40),
+              },
+              position: {
+                lat: feature.getProperty('lat'),
+                lng: feature.getProperty('lng'),
+              },
+            });
+            markersArray.push(marker);
+            marker.setMap(map);
+          });
+
+          function toggleMarkers(v: boolean) {
+            for (const marker of markersArray) {
+              marker.setVisible(v);
+            }
+          }
+
+          // Sets the style of the layer to green shades based on property values with white outline,
+          // initially the neighborhoods are shown by themselves
+          setNeighborhoodsStyle(neighborhoodsLayer, true);
+          // adds listener so reservation modal appears when block clicked
+          /*
         blocksLayer.addListener('click', (event) => {
           // get status of block based on color
           const status: ReservationModalType = ((): ReservationModalType => {
@@ -357,158 +298,129 @@ const MapView: React.FC<MapViewProps> = ({
         });
         */
 
-        // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
-        neighborhoodsLayer.addListener('click', (event) => {
-          zoomToLocation(
-            new google.maps.LatLng(
-              event.feature.getProperty('lat'),
-              event.feature.getProperty('lng'),
-            ),
-            map,
-            view,
-          );
-        });
+          // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
+          neighborhoodsLayer.addListener('click', (event) => {
+            zoomToLocation(
+              new google.maps.LatLng(
+                event.feature.getProperty('lat'),
+                event.feature.getProperty('lng'),
+              ),
+              map,
+              view,
+            );
+          });
 
-        // Creates a new layer
-        const sitesLayer = new google.maps.Data({ map });
+          // Creates a new layer
+          const sitesLayer = new google.maps.Data({ map });
 
-        // Loads the objects into the layer
-        sitesLayer.addGeoJson(sites);
+          // Loads the objects into the layer
+          sitesLayer.addGeoJson(sites);
 
-        // Adds listener so reservation modal appears when block clicked
-        sitesLayer.addListener('click', (event) => {
-          const eventFeature = event.feature;
-          let siteId = eventFeature.getProperty('id');
+          // Adds listener so reservation modal appears when block clicked
+          sitesLayer.addListener('click', (event) => {
+            const eventFeature = event.feature;
+            let siteId = eventFeature.getProperty('id');
 
-          // Set site ID to tell tree popup this is an open planting site
-          if (!eventFeature.getProperty('treePresent')) {
-            siteId = NO_TREE_PRESENT;
+            // Set site ID to tell tree popup this is an open planting site
+            if (!eventFeature.getProperty('treePresent')) {
+              siteId = NO_TREE_PRESENT;
+            }
+
+            // Sets the information to display in the popup
+            setActiveTreeInfo({
+              id: siteId,
+              commonName: eventFeature.getProperty('commonName'),
+              address: eventFeature.getProperty('address'),
+            });
+            // Popup appears at the site
+            eventFeature
+              .getGeometry()
+              .forEachLatLng((latLng: google.maps.LatLng) =>
+                popup.popAtPosition(latLng),
+              );
+          });
+
+          // Initially hidden while the neighborhoods are shown
+          setSitesStyle(sitesLayer, 0, false);
+
+          // Asks user if they want to show their current location
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (pos) => {
+                const me = new google.maps.LatLng(
+                  pos.coords.latitude,
+                  pos.coords.longitude,
+                );
+                // eslint-disable-next-line
+                const userLocation = new google.maps.Marker({
+                  position: me,
+                  map,
+                  clickable: false,
+                  icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    scale: 5,
+                    fillColor: 'blue',
+                    fillOpacity: 1,
+                    strokeWeight: 0,
+                  },
+                });
+              },
+              () => {
+                message
+                  .info(
+                    'Enable access to your location to display where you are on the map.',
+                    5,
+                  )
+                  .then();
+              },
+            );
           }
 
-          // Sets the information to display in the popup
-          setActiveTreeInfo({
-            id: siteId,
-            commonName: eventFeature.getProperty('commonName'),
-            address: eventFeature.getProperty('address'),
-          });
-          // Popup appears at the site
-          eventFeature
-            .getGeometry()
-            .forEachLatLng((latLng: google.maps.LatLng) =>
-              popup.popAtPosition(latLng),
-            );
-        });
+          // Shows or hides layers based on the zoom level
+          function handleZoomChange() {
+            google.maps.event.addListener(map, 'zoom_changed', () => {
+              const zoomLevel = map.getZoom();
+              let zoomedIn = false;
 
-        function setSitesStyle(visible: boolean) {
-          sitesLayer.setStyle((feature) => {
-            let icon;
-            let imageSize = 0;
+              if (zoomLevel >= view) {
+                zoomedIn = true;
+              }
+              setNeighborhoodsStyle(neighborhoodsLayer, !zoomedIn);
+              toggleMarkers(!zoomedIn);
+              setPrivateStreetsStyle(privateStreetsLayer, zoomedIn);
 
-            const zoomLevel = map.getZoom();
-            if (zoomLevel > view + 1 && zoomLevel < STREET_ZOOM) {
-              imageSize = 1;
-            } else if (zoomLevel >= STREET_ZOOM) {
-              imageSize = 2;
-            }
+              let imageSize = 0;
+              switch (view) {
+                case MapViews.BLOCKS:
+                  setBlocksStyle(blocksLayer, zoomedIn);
+                  break;
+                case MapViews.TREES:
+                  if (zoomLevel >= STREET_ZOOM) {
+                    imageSize = 2;
+                  } else if (zoomLevel > view + 1) {
+                    imageSize = 1;
+                  }
+                  setSitesStyle(sitesLayer, imageSize, zoomedIn);
+                  break;
+              }
+            });
+          }
 
-            // If there is no tree present, use the openSiteIcon
-            // If the tree was planted within the past three years, use youngTreeIcon
-            // If the tree is adopted, use the adoptedTreeIcon
-            const plantedDate = feature.getProperty('plantingDate');
-            const adopted = !!feature.getProperty('adopterId');
-            if (!feature.getProperty('treePresent')) {
-              icon = OPEN_ICONS[imageSize];
-            } else if (adopted) {
-              icon = ADOPTED_ICONS[imageSize];
-            } else if (!!plantedDate && plantedDate > YOUNG_TREE_DATE) {
-              icon = YOUNG_ICONS[imageSize];
-            } else {
-              icon = STANDARD_ICONS[imageSize];
-            }
-
-            return {
-              visible,
-              icon,
-            };
-          });
-        }
-
-        // Initially false while the neighborhoods are shown
-        setSitesStyle(false);
-
-        // Asks user if they want to show their current location
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (pos) => {
-              const me = new google.maps.LatLng(
-                pos.coords.latitude,
-                pos.coords.longitude,
-              );
-              // eslint-disable-next-line
-              const userLocation = new google.maps.Marker({
-                position: me,
-                map,
-                clickable: false,
-                icon: {
-                  path: google.maps.SymbolPath.CIRCLE,
-                  scale: 5,
-                  fillColor: 'blue',
-                  fillOpacity: 1,
-                  strokeWeight: 0,
-                },
-              });
-            },
-            () => {
-              message
-                .info(
-                  'Enable access to your location to display where you are on the map.',
-                  5,
-                )
-                .then();
-            },
-          );
-        }
-
-        // Shows or hides layers based on the zoom level
-        function handleZoomChange() {
-          google.maps.event.addListener(map, 'zoom_changed', () => {
-            const zoomLevel = map.getZoom();
-            let zoomedIn = false;
-
-            if (zoomLevel >= view) {
-              zoomedIn = true;
-            }
-            setNeighborhoodsStyle(!zoomedIn);
-            toggleMarkers(!zoomedIn);
-            setPrivateStreetsStyle(zoomedIn);
-
-            switch (view) {
-              case MapViews.BLOCKS:
-                setBlocksStyle(zoomedIn);
-                break;
-              case MapViews.TREES:
-                setSitesStyle(zoomedIn);
-                break;
-            }
-          });
-        }
-
-        handleZoomChange();
-      });
+          handleZoomChange();
+        })
+        .catch((err) => message.error(err.message));
     }
   }, [blocks, mapElement, treePopupElement, neighborhoods, sites, view]);
 
   return (
     <>
       <div id="pac-container">
-        {!isMobile(windowType) && (
-          <StyledSearch
-            id={'pac-input'}
-            placeholder="Address"
-            value={searchInput}
-            onChange={(event) => setSearchInput(event.target.value)}
-          />
-        )}
+        <StyledSearch
+          id={'pac-input'}
+          placeholder="Address"
+          value={searchInput}
+          onChange={(event) => setSearchInput(event.target.value)}
+        />
       </div>
       <MapDiv id="map" ref={mapRef} />
       <TreePopup treeInfo={activeTreeInfo} popRef={treePopupRef} />
