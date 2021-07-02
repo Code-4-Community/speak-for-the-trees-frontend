@@ -11,8 +11,6 @@ import {
   BLACK,
 } from '../../../utils/colors';
 
-const { Paragraph } = Typography;
-
 const MobileBarContentContainer = styled.div`
   display: block;
   height: 35vh;
@@ -32,14 +30,14 @@ const TitleContainer = styled.div`
   max-width: 95%;
 `;
 
-const MobileTitle = styled(Paragraph)`
+const MobileTitle = styled(Typography.Paragraph)`
   color: ${MID_GREEN};
   font-size: 18px;
   font-weight: 500;
   line-height: 15px;
 `;
 
-const MobileParagraph = styled(Paragraph)`
+const MobileParagraph = styled(Typography.Paragraph)`
   font-size: 9px;
 `;
 

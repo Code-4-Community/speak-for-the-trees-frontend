@@ -8,8 +8,6 @@ import SlideDown from '../../slideDown';
 import MapLegend from '../mapLegend';
 import { ALL_SITES_VISIBLE, SITE_OPTIONS } from '../constants';
 
-const { Text } = Typography;
-
 const LegendContainer = styled.div`
   width: 15vw;
   position: absolute;
@@ -31,7 +29,7 @@ const SiteLegend: React.FC<SiteLegendProps> = ({ onCheck }) => {
     <LegendContainer>
       <SlideDown defaultOpen={true}>
         <MapLegend view={MapViews.TREES} mobile={false} />
-        <Text strong>Show</Text>
+        <Typography.Text strong>Show</Typography.Text>
         <StyledCheckbox
           options={SITE_OPTIONS}
           defaultValue={ALL_SITES_VISIBLE}
