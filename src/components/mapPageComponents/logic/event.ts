@@ -147,8 +147,8 @@ export function addHandleZoomChange(
   visibleSites: CheckboxValueType[],
   view: MapViews,
   map: google.maps.Map,
-): void {
-  google.maps.event.addListener(map, 'zoom_changed', () => {
+): google.maps.MapsEventListener {
+  return google.maps.event.addListener(map, 'zoom_changed', () => {
     const zoomLevel = map.getZoom();
     let zoomedIn = false;
 

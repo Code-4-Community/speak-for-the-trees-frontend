@@ -47,6 +47,7 @@ let privateStreetsLayer: google.maps.Data;
 let neighborhoodsLayer: google.maps.Data;
 let blocksLayer: google.maps.Data;
 let sitesLayer: google.maps.Data;
+let zoomListener: google.maps.MapsEventListener;
 const markersArray: google.maps.Marker[] = [];
 
 interface MapViewProps {
@@ -243,7 +244,7 @@ const MapView: React.FC<MapViewProps> = ({
           // Sets marker at the user's current location, if they allow it
           initUserLocation(map);
 
-          addHandleZoomChange(
+          zoomListener = addHandleZoomChange(
             neighborhoodsLayer,
             markersArray,
             privateStreetsLayer,
@@ -263,7 +264,8 @@ const MapView: React.FC<MapViewProps> = ({
   // Add new zoom listener and update sites style whenever visibleSites changes
   const onCheck = (values: CheckboxValueType[]): void => {
     if (mapLoaded && view === MapViews.TREES) {
-      addHandleZoomChange(
+      google.maps.event.removeListener(zoomListener);
+      zoomListener = addHandleZoomChange(
         neighborhoodsLayer,
         markersArray,
         privateStreetsLayer,
