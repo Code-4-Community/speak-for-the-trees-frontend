@@ -18,8 +18,6 @@ import openSiteIcon from '../../../assets/images/siteIcons/openLarge.png';
 import { MAP_GREEN, MAP_RED, MAP_YELLOW, RED } from '../../../utils/colors';
 import { MapViews } from '../ducks/types';
 
-const { Paragraph, Text } = Typography;
-
 const MapLegendContainer = styled.div`
   margin-bottom: 5px;
 `;
@@ -28,7 +26,7 @@ const CenterCol = styled(Col)`
   text-align: center;
 `;
 
-const FlexibleParagraph = styled(Paragraph)`
+const FlexibleParagraph = styled(Typography.Paragraph)`
   line-height: 15px;
   font-size: ${(props: FlexibleParagraphProps) => props.fontSize};
   display: inline-block;
@@ -89,7 +87,9 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile, canHide }) => {
               <>
                 {showLegend && (
                   <>
-                    <Text strong>What does each icon mean?</Text>
+                    <Typography.Text strong>
+                      What does each icon mean?
+                    </Typography.Text>
                     <br />
                     <Row>
                       <CenterCol span={3}>
@@ -144,7 +144,9 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile, canHide }) => {
               <>
                 {showLegend && (
                   <>
-                    <Text strong>Blocks that are colored</Text>
+                    <Typography.Text strong>
+                      Blocks that are colored
+                    </Typography.Text>
                     <br />
                     <Row>
                       <CenterCol span={3}>
@@ -187,7 +189,7 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile, canHide }) => {
       })()}
       {showLegend && (
         <>
-          <Text strong>Watch out!</Text>
+          <Typography.Text strong>Watch out!</Typography.Text>
           <br />
           <Row>
             <CenterCol span={3}>
