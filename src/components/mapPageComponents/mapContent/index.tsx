@@ -21,6 +21,7 @@ interface MapContentStateProps {
   readonly blocks: MapGeoDataReducerState['blockGeoData'];
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly sites: MapGeoDataReducerState['siteGeoData'];
+  readonly mobile: boolean;
 }
 
 interface MapContentProps extends MapContentStateProps {
@@ -32,6 +33,7 @@ const MapContent: React.FC<MapContentProps> = ({
   neighborhoods,
   sites,
   view,
+  mobile,
 }) => (
   <Content>
     {asyncRequestIsComplete(blocks) &&
@@ -42,6 +44,7 @@ const MapContent: React.FC<MapContentProps> = ({
           neighborhoods={neighborhoods.result}
           sites={sites.result}
           view={view}
+          mobile={mobile}
         />
       )}
     {(asyncRequestIsFailed(blocks) ||

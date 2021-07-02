@@ -4,8 +4,7 @@ import PageLayout from '../../pageLayout';
 import { Layout } from 'antd';
 import { MainContent } from '../../themedComponents';
 import MapContent from '../mapContent';
-import { MapViews } from '../ducks/types';
-import { MapGeoDataReducerState } from '../ducks/types';
+import { MapGeoDataReducerState, MapViews } from '../ducks/types';
 import MapLegend from '../mapLegend';
 
 const { Sider } = Layout;
@@ -36,10 +35,13 @@ const MapPage: React.FC<MapPageProps> = ({
           blocks={blocks}
           neighborhoods={neighborhoods}
           sites={sites}
+          mobile={false}
         />
         <Sider width="20vw">
           <MapSidebar header={sidebarHeader} description={sidebarDescription}>
-            <MapLegend view={view} mobile={false} />
+            {view !== MapViews.TREES && (
+              <MapLegend view={view} mobile={false} />
+            )}
             {children}
           </MapSidebar>
         </Sider>

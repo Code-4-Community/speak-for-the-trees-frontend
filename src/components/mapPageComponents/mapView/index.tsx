@@ -7,23 +7,30 @@ import {
   NeighborhoodGeoData,
   SiteGeoData,
 } from '../ducks/types';
-import TreePopup, {
-  BasicTreeInfo,
-  NO_SITE_SELECTED,
-  NO_TREE_PRESENT,
-} from '../../treePopup';
-import { shortHand } from '../../../utils/stringFormat';
-import { SHORT_HAND_NAMES } from '../../../assets/content';
-import { WHITE } from '../../../utils/colors';
-import { goToPlace, zoomToLocation } from '../logic/view';
-import { predictPlace } from '../logic/predict';
-import { BOSTON, BOSTON_BOUNDS, LOADER, STREET_ZOOM } from '../constants';
+import TreePopup, { BasicTreeInfo, NO_SITE_SELECTED } from '../../treePopup';
+import { goToPlace } from '../logic/view';
 import {
-  setBlocksStyle,
-  setNeighborhoodsStyle,
-  setPrivateStreetsStyle,
-  setSitesStyle,
-} from '../logic/style';
+  ALL_SITES_VISIBLE,
+  BOSTON,
+  BOSTON_BOUNDS,
+  LOADER,
+  STREET_ZOOM,
+} from '../constants';
+import {
+  addHandleSearch,
+  addHandleZoomChange,
+  getImageSize,
+} from '../logic/event';
+import {
+  initBlocks,
+  initNeighborhoods,
+  initPrivateStreets,
+  initSites,
+  initUserLocation,
+} from '../logic/init';
+import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import { setSitesStyle } from '../logic/style';
+import SiteLegend from '../siteLegend';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -36,12 +43,18 @@ const MapDiv = styled.div`
 `;
 
 let map: google.maps.Map;
+let privateStreetsLayer: google.maps.Data;
+let neighborhoodsLayer: google.maps.Data;
+let blocksLayer: google.maps.Data;
+let sitesLayer: google.maps.Data;
+const markersArray: google.maps.Marker[] = [];
 
 interface MapViewProps {
-  blocks: BlockGeoData;
-  neighborhoods: NeighborhoodGeoData;
-  sites: SiteGeoData;
-  view: MapViews;
+  readonly blocks: BlockGeoData;
+  readonly neighborhoods: NeighborhoodGeoData;
+  readonly sites: SiteGeoData;
+  readonly view: MapViews;
+  readonly mobile: boolean;
 }
 
 const MapView: React.FC<MapViewProps> = ({
@@ -49,17 +62,18 @@ const MapView: React.FC<MapViewProps> = ({
   neighborhoods,
   sites,
   view,
+  mobile,
 }) => {
   /*
-  // visibility of reservation modal
-  const [showModal, setShowModal] = useState<boolean>(false);
-  // block status for modal
-  const [reservationType, setReservationType] = useState<ReservationModalType>(
-    ReservationModalType.OPEN,
-  );
-  // block id for modal
-  const [activeBlockId, setActiveBlockId] = useState<number>(-1);
-   */
+          // visibility of reservation modal
+          const [showModal, setShowModal] = useState<boolean>(false);
+          // block status for modal
+          const [reservationType, setReservationType] = useState<ReservationModalType>(
+            ReservationModalType.OPEN,
+          );
+          // block id for modal
+          const [activeBlockId, setActiveBlockId] = useState<number>(-1);
+           */
   // BasicTreeInfo to display in tree popup
   const [activeTreeInfo, setActiveTreeInfo] = useState<BasicTreeInfo>({
     id: NO_SITE_SELECTED,
@@ -69,24 +83,24 @@ const MapView: React.FC<MapViewProps> = ({
 
   // logic for reservation modal to complete action selected by user
   /*
-  const handleOk = async (team?: number) => {
-    setShowModal(false);
-    switch (reservationType) {
-      case ReservationModalType.OPEN:
-        // set block status to reserved
-        await protectedApiClient.makeReservation(activeBlockId, team);
-        await protectedApiClient.completeReservation(activeBlockId, team);
-        break;
-      case ReservationModalType.RESERVED:
-        // set block status to open
-        await protectedApiClient.releaseReservation(activeBlockId);
-        break;
-      case ReservationModalType.TAKEN:
-        // block clicked not owned/open so do nothing
-        break;
-    }
-  };
-  */
+          const handleOk = async (team?: number) => {
+            setShowModal(false);
+            switch (reservationType) {
+              case ReservationModalType.OPEN:
+                // set block status to reserved
+                await protectedApiClient.makeReservation(activeBlockId, team);
+                await protectedApiClient.completeReservation(activeBlockId, team);
+                break;
+              case ReservationModalType.RESERVED:
+                // set block status to open
+                await protectedApiClient.releaseReservation(activeBlockId);
+                break;
+              case ReservationModalType.TAKEN:
+                // block clicked not owned/open so do nothing
+                break;
+            }
+          };
+          */
 
   const [searchInput, setSearchInput] = useState('');
 
@@ -97,6 +111,7 @@ const MapView: React.FC<MapViewProps> = ({
   const [treePopupElement, setTreePopupElement] = useState(
     treePopupRef.current,
   );
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   useEffect(() => {
     setMapElement(mapRef.current);
@@ -108,8 +123,6 @@ const MapView: React.FC<MapViewProps> = ({
 
   useEffect(() => {
     if (mapElement && treePopupElement) {
-      const markersArray: google.maps.Marker[] = [];
-
       LOADER.load()
         .then(() => {
           map = new google.maps.Map(mapElement, {
@@ -117,13 +130,14 @@ const MapView: React.FC<MapViewProps> = ({
             zoom: 12,
             fullscreenControl: false,
             mapTypeControl: false,
-            // mapId: mapId,
             restriction: {
               latLngBounds: BOSTON_BOUNDS,
               strictBounds: false,
             },
           });
 
+          // Declare everything that must be created within the loader
+          // A class for the custom popup
           class Popup extends google.maps.OverlayView {
             position: google.maps.LatLng;
             content: HTMLDivElement;
@@ -167,6 +181,10 @@ const MapView: React.FC<MapViewProps> = ({
           // Creates and adds the tree popup to the map
           const popup = new Popup(treePopupElement, map);
 
+          function popPopup(latLng: google.maps.LatLng) {
+            popup.popAtPosition(latLng);
+          }
+
           // Sets up the autocomplete search bar, only shows places in Boston for suggestions)
           const input = document.getElementById(
             'pac-input',
@@ -195,222 +213,73 @@ const MapView: React.FC<MapViewProps> = ({
             }
           }
 
-          // Listener for when the user enters a new location
-          autocomplete.addListener('place_changed', () => {
-            const place: google.maps.places.PlaceResult = autocomplete.getPlace();
-            // If the place does not have a geometry (if the user did not enter a valid location)
-            if (!place.geometry) {
-              // Predicts the place the user wanted and sets the search marker at that place
-              predictPlace(
-                place,
-                autoService,
-                placesService,
-                goToPredictedPlace,
-              );
-              return;
-            }
-
-            // Otherwise just goes to the place they searched for
-            goToPlace(place, searchMarker, map, STREET_ZOOM);
-          });
-
-          // Creates a new layer
-          const privateStreetsLayer = new google.maps.Data({ map });
-
-          // Loads the objects into the layer
-          privateStreetsLayer.loadGeoJson(
-            'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/private_streets.json',
+          // Adds a listener for user location searches
+          addHandleSearch(
+            autocomplete,
+            autoService,
+            placesService,
+            goToPredictedPlace,
+            searchMarker,
+            map,
           );
 
-          // Initially false while the neighborhoods are shown
-          setPrivateStreetsStyle(privateStreetsLayer, false);
+          // Creates data layers and add respective event listeners
+          privateStreetsLayer = initPrivateStreets(map);
+          blocksLayer = initBlocks(blocks, map);
+          neighborhoodsLayer = initNeighborhoods(
+            neighborhoods,
+            markersArray,
+            view,
+            map,
+          );
+          sitesLayer = initSites(
+            sites,
+            ALL_SITES_VISIBLE,
+            setActiveTreeInfo,
+            popPopup,
+            map,
+          );
 
-          // Creates a new layer
-          const blocksLayer = new google.maps.Data({ map });
+          // Sets marker at the user's current location, if they allow it
+          initUserLocation(map);
 
-          // Loads the objects into the layer
-          blocksLayer.addGeoJson(blocks);
+          addHandleZoomChange(
+            neighborhoodsLayer,
+            markersArray,
+            privateStreetsLayer,
+            blocksLayer,
+            sitesLayer,
+            ALL_SITES_VISIBLE,
+            view,
+            map,
+          );
 
-          // Sets the style of the layer to colored blocks with black outline, initially hidden while neighborhoods are shown
-          setBlocksStyle(blocksLayer, false);
-
-          // Creates a new layer
-          const neighborhoodsLayer = new google.maps.Data({ map });
-
-          // Loads the objects into the layer
-          neighborhoodsLayer.addGeoJson(neighborhoods);
-          neighborhoodsLayer.forEach((feature) => {
-            // For each feature in neighbourhoodsLayer, add a marker
-            // We need to do it here as the GeoJson needs to load first
-            // If you want, check here for some constraints.
-            const marker = new google.maps.Marker({
-              map,
-              draggable: false,
-              label: {
-                color: `${WHITE}`,
-                fontWeight: 'bold',
-                text: shortHand(feature.getProperty('name'), SHORT_HAND_NAMES),
-              },
-              // Removed the icon here, only text on map.
-              icon: {
-                labelOrigin: new google.maps.Point(11, 50),
-                url: '',
-                size: new google.maps.Size(22, 40),
-              },
-              position: {
-                lat: feature.getProperty('lat'),
-                lng: feature.getProperty('lng'),
-              },
-            });
-            markersArray.push(marker);
-            marker.setMap(map);
-          });
-
-          function toggleMarkers(v: boolean) {
-            for (const marker of markersArray) {
-              marker.setVisible(v);
-            }
-          }
-
-          // Sets the style of the layer to green shades based on property values with white outline,
-          // initially the neighborhoods are shown by themselves
-          setNeighborhoodsStyle(neighborhoodsLayer, true);
-          // adds listener so reservation modal appears when block clicked
-          /*
-        blocksLayer.addListener('click', (event) => {
-          // get status of block based on color
-          const status: ReservationModalType = ((): ReservationModalType => {
-            switch (event.feature.getProperty('block_id') % 10) {
-              case 1:
-                return ReservationModalType.TAKEN;
-              case 0:
-                return ReservationModalType.RESERVED;
-              default:
-                return ReservationModalType.OPEN;
-            }
-          })();
-          // show modal
-          setShowModal(true);
-          // set status of block
-          setReservationType(status);
-          // set id of block
-          setActiveBlockId(event.feature.getProperty('block_id'));
-        });
-        */
-
-          // Check for clicks on neighborhoods and zoom to when clicked on a neighborhood
-          neighborhoodsLayer.addListener('click', (event) => {
-            zoomToLocation(
-              new google.maps.LatLng(
-                event.feature.getProperty('lat'),
-                event.feature.getProperty('lng'),
-              ),
-              map,
-              view,
-            );
-          });
-
-          // Creates a new layer
-          const sitesLayer = new google.maps.Data({ map });
-
-          // Loads the objects into the layer
-          sitesLayer.addGeoJson(sites);
-
-          // Adds listener so reservation modal appears when block clicked
-          sitesLayer.addListener('click', (event) => {
-            const eventFeature = event.feature;
-            let siteId = eventFeature.getProperty('id');
-
-            // Set site ID to tell tree popup this is an open planting site
-            if (!eventFeature.getProperty('treePresent')) {
-              siteId = NO_TREE_PRESENT;
-            }
-
-            // Sets the information to display in the popup
-            setActiveTreeInfo({
-              id: siteId,
-              commonName: eventFeature.getProperty('commonName'),
-              address: eventFeature.getProperty('address'),
-            });
-            // Popup appears at the site
-            eventFeature
-              .getGeometry()
-              .forEachLatLng((latLng: google.maps.LatLng) =>
-                popup.popAtPosition(latLng),
-              );
-          });
-
-          // Initially hidden while the neighborhoods are shown
-          setSitesStyle(sitesLayer, 0, false);
-
-          // Asks user if they want to show their current location
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-              (pos) => {
-                const me = new google.maps.LatLng(
-                  pos.coords.latitude,
-                  pos.coords.longitude,
-                );
-                // eslint-disable-next-line
-                const userLocation = new google.maps.Marker({
-                  position: me,
-                  map,
-                  clickable: false,
-                  icon: {
-                    path: google.maps.SymbolPath.CIRCLE,
-                    scale: 5,
-                    fillColor: 'blue',
-                    fillOpacity: 1,
-                    strokeWeight: 0,
-                  },
-                });
-              },
-              () => {
-                message
-                  .info(
-                    'Enable access to your location to display where you are on the map.',
-                    5,
-                  )
-                  .then();
-              },
-            );
-          }
-
-          // Shows or hides layers based on the zoom level
-          function handleZoomChange() {
-            google.maps.event.addListener(map, 'zoom_changed', () => {
-              const zoomLevel = map.getZoom();
-              let zoomedIn = false;
-
-              if (zoomLevel >= view) {
-                zoomedIn = true;
-              }
-              setNeighborhoodsStyle(neighborhoodsLayer, !zoomedIn);
-              toggleMarkers(!zoomedIn);
-              setPrivateStreetsStyle(privateStreetsLayer, zoomedIn);
-
-              let imageSize = 0;
-              switch (view) {
-                case MapViews.BLOCKS:
-                  setBlocksStyle(blocksLayer, zoomedIn);
-                  break;
-                case MapViews.TREES:
-                  if (zoomLevel >= STREET_ZOOM) {
-                    imageSize = 2;
-                  } else if (zoomLevel > view + 1) {
-                    imageSize = 1;
-                  }
-                  setSitesStyle(sitesLayer, imageSize, zoomedIn);
-                  break;
-              }
-            });
-          }
-
-          handleZoomChange();
+          setMapLoaded(true);
         })
         .catch((err) => message.error(err.message));
     }
   }, [blocks, mapElement, treePopupElement, neighborhoods, sites, view]);
+
+  // Add new zoom listener and update sites style whenever visibleSites changes
+  const onCheck = (values: CheckboxValueType[]): void => {
+    if (mapLoaded && view === MapViews.TREES) {
+      addHandleZoomChange(
+        neighborhoodsLayer,
+        markersArray,
+        privateStreetsLayer,
+        blocksLayer,
+        sitesLayer,
+        values,
+        view,
+        map,
+      );
+
+      const zoom = map.getZoom();
+      if (zoom >= view) {
+        setSitesStyle(sitesLayer, values, getImageSize(zoom, view), true);
+      }
+    }
+  };
 
   return (
     <>
@@ -422,6 +291,7 @@ const MapView: React.FC<MapViewProps> = ({
           onChange={(event) => setSearchInput(event.target.value)}
         />
       </div>
+      {view === MapViews.TREES && !mobile && <SiteLegend onCheck={onCheck} />}
       <MapDiv id="map" ref={mapRef} />
       <TreePopup treeInfo={activeTreeInfo} popRef={treePopupRef} />
       {/*

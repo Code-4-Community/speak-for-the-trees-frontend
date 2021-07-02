@@ -1,4 +1,5 @@
 import { Loader } from '@googlemaps/js-api-loader';
+import { CheckboxValueType } from 'antd/es/checkbox/Group';
 
 const MAP_ID = '76c08a2450c223d9';
 export const LOADER = new Loader({
@@ -21,3 +22,16 @@ export const STREET_ZOOM = 19;
 export const YOUNG_TREE_DATE = new Date().setFullYear(
   new Date().getFullYear() - 3,
 );
+
+export const ALL_SITES_VISIBLE: CheckboxValueType[] = [
+  'Young',
+  'Adopted',
+  'Standard',
+  'Open',
+];
+export const SITE_OPTIONS: { label: string; value: string }[] = [
+  { label: 'Young Trees', value: 'Young' },
+  { label: 'Older Trees', value: 'Standard' },
+  { label: 'Adopted Trees', value: 'Adopted' },
+  { label: 'Open Planting Sites', value: 'Open' },
+];

@@ -68,7 +68,11 @@ const Landing: React.FC<LandingProps> = ({ blocks, neighborhoods, sites }) => {
                     barDescription={LANDING_BODY}
                     isLoggedIn={loggedIn}
                   >
-                    <MapLegend view={landingMapView} mobile={true} />
+                    <MapLegend
+                      view={landingMapView}
+                      mobile={true}
+                      canHide={true}
+                    />
                     <AdoptionDirections mobile={true} />
                   </MobileLandingBar>
                 </PaddedContent>
