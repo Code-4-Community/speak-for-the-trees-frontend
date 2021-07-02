@@ -7,8 +7,6 @@ import MapContent from '../mapContent';
 import { MapGeoDataReducerState, MapViews } from '../ducks/types';
 import MapLegend from '../mapLegend';
 
-const { Sider } = Layout;
-
 interface MapPageProps {
   readonly sidebarHeader: string;
   readonly sidebarDescription: string;
@@ -37,14 +35,14 @@ const MapPage: React.FC<MapPageProps> = ({
           sites={sites}
           mobile={false}
         />
-        <Sider width="20vw">
+        <Layout.Sider width="20vw">
           <MapSidebar header={sidebarHeader} description={sidebarDescription}>
             {view !== MapViews.TREES && (
               <MapLegend view={view} mobile={false} />
             )}
             {children}
           </MapSidebar>
-        </Sider>
+        </Layout.Sider>
       </PageLayout>
     </MainContent>
   </>
