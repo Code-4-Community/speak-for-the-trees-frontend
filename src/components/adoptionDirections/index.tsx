@@ -9,9 +9,7 @@ import {
 } from '../../assets/content';
 import { MID_GREEN } from '../../utils/colors';
 
-const { Paragraph, Text, Title } = Typography;
-
-const MobileTitle = styled(Paragraph)`
+const MobileTitle = styled(Typography.Paragraph)`
   color: ${MID_GREEN};
   font-size: 16px;
   line-height: 12px;
@@ -39,27 +37,29 @@ const AdoptionDirections: React.FC<AdoptionDirectionsProps> = ({ mobile }) => {
         {mobile ? (
           <MobileTitle>{ADOPTION_DIRECTIONS_HEADER}</MobileTitle>
         ) : (
-          <Title level={3}>{ADOPTION_DIRECTIONS_HEADER}</Title>
+          <Typography.Title level={3}>
+            {ADOPTION_DIRECTIONS_HEADER}
+          </Typography.Title>
         )}
 
         <FlexibleParagraph fontSize={fontSize}>
           <Row>
             <Col span={1}>
-              <Text strong>1.</Text>
+              <Typography.Text strong>1.</Typography.Text>
             </Col>
             <Col span={23}>{FIND_DIRECTION}</Col>
           </Row>
 
           <Row>
             <Col span={1}>
-              <Text strong>2.</Text>
+              <Typography.Text strong>2.</Typography.Text>
             </Col>
             <Col span={23}>{ICONS_DIRECTION}</Col>
           </Row>
 
           <Row>
             <Col span={1}>
-              <Text strong>3.</Text>
+              <Typography.Text strong>3.</Typography.Text>
             </Col>
             <Col span={23}>{REDIRECTED_DIRECTION}</Col>
           </Row>
