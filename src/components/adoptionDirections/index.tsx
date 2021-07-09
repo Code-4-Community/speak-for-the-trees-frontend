@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Col, Row, Typography } from 'antd';
+import { Row, Typography } from 'antd';
 import {
   ADOPTION_DIRECTIONS_HEADER,
   FIND_DIRECTION,
@@ -18,6 +18,14 @@ const MobileTitle = styled(Typography.Paragraph)`
 const FlexibleParagraph = styled(Row)`
   font-size: ${(props: FlexibleParagraphProps) => props.fontSize};
   display: inline-block;
+`;
+
+const NumberCol = styled.span`
+  margin-right: 5px;
+`;
+
+const DirectionCol = styled.span`
+  width: 90%;
 `;
 
 interface FlexibleParagraphProps {
@@ -44,24 +52,24 @@ const AdoptionDirections: React.FC<AdoptionDirectionsProps> = ({ mobile }) => {
 
         <FlexibleParagraph fontSize={fontSize}>
           <Row>
-            <Col span={1}>
+            <NumberCol>
               <Typography.Text strong>1.</Typography.Text>
-            </Col>
-            <Col span={23}>{FIND_DIRECTION}</Col>
+            </NumberCol>
+            <DirectionCol>{FIND_DIRECTION}</DirectionCol>
           </Row>
 
           <Row>
-            <Col span={1}>
+            <NumberCol>
               <Typography.Text strong>2.</Typography.Text>
-            </Col>
-            <Col span={23}>{ICONS_DIRECTION}</Col>
+            </NumberCol>
+            <DirectionCol>{ICONS_DIRECTION}</DirectionCol>
           </Row>
 
           <Row>
-            <Col span={1}>
+            <NumberCol>
               <Typography.Text strong>3.</Typography.Text>
-            </Col>
-            <Col span={23}>{REDIRECTED_DIRECTION}</Col>
+            </NumberCol>
+            <DirectionCol>{REDIRECTED_DIRECTION}</DirectionCol>
           </Row>
         </FlexibleParagraph>
       </>

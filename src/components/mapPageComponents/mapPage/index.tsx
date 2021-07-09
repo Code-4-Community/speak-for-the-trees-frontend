@@ -35,7 +35,7 @@ const MapPage: React.FC<MapPageProps> = ({
           sites={sites}
           mobile={false}
         />
-        <Layout.Sider width="20vw">
+        <Layout.Sider width="25vw">
           <MapSidebar header={sidebarHeader} description={sidebarDescription}>
             {view !== MapViews.TREES && (
               <MapLegend view={view} mobile={false} />

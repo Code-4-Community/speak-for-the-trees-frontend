@@ -9,6 +9,7 @@ import MapLegend from '../mapLegend';
 import { ALL_SITES_VISIBLE, SITE_OPTIONS } from '../constants';
 
 const LegendContainer = styled.div`
+  min-width: 200px;
   width: 15vw;
   position: absolute;
   z-index: 2;
