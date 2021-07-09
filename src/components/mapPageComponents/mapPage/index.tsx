@@ -6,6 +6,7 @@ import { MainContent } from '../../themedComponents';
 import MapContent from '../mapContent';
 import { MapGeoDataReducerState, MapViews } from '../ducks/types';
 import MapLegend from '../mapLegend';
+import { WindowTypes } from '../../windowDimensions';
 
 interface MapPageProps {
   readonly sidebarHeader: string;
@@ -14,6 +15,7 @@ interface MapPageProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly sites: MapGeoDataReducerState['siteGeoData'];
   readonly view: MapViews;
+  readonly windowType: WindowTypes;
 }
 
 const MapPage: React.FC<MapPageProps> = ({
@@ -23,6 +25,7 @@ const MapPage: React.FC<MapPageProps> = ({
   blocks,
   neighborhoods,
   sites,
+  windowType,
   children,
 }) => (
   <>
@@ -35,7 +38,9 @@ const MapPage: React.FC<MapPageProps> = ({
           sites={sites}
           mobile={false}
         />
-        <Layout.Sider width="25vw">
+        <Layout.Sider
+          width={windowType === WindowTypes.Desktop ? '20vw' : '25vw'}
+        >
           <MapSidebar header={sidebarHeader} description={sidebarDescription}>
             {view !== MapViews.TREES && (
               <MapLegend view={view} mobile={false} />

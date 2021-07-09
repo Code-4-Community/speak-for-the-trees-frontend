@@ -89,6 +89,7 @@ const Landing: React.FC<LandingProps> = ({ blocks, neighborhoods, sites }) => {
                 neighborhoods={neighborhoods}
                 sites={sites}
                 view={landingMapView}
+                windowType={windowType}
               >
                 <AdoptionDirections mobile={false} />
               </MapPage>
