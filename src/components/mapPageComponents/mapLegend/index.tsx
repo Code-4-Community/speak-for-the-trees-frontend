@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Col, Image, Row, Typography } from 'antd';
+import { Button, Col, Row, Typography } from 'antd';
 import {
   ADOPTED_TREE_ICON_DESCRIPTION,
   CLOSED_BLOCK_DESCRIPTION,
@@ -17,6 +17,7 @@ import youngTreeIcon from '../../../assets/images/siteIcons/youngLarge.png';
 import openSiteIcon from '../../../assets/images/siteIcons/openLarge.png';
 import { MAP_GREEN, MAP_RED, MAP_YELLOW, RED } from '../../../utils/colors';
 import { MapViews } from '../ducks/types';
+import { InlineImage } from '../../themedComponents';
 
 const MapLegendContainer = styled.div`
   margin-bottom: 5px;
@@ -35,10 +36,6 @@ const FlexibleParagraph = styled(Typography.Paragraph)`
 
 const ToggleTextButton = styled(Button)`
   padding: 0px;
-`;
-
-const LegendIcon = styled(Image)`
-  display: inline-block;
 `;
 
 const RedLine = styled.div`
@@ -93,7 +90,7 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile, canHide }) => {
                     <br />
                     <Row>
                       <CenterCol span={3}>
-                        <LegendIcon src={youngTreeIcon} preview={false} />
+                        <InlineImage src={youngTreeIcon} preview={false} />
                       </CenterCol>
                       <Col span={1} />
                       <Col span={20}>
@@ -104,7 +101,7 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile, canHide }) => {
                     </Row>
                     <Row>
                       <CenterCol span={3}>
-                        <LegendIcon src={treeIcon} preview={false} />
+                        <InlineImage src={treeIcon} preview={false} />
                       </CenterCol>
                       <Col span={1} />
                       <Col span={20}>
@@ -115,7 +112,7 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile, canHide }) => {
                     </Row>
                     <Row>
                       <CenterCol span={3}>
-                        <LegendIcon src={adoptedTreeIcon} preview={false} />
+                        <InlineImage src={adoptedTreeIcon} preview={false} />
                       </CenterCol>
                       <Col span={1} />
                       <Col span={20}>
@@ -126,7 +123,7 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile, canHide }) => {
                     </Row>
                     <Row>
                       <CenterCol span={3}>
-                        <LegendIcon src={openSiteIcon} preview={false} />
+                        <InlineImage src={openSiteIcon} preview={false} />
                       </CenterCol>
                       <Col span={1} />
                       <Col span={20}>
