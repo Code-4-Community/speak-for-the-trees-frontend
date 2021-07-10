@@ -8,46 +8,98 @@ import ApiClient, {
   ParameterizedApiRoutes,
 } from '../apiClient';
 import nock from 'nock';
+import { VolunteerLeaderboardItem } from '../../containers/volunteerLeaderboard/ducks/types';
+import { TeamLeaderboardItem } from '../../containers/teamLeaderboard/ducks/types';
 
 const BASE_URL = 'http://localhost';
 
-describe('Authentication Client Tests', () => {
-  describe('Neighborhoods', () => {
+describe('Api Client Tests', () => {
+  describe('Get users leaderboard', () => {
     it('makes the right request', async () => {
-      const response: NeighborhoodGeoData = {
-        type: 'FeatureCollection',
-        name: 'neighborhoods',
-        features: [
-          {
-            type: 'Feature',
-            properties: {
-              neighborhoodId: 15,
-              name: 'Roslindale',
-              completionPerc: 0,
-              lat: 42.2803,
-              lng: -71.1266,
-            },
-            geometry: {
-              type: 'MultiPolygon',
-              coordinates: [
-                [
-                  [
-                    [-71.12592717485386, 42.272013107957406],
-                    [-71.12610933458738, 42.2716219294518],
-                  ],
-                ],
-              ],
-            },
-          },
-        ],
-      };
+      const response: VolunteerLeaderboardItem[] = [
+        {
+          id: 1,
+          name: 'John',
+          blocksCounted: 5,
+        },
+        {
+          id: 2,
+          name: 'John2',
+          blocksCounted: 4,
+        },
+      ];
 
       nock(BASE_URL)
-        .get(ApiClientRoutes.GET_ALL_NEIGHBORHOODS)
+        .get(ParameterizedApiRoutes.GET_USERS_LEADERBOARD(5))
         .reply(200, response);
+      const result = await ApiClient.getUsersLeaderboard(5);
+      expect(result).toEqual(response);
+    });
 
-      const result = await ApiClient.getNeighborhoodGeoData();
+    it('makes the right request on null', async () => {
+      const response: VolunteerLeaderboardItem[] = [];
 
+      nock(BASE_URL)
+        .get(ApiClientRoutes.USERS_LEADERBOARD)
+        .reply(200, response);
+      const result = await ApiClient.getUsersLeaderboard(null);
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'Bad request';
+
+      nock(BASE_URL)
+        .get(ApiClientRoutes.USERS_LEADERBOARD)
+        .reply(400, response);
+      const result = await ApiClient.getUsersLeaderboard(null).catch(
+        (err) => err.response.data,
+      );
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('Get teams leaderboard', () => {
+    it('makes the right request', async () => {
+      const response: TeamLeaderboardItem[] = [
+        {
+          id: 1,
+          name: 'Great Team',
+          blocksCounted: 5,
+        },
+        {
+          id: 2,
+          name: 'Team 1',
+          blocksCounted: 4,
+        },
+      ];
+
+      nock(BASE_URL)
+        .get(ParameterizedApiRoutes.GET_TEAMS_LEADERBOARD(5))
+        .reply(200, response);
+      const result = await ApiClient.getTeamsLeaderboard(5);
+      expect(result).toEqual(response);
+    });
+
+    it('makes the right request on null', async () => {
+      const response: TeamLeaderboardItem[] = [];
+
+      nock(BASE_URL)
+        .get(ApiClientRoutes.TEAMS_LEADERBOARD)
+        .reply(200, response);
+      const result = await ApiClient.getTeamsLeaderboard(null);
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'Bad request';
+
+      nock(BASE_URL)
+        .get(ApiClientRoutes.TEAMS_LEADERBOARD)
+        .reply(400, response);
+      const result = await ApiClient.getTeamsLeaderboard(null).catch(
+        (err) => err.response.data,
+      );
       expect(result).toEqual(response);
     });
   });
@@ -85,6 +137,46 @@ describe('Authentication Client Tests', () => {
       const result = await ApiClient.getBlockGeoData();
 
       expect(result).toEqual(response);
+    });
+
+    describe('Neighborhoods', () => {
+      it('makes the right request', async () => {
+        const response: NeighborhoodGeoData = {
+          type: 'FeatureCollection',
+          name: 'neighborhoods',
+          features: [
+            {
+              type: 'Feature',
+              properties: {
+                neighborhoodId: 15,
+                name: 'Roslindale',
+                completionPerc: 0,
+                lat: 42.2803,
+                lng: -71.1266,
+              },
+              geometry: {
+                type: 'MultiPolygon',
+                coordinates: [
+                  [
+                    [
+                      [-71.12592717485386, 42.272013107957406],
+                      [-71.12610933458738, 42.2716219294518],
+                    ],
+                  ],
+                ],
+              },
+            },
+          ],
+        };
+
+        nock(BASE_URL)
+          .get(ApiClientRoutes.GET_ALL_NEIGHBORHOODS)
+          .reply(200, response);
+
+        const result = await ApiClient.getNeighborhoodGeoData();
+
+        expect(result).toEqual(response);
+      });
     });
 
     describe('Sites', () => {
@@ -156,6 +248,20 @@ describe('Authentication Client Tests', () => {
 
       expect(result).toEqual(response);
     });
+
+    it('makes a bad request', async () => {
+      const response = 'No such site';
+
+      nock(BASE_URL)
+        .get(ParameterizedApiRoutes.GET_SITE(20))
+        .reply(400, response);
+
+      const result = await ApiClient.getSite(20).catch(
+        (err) => err.response.data,
+      );
+
+      expect(result).toEqual(response);
+    });
   });
 
   describe('Get stewardship activities', () => {
@@ -184,10 +290,24 @@ describe('Authentication Client Tests', () => {
       };
 
       nock(BASE_URL)
-        .get(ParameterizedApiRoutes.GET_STEWARSHIP_ACTIVITIES(1000))
+        .get(ParameterizedApiRoutes.GET_STEWARDSHIP_ACTIVITIES(1000))
         .reply(200, response);
 
       const result = await ApiClient.getStewardshipActivities(1000);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'No such site';
+
+      nock(BASE_URL)
+        .get(ParameterizedApiRoutes.GET_STEWARDSHIP_ACTIVITIES(20))
+        .reply(400, response);
+
+      const result = await ApiClient.getStewardshipActivities(20).catch(
+        (err) => err.response.data,
+      );
 
       expect(result).toEqual(response);
     });
