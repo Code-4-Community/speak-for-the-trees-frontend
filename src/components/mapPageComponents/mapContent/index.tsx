@@ -10,8 +10,6 @@ import { MapGeoDataReducerState } from '../ducks/types';
 import MapView from '../mapView';
 import { MapViews } from '../ducks/types';
 
-const { Content } = Layout;
-
 const EmptyMapContainer = styled.div`
   text-align: center;
   padding: 20vh 5vw;
@@ -21,6 +19,7 @@ interface MapContentStateProps {
   readonly blocks: MapGeoDataReducerState['blockGeoData'];
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly sites: MapGeoDataReducerState['siteGeoData'];
+  readonly mobile: boolean;
 }
 
 interface MapContentProps extends MapContentStateProps {
@@ -32,8 +31,9 @@ const MapContent: React.FC<MapContentProps> = ({
   neighborhoods,
   sites,
   view,
+  mobile,
 }) => (
-  <Content>
+  <Layout.Content>
     {asyncRequestIsComplete(blocks) &&
       asyncRequestIsComplete(neighborhoods) &&
       asyncRequestIsComplete(sites) && (
@@ -42,6 +42,7 @@ const MapContent: React.FC<MapContentProps> = ({
           neighborhoods={neighborhoods.result}
           sites={sites.result}
           view={view}
+          mobile={mobile}
         />
       )}
     {(asyncRequestIsFailed(blocks) ||
@@ -63,7 +64,7 @@ const MapContent: React.FC<MapContentProps> = ({
         <Spin size="large" />
       </EmptyMapContainer>
     )}
-  </Content>
+  </Layout.Content>
 );
 
 export default MapContent;

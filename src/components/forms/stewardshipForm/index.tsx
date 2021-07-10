@@ -59,7 +59,7 @@ const StewardshipForm: React.FC<StewardshipFormProps> = ({
         <Form.Item name="activityDate" rules={activitiesDateRules}>
           <TreeDatePicker format={'MM/DD/YYYY'} disabledDate={disabledDate} />
         </Form.Item>
-        <ItemLabel>Stewardship Activites</ItemLabel>
+        <ItemLabel>Stewardship Activities</ItemLabel>
         <Form.Item name="stewardshipActivities" rules={activitiesRules}>
           <Checkbox.Group options={stewardshipOptions} />
         </Form.Item>

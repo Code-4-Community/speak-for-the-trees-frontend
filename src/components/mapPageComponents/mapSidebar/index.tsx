@@ -2,8 +2,6 @@ import React from 'react';
 import { Typography } from 'antd';
 import styled from 'styled-components';
 
-const { Title, Paragraph } = Typography;
-
 type MapSidebarProps = {
   readonly header: string;
   readonly description: string;
@@ -25,9 +23,9 @@ const MapSidebar: React.FC<MapSidebarProps> = ({
   return (
     <>
       <SideBarContentContainer>
-        <Title className="title">{header}</Title>
+        <Typography.Title className="title">{header}</Typography.Title>
 
-        <Paragraph>{description}</Paragraph>
+        <Typography.Paragraph>{description}</Typography.Paragraph>
         {children}
       </SideBarContentContainer>
     </>

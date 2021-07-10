@@ -72,6 +72,7 @@ const Reservations: React.FC<ReservationsProps> = ({
                 neighborhoods={neighborhoods}
                 sites={sites}
                 view={reservationMapView}
+                windowType={windowType}
               >
                 <BlockTabs />
               </MapPage>

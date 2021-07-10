@@ -2,27 +2,26 @@ import React from 'react';
 import { Typography } from 'antd';
 import { DARK_GREEN, DARK_GREY } from '../../utils/colors';
 import styled from 'styled-components';
-const { Paragraph } = Typography;
 
 interface StyledSubtitleProps {
   readonly subtitlecolor?: string;
 }
 
-const StyledTitle = styled(Paragraph)`
+const StyledTitle = styled(Typography.Paragraph)`
   font-size: 44px;
   line-height: 76px;
   color: ${DARK_GREEN};
   font-weight: bold;
 `;
 
-const MobileStyledTitle = styled(Paragraph)`
+const MobileStyledTitle = styled(Typography.Paragraph)`
   font-size: 30px;
   line-height: 48px;
   color: ${DARK_GREEN};
   font-weight: bold;
 `;
 
-const StyledSubtitle = styled(Paragraph)`
+const StyledSubtitle = styled(Typography.Paragraph)`
   font-weight: normal;
   font-size: 24px;
   line-height: 32px;
@@ -31,7 +30,7 @@ const StyledSubtitle = styled(Paragraph)`
     props.subtitlecolor ? props.subtitlecolor : { DARK_GREY }};
 `;
 
-const MobileStyledSubtitle = styled(Paragraph)`
+const MobileStyledSubtitle = styled(Typography.Paragraph)`
   font-weight: normal;
   font-size: 14px;
   line-height: 14px;

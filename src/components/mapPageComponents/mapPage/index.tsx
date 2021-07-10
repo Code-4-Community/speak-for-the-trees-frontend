@@ -4,11 +4,9 @@ import PageLayout from '../../pageLayout';
 import { Layout } from 'antd';
 import { MainContent } from '../../themedComponents';
 import MapContent from '../mapContent';
-import { MapViews } from '../ducks/types';
-import { MapGeoDataReducerState } from '../ducks/types';
+import { MapGeoDataReducerState, MapViews } from '../ducks/types';
 import MapLegend from '../mapLegend';
-
-const { Sider } = Layout;
+import { WindowTypes } from '../../windowDimensions';
 
 interface MapPageProps {
   readonly sidebarHeader: string;
@@ -17,6 +15,7 @@ interface MapPageProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly sites: MapGeoDataReducerState['siteGeoData'];
   readonly view: MapViews;
+  readonly windowType: WindowTypes;
 }
 
 const MapPage: React.FC<MapPageProps> = ({
@@ -26,6 +25,7 @@ const MapPage: React.FC<MapPageProps> = ({
   blocks,
   neighborhoods,
   sites,
+  windowType,
   children,
 }) => (
   <>
@@ -36,13 +36,18 @@ const MapPage: React.FC<MapPageProps> = ({
           blocks={blocks}
           neighborhoods={neighborhoods}
           sites={sites}
+          mobile={false}
         />
-        <Sider width="20vw">
+        <Layout.Sider
+          width={windowType === WindowTypes.Desktop ? '20vw' : '25vw'}
+        >
           <MapSidebar header={sidebarHeader} description={sidebarDescription}>
-            <MapLegend view={view} mobile={false} />
+            {view !== MapViews.TREES && (
+              <MapLegend view={view} mobile={false} />
+            )}
             {children}
           </MapSidebar>
-        </Sider>
+        </Layout.Sider>
       </PageLayout>
     </MainContent>
   </>
