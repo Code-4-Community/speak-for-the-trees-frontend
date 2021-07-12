@@ -29,6 +29,7 @@ import NavBar from './components/navBar';
 import ForgotPassword from './containers/forgotPassword';
 import ForgotPasswordReset from './containers/forgotPasswordReset';
 import AuthRedirect from './components/authRedirect';
+import SiteFooter from './components/siteFooter';
 
 const { Content } = Layout;
 
@@ -222,6 +223,7 @@ const App: React.FC = () => {
               }
             })()}
           </Content>
+          <SiteFooter />
         </AppLayout>
       </Router>
     </>
