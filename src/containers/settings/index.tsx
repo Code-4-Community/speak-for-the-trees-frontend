@@ -6,7 +6,11 @@ import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
 import { MID_GREEN } from '../../utils/colors';
 import { C4CState } from '../../store';
-import { getUserEmail, getUserFullName } from '../../auth/ducks/selectors';
+import {
+  getUserEmail,
+  getUserFullName,
+  getUsername,
+} from '../../auth/ducks/selectors';
 import ChangeUsernameForm from '../../components/forms/changeUsernameForm';
 import DeleteAccountForm from '../../components/forms/deleteAccountForm';
 import ChangeEmailForm from '../../components/forms/changeEmailForm';
@@ -48,6 +52,7 @@ const FormTitle = styled(Paragraph)`
 
 const UserInformationText = styled(Paragraph)`
   font-size: 15px;
+  line-height: 16px;
 `;
 
 const Settings: React.FC = () => {
@@ -58,6 +63,9 @@ const Settings: React.FC = () => {
   );
   const userEmail = useSelector((state: C4CState) =>
     getUserEmail(state.authenticationState.userData),
+  );
+  const userUsername = useSelector((state: C4CState) =>
+    getUsername(state.authenticationState.userData),
   );
 
   return (
@@ -83,6 +91,7 @@ const Settings: React.FC = () => {
                     <Col span={cSpan}>
                       <FormTitle>Profile</FormTitle>
                       <UserInformationText>{userFullName}</UserInformationText>
+                      <UserInformationText>{userUsername}</UserInformationText>
                       <UserInformationText>{userEmail}</UserInformationText>
                       <FormTitle>Change Username</FormTitle>
                       <ChangeUsernameForm formLayout={formLayout} />
