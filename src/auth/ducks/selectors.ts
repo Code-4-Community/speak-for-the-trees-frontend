@@ -63,3 +63,12 @@ export const getUserEmail = (
   }
   return '';
 };
+
+export const getUsername = (
+  userData: UserAuthenticationReducerState['userData'],
+): string => {
+  if (asyncRequestIsComplete(userData)) {
+    return userData.result.username;
+  }
+  return '';
+};

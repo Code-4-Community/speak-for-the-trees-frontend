@@ -9,6 +9,7 @@ import {
   getUserEmail,
   getUserFirstName,
   getUserFullName,
+  getUsername,
   isLoggedIn,
 } from '../ducks/selectors';
 
@@ -96,6 +97,7 @@ describe('User Authentication Selectors', () => {
         firstName: 'First',
         lastName: 'Last',
         email: 'test@email.com',
+        username: 'user',
       };
       const userData: AsyncRequest<UserData, any> = AsyncRequestCompleted<
         UserData,
@@ -118,6 +120,7 @@ describe('User Authentication Selectors', () => {
         firstName: 'First',
         lastName: 'Last',
         email: 'test@email.com',
+        username: 'user',
       };
       const userData: AsyncRequest<UserData, any> = AsyncRequestCompleted<
         UserData,
@@ -140,6 +143,7 @@ describe('User Authentication Selectors', () => {
         firstName: 'First',
         lastName: 'Last',
         email: 'test@email.com',
+        username: 'user',
       };
       const userData: AsyncRequest<UserData, any> = AsyncRequestCompleted<
         UserData,
@@ -153,6 +157,29 @@ describe('User Authentication Selectors', () => {
       const userData: AsyncRequest<UserData, any> = AsyncRequestNotStarted();
 
       expect(getUserEmail(userData)).toEqual('');
+    });
+  });
+
+  describe('getUsername', () => {
+    it("returns the user's username when user data has been loaded", () => {
+      const data: UserData = {
+        firstName: 'First',
+        lastName: 'Last',
+        email: 'test@email.com',
+        username: 'user',
+      };
+      const userData: AsyncRequest<UserData, any> = AsyncRequestCompleted<
+        UserData,
+        any
+      >(data);
+
+      expect(getUsername(userData)).toEqual('user');
+    });
+
+    it('returns empty string when no user data has been loaded', () => {
+      const userData: AsyncRequest<UserData, any> = AsyncRequestNotStarted();
+
+      expect(getUsername(userData)).toEqual('');
     });
   });
 });
