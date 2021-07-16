@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Col, Row, Typography } from 'antd';
+import { Row, Typography } from 'antd';
 import {
   ADOPTION_DIRECTIONS_HEADER,
   FIND_DIRECTION,
@@ -9,9 +9,7 @@ import {
 } from '../../assets/content';
 import { MID_GREEN } from '../../utils/colors';
 
-const { Paragraph, Text, Title } = Typography;
-
-const MobileTitle = styled(Paragraph)`
+const MobileTitle = styled(Typography.Paragraph)`
   color: ${MID_GREEN};
   font-size: 16px;
   line-height: 12px;
@@ -20,6 +18,14 @@ const MobileTitle = styled(Paragraph)`
 const FlexibleParagraph = styled(Row)`
   font-size: ${(props: FlexibleParagraphProps) => props.fontSize};
   display: inline-block;
+`;
+
+const NumberCol = styled.span`
+  margin-right: 5px;
+`;
+
+const DirectionCol = styled.span`
+  width: 90%;
 `;
 
 interface FlexibleParagraphProps {
@@ -39,29 +45,31 @@ const AdoptionDirections: React.FC<AdoptionDirectionsProps> = ({ mobile }) => {
         {mobile ? (
           <MobileTitle>{ADOPTION_DIRECTIONS_HEADER}</MobileTitle>
         ) : (
-          <Title level={3}>{ADOPTION_DIRECTIONS_HEADER}</Title>
+          <Typography.Title level={3}>
+            {ADOPTION_DIRECTIONS_HEADER}
+          </Typography.Title>
         )}
 
         <FlexibleParagraph fontSize={fontSize}>
           <Row>
-            <Col span={1}>
-              <Text strong>1.</Text>
-            </Col>
-            <Col span={23}>{FIND_DIRECTION}</Col>
+            <NumberCol>
+              <Typography.Text strong>1.</Typography.Text>
+            </NumberCol>
+            <DirectionCol>{FIND_DIRECTION}</DirectionCol>
           </Row>
 
           <Row>
-            <Col span={1}>
-              <Text strong>2.</Text>
-            </Col>
-            <Col span={23}>{ICONS_DIRECTION}</Col>
+            <NumberCol>
+              <Typography.Text strong>2.</Typography.Text>
+            </NumberCol>
+            <DirectionCol>{ICONS_DIRECTION}</DirectionCol>
           </Row>
 
           <Row>
-            <Col span={1}>
-              <Text strong>3.</Text>
-            </Col>
-            <Col span={23}>{REDIRECTED_DIRECTION}</Col>
+            <NumberCol>
+              <Typography.Text strong>3.</Typography.Text>
+            </NumberCol>
+            <DirectionCol>{REDIRECTED_DIRECTION}</DirectionCol>
           </Row>
         </FlexibleParagraph>
       </>

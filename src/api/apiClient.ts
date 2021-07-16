@@ -42,36 +42,48 @@ export enum ApiClientRoutes {
 const baseSiteRoute = '/api/v1/sites/';
 
 export const ParameterizedApiRoutes = {
+  GET_USERS_LEADERBOARD: (previousDays: number): string =>
+    `${ApiClientRoutes.USERS_LEADERBOARD}?previousDays=${previousDays}`,
+  GET_TEAMS_LEADERBOARD: (previousDays: number): string =>
+    `${ApiClientRoutes.TEAMS_LEADERBOARD}?previousDays=${previousDays}`,
   GET_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}`,
-  GET_STEWARSHIP_ACTIVITIES: (siteId: number): string =>
+  GET_STEWARDSHIP_ACTIVITIES: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/stewardship_activities`,
 };
 
 const getUsersLeaderboard = (
   previousDays: number | null,
 ): Promise<VolunteerLeaderboardItem[]> => {
-  return AppAxiosInstance.get(ApiClientRoutes.USERS_LEADERBOARD, {
-    params: previousDays ? { previousDays } : {},
-  }).then((response) => response.data.entries);
+  return AppAxiosInstance.get(
+    `${
+      previousDays
+        ? ParameterizedApiRoutes.GET_USERS_LEADERBOARD(previousDays)
+        : ApiClientRoutes.USERS_LEADERBOARD
+    }`,
+  ).then((res) => res.data);
 };
 
 const getTeamsLeaderboard = (
   previousDays: number | null,
 ): Promise<TeamLeaderboardItem[]> => {
-  return AppAxiosInstance.get(ApiClientRoutes.TEAMS_LEADERBOARD, {
-    params: previousDays ? { previousDays } : {},
-  }).then((response) => response.data.entries);
+  return AppAxiosInstance.get(
+    `${
+      previousDays
+        ? ParameterizedApiRoutes.GET_TEAMS_LEADERBOARD(previousDays)
+        : ApiClientRoutes.TEAMS_LEADERBOARD
+    }`,
+  ).then((res) => res.data);
 };
 
 const getBlockGeoData = (): Promise<BlockGeoData> => {
   return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_BLOCKS).then(
-    (r) => r.data,
+    (res) => res.data,
   );
 };
 
 const getNeighborhoodGeoData = (): Promise<NeighborhoodGeoData> => {
   return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_NEIGHBORHOODS).then(
-    (r) => r.data,
+    (res) => res.data,
   );
 };
 
@@ -91,7 +103,7 @@ const getStewardshipActivities = (
   siteId: number,
 ): Promise<StewardshipActivities> => {
   return AppAxiosInstance.get(
-    ParameterizedApiRoutes.GET_STEWARSHIP_ACTIVITIES(siteId),
+    ParameterizedApiRoutes.GET_STEWARDSHIP_ACTIVITIES(siteId),
   ).then((res) => res.data);
 };
 

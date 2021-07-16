@@ -26,6 +26,7 @@ const MobileMapPage: React.FC<MobileMapPageProps> = ({
           blocks={blocks}
           neighborhoods={neighborhoods}
           sites={sites}
+          mobile={true}
         />
         {children}
       </PageLayout>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Col, Image, Row, Typography } from 'antd';
+import { Button, Col, Row, Typography } from 'antd';
 import {
   ADOPTED_TREE_ICON_DESCRIPTION,
   CLOSED_BLOCK_DESCRIPTION,
@@ -17,8 +17,7 @@ import youngTreeIcon from '../../../assets/images/siteIcons/youngLarge.png';
 import openSiteIcon from '../../../assets/images/siteIcons/openLarge.png';
 import { MAP_GREEN, MAP_RED, MAP_YELLOW, RED } from '../../../utils/colors';
 import { MapViews } from '../ducks/types';
-
-const { Paragraph, Text } = Typography;
+import { InlineImage } from '../../themedComponents';
 
 const MapLegendContainer = styled.div`
   margin-bottom: 5px;
@@ -28,7 +27,7 @@ const CenterCol = styled(Col)`
   text-align: center;
 `;
 
-const FlexibleParagraph = styled(Paragraph)`
+const FlexibleParagraph = styled(Typography.Paragraph)`
   line-height: 15px;
   font-size: ${(props: FlexibleParagraphProps) => props.fontSize};
   display: inline-block;
@@ -37,10 +36,6 @@ const FlexibleParagraph = styled(Paragraph)`
 
 const ToggleTextButton = styled(Button)`
   padding: 0px;
-`;
-
-const LegendIcon = styled(Image)`
-  display: inline-block;
 `;
 
 const RedLine = styled.div`
@@ -68,9 +63,10 @@ interface FlexibleParagraphProps {
 interface MapLegendProps {
   readonly view: MapViews;
   readonly mobile: boolean;
+  readonly canHide?: boolean;
 }
 
-const MapLegend: React.FC<MapLegendProps> = ({ view, mobile }) => {
+const MapLegend: React.FC<MapLegendProps> = ({ view, mobile, canHide }) => {
   const [showLegend, setShowLegend] = useState(true);
 
   const fontSize = `${mobile ? '10px' : '12px'}`;
@@ -88,13 +84,16 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile }) => {
               <>
                 {showLegend && (
                   <>
-                    <Text strong>What does each icon mean?</Text>
+                    <Typography.Text strong>
+                      What does each icon mean?
+                    </Typography.Text>
                     <br />
                     <Row>
                       <CenterCol span={3}>
-                        <LegendIcon src={youngTreeIcon} preview={false} />
+                        <InlineImage src={youngTreeIcon} preview={false} />
                       </CenterCol>
-                      <Col span={21}>
+                      <Col span={1} />
+                      <Col span={20}>
                         <FlexibleParagraph fontSize={fontSize}>
                           {YOUNG_TREE_ICON_DESCRIPTION}
                         </FlexibleParagraph>
@@ -102,9 +101,10 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile }) => {
                     </Row>
                     <Row>
                       <CenterCol span={3}>
-                        <LegendIcon src={treeIcon} preview={false} />
+                        <InlineImage src={treeIcon} preview={false} />
                       </CenterCol>
-                      <Col span={21}>
+                      <Col span={1} />
+                      <Col span={20}>
                         <FlexibleParagraph fontSize={fontSize}>
                           {TREE_ICON_DESCRIPTION}
                         </FlexibleParagraph>
@@ -112,9 +112,10 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile }) => {
                     </Row>
                     <Row>
                       <CenterCol span={3}>
-                        <LegendIcon src={adoptedTreeIcon} preview={false} />
+                        <InlineImage src={adoptedTreeIcon} preview={false} />
                       </CenterCol>
-                      <Col span={21}>
+                      <Col span={1} />
+                      <Col span={20}>
                         <FlexibleParagraph fontSize={fontSize}>
                           {ADOPTED_TREE_ICON_DESCRIPTION}
                         </FlexibleParagraph>
@@ -122,9 +123,10 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile }) => {
                     </Row>
                     <Row>
                       <CenterCol span={3}>
-                        <LegendIcon src={openSiteIcon} preview={false} />
+                        <InlineImage src={openSiteIcon} preview={false} />
                       </CenterCol>
-                      <Col span={21}>
+                      <Col span={1} />
+                      <Col span={20}>
                         <FlexibleParagraph fontSize={fontSize}>
                           {OPEN_SITE_DESCRIPTION}
                         </FlexibleParagraph>
@@ -139,13 +141,16 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile }) => {
               <>
                 {showLegend && (
                   <>
-                    <Text strong>Blocks that are colored</Text>
+                    <Typography.Text strong>
+                      Blocks that are colored
+                    </Typography.Text>
                     <br />
                     <Row>
                       <CenterCol span={3}>
                         <ColorBlock color={MAP_GREEN} />
                       </CenterCol>
-                      <Col span={21}>
+                      <Col span={1} />
+                      <Col span={20}>
                         <FlexibleParagraph fontSize={fontSize}>
                           {OPEN_BLOCK_DESCRIPTION}
                         </FlexibleParagraph>
@@ -155,7 +160,8 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile }) => {
                       <CenterCol span={3}>
                         <ColorBlock color={MAP_YELLOW} />
                       </CenterCol>
-                      <Col span={21}>
+                      <Col span={1} />
+                      <Col span={20}>
                         <FlexibleParagraph fontSize={fontSize}>
                           {RESERVED_BLOCK_DESCRIPTION}
                         </FlexibleParagraph>
@@ -165,7 +171,8 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile }) => {
                       <CenterCol span={3}>
                         <ColorBlock color={MAP_RED} />
                       </CenterCol>
-                      <Col span={21}>
+                      <Col span={1} />
+                      <Col span={20}>
                         <FlexibleParagraph fontSize={fontSize}>
                           {CLOSED_BLOCK_DESCRIPTION}
                         </FlexibleParagraph>
@@ -179,13 +186,14 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile }) => {
       })()}
       {showLegend && (
         <>
-          <Text strong>Watch out!</Text>
+          <Typography.Text strong>Watch out!</Typography.Text>
           <br />
           <Row>
             <CenterCol span={3}>
               <RedLine />
             </CenterCol>
-            <Col span={21}>
+            <Col span={1} />
+            <Col span={20}>
               <FlexibleParagraph fontSize={fontSize}>
                 {PRIVATE_STREET_DESCRIPTION}
               </FlexibleParagraph>
@@ -193,9 +201,11 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile }) => {
           </Row>
         </>
       )}
-      <ToggleTextButton type={'link'} onClick={toggleShowLegend}>
-        {showLegend ? 'Hide Legend' : 'Show Legend'}
-      </ToggleTextButton>
+      {canHide && (
+        <ToggleTextButton type={'link'} onClick={toggleShowLegend}>
+          {showLegend ? 'Hide Legend' : 'Show Legend'}
+        </ToggleTextButton>
+      )}
     </MapLegendContainer>
   );
 };

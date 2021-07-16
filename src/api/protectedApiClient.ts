@@ -138,9 +138,7 @@ const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.MAKE_RESERVATION, {
     blockID: blockId,
     teamID: teamId,
-  })
-    .then((res) => res.data)
-    .catch((err) => err);
+  }).then((res) => res.data);
 };
 
 const completeReservation = (
@@ -150,17 +148,13 @@ const completeReservation = (
   return AppAxiosInstance.post(ProtectedApiClientRoutes.COMPLETE_RESERVATION, {
     blockID: blockId,
     teamID: teamId,
-  })
-    .then((res) => res.data)
-    .catch((err) => err);
+  }).then((res) => res.data);
 };
 
 const releaseReservation = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.RELEASE_RESERVATION, {
     blockID: blockId,
-  })
-    .then((res) => res.data)
-    .catch((err) => err);
+  }).then((res) => res.data);
 };
 
 // Admin routes
@@ -168,61 +162,62 @@ const releaseReservation = (blockId: number): Promise<void> => {
 const uncompleteReservation = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.UNCOMPLETE_RESERVATION, {
     blockID: blockId,
-  })
-    .then((res) => res.data)
-    .catch((err) => err);
+  }).then((res) => res.data);
 };
 
 const markReservationForQa = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.MARK_RESERVATION_FOR_QA, {
     blockID: blockId,
-  })
-    .then((res) => res.data)
-    .catch((err) => err);
+  }).then((res) => res.data);
 };
 
 const passReservationQa = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.PASS_RESERVATION_QA, {
     blockID: blockId,
-  })
-    .then((res) => res.data)
-    .catch((err) => err);
+  }).then((res) => res.data);
 };
 
 const failReservationQa = (blockId: number): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.FAIL_RESERVATION_QA, {
     blockID: blockId,
-  })
-    .then((res) => res.data)
-    .catch((err) => err);
+  }).then((res) => res.data);
 };
 
 const changePassword = (request: ChangePasswordRequest): Promise<void> => {
   return AppAxiosInstance.post(
     ProtectedApiClientRoutes.CHANGE_PASSWORD,
     request,
-  );
+  ).then((res) => res.data);
 };
 
 const changeUsername = (request: ChangeUsernameRequest): Promise<void> => {
   return AppAxiosInstance.post(
     ProtectedApiClientRoutes.CHANGE_USERNAME,
     request,
-  );
+  ).then((res) => res.data);
 };
 
 const changeEmail = (request: ChangeEmailRequest): Promise<void> => {
-  return AppAxiosInstance.post(ProtectedApiClientRoutes.CHANGE_EMAIL, request);
+  return AppAxiosInstance.post(
+    ProtectedApiClientRoutes.CHANGE_EMAIL,
+    request,
+  ).then((res) => res.data);
 };
 
 const deleteUser = (request: AuthRequest): Promise<void> => {
-  return AppAxiosInstance.post(ProtectedApiClientRoutes.DELETE_USER, request);
+  return AppAxiosInstance.post(
+    ProtectedApiClientRoutes.DELETE_USER,
+    request,
+  ).then((res) => res.data);
 };
 
 const changePrivilegeLevel = (
   request: ChangePrivilegeRequest,
 ): Promise<void> => {
-  return AppAxiosInstance.post(AdminApiClientRoutes.CHANGE_PRIVILEGE, request);
+  return AppAxiosInstance.post(
+    AdminApiClientRoutes.CHANGE_PRIVILEGE,
+    request,
+  ).then((res) => res.data);
 };
 
 const getUserData = (): Promise<UserData> => {
@@ -232,9 +227,10 @@ const getUserData = (): Promise<UserData> => {
 };
 
 const createTeam = (request: CreateTeamRequest): Promise<void> => {
-  return AppAxiosInstance.post(ProtectedApiClientRoutes.CREATE_TEAM, request)
-    .then((res) => res.data)
-    .catch((err) => err);
+  return AppAxiosInstance.post(
+    ProtectedApiClientRoutes.CREATE_TEAM,
+    request,
+  ).then((res) => res.data);
 };
 
 const getTeams = (): Promise<TeamResponse[]> => {
@@ -242,23 +238,22 @@ const getTeams = (): Promise<TeamResponse[]> => {
 };
 
 const getTeam = (teamId: number): Promise<TeamResponse> => {
-  return AppAxiosInstance.get(ParameterizedApiRoutes.GET_TEAM(teamId))
-    .then((res) => res.data)
-    .catch((err) => err);
+  return AppAxiosInstance.get(ParameterizedApiRoutes.GET_TEAM(teamId)).then(
+    (res) => res.data,
+  );
 };
 
 const addGoal = (teamId: number, request: AddGoalRequest): Promise<void> => {
-  return AppAxiosInstance.post(ParameterizedApiRoutes.ADD_GOAL(teamId), request)
-    .then((res) => res.data)
-    .catch((err) => err);
+  return AppAxiosInstance.post(
+    ParameterizedApiRoutes.ADD_GOAL(teamId),
+    request,
+  ).then((res) => res.data);
 };
 
 const deleteGoal = (teamId: number, goalId: number): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.DELETE_GOAL(teamId, goalId),
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const inviteUser = (
@@ -268,57 +263,49 @@ const inviteUser = (
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.INVITE_USER(teamId),
     request,
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const getApplicants = (teamId: number): Promise<Applicant[]> => {
-  return AppAxiosInstance.get(ParameterizedApiRoutes.GET_APPLICANTS(teamId))
-    .then((res) => res.data)
-    .catch((err) => err);
+  return AppAxiosInstance.get(
+    ParameterizedApiRoutes.GET_APPLICANTS(teamId),
+  ).then((res) => res.data);
 };
 
 const applyToTeam = (teamId: number): Promise<void> => {
-  return AppAxiosInstance.post(ParameterizedApiRoutes.APPLY_TO_TEAM(teamId))
-    .then((res) => res.data)
-    .catch((err) => err);
+  return AppAxiosInstance.post(
+    ParameterizedApiRoutes.APPLY_TO_TEAM(teamId),
+  ).then((res) => res.data);
 };
 
 const approveUser = (teamId: number, userId: number): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.APPROVE_USER(teamId, userId),
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const rejectUser = (teamId: number, userId: number): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.REJECT_USER(teamId, userId),
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const kickUser = (teamId: number, memberId: number): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.KICK_USER(teamId, memberId),
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const leaveTeam = (teamId: number): Promise<void> => {
-  return AppAxiosInstance.post(ParameterizedApiRoutes.LEAVE_TEAM(teamId))
-    .then((res) => res.data)
-    .catch((err) => err);
+  return AppAxiosInstance.post(ParameterizedApiRoutes.LEAVE_TEAM(teamId)).then(
+    (res) => res.data,
+  );
 };
 
 const disbandTeam = (teamId: number): Promise<void> => {
-  return AppAxiosInstance.post(ParameterizedApiRoutes.DISBAND_TEAM(teamId))
-    .then((res) => res.data)
-    .catch((err) => err);
+  return AppAxiosInstance.post(
+    ParameterizedApiRoutes.DISBAND_TEAM(teamId),
+  ).then((res) => res.data);
 };
 
 const transferOwnership = (
@@ -328,9 +315,7 @@ const transferOwnership = (
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.TRANSFER_OWNERSHIP(teamId),
     request,
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const adoptSite = (siteId: number): Promise<void> => {
@@ -358,15 +343,13 @@ const recordStewardship = (
 const deleteStewardship = (siteId: number): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.DELETE_STEWARDSHIP(siteId),
-  )
-    .then((res) => res.data)
-    .catch((err) => err);
+  ).then((res) => res.data);
 };
 
 const getAdoptedSites = (): Promise<AdoptedSites> => {
-  return AppAxiosInstance.get(ProtectedApiClientRoutes.GET_ADOPTED_SITES)
-    .then((res) => res.data)
-    .catch((err) => err);
+  return AppAxiosInstance.get(ProtectedApiClientRoutes.GET_ADOPTED_SITES).then(
+    (res) => res.data,
+  );
 };
 
 const Client: ProtectedApiClient = Object.freeze({

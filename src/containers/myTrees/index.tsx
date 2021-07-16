@@ -97,6 +97,7 @@ const MyTrees: React.FC<MyTreesStateProps> = ({
                 blocks={blocks}
                 neighborhoods={neighborhoods}
                 sites={sites}
+                windowType={windowType}
               >
                 {asyncRequestIsComplete(sites) && (
                   <TreeSidebar mySites={mySites} />

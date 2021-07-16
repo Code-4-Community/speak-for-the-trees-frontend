@@ -41,8 +41,12 @@ const CaretUpStyled = styled(CaretUpOutlined)`
   color: ${WHITE};
 `;
 
-const SlideDown: React.FC = ({ children }) => {
-  const [setActive, setActiveState] = useState(false);
+interface SlideDownProps {
+  readonly defaultOpen?: boolean;
+}
+
+const SlideDown: React.FC<SlideDownProps> = ({ defaultOpen, children }) => {
+  const [setActive, setActiveState] = useState<boolean>(defaultOpen || false);
   const content = useRef(document.createElement('div'));
   function handleClick() {
     setActiveState((prevState) => !prevState);

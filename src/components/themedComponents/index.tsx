@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Col, Form, Space, List } from 'antd';
+import { Button, Col, Form, Space, List, Image } from 'antd';
 import { FormItemProps } from 'antd/es/form';
 import { BLACK, LIGHT_GREY } from '../../utils/colors';
 
@@ -69,4 +69,8 @@ export const StyledListItem = styled(List.Item)`
 export const CardInfo = styled.div`
   display: inline-block;
   width: 90%;
+`;
+
+export const InlineImage = styled(Image)`
+  display: inline-block;
 `;
