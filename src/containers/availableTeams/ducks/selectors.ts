@@ -12,7 +12,7 @@ export const availableTeamsToTabItems = (
     return availableTeams.result.map((team) => {
       return {
         id: team.id,
-        name: team.name,
+        name: team.teamName,
         rightSide: '',
       };
     });

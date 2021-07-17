@@ -122,8 +122,6 @@ const TeamPage: React.FC<TeamPageProps> = ({ teamProps, teamRequestKind }) => {
     ProtectedApiClient.applyToTeam(numId);
   };
 
-  console.log(teamProps);
-
   return (
     <>
       {teamRequestKind === AsyncRequestKinds.Completed && (
