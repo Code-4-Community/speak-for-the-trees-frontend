@@ -52,7 +52,7 @@ const FormTitle = styled(Paragraph)`
 
 const UserInformationText = styled(Paragraph)`
   font-size: 15px;
-  line-height: 16px;
+  line-height: 15px;
 `;
 
 const Settings: React.FC = () => {
@@ -90,8 +90,11 @@ const Settings: React.FC = () => {
                   <Row>
                     <Col span={cSpan}>
                       <FormTitle>Profile</FormTitle>
+                      <UserInformationText strong>Name</UserInformationText>
                       <UserInformationText>{userFullName}</UserInformationText>
+                      <UserInformationText strong>Username</UserInformationText>
                       <UserInformationText>{userUsername}</UserInformationText>
+                      <UserInformationText strong>Email</UserInformationText>
                       <UserInformationText>{userEmail}</UserInformationText>
                       <FormTitle>Change Username</FormTitle>
                       <ChangeUsernameForm formLayout={formLayout} />
