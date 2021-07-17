@@ -1,15 +1,16 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Row, Typography, Select, Button, Form, Input } from 'antd';
+import { Typography } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
-import ProtectedApiClient from '../../api/protectedApiClient';
-import { FormInstance } from 'antd/lib/form';
-import { SelectValue } from 'antd/lib/select';
+import { useSelector } from 'react-redux';
+import { C4CState } from '../../store';
+import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { PrivilegeLevel } from '../../auth/ducks/types';
+import ChangePrivilegeForm from '../../components/forms/changePrivilegeForm';
 
 const { Title } = Typography;
-const { Option } = Select;
 
 const AdminContentContainer = styled.div`
   margin: 100px auto auto;
@@ -21,38 +22,17 @@ const EditUser = styled.div`
   width: 370px;
 `;
 
-const RoleDropdown = styled(Select)`
-  width: 100%;
-  height: 36px;
-`;
-
 const AdminDashboard: React.FC = () => {
-  const isSuperAdmin = true;
-
-  const formRef = useRef<FormInstance>(null);
-
-  const onRoleChange = (role: SelectValue) => {
-    if (formRef.current !== null) {
-      formRef.current.setFieldsValue({ newLevel: role });
-    }
-  };
-
-  const onFinishChangePrivilege = (value: {
-    targetUserEmail: string;
-    newLevel: string;
-    password: string;
-  }) => {
-    ProtectedApiClient.changePrivilegeLevel(value)
-      .then((res) => res)
-      .catch((e) => e);
-  };
+  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
+    getPrivilegeLevel(state.authenticationState.tokens),
+  );
 
   return (
     <>
       <Helmet>
         <title>Admin Dashboard</title>
         <meta
-          name="Admin Dashboard"
+          name="description"
           content="The page for admin users to modify accounts and download team data."
         />
       </Helmet>
@@ -60,47 +40,10 @@ const AdminDashboard: React.FC = () => {
         <AdminContentContainer>
           <PageHeader pageTitle="Admin Dashboard" />
 
-          {isSuperAdmin && (
-            <EditUser>
-              <Row>
-                <Title level={4}>Edit Admins</Title>
-              </Row>
-
-              <Form
-                name="change-privilege"
-                onFinish={onFinishChangePrivilege}
-                ref={formRef}
-              >
-                <Form.Item name="targetUserEmail">
-                  <Input placeholder="User Email" />
-                </Form.Item>
-
-                <Form.Item name="newLevel">
-                  <RoleDropdown placeholder="New Role" onChange={onRoleChange}>
-                    <Option value="STANDARD">standard</Option>
-                    <Option value="ADMIN">admin</Option>
-                  </RoleDropdown>
-                </Form.Item>
-
-                <Form.Item name="password">
-                  <Input placeholder="Password" />
-                </Form.Item>
-
-                <Form.Item className="row">
-                  <Button type="primary" htmlType="submit">
-                    Confirm
-                  </Button>
-                </Form.Item>
-              </Form>
-            </EditUser>
-          )}
-
-          <Row>
-            <Title level={4}>Download All Team Data</Title>
-          </Row>
-          <Row className="row">
-            <Button type="primary">Download</Button>
-          </Row>
+          <EditUser>
+            <Title level={4}>Edit Admins</Title>
+            <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
+          </EditUser>
         </AdminContentContainer>
       </PageLayout>
     </>

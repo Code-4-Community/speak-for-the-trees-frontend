@@ -1,75 +1,68 @@
 import React from 'react';
 import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import { Alert, Col, Row, Typography } from 'antd';
+import { Alert, Col, Form, Row, Typography } from 'antd';
 import { Helmet } from 'react-helmet';
 import GreetingContainer from '../../components/greetingContainer';
-import { signup } from '../../auth/ducks/thunks';
+import { getUserData } from '../../auth/ducks/thunks';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import {
-  PrivilegeLevel,
-  SignupRequest,
-  UserAuthenticationReducerState,
-} from '../../auth/ducks/types';
+import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { C4CState } from '../../store';
 import { BLACK, LIGHT_GREY, WHITE } from '../../utils/colors';
 import styled from 'styled-components';
-import MobilePageHeader from '../../components/mobileComponents/mobilePageHeader';
-import SignupForm from '../../components/signupForm';
+import {
+  CenterDiv,
+  InputContainer,
+  TabletPageContainer,
+} from '../../components/themedComponents';
+import PageHeader from '../../components/pageHeader';
+import SignupForm from '../../components/forms/signupForm';
 import useWindowDimensions, {
   WindowTypes,
-} from '../../components/window-dimensions';
+} from '../../components/windowDimensions';
 import PageLayout from '../../components/pageLayout';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { RedirectStateProps, Routes } from '../../App';
-import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import { isLoggedIn } from '../../auth/ducks/selectors';
 import { SIGNUP_BODY, SIGNUP_HEADER, SIGNUP_TITLE } from '../../assets/content';
 
 const { Paragraph } = Typography;
-
-const containerHeight = '525px';
 
 const SignupPageContainer = styled.div`
   margin: auto;
   width: 80vw;
 `;
 
-const TabletSignupPageContainer = styled.div`
-  padding: 90px 60px;
-`;
-
 const MobileSignupPageContainer = styled.div`
   padding: 30px;
 `;
 
-const CenterDiv = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const RightMargin = styled.div`
-  margin-right: 30px;
-`;
-
-const InputContainer = styled(Col)`
-  height: ${containerHeight};
-  min-width: 275px;
-  padding: 30px 20px 20px 50px;
+export const TabletInputContainer = styled.div`
+  height: 55vh;
+  width: 100%;
+  padding: 2vh 120px 0px 50px;
   background: ${LIGHT_GREY};
-  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.09);
+  box-shadow: 2px 3px 6px ${BLACK}25;
   border-radius: 6px;
+  overflow: auto;
 `;
 
 const Line = styled.div`
   height: 2px;
-  margin: 10px -20px 25px -50px;
+  margin: 0px -120px 30px -50px;
+  background: ${WHITE};
+`;
+
+const TabletLine = styled.div`
+  height: 2px;
+  margin: -10px -120px 2vh -50px;
   background: ${WHITE};
 `;
 
 const Title = styled(Paragraph)`
   color: ${BLACK};
   font-size: 30px;
-  line-height: 36px;
+  line-height: 33px;
 `;
 
 const SignupAlert = styled(Alert)`
@@ -81,41 +74,36 @@ const MobileSignupAlert = styled(Alert)`
   margin-bottom: 20px;
 `;
 
-type SignupProps = UserAuthenticationReducerState;
+interface SignupProps {
+  tokens: UserAuthenticationReducerState['tokens'];
+}
 
 const Signup: React.FC<SignupProps> = ({ tokens }) => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation<RedirectStateProps>();
-  const privilegeLevel = useSelector((state: C4CState) =>
-    getPrivilegeLevel(state.authenticationState.tokens),
+  const loggedIn = useSelector((state: C4CState) =>
+    isLoggedIn(state.authenticationState.tokens),
   );
+  const [signupForm] = Form.useForm();
 
-  if (privilegeLevel !== PrivilegeLevel.NONE) {
+  if (loggedIn) {
+    dispatch(getUserData());
     const destination = location.state
       ? location.state.destination
       : Routes.HOME;
     history.push(destination);
   }
 
-  const onFinish = (values: SignupRequest) => {
-    dispatch(
-      signup({
-        email: values.email,
-        username: values.username,
-        password: values.password,
-        firstName: values.firstName,
-        lastName: values.lastName,
-      }),
-    );
-  };
-
   return (
     <>
       <Helmet>
         <title>Sign Up</title>
-        <meta name="signup" content="Where the user can create a new account" />
+        <meta
+          name="description"
+          content="Where the user can create a new account"
+        />
       </Helmet>
       {(() => {
         switch (windowType) {
@@ -123,38 +111,47 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
             return (
               <>
                 <MobileSignupPageContainer>
-                  <MobilePageHeader pageTitle={SIGNUP_TITLE} />
+                  <PageHeader pageTitle={SIGNUP_TITLE} isMobile={true} />
                   {tokens.kind === AsyncRequestKinds.Failed && (
                     <MobileSignupAlert message={tokens.error} type="error" />
                   )}
-                  <SignupForm onFinish={onFinish} />
+                  <SignupForm
+                    formInstance={signupForm}
+                    windowType={windowType}
+                  />
                 </MobileSignupPageContainer>
               </>
             );
           case WindowTypes.Tablet:
             return (
-              <>
-                <TabletSignupPageContainer>
+              <PageLayout>
+                <TabletPageContainer>
                   {tokens.kind === AsyncRequestKinds.Failed && (
                     <SignupAlert message={tokens.error} type="error" />
                   )}
                   <CenterDiv>
-                    <RightMargin>
-                      <InputContainer>
-                        <Title>{SIGNUP_TITLE}</Title>
-                        <Line />
-                        <SignupForm onFinish={onFinish} />
-                      </InputContainer>
-                    </RightMargin>
+                    <TabletInputContainer>
+                      <Title>{SIGNUP_TITLE}</Title>
+                      <TabletLine />
+                      <SignupForm
+                        formInstance={signupForm}
+                        windowType={windowType}
+                      />
+                    </TabletInputContainer>
+                  </CenterDiv>
 
+                  <br />
+
+                  <CenterDiv>
                     <GreetingContainer
                       header={SIGNUP_HEADER}
                       body={SIGNUP_BODY}
-                      height={containerHeight}
+                      padding={'2vh 5vw 0px'}
+                      height={'25vh'}
                     />
                   </CenterDiv>
-                </TabletSignupPageContainer>
-              </>
+                </TabletPageContainer>
+              </PageLayout>
             );
           case WindowTypes.NarrowDesktop:
           case WindowTypes.Desktop:
@@ -166,19 +163,21 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                       <SignupAlert message={tokens.error} type="error" />
                     )}
                     <Row>
-                      <InputContainer span={10}>
+                      <InputContainer span={11}>
                         <Title>{SIGNUP_TITLE}</Title>
                         <Line />
-                        <SignupForm onFinish={onFinish} />
+                        <SignupForm
+                          formInstance={signupForm}
+                          windowType={windowType}
+                        />
                       </InputContainer>
 
                       <Col span={2} />
 
-                      <Col span={12}>
+                      <Col span={11}>
                         <GreetingContainer
                           header={SIGNUP_HEADER}
                           body={SIGNUP_BODY}
-                          height={containerHeight}
                         />
                       </Col>
                     </Row>

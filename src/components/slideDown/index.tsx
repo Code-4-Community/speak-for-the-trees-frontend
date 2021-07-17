@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
-import { MID_GREEN } from '../../utils/colors';
+import { MID_GREEN, WHITE } from '../../utils/colors';
 
 const SlideDownButton = styled.button`
   background-color: ${MID_GREEN};
@@ -25,6 +25,7 @@ const SlideDownContentDiv = styled.div`
   transition: height 0.4s ease;
   height: ${({ setActive, scrollHeight }: SlideDownStyleProps) =>
     setActive ? scrollHeight : 0}px;
+  max-height: 50vh;
 `;
 
 const SlideDownSectionDiv = styled.div`
@@ -33,15 +34,19 @@ const SlideDownSectionDiv = styled.div`
 `;
 
 const CaretDownStyled = styled(CaretDownOutlined)`
-  color: white;
+  color: ${WHITE};
 `;
 
 const CaretUpStyled = styled(CaretUpOutlined)`
-  color: white;
+  color: ${WHITE};
 `;
 
-const SlideDown: React.FC = ({ children }) => {
-  const [setActive, setActiveState] = useState(false);
+interface SlideDownProps {
+  readonly defaultOpen?: boolean;
+}
+
+const SlideDown: React.FC<SlideDownProps> = ({ defaultOpen, children }) => {
+  const [setActive, setActiveState] = useState<boolean>(defaultOpen || false);
   const content = useRef(document.createElement('div'));
   function handleClick() {
     setActiveState((prevState) => !prevState);

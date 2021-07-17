@@ -46,18 +46,47 @@ interface NeighborhoodFeaturePropertiesResponse {
   lng: number;
 }
 
+// ---------------------------------Sites----------------------------------------
+
+export interface SiteGeoData {
+  type: string;
+  name: string;
+  features: SiteFeatureResponse[];
+}
+
+interface SiteFeatureResponse {
+  type: string;
+  properties: SiteFeaturePropertiesResponse;
+  geometry: MapGeometry;
+}
+
+export interface SiteFeaturePropertiesResponse {
+  id: number;
+  treePresent: boolean;
+  lat: number;
+  lng: number;
+  plantingDate?: number;
+  adopterId?: string;
+  commonName?: string;
+  address?: string;
+}
+
 // ---------------------------------Shared Types----------------------------------------
+// These types follow the GeoJSON format: https://tools.ietf.org/html/rfc7946
 
 interface MapGeometry {
   type: string;
-  coordinates: Coordinate[][][];
+  coordinates: Coordinate[][][] | Coordinate;
 }
 
 type Coordinate = [number, number];
 
+// ---------------------------------Redux----------------------------------------
+
 export interface MapGeoDataReducerState {
   readonly blockGeoData: AsyncRequest<BlockGeoData, any>;
   readonly neighborhoodGeoData: AsyncRequest<NeighborhoodGeoData, any>;
+  readonly siteGeoData: AsyncRequest<SiteGeoData, any>;
 }
 
 export type MapGeoDataThunkAction<R> = ThunkAction<
@@ -66,3 +95,11 @@ export type MapGeoDataThunkAction<R> = ThunkAction<
   ApiExtraArgs,
   MapActions
 >;
+
+// ---------------------------------Map----------------------------------------
+
+// The different map views and zoom value the associated data layer appears at
+export enum MapViews {
+  BLOCKS = 13,
+  TREES = 16,
+}

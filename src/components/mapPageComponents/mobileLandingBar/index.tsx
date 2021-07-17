@@ -11,8 +11,6 @@ import {
   BLACK,
 } from '../../../utils/colors';
 
-const { Paragraph } = Typography;
-
 const MobileBarContentContainer = styled.div`
   display: block;
   height: 35vh;
@@ -28,17 +26,19 @@ const TitleButtonsContainer = styled.div`
 
 const TitleContainer = styled.div`
   display: inline-block;
-  width: 200px;
+  min-width: 200px;
+  max-width: 95%;
 `;
 
-const MobileTitle = styled(Paragraph)`
+const MobileTitle = styled(Typography.Paragraph)`
   color: ${MID_GREEN};
   font-size: 18px;
   font-weight: 500;
+  line-height: 15px;
 `;
 
-const MobileParagraph = styled(Paragraph)`
-  font-size: 7px;
+const MobileParagraph = styled(Typography.Paragraph)`
+  font-size: 9px;
 `;
 
 const ButtonsContainer = styled.div`
@@ -64,17 +64,19 @@ const SignUpButton = styled(Button)`
 
 const LandingStatsContainer = styled.div`
   width: 90vw;
-  margin: 0px -30px;
+  margin: 0vh -30px;
 `;
 
 interface MobileLandingBarProps {
   readonly barHeader: string;
   readonly barDescription: string;
+  readonly isLoggedIn: boolean;
 }
 
 const MobileLandingBar: React.FC<MobileLandingBarProps> = ({
   barHeader,
   barDescription,
+  isLoggedIn,
   children,
 }) => {
   const history = useHistory();
@@ -87,28 +89,30 @@ const MobileLandingBar: React.FC<MobileLandingBarProps> = ({
             <MobileTitle>{barHeader}</MobileTitle>
             <MobileParagraph>{barDescription}</MobileParagraph>
           </TitleContainer>
-          <ButtonsContainer>
-            <div>
-              <LoginButton
-                type="primary"
-                htmlType="submit"
-                size="large"
-                onClick={() => history.push(Routes.LOGIN)}
-              >
-                Log In
-              </LoginButton>
-            </div>
-            <div>
-              <SignUpButton
-                type="primary"
-                htmlType="submit"
-                size="large"
-                onClick={() => history.push(Routes.SIGNUP)}
-              >
-                Sign Up
-              </SignUpButton>
-            </div>
-          </ButtonsContainer>
+          {!isLoggedIn && (
+            <ButtonsContainer>
+              <div>
+                <LoginButton
+                  type="primary"
+                  htmlType="submit"
+                  size="large"
+                  onClick={() => history.push(Routes.LOGIN)}
+                >
+                  Log In
+                </LoginButton>
+              </div>
+              <div>
+                <SignUpButton
+                  type="primary"
+                  htmlType="submit"
+                  size="large"
+                  onClick={() => history.push(Routes.SIGNUP)}
+                >
+                  Sign Up
+                </SignUpButton>
+              </div>
+            </ButtonsContainer>
+          )}
         </TitleButtonsContainer>
         <LandingStatsContainer>{children}</LandingStatsContainer>
       </MobileBarContentContainer>

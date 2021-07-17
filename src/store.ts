@@ -43,6 +43,20 @@ import { AvailableTeamsReducerState } from './containers/availableTeams/ducks/ty
 import availableTeamsReducer, {
   initialAvailableTeamsState,
 } from './containers/availableTeams/ducks/reducer';
+import {
+  SiteActions,
+  ProtectedSiteActions,
+} from './containers/treePage/ducks/actions';
+import {
+  SiteReducerState,
+  ProtectedSitesReducerState,
+} from './containers/treePage/ducks/types';
+import siteDataReducer, {
+  initialSiteState,
+} from './containers/treePage/ducks/reducer';
+import protectedSitesDataReducer, {
+  initialProtectedSiteState,
+} from './containers/treePage/ducks/protectedReducer';
 import throttle from 'lodash/throttle';
 import AppAxiosInstance from './auth/axios';
 import { asyncRequestIsComplete } from './utils/asyncRequest';
@@ -54,6 +68,8 @@ export interface C4CState {
   mapGeoDataState: MapGeoDataReducerState;
   teamState: TeamReducerState;
   availableTeamsState: AvailableTeamsReducerState;
+  siteState: SiteReducerState;
+  adoptedSitesState: ProtectedSitesReducerState;
 }
 
 export interface Action<T, P> {
@@ -67,7 +83,9 @@ export type C4CAction =
   | VolunteerLeaderboardItemAction
   | TeamLeaderboardItemAction
   | TeamResponseAction
-  | AvailableTeamsAction;
+  | AvailableTeamsAction
+  | SiteActions
+  | ProtectedSiteActions;
 
 export type ThunkExtraArgs = UserAuthenticationExtraArgs &
   ProtectedApiExtraArgs &
@@ -80,6 +98,8 @@ const reducers = combineReducers<C4CState, C4CAction>({
   mapGeoDataState: mapGeoDataReducer,
   teamState: teamReducer,
   availableTeamsState: availableTeamsReducer,
+  siteState: siteDataReducer,
+  adoptedSitesState: protectedSitesDataReducer,
 });
 
 export const initialStoreState: C4CState = {
@@ -89,6 +109,8 @@ export const initialStoreState: C4CState = {
   mapGeoDataState: initialMapGeoDataState,
   teamState: initialTeamState,
   availableTeamsState: initialAvailableTeamsState,
+  siteState: initialSiteState,
+  adoptedSitesState: initialProtectedSiteState,
 };
 
 export const LOCALSTORAGE_STATE_KEY: string = 'state';
@@ -100,10 +122,6 @@ const loadStateFromLocalStorage = (): C4CState | undefined => {
       return undefined;
     }
     const state: C4CState = JSON.parse(serializedState);
-    if (asyncRequestIsComplete(state.authenticationState.tokens)) {
-      AppAxiosInstance.defaults.headers['X-Access-Token'] =
-        state.authenticationState.tokens.result.accessToken;
-    }
     return state;
   } catch (err) {
     return undefined;
@@ -141,13 +159,17 @@ const store: Store<C4CState, C4CAction> = createStore<
 store.subscribe(
   throttle(() => {
     const state: C4CState = store.getState();
+    if (asyncRequestIsComplete(state.authenticationState.tokens)) {
+      AppAxiosInstance.defaults.headers['X-Access-Token'] =
+        state.authenticationState.tokens.result.accessToken;
+    }
     try {
       const serializedState = JSON.stringify(state);
       localStorage.setItem(LOCALSTORAGE_STATE_KEY, serializedState);
     } catch {
       // ignore write errors
     }
-  }, 10000),
+  }, 1000),
 );
 
 export default store;

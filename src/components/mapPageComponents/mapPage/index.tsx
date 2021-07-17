@@ -1,42 +1,53 @@
 import React from 'react';
 import MapSidebar from '../mapSidebar';
-import MapView from '../mapView';
 import PageLayout from '../../pageLayout';
 import { Layout } from 'antd';
-import styled from 'styled-components';
-import { BlockGeoData, NeighborhoodGeoData } from '../ducks/types';
+import { MainContent } from '../../themedComponents';
+import MapContent from '../mapContent';
+import { MapGeoDataReducerState, MapViews } from '../ducks/types';
+import MapLegend from '../mapLegend';
+import { WindowTypes } from '../../windowDimensions';
 
-const { Content, Sider } = Layout;
-
-const MainContent = styled.div`
-  height: 100%;
-`;
-
-type MapPageProps = {
-  readonly blocks: BlockGeoData;
-  readonly neighborhoods: NeighborhoodGeoData;
+interface MapPageProps {
   readonly sidebarHeader: string;
   readonly sidebarDescription: string;
-};
+  readonly blocks: MapGeoDataReducerState['blockGeoData'];
+  readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
+  readonly sites: MapGeoDataReducerState['siteGeoData'];
+  readonly view: MapViews;
+  readonly windowType: WindowTypes;
+}
 
 const MapPage: React.FC<MapPageProps> = ({
-  blocks,
-  neighborhoods,
   sidebarHeader,
   sidebarDescription,
+  view,
+  blocks,
+  neighborhoods,
+  sites,
+  windowType,
   children,
 }) => (
   <>
     <MainContent>
       <PageLayout>
-        <Content>
-          <MapView blocks={blocks} neighborhoods={neighborhoods} />
-        </Content>
-        <Sider width="20vw">
+        <MapContent
+          view={view}
+          blocks={blocks}
+          neighborhoods={neighborhoods}
+          sites={sites}
+          mobile={false}
+        />
+        <Layout.Sider
+          width={windowType === WindowTypes.Desktop ? '20vw' : '25vw'}
+        >
           <MapSidebar header={sidebarHeader} description={sidebarDescription}>
+            {view !== MapViews.TREES && (
+              <MapLegend view={view} mobile={false} />
+            )}
             {children}
           </MapSidebar>
-        </Sider>
+        </Layout.Sider>
       </PageLayout>
     </MainContent>
   </>

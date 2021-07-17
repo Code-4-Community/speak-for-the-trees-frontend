@@ -1,17 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card } from 'antd';
-import { LinkButton } from '../LinkButton';
+import { LinkButton } from '../linkButton';
 import { LIGHT_GREEN, PALE_GREEN, WHITE } from '../../utils/colors';
 import bkg1 from '../../assets/images/bkg1.png';
 import bkg2 from '../../assets/images/bkg2.png';
 import bkg3 from '../../assets/images/bkg3.png';
 import bkg4 from '../../assets/images/bkg4.png';
 
-interface LinkCardProps {
+export enum Backgrounds {
+  IMAGE_ONE = 'img1',
+  IMAGE_TWO = 'img2',
+  IMAGE_THREE = 'img3',
+  IMAGE_FOUR = 'img4',
+}
+
+export interface LinkCardProps {
   readonly text: string;
   readonly path: string;
-  readonly background: string;
+  readonly background: Backgrounds;
 }
 
 const StyledCard = styled(Card)`
