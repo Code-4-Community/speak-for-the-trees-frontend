@@ -1,8 +1,9 @@
 import { TeamResponse, TeamThunkAction } from './types';
 import { teamResponse } from './actions';
+import protectedApiClient from '../../../api/protectedApiClient';
 
 export const getTeam = (teamId: number): TeamThunkAction<void> => {
-  return (dispatch, getState, { protectedApiClient }) => {
+  return (dispatch, getState) => {
     dispatch(teamResponse.loading());
     return protectedApiClient
       .getTeam(teamId)

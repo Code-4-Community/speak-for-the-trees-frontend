@@ -6,7 +6,7 @@ import { ProtectedApiExtraArgs } from '../../../api/protectedApiClient';
 
 export interface TeamProps {
   id: number;
-  name: string;
+  teamName: string;
   bio: string;
   members: MemberProps[];
   goals: GoalProps[];
@@ -28,10 +28,10 @@ export interface GoalProps {
 }
 
 export enum TeamRole {
-  NONE = 'none',
-  MEMBER = 'member',
-  LEADER = 'leader',
-  PENDING = 'pending',
+  NONE = 'NONE',
+  MEMBER = 'MEMBER',
+  LEADER = 'LEADER',
+  PENDING = 'PENDING',
 }
 
 export interface UserInvite {
@@ -69,7 +69,7 @@ export interface TransferOwnershipRequest {
 
 export interface TeamResponse {
   id: number;
-  name: string;
+  teamName: string;
   bio: string;
   members: MemberProps[];
   goals: GoalResponseJSON[];

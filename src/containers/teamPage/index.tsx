@@ -122,6 +122,8 @@ const TeamPage: React.FC<TeamPageProps> = ({ teamProps, teamRequestKind }) => {
     ProtectedApiClient.applyToTeam(numId);
   };
 
+  console.log(teamProps);
+
   return (
     <>
       {teamRequestKind === AsyncRequestKinds.Completed && (
@@ -132,7 +134,7 @@ const TeamPage: React.FC<TeamPageProps> = ({ teamProps, teamRequestKind }) => {
           <TeamHeaderContainer>
             <PageHeaderContainer>
               <PageHeader
-                pageTitle={teamProps.name}
+                pageTitle={teamProps.teamName}
                 pageSubtitle={teamProps.bio}
               />
             </PageHeaderContainer>

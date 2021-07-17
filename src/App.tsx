@@ -18,6 +18,7 @@ import styled from 'styled-components';
 import Landing from './containers/landing';
 import AdminDashboard from './containers/adminDashboard';
 import TreePage from './containers/treePage';
+import TeamPage from './containers/teamPage';
 import MyTrees from './containers/myTrees';
 import { Layout } from 'antd';
 import Home from './containers/home';
@@ -51,7 +52,7 @@ export enum Routes {
   HOME = '/home',
   SETTINGS = '/settings',
   // VOLUNTEER = '/volunteer',
-  // TEAM = '/team/:id',
+  TEAM = '/team/:id',
   TREE = '/tree/:id',
   MY_TREES = '/my-trees',
   // TEAM_LEADERBOARD = '/team-leaderboard',
@@ -97,9 +98,9 @@ const App: React.FC = () => {
                       <AuthRedirect from={Routes.HOME} />
                       <AuthRedirect from={Routes.SETTINGS} />
                       <AuthRedirect from={Routes.MY_TREES} />
+                      <AuthRedirect from={Routes.TEAM} />
                       {/*
                       <AuthRedirect from={Routes.VOLUNTEER} />
-                      <AuthRedirect from={Routes.TEAM} />
                       <AuthRedirect from={Routes.TEAM_LEADERBOARD} />
                       <AuthRedirect from={Routes.AVAILABLE_TEAMS} />
                       <AuthRedirect from={Routes.RESERVATIONS} />
@@ -137,6 +138,7 @@ const App: React.FC = () => {
                         component={Settings}
                       />
                       <Route path={Routes.MY_TREES} exact component={MyTrees} />
+                      <Route path={Routes.TEAM} exact component={TeamPage} />
                       {/*
                       <Route
                         path={Routes.VOLUNTEER}
@@ -184,6 +186,7 @@ const App: React.FC = () => {
                         component={Settings}
                       />
                       <Route path={Routes.MY_TREES} exact component={MyTrees} />
+                      <Route path={Routes.TEAM} exact component={TeamPage} />
                       {/*
                       <Route
                         path={Routes.VOLUNTEER}
@@ -200,7 +203,7 @@ const App: React.FC = () => {
                         exact
                         component={AvailableTeams}
                       />
-                      <Route path={Routes.TEAM} exact component={TeamPage} />
+                      
                       <Route
                         path={Routes.RESERVATIONS}
                         exact

@@ -16,7 +16,7 @@ export const teamResponseRequestToTeamProps = (
 const teamResponseToTeamProps = (team: TeamResponse): TeamProps => {
   return {
     id: team.id,
-    name: team.name,
+    teamName: team.teamName,
     bio: team.bio,
     members: team.members,
     goals: mapGoalResponseJSONToGoalProps(team.goals),
@@ -41,7 +41,7 @@ const mapGoalResponseJSONToGoalProps = (
 // This is to prevent the TeamProps from being undefined
 const emptyTeam: () => TeamProps = () => ({
   id: 0,
-  name: '',
+  teamName: '',
   bio: '',
   members: [],
   goals: [],
