@@ -1,11 +1,15 @@
-import { TokenPayload } from '../ducks/types';
-import { login, signup } from '../ducks/thunks';
-import { authenticateUser } from '../ducks/actions';
+import { TokenPayload, UserData } from '../ducks/types';
+import { getUserData, login, signup } from '../ducks/thunks';
+import { authenticateUser, userData } from '../ducks/actions';
 import authClient from '../authClient';
 import { C4CState, initialStoreState, ThunkExtraArgs } from '../../store';
-import { AxiosError } from 'axios';
-import protectedApiClient from '../../api/protectedApiClient';
+import protectedApiClient, {
+  ProtectedApiClientRoutes,
+} from '../../api/protectedApiClient';
 import apiClient from '../../api/apiClient';
+import nock from 'nock';
+
+const BASE_URL = 'http://localhost';
 
 export const generateState = (partialState: Partial<C4CState>): C4CState => ({
   ...initialStoreState,
@@ -149,6 +153,58 @@ describe('User Authentication Thunks', () => {
         authenticateUser.failed(mockAPIError.response.data),
       );
       expect(mockSignup).toBeCalledTimes(1);
+    });
+  });
+
+  describe('getUserData', () => {
+    it('dispatches an userData.loaded() action after getting user data', async () => {
+      const getState = () => generateState({});
+      const mockDispatch = jest.fn();
+      const mockUserDataResponse: UserData = {
+        firstName: 'First',
+        lastName: 'Last',
+        email: 'email@email.com',
+        username: 'user',
+      };
+      const mockExtraArgs: ThunkExtraArgs = {
+        authClient,
+        protectedApiClient,
+        apiClient,
+      };
+
+      nock(BASE_URL)
+        .get(ProtectedApiClientRoutes.GET_USER_DATA)
+        .reply(200, mockUserDataResponse);
+
+      await getUserData()(mockDispatch, getState, mockExtraArgs);
+
+      expect(mockDispatch).toHaveBeenCalledTimes(2);
+      expect(mockDispatch).toHaveBeenNthCalledWith(
+        2,
+        userData.loaded(mockUserDataResponse),
+      );
+    });
+    it('dispatches userData.failed() action when API fails', async () => {
+      const getState = () => generateState({});
+      const mockDispatch = jest.fn();
+      const mockAPIErrorData = 'Unauthenticated user';
+      const mockExtraArgs: ThunkExtraArgs = {
+        authClient,
+        protectedApiClient,
+        apiClient,
+      };
+
+      nock(BASE_URL)
+        .get(ProtectedApiClientRoutes.GET_USER_DATA)
+        .reply(400, mockAPIErrorData);
+
+      await getUserData()(mockDispatch, getState, mockExtraArgs);
+
+      expect(mockDispatch).toHaveBeenCalledTimes(2);
+      expect(mockDispatch).toHaveBeenNthCalledWith(
+        2,
+        userData.failed(mockAPIErrorData),
+      );
     });
   });
 });

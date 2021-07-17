@@ -31,6 +31,7 @@ describe('User Authentication Reducers', () => {
         firstName: 'First',
         lastName: 'Last',
         email: 'test@email.com',
+        username: 'user',
       };
       const action = userData.loaded(data);
       const expectedNextState: UserAuthenticationReducerState = {

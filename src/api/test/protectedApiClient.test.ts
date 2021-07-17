@@ -455,6 +455,7 @@ describe('Protected API Client Tests', () => {
           firstName: '',
           lastName: '',
           email: '',
+          username: '',
         };
 
         nock(BASE_URL)
