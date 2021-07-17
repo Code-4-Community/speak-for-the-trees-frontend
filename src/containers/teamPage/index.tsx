@@ -16,11 +16,12 @@ import {
   MID_GREEN,
   WHITE,
 } from '../../utils/colors';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { getUserID } from '../../auth/ducks/selectors';
 import { C4CState } from '../../store';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { getTeam } from './ducks/thunks';
-import { teamResponseRequestToTeamProps } from './ducks/selectors';
+import { teamResponseRequestToTeamProps, getTeamRole } from './ducks/selectors';
 import ProtectedApiClient from '../../api/protectedApiClient';
 
 const { Paragraph } = Typography;
@@ -113,6 +114,16 @@ const TeamPage: React.FC<TeamPageProps> = ({ teamProps, teamRequestKind }) => {
   const { id } = useParams<{ id: string }>();
   const numId = +id;
 
+  const hasGoals = teamProps.goals.length > 0;
+
+  const userId: number = useSelector((state: C4CState) =>
+    getUserID(state.authenticationState.tokens),
+  );
+
+  const teamRole: TeamRole = useSelector((state: C4CState) => {
+    return getTeamRole(state.teamState.team, userId);
+  });
+
   useEffect(() => {
     // The default tab is weekly
     dispatch(getTeam(numId));
@@ -136,7 +147,11 @@ const TeamPage: React.FC<TeamPageProps> = ({ teamProps, teamRequestKind }) => {
                 pageSubtitle={teamProps.bio}
               />
             </PageHeaderContainer>
-            <JoinButton type="primary" onClick={applyToTeam}>
+            <JoinButton
+              type="primary"
+              onClick={applyToTeam}
+              disabled={teamRole !== TeamRole.NONE}
+            >
               Join Team
             </JoinButton>
           </TeamHeaderContainer>
@@ -167,33 +182,37 @@ const TeamPage: React.FC<TeamPageProps> = ({ teamProps, teamRequestKind }) => {
             </MemberContainer>
             <GoalContainer>
               <SectionHeader>TEAM GOALS</SectionHeader>
-              <LeaderboardCollapse
-                bordered={false}
-                defaultActiveKey={teamProps.goals[0].id}
-                expandIconPosition={'right'}
-              >
-                {teamProps.goals.map((item) => {
-                  return (
-                    <StyledPanel
-                      key={item.id}
-                      header={<BlackText>Goal {item.id}</BlackText>}
-                      extra={
-                        item.completionDate == null && (
-                          <BlackText>Incomplete</BlackText>
-                        )
-                      }
-                    >
-                      <Line />
-                      <GoalInfo
-                        blockProgress={item.progress}
-                        blockGoal={item.goal}
-                        startDate={getDateString(item.startDate)}
-                        targetDate={getDateString(item.completeBy)}
-                      />
-                    </StyledPanel>
-                  );
-                })}
-              </LeaderboardCollapse>
+              {hasGoals && (
+                <LeaderboardCollapse
+                  bordered={false}
+                  defaultActiveKey={teamProps.goals[0].id}
+                  expandIconPosition={'right'}
+                >
+                  {teamProps.goals.map((item) => {
+                    return (
+                      <StyledPanel
+                        key={item.id}
+                        header={<BlackText>Goal {item.id}</BlackText>}
+                        extra={
+                          item.completionDate == null && (
+                            <BlackText>Incomplete</BlackText>
+                          )
+                        }
+                      >
+                        <Line />
+                        <GoalInfo
+                          blockProgress={item.progress}
+                          blockGoal={item.goal}
+                          startDate={getDateString(item.startDate)}
+                          targetDate={getDateString(item.completeBy)}
+                        />
+                      </StyledPanel>
+                    );
+                  })}
+                </LeaderboardCollapse>
+              )}
+
+              {!hasGoals && <Paragraph>This team has no goals</Paragraph>}
             </GoalContainer>
           </CenterDiv>
         </TeamContainer>
