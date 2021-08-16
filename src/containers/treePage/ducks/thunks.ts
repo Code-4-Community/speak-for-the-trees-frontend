@@ -37,7 +37,7 @@ export const getAdoptedSites = (): ProtectedSiteReducerThunkAction<void> => {
         dispatch(adoptedSites.loaded(reponse));
       })
       .catch((error: any) => {
-        dispatch(adoptedSites.failed(error));
+        dispatch(adoptedSites.failed(error.response.data));
       });
   };
 };
