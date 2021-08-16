@@ -124,6 +124,7 @@ export interface StewardshipActivities {
   stewardshipActivities: ActivityLog[];
 }
 
+// Invariant: At least one of these booleans will always be true
 export interface Activity {
   watered: boolean;
   mulched: boolean;
