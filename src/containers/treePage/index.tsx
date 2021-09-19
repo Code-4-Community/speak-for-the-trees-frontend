@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
-import { Col, Form, message, Row, Typography } from 'antd';
+import { Button, Col, Form, message, Row, Typography } from 'antd';
 import { Routes } from '../../App';
 import { Helmet } from 'react-helmet';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
@@ -14,7 +14,7 @@ import {
   TreeCare,
 } from './ducks/types';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { LIGHT_GREY } from '../../utils/colors';
+import { LIGHT_GREY, MID_GREEN } from '../../utils/colors';
 import styled from 'styled-components';
 import {
   getLatestSplitEntry,
@@ -33,13 +33,20 @@ import { RecordStewardshipRequest } from '../../components/forms/ducks/types';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
-import ReturnButton from '../../components/returnButton';
 import TreeInfo from '../../components/treeInfo';
 import TreeActivity from '../../components/treeActivity';
 import EntryList from '../../components/entryList';
 import { CenterDiv } from '../../components/themedComponents';
+import { STREET_ZOOM } from '../../components/mapPageComponents/constants';
 
 const { Title } = Typography;
+
+const ReturnButton = styled(Button)`
+  height: 45px;
+  border-color: ${MID_GREEN};
+  font-size: 18px;
+  color: ${MID_GREEN};
+`;
 
 const TreePageContainer = styled.div`
   width: 90vw;
@@ -173,12 +180,23 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
       </Helmet>
       <PageLayout>
         <TreePageContainer>
-          <ReturnButton to={Routes.LANDING}>
-            {`<`} Return to Tree Map
-          </ReturnButton>
-
           {asyncRequestIsComplete(siteData) && (
             <>
+              <ReturnButton>
+                <Link
+                  to={{
+                    pathname: Routes.LANDING,
+                    state: {
+                      zoom: STREET_ZOOM,
+                      lat: siteData.result.lat,
+                      lng: siteData.result.lng,
+                    },
+                  }}
+                >
+                  {`<`} Return to Tree Map
+                </Link>
+              </ReturnButton>
+
               {(() => {
                 switch (windowType) {
                   case WindowTypes.Desktop:

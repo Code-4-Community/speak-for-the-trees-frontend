@@ -21,15 +21,19 @@ import { CheckboxValueType } from 'antd/es/checkbox/Group';
 /**
  * Creates the private streets layer and sets its initial style, returns the layer.
  * @param map the map to add the layer to
+ * @param visible whether to initiate the layer as visible
  */
-export function initPrivateStreets(map: google.maps.Map): google.maps.Data {
+export function initPrivateStreets(
+  map: google.maps.Map,
+  visible: boolean,
+): google.maps.Data {
   const privateStreetsLayer = new google.maps.Data({ map });
   // Loads the objects into the layer
   privateStreetsLayer.loadGeoJson(
     'https://raw.githubusercontent.com/florisdobber/SFTT-map-test/master/private_streets.json',
   );
   // Initially hide streets while the neighborhoods are shown
-  setPrivateStreetsStyle(privateStreetsLayer, false);
+  setPrivateStreetsStyle(privateStreetsLayer, visible);
   return privateStreetsLayer;
 }
 
@@ -40,12 +44,14 @@ export function initPrivateStreets(map: google.maps.Map): google.maps.Data {
  * @param markersArray the array of markers to put the neighborhood name markers in
  * @param view the map view
  * @param map the map to add the layer to
+ *  @param visible whether to initiate the layer as visible
  */
 export function initNeighborhoods(
   neighborhoods: NeighborhoodGeoData,
   markersArray: google.maps.Marker[],
   view: MapViews,
   map: google.maps.Map,
+  visible: boolean,
 ): google.maps.Data {
   const neighborhoodsLayer = new google.maps.Data({ map });
   // Loads the objects into the layer
@@ -57,7 +63,7 @@ export function initNeighborhoods(
     marker.setMap(map);
   });
   // Sets the style of the layer, initially the neighborhoods are shown by themselves
-  setNeighborhoodsStyle(neighborhoodsLayer, markersArray, true);
+  setNeighborhoodsStyle(neighborhoodsLayer, markersArray, visible);
   // Adds the event listener
   addZoomToClickedNeighborhood(neighborhoodsLayer, view, map);
   return neighborhoodsLayer;
@@ -67,16 +73,18 @@ export function initNeighborhoods(
  * Creates the blocks layer and sets its initial style, returns the layer.
  * @param blocks the blocks geo data
  * @param map the map to add the layer to
+ *  @param visible whether to initiate the layer as visible
  */
 export function initBlocks(
   blocks: BlockGeoData,
   map: google.maps.Map,
+  visible: boolean,
 ): google.maps.Data {
   const blocksLayer = new google.maps.Data({ map });
   // Loads the objects into the layer
   blocksLayer.addGeoJson(blocks);
   // Sets the style of the layer, initially hidden while neighborhoods are shown
-  setBlocksStyle(blocksLayer, false);
+  setBlocksStyle(blocksLayer, visible);
   // todo add show reservation modal event listener
   return blocksLayer;
 }
@@ -89,6 +97,7 @@ export function initBlocks(
  * @param setActiveTreeInfo the callback function to update the active tree info
  * @param popPopup the callback function to pop the popup at the location
  * @param map the map to add the layer to
+ *  @param visible whether to initiate the layer as visible
  */
 export function initSites(
   sites: SiteGeoData,
@@ -96,6 +105,7 @@ export function initSites(
   setActiveTreeInfo: (value: BasicTreeInfo) => void,
   popPopup: (latLng: google.maps.LatLng) => void,
   map: google.maps.Map,
+  visible: boolean,
 ): google.maps.Data {
   const sitesLayer = new google.maps.Data({ map });
   // Loads the objects into the layer
@@ -103,7 +113,7 @@ export function initSites(
   // Adds listener so tree popup appears when site clicked
   addTreePopupOnClick(sitesLayer, setActiveTreeInfo, popPopup);
   // Initially hidden while the neighborhoods are shown
-  setSitesStyle(sitesLayer, visibleSites, 0, false);
+  setSitesStyle(sitesLayer, visibleSites, 0, visible);
   return sitesLayer;
 }
 

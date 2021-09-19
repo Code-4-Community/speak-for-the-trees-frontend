@@ -1,4 +1,5 @@
 import React, { createRef, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Input, message } from 'antd';
 import styled from 'styled-components';
 import {
@@ -31,6 +32,7 @@ import {
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { setSitesStyle } from '../logic/style';
 import SiteLegend from '../siteLegend';
+import { MapStateProps } from '../../../App';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -75,6 +77,8 @@ const MapView: React.FC<MapViewProps> = ({
           // block id for modal
           const [activeBlockId, setActiveBlockId] = useState<number>(-1);
            */
+  const location = useLocation<MapStateProps>();
+
   // BasicTreeInfo to display in tree popup
   const [activeTreeInfo, setActiveTreeInfo] = useState<BasicTreeInfo>({
     id: NO_SITE_SELECTED,
@@ -124,11 +128,15 @@ const MapView: React.FC<MapViewProps> = ({
 
   useEffect(() => {
     if (mapElement && treePopupElement) {
+      const defaultZoom: number = location.state ? location.state.zoom : 12;
+
       LOADER.load()
         .then(() => {
           map = new google.maps.Map(mapElement, {
-            center: BOSTON,
-            zoom: 12,
+            center: location.state
+              ? { lat: location.state.lat, lng: location.state.lng }
+              : BOSTON,
+            zoom: defaultZoom,
             fullscreenControl: false,
             mapTypeControl: false,
             restriction: {
@@ -225,13 +233,19 @@ const MapView: React.FC<MapViewProps> = ({
           );
 
           // Creates data layers and add respective event listeners
-          privateStreetsLayer = initPrivateStreets(map);
-          blocksLayer = initBlocks(blocks, map);
+          const zoomedIn = defaultZoom >= view;
+          privateStreetsLayer = initPrivateStreets(map, zoomedIn);
+          blocksLayer = initBlocks(
+            blocks,
+            map,
+            zoomedIn && view === MapViews.BLOCKS,
+          );
           neighborhoodsLayer = initNeighborhoods(
             neighborhoods,
             markersArray,
             view,
             map,
+            !zoomedIn,
           );
           sitesLayer = initSites(
             sites,
@@ -239,6 +253,7 @@ const MapView: React.FC<MapViewProps> = ({
             setActiveTreeInfo,
             popPopup,
             map,
+            zoomedIn && view === MapViews.TREES,
           );
 
           // Sets marker at the user's current location, if they allow it
@@ -259,7 +274,15 @@ const MapView: React.FC<MapViewProps> = ({
         })
         .catch((err) => message.error(err.message));
     }
-  }, [blocks, mapElement, treePopupElement, neighborhoods, sites, view]);
+  }, [
+    blocks,
+    mapElement,
+    treePopupElement,
+    neighborhoods,
+    sites,
+    view,
+    location.state,
+  ]);
 
   // Add new zoom listener and update sites style whenever visibleSites changes
   const onCheck = (values: CheckboxValueType[]): void => {
