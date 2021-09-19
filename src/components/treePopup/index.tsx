@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Typography } from 'antd';
+import { Button, Typography } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
-import { LinkButton } from '../linkButton';
 import { ParameterizedRouteBases } from '../../App';
 import {
   BLACK,
@@ -84,7 +84,7 @@ const GreyText = styled(Paragraph)`
   line-height: 13px;
 `;
 
-const GreenLinkButton = styled(LinkButton)`
+const GreenLinkButton = styled(Button)`
   background-color: ${LIGHT_GREEN};
   border-color: ${LIGHT_GREEN};
   color: ${WHITE};
@@ -137,10 +137,13 @@ const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
                   <GreyText strong>Nearby Address</GreyText>
                 )}
                 <GreyText>{treeInfo.address}</GreyText>
-                <GreenLinkButton
-                  to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
-                >
-                  More Info
+                <GreenLinkButton>
+                  <Link
+                    to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
+                    target={'_blank'}
+                  >
+                    More Info
+                  </Link>
                 </GreenLinkButton>
               </>
             ) : (
