@@ -90,6 +90,12 @@ const GreenLinkButton = styled(LinkButton)`
   color: ${WHITE};
 `;
 
+const PlantRequest = styled(Paragraph)`
+  color: ${DARK_GREY};
+  font-size: 13px;
+  line-height: 13px;
+`;
+
 export const NO_SITE_SELECTED = -1;
 export const NO_TREE_PRESENT = -2;
 
@@ -145,8 +151,15 @@ const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
               </>
             ) : (
               <>
-                <TreeTitle>Open Planting Site</TreeTitle>
-                <CloseIcon onClick={hidePopup} />
+                <>
+                  <TreeTitle>Open Planting Site</TreeTitle>
+                  <CloseIcon onClick={hidePopup} />
+                </>
+                <Line />
+                {!isEmptyString(treeInfo.address) && (
+                  <GreyText strong>Nearby Address</GreyText>
+                )}
+                <GreyText>{treeInfo.address}</GreyText>
               </>
             )}
           </PopupBubble>
