@@ -6,7 +6,7 @@ import { GoalProps, MemberProps, TeamProps, TeamRole } from './ducks/types';
 import GoalInfo from '../../components/goalInfo';
 import PageHeader from '../../components/pageHeader';
 import TeamMember from '../../components/teamMember';
-import ReturnButton from '../../components/returnButton';
+import { ReturnButton } from '../../components/themedComponents';
 import { getDateString } from '../../utils/stringFormat';
 import {
   BLACK,
