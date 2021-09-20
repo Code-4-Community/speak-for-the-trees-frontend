@@ -128,38 +128,29 @@ const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
       {isVisible && (
         <PopupAnchor>
           <PopupBubble>
-            {treeInfo.id !== NO_TREE_PRESENT ? (
+            <>
               <>
-                <>
-                  <TreeTitle>
-                    {isEmptyString(treeInfo.commonName)
+                <TreeTitle>
+                  {treeInfo.id !== NO_TREE_PRESENT
+                    ? isEmptyString(treeInfo.commonName)
                       ? 'Unknown Species'
-                      : treeInfo.commonName}
-                  </TreeTitle>
-                  <CloseIcon onClick={hidePopup} />
-                </>
-                <Line />
-                {!isEmptyString(treeInfo.address) && (
-                  <GreyText strong>Nearby Address</GreyText>
-                )}
-                <GreyText>{treeInfo.address}</GreyText>
+                      : treeInfo.commonName
+                    : 'Open Planting Site'}
+                </TreeTitle>
+                <CloseIcon onClick={hidePopup} />
+              </>
+              <Line />
+              {!isEmptyString(treeInfo.address) && (
+                <GreyText strong>Nearby Address</GreyText>
+              )}
+              <GreyText>{treeInfo.address}</GreyText>
+              {treeInfo.id !== NO_TREE_PRESENT ? (
                 <GreenLinkButton
                   to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
                 >
                   More Info
                 </GreenLinkButton>
-              </>
-            ) : (
-              <>
-                <>
-                  <TreeTitle>Open Planting Site</TreeTitle>
-                  <CloseIcon onClick={hidePopup} />
-                </>
-                <Line />
-                {!isEmptyString(treeInfo.address) && (
-                  <GreyText strong>Nearby Address</GreyText>
-                )}
-                <GreyText>{treeInfo.address}</GreyText>
+              ) : (
                 <PlantRequest>
                   Want to plant a tree here?{' '}
                   <Link
@@ -169,8 +160,8 @@ const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
                     Submit a request to the city!
                   </Link>
                 </PlantRequest>
-              </>
-            )}
+              )}
+            </>
           </PopupBubble>
         </PopupAnchor>
       )}
