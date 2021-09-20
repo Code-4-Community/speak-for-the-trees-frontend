@@ -13,6 +13,7 @@ export interface SiteProps {
   city: string;
   zip: string;
   address?: string;
+  neighborhood: string;
   entries: SiteEntry[];
 }
 
