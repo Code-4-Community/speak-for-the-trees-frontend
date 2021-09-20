@@ -131,7 +131,7 @@ export function addTreePopupOnClick(
  * Adds an event listener to handle zoom changes.
  * @param neighborhoodsLayer the neighborhoods layer
  * @param markersArray the array of neighborhood label markers
- * @param privateStreetsLayer thee private streets layer
+ * @param privateStreetsLayer the private streets layer
  * @param blocksLayer the blocks layer
  * @param sitesLayer the sites layer
  * @param visibleSites which sites are visible
@@ -156,7 +156,7 @@ export function addHandleZoomChange(
       zoomedIn = true;
     }
     setNeighborhoodsStyle(neighborhoodsLayer, markersArray, !zoomedIn);
-    setPrivateStreetsStyle(privateStreetsLayer, zoomedIn);
+    setPrivateStreetsStyle(privateStreetsLayer, !zoomedIn);
 
     switch (view) {
       case MapViews.BLOCKS:
