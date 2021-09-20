@@ -97,7 +97,8 @@ export function initBlocks(
  * @param setActiveTreeInfo the callback function to update the active tree info
  * @param popPopup the callback function to pop the popup at the location
  * @param map the map to add the layer to
- *  @param visible whether to initiate the layer as visible
+ * @param imageSize the default size of site icons
+ * @param visible whether to initiate the layer as visible
  */
 export function initSites(
   sites: SiteGeoData,
@@ -105,6 +106,7 @@ export function initSites(
   setActiveTreeInfo: (value: BasicTreeInfo) => void,
   popPopup: (latLng: google.maps.LatLng) => void,
   map: google.maps.Map,
+  imageSize: number,
   visible: boolean,
 ): google.maps.Data {
   const sitesLayer = new google.maps.Data({ map });
@@ -113,7 +115,7 @@ export function initSites(
   // Adds listener so tree popup appears when site clicked
   addTreePopupOnClick(sitesLayer, setActiveTreeInfo, popPopup);
   // Initially hidden while the neighborhoods are shown
-  setSitesStyle(sitesLayer, visibleSites, 0, visible);
+  setSitesStyle(sitesLayer, visibleSites, imageSize, visible);
   return sitesLayer;
 }
 

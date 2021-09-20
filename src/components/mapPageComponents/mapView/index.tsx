@@ -127,15 +127,18 @@ const MapView: React.FC<MapViewProps> = ({
   }, [treePopupRef]);
 
   useEffect(() => {
-    if (mapElement && treePopupElement) {
-      const defaultZoom: number = location.state ? location.state.zoom : 12;
+    let defaultZoom = 12;
+    let defaultCenter = BOSTON;
+    if (location.state) {
+      defaultZoom = location.state.zoom;
+      defaultCenter = { lat: location.state.lat, lng: location.state.lng };
+    }
 
+    if (mapElement && treePopupElement) {
       LOADER.load()
         .then(() => {
           map = new google.maps.Map(mapElement, {
-            center: location.state
-              ? { lat: location.state.lat, lng: location.state.lng }
-              : BOSTON,
+            center: defaultCenter,
             zoom: defaultZoom,
             fullscreenControl: false,
             mapTypeControl: false,
@@ -253,6 +256,7 @@ const MapView: React.FC<MapViewProps> = ({
             setActiveTreeInfo,
             popPopup,
             map,
+            getImageSize(defaultZoom, view),
             zoomedIn && view === MapViews.TREES,
           );
 
