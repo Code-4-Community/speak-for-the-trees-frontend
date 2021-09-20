@@ -14,7 +14,7 @@ import {
 } from '../../utils/colors';
 import { isEmptyString } from '../../utils/isCheck';
 
-const { Paragraph } = Typography;
+const { Paragraph, Link } = Typography;
 
 const PopupContainer = styled.div`
   position: absolute;
@@ -91,9 +91,9 @@ const GreenLinkButton = styled(LinkButton)`
 `;
 
 const PlantRequest = styled(Paragraph)`
-  color: ${DARK_GREY};
-  font-size: 13px;
-  line-height: 13px;
+  color: ${BLACK};
+  font-size: 14px;
+  line-height: 17px;
 `;
 
 export const NO_SITE_SELECTED = -1;
@@ -160,6 +160,15 @@ const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
                   <GreyText strong>Nearby Address</GreyText>
                 )}
                 <GreyText>{treeInfo.address}</GreyText>
+                <PlantRequest>
+                  Want to plant a tree here?{' '}
+                  <Link
+                    href="https://www.cityofboston.gov/311/"
+                    target="_blank"
+                  >
+                    Submit a request to the city!
+                  </Link>
+                </PlantRequest>
               </>
             )}
           </PopupBubble>
