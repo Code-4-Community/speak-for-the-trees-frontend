@@ -156,7 +156,7 @@ export function addHandleZoomChange(
       zoomedIn = true;
     }
     setNeighborhoodsStyle(neighborhoodsLayer, markersArray, !zoomedIn);
-    setPrivateStreetsStyle(privateStreetsLayer, !zoomedIn);
+    setPrivateStreetsStyle(privateStreetsLayer, false);
 
     switch (view) {
       case MapViews.BLOCKS:
