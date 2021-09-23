@@ -131,6 +131,7 @@ const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
             <>
               <>
                 <TreeTitle>
+                  {/* If the site has a tree, then display its common name (if available). Otherwise, display 'Open Planting Site' */}
                   {treeInfo.id !== NO_TREE_PRESENT
                     ? isEmptyString(treeInfo.commonName)
                       ? 'Unknown Species'
@@ -144,23 +145,30 @@ const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
                 <GreyText strong>Nearby Address</GreyText>
               )}
               <GreyText>{treeInfo.address}</GreyText>
-              {treeInfo.id !== NO_TREE_PRESENT ? (
-                <GreenLinkButton
-                  to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
-                >
-                  More Info
-                </GreenLinkButton>
-              ) : (
-                <PlantRequest>
-                  Want to plant a tree here?{' '}
-                  <Link
-                    href="https://www.cityofboston.gov/311/"
-                    target="_blank"
-                  >
-                    Submit a request to the city!
-                  </Link>
-                </PlantRequest>
-              )}
+              {(() => {
+                switch (treeInfo.id) {
+                  case NO_TREE_PRESENT:
+                    return (
+                      <PlantRequest>
+                        Want to plant a tree here?{' '}
+                        <Link
+                          href="https://www.cityofboston.gov/311/"
+                          target="_blank"
+                        >
+                          Submit a request to the city!
+                        </Link>
+                      </PlantRequest>
+                    );
+                  default:
+                    return (
+                      <GreenLinkButton
+                        to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
+                      >
+                        More Info
+                      </GreenLinkButton>
+                    );
+                }
+              })()}
             </>
           </PopupBubble>
         </PopupAnchor>
