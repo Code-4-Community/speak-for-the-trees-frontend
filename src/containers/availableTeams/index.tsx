@@ -5,7 +5,7 @@ import { Routes } from '../../App';
 import { Pagination, Divider } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
-import ReturnButton from '../../components/returnButton';
+import { ReturnButton } from '../../components/themedComponents';
 import styled from 'styled-components';
 import { LinkButton } from '../../components/linkButton';
 import { ArrowRightOutlined } from '@ant-design/icons';

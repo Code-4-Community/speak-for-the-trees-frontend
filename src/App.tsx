@@ -67,6 +67,12 @@ export interface RedirectStateProps {
   readonly destination: Routes;
 }
 
+export interface MapStateProps {
+  readonly zoom: number;
+  readonly lat: number;
+  readonly lng: number;
+}
+
 const App: React.FC = () => {
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
     return getPrivilegeLevel(state.authenticationState.tokens);

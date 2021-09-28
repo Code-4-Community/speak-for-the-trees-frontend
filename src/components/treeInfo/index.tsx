@@ -68,14 +68,19 @@ const TreeInfo: React.FC<TreeProps> = ({
   return (
     <>
       <TreeHeader>
-        {siteData.entries[0].commonName && (
+        {
           <PageHeader
-            pageTitle={siteData.entries[0].commonName}
+            // Either commonName or 'Unknown Species' if no commonName exists
+            pageTitle={
+              siteData.entries[0].commonName
+                ? siteData.entries[0].commonName
+                : 'Unknown Species'
+            }
             isMobile={mobile}
             pageSubtitle={getSiteLocation()}
             subtitlecolor={MID_GREEN}
           />
-        )}
+        }
       </TreeHeader>
 
       {(() => {
