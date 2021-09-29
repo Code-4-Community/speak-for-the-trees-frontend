@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LeaderboardTabs from '../../components/leaderboard/leaderboardTabs';
-import ReturnButton from '../../components/returnButton';
+import { ReturnButton } from '../../components/themedComponents';
 import { Routes } from '../../App';
 import { TabItem } from '../../components/leaderboard/types';
 import { C4CState } from '../../store';

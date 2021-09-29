@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Typography } from 'antd';
+import { Button, Typography } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
-import { LinkButton } from '../linkButton';
 import { ParameterizedRouteBases } from '../../App';
 import {
   BLACK,
@@ -14,7 +13,7 @@ import {
 } from '../../utils/colors';
 import { isEmptyString } from '../../utils/isCheck';
 
-const { Paragraph } = Typography;
+const { Paragraph, Link } = Typography;
 
 const PopupContainer = styled.div`
   position: absolute;
@@ -84,10 +83,16 @@ const GreyText = styled(Paragraph)`
   line-height: 13px;
 `;
 
-const GreenLinkButton = styled(LinkButton)`
+const GreenLinkButton = styled(Button)`
   background-color: ${LIGHT_GREEN};
   border-color: ${LIGHT_GREEN};
   color: ${WHITE};
+`;
+
+const PlantRequest = styled(Paragraph)`
+  color: ${BLACK};
+  font-size: 14px;
+  line-height: 17px;
 `;
 
 export const NO_SITE_SELECTED = -1;
@@ -122,33 +127,51 @@ const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
       {isVisible && (
         <PopupAnchor>
           <PopupBubble>
-            {treeInfo.id !== NO_TREE_PRESENT ? (
+            <>
               <>
-                <>
-                  <TreeTitle>
-                    {isEmptyString(treeInfo.commonName)
+                <TreeTitle>
+                  {/* If the site has a tree, then display its common name (if available). Otherwise, display 'Open Planting Site' */}
+                  {treeInfo.id !== NO_TREE_PRESENT
+                    ? isEmptyString(treeInfo.commonName)
                       ? 'Unknown Species'
-                      : treeInfo.commonName}
-                  </TreeTitle>
-                  <CloseIcon onClick={hidePopup} />
-                </>
-                <Line />
-                {!isEmptyString(treeInfo.address) && (
-                  <GreyText strong>Nearby Address</GreyText>
-                )}
-                <GreyText>{treeInfo.address}</GreyText>
-                <GreenLinkButton
-                  to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
-                >
-                  More Info
-                </GreenLinkButton>
-              </>
-            ) : (
-              <>
-                <TreeTitle>Open Planting Site</TreeTitle>
+                      : treeInfo.commonName
+                    : 'Open Planting Site'}
+                </TreeTitle>
                 <CloseIcon onClick={hidePopup} />
               </>
-            )}
+              <Line />
+              {!isEmptyString(treeInfo.address) && (
+                <GreyText strong>Nearby Address</GreyText>
+              )}
+              <GreyText>{treeInfo.address}</GreyText>
+              {(() => {
+                switch (treeInfo.id) {
+                  case NO_TREE_PRESENT:
+                    return (
+                      <PlantRequest>
+                        Want to plant a tree here?{' '}
+                        <Link
+                          href="https://www.cityofboston.gov/311/"
+                          target="_blank"
+                        >
+                          Submit a request to the city!
+                        </Link>
+                      </PlantRequest>
+                    );
+                  default:
+                    return (
+                      <GreenLinkButton>
+                        <Link
+                          href={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
+                          target="_blank"
+                        >
+                          More Info
+                        </Link>
+                      </GreenLinkButton>
+                    );
+                }
+              })()}
+            </>
           </PopupBubble>
         </PopupAnchor>
       )}

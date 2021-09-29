@@ -33,11 +33,11 @@ import { RecordStewardshipRequest } from '../../components/forms/ducks/types';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
-import ReturnButton from '../../components/returnButton';
 import TreeInfo from '../../components/treeInfo';
 import TreeActivity from '../../components/treeActivity';
 import EntryList from '../../components/entryList';
-import { CenterDiv } from '../../components/themedComponents';
+import { CenterDiv, ReturnButton } from '../../components/themedComponents';
+import { STREET_ZOOM } from '../../components/mapPageComponents/constants';
 
 const { Title } = Typography;
 
@@ -173,12 +173,20 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
       </Helmet>
       <PageLayout>
         <TreePageContainer>
-          <ReturnButton to={Routes.LANDING}>
-            {`<`} Return to Tree Map
-          </ReturnButton>
-
           {asyncRequestIsComplete(siteData) && (
             <>
+              <ReturnButton
+                to={Routes.LANDING}
+                state={{
+                  zoom: STREET_ZOOM,
+                  lat: siteData.result.lat,
+                  lng: siteData.result.lng,
+                  activeId: siteData.result.siteId,
+                }}
+              >
+                {`<`} Return to Tree Map
+              </ReturnButton>
+
               {(() => {
                 switch (windowType) {
                   case WindowTypes.Desktop:
