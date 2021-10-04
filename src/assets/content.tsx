@@ -90,3 +90,7 @@ export const STATS_HEADER = 'Current Status of our Trees';
 export const MONEY_STAT_TITLE = 'Money Saved';
 export const RAIN_STAT_TITLE = 'Rain Water Caught';
 export const EMISSIONS_STAT_TITLE = 'Carbon Emissions Captured';
+
+// Other
+export const CITY_PLANTING_REQUEST_LINK =
+  'https://www.cityofboston.gov/mayor/24?topic=new-tree-request';

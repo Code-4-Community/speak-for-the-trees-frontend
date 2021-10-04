@@ -12,6 +12,7 @@ import {
   WHITE,
 } from '../../utils/colors';
 import { isEmptyString } from '../../utils/isCheck';
+import { CITY_PLANTING_REQUEST_LINK } from '../../assets/content';
 
 const { Paragraph, Link } = Typography;
 
@@ -150,10 +151,7 @@ const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
                     return (
                       <PlantRequest>
                         Want to plant a tree here?{' '}
-                        <Link
-                          href="https://www.cityofboston.gov/311/"
-                          target="_blank"
-                        >
+                        <Link href={CITY_PLANTING_REQUEST_LINK} target="_blank">
                           Submit a request to the city!
                         </Link>
                       </PlantRequest>
