@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { Button, Col, Form, Space, List, Image } from 'antd';
 import { FormItemProps } from 'antd/es/form';
-import { BLACK, LIGHT_GREY } from '../../utils/colors';
+import { BLACK, LIGHT_GREY, MID_GREEN } from '../../utils/colors';
+import { LinkButton } from '../linkButton';
 
 export const ContentContainer = styled.div`
   display: block;
@@ -51,6 +52,13 @@ export const SubmitButton = styled(Button)`
   min-width: 96px;
   height: 40px;
   font-size: 16px;
+`;
+
+export const ReturnButton = styled(LinkButton)`
+  height: 45px;
+  border-color: ${MID_GREEN};
+  font-size: 18px;
+  color: ${MID_GREEN};
 `;
 
 export const MainContent = styled.div`
