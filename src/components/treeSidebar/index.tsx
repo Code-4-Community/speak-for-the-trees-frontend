@@ -11,18 +11,16 @@ interface TreeSidebarProps {
 const TreeSidebar: React.FC<TreeSidebarProps> = ({ mySites }) => {
   return (
     <>
-      <ScrollableListContainer>
-        <List
-          dataSource={mySites}
-          itemLayout="vertical"
-          locale={{ emptyText: 'No Trees Adopted' }}
-          renderItem={(item) => (
-            <StyledListItem>
-              <TreeCard site={item} />
-            </StyledListItem>
-          )}
-        />
-      </ScrollableListContainer>
+      <List
+        dataSource={mySites}
+        itemLayout="vertical"
+        locale={{ emptyText: 'No Trees Adopted' }}
+        renderItem={(item) => (
+          <StyledListItem>
+            <TreeCard site={item} />
+          </StyledListItem>
+        )}
+      />
     </>
   );
 };

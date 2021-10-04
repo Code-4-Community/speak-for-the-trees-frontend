@@ -81,7 +81,10 @@ const MyTrees: React.FC<MyTreesStateProps> = ({
                 neighborhoods={neighborhoods}
                 sites={sites}
               >
-                <SlideDown>
+                <SlideDown
+                  defaultOpen
+                  fullSlide
+                >
                   <TreeSidebar mySites={mySites} />
                 </SlideDown>
               </MobileMapPage>
