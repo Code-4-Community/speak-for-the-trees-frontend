@@ -261,7 +261,6 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                     );
                 }
               })()}
-              {console.log(latestEntry)}
               {/* Display main entries if there are any. Otherwise, display message that no entries have been collected */}
               {latestEntry.main.length ? (
                 <>
