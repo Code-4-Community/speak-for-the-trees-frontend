@@ -261,22 +261,35 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                     );
                 }
               })()}
-              <CenterDiv>
-                <EntryList
-                  entries={latestEntry.main}
-                  canHide={false}
-                  title="About This Tree"
-                />
-              </CenterDiv>
-              <CenterDiv>
-                <EntryList
-                  entries={latestEntry.extra}
-                  canHide={true}
-                  hideText="Hide Extra Tree Details"
-                  showText="Click to Read More About This Tree"
-                  title="Additional Information"
-                />
-              </CenterDiv>
+              {console.log(latestEntry)}
+              {/* Display main entries if there are any. Otherwise, display message that no entries have been collected */}
+              {latestEntry.main.length ? (
+                <>
+                  <CenterDiv>
+                    <EntryList
+                      entries={latestEntry.main}
+                      canHide={false}
+                      title="About This Tree"
+                    />
+                  </CenterDiv>
+                  {/* Display extra entries if there are any, given that there are main entries */}
+                  {latestEntry.extra.length !== 0 && (
+                    <CenterDiv>
+                      <EntryList
+                        entries={latestEntry.extra}
+                        canHide={true}
+                        hideText="Hide Extra Tree Details"
+                        showText="Click to Read More About This Tree"
+                        title="Additional Information"
+                      />
+                    </CenterDiv>
+                  )}
+                </>
+              ) : (
+                <Title level={2}>
+                  No data has been collected about this site.
+                </Title>
+              )}
             </>
           )}
           {asyncRequestIsFailed(siteData) && (
