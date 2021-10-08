@@ -261,17 +261,18 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                     );
                 }
               })()}
-              {/* Display main entries if there are any. Otherwise, display message that no entries have been collected */}
-              {latestEntry.main.length ? (
+              {/* Display main or extra entries, if there are any. Otherwise, display a message that no entries have been collected. */}
+              {latestEntry.main.length || latestEntry.extra.length ? (
                 <>
-                  <CenterDiv>
-                    <EntryList
-                      entries={latestEntry.main}
-                      canHide={false}
-                      title="About This Tree"
-                    />
-                  </CenterDiv>
-                  {/* Display extra entries if there are any, given that there are main entries */}
+                  {latestEntry.main.length !== 0 && (
+                    <CenterDiv>
+                      <EntryList
+                        entries={latestEntry.main}
+                        canHide={false}
+                        title="About This Tree"
+                      />
+                    </CenterDiv>
+                  )}
                   {latestEntry.extra.length !== 0 && (
                     <CenterDiv>
                       <EntryList
