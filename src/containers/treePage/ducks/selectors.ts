@@ -75,6 +75,18 @@ export const getLatestEntry = (
   return [];
 };
 
+export const getSiteAddress = (items: AsyncRequest<SiteProps, any>): string => {
+  if (asyncRequestIsComplete(items)) {
+    if (items.result.address) {
+      return items.result.address;
+    } else {
+      return '';
+    }
+  } else {
+    return '';
+  }
+};
+
 export const isTreeAdoptedByUser = (
   items: AsyncRequest<AdoptedSites, any>,
   siteId: number,
