@@ -19,7 +19,6 @@ import styled from 'styled-components';
 import {
   getLatestSplitEntry,
   isTreeAdoptedByUser,
-  getSiteAddress,
   mapStewardshipToTreeCare,
 } from './ducks/selectors';
 import {
@@ -172,10 +171,6 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
     return getLatestSplitEntry(state.siteState.siteData);
   });
 
-  const siteAddress: string = useSelector((state: C4CState) => {
-    return getSiteAddress(state.siteState.siteData);
-  });
-
   return (
     <>
       <Helmet>
@@ -203,9 +198,9 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
 
               {!siteData.result.entries[0].treePresent && (
                 <PlantInstruction>
-                  There is no tree at {siteAddress}! The city of Boston plants
-                  new trees in the spring and fall primarily based on resident
-                  requests. Ask the city to plant a tree here at{' '}
+                  There is no tree at {siteData.result.address}! The city of
+                  Boston plants new trees in the spring and fall primarily based
+                  on resident requests. Ask the city to plant a tree here at{' '}
                   <Link href={CITY_PLANTING_REQUEST_LINK} target="_blank">
                     {CITY_PLANTING_REQUEST_LINK}
                   </Link>
