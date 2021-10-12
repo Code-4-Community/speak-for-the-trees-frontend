@@ -14,11 +14,12 @@ import {
   TreeCare,
 } from './ducks/types';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { LIGHT_GREY } from '../../utils/colors';
+import { LIGHT_GREY, DARK_GREEN } from '../../utils/colors';
 import styled from 'styled-components';
 import {
   getLatestSplitEntry,
   isTreeAdoptedByUser,
+  getSiteAddress,
   mapStewardshipToTreeCare,
 } from './ducks/selectors';
 import {
@@ -38,8 +39,9 @@ import TreeActivity from '../../components/treeActivity';
 import EntryList from '../../components/entryList';
 import { CenterDiv, ReturnButton } from '../../components/themedComponents';
 import { STREET_ZOOM } from '../../components/mapPageComponents/constants';
+import { CITY_PLANTING_REQUEST_LINK } from '../../assets/content';
 
-const { Title } = Typography;
+const { Title, Link } = Typography;
 
 const TreePageContainer = styled.div`
   width: 90vw;
@@ -74,6 +76,14 @@ const MobileTreeCareContainer = styled.div`
   border: solid 1px ${LIGHT_GREY};
   max-height: 50vh;
   padding: 30px 15px 5px;
+`;
+
+const PlantInstruction = styled(Typography.Paragraph)`
+  font-size: 25px;
+  line-height: 35px;
+  color: ${DARK_GREEN};
+  font-weight: bold;
+  margin-top: 40px;
 `;
 
 interface TreeProps {
@@ -162,6 +172,10 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
     return getLatestSplitEntry(state.siteState.siteData);
   });
 
+  const siteAddress: string = useSelector((state: C4CState) => {
+    return getSiteAddress(state.siteState.siteData);
+  });
+
   return (
     <>
       <Helmet>
@@ -187,6 +201,17 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                 {`<`} Return to Tree Map
               </ReturnButton>
 
+              {!siteData.result.entries[0].treePresent && (
+                <PlantInstruction>
+                  There is no tree at {siteAddress}! The city of Boston plants
+                  new trees in the spring and fall primarily based on resident
+                  requests. Ask the city to plant a tree here at{' '}
+                  <Link href={CITY_PLANTING_REQUEST_LINK} target="_blank">
+                    {CITY_PLANTING_REQUEST_LINK}
+                  </Link>
+                  !
+                </PlantInstruction>
+              )}
               {(() => {
                 switch (windowType) {
                   case WindowTypes.Desktop:
