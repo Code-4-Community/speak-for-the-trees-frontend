@@ -262,34 +262,32 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                 }
               })()}
               {/* Display main or extra entries, if there are any. Otherwise, display a message that no entries have been collected. */}
-              {latestEntry.main.length || latestEntry.extra.length ? (
-                <>
-                  {latestEntry.main.length !== 0 && (
-                    <CenterDiv>
-                      <EntryList
-                        entries={latestEntry.main}
-                        canHide={false}
-                        title="About This Tree"
-                      />
-                    </CenterDiv>
-                  )}
-                  {latestEntry.extra.length !== 0 && (
-                    <CenterDiv>
-                      <EntryList
-                        entries={latestEntry.extra}
-                        canHide={true}
-                        hideText="Hide Extra Tree Details"
-                        showText="Click to Read More About This Tree"
-                        title="Additional Information"
-                      />
-                    </CenterDiv>
-                  )}
-                </>
-              ) : (
-                <Title level={2}>
-                  No data has been collected about this site.
-                </Title>
+              {latestEntry.main.length !== 0 && (
+                <CenterDiv>
+                  <EntryList
+                    entries={latestEntry.main}
+                    canHide={false}
+                    title="About This Tree"
+                  />
+                </CenterDiv>
               )}
+              {latestEntry.extra.length !== 0 && (
+                <CenterDiv>
+                  <EntryList
+                    entries={latestEntry.extra}
+                    canHide={true}
+                    hideText="Hide Extra Tree Details"
+                    showText="Click to Read More About This Tree"
+                    title="Additional Information"
+                  />
+                </CenterDiv>
+              )}
+              {latestEntry.main.length === 0 &&
+                latestEntry.extra.length === 0 && (
+                  <Title level={2}>
+                    No data has been collected about this site.
+                  </Title>
+                )}
             </>
           )}
           {asyncRequestIsFailed(siteData) && (
