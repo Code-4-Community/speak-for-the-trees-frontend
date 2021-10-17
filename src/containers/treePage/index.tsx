@@ -186,9 +186,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
     <AlertNoTree>
       There is no tree at{' '}
       {siteData.result.address ||
-        `${siteData.result.lat}\u00B0 N, ${Math.abs(
-          siteData.result.lng,
-        )}\u00B0 W`}
+        `${siteData.result.lat}° N, ${Math.abs(siteData.result.lng)}° W`}
       !
     </AlertNoTree>
   );
