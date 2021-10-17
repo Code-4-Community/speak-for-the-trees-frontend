@@ -70,11 +70,14 @@ const TreeInfo: React.FC<TreeProps> = ({
       <TreeHeader>
         {
           <PageHeader
-            // Either commonName or 'Unknown Species' if no commonName exists
+            // Display 'Open Planting Site' if no tree has been planted
+            // Otherwise, display the tree's commonName or 'Unknown Species' if no commonName exists
             pageTitle={
-              siteData.entries[0].commonName
+              siteData.entries[0].treePresent
                 ? siteData.entries[0].commonName
-                : 'Unknown Species'
+                  ? siteData.entries[0].commonName
+                  : 'Unknown Species'
+                : 'Open Planting Site'
             }
             isMobile={mobile}
             pageSubtitle={getSiteLocation()}
