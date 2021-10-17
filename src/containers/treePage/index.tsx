@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
-import { Col, Form, message, Row, Typography } from 'antd';
+import { Col, Form, message, Row, Typography, Alert } from 'antd';
 import { Routes } from '../../App';
 import { Helmet } from 'react-helmet';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
@@ -77,12 +77,21 @@ const MobileTreeCareContainer = styled.div`
   padding: 30px 15px 5px;
 `;
 
-const PlantInstruction = styled(Typography.Paragraph)`
-  font-size: 25px;
-  line-height: 35px;
+const PlantInstructionContainer = styled(Alert)`
   color: ${DARK_GREEN};
   font-weight: bold;
   margin-top: 40px;
+`;
+
+const AlertNoTree = styled.div`
+  font-size: 25px;
+  line-height: 30px;
+  margin-bottom: 20px;
+`;
+
+const TreePlantingRequest = styled.div`
+  font-size: 20px;
+  line-height: 30px;
 `;
 
 interface TreeProps {
@@ -171,6 +180,30 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
     return getLatestSplitEntry(state.siteState.siteData);
   });
 
+  const alertNoTree: JSX.Element | boolean = asyncRequestIsComplete(
+    siteData,
+  ) && (
+    <AlertNoTree>
+      There is no tree at{' '}
+      {siteData.result.address ||
+        `${siteData.result.lat}\u00B0 N, ${Math.abs(
+          siteData.result.lng,
+        )}\u00B0 W`}
+      !
+    </AlertNoTree>
+  );
+
+  const treePlantingRequest: JSX.Element = (
+    <TreePlantingRequest>
+      The city of Boston plants new trees in the spring and fall primarily based
+      on resident requests. Ask the city to plant a tree here at{' '}
+      <Link href={CITY_PLANTING_REQUEST_LINK} target="_blank">
+        this city tree planting request form
+      </Link>
+      !
+    </TreePlantingRequest>
+  );
+
   return (
     <>
       <Helmet>
@@ -197,15 +230,11 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
               </ReturnButton>
 
               {!siteData.result.entries[0].treePresent && (
-                <PlantInstruction>
-                  There is no tree at {siteData.result.address}! The city of
-                  Boston plants new trees in the spring and fall primarily based
-                  on resident requests. Ask the city to plant a tree here at{' '}
-                  <Link href={CITY_PLANTING_REQUEST_LINK} target="_blank">
-                    {CITY_PLANTING_REQUEST_LINK}
-                  </Link>
-                  !
-                </PlantInstruction>
+                <PlantInstructionContainer
+                  message={alertNoTree}
+                  description={treePlantingRequest}
+                  type="success"
+                />
               )}
               {(() => {
                 switch (windowType) {
