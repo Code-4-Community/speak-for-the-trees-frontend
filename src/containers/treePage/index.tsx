@@ -83,7 +83,7 @@ const PlantInstructionContainer = styled(Alert)`
   margin-top: 40px;
 `;
 
-const AlertNoTree = styled.div`
+const NoTreeMessage = styled.div`
   font-size: 25px;
   line-height: 30px;
   margin-bottom: 20px;
@@ -180,13 +180,13 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
     return getLatestSplitEntry(state.siteState.siteData);
   });
 
-  const alertNoTree: JSX.Element = asyncRequestIsComplete(siteData) ? (
-    <AlertNoTree>
+  const noTreeMessage: JSX.Element = asyncRequestIsComplete(siteData) ? (
+    <NoTreeMessage>
       There is no tree at{' '}
       {siteData.result.address ||
         `${siteData.result.lat}° N, ${Math.abs(siteData.result.lng)}° W`}
       !
-    </AlertNoTree>
+    </NoTreeMessage>
   ) : (
     <></>
   );
@@ -229,7 +229,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
 
               {!siteData.result.entries[0].treePresent && (
                 <PlantInstructionContainer
-                  message={alertNoTree}
+                  message={noTreeMessage}
                   description={treePlantingRequest}
                   type="success"
                 />
