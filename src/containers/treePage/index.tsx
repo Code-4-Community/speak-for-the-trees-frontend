@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
 import { Col, Form, message, Row, Typography } from 'antd';
-import { Routes } from '../../App';
+import { RedirectStateProps, Routes } from '../../App';
 import { Helmet } from 'react-helmet';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { isLoggedIn } from '../../auth/ducks/selectors';
@@ -88,6 +89,8 @@ interface TreeParams {
 }
 
 const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
+  const location = useLocation<RedirectStateProps>();
+
   const dispatch = useDispatch();
   const id = Number(useParams<TreeParams>().id);
   const { windowType } = useWindowDimensions();
@@ -162,6 +165,10 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
     return getLatestSplitEntry(state.siteState.siteData);
   });
 
+  const returnDestination = location.state
+    ? location.state.destination
+    : Routes.LANDING;
+
   return (
     <>
       <Helmet>
@@ -176,7 +183,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
           {asyncRequestIsComplete(siteData) && (
             <>
               <ReturnButton
-                to={Routes.LANDING}
+                to={returnDestination}
                 state={{
                   zoom: STREET_ZOOM,
                   lat: siteData.result.lat,

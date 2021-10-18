@@ -18,6 +18,7 @@ import {
 } from '../../components/mapPageComponents/ducks/types';
 import AdoptionDirections from '../../components/adoptionDirections';
 import MapLegend from '../../components/mapPageComponents/mapLegend';
+import { Routes } from '../../App';
 
 const PaddedContent = styled.div`
   padding: 24px 50px;
@@ -61,6 +62,7 @@ const Landing: React.FC<LandingProps> = ({ blocks, neighborhoods, sites }) => {
                 neighborhoods={neighborhoods}
                 sites={sites}
                 view={landingMapView}
+                returnTo={Routes.LANDING}
               >
                 <PaddedContent>
                   <MobileLandingBar

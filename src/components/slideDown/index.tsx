@@ -23,9 +23,8 @@ interface SlideDownStyleProps {
 const SlideDownContentDiv = styled.div`
   overflow: auto;
   transition: height 0.4s ease;
-  ${({ setActive, slideHeight }: SlideDownStyleProps) => 
-  `height: ${setActive ? slideHeight : 0}vh;`
-  }
+  height: ${({ setActive, slideHeight }: SlideDownStyleProps) =>
+    setActive ? slideHeight : 0}vh;
 `;
 
 const SlideDownSectionDiv = styled.div`
@@ -46,14 +45,18 @@ interface SlideDownProps {
   readonly fullSlide?: boolean;
 }
 
-const SlideDown: React.FC<SlideDownProps> = ({ defaultOpen, fullSlide, children }) => {
+const SlideDown: React.FC<SlideDownProps> = ({
+  defaultOpen,
+  fullSlide,
+  children,
+}) => {
   const [setActive, setActiveState] = useState<boolean>(defaultOpen || false);
   const content = useRef(document.createElement('div'));
   function handleClick() {
     setActiveState((prevState) => !prevState);
   }
 
-  const slideHeight = fullSlide ? 80 : content.current.scrollHeight;
+  const slideHeight = fullSlide ? 80 : 40;
 
   return (
     <SlideDownSectionDiv>

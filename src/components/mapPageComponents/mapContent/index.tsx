@@ -9,6 +9,7 @@ import {
 import { MapGeoDataReducerState } from '../ducks/types';
 import MapView from '../mapView';
 import { MapViews } from '../ducks/types';
+import { Routes } from '../../../App';
 
 const EmptyMapContainer = styled.div`
   text-align: center;
@@ -20,6 +21,7 @@ interface MapContentStateProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly sites: MapGeoDataReducerState['siteGeoData'];
   readonly mobile: boolean;
+  readonly returnTo?: Routes;
 }
 
 interface MapContentProps extends MapContentStateProps {
@@ -32,6 +34,7 @@ const MapContent: React.FC<MapContentProps> = ({
   sites,
   view,
   mobile,
+  returnTo,
 }) => (
   <Layout.Content>
     {asyncRequestIsComplete(blocks) &&
@@ -43,6 +46,7 @@ const MapContent: React.FC<MapContentProps> = ({
           sites={sites.result}
           view={view}
           mobile={mobile}
+          returnTo={returnTo}
         />
       )}
     {(asyncRequestIsFailed(blocks) ||
