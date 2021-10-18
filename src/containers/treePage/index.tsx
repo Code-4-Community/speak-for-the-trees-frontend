@@ -180,15 +180,15 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
     return getLatestSplitEntry(state.siteState.siteData);
   });
 
-  const alertNoTree: JSX.Element | boolean = asyncRequestIsComplete(
-    siteData,
-  ) && (
+  const alertNoTree: JSX.Element = asyncRequestIsComplete(siteData) ? (
     <AlertNoTree>
       There is no tree at{' '}
       {siteData.result.address ||
         `${siteData.result.lat}° N, ${Math.abs(siteData.result.lng)}° W`}
       !
     </AlertNoTree>
+  ) : (
+    <></>
   );
 
   const treePlantingRequest: JSX.Element = (
