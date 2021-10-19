@@ -24,6 +24,7 @@ import {
   MapGeoDataReducerState,
 } from '../../components/mapPageComponents/ducks/types';
 import { getMySites } from './ducks/selectors';
+import { Routes } from '../../App';
 
 interface MyTreesStateProps {
   readonly blocks: MapGeoDataReducerState['blockGeoData'];
@@ -80,8 +81,9 @@ const MyTrees: React.FC<MyTreesStateProps> = ({
                 blocks={blocks}
                 neighborhoods={neighborhoods}
                 sites={sites}
+                returnTo={Routes.MY_TREES}
               >
-                <SlideDown>
+                <SlideDown defaultOpen fullSlide>
                   <TreeSidebar mySites={mySites} />
                 </SlideDown>
               </MobileMapPage>

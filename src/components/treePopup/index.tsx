@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Typography } from 'antd';
+import { Typography } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
-import { ParameterizedRouteBases } from '../../App';
+import { ParameterizedRouteBases, Routes } from '../../App';
+import { GreenLinkButton } from '../themedComponents';
 import {
   BLACK,
   DARK_GREY,
-  LIGHT_GREEN,
   LIGHT_GREY,
   MID_GREEN,
   WHITE,
@@ -84,12 +84,6 @@ const GreyText = styled(Paragraph)`
   line-height: 13px;
 `;
 
-const GreenLinkButton = styled(Button)`
-  background-color: ${LIGHT_GREEN};
-  border-color: ${LIGHT_GREEN};
-  color: ${WHITE};
-`;
-
 const PlantRequest = styled(Paragraph)`
   color: ${BLACK};
   font-size: 14px;
@@ -108,9 +102,16 @@ export interface BasicTreeInfo {
 interface TreePopupProps {
   popRef: React.RefObject<HTMLDivElement>;
   treeInfo: BasicTreeInfo;
+  returnTo?: Routes;
+  mobile: boolean;
 }
 
-const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
+const TreePopup: React.FC<TreePopupProps> = ({
+  popRef,
+  treeInfo,
+  returnTo,
+  mobile,
+}) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const hidePopup = () => {
@@ -122,6 +123,11 @@ const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
       setIsVisible(true);
     }
   }, [treeInfo]);
+
+  const returnState = returnTo && { destination: returnTo };
+  // if on mobile or no return destination specified, open in new tab
+  // location state is only saved within the same tab, does not work when opening new tab
+  const target = !mobile || (!returnState && '_blank');
 
   return (
     <PopupContainer ref={popRef}>
@@ -158,13 +164,12 @@ const TreePopup: React.FC<TreePopupProps> = ({ popRef, treeInfo }) => {
                     );
                   default:
                     return (
-                      <GreenLinkButton>
-                        <Link
-                          href={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
-                          target="_blank"
-                        >
-                          More Info
-                        </Link>
+                      <GreenLinkButton
+                        to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
+                        state={returnState}
+                        target={target}
+                      >
+                        More Info
                       </GreenLinkButton>
                     );
                 }

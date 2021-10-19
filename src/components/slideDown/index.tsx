@@ -17,15 +17,14 @@ const SlideDownTextDiv = styled.div`
 
 interface SlideDownStyleProps {
   setActive: boolean;
-  scrollHeight: number;
+  slideHeight: number;
 }
 
 const SlideDownContentDiv = styled.div`
   overflow: auto;
   transition: height 0.4s ease;
-  height: ${({ setActive, scrollHeight }: SlideDownStyleProps) =>
-    setActive ? scrollHeight : 0}px;
-  max-height: 50vh;
+  height: ${({ setActive, slideHeight }: SlideDownStyleProps) =>
+    setActive ? slideHeight : 0}vh;
 `;
 
 const SlideDownSectionDiv = styled.div`
@@ -43,14 +42,21 @@ const CaretUpStyled = styled(CaretUpOutlined)`
 
 interface SlideDownProps {
   readonly defaultOpen?: boolean;
+  readonly fullSlide?: boolean;
 }
 
-const SlideDown: React.FC<SlideDownProps> = ({ defaultOpen, children }) => {
+const SlideDown: React.FC<SlideDownProps> = ({
+  defaultOpen,
+  fullSlide,
+  children,
+}) => {
   const [setActive, setActiveState] = useState<boolean>(defaultOpen || false);
   const content = useRef(document.createElement('div'));
   function handleClick() {
     setActiveState((prevState) => !prevState);
   }
+
+  const slideHeight = fullSlide ? 80 : 40;
 
   return (
     <SlideDownSectionDiv>
@@ -60,7 +66,7 @@ const SlideDown: React.FC<SlideDownProps> = ({ defaultOpen, children }) => {
       <SlideDownContentDiv
         ref={content}
         setActive={setActive}
-        scrollHeight={content.current.scrollHeight}
+        slideHeight={slideHeight}
       >
         <SlideDownTextDiv>{children}</SlideDownTextDiv>
       </SlideDownContentDiv>
