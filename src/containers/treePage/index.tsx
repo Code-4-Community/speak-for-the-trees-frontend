@@ -255,7 +255,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                           stewardshipFormInstance={stewardshipFormInstance}
                         />
                         <MobileTreeCareContainer>
-                          <TreeActivity stewardship={stewardship} limit={4} />
+                          <TreeActivity stewardship={stewardship} />
                         </MobileTreeCareContainer>
                       </MobileTreeMainContainer>
                     );
