@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
-import { Col, Form, message, Row, Typography } from 'antd';
+import { Col, Form, message, Row, Typography, Alert } from 'antd';
 import { RedirectStateProps, Routes } from '../../App';
 import { Helmet } from 'react-helmet';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
@@ -15,7 +15,7 @@ import {
   TreeCare,
 } from './ducks/types';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { LIGHT_GREY } from '../../utils/colors';
+import { LIGHT_GREY, DARK_GREEN } from '../../utils/colors';
 import styled from 'styled-components';
 import {
   getLatestSplitEntry,
@@ -39,8 +39,9 @@ import TreeActivity from '../../components/treeActivity';
 import EntryList from '../../components/entryList';
 import { CenterDiv, ReturnButton } from '../../components/themedComponents';
 import { STREET_ZOOM } from '../../components/mapPageComponents/constants';
+import { CITY_PLANTING_REQUEST_LINK } from '../../assets/content';
 
-const { Title } = Typography;
+const { Title, Link } = Typography;
 
 const TreePageContainer = styled.div`
   width: 90vw;
@@ -75,6 +76,23 @@ const MobileTreeCareContainer = styled.div`
   border: solid 1px ${LIGHT_GREY};
   max-height: 50vh;
   padding: 30px 15px 5px;
+`;
+
+const PlantInstructionContainer = styled(Alert)`
+  color: ${DARK_GREEN};
+  font-weight: bold;
+  margin-top: 40px;
+`;
+
+const NoTreeMessage = styled.div`
+  font-size: 25px;
+  line-height: 30px;
+  margin-bottom: 20px;
+`;
+
+const TreePlantingRequest = styled.div`
+  font-size: 20px;
+  line-height: 30px;
 `;
 
 interface TreeProps {
@@ -165,6 +183,28 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
     return getLatestSplitEntry(state.siteState.siteData);
   });
 
+  const noTreeMessage: JSX.Element = asyncRequestIsComplete(siteData) ? (
+    <NoTreeMessage>
+      There is no tree at{' '}
+      {siteData.result.address ||
+        `${siteData.result.lat}° N, ${Math.abs(siteData.result.lng)}° W`}
+      !
+    </NoTreeMessage>
+  ) : (
+    <></>
+  );
+
+  const treePlantingRequest: JSX.Element = (
+    <TreePlantingRequest>
+      The city of Boston plants new trees in the spring and fall primarily based
+      on resident requests. Ask the city to plant a tree here at{' '}
+      <Link href={CITY_PLANTING_REQUEST_LINK} target="_blank">
+        this city tree planting request form
+      </Link>
+      !
+    </TreePlantingRequest>
+  );
+
   const returnDestination = location.state
     ? location.state.destination
     : Routes.LANDING;
@@ -194,6 +234,13 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                 {`<`} Return to Tree Map
               </ReturnButton>
 
+              {!siteData.result.entries[0].treePresent && (
+                <PlantInstructionContainer
+                  message={noTreeMessage}
+                  description={treePlantingRequest}
+                  type="success"
+                />
+              )}
               {(() => {
                 switch (windowType) {
                   case WindowTypes.Desktop:
