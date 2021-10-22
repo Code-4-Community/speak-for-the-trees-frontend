@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
 import { Col, Form, message, Row, Typography, Alert } from 'antd';
-import { Routes } from '../../App';
+import { RedirectStateProps, Routes } from '../../App';
 import { Helmet } from 'react-helmet';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { isLoggedIn } from '../../auth/ducks/selectors';
@@ -106,6 +107,8 @@ interface TreeParams {
 }
 
 const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
+  const location = useLocation<RedirectStateProps>();
+
   const dispatch = useDispatch();
   const id = Number(useParams<TreeParams>().id);
   const { windowType } = useWindowDimensions();
@@ -202,6 +205,10 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
     </TreePlantingRequest>
   );
 
+  const returnDestination = location.state
+    ? location.state.destination
+    : Routes.LANDING;
+
   return (
     <>
       <Helmet>
@@ -216,7 +223,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
           {asyncRequestIsComplete(siteData) && (
             <>
               <ReturnButton
-                to={Routes.LANDING}
+                to={returnDestination}
                 state={{
                   zoom: STREET_ZOOM,
                   lat: siteData.result.lat,
@@ -308,22 +315,33 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                     );
                 }
               })()}
-              <CenterDiv>
-                <EntryList
-                  entries={latestEntry.main}
-                  canHide={false}
-                  title="About This Tree"
-                />
-              </CenterDiv>
-              <CenterDiv>
-                <EntryList
-                  entries={latestEntry.extra}
-                  canHide={true}
-                  hideText="Hide Extra Tree Details"
-                  showText="Click to Read More About This Tree"
-                  title="Additional Information"
-                />
-              </CenterDiv>
+              {/* Display main or extra entries, if there are any. Otherwise, display a message that no entries have been collected. */}
+              {latestEntry.main.length !== 0 && (
+                <CenterDiv>
+                  <EntryList
+                    entries={latestEntry.main}
+                    canHide={false}
+                    title="About This Tree"
+                  />
+                </CenterDiv>
+              )}
+              {latestEntry.extra.length !== 0 && (
+                <CenterDiv>
+                  <EntryList
+                    entries={latestEntry.extra}
+                    canHide={true}
+                    hideText="Hide Extra Tree Details"
+                    showText="Click to Read More About This Tree"
+                    title="Additional Information"
+                  />
+                </CenterDiv>
+              )}
+              {latestEntry.main.length === 0 &&
+                latestEntry.extra.length === 0 && (
+                  <Title level={2}>
+                    No data has been collected about this site.
+                  </Title>
+                )}
             </>
           )}
           {asyncRequestIsFailed(siteData) && (
