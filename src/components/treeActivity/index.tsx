@@ -37,7 +37,7 @@ const EntryMessage = styled(Paragraph)`
 `;
 
 const StewardshipActivityDropdownContainer = styled.div`
-  margin-left: 5px;
+  margin: -10px 0 -5px 5px;
 `;
 
 const StewardshipActivityDropdown = styled.div`
