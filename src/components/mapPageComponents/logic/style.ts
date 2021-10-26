@@ -1,5 +1,6 @@
 import {
   BLACK,
+  DARK_GREY,
   MAP_GREEN,
   MAP_RED,
   MAP_YELLOW,
@@ -76,9 +77,9 @@ export function setBlocksStyle(
 }
 
 /**
- * Sets the style of the neighborhoods layer according to its completion percentage and updates the visibility of neighborhood markers.
+ * Sets the style of the neighborhoods layer according to its canopy coverage and updates the visibility of neighborhood markers.
  * @param neighborhoodsLayer the layer
- *  @param markers the array containing the neighborhood markers
+ * @param markers the array containing the neighborhood markers
  * @param v true to make the layer visible, false to make it invisible
  */
 export function setNeighborhoodsStyle(
@@ -90,9 +91,9 @@ export function setNeighborhoodsStyle(
   neighborhoodsLayer.setStyle((feature) => {
     return {
       fillColor: `${MAP_GREEN}`,
-      fillOpacity: (feature.getProperty('neighborhood_id') / 100) * 2 + 0.1, // TODO: replace this with completion percentage
+      fillOpacity: feature.getProperty('canopy_coverage'),
       strokeWeight: 1,
-      strokeColor: `${WHITE}`,
+      strokeColor: `${DARK_GREY}`,
       visible: v,
     };
   });
