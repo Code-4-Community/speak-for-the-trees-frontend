@@ -32,7 +32,7 @@ import {
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { setSitesStyle } from '../logic/style';
 import SiteLegend from '../siteLegend';
-import { MapStateProps } from '../../../App';
+import { MapStateProps, Routes } from '../../../App';
 
 const StyledSearch = styled(Input.Search)`
   width: 40vw;
@@ -58,6 +58,7 @@ interface MapViewProps {
   readonly sites: SiteGeoData;
   readonly view: MapViews;
   readonly mobile: boolean;
+  readonly returnTo?: Routes;
 }
 
 const MapView: React.FC<MapViewProps> = ({
@@ -66,6 +67,7 @@ const MapView: React.FC<MapViewProps> = ({
   sites,
   view,
   mobile,
+  returnTo,
 }) => {
   /*
           // visibility of reservation modal
@@ -322,7 +324,12 @@ const MapView: React.FC<MapViewProps> = ({
       </div>
       {view === MapViews.TREES && !mobile && <SiteLegend onCheck={onCheck} />}
       <MapDiv id="map" ref={mapRef} />
-      <TreePopup treeInfo={activeTreeInfo} popRef={treePopupRef} />
+      <TreePopup
+        treeInfo={activeTreeInfo}
+        popRef={treePopupRef}
+        returnTo={returnTo}
+        mobile={mobile}
+      />
       {/*
       <ReservationModal
         status={reservationType}

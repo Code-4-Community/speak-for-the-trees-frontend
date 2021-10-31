@@ -1,7 +1,13 @@
 import styled from 'styled-components';
 import { Button, Col, Form, Space, List, Image } from 'antd';
 import { FormItemProps } from 'antd/es/form';
-import { BLACK, LIGHT_GREY, MID_GREEN } from '../../utils/colors';
+import {
+  BLACK,
+  LIGHT_GREY,
+  MID_GREEN,
+  WHITE,
+  LIGHT_GREEN,
+} from '../../utils/colors';
 import { LinkButton } from '../linkButton';
 
 export const ContentContainer = styled.div`
@@ -59,6 +65,12 @@ export const ReturnButton = styled(LinkButton)`
   border-color: ${MID_GREEN};
   font-size: 18px;
   color: ${MID_GREEN};
+`;
+
+export const GreenLinkButton = styled(LinkButton)`
+  background-color: ${LIGHT_GREEN};
+  border-color: ${LIGHT_GREEN};
+  color: ${WHITE};
 `;
 
 export const MainContent = styled.div`

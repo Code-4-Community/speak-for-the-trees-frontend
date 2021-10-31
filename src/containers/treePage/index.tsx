@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
-import { Col, Form, message, Row, Typography } from 'antd';
-import { Routes } from '../../App';
+import { Col, Form, message, Row, Typography, Alert } from 'antd';
+import { RedirectStateProps, Routes } from '../../App';
 import { Helmet } from 'react-helmet';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { isLoggedIn } from '../../auth/ducks/selectors';
@@ -14,7 +15,7 @@ import {
   TreeCare,
 } from './ducks/types';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { LIGHT_GREY } from '../../utils/colors';
+import { LIGHT_GREY, DARK_GREEN } from '../../utils/colors';
 import styled from 'styled-components';
 import {
   getLatestSplitEntry,
@@ -38,8 +39,9 @@ import TreeActivity from '../../components/treeActivity';
 import EntryList from '../../components/entryList';
 import { CenterDiv, ReturnButton } from '../../components/themedComponents';
 import { STREET_ZOOM } from '../../components/mapPageComponents/constants';
+import { CITY_PLANTING_REQUEST_LINK } from '../../assets/content';
 
-const { Title } = Typography;
+const { Title, Link } = Typography;
 
 const TreePageContainer = styled.div`
   width: 90vw;
@@ -76,6 +78,23 @@ const MobileTreeCareContainer = styled.div`
   padding: 30px 15px 5px;
 `;
 
+const PlantInstructionContainer = styled(Alert)`
+  color: ${DARK_GREEN};
+  font-weight: bold;
+  margin-top: 40px;
+`;
+
+const NoTreeMessage = styled.div`
+  font-size: 25px;
+  line-height: 30px;
+  margin-bottom: 20px;
+`;
+
+const TreePlantingRequest = styled.div`
+  font-size: 20px;
+  line-height: 30px;
+`;
+
 interface TreeProps {
   readonly tokens: UserAuthenticationReducerState['tokens'];
   readonly siteData: SiteReducerState['siteData'];
@@ -88,6 +107,8 @@ interface TreeParams {
 }
 
 const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
+  const location = useLocation<RedirectStateProps>();
+
   const dispatch = useDispatch();
   const id = Number(useParams<TreeParams>().id);
   const { windowType } = useWindowDimensions();
@@ -162,6 +183,32 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
     return getLatestSplitEntry(state.siteState.siteData);
   });
 
+  const noTreeMessage: JSX.Element = asyncRequestIsComplete(siteData) ? (
+    <NoTreeMessage>
+      There is no tree at{' '}
+      {siteData.result.address ||
+        `${siteData.result.lat}° N, ${Math.abs(siteData.result.lng)}° W`}
+      !
+    </NoTreeMessage>
+  ) : (
+    <></>
+  );
+
+  const treePlantingRequest: JSX.Element = (
+    <TreePlantingRequest>
+      The city of Boston plants new trees in the spring and fall primarily based
+      on resident requests. Ask the city to plant a tree here at{' '}
+      <Link href={CITY_PLANTING_REQUEST_LINK} target="_blank">
+        this city tree planting request form
+      </Link>
+      !
+    </TreePlantingRequest>
+  );
+
+  const returnDestination = location.state
+    ? location.state.destination
+    : Routes.LANDING;
+
   return (
     <>
       <Helmet>
@@ -176,7 +223,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
           {asyncRequestIsComplete(siteData) && (
             <>
               <ReturnButton
-                to={Routes.LANDING}
+                to={returnDestination}
                 state={{
                   zoom: STREET_ZOOM,
                   lat: siteData.result.lat,
@@ -187,6 +234,13 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                 {`<`} Return to Tree Map
               </ReturnButton>
 
+              {!siteData.result.entries[0].treePresent && (
+                <PlantInstructionContainer
+                  message={noTreeMessage}
+                  description={treePlantingRequest}
+                  type="success"
+                />
+              )}
               {(() => {
                 switch (windowType) {
                   case WindowTypes.Desktop:
@@ -261,22 +315,33 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                     );
                 }
               })()}
-              <CenterDiv>
-                <EntryList
-                  entries={latestEntry.main}
-                  canHide={false}
-                  title="About This Tree"
-                />
-              </CenterDiv>
-              <CenterDiv>
-                <EntryList
-                  entries={latestEntry.extra}
-                  canHide={true}
-                  hideText="Hide Extra Tree Details"
-                  showText="Click to Read More About This Tree"
-                  title="Additional Information"
-                />
-              </CenterDiv>
+              {/* Display main or extra entries, if there are any. Otherwise, display a message that no entries have been collected. */}
+              {latestEntry.main.length !== 0 && (
+                <CenterDiv>
+                  <EntryList
+                    entries={latestEntry.main}
+                    canHide={false}
+                    title="About This Tree"
+                  />
+                </CenterDiv>
+              )}
+              {latestEntry.extra.length !== 0 && (
+                <CenterDiv>
+                  <EntryList
+                    entries={latestEntry.extra}
+                    canHide={true}
+                    hideText="Hide Extra Tree Details"
+                    showText="Click to Read More About This Tree"
+                    title="Additional Information"
+                  />
+                </CenterDiv>
+              )}
+              {latestEntry.main.length === 0 &&
+                latestEntry.extra.length === 0 && (
+                  <Title level={2}>
+                    No data has been collected about this site.
+                  </Title>
+                )}
             </>
           )}
           {asyncRequestIsFailed(siteData) && (

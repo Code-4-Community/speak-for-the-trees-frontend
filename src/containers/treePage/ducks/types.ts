@@ -41,6 +41,7 @@ export interface SiteEntry {
   bagWithout?: boolean;
   tape?: boolean;
   suckerGrowth?: boolean;
+  treePresent?: boolean;
   siteType?: string;
   sidewalkWidth?: string;
   siteWidth?: string;

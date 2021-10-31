@@ -1,17 +1,10 @@
 import React from 'react';
-import { ParameterizedRouteBases } from '../../App';
+import { ParameterizedRouteBases, Routes } from '../../App';
 import { Card, Typography } from 'antd';
 import styled from 'styled-components';
-import { CardInfo } from '../themedComponents';
-import {
-  MID_GREEN,
-  TEXT_GREY,
-  LIGHT_GREY,
-  LIGHT_GREEN,
-  WHITE,
-} from '../../utils/colors';
+import { CardInfo, GreenLinkButton } from '../themedComponents';
+import { MID_GREEN, TEXT_GREY, LIGHT_GREY } from '../../utils/colors';
 import { SiteFeaturePropertiesResponse } from '../mapPageComponents/ducks/types';
-import { LinkButton } from '../linkButton';
 
 const { Paragraph } = Typography;
 
@@ -37,12 +30,6 @@ const TreeBody = styled(Paragraph)`
   color: ${TEXT_GREY};
 `;
 
-const GreenLinkButton = styled(LinkButton)`
-  background-color: ${LIGHT_GREEN};
-  border-color: ${LIGHT_GREEN};
-  color: ${WHITE};
-`;
-
 interface TreeCardProps {
   readonly site: SiteFeaturePropertiesResponse;
 }
@@ -57,7 +44,12 @@ const TreeCard: React.FC<TreeCardProps> = ({ site }) => {
             {site.commonName && <TreeBody>Species: {site.commonName}</TreeBody>}
             {site.id && <TreeBody>ID: {site.id}</TreeBody>}
           </CardInfo>
-          <GreenLinkButton to={`${ParameterizedRouteBases.TREE}${site.id}`}>
+          <GreenLinkButton
+            to={`${ParameterizedRouteBases.TREE}${site.id}`}
+            state={{
+              destination: Routes.MY_TREES,
+            }}
+          >
             More Info
           </GreenLinkButton>
         </CardContent>
