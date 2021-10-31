@@ -117,6 +117,7 @@ export const ExtraSiteEntryNames: Record<string, string> = {
 };
 
 export interface TreeCare {
+  year: number;
   date: string;
   message: string;
 }

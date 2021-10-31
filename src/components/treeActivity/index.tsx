@@ -6,7 +6,6 @@ import { DARK_GREEN, MID_GREEN, TEXT_GREY } from '../../utils/colors';
 import styled from 'styled-components';
 
 const { Paragraph } = Typography;
-const { Option } = Select;
 
 const TreeCareTitle = styled(Paragraph)`
   margin: 0px 5px;
@@ -58,51 +57,104 @@ const CenteredPagination = styled(Pagination)`
 
 interface TreeActivityProps {
   readonly stewardship: TreeCare[];
-  readonly limit?: number;
 }
 
 const TreeActivity: React.FC<TreeActivityProps> = ({ stewardship }) => {
-  const [selectedMonth, setSelectedMonth] = useState(
+  const monthShortToLong = (shortMonth: string): string => {
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    months.forEach((month) => {
+      if (shortMonth.substring(0, 3) === month.substring(0, 3)) {
+        return month;
+      }
+    });
+    return '';
+  };
+
+  const [selectedMonthYear, setSelectedMonthYear] = useState(
     new Date().toLocaleString('default', {
       month: 'long',
+      year: 'numeric',
     }),
   );
-  const [pageNumber, setPageNumber] = useState(0);
-  const selectedMonthStewardship: TreeCare[] = stewardship.filter(
-    (entry) => entry.date.substring(0, 3) === selectedMonth.substring(0, 3),
+  const selectedMonthYearStewardship: TreeCare[] = stewardship.filter(
+    (entry) =>
+      // compare each entry's month and year
+      entry.date.substring(0, 3) === selectedMonthYear.substring(0, 3) &&
+      entry.year === parseInt(selectedMonthYear.slice(-4)),
   );
+  const monthYearOptions = stewardship
+    // remove activities with duplicate year and date
+    .filter(
+      (entry, index, self) =>
+        index ===
+        self.findIndex(
+          (e) =>
+            e.year === entry.year &&
+            e.date.substring(0, 3) === entry.date.substring(0, 3),
+        ),
+    )
+    // turn the filtered array into an array of labels and values
+    .map((entry) => {
+      {
+        // TODO modify monthShortToLong so that it converts the month correctly
+        console.log(monthShortToLong(entry.date));
+      }
+      return {
+        label: entry.date.substring(0, 3) + ' ' + entry.year,
+        value: entry.date.substring(0, 3) + ' ' + entry.year,
+      };
+    })
+    // append the current month and year to the options list
+    .concat([
+      {
+        label: new Date().toLocaleString('default', {
+          month: 'long',
+          year: 'numeric',
+        }),
+        value: new Date().toLocaleString('default', {
+          month: 'short',
+          year: 'numeric',
+        }),
+      },
+    ])
+    // TODO: implement sort by year-month
+    .sort();
+
+  const [pageNumber, setPageNumber] = useState(0);
 
   return (
     <>
+      {console.log(monthYearOptions)}
       <TreeCareTitle>Recent Tree Care Activity</TreeCareTitle>
       <StewardshipActivityDropdownContainer>
         <StewardshipActivityDropdown>
-          Month to display activities for:{' '}
+          Month and year to display activities for:{' '}
           <Select
             showSearch
             style={{ width: 200 }}
             onChange={(value: string) => {
-              setSelectedMonth(value);
+              setSelectedMonthYear(value); // TODO: check if this needs to be changed
             }}
-            defaultValue={selectedMonth}
-          >
-            <Option value="Jan">January</Option>
-            <Option value="Feb">February</Option>
-            <Option value="Mar">March</Option>
-            <Option value="Apr">April</Option>
-            <Option value="May">May</Option>
-            <Option value="Jun">June</Option>
-            <Option value="Jul">July</Option>
-            <Option value="Aug">August</Option>
-            <Option value="Sep">September</Option>
-            <Option value="Oct">October</Option>
-            <Option value="Nov">November</Option>
-            <Option value="Dec">December</Option>
-          </Select>
+            defaultValue={selectedMonthYear}
+            options={monthYearOptions}
+          />
         </StewardshipActivityDropdown>
       </StewardshipActivityDropdownContainer>
       <List
-        dataSource={selectedMonthStewardship.slice(
+        dataSource={selectedMonthYearStewardship.slice(
           10 * pageNumber,
           10 * pageNumber + 10,
         )}
@@ -126,7 +178,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({ stewardship }) => {
       />
       <CenteredPagination
         defaultCurrent={1}
-        total={selectedMonthStewardship.length}
+        total={selectedMonthYearStewardship.length}
         onChange={(page: number) => {
           setPageNumber(page - 1);
         }}
