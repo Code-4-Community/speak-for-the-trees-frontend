@@ -60,40 +60,64 @@ interface TreeActivityProps {
 }
 
 const TreeActivity: React.FC<TreeActivityProps> = ({ stewardship }) => {
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  // convert a month from its three letter abbreviation (e.g. 'Jan') to its long form (e.g. 'January')
   const monthShortToLong = (shortMonth: string): string => {
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    months.forEach((month) => {
+    for (const month of months) {
       if (shortMonth.substring(0, 3) === month.substring(0, 3)) {
         return month;
       }
-    });
+    }
     return '';
+  };
+
+  // sort two dates by a combination of year and month
+  const sortByYearMonth = (
+    yearMonth1: { label: string },
+    yearMonth2: { label: string },
+  ) => {
+    const label1 = yearMonth1.label;
+    const label2 = yearMonth2.label;
+
+    const year1 = label1.slice(-4);
+    const month1 = months.indexOf(label1.split(' ')[0]);
+    const year2 = label2.slice(-4);
+    const month2 = months.indexOf(label2.split(' ')[0]);
+
+    if (year1 === year2 && month1 === month2) {
+      return 0;
+    } else if (year1 < year2 || (year1 === year2 && month1 < month2)) {
+      return -1;
+    } else {
+      return 1;
+    }
   };
 
   const [selectedMonthYear, setSelectedMonthYear] = useState(
     new Date().toLocaleString('default', {
-      month: 'long',
+      month: 'short',
       year: 'numeric',
     }),
   );
   const selectedMonthYearStewardship: TreeCare[] = stewardship.filter(
     (entry) =>
-      // compare each entry's month and year
+      // choose stewardship activities with the selected month and year
       entry.date.substring(0, 3) === selectedMonthYear.substring(0, 3) &&
-      entry.year === parseInt(selectedMonthYear.slice(-4)),
+      entry.year === parseInt(selectedMonthYear.slice(-4), 10),
   );
   const monthYearOptions = stewardship
     // remove activities with duplicate year and date
@@ -108,36 +132,29 @@ const TreeActivity: React.FC<TreeActivityProps> = ({ stewardship }) => {
     )
     // turn the filtered array into an array of labels and values
     .map((entry) => {
-      {
-        // TODO modify monthShortToLong so that it converts the month correctly
-        console.log(monthShortToLong(entry.date));
-      }
       return {
-        label: entry.date.substring(0, 3) + ' ' + entry.year,
+        label: monthShortToLong(entry.date) + ' ' + entry.year,
         value: entry.date.substring(0, 3) + ' ' + entry.year,
       };
-    })
-    // append the current month and year to the options list
-    .concat([
-      {
-        label: new Date().toLocaleString('default', {
-          month: 'long',
-          year: 'numeric',
-        }),
-        value: new Date().toLocaleString('default', {
-          month: 'short',
-          year: 'numeric',
-        }),
-      },
-    ])
-    // TODO: implement sort by year-month
-    .sort();
+    });
+  // append the current month and year to the options list
+  monthYearOptions.push({
+    label: new Date().toLocaleString('default', {
+      month: 'long',
+      year: 'numeric',
+    }),
+    value: new Date().toLocaleString('default', {
+      month: 'short',
+      year: 'numeric',
+    }),
+  });
+  // sort options by a combination of year and month
+  monthYearOptions.sort(sortByYearMonth);
 
   const [pageNumber, setPageNumber] = useState(0);
 
   return (
     <>
-      {console.log(monthYearOptions)}
       <TreeCareTitle>Recent Tree Care Activity</TreeCareTitle>
       <StewardshipActivityDropdownContainer>
         <StewardshipActivityDropdown>
@@ -146,7 +163,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({ stewardship }) => {
             showSearch
             style={{ width: 200 }}
             onChange={(value: string) => {
-              setSelectedMonthYear(value); // TODO: check if this needs to be changed
+              setSelectedMonthYear(value);
             }}
             defaultValue={selectedMonthYear}
             options={monthYearOptions}

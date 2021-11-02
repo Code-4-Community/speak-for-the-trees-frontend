@@ -50,10 +50,12 @@ describe('Tree Page Selectors', () => {
       const expectedTreeCare: TreeCare[] = [
         {
           date: 'Jan 1st',
+          year: 2021,
           message: 'Was mulched and watered and weeded.',
         },
         {
           date: 'Feb 23rd',
+          year: 2021,
           message: 'Was cleared of waste.',
         },
       ];
