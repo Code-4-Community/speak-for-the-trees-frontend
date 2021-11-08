@@ -122,6 +122,11 @@ export interface TreeCare {
   message: string;
 }
 
+export interface MonthYearOption {
+  label: string;
+  value: string;
+}
+
 export interface StewardshipActivities {
   stewardshipActivities: ActivityLog[];
 }

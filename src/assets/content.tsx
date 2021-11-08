@@ -85,6 +85,38 @@ export const SHORT_HAND_NAMES: { [fullName: string]: string } = {
   'Bay Village': 'BV',
 };
 
+// Dictionary containing 3-letter month abbreviations and their unabbreviated names
+export const UNABBREVIATED_MONTHS: { [abbreviatedMonth: string]: string } = {
+  Jan: 'January',
+  Feb: 'February',
+  Mar: 'March',
+  Apr: 'April',
+  May: 'May',
+  Jun: 'June',
+  Jul: 'July',
+  Aug: 'August',
+  Sep: 'September',
+  Oct: 'October',
+  Nov: 'November',
+  Dec: 'December',
+};
+
+// Dictionary containing 3-letter month abbreviations and their numeric equivalent
+export const NUMERIC_MONTHS: { [abbreviatedMonth: string]: number } = {
+  Jan: 1,
+  Feb: 2,
+  Mar: 3,
+  Apr: 4,
+  May: 5,
+  Jun: 6,
+  Jul: 7,
+  Aug: 8,
+  Sep: 9,
+  Oct: 10,
+  Nov: 11,
+  Dec: 12,
+};
+
 // Tree Stats
 export const STATS_HEADER = 'Current Status of our Trees';
 export const MONEY_STAT_TITLE = 'Money Saved';

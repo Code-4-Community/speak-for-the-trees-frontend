@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect';
 import {
   asyncRequestIsComplete,
   AsyncRequest,
@@ -17,7 +18,10 @@ import {
   combineScientificName,
   compareMainEntries,
   formatDateSuffix,
+  shortHand,
 } from '../../../utils/stringFormat';
+import { UNABBREVIATED_MONTHS } from '../../../assets/content';
+import { sortByMonthYear } from '../../../utils/sort';
 
 export const mapStewardshipToTreeCare = (
   items: AsyncRequest<StewardshipActivities, any>,
@@ -87,3 +91,40 @@ export const isTreeAdoptedByUser = (
     return false;
   }
 };
+
+export const mapStewardshipToMonthYearOptions = createSelector(
+  [mapStewardshipToTreeCare],
+  (stewardship: TreeCare[]): { label: string; value: string }[] => {
+    const monthYearOptions = stewardship
+      // turn the filtered array into an array of labels and values
+      .map((entry) => {
+        return {
+          label:
+            shortHand(entry.date.substring(0, 3), UNABBREVIATED_MONTHS) +
+            ' ' +
+            entry.year,
+          value: entry.date.substring(0, 3) + ' ' + entry.year,
+        };
+      })
+      // append the current month and year to the options list
+      .concat([
+        {
+          label: new Date().toLocaleString('default', {
+            month: 'long',
+            year: 'numeric',
+          }),
+          value: new Date().toLocaleString('default', {
+            month: 'short',
+            year: 'numeric',
+          }),
+        },
+      ])
+      // remove activities with duplicate year and date
+      .filter(
+        (entry, index, self) =>
+          index === self.findIndex((e) => e.value === entry.value),
+      );
+    // sort options by both month and year
+    return monthYearOptions.sort(sortByMonthYear);
+  },
+);
