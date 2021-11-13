@@ -3,6 +3,7 @@ import { ThunkAction } from 'redux-thunk';
 import { MapActions } from './actions';
 import { ApiExtraArgs } from '../../../api/apiClient';
 import { AsyncRequest } from '../../../utils/asyncRequest';
+import { BasicTreeInfo } from '../../treePopup';
 
 // ---------------------------------Blocks----------------------------------------
 
@@ -102,4 +103,27 @@ export type MapGeoDataThunkAction<R> = ThunkAction<
 export enum MapViews {
   BLOCKS = 13,
   TREES = 16,
+}
+
+export interface MapData {
+  map: google.maps.Map;
+  zoom: number;
+  markersArray: google.maps.Marker[];
+  popPopup: (latLng: google.maps.LatLng) => void;
+  setActiveTreeInfo: (info: BasicTreeInfo) => void;
+}
+
+export interface MapLayersAndListeners {
+  readonly privateStreetsLayer: google.maps.Data;
+  readonly neighborhoodsLayer: google.maps.Data;
+  readonly blocksLayer?: google.maps.Data;
+  readonly sitesLayer?: google.maps.Data;
+  zoomListener: google.maps.MapsEventListener;
+}
+
+export interface SetMapData extends MapLayersAndListeners {
+  map: google.maps.Map;
+  zoom: number;
+  searchMarker: google.maps.Marker;
+  markersArray: google.maps.Marker[];
 }

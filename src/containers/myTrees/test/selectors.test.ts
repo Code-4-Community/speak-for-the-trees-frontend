@@ -5,7 +5,7 @@ import {
   AsyncRequestFailed,
 } from '../../../utils/asyncRequest';
 import { AdoptedSites } from '../../treePage/ducks/types';
-import { SiteGeoData } from '../../../components/mapPageComponents/ducks/types';
+import { SiteGeoData } from '../../../components/mapComponents/ducks/types';
 import { getMySites } from '../ducks/selectors';
 describe('My Trees Selectors', () => {
   describe('getMySites', () => {

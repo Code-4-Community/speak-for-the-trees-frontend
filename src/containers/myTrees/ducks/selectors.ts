@@ -1,7 +1,7 @@
 import {
   SiteGeoData,
   SiteFeaturePropertiesResponse,
-} from '../../../components/mapPageComponents/ducks/types';
+} from '../../../components/mapComponents/ducks/types';
 import {
   AsyncRequest,
   asyncRequestIsComplete,
