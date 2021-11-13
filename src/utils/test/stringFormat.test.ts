@@ -4,6 +4,7 @@ import {
   compareMainEntries,
   formatDateSuffix,
   getMoneyString,
+  getNeighborhoodName,
 } from '../stringFormat';
 import { getDateString } from '../stringFormat';
 import { shortHand } from '../stringFormat';
@@ -123,4 +124,12 @@ test('combineScientificName tests', () => {
     random3,
     { title: 'Scientific Name', value: 'genus species' },
   ]);
+});
+
+test('getNeighborhoodName tests', () => {
+  expect(getNeighborhoodName(2)).toEqual('Back Bay');
+  expect(getNeighborhoodName(-10)).toEqual('Neighborhood not found.');
+  expect(getNeighborhoodName(14)).toEqual('North End');
+  expect(getNeighborhoodName(10000)).toEqual('Neighborhood not found.');
+  expect(getNeighborhoodName(34)).toEqual('Fenway');
 });
