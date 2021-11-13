@@ -60,6 +60,23 @@ export const SubmitButton = styled(Button)`
   font-size: 16px;
 `;
 
+export const GreenButton = styled(Button)`
+  margin-top: 10px;
+  background: ${LIGHT_GREEN};
+  border: ${LIGHT_GREEN};
+  color: ${WHITE};
+  font-size: 16px;
+  height: 36px;
+`;
+
+export const WhiteButton = styled(Button)`
+  margin-top: 10px;
+  background: ${WHITE};
+  border: 1px solid ${LIGHT_GREEN};
+  font-size: 16px;
+  height: 36px;
+`;
+
 export const ReturnButton = styled(LinkButton)`
   height: 45px;
   border-color: ${MID_GREEN};
@@ -93,4 +110,8 @@ export const CardInfo = styled.div`
 
 export const InlineImage = styled(Image)`
   display: inline-block;
+`;
+
+export const FullWidthForm = styled(Form)`
+  width: 100%;
 `;

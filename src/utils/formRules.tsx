@@ -91,3 +91,7 @@ export const newLevelRules: Rule[] = [
     message: 'Please pick a privilege level for this user!',
   },
 ];
+
+export const requiredRule = (message: string): Rule[] => {
+  return [{ required: true, message }];
+};
