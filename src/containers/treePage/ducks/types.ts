@@ -7,16 +7,18 @@ import { AsyncRequest } from '../../../utils/asyncRequest';
 
 export interface SiteProps {
   siteId: number;
-  blockId: number;
+  blockId?: number;
   lat: number;
   lng: number;
   city: string;
   zip: string;
   address?: string;
+  neighborhoodId: number;
   entries: SiteEntry[];
 }
 
 export interface SiteEntry {
+  id: number;
   updatedAt: number;
   status?: string;
   genus?: string;

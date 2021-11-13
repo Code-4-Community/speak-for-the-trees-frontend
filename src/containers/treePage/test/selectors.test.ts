@@ -90,6 +90,7 @@ describe('Tree Page Selectors', () => {
   });
 
   const dummySite: SiteProps = {
+    neighborhoodId: 0,
     siteId: 0,
     blockId: 1,
     lat: 100,
@@ -99,6 +100,7 @@ describe('Tree Page Selectors', () => {
     address: '1800 place',
     entries: [
       {
+        id: 0,
         updatedAt: 200,
         status: 'good',
         species: 'tree',
@@ -107,6 +109,7 @@ describe('Tree Page Selectors', () => {
         bicycle: true,
       },
       {
+        id: 1,
         updatedAt: 100,
         status: 'bad',
         species: 'not a tree',

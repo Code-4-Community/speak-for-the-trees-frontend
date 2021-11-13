@@ -1,6 +1,11 @@
 import moment from 'moment';
 import { PrivilegeLevel, SignupRequest } from '../../../auth/ducks/types';
 
+export const BOOL_RADIO_OPTS = [
+  { label: 'Yes', value: true },
+  { label: 'No', value: false },
+];
+
 export interface AuthRequest {
   readonly password: string;
 }
@@ -35,4 +40,55 @@ export interface ChangePrivilegeRequest {
 export interface RecordStewardshipRequest {
   readonly activityDate: moment.Moment;
   readonly stewardshipActivities: string[];
+}
+
+export interface EditSiteRequest {
+  readonly blockId?: number;
+  readonly address: string;
+  readonly city: string;
+  readonly zip: string;
+  readonly lat: number;
+  readonly lng: number;
+  readonly neighborhoodId: number;
+}
+
+export interface UpdateSiteRequest {
+  readonly treePresent: boolean | null;
+  readonly status: string | null;
+  readonly genus: string | null;
+  readonly species: string | null;
+  readonly commonName: string | null;
+  readonly confidence: string | null;
+  readonly diameter: number | null;
+  readonly circumference: number | null;
+  readonly multistem: number | null;
+  readonly coverage: string | null;
+  readonly pruning: string | null;
+  readonly condition: string | null;
+  readonly discoloring: string | null;
+  readonly leaning: boolean | null;
+  readonly constrictingGrate: boolean | null;
+  readonly wounds: boolean | null;
+  readonly pooling: boolean | null;
+  readonly stakesWithWires: boolean | null;
+  readonly stakesWithoutWires: boolean | null;
+  readonly light: boolean | null;
+  readonly bicycle: boolean | null;
+  readonly bagEmpty: boolean | null;
+  readonly bagFilled: boolean | null;
+  readonly tape: boolean | null;
+  readonly suckerGrowth: boolean | null;
+  readonly siteType: string | null;
+  readonly sidewalkWidth: string | null;
+  readonly siteWidth: string | null;
+  readonly siteLength: string | null;
+  readonly material: string | null;
+  readonly raisedBed: string | null;
+  readonly fence: string | null;
+  readonly trash: string | null;
+  readonly wires: string | null;
+  readonly grate: string | null;
+  readonly stump: string | null;
+  readonly treeNotes: string | null;
+  readonly siteNotes: string | null;
 }
