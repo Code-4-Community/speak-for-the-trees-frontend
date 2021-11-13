@@ -1,12 +1,12 @@
 import React, { createRef, useEffect, useState, useCallback } from 'react';
 import { Input, message } from 'antd';
-import { MapViews, SetMapData } from '../../ducks/types';
+import { MapViews, ReturnMapData } from '../../ducks/types';
 import { BOSTON_BOUNDS, LOADER, STREET_ZOOM } from '../../constants';
 import { addHandleSearch } from '../../logic/event';
 import TreePopup, { BasicTreeInfo } from '../../../treePopup';
 import styled from 'styled-components';
 import { goToPlace } from '../../logic/view';
-import { MapData } from '../../ducks/types';
+import { InitMapData } from '../../ducks/types';
 
 const StyledSearch = styled(Input.Search)`
   width: 20vw;
@@ -23,7 +23,7 @@ interface MapWithPopupProps {
   readonly zoom: number;
   readonly lat: number;
   readonly lng: number;
-  readonly initMap: (mapData: MapData) => SetMapData;
+  readonly initMap: (mapData: InitMapData) => ReturnMapData;
   readonly defaultActiveTree: BasicTreeInfo;
 }
 
@@ -128,7 +128,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
             popup.popAtPosition(latLng);
           }
 
-          const thisMapData: MapData = {
+          const thisMapData: InitMapData = {
             map,
             zoom,
             markersArray,

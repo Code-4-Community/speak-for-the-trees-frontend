@@ -2,7 +2,7 @@ import React from 'react';
 import {
   MapViews,
   NeighborhoodGeoData,
-  SetMapData,
+  ReturnMapData,
   SiteGeoData,
 } from '../../ducks/types';
 import { STREET_ZOOM } from '../../constants';
@@ -10,7 +10,7 @@ import { STREET_ZOOM } from '../../constants';
 import { BasicTreeInfo, NO_SITE_SELECTED } from '../../../treePopup';
 import MapWithPopup from '../mapWithPopup';
 import { SiteProps } from '../../../../containers/treePage/ducks/types';
-import { MapData } from '../../ducks/types';
+import { InitMapData } from '../../ducks/types';
 import { initSiteView } from '../../logic/init';
 
 interface SelectorMapProps {
@@ -35,7 +35,9 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
     address: '',
   };
 
-  const setSearchMarkerAndInitSiteMap = (mapData: MapData): SetMapData => {
+  const setSearchMarkerAndInitSiteMap = (
+    mapData: InitMapData,
+  ): ReturnMapData => {
     const searchMarker = new google.maps.Marker({
       map: mapData.map,
       draggable: true,

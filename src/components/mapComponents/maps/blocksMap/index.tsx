@@ -2,10 +2,10 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   BlockGeoData,
-  MapData,
+  InitMapData,
   MapViews,
   NeighborhoodGeoData,
-  SetMapData,
+  ReturnMapData,
 } from '../../ducks/types';
 import { NO_SITE_SELECTED } from '../../../treePopup';
 import { BOSTON } from '../../constants';
@@ -33,7 +33,7 @@ const BlocksMap: React.FC<BlocksMapProps> = ({
     defaultCenter = { lat: location.state.lat, lng: location.state.lng };
   }
 
-  const initMap = (mapData: MapData): SetMapData => {
+  const initMap = (mapData: InitMapData): ReturnMapData => {
     // A marker to show at the location a user searches for
     const searchMarker = new google.maps.Marker({
       map: mapData.map,

@@ -21,7 +21,7 @@ import {
 import { BasicTreeInfo } from '../../treePopup';
 import { message } from 'antd';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
-import { MapData } from '../ducks/types';
+import { InitMapData } from '../ducks/types';
 import { ALL_SITES_VISIBLE } from '../constants';
 
 // Logic for creating and setting up data layers/markers
@@ -171,7 +171,7 @@ export function initUserLocation(map: google.maps.Map): void {
  * @param sites the site geo data
  */
 export function initSiteView(
-  mapData: MapData,
+  mapData: InitMapData,
   neighborhoods: NeighborhoodGeoData,
   sites: SiteGeoData,
 ): MapLayersAndListeners {
@@ -223,7 +223,7 @@ export function initSiteView(
  * @param blocks the blocks geo data
  */
 export function initBlockView(
-  mapData: MapData,
+  mapData: InitMapData,
   neighborhoods: NeighborhoodGeoData,
   blocks: BlockGeoData,
 ): MapLayersAndListeners {

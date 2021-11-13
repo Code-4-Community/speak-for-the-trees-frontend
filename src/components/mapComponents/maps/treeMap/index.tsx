@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
-  MapData,
+  InitMapData,
   MapViews,
   NeighborhoodGeoData,
-  SetMapData,
+  ReturnMapData,
   SiteGeoData,
 } from '../../ducks/types';
 import { NO_SITE_SELECTED } from '../../../treePopup';
@@ -32,7 +32,7 @@ const TreeMap: React.FC<TreeMapProps> = ({
 }) => {
   const location = useLocation<MapStateProps>();
 
-  const [loadedMapData, setLoadedMapData] = useState<SetMapData>();
+  const [loadedMapData, setLoadedMapData] = useState<ReturnMapData>();
 
   let defaultZoom = 12;
   let defaultCenter = BOSTON;
@@ -41,14 +41,14 @@ const TreeMap: React.FC<TreeMapProps> = ({
     defaultCenter = { lat: location.state.lat, lng: location.state.lng };
   }
 
-  const initMap = (mapData: MapData): SetMapData => {
+  const initMap = (mapData: InitMapData): ReturnMapData => {
     // A marker to show at the location a user searches for
     const searchMarker = new google.maps.Marker({
       map: mapData.map,
     });
     const mapLayersAndListeners = initSiteView(mapData, neighborhoods, sites);
 
-    const setMapData: SetMapData = {
+    const setMapData: ReturnMapData = {
       map: mapData.map,
       zoom: mapData.zoom,
       privateStreetsLayer: mapLayersAndListeners.privateStreetsLayer,

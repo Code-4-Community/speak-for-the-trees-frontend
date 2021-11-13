@@ -105,25 +105,28 @@ export enum MapViews {
   TREES = 16,
 }
 
-export interface MapData {
-  map: google.maps.Map;
-  zoom: number;
-  markersArray: google.maps.Marker[];
-  popPopup: (latLng: google.maps.LatLng) => void;
-  setActiveTreeInfo: (info: BasicTreeInfo) => void;
+export interface BasicMapData {
+  readonly map: google.maps.Map;
+  readonly zoom: number;
+  readonly markersArray: google.maps.Marker[];
 }
 
+// Data given to initMap functions to set up map features outside of LOADER.load().then()
+export interface InitMapData extends BasicMapData {
+  readonly popPopup: (latLng: google.maps.LatLng) => void;
+  readonly setActiveTreeInfo: (info: BasicTreeInfo) => void;
+}
+
+// Map data layers and listeners
 export interface MapLayersAndListeners {
   readonly privateStreetsLayer: google.maps.Data;
   readonly neighborhoodsLayer: google.maps.Data;
   readonly blocksLayer?: google.maps.Data;
   readonly sitesLayer?: google.maps.Data;
-  zoomListener: google.maps.MapsEventListener;
+  zoomListener: google.maps.MapsEventListener; // mutable to allow parent components to unload/assign new zoom event listeners
 }
 
-export interface SetMapData extends MapLayersAndListeners {
-  map: google.maps.Map;
-  zoom: number;
-  searchMarker: google.maps.Marker;
-  markersArray: google.maps.Marker[];
+// Data returned to the map after initMap functions are called
+export interface ReturnMapData extends BasicMapData, MapLayersAndListeners {
+  readonly searchMarker: google.maps.Marker;
 }
