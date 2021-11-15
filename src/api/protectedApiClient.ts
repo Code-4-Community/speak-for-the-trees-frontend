@@ -19,6 +19,9 @@ import {
   ActivityRequest,
   AdoptedSites,
 } from '../containers/treePage/ducks/types';
+import {
+  AddSitesRequest
+} from '../containers/adminDashboard/ducks/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -80,6 +83,7 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
   readonly deleteStewardship: (activityId: number) => Promise<void>;
   readonly getAdoptedSites: () => Promise<AdoptedSites>;
+  readonly addSites: (request: AddSitesRequest) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -102,6 +106,7 @@ export enum AdminApiClientRoutes {
   PASS_RESERVATION_QA = '/api/v1/protected/reservations/pass_qa',
   FAIL_RESERVATION_QA = '/api/v1/protected/reservations/fail_qa',
   CHANGE_PRIVILEGE = '/api/v1/protected/user/change_privilege',
+  ADD_SITES = '/api/v1/protected/sites/add_sites',
 }
 
 const baseTeamRoute = '/api/v1/protected/teams/';
@@ -157,32 +162,6 @@ const releaseReservation = (blockId: number): Promise<void> => {
   }).then((res) => res.data);
 };
 
-// Admin routes
-
-const uncompleteReservation = (blockId: number): Promise<void> => {
-  return AppAxiosInstance.post(AdminApiClientRoutes.UNCOMPLETE_RESERVATION, {
-    blockID: blockId,
-  }).then((res) => res.data);
-};
-
-const markReservationForQa = (blockId: number): Promise<void> => {
-  return AppAxiosInstance.post(AdminApiClientRoutes.MARK_RESERVATION_FOR_QA, {
-    blockID: blockId,
-  }).then((res) => res.data);
-};
-
-const passReservationQa = (blockId: number): Promise<void> => {
-  return AppAxiosInstance.post(AdminApiClientRoutes.PASS_RESERVATION_QA, {
-    blockID: blockId,
-  }).then((res) => res.data);
-};
-
-const failReservationQa = (blockId: number): Promise<void> => {
-  return AppAxiosInstance.post(AdminApiClientRoutes.FAIL_RESERVATION_QA, {
-    blockID: blockId,
-  }).then((res) => res.data);
-};
-
 const changePassword = (request: ChangePasswordRequest): Promise<void> => {
   return AppAxiosInstance.post(
     ProtectedApiClientRoutes.CHANGE_PASSWORD,
@@ -207,15 +186,6 @@ const changeEmail = (request: ChangeEmailRequest): Promise<void> => {
 const deleteUser = (request: AuthRequest): Promise<void> => {
   return AppAxiosInstance.post(
     ProtectedApiClientRoutes.DELETE_USER,
-    request,
-  ).then((res) => res.data);
-};
-
-const changePrivilegeLevel = (
-  request: ChangePrivilegeRequest,
-): Promise<void> => {
-  return AppAxiosInstance.post(
-    AdminApiClientRoutes.CHANGE_PRIVILEGE,
     request,
   ).then((res) => res.data);
 };
@@ -352,6 +322,50 @@ const getAdoptedSites = (): Promise<AdoptedSites> => {
   );
 };
 
+// Admin routes
+
+const uncompleteReservation = (blockId: number): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.UNCOMPLETE_RESERVATION, {
+    blockID: blockId,
+  }).then((res) => res.data);
+};
+
+const markReservationForQa = (blockId: number): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.MARK_RESERVATION_FOR_QA, {
+    blockID: blockId,
+  }).then((res) => res.data);
+};
+
+const passReservationQa = (blockId: number): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.PASS_RESERVATION_QA, {
+    blockID: blockId,
+  }).then((res) => res.data);
+};
+
+const failReservationQa = (blockId: number): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.FAIL_RESERVATION_QA, {
+    blockID: blockId,
+  }).then((res) => res.data);
+};
+
+const changePrivilegeLevel = (
+  request: ChangePrivilegeRequest,
+): Promise<void> => {
+  return AppAxiosInstance.post(
+    AdminApiClientRoutes.CHANGE_PRIVILEGE,
+    request,
+  ).then((res) => res.data);
+};
+
+const addSites = (
+  request: AddSitesRequest,
+): Promise<void> => {
+  return AppAxiosInstance.post(
+    AdminApiClientRoutes.ADD_SITES,
+    request,
+  ).then((res) => res.data);
+}
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -385,6 +399,7 @@ const Client: ProtectedApiClient = Object.freeze({
   recordStewardship,
   deleteStewardship,
   getAdoptedSites,
+  addSites,
 });
 
 export default Client;

@@ -9,6 +9,7 @@ import { C4CState } from '../../store';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import ChangePrivilegeForm from '../../components/forms/changePrivilegeForm';
+import UploadSitesForm from '../../components/forms/uploadSitesForm';
 
 const { Title } = Typography;
 
@@ -43,6 +44,11 @@ const AdminDashboard: React.FC = () => {
           <EditUser>
             <Title level={4}>Edit Admins</Title>
             <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
+          </EditUser>
+
+          <EditUser>
+            <Title level={4}>Add Sites</Title>
+            <UploadSitesForm />
           </EditUser>
         </AdminContentContainer>
       </PageLayout>

@@ -92,6 +92,7 @@ const App: React.FC = () => {
           <NavBar />
           <Content>
             {(() => {
+              console.log(privilegeLevel);
               switch (privilegeLevel) {
                 case PrivilegeLevel.NONE:
                   return (
@@ -128,6 +129,8 @@ const App: React.FC = () => {
                       />
                     </Switch>
                   );
+
+                  
 
                 case PrivilegeLevel.STANDARD:
                   return (

@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { PrivilegeLevel, SignupRequest } from '../../../auth/ducks/types';
+import { UploadFile } from 'antd/lib/upload/interface';
 
 export interface AuthRequest {
   readonly password: string;

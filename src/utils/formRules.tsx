@@ -91,3 +91,10 @@ export const newLevelRules: Rule[] = [
     message: 'Please pick a privilege level for this user!',
   },
 ];
+
+export const uploadSiteRules: Rule[] = [
+  {
+    required: true,
+    message: 'Please upload a .csv file',
+  }
+]
