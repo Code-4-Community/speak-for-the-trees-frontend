@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Form, Input, InputNumber, Row, Select } from 'antd';
 import styled from 'styled-components';
 import { FormInstance } from 'antd/es/form';
-import { requiredRule } from '../../../utils/formRules';
+import { requiredRule, zipCodeRules } from '../../../utils/formRules';
 import { EditSiteRequest } from '../ducks/types';
 import { NEIGHBORHOOD_OPTS } from '../../../assets/content';
 
@@ -46,10 +46,7 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({ formInstance }) => {
             </Form.Item>
           </Col>
           <Col span={6}>
-            <Form.Item
-              name={'zip'}
-              rules={requiredRule('Please enter a zip code!')}
-            >
+            <Form.Item name={'zip'} rules={zipCodeRules}>
               <Input placeholder={'Zip Code'} />
             </Form.Item>
           </Col>

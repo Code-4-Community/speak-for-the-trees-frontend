@@ -92,6 +92,22 @@ export const newLevelRules: Rule[] = [
   },
 ];
 
+export const zipCodeRules: Rule[] = [
+  {
+    required: true,
+    message: 'Please enter a valid zip code!',
+  },
+  {
+    pattern: /[0-9]{4}/,
+    message: 'Zip code must use numbers only',
+  },
+  {
+    len: 4,
+    message:
+      'Zip code must be 4 digits long - enter without leading 0, ex. enter 02125 as 2125',
+  },
+];
+
 export const requiredRule = (message: string): Rule[] => {
   return [{ required: true, message }];
 };

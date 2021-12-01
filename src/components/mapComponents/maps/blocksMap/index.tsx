@@ -55,7 +55,7 @@ const BlocksMap: React.FC<BlocksMapProps> = ({
   return (
     <MapWithPopup
       zoom={defaultZoom}
-      view={MapViews.TREES}
+      view={MapViews.BLOCKS}
       lat={defaultCenter.lat}
       lng={defaultCenter.lng}
       initMap={initMap}

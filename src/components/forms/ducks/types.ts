@@ -83,12 +83,12 @@ export interface UpdateSiteRequest {
   readonly siteWidth: string | null;
   readonly siteLength: string | null;
   readonly material: string | null;
-  readonly raisedBed: string | null;
-  readonly fence: string | null;
-  readonly trash: string | null;
-  readonly wires: string | null;
-  readonly grate: string | null;
-  readonly stump: string | null;
+  readonly raisedBed: boolean | null;
+  readonly fence: boolean | null;
+  readonly trash: boolean | null;
+  readonly wires: boolean | null;
+  readonly grate: boolean | null;
+  readonly stump: boolean | null;
   readonly treeNotes: string | null;
   readonly siteNotes: string | null;
 }

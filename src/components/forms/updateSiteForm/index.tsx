@@ -58,6 +58,29 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
       form={formInstance}
       onFinish={onFinish}
       style={{ width: '100%' }}
+      initialValues={{
+        treePresent: false,
+        multistem: false,
+        discoloring: false,
+        leaning: false,
+        constrictingGrate: false,
+        wounds: false,
+        pooling: false,
+        stakesWithWires: false,
+        stakesWithoutWires: false,
+        light: false,
+        bicycle: false,
+        bagEmpty: false,
+        bagFilled: false,
+        tape: false,
+        suckerGrowth: false,
+        raisedBed: false,
+        fence: false,
+        trash: false,
+        wires: false,
+        grate: false,
+        stump: false,
+      }}
     >
       <Row gutter={[16, 8]}>
         <TitleCol span={6}>Is there a tree present?</TitleCol>
@@ -112,6 +135,21 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
       </Row>
 
       <Row gutter={[16, 8]}>
+        <TitleCol span={6}>Fence</TitleCol>
+        <TitleCol span={6}>Trash</TitleCol>
+        <TitleCol span={6}>Wires</TitleCol>
+        <TitleCol span={6}>Grate</TitleCol>
+        <TitleCol span={6}>Stump</TitleCol>
+      </Row>
+      <Row gutter={[16, 8]}>
+        <BoolRadioCol name={'fence'} />
+        <BoolRadioCol name={'trash'} />
+        <BoolRadioCol name={'wires'} />
+        <BoolRadioCol name={'grate'} />
+        <BoolRadioCol name={'stump'} />
+      </Row>
+
+      <Row gutter={[16, 8]}>
         <TitleCol span={6}>Tree Status</TitleCol>
         <TitleCol span={6}>Tree Genus</TitleCol>
         <TitleCol span={6}>Tree Species</TitleCol>
@@ -151,25 +189,10 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
       </Row>
 
       <Row gutter={[16, 8]}>
-        <TitleCol span={6}>Fence</TitleCol>
-        <TitleCol span={6}>Trash</TitleCol>
-        <TitleCol span={6}>Wires</TitleCol>
-        <TitleCol span={6}>Grate</TitleCol>
-      </Row>
-      <Row gutter={[16, 8]}>
-        <StringInputCol placeholder={'Fence'} name={'fence'} />
-        <StringInputCol placeholder={'Trash'} name={'trash'} />
-        <StringInputCol placeholder={'Wires'} name={'wires'} />
-        <StringInputCol placeholder={'Grate'} name={'grate'} />
-      </Row>
-
-      <Row gutter={[16, 8]}>
-        <TitleCol span={6}>Stump</TitleCol>
         <TitleCol span={9}>Tree Notes</TitleCol>
         <TitleCol span={9}>Site Notes</TitleCol>
       </Row>
       <Row gutter={[16, 8]}>
-        <StringInputCol placeholder={'Stump'} name={'stump'} />
         <StringInputCol
           placeholder={'Tree Notes'}
           name={'treeNotes'}
