@@ -35,26 +35,26 @@ export interface SiteEntry {
   constrictingGrate?: boolean;
   wounds?: boolean;
   pooling?: boolean;
-  stakesWith?: boolean;
-  stakesWithout?: boolean;
+  stakesWithWires?: boolean;
+  stakesWithoutWires?: boolean;
   light?: boolean;
   bicycle?: boolean;
-  bagWith?: boolean;
-  bagWithout?: boolean;
+  bagEmpty?: boolean;
+  bagFilled?: boolean;
   tape?: boolean;
   suckerGrowth?: boolean;
   treePresent?: boolean;
   siteType?: string;
   sidewalkWidth?: string;
-  siteWidth?: string;
-  siteLength?: string;
+  siteWidth?: number;
+  siteLength?: number;
   material?: string;
-  raisedBed?: string;
-  fence?: string;
-  trash?: string;
-  wires?: string;
-  grate?: string;
-  stump?: string;
+  raisedBed?: boolean;
+  fence?: boolean;
+  trash?: boolean;
+  wires?: boolean;
+  grate?: boolean;
+  stump?: boolean;
   treeNotes?: string;
   siteNotes?: string;
   adopter?: string;
@@ -97,8 +97,8 @@ export const ExtraSiteEntryNames: Record<string, string> = {
   constrictingGrate: 'Constricting Grate',
   wounds: 'Trunk wounds?',
   pooling: 'Pooling water?',
-  stakesWith: 'With stakes?',
-  stakesWithout: 'Without stakes?',
+  stakesWithWires: 'Has stakes with wires?',
+  stakesWithoutWires: 'Has stakes without wires?',
   light: 'Lights around tree?',
   bicycle: 'Bicycle tied to tree?',
   bagEmpty: 'Has an empty bag?',

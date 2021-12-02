@@ -115,13 +115,13 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({ siteEntries }) => {
       render: renderBoolean,
     },
     {
-      title: ExtraSiteEntryNames.stakesWith,
+      title: ExtraSiteEntryNames.stakesWithWires,
       dataIndex: 'stakesWithWires',
       key: 'stakesWith',
       render: renderBoolean,
     },
     {
-      title: ExtraSiteEntryNames.stakesWithout,
+      title: ExtraSiteEntryNames.stakesWithoutWires,
       dataIndex: 'stakesWithoutWires',
       key: 'stakesWithout',
       render: renderBoolean,

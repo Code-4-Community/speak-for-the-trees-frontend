@@ -108,10 +108,16 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
         <TitleStack title={ExtraSiteEntryNames.pooling} minWidth={'15%'}>
           <BoolRadioCol name={'pooling'} />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.stakesWith} minWidth={'15%'}>
+        <TitleStack
+          title={ExtraSiteEntryNames.stakesWithWires}
+          minWidth={'15%'}
+        >
           <BoolRadioCol name={'stakesWithWires'} />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.stakesWithout} minWidth={'15%'}>
+        <TitleStack
+          title={ExtraSiteEntryNames.stakesWithoutWires}
+          minWidth={'15%'}
+        >
           <BoolRadioCol name={'stakesWithoutWires'} />
         </TitleStack>
         <TitleStack title={ExtraSiteEntryNames.light} minWidth={'15%'}>
