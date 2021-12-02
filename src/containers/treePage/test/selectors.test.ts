@@ -13,12 +13,14 @@ import {
   Entry,
   MainSiteEntryNames,
   ExtraSiteEntryNames,
+  SiteEntryFields,
 } from '../ducks/types';
 import {
   mapStewardshipToTreeCare,
   getLatestSplitEntry,
   getLatestEntry,
   isTreeAdoptedByUser,
+  getSEFieldDisplayName,
 } from '../ducks/selectors';
 
 describe('Tree Page Selectors', () => {
@@ -233,6 +235,15 @@ describe('Tree Page Selectors', () => {
         extra: [],
       });
     });
+  });
+
+  describe('getSEFieldDisplayName', () => {
+    expect(getSEFieldDisplayName(SiteEntryFields.BAG_EMPTY)).toBe(
+      'Has an empty bag?',
+    );
+    expect(getSEFieldDisplayName(SiteEntryFields.UPDATED_AT)).toBe(
+      'Updated At',
+    );
   });
 
   describe('isTreeAdoptedByUser', () => {

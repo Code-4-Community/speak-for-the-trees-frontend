@@ -4,11 +4,9 @@ import { FormInstance, Rule } from 'antd/es/form';
 import { BOOL_RADIO_OPTS, UpdateSiteRequest } from '../ducks/types';
 import { Flex, SubmitButton } from '../../themedComponents';
 import TitleStack from '../../titleStack';
-import {
-  ExtraSiteEntryNames,
-  MainSiteEntryNames,
-} from '../../../containers/treePage/ducks/types';
+import { SiteEntryFields } from '../../../containers/treePage/ducks/types';
 import { stringNumberRules } from '../../../utils/formRules';
+import { getSEFieldDisplayName } from '../../../containers/treePage/ducks/selectors';
 
 interface BoolRadioProps {
   readonly name: string;
@@ -81,151 +79,297 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
       }}
     >
       <Flex>
-        <TitleStack title={ExtraSiteEntryNames.treePresent} minWidth={'15%'}>
-          <BoolRadioCol name={'treePresent'} />
-        </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.stump} minWidth={'15%'}>
-          <BoolRadioCol name={'stump'} />
-        </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.multistem} minWidth={'15%'}>
-          <BoolRadioCol name={'multistem'} />
-        </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.discoloring} minWidth={'15%'}>
-          <BoolRadioCol name={'discoloring'} />
-        </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.leaning} minWidth={'15%'}>
-          <BoolRadioCol name={'leaning'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.TREE_PRESENT)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.TREE_PRESENT} />
         </TitleStack>
         <TitleStack
-          title={ExtraSiteEntryNames.constrictingGrate}
-          minWidth={'15%'}
+          title={getSEFieldDisplayName(SiteEntryFields.STUMP)}
+          minWidth={'150px'}
         >
-          <BoolRadioCol name={'constrictingGrate'} />
-        </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.wounds} minWidth={'15%'}>
-          <BoolRadioCol name={'wounds'} />
-        </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.pooling} minWidth={'15%'}>
-          <BoolRadioCol name={'pooling'} />
+          <BoolRadioCol name={SiteEntryFields.STUMP} />
         </TitleStack>
         <TitleStack
-          title={ExtraSiteEntryNames.stakesWithWires}
-          minWidth={'15%'}
+          title={getSEFieldDisplayName(SiteEntryFields.MULTISTEM)}
+          minWidth={'150px'}
         >
-          <BoolRadioCol name={'stakesWithWires'} />
+          <BoolRadioCol name={SiteEntryFields.MULTISTEM} />
         </TitleStack>
         <TitleStack
-          title={ExtraSiteEntryNames.stakesWithoutWires}
-          minWidth={'15%'}
+          title={getSEFieldDisplayName(SiteEntryFields.DISCOLORING)}
+          minWidth={'150px'}
         >
-          <BoolRadioCol name={'stakesWithoutWires'} />
+          <BoolRadioCol name={SiteEntryFields.DISCOLORING} />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.light} minWidth={'15%'}>
-          <BoolRadioCol name={'light'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.LEANING)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.LEANING} />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.bicycle} minWidth={'15%'}>
-          <BoolRadioCol name={'bicycle'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.CONSTRICTING_GRATE)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.CONSTRICTING_GRATE} />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.bagEmpty} minWidth={'15%'}>
-          <BoolRadioCol name={'bagEmpty'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.WOUNDS)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.WOUNDS} />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.bagFilled} minWidth={'15%'}>
-          <BoolRadioCol name={'bagFilled'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.POOLING)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.POOLING} />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.tape} minWidth={'15%'}>
-          <BoolRadioCol name={'tape'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.STAKES_WITH_WIRES)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.STAKES_WITH_WIRES} />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.suckerGrowth} minWidth={'15%'}>
-          <BoolRadioCol name={'suckerGrowth'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.STAKES_WITHOUT_WIRES)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.STAKES_WITHOUT_WIRES} />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.raisedBed} minWidth={'15%'}>
-          <BoolRadioCol name={'raisedBed'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.LIGHT)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.LIGHT} />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.fence} minWidth={'15%'}>
-          <BoolRadioCol name={'fence'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.BICYCLE)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.BICYCLE} />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.trash} minWidth={'15%'}>
-          <BoolRadioCol name={'trash'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.BAG_EMPTY)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.BAG_EMPTY} />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.wires} minWidth={'15%'}>
-          <BoolRadioCol name={'wires'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.BAG_FILLED)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.BAG_FILLED} />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.grate} minWidth={'15%'}>
-          <BoolRadioCol name={'grate'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.TAPE)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.TAPE} />
+        </TitleStack>
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.SUCKER_GROWTH)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.SUCKER_GROWTH} />
+        </TitleStack>
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.RAISED_BED)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.RAISED_BED} />
+        </TitleStack>
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.FENCE)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.FENCE} />
+        </TitleStack>
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.TRASH)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.TRASH} />
+        </TitleStack>
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.WIRES)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.WIRES} />
+        </TitleStack>
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.GRATE)}
+          minWidth={'150px'}
+        >
+          <BoolRadioCol name={SiteEntryFields.GRATE} />
         </TitleStack>
       </Flex>
 
       <Flex>
-        <TitleStack title={MainSiteEntryNames.status} minWidth={'20%'}>
-          <StringInput placeholder={'Status'} name={'status'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.STATUS)}
+          minWidth={'20%'}
+          flexGrow={'1'}
+        >
+          <StringInput placeholder={'Status'} name={SiteEntryFields.STATUS} />
         </TitleStack>
-        <TitleStack title={MainSiteEntryNames.genus} minWidth={'20%'}>
-          <StringInput placeholder={'Genus'} name={'genus'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.GENUS)}
+          minWidth={'20%'}
+          flexGrow={'1'}
+        >
+          <StringInput placeholder={'Genus'} name={SiteEntryFields.GENUS} />
         </TitleStack>
-        <TitleStack title={MainSiteEntryNames.species} minWidth={'20%'}>
-          <StringInput placeholder={'Species'} name={'species'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.SPECIES)}
+          minWidth={'20%'}
+          flexGrow={'1'}
+        >
+          <StringInput placeholder={'Species'} name={SiteEntryFields.SPECIES} />
         </TitleStack>
-        <TitleStack title={MainSiteEntryNames.commonName} minWidth={'20%'}>
-          <StringInput placeholder={'Common Name'} name={'commonName'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.COMMON_NAME)}
+          minWidth={'20%'}
+          flexGrow={'1'}
+        >
+          <StringInput
+            placeholder={'Common Name'}
+            name={SiteEntryFields.COMMON_NAME}
+          />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.confidence} minWidth={'20%'}>
-          <StringInput placeholder={'Confidence'} name={'confidence'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.CONFIDENCE)}
+          minWidth={'20%'}
+          flexGrow={'1'}
+        >
+          <StringInput
+            placeholder={'Confidence'}
+            name={SiteEntryFields.CONFIDENCE}
+          />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.coverage} minWidth={'20%'}>
-          <StringInput placeholder={'Coverage'} name={'coverage'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.COVERAGE)}
+          minWidth={'20%'}
+          flexGrow={'1'}
+        >
+          <StringInput
+            placeholder={'Coverage'}
+            name={SiteEntryFields.COVERAGE}
+          />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.pruning} minWidth={'20%'}>
-          <StringInput placeholder={'Pruning'} name={'pruning'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.PRUNING)}
+          minWidth={'20%'}
+          flexGrow={'1'}
+        >
+          <StringInput placeholder={'Pruning'} name={SiteEntryFields.PRUNING} />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.condition} minWidth={'20%'}>
-          <StringInput placeholder={'Condition'} name={'condition'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.CONDITION)}
+          minWidth={'20%'}
+          flexGrow={'1'}
+        >
+          <StringInput
+            placeholder={'Condition'}
+            name={SiteEntryFields.CONDITION}
+          />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.siteType} minWidth={'20%'}>
-          <StringInput placeholder={'Site Type'} name={'siteType'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.SITE_TYPE)}
+          minWidth={'20%'}
+          flexGrow={'1'}
+        >
+          <StringInput
+            placeholder={'Site Type'}
+            name={SiteEntryFields.SITE_TYPE}
+          />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.sidewalkWidth} minWidth={'20%'}>
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.SIDEWALK_WIDTH)}
+          minWidth={'20%'}
+          flexGrow={'1'}
+        >
           <StringInput
             placeholder={'Sidewalk Width'}
-            name={'sidewalkWidth'}
+            name={SiteEntryFields.SIDEWALK_WIDTH}
             rules={stringNumberRules}
           />
         </TitleStack>
-        <TitleStack title={MainSiteEntryNames.diameter} minWidth={'20%'}>
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.DIAMETER)}
+          minWidth={'20%'}
+          flexGrow={'1'}
+        >
           <StringInput
             placeholder={'Diameter'}
-            name={'diameter'}
+            name={SiteEntryFields.DIAMETER}
             rules={stringNumberRules}
           />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.circumference} minWidth={'20%'}>
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.CIRCUMFERENCE)}
+          minWidth={'20%'}
+          flexGrow={'1'}
+        >
           <StringInput
             placeholder={'Circumference'}
-            name={'circumference'}
+            name={SiteEntryFields.CIRCUMFERENCE}
             rules={stringNumberRules}
           />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.siteWidth} minWidth={'20%'}>
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.SITE_WIDTH)}
+          minWidth={'20%'}
+          flexGrow={'1'}
+        >
           <StringInput
             placeholder={'Site Width'}
-            name={'siteWidth'}
+            name={SiteEntryFields.SITE_WIDTH}
             rules={stringNumberRules}
           />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.siteLength} minWidth={'20%'}>
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.SITE_LENGTH)}
+          minWidth={'20%'}
+          flexGrow={'1'}
+        >
           <StringInput
             placeholder={'Site Length'}
-            name={'siteLength'}
+            name={SiteEntryFields.SITE_LENGTH}
             rules={stringNumberRules}
           />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.material} minWidth={'45%'}>
-          <StringInput placeholder={'Material'} name={'material'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.MATERIAL)}
+          minWidth={'45%'}
+          flexGrow={'1'}
+        >
+          <StringInput
+            placeholder={'Material'}
+            name={SiteEntryFields.MATERIAL}
+          />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.treeNotes} minWidth={'45%'}>
-          <StringInput placeholder={'Tree Notes'} name={'treeNotes'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.TREE_NOTES)}
+          minWidth={'45%'}
+          flexGrow={'1'}
+        >
+          <StringInput
+            placeholder={'Tree Notes'}
+            name={SiteEntryFields.TREE_NOTES}
+          />
         </TitleStack>
-        <TitleStack title={ExtraSiteEntryNames.siteNotes} minWidth={'45%'}>
-          <StringInput placeholder={'Site Notes'} name={'siteNotes'} />
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.SITE_NOTES)}
+          minWidth={'45%'}
+          flexGrow={'1'}
+        >
+          <StringInput
+            placeholder={'Site Notes'}
+            name={SiteEntryFields.SITE_NOTES}
+          />
         </TitleStack>
       </Flex>
 

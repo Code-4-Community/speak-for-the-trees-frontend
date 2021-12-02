@@ -1,6 +1,6 @@
 import { C4CState } from '../../../store';
 import { ThunkAction } from 'redux-thunk';
-import { SiteActions, ProtectedSiteActions } from './actions';
+import { ProtectedSiteActions, SiteActions } from './actions';
 import { ApiExtraArgs } from '../../../api/apiClient';
 import { ProtectedApiExtraArgs } from '../../../api/protectedApiClient';
 import { AsyncRequest } from '../../../utils/asyncRequest';
@@ -17,6 +17,59 @@ export interface SiteProps {
   entries: SiteEntry[];
 }
 
+export enum UneditableSiteEntryFields {
+  UPDATED_AT = 'updatedAt',
+}
+
+export enum EditableSiteEntryFields {
+  STATUS = 'status',
+  GENUS = 'genus',
+  SPECIES = 'species',
+  COMMON_NAME = 'commonName',
+  CONFIDENCE = 'confidence',
+  DIAMETER = 'diameter',
+  CIRCUMFERENCE = 'circumference',
+  MULTISTEM = 'multistem',
+  COVERAGE = 'coverage',
+  PRUNING = 'pruning',
+  CONDITION = 'condition',
+  DISCOLORING = 'discoloring',
+  LEANING = 'leaning',
+  CONSTRICTING_GRATE = 'constrictingGrate',
+  WOUNDS = 'wounds',
+  POOLING = 'pooling',
+  STAKES_WITH_WIRES = 'stakesWithWires',
+  STAKES_WITHOUT_WIRES = 'stakesWithoutWires',
+  LIGHT = 'light',
+  BICYCLE = 'bicycle',
+  BAG_EMPTY = 'bagEmpty',
+  BAG_FILLED = 'bagFilled',
+  TAPE = 'tape',
+  SUCKER_GROWTH = 'suckerGrowth',
+  TREE_PRESENT = 'treePresent',
+  SITE_TYPE = 'siteType',
+  SIDEWALK_WIDTH = 'sidewalkWidth',
+  SITE_WIDTH = 'siteWidth',
+  SITE_LENGTH = 'siteLength',
+  MATERIAL = 'material',
+  RAISED_BED = 'raisedBed',
+  FENCE = 'fence',
+  TRASH = 'trash',
+  WIRES = 'wires',
+  GRATE = 'grate',
+  STUMP = 'stump',
+  TREE_NOTES = 'treeNotes',
+  SITE_NOTES = 'siteNotes',
+}
+
+export type SiteEntryField =
+  | UneditableSiteEntryFields
+  | EditableSiteEntryFields;
+export const SiteEntryFields = {
+  ...UneditableSiteEntryFields,
+  ...EditableSiteEntryFields,
+};
+
 export interface SiteEntry {
   id: number;
   updatedAt: number;
@@ -27,6 +80,7 @@ export interface SiteEntry {
   confidence?: string;
   diameter?: number;
   circumference?: number;
+  multistem?: boolean;
   coverage?: string;
   pruning?: string;
   condition?: string;
