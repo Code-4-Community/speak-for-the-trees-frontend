@@ -138,7 +138,7 @@ describe('Tree Page Selectors', () => {
         ],
         extra: [
           {
-            title: 'Circumference',
+            title: 'Circumference (inches)',
             value: '4',
           },
           {
@@ -203,7 +203,7 @@ describe('Tree Page Selectors', () => {
     it('returns extra entries when request is completed', () => {
       const expectedExtraResponse: Entry[] = [
         {
-          title: 'Circumference',
+          title: 'Circumference (inches)',
           value: '4',
         },
         {
