@@ -17,10 +17,11 @@ interface TitleStackProps extends BlockProps {
 const TitleStack: React.FC<TitleStackProps> = ({
   title,
   minWidth,
+  flexGrow,
   children,
 }) => {
   return (
-    <Block minWidth={minWidth}>
+    <Block minWidth={minWidth} flexGrow={flexGrow}>
       <StackTitle>{title}</StackTitle>
       <Block>{children}</Block>
     </Block>

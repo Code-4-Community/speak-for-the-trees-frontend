@@ -133,11 +133,12 @@ export const FullInputNumber = styled(InputNumber)`
 export interface BlockProps {
   maxWidth?: string;
   minWidth?: string;
+  flexGrow?: string;
 }
 
 export const Block = styled.div`
   display: block;
   max-width: ${({ maxWidth }: BlockProps) => (maxWidth ? maxWidth : 'auto')};
   min-width: ${({ minWidth }: BlockProps) => (minWidth ? minWidth : 'auto')};
-  flex-grow: 1;
+  flex-grow: ${({ flexGrow }: BlockProps) => (flexGrow ? flexGrow : '0')};
 `;

@@ -16,7 +16,7 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({ formInstance }) => {
     <>
       <Form name="basic" form={formInstance}>
         <Flex>
-          <TitleStack title={'Address'}>
+          <TitleStack title={'Address'} flexGrow={'1'}>
             <Form.Item
               name={'address'}
               rules={requiredRule('Please enter an address!')}
@@ -24,7 +24,7 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({ formInstance }) => {
               <Input placeholder={'Address'} />
             </Form.Item>
           </TitleStack>
-          <TitleStack title={'City'}>
+          <TitleStack title={'City'} flexGrow={'1'}>
             <Form.Item
               name={'city'}
               rules={requiredRule('Please enter a city!')}
@@ -32,7 +32,7 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({ formInstance }) => {
               <Input placeholder={'City'} />
             </Form.Item>
           </TitleStack>
-          <TitleStack title={'Zip Code'}>
+          <TitleStack title={'Zip Code'} flexGrow={'1'}>
             <Form.Item name={'zip'} rules={zipCodeRules}>
               <Input placeholder={'Zip Code'} />
             </Form.Item>
@@ -40,12 +40,12 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({ formInstance }) => {
         </Flex>
 
         <Flex>
-          <TitleStack title={'Block Id'}>
+          <TitleStack title={'Block Id'} flexGrow={'1'}>
             <Form.Item name={'blockId'}>
               <FullInputNumber placeholder={'Block ID'} />
             </Form.Item>
           </TitleStack>
-          <TitleStack title={'Neighborhood'}>
+          <TitleStack title={'Neighborhood'} flexGrow={'1'}>
             <Form.Item
               name={'neighborhoodId'}
               rules={requiredRule('Please enter a neighborhood!')}
@@ -53,7 +53,7 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({ formInstance }) => {
               <Select options={NEIGHBORHOOD_OPTS} />
             </Form.Item>
           </TitleStack>
-          <TitleStack title={'Latitude'}>
+          <TitleStack title={'Latitude'} flexGrow={'1'}>
             <Form.Item
               name={'lat'}
               rules={requiredRule('Please enter a latitude!')}
@@ -61,7 +61,7 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({ formInstance }) => {
               <FullInputNumber placeholder={'Latitude'} />
             </Form.Item>
           </TitleStack>
-          <TitleStack title={'Longitude'}>
+          <TitleStack title={'Longitude'} flexGrow={'1'}>
             <Form.Item
               name={'lng'}
               rules={requiredRule('Please enter a longitude!')}
