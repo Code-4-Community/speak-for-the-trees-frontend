@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Col, FormInstance, Row } from 'antd';
+import { Typography, FormInstance } from 'antd';
 import styled from 'styled-components';
 import { SiteProps } from '../../containers/treePage/ducks/types';
 import EditSiteForm from '../../components/forms/editSiteForm';
 import { getNeighborhoodName } from '../../utils/stringFormat';
 import { EditSiteRequest } from '../forms/ducks/types';
-import { GreenButton, WhiteButton } from '../themedComponents';
+import { Flex, GreenButton, WhiteButton } from '../themedComponents';
+import TitleStack from '../titleStack';
 
-const TitleCol = styled(Col)`
-  font-weight: bold;
-  font-size: 16px;
-`;
+const { Text } = Typography;
 
-const ContentCol = styled(Col)`
+const Content = styled(Text)`
   font-size: 15px;
 `;
 
@@ -47,59 +45,51 @@ const SiteFeatures: React.FC<SiteFeaturesProps> = ({
         <>
           <EditSiteForm formInstance={editSiteForm} />
 
-          <Row gutter={[16, 8]} justify={'end'}>
-            <Col>
-              <WhiteButton onClick={() => setEditingFeatures(false)}>
-                Cancel
-              </WhiteButton>
-            </Col>
-            <Col>
-              <GreenButton
-                onClick={() => {
-                  onSubmit(editSiteForm.getFieldsValue());
-                  setEditingFeatures(false);
-                }}
-              >
-                Submit
-              </GreenButton>
-            </Col>
-          </Row>
+          <Flex justifyContent={'flex-end'}>
+            <WhiteButton onClick={() => setEditingFeatures(false)}>
+              Cancel
+            </WhiteButton>
+            <GreenButton
+              onClick={() => {
+                onSubmit(editSiteForm.getFieldsValue());
+                setEditingFeatures(false);
+              }}
+            >
+              Submit
+            </GreenButton>
+          </Flex>
         </>
       );
     case false:
       return (
         <>
-          <Row gutter={[16, 8]}>
-            <TitleCol span={12}>Address</TitleCol>
-            <TitleCol span={6}>City</TitleCol>
-            <TitleCol span={6}>Zip Code</TitleCol>
-          </Row>
-          <Row gutter={[16, 8]}>
-            <ContentCol span={12}>
-              {site.address || 'No Recorded Address'}
-            </ContentCol>
-            <ContentCol span={6}>{site.city}</ContentCol>
-            <ContentCol span={6}>0{site.zip}</ContentCol>
-          </Row>
+          <Flex>
+            <TitleStack title={'Address'}>
+              <Content>{site.address || 'No Recorded Address'}</Content>
+            </TitleStack>
+            <TitleStack title={'City'}>
+              <Content>{site.city}</Content>
+            </TitleStack>
+            <TitleStack title={'Zip Code'}>
+              <Content>{site.zip}</Content>
+            </TitleStack>
+            <TitleStack title={'Block ID'}>
+              <Content>{site.blockId || 'No Recorded Block ID'}</Content>
+            </TitleStack>
+            <TitleStack title={'Neighborhood'}>
+              <Content>
+                {getNeighborhoodName(site.neighborhoodId || -1)}
+              </Content>
+            </TitleStack>
+            <TitleStack title={'Latitude'}>
+              <Content>{site.lat}</Content>
+            </TitleStack>
+            <TitleStack title={'Longitude'}>
+              <Content>{site.lng}</Content>
+            </TitleStack>
+          </Flex>
 
-          <Row>
-            <TitleCol span={6}>Block ID</TitleCol>
-            <TitleCol span={6}>Neighborhood</TitleCol>
-            <TitleCol span={6}>Latitude</TitleCol>
-            <TitleCol span={6}>Longitude</TitleCol>
-          </Row>
-          <Row>
-            <ContentCol span={6}>
-              {site.blockId || 'No Recorded Block ID'}
-            </ContentCol>
-            <ContentCol span={6}>
-              {getNeighborhoodName(site.neighborhoodId || -1)}
-            </ContentCol>
-            <ContentCol span={6}>{site.lat}</ContentCol>
-            <ContentCol span={6}>{site.lng}</ContentCol>
-          </Row>
-
-          <Row justify={'end'}>
+          <Flex justifyContent={'flex-end'}>
             <GreenButton
               onClick={() => {
                 setEditingFeatures(true);
@@ -107,7 +97,7 @@ const SiteFeatures: React.FC<SiteFeaturesProps> = ({
             >
               Edit Site Features
             </GreenButton>
-          </Row>
+          </Flex>
         </>
       );
   }

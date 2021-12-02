@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import SelectorMap from '../../components/mapComponents/maps/selectorMap';
 import { MapGeoDataReducerState } from '../../components/mapComponents/ducks/types';
-import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import PageLayout from '../../components/pageLayout';
-import { Col, Form, message, Row, Typography } from 'antd';
+import { Form, message, Row, Typography } from 'antd';
 import styled from 'styled-components';
 import { DARK_GREEN } from '../../utils/colors';
 import PageHeader from '../../components/pageHeader';
@@ -12,7 +10,7 @@ import { SiteProps } from '../treePage/ducks/types';
 import Client from '../../api/apiClient';
 import ProtectedClient from '../../api/protectedApiClient';
 import { C4CState } from '../../store';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import SiteFeatures from '../../components/siteFeatures';
 import SiteEntryTable from '../../components/siteEntryTable';
 import UpdateSiteForm from '../../components/forms/updateSiteForm';
@@ -24,6 +22,8 @@ import {
   UpdateSiteRequest,
 } from '../../components/forms/ducks/types';
 import SelectorMapDisplay from '../../components/mapComponents/mapDisplays/selectorMapDisplay';
+import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
+import { Block, Flex } from '../../components/themedComponents';
 
 const { Text } = Typography;
 
@@ -38,9 +38,11 @@ const SectionHeader = styled(Text)`
   color: ${DARK_GREEN};
 `;
 
-const MobileMapContainer = styled.div`
-  margin: 15px 0;
-  height: 300px;
+const MapContainer = styled.div`
+  display: block;
+  flex-grow: 1;
+  min-width: 35%;
+  min-height: 475px;
 `;
 
 const MarginBottomRow = styled(Row)`
@@ -60,6 +62,7 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
   const [site, setSite] = useState<SiteProps>();
   const id = Number(useParams<SiteParams>().id);
   const { windowType } = useWindowDimensions();
+  const dispatch = useDispatch();
 
   const [editSiteForm] = Form.useForm();
   const [updateSiteForm] = Form.useForm();
@@ -71,26 +74,31 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
       .catch((err) => message.error(err.response.data));
   };
 
-  const updateEditSiteFormLatLng = (pos: google.maps.LatLng) => {
-    editSiteForm.setFieldsValue({
-      lat: pos.lat(),
-      lng: pos.lng(),
-    });
-  };
-
   const onSubmitEditSite = (request: EditSiteRequest) => {
     ProtectedClient.editSite(id, request)
-      .then(() => getSite())
+      .then(() => {
+        editSiteForm.resetFields();
+        message.success('Site edited!').then();
+        getSite();
+      })
       .catch((err) => message.error(err.response.data));
   };
 
   const onSubmitUpdateSite = (request: UpdateSiteRequest) => {
     ProtectedClient.updateSite(id, request)
-      .then(() => getSite())
+      .then(() => {
+        updateSiteForm.resetFields();
+        message.success('Site updated!').then();
+        getSite();
+      })
       .catch((err) => message.error(err.response.data));
   };
 
   const callGetSite = useCallback(getSite, [id]);
+
+  useEffect(() => {
+    dispatch(getMapGeoData());
+  }, [dispatch]);
 
   useEffect(() => {
     callGetSite();
@@ -100,33 +108,10 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
     <PageLayout>
       {site && (
         <SitePageContainer>
-          {windowType === WindowTypes.Desktop ? (
-            <Row gutter={[16, 8]}>
-              <Col span={15}>
-                <PageHeader pageTitle={`Site #${site?.siteId}`} />
-                <SectionHeader>Site Features</SectionHeader>
-                <SiteFeatures
-                  site={site}
-                  editSiteForm={editSiteForm}
-                  onSubmit={onSubmitEditSite}
-                />
-              </Col>
-              <Col span={9}>
-                <SelectorMapDisplay
-                  neighborhoods={neighborhoods}
-                  sites={sites}
-                  onMove={(pos: google.maps.LatLng) => {
-                    editSiteForm.setFieldsValue({
-                      lat: pos.lat(),
-                      lng: pos.lng(),
-                    });
-                  }}
-                  site={site}
-                />
-              </Col>
-            </Row>
-          ) : (
-            <>
+          <Flex>
+            <Block
+              maxWidth={windowType === WindowTypes.Mobile ? '100%' : '45%'}
+            >
               <PageHeader pageTitle={`Site #${site?.siteId}`} />
               <SectionHeader>Site Features</SectionHeader>
               <SiteFeatures
@@ -134,23 +119,25 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
                 editSiteForm={editSiteForm}
                 onSubmit={onSubmitEditSite}
               />
-              <MobileMapContainer>
-                {asyncRequestIsComplete(neighborhoods) &&
-                  asyncRequestIsComplete(sites) && (
-                    <SelectorMap
-                      neighborhoods={neighborhoods.result}
-                      sites={sites.result}
-                      onMove={updateEditSiteFormLatLng}
-                      site={site}
-                    />
-                  )}
-              </MobileMapContainer>
-            </>
-          )}
-          <Row>
-            <SectionHeader strong>Site Entries</SectionHeader>
-            <SiteEntryTable siteEntries={site.entries} />
-          </Row>
+            </Block>
+            <MapContainer>
+              <SelectorMapDisplay
+                neighborhoods={neighborhoods}
+                sites={sites}
+                onMove={(pos: google.maps.LatLng) => {
+                  editSiteForm.setFieldsValue({
+                    lat: pos.lat(),
+                    lng: pos.lng(),
+                  });
+                }}
+                site={site}
+              />
+            </MapContainer>
+          </Flex>
+
+          <SectionHeader strong>Site Entries</SectionHeader>
+          <SiteEntryTable siteEntries={site.entries} />
+
           <SectionHeader>Add Entry</SectionHeader>
           <MarginBottomRow>
             <UpdateSiteForm

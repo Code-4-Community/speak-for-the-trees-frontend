@@ -1,14 +1,14 @@
 import React from 'react';
 import { Col, Form, Input, Radio, Row } from 'antd';
-import styled from 'styled-components';
-import { FormInstance } from 'antd/es/form';
+import { FormInstance, Rule } from 'antd/es/form';
 import { BOOL_RADIO_OPTS, UpdateSiteRequest } from '../ducks/types';
-import { SubmitButton } from '../../themedComponents';
-
-const TitleCol = styled(Col)`
-  font-weight: bold;
-  font-size: 16px;
-`;
+import { Flex, SubmitButton } from '../../themedComponents';
+import TitleStack from '../../titleStack';
+import {
+  ExtraSiteEntryNames,
+  MainSiteEntryNames,
+} from '../../../containers/treePage/ducks/types';
+import { stringNumberRules } from '../../../utils/formRules';
 
 interface BoolRadioProps {
   readonly name: string;
@@ -16,7 +16,7 @@ interface BoolRadioProps {
 
 interface StringInputProps extends BoolRadioProps {
   readonly placeholder: string;
-  readonly span?: number;
+  readonly rules?: Rule[];
 }
 
 interface UpdateSiteFormProps {
@@ -38,17 +38,15 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
     );
   };
 
-  const StringInputCol: React.FC<StringInputProps> = ({
+  const StringInput: React.FC<StringInputProps> = ({
     name,
     placeholder,
-    span,
+    rules,
   }) => {
     return (
-      <Col span={span || 6}>
-        <Form.Item name={name}>
-          <Input placeholder={placeholder} />
-        </Form.Item>
-      </Col>
+      <Form.Item name={name} rules={rules}>
+        <Input placeholder={placeholder} />
+      </Form.Item>
     );
   };
 
@@ -82,128 +80,148 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
         stump: false,
       }}
     >
-      <Row gutter={[16, 8]}>
-        <TitleCol span={6}>Is there a tree present?</TitleCol>
-        <TitleCol span={6}>Is the tree multi-stem?</TitleCol>
-        <TitleCol span={6}>Is the tree discolored?</TitleCol>
-        <TitleCol span={6}>Is the tree leaning?</TitleCol>
-      </Row>
-      <Row gutter={[16, 8]}>
-        <BoolRadioCol name={'treePresent'} />
-        <BoolRadioCol name={'multistem'} />
-        <BoolRadioCol name={'discoloring'} />
-        <BoolRadioCol name={'leaning'} />
-      </Row>
+      <Flex>
+        <TitleStack title={ExtraSiteEntryNames.treePresent} minWidth={'15%'}>
+          <BoolRadioCol name={'treePresent'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.stump} minWidth={'15%'}>
+          <BoolRadioCol name={'stump'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.multistem} minWidth={'15%'}>
+          <BoolRadioCol name={'multistem'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.discoloring} minWidth={'15%'}>
+          <BoolRadioCol name={'discoloring'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.leaning} minWidth={'15%'}>
+          <BoolRadioCol name={'leaning'} />
+        </TitleStack>
+        <TitleStack
+          title={ExtraSiteEntryNames.constrictingGrate}
+          minWidth={'15%'}
+        >
+          <BoolRadioCol name={'constrictingGrate'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.wounds} minWidth={'15%'}>
+          <BoolRadioCol name={'wounds'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.pooling} minWidth={'15%'}>
+          <BoolRadioCol name={'pooling'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.stakesWith} minWidth={'15%'}>
+          <BoolRadioCol name={'stakesWithWires'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.stakesWithout} minWidth={'15%'}>
+          <BoolRadioCol name={'stakesWithoutWires'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.light} minWidth={'15%'}>
+          <BoolRadioCol name={'light'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.bicycle} minWidth={'15%'}>
+          <BoolRadioCol name={'bicycle'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.bagEmpty} minWidth={'15%'}>
+          <BoolRadioCol name={'bagEmpty'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.bagFilled} minWidth={'15%'}>
+          <BoolRadioCol name={'bagFilled'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.tape} minWidth={'15%'}>
+          <BoolRadioCol name={'tape'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.suckerGrowth} minWidth={'15%'}>
+          <BoolRadioCol name={'suckerGrowth'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.raisedBed} minWidth={'15%'}>
+          <BoolRadioCol name={'raisedBed'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.fence} minWidth={'15%'}>
+          <BoolRadioCol name={'fence'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.trash} minWidth={'15%'}>
+          <BoolRadioCol name={'trash'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.wires} minWidth={'15%'}>
+          <BoolRadioCol name={'wires'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.grate} minWidth={'15%'}>
+          <BoolRadioCol name={'grate'} />
+        </TitleStack>
+      </Flex>
 
-      <Row gutter={[16, 8]}>
-        <TitleCol span={6}>Is there a constricting grate?</TitleCol>
-        <TitleCol span={6}>Is the tree wounded?</TitleCol>
-        <TitleCol span={6}>Is there pooling?</TitleCol>
-        <TitleCol span={6}>Are there stakes with wires?</TitleCol>
-      </Row>
-      <Row gutter={[16, 8]}>
-        <BoolRadioCol name={'constrictingGrate'} />
-        <BoolRadioCol name={'wounds'} />
-        <BoolRadioCol name={'pooling'} />
-        <BoolRadioCol name={'stakesWithWires'} />
-      </Row>
-
-      <Row gutter={[16, 8]}>
-        <TitleCol span={6}>Are there stakes without wires?</TitleCol>
-        <TitleCol span={6}>Is there light?</TitleCol>
-        <TitleCol span={6}>Is there a bicycle tied to the tree?</TitleCol>
-        <TitleCol span={6}>Is the bag empty?</TitleCol>
-      </Row>
-      <Row gutter={[16, 8]}>
-        <BoolRadioCol name={'stakesWithoutWires'} />
-        <BoolRadioCol name={'light'} />
-        <BoolRadioCol name={'bicycle'} />
-        <BoolRadioCol name={'bagEmpty'} />
-      </Row>
-
-      <Row gutter={[16, 8]}>
-        <TitleCol span={6}>Is the bag filled?</TitleCol>
-        <TitleCol span={6}>Is there tape?</TitleCol>
-        <TitleCol span={6}>Is there sucker growth?</TitleCol>
-        <TitleCol span={6}>Is the bed raised?</TitleCol>
-      </Row>
-      <Row gutter={[16, 8]}>
-        <BoolRadioCol name={'bagFilled'} />
-        <BoolRadioCol name={'tape'} />
-        <BoolRadioCol name={'suckerGrowth'} />
-        <BoolRadioCol name={'raisedBed'} />
-      </Row>
-
-      <Row gutter={[16, 8]}>
-        <TitleCol span={6}>Fence</TitleCol>
-        <TitleCol span={6}>Trash</TitleCol>
-        <TitleCol span={6}>Wires</TitleCol>
-        <TitleCol span={6}>Grate</TitleCol>
-        <TitleCol span={6}>Stump</TitleCol>
-      </Row>
-      <Row gutter={[16, 8]}>
-        <BoolRadioCol name={'fence'} />
-        <BoolRadioCol name={'trash'} />
-        <BoolRadioCol name={'wires'} />
-        <BoolRadioCol name={'grate'} />
-        <BoolRadioCol name={'stump'} />
-      </Row>
-
-      <Row gutter={[16, 8]}>
-        <TitleCol span={6}>Tree Status</TitleCol>
-        <TitleCol span={6}>Tree Genus</TitleCol>
-        <TitleCol span={6}>Tree Species</TitleCol>
-        <TitleCol span={6}>Common Name</TitleCol>
-      </Row>
-      <Row gutter={[16, 8]}>
-        <StringInputCol placeholder={'Status'} name={'status'} />
-        <StringInputCol placeholder={'Genus'} name={'genus'} />
-        <StringInputCol placeholder={'Species'} name={'species'} />
-        <StringInputCol placeholder={'Common Name'} name={'commonName'} />
-      </Row>
-
-      <Row gutter={[16, 8]}>
-        <TitleCol span={6}>Confidence</TitleCol>
-        <TitleCol span={6}>Coverage</TitleCol>
-        <TitleCol span={6}>Pruning</TitleCol>
-        <TitleCol span={6}>Condition</TitleCol>
-      </Row>
-      <Row gutter={[16, 8]}>
-        <StringInputCol placeholder={'Confidence'} name={'confidence'} />
-        <StringInputCol placeholder={'Coverage'} name={'coverage'} />
-        <StringInputCol placeholder={'Pruning'} name={'pruning'} />
-        <StringInputCol placeholder={'Condition'} name={'condition'} />
-      </Row>
-
-      <Row gutter={[16, 8]}>
-        <TitleCol span={6}>Site Type</TitleCol>
-        <TitleCol span={6}>Sidewalk Width</TitleCol>
-        <TitleCol span={6}>Site Width</TitleCol>
-        <TitleCol span={6}>Site Length</TitleCol>
-      </Row>
-      <Row gutter={[16, 8]}>
-        <StringInputCol placeholder={'Site Type'} name={'siteType'} />
-        <StringInputCol placeholder={'Sidewalk Width'} name={'sidewalkWidth'} />
-        <StringInputCol placeholder={'Site Width'} name={'siteWidth'} />
-        <StringInputCol placeholder={'Site Length'} name={'siteLength'} />
-      </Row>
-
-      <Row gutter={[16, 8]}>
-        <TitleCol span={9}>Tree Notes</TitleCol>
-        <TitleCol span={9}>Site Notes</TitleCol>
-      </Row>
-      <Row gutter={[16, 8]}>
-        <StringInputCol
-          placeholder={'Tree Notes'}
-          name={'treeNotes'}
-          span={9}
-        />
-        <StringInputCol
-          placeholder={'Site Notes'}
-          name={'siteNotes'}
-          span={9}
-        />
-      </Row>
+      <Flex>
+        <TitleStack title={MainSiteEntryNames.status} minWidth={'20%'}>
+          <StringInput placeholder={'Status'} name={'status'} />
+        </TitleStack>
+        <TitleStack title={MainSiteEntryNames.genus} minWidth={'20%'}>
+          <StringInput placeholder={'Genus'} name={'genus'} />
+        </TitleStack>
+        <TitleStack title={MainSiteEntryNames.species} minWidth={'20%'}>
+          <StringInput placeholder={'Species'} name={'species'} />
+        </TitleStack>
+        <TitleStack title={MainSiteEntryNames.commonName} minWidth={'20%'}>
+          <StringInput placeholder={'Common Name'} name={'commonName'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.confidence} minWidth={'20%'}>
+          <StringInput placeholder={'Confidence'} name={'confidence'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.coverage} minWidth={'20%'}>
+          <StringInput placeholder={'Coverage'} name={'coverage'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.pruning} minWidth={'20%'}>
+          <StringInput placeholder={'Pruning'} name={'pruning'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.condition} minWidth={'20%'}>
+          <StringInput placeholder={'Condition'} name={'condition'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.siteType} minWidth={'20%'}>
+          <StringInput placeholder={'Site Type'} name={'siteType'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.sidewalkWidth} minWidth={'20%'}>
+          <StringInput
+            placeholder={'Sidewalk Width'}
+            name={'sidewalkWidth'}
+            rules={stringNumberRules}
+          />
+        </TitleStack>
+        <TitleStack title={MainSiteEntryNames.diameter} minWidth={'20%'}>
+          <StringInput
+            placeholder={'Diameter'}
+            name={'diameter'}
+            rules={stringNumberRules}
+          />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.circumference} minWidth={'20%'}>
+          <StringInput
+            placeholder={'Circumference'}
+            name={'circumference'}
+            rules={stringNumberRules}
+          />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.siteWidth} minWidth={'20%'}>
+          <StringInput
+            placeholder={'Site Width'}
+            name={'siteWidth'}
+            rules={stringNumberRules}
+          />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.siteLength} minWidth={'20%'}>
+          <StringInput
+            placeholder={'Site Length'}
+            name={'siteLength'}
+            rules={stringNumberRules}
+          />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.material} minWidth={'45%'}>
+          <StringInput placeholder={'Material'} name={'material'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.treeNotes} minWidth={'45%'}>
+          <StringInput placeholder={'Tree Notes'} name={'treeNotes'} />
+        </TitleStack>
+        <TitleStack title={ExtraSiteEntryNames.siteNotes} minWidth={'45%'}>
+          <StringInput placeholder={'Site Notes'} name={'siteNotes'} />
+        </TitleStack>
+      </Flex>
 
       <Row justify={'end'}>
         <SubmitButton type="primary" htmlType="submit" size="large">

@@ -1,10 +1,19 @@
 import React from 'react';
-import { SiteEntry } from '../../containers/treePage/ducks/types';
+import {
+  ExtraSiteEntryNames,
+  MainSiteEntryNames,
+  SiteEntry,
+} from '../../containers/treePage/ducks/types';
 import { Table } from 'antd';
+import { booleanToString } from '../../utils/stringFormat';
 
 interface SiteEntryTableProps {
   readonly siteEntries: SiteEntry[];
 }
+
+const renderBoolean = (bool: boolean): string => {
+  return booleanToString(String(bool));
+};
 
 const SiteEntryTable: React.FC<SiteEntryTableProps> = ({ siteEntries }) => {
   const columns = [
@@ -14,187 +23,213 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({ siteEntries }) => {
       key: 'updatedAt',
     },
     {
-      title: 'Status',
+      title: ExtraSiteEntryNames.treePresent,
+      dataIndex: 'treePresent',
+      key: 'treePresent',
+      render: renderBoolean,
+    },
+    {
+      title: MainSiteEntryNames.status,
       dataIndex: 'status',
       key: 'status',
     },
     {
-      title: 'Genus',
+      title: MainSiteEntryNames.genus,
       dataIndex: 'genus',
       key: 'genus',
     },
     {
-      title: 'Species',
+      title: MainSiteEntryNames.species,
       dataIndex: 'species',
       key: 'species',
     },
     {
-      title: 'Common Name',
+      title: MainSiteEntryNames.commonName,
       dataIndex: 'commonName',
       key: 'commonName',
     },
     {
-      title: 'Confidence',
+      title: ExtraSiteEntryNames.confidence,
       dataIndex: 'confidence',
       key: 'confidence',
     },
     {
-      title: 'Diameter',
+      title: MainSiteEntryNames.diameter,
       dataIndex: 'diameter',
       key: 'diameter',
     },
     {
-      title: 'Circumference',
+      title: ExtraSiteEntryNames.circumference,
       dataIndex: 'circumference',
       key: 'circumference',
     },
     {
-      title: 'Coverage',
+      title: ExtraSiteEntryNames.multistem,
+      dataIndex: 'multistem',
+      key: 'multistem',
+      render: renderBoolean,
+    },
+    {
+      title: ExtraSiteEntryNames.coverage,
       dataIndex: 'coverage',
       key: 'coverage',
     },
     {
-      title: 'Pruning',
+      title: ExtraSiteEntryNames.pruning,
       dataIndex: 'pruning',
       key: 'pruning',
     },
     {
-      title: 'Condition',
+      title: ExtraSiteEntryNames.condition,
       dataIndex: 'condition',
       key: 'condition',
     },
     {
-      title: 'Discoloring',
+      title: ExtraSiteEntryNames.discoloring,
       dataIndex: 'discoloring',
       key: 'discoloring',
+      render: renderBoolean,
     },
     {
-      title: 'Leaning',
+      title: ExtraSiteEntryNames.leaning,
       dataIndex: 'leaning',
       key: 'leaning',
+      render: renderBoolean,
     },
     {
-      title: 'Constricting Grate',
+      title: ExtraSiteEntryNames.constrictingGrate,
       dataIndex: 'constrictingGrate',
       key: 'constrictingGrate',
+      render: renderBoolean,
     },
     {
-      title: 'Wounds',
+      title: ExtraSiteEntryNames.wounds,
       dataIndex: 'wounds',
       key: 'wounds',
+      render: renderBoolean,
     },
     {
-      title: 'Pooling',
+      title: ExtraSiteEntryNames.pooling,
       dataIndex: 'pooling',
       key: 'pooling',
+      render: renderBoolean,
     },
     {
-      title: 'Has Stakes',
-      dataIndex: 'stakesWith',
+      title: ExtraSiteEntryNames.stakesWith,
+      dataIndex: 'stakesWithWires',
       key: 'stakesWith',
+      render: renderBoolean,
     },
     {
-      title: 'No Stakes',
-      dataIndex: 'stakesWithout',
+      title: ExtraSiteEntryNames.stakesWithout,
+      dataIndex: 'stakesWithoutWires',
       key: 'stakesWithout',
+      render: renderBoolean,
     },
     {
-      title: 'Light',
+      title: ExtraSiteEntryNames.light,
       dataIndex: 'light',
       key: 'light',
+      render: renderBoolean,
     },
     {
-      title: 'Has Bicycle',
+      title: ExtraSiteEntryNames.bicycle,
       dataIndex: 'bicycle',
       key: 'bicycle',
+      render: renderBoolean,
     },
     {
-      title: 'Has Bag',
-      dataIndex: 'bagWith',
+      title: ExtraSiteEntryNames.bagEmpty,
+      dataIndex: 'bagEmpty',
       key: 'bagWith',
+      render: renderBoolean,
     },
     {
-      title: 'No Bag',
-      dataIndex: 'bagWithout',
+      title: ExtraSiteEntryNames.bagFilled,
+      dataIndex: 'bagFilled',
       key: 'bagWithout',
+      render: renderBoolean,
     },
     {
-      title: 'Has Tape',
+      title: ExtraSiteEntryNames.tape,
       dataIndex: 'tape',
       key: 'tape',
+      render: renderBoolean,
     },
     {
-      title: 'Sucker Growth',
+      title: ExtraSiteEntryNames.suckerGrowth,
       dataIndex: 'suckerGrowth',
       key: 'suckerGrowth',
+      render: renderBoolean,
     },
     {
-      title: 'Is Tree Present?',
-      dataIndex: 'treePresent',
-      key: 'treePresent',
-    },
-    {
-      title: 'Site Type',
+      title: ExtraSiteEntryNames.siteType,
       dataIndex: 'siteType',
       key: 'siteType',
     },
     {
-      title: 'Sidewalk Width',
+      title: ExtraSiteEntryNames.sidewalkWidth,
       dataIndex: 'sidewalkWidth',
       key: 'sidewalkWidth',
     },
     {
-      title: 'Site Width',
+      title: ExtraSiteEntryNames.siteWidth,
       dataIndex: 'siteWidth',
       key: 'siteWidth',
     },
     {
-      title: 'Site Length',
+      title: ExtraSiteEntryNames.siteLength,
       dataIndex: 'siteLength',
       key: 'siteLength',
     },
     {
-      title: 'Material',
+      title: ExtraSiteEntryNames.material,
       dataIndex: 'material',
       key: 'material',
     },
     {
-      title: 'Raised Bed',
+      title: ExtraSiteEntryNames.raisedBed,
       dataIndex: 'raisedBed',
       key: 'raisedBed',
+      render: renderBoolean,
     },
     {
-      title: 'Fence',
+      title: ExtraSiteEntryNames.fence,
       dataIndex: 'fence',
       key: 'fence',
+      render: renderBoolean,
     },
     {
-      title: 'Trash',
+      title: ExtraSiteEntryNames.trash,
       dataIndex: 'trash',
       key: 'trash',
+      render: renderBoolean,
     },
     {
-      title: 'Wires',
+      title: ExtraSiteEntryNames.wires,
       dataIndex: 'wires',
       key: 'wires',
+      render: renderBoolean,
     },
     {
-      title: 'Grate',
+      title: ExtraSiteEntryNames.grate,
       dataIndex: 'grate',
       key: 'grate',
+      render: renderBoolean,
     },
     {
-      title: 'Stump',
+      title: ExtraSiteEntryNames.stump,
       dataIndex: 'stump',
       key: 'stump',
+      render: renderBoolean,
     },
     {
-      title: 'Tree Notes',
+      title: ExtraSiteEntryNames.treeNotes,
       dataIndex: 'treeNotes',
       key: 'treeNotes',
     },
     {
-      title: 'Site Notes',
+      title: ExtraSiteEntryNames.siteNotes,
       dataIndex: 'siteNotes',
       key: 'siteNotes',
     },

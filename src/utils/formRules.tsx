@@ -108,6 +108,13 @@ export const zipCodeRules: Rule[] = [
   },
 ];
 
+export const stringNumberRules: Rule[] = [
+  {
+    pattern: /^\d+\.?\d+$|^\d+$/,
+    message: 'Must be a number',
+  },
+];
+
 export const requiredRule = (message: string): Rule[] => {
   return [{ required: true, message }];
 };

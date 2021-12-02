@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Col, Form, Space, List, Image } from 'antd';
+import { Button, Col, Form, Space, List, Image, InputNumber } from 'antd';
 import { FormItemProps } from 'antd/es/form';
 import {
   BLACK,
@@ -112,6 +112,32 @@ export const InlineImage = styled(Image)`
   display: inline-block;
 `;
 
-export const FullWidthForm = styled(Form)`
+export interface FlexProps {
+  justifyContent?: string;
+}
+
+export const Flex = styled.div`
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 15px 50px;
+  justify-content: ${({ justifyContent }: FlexProps) =>
+    justifyContent ? justifyContent : 'flex-start'};
+`;
+
+export const FullInputNumber = styled(InputNumber)`
+  width: 100%;
+`;
+
+export interface BlockProps {
+  maxWidth?: string;
+  minWidth?: string;
+}
+
+export const Block = styled.div`
+  display: block;
+  max-width: ${({ maxWidth }: BlockProps) => (maxWidth ? maxWidth : 'auto')};
+  min-width: ${({ minWidth }: BlockProps) => (minWidth ? minWidth : 'auto')};
+  flex-grow: 1;
 `;
