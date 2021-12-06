@@ -3,51 +3,53 @@ export interface AddSitesRequest {
 }
 
 export interface csvRow {
+  // Required fields
   "Latitude": string;
   "Longitude": string;
   "City": string;
   "Zip": string;
   "Address": string;
   "Neighborhood Id": string;
-  "Tree Present": string;
-  "Status": string;
-  "Genus": string;
-  "Species": string;
-  "Common Name": string;
-  "Confidence": string;
-  "Diameter": string;
-  "Circumference": string;
-  "Multistem": string;
-  "Coverage": string;
-  "Pruning": string;
-  "Condition": string;
-  "Discoloring": string;
-  "Leaning": string;
-  "Constricting Grate": string;
-  "Wounds": string;
-  "Pooling": string;
-  "Stakes With Wires": string;
-  "Stakes Without Wires": string;
-  "Light": string;
-  "Bicycle": string;
-  "Bag Empty": string;
-  "Bag Filled": string;
-  "Tape": string;
-  "Sucker Growth": string;
-  "Site Type": string;
-  "Sidewalk Width": string;
-  "Site Width": string;
-  "Site Length": string;
-  "Material": string;
-  "Raised Bed": string;
-  "Fence": string;
-  "Trash": string;
-  "Wires": string;
-  "Grate": string;
-  "Stump": string;
-  "Tree Notes": string;
-  "Site Notes": string;
-  "Block Id": string; 
+  //---------------------------
+  "Tree Present"?: string;
+  "Status"?: string;
+  "Genus"?: string;
+  "Species"?: string;
+  "Common Name"?: string;
+  "Confidence"?: string;
+  "Diameter"?: string;
+  "Circumference"?: string;
+  "Multistem"?: string;
+  "Coverage"?: string;
+  "Pruning"?: string;
+  "Condition"?: string;
+  "Discoloring"?: string;
+  "Leaning"?: string;
+  "Constricting Grate"?: string;
+  "Wounds"?: string;
+  "Pooling"?: string;
+  "Stakes With Wires"?: string;
+  "Stakes Without Wires"?: string;
+  "Light"?: string;
+  "Bicycle"?: string;
+  "Bag Empty"?: string;
+  "Bag Filled"?: string;
+  "Tape"?: string;
+  "Sucker Growth"?: string;
+  "Site Type"?: string;
+  "Sidewalk Width"?: string;
+  "Site Width"?: string;
+  "Site Length"?: string;
+  "Material"?: string;
+  "Raised Bed"?: string;
+  "Fence"?: string;
+  "Trash"?: string;
+  "Wires"?: string;
+  "Grate"?: string;
+  "Stump"?: string;
+  "Tree Notes"?: string;
+  "Site Notes"?: string;
+  "Block Id"?: string; 
 }
 
 export interface RequiredAddSitesRows {

@@ -110,3 +110,19 @@ export function combineScientificName(entries: Entry[]): Entry[] {
 
   return newEntries;
 }
+
+/**
+ * Converts a string to a number if a number or undefined if NAN
+ * @param numString the string to convert
+ */
+export const handleOptionalNumber = (numString?: string): number | undefined => {
+  return (!!numString && Number(+numString)) ? +numString : undefined;
+}
+
+/**
+ * Converts strings to booleans. If 'yes' or 'true', returns true, otherwise returns false.
+ * @param boolString The string to convert
+ */
+export const boolStringToBoolean = (boolString?: string): boolean => {
+  return !!boolString && (boolString.toLowerCase() === 'yes' || boolString.toLowerCase() === 'true');
+}

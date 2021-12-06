@@ -2,6 +2,7 @@ import { parse, RowValidateCallback, CsvParserStream } from '@fast-csv/parse';
 import { UploadFile } from 'antd/lib/upload/interface';
 import protectedApiClient from '../api/protectedApiClient';
 import { csvRow, AddSitesRow, RequiredAddSitesRows } from '../containers/adminDashboard/ducks/types';
+import { handleOptionalNumber, boolStringToBoolean } from "./stringFormat";
 
 export const addSitesReadFile = async (
   file: UploadFile,
@@ -28,12 +29,10 @@ export const addSitesReadFile = async (
 
     } 
 
-
   reader.readAsText(file.originFileObj);
-
 }
 
-const readStream = (stream: CsvParserStream<csvRow, csvRow>, csv: any) => {
+export const readStream = (stream: CsvParserStream<csvRow, csvRow>, csv: any) => {
   return new Promise<AddSitesRow[]>((resolve, reject) => {
     const results: AddSitesRow[] = [];
     stream.validate(verifyFields);
@@ -48,7 +47,7 @@ const readStream = (stream: CsvParserStream<csvRow, csvRow>, csv: any) => {
   });
 }
 
-const csvRowToJSON = (row: csvRow): AddSitesRow => {
+export const csvRowToJSON = (row: csvRow): AddSitesRow => {
 
   return {
     ...requiredFields(row),
@@ -92,7 +91,7 @@ const csvRowToJSON = (row: csvRow): AddSitesRow => {
   }
 }
 
-const verifyFields = (row: csvRow, cb: RowValidateCallback) => {
+export const verifyFields = (row: csvRow, cb: RowValidateCallback): void => {
 
   // required fields
   if (!!!row['Latitude'] || isNaN(+row['Latitude']) 
@@ -118,7 +117,13 @@ const verifyFields = (row: csvRow, cb: RowValidateCallback) => {
   return cb(null, true);
 }
 
-const requiredFields = (row: csvRow): RequiredAddSitesRows => {
+/**
+ * Converts the strings of the required fields in a csvRow to their correct types
+ * INVARIANT: values have already been verified, so number strings are not NAN
+ * @param row The csv row with string values
+ * @returns 
+ */
+export const requiredFields = (row: csvRow): RequiredAddSitesRows => {
   return {
     lat: +row['Latitude'],
     lng: +row['Longitude'],
@@ -127,12 +132,4 @@ const requiredFields = (row: csvRow): RequiredAddSitesRows => {
     address: row['Address'],
     neighborhoodId: +row['Neighborhood Id'],
   }
-}
-
-const handleOptionalNumber = (numString: string): number | undefined => {
-  return numString === "" ? undefined : +numString;
-}
-
-const boolStringToBoolean = (boolString: string): boolean => {
-  return boolString.toLowerCase() === 'yes' || boolString.toLowerCase() === 'true';
 }

@@ -4,6 +4,8 @@ import {
   compareMainEntries,
   formatDateSuffix,
   getMoneyString,
+  boolStringToBoolean,
+  handleOptionalNumber,
 } from '../stringFormat';
 import { getDateString } from '../stringFormat';
 import { shortHand } from '../stringFormat';
@@ -124,3 +126,20 @@ test('combineScientificName tests', () => {
     { title: 'Scientific Name', value: 'genus species' },
   ]);
 });
+
+test('boolStringToBoolean tests', () => {
+  expect(boolStringToBoolean("TRUE")).toBe(true);
+  expect(boolStringToBoolean("Yes")).toBe(true);
+  expect(boolStringToBoolean("no")).toBe(false);
+  expect(boolStringToBoolean("")).toBe(false);
+  expect(boolStringToBoolean("random")).toBe(false);
+  expect(handleOptionalNumber(undefined)).toBe(undefined);
+});
+
+test('handleOptionalNumber tests', () => {
+  expect(handleOptionalNumber("100")).toBe(100);
+  expect(handleOptionalNumber("")).toBe(undefined);
+  expect(handleOptionalNumber("100a")).toBe(undefined);
+  expect(handleOptionalNumber("")).toBe(undefined);
+  expect(handleOptionalNumber(undefined)).toBe(undefined);
+})
