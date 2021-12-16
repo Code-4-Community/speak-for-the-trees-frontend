@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { Link, useHistory } from 'react-router-dom';
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -108,10 +108,12 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
     ? location.state.destination
     : Routes.HOME;
 
-  if (loggedIn) {
-    dispatch(getUserData());
-    history.push(destination);
-  }
+  useEffect(() => {
+    if (loggedIn) {
+      dispatch(getUserData());
+      history.push(destination);
+    }
+  });
 
   const loginFailed: boolean = asyncRequestIsFailed(tokens);
 

@@ -1,10 +1,14 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import {
+  UserAuthenticationReducerState,
+} from '../../../auth/ducks/types';
 import { Routes } from '../../../App';
 import styled from 'styled-components';
 import { PageHeader, Button, Menu, Dropdown } from 'antd';
 import { PageHeaderProps } from 'antd/es/page-header';
 import { MenuOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
 import {
   MID_GREEN,
   DARK_GREY,
@@ -12,9 +16,12 @@ import {
   WHITE,
 } from '../../../utils/colors';
 import Logo from '../../../assets/images/nav-bar-icon.png';
+import { asyncRequestIsComplete } from '../../../utils/asyncRequest';
+import { logout } from '../../../auth/ducks/thunks';
 
 interface MobileNavBarProps {
   readonly isLoggedIn: boolean;
+  readonly tokens: UserAuthenticationReducerState['tokens'];
 }
 
 const MobileDropdownMenu = styled(MenuOutlined)`
@@ -52,8 +59,9 @@ const GreyItem = styled(Menu.Item)`
   color: ${DARK_GREY};
 `;
 
-const MobileNavBar: React.FC<MobileNavBarProps> = ({ isLoggedIn }) => {
+const MobileNavBar: React.FC<MobileNavBarProps> = ({ isLoggedIn, tokens }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   return (
     <MobileNavHeader
@@ -89,7 +97,10 @@ const MobileNavBar: React.FC<MobileNavBarProps> = ({ isLoggedIn }) => {
                       type="primary"
                       size="large"
                       onClick={() => {
-                        history.push(Routes.LANDING);
+                        if (asyncRequestIsComplete(tokens)) {
+                          dispatch(logout());
+                          history.go(0);
+                        }
                       }}
                     >
                       Log Out

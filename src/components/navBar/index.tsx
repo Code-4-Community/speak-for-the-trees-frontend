@@ -229,7 +229,7 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
 
   switch (windowType) {
     case WindowTypes.Mobile:
-      return <MobileNavBar isLoggedIn={isLoggedIn} />;
+      return <MobileNavBar isLoggedIn={isLoggedIn} tokens={tokens}/>;
 
     case WindowTypes.Tablet:
       return (
