@@ -3,6 +3,7 @@ import {
   combineScientificName,
   compareMainEntries,
   formatDateSuffix,
+  getErrorMessage,
   getMoneyString,
 } from '../stringFormat';
 import { getDateString } from '../stringFormat';
@@ -123,4 +124,18 @@ test('combineScientificName tests', () => {
     random3,
     { title: 'Scientific Name', value: 'genus species' },
   ]);
+});
+
+test('getErrorMessage', () => {
+  const exampleError = { response: { data: 'uh oh', extra: 'data' } };
+  const exampleErrorWithoutData = { response: { extra: 'data' } };
+  const exampleErrorWithoutResponse = {
+    data: { data: 'uh oh', extra: 'data' },
+  };
+  expect(getErrorMessage(exampleError)).toEqual('uh oh');
+  expect(getErrorMessage(exampleErrorWithoutData)).toEqual('Error encountered');
+  expect(getErrorMessage(exampleErrorWithoutResponse)).toEqual(
+    'Error encountered',
+  );
+  expect(getErrorMessage(undefined)).toEqual('Error encountered');
 });
