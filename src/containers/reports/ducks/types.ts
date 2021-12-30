@@ -28,3 +28,14 @@ export interface StewardshipReportEntry {
   readonly weeded: boolean;
   readonly neighborhood: string;
 }
+
+export interface StewardshipReportTableEntry {
+  readonly entryId: number;
+  readonly siteId: number;
+  readonly address: string;
+  readonly name: string;
+  readonly email: string;
+  readonly datePerformed: Date;
+  readonly activitiesPerformed: string[];
+  readonly neighborhood: string;
+}

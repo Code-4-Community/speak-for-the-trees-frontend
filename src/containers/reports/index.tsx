@@ -10,6 +10,10 @@ import PageHeader from '../../components/pageHeader';
 import FeaturedStats from '../../components/featuredStats';
 import AdoptionReportTable from '../../components/tables/adoptionReportTable';
 import { getErrorMessage } from '../../utils/stringFormat';
+import {
+  getCountAdoptedInPastWeek,
+  getStewardshipTableReport,
+} from './ducks/selectors';
 
 const { TabPane } = Tabs;
 
@@ -64,11 +68,7 @@ const Reports: React.FC = () => {
                 },
                 {
                   title: 'Trees Adopted Since Last Week',
-                  stat: adoptionReport?.adoptionReport.filter(
-                    (entry) =>
-                      new Date(entry.dateAdopted).getDate() >
-                      new Date().getDate() - 7,
-                  ).length,
+                  stat: getCountAdoptedInPastWeek(adoptionReport),
                 },
                 {
                   title: 'Stewardship Activities Performed',
@@ -91,9 +91,9 @@ const Reports: React.FC = () => {
               <Skeleton active loading={stewardshipReport === undefined}>
                 {stewardshipReport && (
                   <StewardshipReportTable
-                    stewardshipReportEntries={
-                      stewardshipReport.stewardshipReport
-                    }
+                    stewardshipReportTableEntries={getStewardshipTableReport(
+                      stewardshipReport,
+                    )}
                   />
                 )}
               </Skeleton>

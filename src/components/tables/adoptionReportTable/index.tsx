@@ -1,26 +1,14 @@
 import React from 'react';
 import { AdoptionReportEntry } from '../../../containers/reports/ducks/types';
-import { Table, Typography } from 'antd';
-import { ParameterizedRouteBases } from '../../../App';
-import { DESCEND_ORDER } from '../types';
-
-const { Link } = Typography;
+import { Table } from 'antd';
+import { dateSorter, DESCEND_ORDER, renderSiteIdAsLink } from '../utils';
 
 const AdoptionReportTableColumns = [
   {
     title: 'Site ID',
     dataIndex: 'siteId',
     key: 'siteId',
-    render: function renderSiteId(siteId: number) {
-      return (
-        <Link
-          href={`${ParameterizedRouteBases.TREE}${siteId}`}
-          target={'_blank'}
-        >
-          {siteId}
-        </Link>
-      );
-    },
+    render: renderSiteIdAsLink,
   },
   {
     title: 'Address',
@@ -43,7 +31,7 @@ const AdoptionReportTableColumns = [
     key: 'dateAdopted',
     defaultSortOrder: DESCEND_ORDER,
     sorter: (a: AdoptionReportEntry, b: AdoptionReportEntry) =>
-      new Date(a.dateAdopted).valueOf() - new Date(b.dateAdopted).valueOf(),
+      dateSorter(a.dateAdopted, b.dateAdopted),
   },
   {
     title: 'Activity Count',
