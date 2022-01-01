@@ -12,8 +12,6 @@ import styled from 'styled-components';
 import { SelectValue } from 'antd/lib/select';
 import { PrivilegeLevel } from '../../../auth/ducks/types';
 
-const { Option } = Select;
-
 const RoleDropdown = styled(Select)`
   width: 100%;
   height: 36px;
@@ -57,11 +55,11 @@ const ChangePrivilegeForm: React.FC<ChangePrivilegeFormProps> = ({
 
       <Form.Item name="newLevel" rules={newLevelRules}>
         <RoleDropdown placeholder="New Role" onChange={onRoleChange}>
-          <Option value={'ADMIN'}>Admin</Option>
+          <Select.Option value={'ADMIN'}>Admin</Select.Option>
           {privilegeLevel === PrivilegeLevel.SUPER_ADMIN && (
             <>
-              <Option value={'STANDARD'}>Standard</Option>
-              <Option value={'SUPER_ADMIN'}>Super Admin</Option>
+              <Select.Option value={'STANDARD'}>Standard</Select.Option>
+              <Select.Option value={'SUPER_ADMIN'}>Super Admin</Select.Option>
             </>
           )}
         </RoleDropdown>
