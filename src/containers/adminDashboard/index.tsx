@@ -10,8 +10,6 @@ import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import ChangePrivilegeForm from '../../components/forms/changePrivilegeForm';
 
-const { Title } = Typography;
-
 const AdminContentContainer = styled.div`
   margin: 100px auto auto;
   width: 80vw;
@@ -41,7 +39,7 @@ const AdminDashboard: React.FC = () => {
           <PageHeader pageTitle="Admin Dashboard" />
 
           <EditUser>
-            <Title level={4}>Edit Admins</Title>
+            <Typography.Title level={4}>Edit Admins</Typography.Title>
             <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
           </EditUser>
         </AdminContentContainer>
