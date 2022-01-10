@@ -19,6 +19,10 @@ import {
   ActivityRequest,
   AdoptedSites,
 } from '../containers/treePage/ducks/types';
+import {
+  AdoptionReport,
+  StewardshipReport,
+} from '../containers/reports/ducks/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -80,6 +84,8 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
   readonly deleteStewardship: (activityId: number) => Promise<void>;
   readonly getAdoptedSites: () => Promise<AdoptedSites>;
+  readonly getAdoptionReport: () => Promise<AdoptionReport>;
+  readonly getStewardshipReport: () => Promise<StewardshipReport>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -102,6 +108,8 @@ export enum AdminApiClientRoutes {
   PASS_RESERVATION_QA = '/api/v1/protected/reservations/pass_qa',
   FAIL_RESERVATION_QA = '/api/v1/protected/reservations/fail_qa',
   CHANGE_PRIVILEGE = '/api/v1/protected/user/change_privilege',
+  GET_ADOPTION_REPORT = '/api/v1/protected/report/adoption',
+  GET_STEWARDSHIP_REPORT = '/api/v1/protected/report/stewardship',
 }
 
 const baseTeamRoute = '/api/v1/protected/teams/';
@@ -352,6 +360,18 @@ const getAdoptedSites = (): Promise<AdoptedSites> => {
   );
 };
 
+const getAdoptionReport = (): Promise<AdoptionReport> => {
+  return AppAxiosInstance.get(AdminApiClientRoutes.GET_ADOPTION_REPORT).then(
+    (res) => res.data,
+  );
+};
+
+const getStewardshipReport = (): Promise<StewardshipReport> => {
+  return AppAxiosInstance.get(AdminApiClientRoutes.GET_STEWARDSHIP_REPORT).then(
+    (res) => res.data,
+  );
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -385,6 +405,8 @@ const Client: ProtectedApiClient = Object.freeze({
   recordStewardship,
   deleteStewardship,
   getAdoptedSites,
+  getAdoptionReport,
+  getStewardshipReport,
 });
 
 export default Client;
