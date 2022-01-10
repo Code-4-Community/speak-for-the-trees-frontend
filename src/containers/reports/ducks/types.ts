@@ -39,3 +39,11 @@ export interface StewardshipReportTableEntry {
   readonly activitiesPerformed: string[];
   readonly neighborhood: string;
 }
+
+type StewardshipReportKey = keyof StewardshipReportEntry;
+export const STEWARDSHIP_REPORT_ACTIVITY_KEYS: StewardshipReportKey[] = [
+  'watered',
+  'mulched',
+  'cleaned',
+  'weeded',
+];

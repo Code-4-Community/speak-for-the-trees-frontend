@@ -1,5 +1,6 @@
 import {
   AdoptionReport,
+  STEWARDSHIP_REPORT_ACTIVITY_KEYS,
   StewardshipReport,
   StewardshipReportTableEntry,
 } from './types';
@@ -7,10 +8,9 @@ import {
 export const getCountAdoptedInPastWeek = (
   adoptionReport: AdoptionReport | undefined,
 ): number | undefined => {
+  const sevenDaysAgoInMs = Date.now() - 7 * 24 * 60 * 60 * 1000;
   return adoptionReport?.adoptionReport.filter(
-    (entry) =>
-      new Date(entry.dateAdopted) >
-      new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+    (entry) => new Date(entry.dateAdopted) > new Date(sevenDaysAgoInMs),
   ).length;
 };
 
@@ -18,20 +18,9 @@ export const getStewardshipTableReport = (
   stewardshipReport: StewardshipReport,
 ): StewardshipReportTableEntry[] => {
   return stewardshipReport.stewardshipReport.map((entry, idx) => {
-    const activitiesPerformed = [];
-
-    if (entry.watered) {
-      activitiesPerformed.push('watered');
-    }
-    if (entry.mulched) {
-      activitiesPerformed.push('mulched');
-    }
-    if (entry.cleaned) {
-      activitiesPerformed.push('cleaned');
-    }
-    if (entry.weeded) {
-      activitiesPerformed.push('weeded');
-    }
+    const activitiesPerformed: string[] = STEWARDSHIP_REPORT_ACTIVITY_KEYS.filter(
+      (activity) => entry[activity],
+    );
 
     return {
       entryId: idx,
