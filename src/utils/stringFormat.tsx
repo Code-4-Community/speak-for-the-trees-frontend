@@ -110,3 +110,11 @@ export function combineScientificName(entries: Entry[]): Entry[] {
 
   return newEntries;
 }
+
+/**
+ * Returns the error message of the given error.
+ * @param err the error
+ */
+export function getErrorMessage(err: any): string {
+  return `${err?.response?.data || 'Error encountered'}`;
+}

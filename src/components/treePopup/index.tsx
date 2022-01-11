@@ -14,8 +14,6 @@ import {
 import { isEmptyString } from '../../utils/isCheck';
 import { CITY_PLANTING_REQUEST_LINK } from '../../assets/content';
 
-const { Paragraph, Link } = Typography;
-
 const PopupContainer = styled.div`
   position: absolute;
 `;
@@ -55,7 +53,7 @@ const PopupBubble = styled.div`
   box-shadow: 0px 2px 10px 1px ${BLACK}50;
 `;
 
-const TreeTitle = styled(Paragraph)`
+const TreeTitle = styled(Typography.Paragraph)`
   display: inline-block;
   font-size: 20px;
   line-height: 28px;
@@ -78,13 +76,13 @@ const Line = styled.div`
   background: ${LIGHT_GREY};
 `;
 
-const GreyText = styled(Paragraph)`
+const GreyText = styled(Typography.Paragraph)`
   color: ${DARK_GREY};
   font-size: 13px;
   line-height: 13px;
 `;
 
-const PlantRequest = styled(Paragraph)`
+const PlantRequest = styled(Typography.Paragraph)`
   color: ${BLACK};
   font-size: 14px;
   line-height: 17px;
@@ -157,9 +155,12 @@ const TreePopup: React.FC<TreePopupProps> = ({
                     return (
                       <PlantRequest>
                         Want to plant a tree here?{' '}
-                        <Link href={CITY_PLANTING_REQUEST_LINK} target="_blank">
+                        <Typography.Link
+                          href={CITY_PLANTING_REQUEST_LINK}
+                          target="_blank"
+                        >
                           Submit a request to the city!
-                        </Link>
+                        </Typography.Link>
                       </PlantRequest>
                     );
                   default:

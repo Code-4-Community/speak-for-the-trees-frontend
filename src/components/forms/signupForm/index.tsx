@@ -25,11 +25,11 @@ import {
 } from '../../../utils/formRules';
 import { SignupFormValues } from '../ducks/types';
 
-const { Paragraph } = Typography;
-
 const offsetSpan = 1;
 
-const Footer: typeof Paragraph = styled(Paragraph)<ParagraphProps>`
+const Footer: typeof Typography.Paragraph = styled(Typography.Paragraph)<
+  ParagraphProps
+>`
   color: ${TEXT_GREY};
   line-height: 1.5;
 `;
