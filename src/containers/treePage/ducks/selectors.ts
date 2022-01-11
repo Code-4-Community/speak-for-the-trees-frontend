@@ -12,16 +12,15 @@ import {
   MainSiteEntryNames,
   ExtraSiteEntryNames,
   SplitSiteEntries,
+  MonthYearOption,
 } from './types';
 import {
   booleanToString,
   combineScientificName,
   compareMainEntries,
   formatDateSuffix,
-  shortHand,
 } from '../../../utils/stringFormat';
-import { UNABBREVIATED_MONTHS } from '../../../assets/content';
-import { sortByMonthYear } from '../../../utils/sort';
+import { compareByMonthYear } from '../../../utils/compare';
 
 export const mapStewardshipToTreeCare = (
   items: AsyncRequest<StewardshipActivities, any>,
@@ -40,7 +39,8 @@ export const mapStewardshipToTreeCare = (
       if (item.watered) activityStrings.push('watered');
       if (item.weeded) activityStrings.push('weeded');
       return {
-        date: `${month} ${formatDateSuffix(day)}`,
+        day: formatDateSuffix(day),
+        month,
         year,
         message: `Was ${activityStrings.join(' and ')}.`,
       };
@@ -94,37 +94,31 @@ export const isTreeAdoptedByUser = (
 
 export const mapStewardshipToMonthYearOptions = createSelector(
   [mapStewardshipToTreeCare],
-  (stewardship: TreeCare[]): { label: string; value: string }[] => {
+  (stewardship: TreeCare[]): MonthYearOption[] => {
     const monthYearOptions = stewardship
       // turn the filtered array into an array of labels and values
       .map((entry) => {
         return {
-          label:
-            shortHand(entry.date.substring(0, 3), UNABBREVIATED_MONTHS) +
-            ' ' +
-            entry.year,
-          value: entry.date.substring(0, 3) + ' ' + entry.year,
+          month: entry.month,
+          year: entry.year,
         };
       })
       // append the current month and year to the options list
       .concat([
         {
-          label: new Date().toLocaleString('default', {
-            month: 'long',
-            year: 'numeric',
-          }),
-          value: new Date().toLocaleString('default', {
-            month: 'short',
-            year: 'numeric',
-          }),
+          month: new Date().toLocaleString('default', { month: 'short' }),
+          year: new Date().getFullYear(),
         },
       ])
-      // remove activities with duplicate year and date
+      // remove entries with duplicate month and year
       .filter(
         (entry, index, self) =>
-          index === self.findIndex((e) => e.value === entry.value),
+          index ===
+          self.findIndex(
+            (e) => e.month === entry.month && e.year === entry.year,
+          ),
       );
-    // sort options by both month and year
-    return monthYearOptions.sort(sortByMonthYear);
+    // sort dates by both month and year in reverse chronological order
+    return monthYearOptions.sort(compareByMonthYear).reverse();
   },
 );

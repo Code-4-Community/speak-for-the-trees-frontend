@@ -6,6 +6,7 @@ import {
 } from '../../containers/treePage/ducks/types';
 import { TitleProps } from 'antd/lib/typography/Title';
 import { DARK_GREEN, MID_GREEN, TEXT_GREY } from '../../utils/colors';
+import { UNABBREVIATED_MONTHS } from '../../assets/content';
 import styled from 'styled-components';
 
 const { Paragraph } = Typography;
@@ -67,23 +68,28 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
   stewardship,
   monthYearOptions,
 }) => {
-  const [selectedMonthYear, setSelectedMonthYear] = useState(
-    new Date().toLocaleString('default', {
-      month: 'short',
-      year: 'numeric',
-    }),
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date().toLocaleString('default', { month: 'short' }),
   );
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const selectedMonthYearStewardship: TreeCare[] = stewardship.filter(
-    (entry) =>
-      // choose stewardship activities with the selected month and year
-      entry.date.substring(0, 3) === selectedMonthYear.substring(0, 3) &&
-      entry.year === parseInt(selectedMonthYear.slice(-4), 10),
+    (entry) => entry.month === selectedMonth && entry.year === selectedYear,
   );
+  const selectOptions: {
+    label: string;
+    value: string;
+  }[] = monthYearOptions.map((monthYear) => {
+    return {
+      label: UNABBREVIATED_MONTHS[monthYear.month] + ' ' + monthYear.year,
+      value: monthYear.month + ' ' + monthYear.year,
+    };
+  });
 
   const [pageNumber, setPageNumber] = useState(0);
 
   return (
     <>
+      {/* {console.log(selectOptions)} */}
       <TreeCareTitle>Recent Tree Care Activity</TreeCareTitle>
       <StewardshipActivityDropdownContainer>
         <StewardshipActivityDropdown>
@@ -92,10 +98,11 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
             showSearch
             style={{ width: 200 }}
             onChange={(value: string) => {
-              setSelectedMonthYear(value);
+              setSelectedMonth(value.substring(0, 3));
+              setSelectedYear(parseInt(value.slice(-4), 10));
             }}
-            defaultValue={selectedMonthYear}
-            options={monthYearOptions}
+            defaultValue={selectedMonth + ' ' + selectedYear}
+            options={selectOptions}
           />
         </StewardshipActivityDropdown>
       </StewardshipActivityDropdownContainer>
@@ -112,7 +119,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
           <CareEntry key={key}>
             <Row>
               <Col span={5}>
-                <EntryDate>{value.date}</EntryDate>
+                <EntryDate>{value.month + ' ' + value.day}</EntryDate>
               </Col>
               <Col span={1} />
               <Col span={18}>

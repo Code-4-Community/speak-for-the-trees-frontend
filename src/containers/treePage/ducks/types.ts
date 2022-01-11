@@ -117,14 +117,15 @@ export const ExtraSiteEntryNames: Record<string, string> = {
 };
 
 export interface TreeCare {
+  month: string;
   year: number;
-  date: string;
+  day: string;
   message: string;
 }
 
 export interface MonthYearOption {
-  label: string;
-  value: string;
+  month: string;
+  year: number;
 }
 
 export interface StewardshipActivities {

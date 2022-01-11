@@ -13,12 +13,14 @@ import {
   Entry,
   MainSiteEntryNames,
   ExtraSiteEntryNames,
+  MonthYearOption,
 } from '../ducks/types';
 import {
   mapStewardshipToTreeCare,
   getLatestSplitEntry,
   getLatestEntry,
   isTreeAdoptedByUser,
+  mapStewardshipToMonthYearOptions,
 } from '../ducks/selectors';
 
 describe('Tree Page Selectors', () => {
@@ -49,12 +51,14 @@ describe('Tree Page Selectors', () => {
     it('returns correctly formatted strings with different stewardship combinations', () => {
       const expectedTreeCare: TreeCare[] = [
         {
-          date: 'Jan 1st',
+          day: '1st',
+          month: 'Jan',
           year: 2021,
           message: 'Was mulched and watered and weeded.',
         },
         {
-          date: 'Feb 23rd',
+          day: '23rd',
+          month: 'Feb',
           year: 2021,
           message: 'Was cleared of waste.',
         },
@@ -277,6 +281,159 @@ describe('Tree Page Selectors', () => {
       > = AsyncRequestNotStarted<AdoptedSites, any>();
 
       expect(isTreeAdoptedByUser(isAdoptedRequest, 0)).toBe(false);
+    });
+  });
+
+  describe('mapStewardshipToMonthYearOptions', () => {
+    it('returns empty arrays when there are no stewardship activities', () => {
+      const emptyActivities: StewardshipActivities = {
+        stewardshipActivities: [],
+      };
+
+      const expectedMonthYearOptions: MonthYearOption[] = [
+        {
+          month: new Date().toLocaleString('default', { month: 'short' }),
+          year: new Date().getFullYear(),
+        },
+      ];
+
+      const request: AsyncRequest<
+        StewardshipActivities,
+        any
+      > = AsyncRequestCompleted<StewardshipActivities, any>(emptyActivities);
+
+      expect(mapStewardshipToMonthYearOptions(request)).toStrictEqual(
+        expectedMonthYearOptions,
+      );
+    });
+
+    it('returns arrays', () => {
+      const dummyActivities: StewardshipActivities = {
+        stewardshipActivities: [
+          {
+            id: 0,
+            userId: 1,
+            date: '01/21/2019',
+            watered: true,
+            mulched: true,
+            cleaned: false,
+            weeded: true,
+          },
+          {
+            id: 1,
+            userId: 3,
+            date: '10/10/2019',
+            watered: true,
+            mulched: false,
+            cleaned: false,
+            weeded: false,
+          },
+          {
+            id: 2,
+            userId: 2,
+            date: '01/13/2020',
+            watered: true,
+            mulched: true,
+            cleaned: false,
+            weeded: true,
+          },
+        ],
+      };
+
+      const expectedMonthYearOptions: MonthYearOption[] = [
+        {
+          month: new Date().toLocaleString('default', { month: 'short' }),
+          year: new Date().getFullYear(),
+        },
+        {
+          month: 'Jan',
+          year: 2020,
+        },
+        {
+          month: 'Oct',
+          year: 2019,
+        },
+        {
+          month: 'Jan',
+          year: 2019,
+        },
+      ];
+
+      const request: AsyncRequest<
+        StewardshipActivities,
+        any
+      > = AsyncRequestCompleted<StewardshipActivities, any>(dummyActivities);
+
+      expect(mapStewardshipToMonthYearOptions(request)).toStrictEqual(
+        expectedMonthYearOptions,
+      );
+    });
+
+    it('returns arrays without duplicate entries', () => {
+      const dummyActivities: StewardshipActivities = {
+        stewardshipActivities: [
+          {
+            id: 0,
+            userId: 1,
+            date: '01/13/2021',
+            watered: true,
+            mulched: true,
+            cleaned: false,
+            weeded: true,
+          },
+          {
+            id: 1,
+            userId: 3,
+            date: '02/05/2018',
+            watered: true,
+            mulched: false,
+            cleaned: false,
+            weeded: false,
+          },
+          {
+            id: 2,
+            userId: 2,
+            date: '01/13/2021',
+            watered: true,
+            mulched: true,
+            cleaned: false,
+            weeded: true,
+          },
+          {
+            id: 3,
+            userId: 1,
+            date: '02/01/2018',
+            watered: false,
+            mulched: true,
+            cleaned: false,
+            weeded: false,
+          },
+        ],
+      };
+
+      const expectedMonthYearOptions: MonthYearOption[] = [
+        {
+          month: new Date().toLocaleString('default', { month: 'short' }),
+          year: new Date().getFullYear(),
+        },
+        {
+          month: 'Jan',
+          year: 2021,
+        },
+        {
+          month: 'Feb',
+          year: 2018,
+        },
+      ];
+
+      const request: AsyncRequest<
+        StewardshipActivities,
+        any
+      > = AsyncRequestCompleted<StewardshipActivities, any>(dummyActivities);
+
+      expect(mapStewardshipToMonthYearOptions(request)).toStrictEqual(
+        expectedMonthYearOptions,
+      );
     });
   });
 });
