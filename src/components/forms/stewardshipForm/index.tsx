@@ -11,9 +11,7 @@ import {
 import styled from 'styled-components';
 import { activitiesDateRules, activitiesRules } from '../../../utils/formRules';
 
-const { Paragraph } = Typography;
-
-const ItemLabel = styled(Paragraph)`
+const ItemLabel = styled(Typography.Paragraph)`
   line-height: 0px;
 `;
 

@@ -13,7 +13,7 @@ const AppAxiosInstance: AxiosInstance = axios.create({
   },
 });
 
-const INVALID_ACCESS_TOKEN: string = 'Given access token is expired or invalid';
+const INVALID_ACCESS_TOKEN = 'Given access token is expired or invalid';
 
 const responseErrorInterceptor = (error: AxiosError) => {
   const originalRequest = {
@@ -56,5 +56,14 @@ AppAxiosInstance.interceptors.response.use(
   (response) => response,
   responseErrorInterceptor,
 );
+
+AppAxiosInstance.interceptors.request.use((config) => {
+  const tokens: UserAuthenticationReducerState['tokens'] = store.getState()
+    .authenticationState.tokens;
+  if (asyncRequestIsComplete(tokens)) {
+    config.headers['X-Access-Token'] = tokens.result.accessToken;
+  }
+  return config;
+});
 
 export default AppAxiosInstance;

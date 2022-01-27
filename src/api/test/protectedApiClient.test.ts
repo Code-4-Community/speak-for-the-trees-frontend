@@ -1428,4 +1428,83 @@ describe('Admin Protected Client Routes', () => {
       expect(result).toEqual(response);
     });
   });
+
+  describe('getAdoptionReport', () => {
+    it('makes the right request', async () => {
+      const response = [
+        {
+          siteId: 0,
+          address: 'address',
+          name: 'A Doe',
+          email: 'adoe@email.com',
+          dateAdopted: '01-01-2021',
+          activityCount: 1,
+          neighborhood: 'South End',
+        },
+      ];
+
+      nock(BASE_URL)
+        .get(AdminApiClientRoutes.GET_ADOPTION_REPORT)
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.getAdoptionReport();
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request ', async () => {
+      const response = 'Must be an admin';
+
+      nock(BASE_URL)
+        .get(AdminApiClientRoutes.GET_ADOPTION_REPORT)
+        .reply(401, response);
+
+      const result = await ProtectedApiClient.getAdoptionReport().catch(
+        (err) => err.response.data,
+      );
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('getStewardshipReport', () => {
+    it('makes the right request', async () => {
+      const response = [
+        {
+          siteId: 0,
+          address: 'address',
+          name: 'A Doe',
+          email: 'adoe@email.com',
+          datePerformed: '01-01-2021',
+          watered: true,
+          mulched: true,
+          cleaned: false,
+          weeded: false,
+          neighborhood: 'South End',
+        },
+      ];
+
+      nock(BASE_URL)
+        .get(AdminApiClientRoutes.GET_STEWARDSHIP_REPORT)
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.getStewardshipReport();
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request ', async () => {
+      const response = 'Must be an admin';
+
+      nock(BASE_URL)
+        .get(AdminApiClientRoutes.GET_STEWARDSHIP_REPORT)
+        .reply(401, response);
+
+      const result = await ProtectedApiClient.getStewardshipReport().catch(
+        (err) => err.response.data,
+      );
+
+      expect(result).toEqual(response);
+    });
+  });
 });

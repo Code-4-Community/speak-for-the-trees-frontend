@@ -119,3 +119,11 @@ export function combineScientificName(entries: Entry[]): Entry[] {
 export function getNeighborhoodName(id: number): string {
   return NEIGHBORHOOD_IDS[id] || 'Neighborhood not found.';
 }
+
+/**
+ * Returns the error message of the given error.
+ * @param err the error
+ */
+export function getErrorMessage(err: any): string {
+  return `${err?.response?.data || 'Error encountered'}`;
+}

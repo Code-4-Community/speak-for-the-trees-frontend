@@ -3,6 +3,7 @@ import {
   combineScientificName,
   compareMainEntries,
   formatDateSuffix,
+  getErrorMessage,
   getMoneyString,
   getNeighborhoodName,
 } from '../stringFormat';
@@ -132,4 +133,18 @@ test('getNeighborhoodName tests', () => {
   expect(getNeighborhoodName(14)).toEqual('North End');
   expect(getNeighborhoodName(10000)).toEqual('Neighborhood not found.');
   expect(getNeighborhoodName(34)).toEqual('Fenway');
+});
+
+test('getErrorMessage', () => {
+  const exampleError = { response: { data: 'uh oh', extra: 'data' } };
+  const exampleErrorWithoutData = { response: { extra: 'data' } };
+  const exampleErrorWithoutResponse = {
+    data: { data: 'uh oh', extra: 'data' },
+  };
+  expect(getErrorMessage(exampleError)).toEqual('uh oh');
+  expect(getErrorMessage(exampleErrorWithoutData)).toEqual('Error encountered');
+  expect(getErrorMessage(exampleErrorWithoutResponse)).toEqual(
+    'Error encountered',
+  );
+  expect(getErrorMessage(undefined)).toEqual('Error encountered');
 });

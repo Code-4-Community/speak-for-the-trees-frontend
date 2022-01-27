@@ -30,6 +30,7 @@ import ForgotPassword from './containers/forgotPassword';
 import ForgotPasswordReset from './containers/forgotPasswordReset';
 import AuthRedirect from './components/authRedirect';
 import SitePage from './containers/sitePage';
+import Reports from './containers/reports';
 
 const { Content } = Layout;
 
@@ -61,6 +62,7 @@ export enum Routes {
   // RESERVATIONS = '/reservations',
   AVAILABLE_TEAMS = '/available',
   ADMIN = '/admin',
+  REPORTS = '/reports',
   FORGOT_PASSWORD_REQUEST = '/forgot-password',
   FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
   NOT_FOUND = '*',
@@ -125,6 +127,7 @@ const App: React.FC = () => {
                       <AuthRedirect from={Routes.RESERVATIONS} />
                       */}
                       <AuthRedirect from={Routes.ADMIN} />
+                      <AuthRedirect from={Routes.REPORTS} />
                       <Route
                         path={Routes.FORGOT_PASSWORD_REQUEST}
                         exact
@@ -233,6 +236,7 @@ const App: React.FC = () => {
                         exact
                         component={AdminDashboard}
                       />
+                      <Route path={Routes.REPORTS} exact component={Reports} />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact
