@@ -20,6 +20,7 @@ describe('Tree Page Reducer', () => {
   describe('Site information', () => {
     it('Updates state correctly when site info and stewardship data is retrieved', () => {
       const siteInfo: SiteProps = {
+        neighborhoodId: 0,
         siteId: 1,
         blockId: 1,
         lat: 10,
@@ -28,6 +29,7 @@ describe('Tree Page Reducer', () => {
         zip: '11111',
         entries: [
           {
+            id: 0,
             updatedAt: 100000,
           },
         ],

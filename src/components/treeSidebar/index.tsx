@@ -2,7 +2,7 @@ import React from 'react';
 import { List } from 'antd';
 import { StyledListItem } from '../themedComponents';
 import TreeCard from '../treeCard';
-import { SiteFeaturePropertiesResponse } from '../mapPageComponents/ducks/types';
+import { SiteFeaturePropertiesResponse } from '../mapComponents/ducks/types';
 
 interface TreeSidebarProps {
   readonly mySites: SiteFeaturePropertiesResponse[];

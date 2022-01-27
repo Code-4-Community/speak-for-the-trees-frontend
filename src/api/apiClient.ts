@@ -9,7 +9,7 @@ import {
   BlockGeoData,
   NeighborhoodGeoData,
   SiteGeoData,
-} from '../components/mapPageComponents/ducks/types';
+} from '../components/mapComponents/ducks/types';
 
 export interface ApiExtraArgs {
   readonly apiClient: ApiClient;

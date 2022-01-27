@@ -1,22 +1,77 @@
 import { C4CState } from '../../../store';
 import { ThunkAction } from 'redux-thunk';
-import { SiteActions, ProtectedSiteActions } from './actions';
+import { ProtectedSiteActions, SiteActions } from './actions';
 import { ApiExtraArgs } from '../../../api/apiClient';
 import { ProtectedApiExtraArgs } from '../../../api/protectedApiClient';
 import { AsyncRequest } from '../../../utils/asyncRequest';
 
 export interface SiteProps {
   siteId: number;
-  blockId: number;
+  blockId?: number;
   lat: number;
   lng: number;
   city: string;
   zip: string;
   address?: string;
+  neighborhoodId: number;
   entries: SiteEntry[];
 }
 
+export enum UneditableSiteEntryFields {
+  UPDATED_AT = 'updatedAt',
+}
+
+export enum EditableSiteEntryFields {
+  STATUS = 'status',
+  GENUS = 'genus',
+  SPECIES = 'species',
+  COMMON_NAME = 'commonName',
+  CONFIDENCE = 'confidence',
+  DIAMETER = 'diameter',
+  CIRCUMFERENCE = 'circumference',
+  MULTISTEM = 'multistem',
+  COVERAGE = 'coverage',
+  PRUNING = 'pruning',
+  CONDITION = 'condition',
+  DISCOLORING = 'discoloring',
+  LEANING = 'leaning',
+  CONSTRICTING_GRATE = 'constrictingGrate',
+  WOUNDS = 'wounds',
+  POOLING = 'pooling',
+  STAKES_WITH_WIRES = 'stakesWithWires',
+  STAKES_WITHOUT_WIRES = 'stakesWithoutWires',
+  LIGHT = 'light',
+  BICYCLE = 'bicycle',
+  BAG_EMPTY = 'bagEmpty',
+  BAG_FILLED = 'bagFilled',
+  TAPE = 'tape',
+  SUCKER_GROWTH = 'suckerGrowth',
+  TREE_PRESENT = 'treePresent',
+  SITE_TYPE = 'siteType',
+  SIDEWALK_WIDTH = 'sidewalkWidth',
+  SITE_WIDTH = 'siteWidth',
+  SITE_LENGTH = 'siteLength',
+  MATERIAL = 'material',
+  RAISED_BED = 'raisedBed',
+  FENCE = 'fence',
+  TRASH = 'trash',
+  WIRES = 'wires',
+  GRATE = 'grate',
+  STUMP = 'stump',
+  TREE_NOTES = 'treeNotes',
+  SITE_NOTES = 'siteNotes',
+}
+
+export type SiteEntryField =
+  | UneditableSiteEntryFields
+  | EditableSiteEntryFields;
+export const SiteEntryFields = {
+  ...UneditableSiteEntryFields,
+  ...EditableSiteEntryFields,
+};
+
 export interface SiteEntry {
+  id: number;
   updatedAt: number;
   status?: string;
   genus?: string;
@@ -25,6 +80,7 @@ export interface SiteEntry {
   confidence?: string;
   diameter?: number;
   circumference?: number;
+  multistem?: boolean;
   coverage?: string;
   pruning?: string;
   condition?: string;
@@ -33,26 +89,26 @@ export interface SiteEntry {
   constrictingGrate?: boolean;
   wounds?: boolean;
   pooling?: boolean;
-  stakesWith?: boolean;
-  stakesWithout?: boolean;
+  stakesWithWires?: boolean;
+  stakesWithoutWires?: boolean;
   light?: boolean;
   bicycle?: boolean;
-  bagWith?: boolean;
-  bagWithout?: boolean;
+  bagEmpty?: boolean;
+  bagFilled?: boolean;
   tape?: boolean;
   suckerGrowth?: boolean;
   treePresent?: boolean;
   siteType?: string;
   sidewalkWidth?: string;
-  siteWidth?: string;
-  siteLength?: string;
+  siteWidth?: number;
+  siteLength?: number;
   material?: string;
-  raisedBed?: string;
-  fence?: string;
-  trash?: string;
-  wires?: string;
-  grate?: string;
-  stump?: string;
+  raisedBed?: boolean;
+  fence?: boolean;
+  trash?: boolean;
+  wires?: boolean;
+  grate?: boolean;
+  stump?: boolean;
   treeNotes?: string;
   siteNotes?: string;
   adopter?: string;
@@ -83,8 +139,10 @@ export const MainSiteEntryOrder: Record<string, number> = {
 };
 
 export const ExtraSiteEntryNames: Record<string, string> = {
+  treePresent: 'Is there a tree present?',
   confidence: 'Confidence',
-  circumference: 'Circumference',
+  circumference: 'Circumference (inches)',
+  multistem: 'Multistem?',
   coverage: 'Coverage',
   pruning: 'Amount of Pruning',
   condition: 'Condition',
@@ -93,18 +151,18 @@ export const ExtraSiteEntryNames: Record<string, string> = {
   constrictingGrate: 'Constricting Grate',
   wounds: 'Trunk wounds?',
   pooling: 'Pooling water?',
-  stakesWith: 'Stakes With',
-  stakesWithout: 'Stakes Without',
+  stakesWithWires: 'Has stakes with wires?',
+  stakesWithoutWires: 'Has stakes without wires?',
   light: 'Lights around tree?',
   bicycle: 'Bicycle tied to tree?',
-  bagWith: 'Bag With',
-  bagWithout: 'Bag Without',
+  bagEmpty: 'Has an empty bag?',
+  bagFilled: 'Has a filled bag?',
   tape: 'Tape on tree?',
   suckerGrowth: 'Is there sucker growth?',
   siteType: 'Site Type',
   sidewalkWidth: 'Sidewalk Width',
-  siteWidth: 'Site Width (in inches)',
-  siteLength: 'Site Length (in inches)',
+  siteWidth: 'Site Width (inches)',
+  siteLength: 'Site Length (inches)',
   material: 'Material in Pit',
   raisedBed: 'Is there a raised bed?',
   fence: 'Is there a fence?',

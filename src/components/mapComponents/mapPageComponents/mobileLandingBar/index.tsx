@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Routes } from '../../../App';
+import { Routes } from '../../../../App';
 import styled from 'styled-components';
 import { Button, Typography } from 'antd';
 import {
@@ -9,7 +9,7 @@ import {
   MID_GREEN,
   WHITE,
   BLACK,
-} from '../../../utils/colors';
+} from '../../../../utils/colors';
 
 const MobileBarContentContainer = styled.div`
   display: block;

@@ -14,6 +14,8 @@ import {
   ChangePasswordRequest,
   ChangePrivilegeRequest,
   ChangeUsernameRequest,
+  EditSiteRequest,
+  UpdateSiteRequest,
 } from '../components/forms/ducks/types';
 import {
   ActivityRequest,
@@ -84,6 +86,14 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
   readonly deleteStewardship: (activityId: number) => Promise<void>;
   readonly getAdoptedSites: () => Promise<AdoptedSites>;
+  readonly editSite: (
+    siteId: number,
+    request: EditSiteRequest,
+  ) => Promise<void>;
+  readonly updateSite: (
+    siteId: number,
+    request: UpdateSiteRequest,
+  ) => Promise<void>;
   readonly getAdoptionReport: () => Promise<AdoptionReport>;
   readonly getStewardshipReport: () => Promise<StewardshipReport>;
 }
@@ -140,6 +150,11 @@ export const ParameterizedApiRoutes = {
     `${baseSiteRoute}${siteId}/record_stewardship`,
   DELETE_STEWARDSHIP: (actvityId: number): string =>
     `${baseSiteRoute}remove_stewardship/${actvityId}`,
+  UPDATE_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/update`,
+};
+
+export const ParameterizedAdminApiRoutes = {
+  EDIT_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/edit`,
 };
 
 const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
@@ -360,6 +375,23 @@ const getAdoptedSites = (): Promise<AdoptedSites> => {
   );
 };
 
+const editSite = (siteId: number, request: EditSiteRequest): Promise<void> => {
+  return AppAxiosInstance.post(
+    ParameterizedAdminApiRoutes.EDIT_SITE(siteId),
+    request,
+  ).then((res) => res.data);
+};
+
+const updateSite = (
+  siteId: number,
+  request: UpdateSiteRequest,
+): Promise<void> => {
+  return AppAxiosInstance.post(
+    ParameterizedApiRoutes.UPDATE_SITE(siteId),
+    request,
+  ).then((res) => res.data);
+};
+
 const getAdoptionReport = (): Promise<AdoptionReport> => {
   return AppAxiosInstance.get(AdminApiClientRoutes.GET_ADOPTION_REPORT).then(
     (res) => res.data,
@@ -405,6 +437,8 @@ const Client: ProtectedApiClient = Object.freeze({
   recordStewardship,
   deleteStewardship,
   getAdoptedSites,
+  editSite,
+  updateSite,
   getAdoptionReport,
   getStewardshipReport,
 });

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import MapPage from '../../components/mapPageComponents/mapPage/index';
+import MapPage from '../../components/mapComponents/mapPageComponents/mapPage/index';
 import TreeSidebar from '../../components/treeSidebar/index';
 import { Spin } from 'antd';
 import styled from 'styled-components';
@@ -8,9 +8,9 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import { C4CState } from '../../store';
-import MobileMapPage from '../../components/mapPageComponents/mobileMapPage';
-import { useDispatch, useSelector, connect } from 'react-redux';
-import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
+import MobileMapPage from '../../components/mapComponents/mapPageComponents/mobileMapPage';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
 import { getAdoptedSites } from '../treePage/ducks/thunks';
 import { MY_TREES_BODY, MY_TREES_TITLE } from '../../assets/content';
 import SlideDown from '../../components/slideDown';
@@ -19,15 +19,15 @@ import {
   asyncRequestIsLoading,
 } from '../../utils/asyncRequest';
 import {
+  MapGeoDataReducerState,
   MapViews,
   SiteFeaturePropertiesResponse,
-  MapGeoDataReducerState,
-} from '../../components/mapPageComponents/ducks/types';
+} from '../../components/mapComponents/ducks/types';
 import { getMySites } from './ducks/selectors';
 import { Routes } from '../../App';
+import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
 
 interface MyTreesStateProps {
-  readonly blocks: MapGeoDataReducerState['blockGeoData'];
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly sites: MapGeoDataReducerState['siteGeoData'];
 }
@@ -37,11 +37,7 @@ const EmptyTreesContainer = styled.div`
   padding: 10vh 5vw;
 `;
 
-const MyTrees: React.FC<MyTreesStateProps> = ({
-  blocks,
-  neighborhoods,
-  sites,
-}) => {
+const MyTrees: React.FC<MyTreesStateProps> = ({ neighborhoods, sites }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -77,10 +73,13 @@ const MyTrees: React.FC<MyTreesStateProps> = ({
           case WindowTypes.Mobile:
             return (
               <MobileMapPage
-                view={treeMapView}
-                blocks={blocks}
-                neighborhoods={neighborhoods}
-                sites={sites}
+                mapContent={
+                  <TreeMapDisplay
+                    neighborhoods={neighborhoods}
+                    sites={sites}
+                    mobile={true}
+                  />
+                }
                 returnTo={Routes.MY_TREES}
               >
                 <SlideDown defaultOpen fullSlide>
@@ -93,12 +92,16 @@ const MyTrees: React.FC<MyTreesStateProps> = ({
           case WindowTypes.Desktop:
             return (
               <MapPage
+                mapContent={
+                  <TreeMapDisplay
+                    neighborhoods={neighborhoods}
+                    sites={sites}
+                    mobile={false}
+                  />
+                }
+                view={treeMapView}
                 sidebarHeader={MY_TREES_TITLE}
                 sidebarDescription={MY_TREES_BODY}
-                view={treeMapView}
-                blocks={blocks}
-                neighborhoods={neighborhoods}
-                sites={sites}
                 windowType={windowType}
               >
                 {asyncRequestIsComplete(sites) && (
@@ -120,7 +123,6 @@ const MyTrees: React.FC<MyTreesStateProps> = ({
 const mapStateToProps = (state: C4CState): MyTreesStateProps => {
   return {
     neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
-    blocks: state.mapGeoDataState.blockGeoData,
     sites: state.mapGeoDataState.siteGeoData,
   };
 };

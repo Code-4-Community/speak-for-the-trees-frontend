@@ -13,12 +13,14 @@ import {
   Entry,
   MainSiteEntryNames,
   ExtraSiteEntryNames,
+  SiteEntryFields,
 } from '../ducks/types';
 import {
   mapStewardshipToTreeCare,
   getLatestSplitEntry,
   getLatestEntry,
   isTreeAdoptedByUser,
+  getSEFieldDisplayName,
 } from '../ducks/selectors';
 
 describe('Tree Page Selectors', () => {
@@ -90,6 +92,7 @@ describe('Tree Page Selectors', () => {
   });
 
   const dummySite: SiteProps = {
+    neighborhoodId: 0,
     siteId: 0,
     blockId: 1,
     lat: 100,
@@ -99,6 +102,7 @@ describe('Tree Page Selectors', () => {
     address: '1800 place',
     entries: [
       {
+        id: 0,
         updatedAt: 200,
         status: 'good',
         species: 'tree',
@@ -107,6 +111,7 @@ describe('Tree Page Selectors', () => {
         bicycle: true,
       },
       {
+        id: 1,
         updatedAt: 100,
         status: 'bad',
         species: 'not a tree',
@@ -135,7 +140,7 @@ describe('Tree Page Selectors', () => {
         ],
         extra: [
           {
-            title: 'Circumference',
+            title: 'Circumference (inches)',
             value: '4',
           },
           {
@@ -200,7 +205,7 @@ describe('Tree Page Selectors', () => {
     it('returns extra entries when request is completed', () => {
       const expectedExtraResponse: Entry[] = [
         {
-          title: 'Circumference',
+          title: 'Circumference (inches)',
           value: '4',
         },
         {
@@ -230,6 +235,15 @@ describe('Tree Page Selectors', () => {
         extra: [],
       });
     });
+  });
+
+  describe('getSEFieldDisplayName', () => {
+    expect(getSEFieldDisplayName(SiteEntryFields.BAG_EMPTY)).toBe(
+      'Has an empty bag?',
+    );
+    expect(getSEFieldDisplayName(SiteEntryFields.UPDATED_AT)).toBe(
+      'Updated At',
+    );
   });
 
   describe('isTreeAdoptedByUser', () => {

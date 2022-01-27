@@ -1,43 +1,32 @@
 import React from 'react';
 import MapSidebar from '../mapSidebar';
-import PageLayout from '../../pageLayout';
+import PageLayout from '../../../pageLayout';
 import { Layout } from 'antd';
-import { MainContent } from '../../themedComponents';
-import MapContent from '../mapContent';
-import { MapGeoDataReducerState, MapViews } from '../ducks/types';
-import MapLegend from '../mapLegend';
-import { WindowTypes } from '../../windowDimensions';
+import { MainContent } from '../../../themedComponents';
+import { MapViews } from '../../ducks/types';
+import MapLegend from '../../mapLegend';
+import { WindowTypes } from '../../../windowDimensions';
 
 interface MapPageProps {
+  readonly mapContent: JSX.Element;
   readonly sidebarHeader: string;
   readonly sidebarDescription: string;
-  readonly blocks: MapGeoDataReducerState['blockGeoData'];
-  readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
-  readonly sites: MapGeoDataReducerState['siteGeoData'];
   readonly view: MapViews;
   readonly windowType: WindowTypes;
 }
 
 const MapPage: React.FC<MapPageProps> = ({
+  mapContent,
   sidebarHeader,
   sidebarDescription,
   view,
-  blocks,
-  neighborhoods,
-  sites,
   windowType,
   children,
 }) => (
   <>
     <MainContent>
       <PageLayout>
-        <MapContent
-          view={view}
-          blocks={blocks}
-          neighborhoods={neighborhoods}
-          sites={sites}
-          mobile={false}
-        />
+        {mapContent}
         <Layout.Sider
           width={windowType === WindowTypes.Desktop ? '20vw' : '25vw'}
         >

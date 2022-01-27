@@ -7,14 +7,22 @@ import {
 } from './style';
 import {
   BlockGeoData,
+  MapLayersAndListeners,
   MapViews,
   NeighborhoodGeoData,
   SiteGeoData,
 } from '../ducks/types';
-import { addTreePopupOnClick, addZoomToClickedNeighborhood } from './event';
+import {
+  addHandleZoomChange,
+  addTreePopupOnClick,
+  addZoomToClickedNeighborhood,
+  getImageSize,
+} from './event';
 import { BasicTreeInfo } from '../../treePopup';
 import { message } from 'antd';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import { InitMapData } from '../ducks/types';
+import { ALL_SITES_VISIBLE } from '../constants';
 
 // Logic for creating and setting up data layers/markers
 
@@ -154,4 +162,100 @@ export function initUserLocation(map: google.maps.Map): void {
       },
     );
   }
+}
+
+/**
+ * Initializes map with view MapView.TREES.
+ * @param mapData the map data to update
+ * @param neighborhoods the neighborhood geo data
+ * @param sites the site geo data
+ */
+export function initSiteView(
+  mapData: InitMapData,
+  neighborhoods: NeighborhoodGeoData,
+  sites: SiteGeoData,
+): MapLayersAndListeners {
+  const zoomedIn = mapData.zoom >= MapViews.TREES;
+
+  const privateStreetsLayer = initPrivateStreets(mapData.map, false);
+  const neighborhoodsLayer = initNeighborhoods(
+    neighborhoods,
+    mapData.markersArray,
+    MapViews.TREES,
+    mapData.map,
+    !zoomedIn,
+  );
+  const sitesLayer = initSites(
+    sites,
+    ALL_SITES_VISIBLE,
+    mapData.setActiveTreeInfo,
+    mapData.popPopup,
+    mapData.map,
+    getImageSize(mapData.zoom, MapViews.TREES),
+    zoomedIn,
+  );
+
+  initUserLocation(mapData.map);
+
+  const zoomListener = addHandleZoomChange(
+    neighborhoodsLayer,
+    mapData.markersArray,
+    privateStreetsLayer,
+    sitesLayer,
+    sitesLayer,
+    ALL_SITES_VISIBLE,
+    MapViews.TREES,
+    mapData.map,
+  );
+
+  return {
+    privateStreetsLayer,
+    neighborhoodsLayer,
+    sitesLayer,
+    zoomListener,
+  };
+}
+
+/**
+ * Initializes map with view MapView.BLOCKS.
+ * @param mapData the map data to update
+ * @param neighborhoods the neighborhood geo data
+ * @param blocks the blocks geo data
+ */
+export function initBlockView(
+  mapData: InitMapData,
+  neighborhoods: NeighborhoodGeoData,
+  blocks: BlockGeoData,
+): MapLayersAndListeners {
+  const zoomedIn = mapData.zoom >= MapViews.BLOCKS;
+
+  const privateStreetsLayer = initPrivateStreets(mapData.map, true);
+  const neighborhoodsLayer = initNeighborhoods(
+    neighborhoods,
+    mapData.markersArray,
+    MapViews.BLOCKS,
+    mapData.map,
+    !zoomedIn,
+  );
+  const blocksLayer = initBlocks(blocks, mapData.map, true);
+
+  initUserLocation(mapData.map);
+
+  const zoomListener = addHandleZoomChange(
+    neighborhoodsLayer,
+    mapData.markersArray,
+    privateStreetsLayer,
+    blocksLayer,
+    blocksLayer,
+    ALL_SITES_VISIBLE,
+    MapViews.BLOCKS,
+    mapData.map,
+  );
+
+  return {
+    privateStreetsLayer,
+    neighborhoodsLayer,
+    blocksLayer,
+    zoomListener,
+  };
 }
