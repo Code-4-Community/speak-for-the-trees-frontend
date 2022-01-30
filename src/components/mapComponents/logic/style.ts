@@ -50,11 +50,11 @@ export function setBlocksStyle(
       let color = `${MAP_GREEN}`;
 
       // Use this for coloring reserved/completed blocks a different color
-      if (feature.getProperty('block_id') % 10 === 0) {
+      if (feature.getProperty('blockId') % 10 === 0) {
         color = `${MAP_YELLOW}`;
       }
 
-      if (feature.getProperty('block_id') % 10 === 1) {
+      if (feature.getProperty('blockId') % 10 === 1) {
         color = `${MAP_RED}`;
       }
 
@@ -91,7 +91,7 @@ export function setNeighborhoodsStyle(
   neighborhoodsLayer.setStyle((feature) => {
     return {
       fillColor: `${MAP_GREEN}`,
-      fillOpacity: feature.getProperty('canopy_coverage'),
+      fillOpacity: feature.getProperty('canopyCoverage'),
       strokeWeight: 1,
       strokeColor: `${DARK_GREY}`,
       visible: v,
