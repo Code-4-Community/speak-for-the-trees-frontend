@@ -1,5 +1,5 @@
-import { TokenPayload, UserData } from '../ducks/types';
-import { getUserData, login, signup } from '../ducks/thunks';
+import { RefreshTokenResponse, TokenPayload, UserData } from '../ducks/types';
+import { getUserData, login, refresh, signup } from '../ducks/thunks';
 import { authenticateUser, userData } from '../ducks/actions';
 import authClient from '../authClient';
 import { C4CState, initialStoreState, ThunkExtraArgs } from '../../store';
@@ -81,6 +81,71 @@ describe('User Authentication Thunks', () => {
         authenticateUser.failed(mockAPIError.response.data),
       );
       expect(mockLogin).toBeCalledTimes(1);
+    });
+  });
+
+  describe('refresh', () => {
+    const mockRefreshToken =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDU0NzUwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.FHgEdtz16H5u7mtTqE81N4PUsnzjvwdaJ4GK_jdLWAY';
+
+    it('dispatches an authenticateUser.loaded() action after refresh', async () => {
+      const getState = () => generateState({});
+      const mockDispatch = jest.fn();
+      const mockRefresh = jest.fn();
+      const mockRefreshTokenResponse: RefreshTokenResponse = {
+        freshAccessToken:
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDQ4NzIwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.k0D1rySdVqVatWsjdA4i1YYq-7glzrL3ycSQwz-5zLU',
+      };
+      mockRefresh.mockResolvedValue(mockRefreshTokenResponse);
+      const mockExtraArgs: ThunkExtraArgs = {
+        authClient: {
+          ...authClient,
+          refresh: mockRefresh,
+        },
+        protectedApiClient,
+        apiClient,
+      };
+
+      await refresh(mockRefreshToken)(mockDispatch, getState, mockExtraArgs);
+
+      expect(mockDispatch).toHaveBeenCalledTimes(2);
+      expect(mockDispatch).toHaveBeenNthCalledWith(
+        2,
+        authenticateUser.loaded({
+          accessToken: mockRefreshTokenResponse.freshAccessToken,
+          refreshToken: mockRefreshToken,
+        }),
+      );
+      expect(mockRefresh).toBeCalledTimes(1);
+    });
+
+    it('dispatches authenticateUser.failed() action when API fails', async () => {
+      const getState = () => generateState({});
+      const mockDispatch = jest.fn();
+      const mockRefresh = jest.fn();
+      const mockAPIError = {
+        response: {
+          data: 'Invalid token',
+        },
+      };
+      mockRefresh.mockRejectedValue(mockAPIError);
+      const mockExtraArgs: ThunkExtraArgs = {
+        authClient: {
+          ...authClient,
+          refresh: mockRefresh,
+        },
+        protectedApiClient,
+        apiClient,
+      };
+
+      await refresh(mockRefreshToken)(mockDispatch, getState, mockExtraArgs);
+
+      expect(mockDispatch).toHaveBeenCalledTimes(2);
+      expect(mockDispatch).toHaveBeenNthCalledWith(
+        2,
+        authenticateUser.failed(mockAPIError.response.data),
+      );
+      expect(mockRefresh).toBeCalledTimes(1);
     });
   });
 
