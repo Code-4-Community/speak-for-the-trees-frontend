@@ -113,7 +113,7 @@ export const initialStoreState: C4CState = {
   adoptedSitesState: initialProtectedSiteState,
 };
 
-export const LOCALSTORAGE_STATE_KEY: string = 'state';
+export const LOCALSTORAGE_STATE_KEY = 'state';
 
 const loadStateFromLocalStorage = (): C4CState | undefined => {
   try {

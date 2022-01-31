@@ -1,5 +1,6 @@
 import {
   LoginRequest,
+  RefreshTokenResponse,
   SignupRequest,
   TokenPayload,
   UserAuthenticationThunkAction,
@@ -22,6 +23,27 @@ export const login = (
         AppAxiosInstance.defaults.headers['X-Access-Token'] =
           response.accessToken;
         dispatch(authenticateUser.loaded(response));
+      })
+      .catch((error) => {
+        dispatch(authenticateUser.failed(error.response.data));
+      });
+  };
+};
+
+export const refresh = (
+  refreshToken: string,
+): UserAuthenticationThunkAction<void> => {
+  return (dispatch, getState, { authClient }): Promise<void> => {
+    dispatch(authenticateUser.loading());
+    return authClient
+      .refresh(refreshToken)
+      .then((refreshTokenResponse: RefreshTokenResponse) => {
+        dispatch(
+          authenticateUser.loaded({
+            accessToken: refreshTokenResponse.freshAccessToken,
+            refreshToken,
+          }),
+        );
       })
       .catch((error) => {
         dispatch(authenticateUser.failed(error.response.data));
