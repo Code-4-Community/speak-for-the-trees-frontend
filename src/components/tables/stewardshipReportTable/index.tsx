@@ -4,6 +4,7 @@ import { Table } from 'antd';
 import SiteLink from '../siteLink';
 import { dateSorter, DESCEND_ORDER } from '../utils';
 import Tags from '../tags';
+import CopyText from '../../copyText';
 
 interface StewardshipReportTableProps {
   readonly stewardshipReportTableEntries: StewardshipReportTableEntry[];
@@ -31,6 +32,7 @@ const StewardshipReportTable: React.FC<StewardshipReportTableProps> = ({
         title={"Adopter's Email"}
         dataIndex={'email'}
         key={'email'}
+        render={(email: string) => <CopyText text={email} />}
       />
       <Table.Column
         title={'Date Performed'}

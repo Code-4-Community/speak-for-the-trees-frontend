@@ -3,6 +3,7 @@ import { AdoptionReportEntry } from '../../../containers/reports/ducks/types';
 import { Table } from 'antd';
 import SiteLink from '../siteLink';
 import { dateSorter, DESCEND_ORDER } from '../utils';
+import CopyText from '../../copyText';
 
 interface AdoptionReportTableProps {
   readonly adoptionReportEntries: AdoptionReportEntry[];
@@ -32,6 +33,7 @@ const AdoptionReportTable: React.FC<AdoptionReportTableProps> = ({
         title={"Adopter's Email"}
         dataIndex={'email'}
         key={'email'}
+        render={(email: string) => <CopyText text={email} />}
       />
       <Table.Column
         title={'Date Adopted'}
