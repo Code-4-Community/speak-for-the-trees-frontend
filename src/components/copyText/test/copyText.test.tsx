@@ -2,6 +2,10 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import CopyText, { copyToClipboard } from '../index';
 import React from 'react';
 
+/*
+since Jest tests run in JSDOM environment, we have to define the navigator properties to use navigator.clipboard.writeText
+(see more at https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom)
+ */
 Object.assign(navigator, {
   clipboard: {
     writeText: jest.fn(),

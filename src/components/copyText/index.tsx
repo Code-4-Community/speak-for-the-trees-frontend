@@ -7,6 +7,10 @@ interface CopyTextProps {
   readonly onCopy?: (text: string) => Promise<void>;
 }
 
+/**
+ * Writes to the system clipboard using the [Clipboard Api](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API).
+ * @param text the string to copy to the clipboard
+ */
 export const copyToClipboard = (text: string): Promise<void> => {
   return navigator.clipboard.writeText(text);
 };
