@@ -1,24 +1,20 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import {Helmet} from 'react-helmet';
 import styled from 'styled-components';
-import { DARK_GREY, MID_GREEN } from '../../utils/colors';
-import { List, Typography } from 'antd';
+import {DARK_GREY, MID_GREEN} from '../../utils/colors';
+import {List, Typography} from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
-import LinkCard, {
-  Backgrounds,
-  LinkCardProps,
-} from '../../components/linkCard';
+import LinkCard, {Backgrounds, LinkCardProps,} from '../../components/linkCard';
 import LinkCarousel from '../../components/linkCarousel';
 import HomeBackground from '../../assets/images/grey-logo.png';
-import { HOME_HEADER, HOME_TITLE } from '../../assets/content';
-import { Routes } from '../../App';
-import useWindowDimensions, {
-  WindowTypes,
-} from '../../components/windowDimensions';
-import { getUserFirstName } from '../../auth/ducks/selectors';
-import { useSelector } from 'react-redux';
-import { C4CState } from '../../store';
+import {HOME_HEADER, HOME_TITLE} from '../../assets/content';
+import {Routes} from '../../App';
+import useWindowDimensions, {WindowTypes,} from '../../components/windowDimensions';
+import {getPrivilegeLevel, getUserFirstName} from '../../auth/ducks/selectors';
+import {useSelector} from 'react-redux';
+import {C4CState} from '../../store';
+import {PrivilegeLevel} from "../../auth/ducks/types";
 
 const { Paragraph } = Typography;
 
@@ -43,6 +39,12 @@ const Home: React.FC = () => {
     getUserFirstName(state.authenticationState.userData),
   );
   const greeting = `${HOME_TITLE}${userName}!`;
+
+  const userPrivilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
+    getPrivilegeLevel(state.authenticationState.tokens),
+  );
+
+  const userIsAdmin: boolean = userPrivilegeLevel === PrivilegeLevel.ADMIN || userPrivilegeLevel === PrivilegeLevel.SUPER_ADMIN;
 
   const links: LinkCardProps[] = [
     /*
@@ -79,6 +81,14 @@ const Home: React.FC = () => {
     },
   ];
 
+  const authLinks: LinkCardProps[] = [
+    {
+      text: 'Reports',
+          path: `${Routes.REPORTS}`,
+        background: Backgrounds.IMAGE_THREE,
+    },
+  ]
+
   return (
     <>
       <Helmet>
@@ -97,7 +107,7 @@ const Home: React.FC = () => {
                   <>
                     <PageHeader pageTitle={greeting} isMobile={true} />
                     <StyledSubtitle>Quick Links</StyledSubtitle>
-                    <LinkCarousel data={links} slidesPerPage={1} />
+                    <LinkCarousel data={userIsAdmin ? links.concat(authLinks) : links} slidesPerPage={1} />
                   </>
                 );
               case WindowTypes.Tablet:
@@ -105,7 +115,7 @@ const Home: React.FC = () => {
                   <>
                     <PageHeader pageTitle={greeting} />
                     <StyledSubtitle>Quick Links</StyledSubtitle>
-                    <LinkCarousel data={links} slidesPerPage={2} />
+                    <LinkCarousel data={userIsAdmin ? links.concat(authLinks) : links} slidesPerPage={2} />
                   </>
                 );
               case WindowTypes.NarrowDesktop:
@@ -118,7 +128,7 @@ const Home: React.FC = () => {
                     />
                     <StyledSubtitle>Quick Links</StyledSubtitle>
                     <List
-                      dataSource={links}
+                      dataSource={userIsAdmin ? links.concat(authLinks) : links}
                       grid={{ gutter: 1, column: 3 }}
                       /*
                       pagination={{
@@ -145,7 +155,7 @@ const Home: React.FC = () => {
                     />
                     <StyledSubtitle>Quick Links</StyledSubtitle>
                     <List
-                      dataSource={links}
+                      dataSource={userIsAdmin ? links.concat(authLinks) : links}
                       grid={{ gutter: 16, column: 4 }}
                       /* Remove comment when more links are accessible from home
                       pagination={{
