@@ -77,7 +77,7 @@ export function addShowReservationModal(): void {
   blocksLayer.addListener('click', (event) => {
     // get status of block based on color
     const status: ReservationModalType = ((): ReservationModalType => {
-      switch (event.feature.getProperty('block_id') % 10) {
+      switch (event.feature.getProperty('blockId') % 10) {
         case 1:
           return ReservationModalType.TAKEN;
         case 0:
@@ -91,7 +91,7 @@ export function addShowReservationModal(): void {
     // set status of block
     setReservationType(status);
     // set id of block
-    setActiveBlockId(event.feature.getProperty('block_id'));
+    setActiveBlockId(event.feature.getProperty('blockId'));
   });
 }
  */

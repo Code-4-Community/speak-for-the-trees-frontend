@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Checkbox, Typography } from 'antd';
-import { WHITE } from '../../../utils/colors';
-import { MapViews } from '../ducks/types';
+import { WHITE } from '../../../../utils/colors';
+import { MapViews } from '../../ducks/types';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
-import SlideDown from '../../slideDown';
-import MapLegend from '../mapLegend';
-import { ALL_SITES_VISIBLE, SITE_OPTIONS } from '../constants';
+import SlideDown from '../../../slideDown';
+import MapLegend from '../../mapLegend';
+import { ALL_SITES_VISIBLE, SITE_OPTIONS } from '../../constants';
 
 const LegendContainer = styled.div`
-  min-width: 200px;
+  min-width: 300px;
   width: 15vw;
   position: absolute;
   z-index: 2;

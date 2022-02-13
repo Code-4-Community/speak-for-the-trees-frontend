@@ -2,7 +2,7 @@ import {
   BlockGeoData,
   NeighborhoodGeoData,
   SiteGeoData,
-} from '../../components/mapPageComponents/ducks/types';
+} from '../../components/mapComponents/ducks/types';
 import ApiClient, {
   ApiClientRoutes,
   ParameterizedApiRoutes,

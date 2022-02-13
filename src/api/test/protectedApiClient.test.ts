@@ -1,5 +1,6 @@
 import ProtectedApiClient, {
   AdminApiClientRoutes,
+  ParameterizedAdminApiRoutes,
   ParameterizedApiRoutes,
   ProtectedApiClientRoutes,
 } from '../protectedApiClient';
@@ -1233,6 +1234,109 @@ describe('Protected API Client Tests', () => {
       });
     });
   });
+
+  describe('Update site', () => {
+    it('makes the right request', async () => {
+      const response = {};
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.UPDATE_SITE(1))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.updateSite(1, {
+        treePresent: null,
+        status: null,
+        genus: null,
+        species: null,
+        commonName: null,
+        confidence: null,
+        diameter: null,
+        circumference: null,
+        multistem: null,
+        coverage: null,
+        pruning: null,
+        condition: null,
+        discoloring: null,
+        leaning: null,
+        constrictingGrate: null,
+        wounds: null,
+        pooling: null,
+        stakesWithWires: null,
+        stakesWithoutWires: null,
+        light: null,
+        bicycle: null,
+        bagEmpty: null,
+        bagFilled: null,
+        tape: null,
+        suckerGrowth: null,
+        siteType: null,
+        sidewalkWidth: null,
+        siteWidth: null,
+        siteLength: null,
+        material: null,
+        raisedBed: null,
+        fence: null,
+        trash: null,
+        wires: null,
+        grate: null,
+        stump: null,
+        treeNotes: null,
+        siteNotes: null,
+      });
+
+      expect(result).toEqual(response);
+    });
+    it('makes a bad request', async () => {
+      const response = 'Bad request!';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.UPDATE_SITE(-1))
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.updateSite(-1, {
+        treePresent: null,
+        status: null,
+        genus: null,
+        species: null,
+        commonName: null,
+        confidence: null,
+        diameter: null,
+        circumference: null,
+        multistem: null,
+        coverage: null,
+        pruning: null,
+        condition: null,
+        discoloring: null,
+        leaning: null,
+        constrictingGrate: null,
+        wounds: null,
+        pooling: null,
+        stakesWithWires: null,
+        stakesWithoutWires: null,
+        light: null,
+        bicycle: null,
+        bagEmpty: null,
+        bagFilled: null,
+        tape: null,
+        suckerGrowth: null,
+        siteType: null,
+        sidewalkWidth: null,
+        siteWidth: null,
+        siteLength: null,
+        material: null,
+        raisedBed: null,
+        fence: null,
+        trash: null,
+        wires: null,
+        grate: null,
+        stump: null,
+        treeNotes: null,
+        siteNotes: null,
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+  });
 });
 
 describe('Admin Protected Client Routes', () => {
@@ -1280,6 +1384,45 @@ describe('Admin Protected Client Routes', () => {
         targetUserEmail: 'jblanc222@gmail.com',
         newLevel: PrivilegeLevel.STANDARD,
         password: 'password',
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+  });
+  describe('editSite', () => {
+    it('makes the right request', async () => {
+      const response = new Promise((res) => res);
+
+      nock(BASE_URL)
+        .post(ParameterizedAdminApiRoutes.EDIT_SITE(1))
+        .reply(200, response);
+
+      const result = ProtectedApiClient.editSite(1, {
+        address: 'address',
+        city: 'city',
+        zip: '02115',
+        lat: 0,
+        lng: 0,
+        neighborhoodId: 1,
+      });
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'Bad request!';
+
+      nock(BASE_URL)
+        .post(ParameterizedAdminApiRoutes.EDIT_SITE(1))
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.editSite(1, {
+        address: 'address',
+        city: 'city',
+        zip: '02115',
+        lat: 0,
+        lng: 0,
+        neighborhoodId: -1,
       }).catch((err) => err.response.data);
 
       expect(result).toEqual(response);

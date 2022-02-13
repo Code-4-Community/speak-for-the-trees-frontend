@@ -4,7 +4,7 @@ import { Card, Typography } from 'antd';
 import styled from 'styled-components';
 import { CardInfo, GreenLinkButton } from '../themedComponents';
 import { MID_GREEN, TEXT_GREY, LIGHT_GREY } from '../../utils/colors';
-import { SiteFeaturePropertiesResponse } from '../mapPageComponents/ducks/types';
+import { SiteFeaturePropertiesResponse } from '../mapComponents/ducks/types';
 
 const { Paragraph } = Typography;
 

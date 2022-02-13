@@ -29,6 +29,7 @@ import NavBar from './components/navBar';
 import ForgotPassword from './containers/forgotPassword';
 import ForgotPasswordReset from './containers/forgotPasswordReset';
 import AuthRedirect from './components/authRedirect';
+import SitePage from './containers/sitePage';
 import Reports from './containers/reports';
 
 const { Content } = Layout;
@@ -41,6 +42,7 @@ type AppProps = UserAuthenticationReducerState;
 
 export enum ParameterizedRouteBases {
   // TEAM = '/team/',
+  SITE = '/site/',
   TREE = '/tree/',
   // FORGOT_PASSWORD_RESET = '/forgot-password-reset/',
 }
@@ -51,6 +53,7 @@ export enum Routes {
   SIGNUP = '/signup',
   HOME = '/home',
   SETTINGS = '/settings',
+  SITE = '/site/:id',
   // VOLUNTEER = '/volunteer',
   // TEAM = '/team/:id',
   TREE = '/tree/:id',
@@ -104,6 +107,17 @@ const App: React.FC = () => {
                       <Route path={Routes.TREE} exact component={TreePage} />
                       <AuthRedirect from={Routes.HOME} />
                       <AuthRedirect from={Routes.SETTINGS} />
+                      <Route
+                        path={Routes.SITE}
+                        exact
+                        render={({ match }) => {
+                          return (
+                            <AuthRedirect
+                              from={`${ParameterizedRouteBases.SITE}${match.params.id}`}
+                            />
+                          );
+                        }}
+                      />
                       <AuthRedirect from={Routes.MY_TREES} />
                       {/*
                       <AuthRedirect from={Routes.VOLUNTEER} />
@@ -192,6 +206,7 @@ const App: React.FC = () => {
                         exact
                         component={Settings}
                       />
+                      <Route path={Routes.SITE} exact component={SitePage} />
                       <Route path={Routes.MY_TREES} exact component={MyTrees} />
                       {/*
                       <Route

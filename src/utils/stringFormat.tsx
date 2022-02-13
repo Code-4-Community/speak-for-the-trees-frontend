@@ -1,4 +1,5 @@
 import { Entry, MainSiteEntryOrder } from '../containers/treePage/ducks/types';
+import { NEIGHBORHOOD_IDS } from '../assets/content';
 
 /**
  * Converts the given dollar amount to a formatted string
@@ -109,6 +110,14 @@ export function combineScientificName(entries: Entry[]): Entry[] {
   }
 
   return newEntries;
+}
+
+/**
+ * Returns the name of the neighborhood with the given ID.
+ * @param id the neighborhood id
+ */
+export function getNeighborhoodName(id: number): string {
+  return NEIGHBORHOOD_IDS[id] || 'Neighborhood not found.';
 }
 
 /**

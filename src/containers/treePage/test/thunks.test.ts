@@ -50,6 +50,7 @@ describe('Tree Page Thunks', () => {
         ],
       };
       const mockSite: SiteProps = {
+        neighborhoodId: 0,
         siteId: 0,
         blockId: 1,
         lat: 100,
@@ -59,6 +60,7 @@ describe('Tree Page Thunks', () => {
         address: '1800 place',
         entries: [
           {
+            id: 1,
             updatedAt: 200,
             status: 'good',
             species: 'tree',
@@ -67,6 +69,7 @@ describe('Tree Page Thunks', () => {
             bicycle: true,
           },
           {
+            id: 2,
             updatedAt: 100,
             status: 'bad',
             species: 'not a tree',
@@ -167,6 +170,7 @@ describe('Tree Page Thunks', () => {
       const mockGetSite = jest.fn();
       const mockGetStewardship = jest.fn();
       const mockSite: SiteProps = {
+        neighborhoodId: 0,
         siteId: 0,
         blockId: 1,
         lat: 100,
@@ -176,6 +180,7 @@ describe('Tree Page Thunks', () => {
         address: '1800 place',
         entries: [
           {
+            id: 1,
             updatedAt: 200,
             status: 'good',
             species: 'tree',
@@ -184,6 +189,7 @@ describe('Tree Page Thunks', () => {
             bicycle: true,
           },
           {
+            id: 2,
             updatedAt: 100,
             status: 'bad',
             species: 'not a tree',

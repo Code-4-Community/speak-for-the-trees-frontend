@@ -17,11 +17,11 @@ import thunk from 'redux-thunk';
 import protectedApiClient, {
   ProtectedApiExtraArgs,
 } from './api/protectedApiClient';
-import { MapGeoDataReducerState } from './components/mapPageComponents/ducks/types';
-import { MapActions } from './components/mapPageComponents/ducks/actions';
+import { MapGeoDataReducerState } from './components/mapComponents/ducks/types';
+import { MapActions } from './components/mapComponents/ducks/actions';
 import mapGeoDataReducer, {
   initialMapGeoDataState,
-} from './components/mapPageComponents/ducks/reducer';
+} from './components/mapComponents/ducks/reducer';
 import apiClient, { ApiExtraArgs } from './api/apiClient';
 import { UserLeaderboardReducerState } from './containers/volunteerLeaderboard/ducks/types';
 import { VolunteerLeaderboardItemAction } from './containers/volunteerLeaderboard/ducks/actions';
@@ -113,7 +113,7 @@ export const initialStoreState: C4CState = {
   adoptedSitesState: initialProtectedSiteState,
 };
 
-export const LOCALSTORAGE_STATE_KEY: string = 'state';
+export const LOCALSTORAGE_STATE_KEY = 'state';
 
 const loadStateFromLocalStorage = (): C4CState | undefined => {
   try {

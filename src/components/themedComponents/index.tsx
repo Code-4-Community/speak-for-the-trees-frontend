@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Col, Form, Space, List, Image } from 'antd';
+import { Button, Col, Form, Space, List, Image, InputNumber } from 'antd';
 import { FormItemProps } from 'antd/es/form';
 import {
   BLACK,
@@ -60,6 +60,23 @@ export const SubmitButton = styled(Button)`
   font-size: 16px;
 `;
 
+export const GreenButton = styled(Button)`
+  margin-top: 10px;
+  background: ${LIGHT_GREEN};
+  border: ${LIGHT_GREEN};
+  color: ${WHITE};
+  font-size: 16px;
+  height: 36px;
+`;
+
+export const WhiteButton = styled(Button)`
+  margin-top: 10px;
+  background: ${WHITE};
+  border: 1px solid ${LIGHT_GREEN};
+  font-size: 16px;
+  height: 36px;
+`;
+
 export const ReturnButton = styled(LinkButton)`
   height: 45px;
   border-color: ${MID_GREEN};
@@ -93,4 +110,35 @@ export const CardInfo = styled.div`
 
 export const InlineImage = styled(Image)`
   display: inline-block;
+`;
+
+export interface FlexProps {
+  justifyContent?: string;
+}
+
+export const Flex = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 15px 50px;
+  justify-content: ${({ justifyContent }: FlexProps) =>
+    justifyContent ? justifyContent : 'flex-start'};
+`;
+
+export const FullInputNumber = styled(InputNumber)`
+  width: 100%;
+`;
+
+export interface BlockProps {
+  maxWidth?: string;
+  minWidth?: string;
+  flexGrow?: string;
+}
+
+export const Block = styled.div`
+  display: block;
+  max-width: ${({ maxWidth }: BlockProps) => (maxWidth ? maxWidth : 'auto')};
+  min-width: ${({ minWidth }: BlockProps) => (minWidth ? minWidth : 'auto')};
+  flex-grow: ${({ flexGrow }: BlockProps) => (flexGrow ? flexGrow : '0')};
 `;

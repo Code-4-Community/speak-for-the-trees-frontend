@@ -3,7 +3,7 @@ import { Redirect } from 'react-router';
 import { Routes } from '../../App';
 
 interface AuthRedirectProps {
-  readonly from: Routes;
+  readonly from: string;
 }
 
 const AuthRedirect: React.FC<AuthRedirectProps> = ({ from }) => {

@@ -1,36 +1,36 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import MapPage from '../../components/mapPageComponents/mapPage';
+import MapPage from '../../components/mapComponents/mapPageComponents/mapPage';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
-import { getMapGeoData } from '../../components/mapPageComponents/ducks/thunks';
+import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
 import { LANDING_BODY, LANDING_TITLE } from '../../assets/content';
 import { C4CState } from '../../store';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
-import MobileMapPage from '../../components/mapPageComponents/mobileMapPage';
-import MobileLandingBar from '../../components/mapPageComponents/mobileLandingBar';
+import MobileMapPage from '../../components/mapComponents/mapPageComponents/mobileMapPage';
+import MobileLandingBar from '../../components/mapComponents/mapPageComponents/mobileLandingBar';
 import {
   MapGeoDataReducerState,
   MapViews,
-} from '../../components/mapPageComponents/ducks/types';
+} from '../../components/mapComponents/ducks/types';
 import AdoptionDirections from '../../components/adoptionDirections';
-import MapLegend from '../../components/mapPageComponents/mapLegend';
+import MapLegend from '../../components/mapComponents/mapLegend';
 import { Routes } from '../../App';
+import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
 
 const PaddedContent = styled.div`
   padding: 24px 50px;
 `;
 
 interface LandingProps {
-  readonly blocks: MapGeoDataReducerState['blockGeoData'];
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly sites: MapGeoDataReducerState['siteGeoData'];
 }
 
-const Landing: React.FC<LandingProps> = ({ blocks, neighborhoods, sites }) => {
+const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
   const dispatch = useDispatch();
   const loggedIn: boolean = useSelector((state: C4CState) =>
     isLoggedIn(state.authenticationState.tokens),
@@ -58,10 +58,13 @@ const Landing: React.FC<LandingProps> = ({ blocks, neighborhoods, sites }) => {
           case WindowTypes.Mobile:
             return (
               <MobileMapPage
-                blocks={blocks}
-                neighborhoods={neighborhoods}
-                sites={sites}
-                view={landingMapView}
+                mapContent={
+                  <TreeMapDisplay
+                    neighborhoods={neighborhoods}
+                    sites={sites}
+                    mobile={true}
+                  />
+                }
                 returnTo={Routes.LANDING}
               >
                 <PaddedContent>
@@ -85,11 +88,15 @@ const Landing: React.FC<LandingProps> = ({ blocks, neighborhoods, sites }) => {
           case WindowTypes.Desktop:
             return (
               <MapPage
+                mapContent={
+                  <TreeMapDisplay
+                    neighborhoods={neighborhoods}
+                    sites={sites}
+                    mobile={false}
+                  />
+                }
                 sidebarHeader={LANDING_TITLE}
                 sidebarDescription={LANDING_BODY}
-                blocks={blocks}
-                neighborhoods={neighborhoods}
-                sites={sites}
                 view={landingMapView}
                 windowType={windowType}
               >
@@ -105,7 +112,6 @@ const Landing: React.FC<LandingProps> = ({ blocks, neighborhoods, sites }) => {
 const mapStateToProps = (state: C4CState): LandingProps => {
   return {
     neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
-    blocks: state.mapGeoDataState.blockGeoData,
     sites: state.mapGeoDataState.siteGeoData,
   };
 };

@@ -3,6 +3,7 @@ import { ThunkAction } from 'redux-thunk';
 import { MapActions } from './actions';
 import { ApiExtraArgs } from '../../../api/apiClient';
 import { AsyncRequest } from '../../../utils/asyncRequest';
+import { BasicTreeInfo } from '../../treePopup';
 
 // ---------------------------------Blocks----------------------------------------
 
@@ -102,4 +103,30 @@ export type MapGeoDataThunkAction<R> = ThunkAction<
 export enum MapViews {
   BLOCKS = 13,
   TREES = 16,
+}
+
+export interface BasicMapData {
+  readonly map: google.maps.Map;
+  readonly zoom: number;
+  readonly markersArray: google.maps.Marker[];
+}
+
+// Data given to initMap functions to set up map features outside of LOADER.load().then()
+export interface InitMapData extends BasicMapData {
+  readonly popPopup: (latLng: google.maps.LatLng) => void;
+  readonly setActiveTreeInfo: (info: BasicTreeInfo) => void;
+}
+
+// Map data layers and listeners
+export interface MapLayersAndListeners {
+  readonly privateStreetsLayer: google.maps.Data;
+  readonly neighborhoodsLayer: google.maps.Data;
+  readonly blocksLayer?: google.maps.Data;
+  readonly sitesLayer?: google.maps.Data;
+  zoomListener: google.maps.MapsEventListener; // mutable to allow parent components to unload/assign new zoom event listeners
+}
+
+// Data returned to the map after initMap functions are called
+export interface ReturnMapData extends BasicMapData, MapLayersAndListeners {
+  readonly searchMarker: google.maps.Marker;
 }
