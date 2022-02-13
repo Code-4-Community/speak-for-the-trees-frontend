@@ -13,22 +13,16 @@ import {
   Entry,
   MainSiteEntryNames,
   ExtraSiteEntryNames,
-<<<<<<< show-stewardship-activities
   MonthYearOption,
-=======
   SiteEntryFields,
->>>>>>> master
 } from '../ducks/types';
 import {
   mapStewardshipToTreeCare,
   getLatestSplitEntry,
   getLatestEntry,
   isTreeAdoptedByUser,
-<<<<<<< show-stewardship-activities
   mapStewardshipToMonthYearOptions,
-=======
   getSEFieldDisplayName,
->>>>>>> master
 } from '../ducks/selectors';
 
 describe('Tree Page Selectors', () => {

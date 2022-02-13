@@ -11,12 +11,9 @@ import {
   SiteEntryField,
   SiteProps,
   SplitSiteEntries,
-<<<<<<< show-stewardship-activities
   MonthYearOption,
-=======
   StewardshipActivities,
   TreeCare,
->>>>>>> master
 } from './types';
 import {
   booleanToString,
