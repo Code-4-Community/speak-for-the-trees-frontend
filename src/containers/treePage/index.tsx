@@ -9,6 +9,7 @@ import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import {
   ActivityRequest,
+  MonthYearOption,
   ProtectedSitesReducerState,
   SiteReducerState,
   SplitSiteEntries,
@@ -20,6 +21,7 @@ import styled from 'styled-components';
 import {
   getLatestSplitEntry,
   isTreeAdoptedByUser,
+  mapStewardshipToMonthYearOptions,
   mapStewardshipToTreeCare,
 } from './ducks/selectors';
 import {
@@ -99,6 +101,7 @@ interface TreeProps {
   readonly tokens: UserAuthenticationReducerState['tokens'];
   readonly siteData: SiteReducerState['siteData'];
   readonly stewardship: TreeCare[];
+  readonly monthYearOptions: MonthYearOption[];
   readonly adoptedSites: ProtectedSitesReducerState['adoptedSites'];
 }
 
@@ -106,7 +109,12 @@ interface TreeParams {
   id: string;
 }
 
-const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
+const TreePage: React.FC<TreeProps> = ({
+  siteData,
+  stewardship,
+  monthYearOptions,
+  tokens,
+}) => {
   const location = useLocation<RedirectStateProps>();
 
   const dispatch = useDispatch();
@@ -268,7 +276,10 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                           <Col span={1} />
                           <Col span={9}>
                             <TreeCareContainer>
-                              <TreeActivity stewardship={stewardship} />
+                              <TreeActivity
+                                stewardship={stewardship}
+                                monthYearOptions={monthYearOptions}
+                              />
                             </TreeCareContainer>
                           </Col>
                         </Row>
@@ -291,7 +302,10 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                           />
                         </TreeInfoContainer>
                         <TreeCareContainer>
-                          <TreeActivity stewardship={stewardship} />
+                          <TreeActivity
+                            stewardship={stewardship}
+                            monthYearOptions={monthYearOptions}
+                          />
                         </TreeCareContainer>
                       </TreeMainContainer>
                     );
@@ -309,7 +323,10 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                           stewardshipFormInstance={stewardshipFormInstance}
                         />
                         <MobileTreeCareContainer>
-                          <TreeActivity stewardship={stewardship} limit={4} />
+                          <TreeActivity
+                            stewardship={stewardship}
+                            monthYearOptions={monthYearOptions}
+                          />
                         </MobileTreeCareContainer>
                       </MobileTreeMainContainer>
                     );
@@ -360,6 +377,9 @@ const mapStateToProps = (state: C4CState): TreeProps => {
     tokens: state.authenticationState.tokens,
     siteData: state.siteState.siteData,
     stewardship: mapStewardshipToTreeCare(
+      state.siteState.stewardshipActivityData,
+    ),
+    monthYearOptions: mapStewardshipToMonthYearOptions(
       state.siteState.stewardshipActivityData,
     ),
     adoptedSites: state.adoptedSitesState.adoptedSites,

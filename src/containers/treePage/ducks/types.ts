@@ -175,8 +175,15 @@ export const ExtraSiteEntryNames: Record<string, string> = {
 };
 
 export interface TreeCare {
-  date: string;
+  month: string;
+  year: number;
+  day: string;
   message: string;
+}
+
+export interface MonthYearOption {
+  month: string;
+  year: number;
 }
 
 export interface StewardshipActivities {
