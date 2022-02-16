@@ -34,8 +34,6 @@ import {
   LOGIN_TITLE,
 } from '../../assets/content';
 
-const { Paragraph } = Typography;
-
 const LoginPageContainer = styled.div`
   margin: auto;
   width: 80vw;
@@ -67,14 +65,14 @@ const TabletLine = styled.div`
   background: ${WHITE};
 `;
 
-const Footer = styled(Paragraph)`
+const Footer = styled(Typography.Paragraph)`
   color: ${TEXT_GREY};
   line-height: 1.5;
   margin-top: 1.5vh;
   margin-bottom: -10px;
 `;
 
-const Title = styled(Paragraph)`
+const Title = styled(Typography.Paragraph)`
   color: ${BLACK};
   font-size: 30px;
   line-height: 36px;

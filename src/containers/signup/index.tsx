@@ -26,8 +26,6 @@ import { RedirectStateProps, Routes } from '../../App';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import { SIGNUP_BODY, SIGNUP_HEADER, SIGNUP_TITLE } from '../../assets/content';
 
-const { Paragraph } = Typography;
-
 const SignupPageContainer = styled.div`
   margin: auto;
   width: 80vw;
@@ -59,7 +57,7 @@ const TabletLine = styled.div`
   background: ${WHITE};
 `;
 
-const Title = styled(Paragraph)`
+const Title = styled(Typography.Paragraph)`
   color: ${BLACK};
   font-size: 30px;
   line-height: 33px;
