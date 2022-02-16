@@ -1,4 +1,4 @@
-import { RefreshTokenResponse, TokenPayload, UserData } from '../ducks/types';
+import { RefreshTokenResponse } from '../ducks/types';
 import { getUserData, login, refresh, signup } from '../ducks/thunks';
 import { authenticateUser, userData } from '../ducks/actions';
 import authClient from '../authClient';
@@ -8,6 +8,7 @@ import protectedApiClient, {
 } from '../../api/protectedApiClient';
 import apiClient from '../../api/apiClient';
 import nock from 'nock';
+import { mockTokenResponse, mockUserDataResponse } from '../../App.test';
 
 const BASE_URL = 'http://localhost';
 
@@ -22,19 +23,7 @@ describe('User Authentication Thunks', () => {
       const getState = () => generateState({});
       const mockDispatch = jest.fn();
       const mockLogin = jest.fn();
-      const mockTokenResponse: TokenPayload = {
-        accessToken:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDQ4NzIwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.k0D1rySdVqVatWsjdA4i1YYq-7glzrL3ycSQwz-5zLU',
-        refreshToken:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDU0NzUwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.FHgEdtz16H5u7mtTqE81N4PUsnzjvwdaJ4GK_jdLWAY',
-      };
       mockLogin.mockResolvedValue(mockTokenResponse);
-      const mockUserDataResponse: UserData = {
-        firstName: 'First',
-        lastName: 'Last',
-        email: 'email@email.com',
-        username: 'user',
-      };
       nock(BASE_URL)
         .get(ProtectedApiClientRoutes.GET_USER_DATA)
         .reply(200, mockUserDataResponse);
@@ -101,12 +90,6 @@ describe('User Authentication Thunks', () => {
       const getState = () => generateState({});
       const mockDispatch = jest.fn();
       const mockLogin = jest.fn();
-      const mockTokenResponse: TokenPayload = {
-        accessToken:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDQ4NzIwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.k0D1rySdVqVatWsjdA4i1YYq-7glzrL3ycSQwz-5zLU',
-        refreshToken:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDU0NzUwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.FHgEdtz16H5u7mtTqE81N4PUsnzjvwdaJ4GK_jdLWAY',
-      };
       mockLogin.mockResolvedValue(mockTokenResponse);
       const mockUserDataError = 'mock fail';
       nock(BASE_URL)
@@ -210,12 +193,6 @@ describe('User Authentication Thunks', () => {
       const getState = () => generateState({});
       const mockDispatch = jest.fn();
       const mockSignup = jest.fn();
-      const mockTokenResponse: TokenPayload = {
-        accessToken:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDQ4NzIwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.k0D1rySdVqVatWsjdA4i1YYq-7glzrL3ycSQwz-5zLU',
-        refreshToken:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDU0NzUwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.FHgEdtz16H5u7mtTqE81N4PUsnzjvwdaJ4GK_jdLWAY',
-      };
       mockSignup.mockResolvedValue(mockTokenResponse);
       const mockExtraArgs: ThunkExtraArgs = {
         authClient: {
@@ -224,12 +201,6 @@ describe('User Authentication Thunks', () => {
         },
         protectedApiClient,
         apiClient,
-      };
-      const mockUserDataResponse: UserData = {
-        firstName: 'First',
-        lastName: 'Last',
-        email: 'email@email.com',
-        username: 'user',
       };
       nock(BASE_URL)
         .get(ProtectedApiClientRoutes.GET_USER_DATA)
@@ -294,12 +265,6 @@ describe('User Authentication Thunks', () => {
     it('dispatches an userData.loaded() action after getting user data', async () => {
       const getState = () => generateState({});
       const mockDispatch = jest.fn();
-      const mockUserDataResponse: UserData = {
-        firstName: 'First',
-        lastName: 'Last',
-        email: 'email@email.com',
-        username: 'user',
-      };
       const mockExtraArgs: ThunkExtraArgs = {
         authClient,
         protectedApiClient,

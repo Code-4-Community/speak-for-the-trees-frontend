@@ -1,5 +1,6 @@
 import { TokenPayload, UserData } from './auth/ducks/types';
 
+// constants to use in tests
 export const mockTokenResponse: TokenPayload = {
   accessToken:
     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDQ4NzIwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.k0D1rySdVqVatWsjdA4i1YYq-7glzrL3ycSQwz-5zLU',
@@ -10,7 +11,7 @@ export const mockTokenResponse: TokenPayload = {
 export const mockUserDataResponse: UserData = {
   firstName: 'First',
   lastName: 'Last',
-  email: 'email@email.com',
+  email: 'test@email.com',
   username: 'user',
 };
 
