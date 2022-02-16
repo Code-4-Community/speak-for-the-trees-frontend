@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import { Typography } from 'antd';
 import { BlockProps, Block } from '../themedComponents';
 
-const { Text } = Typography;
-
-const StackTitle = styled(Text)`
+const StackTitle = styled(Typography.Text)`
   font-weight: bold;
   font-size: 16px;
 `;

@@ -6,9 +6,6 @@ import { Collapse, Typography } from 'antd';
 import { TabItem } from '../types';
 import { FullWidthSpace } from '../../themedComponents';
 
-const { Panel } = Collapse;
-const { Paragraph } = Typography;
-
 interface LeaderboardStyleProps {
   large?: boolean;
 }
@@ -19,7 +16,7 @@ const LeaderboardCollapse = styled(Collapse)`
   ${({ large }: LeaderboardStyleProps) => large && 'padding: 15px 0px 10px'};
 `;
 
-const LeaderboardItemName = styled(Paragraph)`
+const LeaderboardItemName = styled(Typography.Paragraph)`
   color: ${BLACK};
   display: inline-block;
   line-height: 0px;
@@ -32,7 +29,7 @@ const LeaderboardRankContainer = styled.span`
   display: inline-block;
 `;
 
-const LeaderboardItemRank = styled(Paragraph)<ParagraphProps>`
+const LeaderboardItemRank = styled(Typography.Paragraph)<ParagraphProps>`
   color: ${BLACK};
   display: inline;
   vertical-align: middle;
@@ -64,7 +61,7 @@ const LeaderboardPanels: React.FC<LeaderboardSpaceProps> = ({
     <FullWidthSpace direction="vertical" size={large ? 'large' : 'small'}>
       {itemsOnPage.map((item) => (
         <LeaderboardCollapse bordered={true} key={item.name} large={large}>
-          <Panel
+          <Collapse.Panel
             key={item.id}
             header={
               <>
@@ -83,7 +80,7 @@ const LeaderboardPanels: React.FC<LeaderboardSpaceProps> = ({
             disabled={!item.collapseContent}
           >
             {item.collapseContent}
-          </Panel>
+          </Collapse.Panel>
         </LeaderboardCollapse>
       ))}
     </FullWidthSpace>

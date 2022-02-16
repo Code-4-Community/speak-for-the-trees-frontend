@@ -5,8 +5,6 @@ import styled from 'styled-components';
 import { CardInfo } from '../themedComponents';
 import { MID_GREEN, TEXT_GREY, LIGHT_GREY } from '../../utils/colors';
 
-const { Paragraph } = Typography;
-
 const StyledCard = styled(Card)`
   width: 95%;
   max-height: 112px;
@@ -19,7 +17,7 @@ const CardContent = styled.div`
   align-items: center;
 `;
 
-const BlockTitle = styled(Paragraph)`
+const BlockTitle = styled(Typography.Paragraph)`
   font-size: 24px;
   line-height: 32px;
   color: ${MID_GREEN};

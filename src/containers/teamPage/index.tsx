@@ -16,9 +16,6 @@ import {
   WHITE,
 } from '../../utils/colors';
 
-const { Paragraph } = Typography;
-const { Panel } = Collapse;
-
 const TeamContainer = styled.div`
   padding: 70px 134px;
 `;
@@ -56,7 +53,7 @@ const GoalContainer = styled.div`
   width: 55%;
 `;
 
-const SectionHeader = styled(Paragraph)`
+const SectionHeader = styled(Typography.Paragraph)`
   font-size: 25px;
   font-weight: bold;
   line-height: 1;
@@ -72,14 +69,14 @@ const LeaderboardCollapse = styled(Collapse)`
   font-size: 15px;
 `;
 
-const BlackText = styled(Paragraph)`
+const BlackText = styled(Typography.Paragraph)`
   display: inline-block;
   color: ${BLACK};
   font-size: 15px;
   line-height: 0.5;
 `;
 
-const StyledPanel = styled(Panel)`
+const StyledPanel = styled(Collapse.Panel)`
   min-height: 40px;
   margin-bottom: 10px;
   padding-left: 10px;
