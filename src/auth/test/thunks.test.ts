@@ -18,7 +18,7 @@ export const generateState = (partialState: Partial<C4CState>): C4CState => ({
 
 describe('User Authentication Thunks', () => {
   describe('login', () => {
-    it('dispatches an authenticateUser.loaded() action after login', async () => {
+    it('dispatches an authenticateUser.loaded() and userData.loaded action after login', async () => {
       const getState = () => generateState({});
       const mockDispatch = jest.fn();
       const mockLogin = jest.fn();
@@ -29,6 +29,16 @@ describe('User Authentication Thunks', () => {
           'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDU0NzUwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.FHgEdtz16H5u7mtTqE81N4PUsnzjvwdaJ4GK_jdLWAY',
       };
       mockLogin.mockResolvedValue(mockTokenResponse);
+      const mockUserDataResponse: UserData = {
+        firstName: 'First',
+        lastName: 'Last',
+        email: 'email@email.com',
+        username: 'user',
+      };
+      nock(BASE_URL)
+        .get(ProtectedApiClientRoutes.GET_USER_DATA)
+        .reply(200, mockUserDataResponse);
+
       const mockExtraArgs: ThunkExtraArgs = {
         authClient: {
           ...authClient,
@@ -43,10 +53,14 @@ describe('User Authentication Thunks', () => {
         password: 'password',
       })(mockDispatch, getState, mockExtraArgs);
 
-      expect(mockDispatch).toHaveBeenCalledTimes(2);
+      expect(mockDispatch).toHaveBeenCalledTimes(4);
       expect(mockDispatch).toHaveBeenNthCalledWith(
-        2,
+        4,
         authenticateUser.loaded(mockTokenResponse),
+      );
+      expect(mockDispatch).toHaveBeenNthCalledWith(
+        3,
+        userData.loaded(mockUserDataResponse),
       );
       expect(mockLogin).toBeCalledTimes(1);
     });
@@ -79,6 +93,48 @@ describe('User Authentication Thunks', () => {
       expect(mockDispatch).toHaveBeenNthCalledWith(
         2,
         authenticateUser.failed(mockAPIError.response.data),
+      );
+      expect(mockLogin).toBeCalledTimes(1);
+    });
+
+    it('dispatches an userData.failed() action after login works but getUserData fails ', async () => {
+      const getState = () => generateState({});
+      const mockDispatch = jest.fn();
+      const mockLogin = jest.fn();
+      const mockTokenResponse: TokenPayload = {
+        accessToken:
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDQ4NzIwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.k0D1rySdVqVatWsjdA4i1YYq-7glzrL3ycSQwz-5zLU',
+        refreshToken:
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDU0NzUwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.FHgEdtz16H5u7mtTqE81N4PUsnzjvwdaJ4GK_jdLWAY',
+      };
+      mockLogin.mockResolvedValue(mockTokenResponse);
+      const mockUserDataError = 'mock fail';
+      nock(BASE_URL)
+        .get(ProtectedApiClientRoutes.GET_USER_DATA)
+        .reply(401, mockUserDataError);
+
+      const mockExtraArgs: ThunkExtraArgs = {
+        authClient: {
+          ...authClient,
+          login: mockLogin,
+        },
+        protectedApiClient,
+        apiClient,
+      };
+
+      await login({
+        email: 'Jack Blanc',
+        password: 'password',
+      })(mockDispatch, getState, mockExtraArgs);
+
+      expect(mockDispatch).toHaveBeenCalledTimes(4);
+      expect(mockDispatch).toHaveBeenNthCalledWith(
+        4,
+        authenticateUser.loaded(mockTokenResponse),
+      );
+      expect(mockDispatch).toHaveBeenNthCalledWith(
+        3,
+        userData.failed(mockUserDataError),
       );
       expect(mockLogin).toBeCalledTimes(1);
     });
@@ -150,7 +206,7 @@ describe('User Authentication Thunks', () => {
   });
 
   describe('signup', () => {
-    it('dispatches an authenticateUser.loaded() action after signup', async () => {
+    it('dispatches an authenticateUser.loaded() and userData.loaded() action after signup', async () => {
       const getState = () => generateState({});
       const mockDispatch = jest.fn();
       const mockSignup = jest.fn();
@@ -169,6 +225,15 @@ describe('User Authentication Thunks', () => {
         protectedApiClient,
         apiClient,
       };
+      const mockUserDataResponse: UserData = {
+        firstName: 'First',
+        lastName: 'Last',
+        email: 'email@email.com',
+        username: 'user',
+      };
+      nock(BASE_URL)
+        .get(ProtectedApiClientRoutes.GET_USER_DATA)
+        .reply(200, mockUserDataResponse);
 
       await signup({
         password: 'password',
@@ -178,10 +243,14 @@ describe('User Authentication Thunks', () => {
         email: 'jack@jackblanc.com',
       })(mockDispatch, getState, mockExtraArgs);
 
-      expect(mockDispatch).toHaveBeenCalledTimes(2);
+      expect(mockDispatch).toHaveBeenCalledTimes(4);
       expect(mockDispatch).toHaveBeenNthCalledWith(
-        2,
+        4,
         authenticateUser.loaded(mockTokenResponse),
+      );
+      expect(mockDispatch).toHaveBeenNthCalledWith(
+        3,
+        userData.loaded(mockUserDataResponse),
       );
       expect(mockSignup).toBeCalledTimes(1);
     });

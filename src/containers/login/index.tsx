@@ -1,10 +1,10 @@
 import React from 'react';
 import { useLocation } from 'react-router';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { C4CState } from '../../store';
-import { login, getUserData } from '../../auth/ducks/thunks';
+import { login } from '../../auth/ducks/thunks';
 import {
   LoginRequest,
   UserAuthenticationReducerState,
@@ -97,7 +97,6 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ tokens }) => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
-  const history = useHistory();
   const location = useLocation<RedirectStateProps>();
   const loggedIn = useSelector((state: C4CState) =>
     isLoggedIn(state.authenticationState.tokens),
@@ -107,11 +106,6 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
   const destination: Routes = location.state
     ? location.state.destination
     : Routes.HOME;
-
-  if (loggedIn) {
-    dispatch(getUserData());
-    history.push(destination);
-  }
 
   const loginFailed: boolean = asyncRequestIsFailed(tokens);
 
@@ -139,101 +133,105 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
     </div>
   );
 
-  return (
-    <>
-      <Helmet>
-        <title>Login</title>
-        <meta
-          name="description"
-          content="Where the user can log into their account."
-        />
-      </Helmet>
+  if (loggedIn) {
+    return <Redirect to={destination} />;
+  } else {
+    return (
+      <>
+        <Helmet>
+          <title>Login</title>
+          <meta
+            name="description"
+            content="Where the user can log into their account."
+          />
+        </Helmet>
 
-      {(() => {
-        switch (windowType) {
-          case WindowTypes.Mobile:
-            return (
-              <MobileLoginPageContainer>
-                <PageHeader pageTitle={LOGIN_TITLE} isMobile={true} />
-                {loginFailed && (
-                  <MobileLoginAlert message={LOGIN_ERROR} type="error" />
-                )}
-                <LoginForm
-                  formInstance={loginForm}
-                  onFinish={onFinish}
-                  windowType={windowType}
-                />
-                {ForgotPasswordFooter}
-              </MobileLoginPageContainer>
-            );
-          case WindowTypes.Tablet:
-            return (
-              <PageLayout>
-                <TabletPageContainer>
-                  <CenterDiv>
-                    <TabletInputContainer>
-                      <Title>{LOGIN_TITLE}</Title>
-                      <TabletLine />
-                      {loginFailed && (
-                        <LoginAlert message={LOGIN_ERROR} type="error" />
-                      )}
-                      <LoginForm
-                        formInstance={loginForm}
-                        onFinish={onFinish}
-                        windowType={windowType}
-                      />
-                      {ForgotPasswordFooter}
-                    </TabletInputContainer>
-                  </CenterDiv>
+        {(() => {
+          switch (windowType) {
+            case WindowTypes.Mobile:
+              return (
+                <MobileLoginPageContainer>
+                  <PageHeader pageTitle={LOGIN_TITLE} isMobile={true} />
+                  {loginFailed && (
+                    <MobileLoginAlert message={LOGIN_ERROR} type="error" />
+                  )}
+                  <LoginForm
+                    formInstance={loginForm}
+                    onFinish={onFinish}
+                    windowType={windowType}
+                  />
+                  {ForgotPasswordFooter}
+                </MobileLoginPageContainer>
+              );
+            case WindowTypes.Tablet:
+              return (
+                <PageLayout>
+                  <TabletPageContainer>
+                    <CenterDiv>
+                      <TabletInputContainer>
+                        <Title>{LOGIN_TITLE}</Title>
+                        <TabletLine />
+                        {loginFailed && (
+                          <LoginAlert message={LOGIN_ERROR} type="error" />
+                        )}
+                        <LoginForm
+                          formInstance={loginForm}
+                          onFinish={onFinish}
+                          windowType={windowType}
+                        />
+                        {ForgotPasswordFooter}
+                      </TabletInputContainer>
+                    </CenterDiv>
 
-                  <br />
+                    <br />
 
-                  <CenterDiv>
-                    <GreetingContainer
-                      header={LOGIN_HEADER}
-                      body={LOGIN_BODY}
-                      height="30vh"
-                    />
-                  </CenterDiv>
-                </TabletPageContainer>
-              </PageLayout>
-            );
-          case WindowTypes.NarrowDesktop:
-          case WindowTypes.Desktop:
-            return (
-              <PageLayout>
-                <LoginPageContainer>
-                  <Row>
-                    <InputContainer span={10}>
-                      <Title>{LOGIN_TITLE}</Title>
-                      <Line />
-                      {loginFailed && (
-                        <LoginAlert message={LOGIN_ERROR} type="error" />
-                      )}
-                      <LoginForm
-                        formInstance={loginForm}
-                        onFinish={onFinish}
-                        windowType={windowType}
-                      />
-                      {ForgotPasswordFooter}
-                    </InputContainer>
-
-                    <Col span={2} />
-
-                    <Col span={12}>
+                    <CenterDiv>
                       <GreetingContainer
                         header={LOGIN_HEADER}
                         body={LOGIN_BODY}
+                        height="30vh"
                       />
-                    </Col>
-                  </Row>
-                </LoginPageContainer>
-              </PageLayout>
-            );
-        }
-      })()}
-    </>
-  );
+                    </CenterDiv>
+                  </TabletPageContainer>
+                </PageLayout>
+              );
+            case WindowTypes.NarrowDesktop:
+            case WindowTypes.Desktop:
+              return (
+                <PageLayout>
+                  <LoginPageContainer>
+                    <Row>
+                      <InputContainer span={10}>
+                        <Title>{LOGIN_TITLE}</Title>
+                        <Line />
+                        {loginFailed && (
+                          <LoginAlert message={LOGIN_ERROR} type="error" />
+                        )}
+                        <LoginForm
+                          formInstance={loginForm}
+                          onFinish={onFinish}
+                          windowType={windowType}
+                        />
+                        {ForgotPasswordFooter}
+                      </InputContainer>
+
+                      <Col span={2} />
+
+                      <Col span={12}>
+                        <GreetingContainer
+                          header={LOGIN_HEADER}
+                          body={LOGIN_BODY}
+                        />
+                      </Col>
+                    </Row>
+                  </LoginPageContainer>
+                </PageLayout>
+              );
+          }
+        })()}
+      </>
+    );
+  }
 };
 
 const mapStateToProps = (state: C4CState): LoginProps => {

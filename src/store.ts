@@ -91,7 +91,7 @@ export type ThunkExtraArgs = UserAuthenticationExtraArgs &
   ProtectedApiExtraArgs &
   ApiExtraArgs;
 
-const reducers = combineReducers<C4CState, C4CAction>({
+export const reducers = combineReducers<C4CState, C4CAction>({
   authenticationState: userReducer,
   userLeaderboardState: userLeaderboardReducer,
   teamLeaderboardState: teamLeaderboardReducer,

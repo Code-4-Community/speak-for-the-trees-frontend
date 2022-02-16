@@ -4,24 +4,35 @@ import {
   SignupRequest,
   TokenPayload,
   UserAuthenticationThunkAction,
+  UserData,
 } from './types';
 import { authenticateUser, logoutUser, userData } from './actions';
 import { C4CState, LOCALSTORAGE_STATE_KEY } from '../../store';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import AppAxiosInstance from '../axios';
-import { UserData } from './types';
 import Client from '../../api/protectedApiClient';
 
 export const login = (
   loginRequest: LoginRequest,
 ): UserAuthenticationThunkAction<void> => {
-  return (dispatch, getState, { authClient }): Promise<void> => {
+  return (
+    dispatch,
+    getState,
+    { authClient, protectedApiClient },
+  ): Promise<void> => {
     dispatch(authenticateUser.loading());
     return authClient
       .login(loginRequest)
-      .then((response: TokenPayload) => {
+      .then(async (response: TokenPayload) => {
+        // add the access token to the getUserData request header
+        // (since our authenticateUser.loaded hasn't been dispatched yet, axios can't get the token from store)
         AppAxiosInstance.defaults.headers['X-Access-Token'] =
           response.accessToken;
+
+        await getUserData()(dispatch, getState, {
+          authClient,
+          protectedApiClient,
+        });
         dispatch(authenticateUser.loaded(response));
       })
       .catch((error) => {
@@ -54,13 +65,21 @@ export const refresh = (
 export const signup = (
   signupRequest: SignupRequest,
 ): UserAuthenticationThunkAction<void> => {
-  return (dispatch, getState, { authClient }): Promise<void> => {
+  return (
+    dispatch,
+    getState,
+    { authClient, protectedApiClient },
+  ): Promise<void> => {
     dispatch(authenticateUser.loading());
     return authClient
       .signup(signupRequest)
-      .then((response) => {
+      .then(async (response) => {
         AppAxiosInstance.defaults.headers['X-Access-Token'] =
           response.accessToken;
+        await getUserData()(dispatch, getState, {
+          authClient,
+          protectedApiClient,
+        });
         dispatch(authenticateUser.loaded(response));
       })
       .catch((error) => {
@@ -94,7 +113,7 @@ export const logout = (): UserAuthenticationThunkAction<void> => {
 };
 
 export const getUserData = (): UserAuthenticationThunkAction<void> => {
-  return (dispatch, getState, { protectedApiClient }): Promise<void> => {
+  return async (dispatch, getState, { protectedApiClient }): Promise<void> => {
     dispatch(userData.loading());
     return Client.getUserData()
       .then((response: UserData) => {
