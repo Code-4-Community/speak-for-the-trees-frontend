@@ -4,8 +4,6 @@ import { Typography } from 'antd';
 import { BACKGROUND_GREY, TEXT_GREY, MID_GREEN } from '../../../utils/colors';
 import Logo from '../../../assets/images/nav-bar-icon.png';
 
-const { Paragraph } = Typography;
-
 const FooterContainer = styled.div`
   height: 200px;
   padding: 20px;
@@ -23,13 +21,13 @@ const InlineContainer = styled.div`
   margin-right: 10px;
 `;
 
-const FooterTitle = styled(Paragraph)`
+const FooterTitle = styled(Typography.Paragraph)`
   color: ${MID_GREEN};
   font-size: 22px;
   font-weight: bold;
 `;
 
-const FooterSubtitle = styled(Paragraph)`
+const FooterSubtitle = styled(Typography.Paragraph)`
   margin-top: -25px;
   font-size: 7px;
 `;
@@ -40,7 +38,7 @@ const Line = styled.div`
   background: ${TEXT_GREY};
 `;
 
-const GreyParagraph = styled(Paragraph)`
+const GreyParagraph = styled(Typography.Paragraph)`
   color: ${TEXT_GREY};
 `;
 
