@@ -6,8 +6,6 @@ import { CardInfo, GreenLinkButton } from '../themedComponents';
 import { MID_GREEN, TEXT_GREY, LIGHT_GREY } from '../../utils/colors';
 import { SiteFeaturePropertiesResponse } from '../mapComponents/ducks/types';
 
-const { Paragraph } = Typography;
-
 const StyledCard = styled(Card)`
   width: 95%;
   border: solid 1px ${LIGHT_GREY};
@@ -18,13 +16,13 @@ const CardContent = styled.div`
   align-items: center;
 `;
 
-const TreeTitle = styled(Paragraph)`
+const TreeTitle = styled(Typography.Paragraph)`
   font-size: 20px;
   line-height: 16px;
   color: ${MID_GREEN};
 `;
 
-const TreeBody = styled(Paragraph)`
+const TreeBody = styled(Typography.Paragraph)`
   font-size: 18px;
   line-height: 14px;
   color: ${TEXT_GREY};

@@ -9,9 +9,7 @@ import { DARK_GREEN, MID_GREEN, TEXT_GREY } from '../../utils/colors';
 import { UNABBREVIATED_MONTHS } from '../../assets/content';
 import styled from 'styled-components';
 
-const { Paragraph } = Typography;
-
-const TreeCareTitle = styled(Paragraph)`
+const TreeCareTitle = styled(Typography.Paragraph)`
   margin: 0px 5px;
   font-size: 26px;
   font-weight: bold;
@@ -23,7 +21,7 @@ const CareEntry = styled.div`
   margin: 15px;
 `;
 
-const EntryDate = styled(Paragraph)<TitleProps>`
+const EntryDate = styled(Typography.Paragraph)<TitleProps>`
   display: inline;
   text-align: center;
   line-height: 0px;
@@ -32,7 +30,7 @@ const EntryDate = styled(Paragraph)<TitleProps>`
   color: ${DARK_GREEN};
 `;
 
-const EntryMessage = styled(Paragraph)`
+const EntryMessage = styled(Typography.Paragraph)`
   display: inline;
   text-align: center;
   line-height: 0px;
