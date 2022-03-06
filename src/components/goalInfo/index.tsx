@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { Card, Typography } from 'antd';
 import { DARK_GREEN, TEXT_GREY } from '../../utils/colors';
 
-const { Paragraph } = Typography;
-
 interface GoalInfoProps {
   readonly blockProgress: number;
   readonly blockGoal: number;
@@ -31,19 +29,19 @@ const StyledCard = styled(Card)`
   border-radius: 2px;
 `;
 
-const CardHeader = styled(Paragraph)`
+const CardHeader = styled(Typography.Paragraph)`
   font-size: 14px;
   line-height: 1;
   color: ${TEXT_GREY};
 `;
 
-const LargeText = styled(Paragraph)`
+const LargeText = styled(Typography.Paragraph)`
   display: inline-block;
   font-size: 25px;
   color: ${DARK_GREEN};
 `;
 
-const SmallText = styled(Paragraph)`
+const SmallText = styled(Typography.Paragraph)`
   display: inline-block;
   font-size: 15px;
   color: ${DARK_GREEN};

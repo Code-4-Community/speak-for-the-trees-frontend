@@ -4,8 +4,6 @@ import { BACKGROUND_GREEN, BLACK } from '../../utils/colors';
 import styled from 'styled-components';
 import logo from '../../assets/images/logo.png';
 
-const { Paragraph, Title } = Typography;
-
 interface GreetingContainerProps {
   readonly header: string;
   readonly body: string;
@@ -39,8 +37,8 @@ const GreetingContainer: React.FC<GreetingContainerProps> = ({
 }) => {
   return (
     <InfoContainer height={height} padding={padding}>
-      <Title style={{ color: BLACK }}>{header}</Title>
-      <Paragraph>{body}</Paragraph>
+      <Typography.Title style={{ color: BLACK }}>{header}</Typography.Title>
+      <Typography.Paragraph>{body}</Typography.Paragraph>
     </InfoContainer>
   );
 };

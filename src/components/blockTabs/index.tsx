@@ -5,8 +5,6 @@ import { StyledListItem, ScrollableListContainer } from '../themedComponents';
 import { DARK_GREY } from '../../utils/colors';
 import BlockCard from '../blockCard';
 
-const { TabPane } = Tabs;
-
 const StyledTabs = styled(Tabs)`
   color: ${DARK_GREY};
   max-height: 55vh;
@@ -40,7 +38,7 @@ const BlockTabs: React.FC = () => {
   return (
     <>
       <StyledTabs defaultActiveKey="1" type="card">
-        <TabPane tab="All Blocks" key="1">
+        <Tabs.TabPane tab="All Blocks" key="1">
           <ScrollableListContainer>
             <List
               dataSource={sampleAllBlocksData}
@@ -52,12 +50,12 @@ const BlockTabs: React.FC = () => {
               )}
             />
           </ScrollableListContainer>
-        </TabPane>
+        </Tabs.TabPane>
         {/*
         <TabPane tab="Near Me" key="2">
         </TabPane>
         */}
-        <TabPane tab="Reservations" key="3">
+        <Tabs.TabPane tab="Reservations" key="3">
           <ScrollableListContainer>
             <List
               dataSource={sampleUserReservedBlocks}
@@ -69,7 +67,7 @@ const BlockTabs: React.FC = () => {
               )}
             />
           </ScrollableListContainer>
-        </TabPane>
+        </Tabs.TabPane>
       </StyledTabs>
     </>
   );

@@ -32,8 +32,6 @@ import AuthRedirect from './components/authRedirect';
 import SitePage from './containers/sitePage';
 import Reports from './containers/reports';
 
-const { Content } = Layout;
-
 const AppLayout = styled(Layout)`
   min-height: 100vh;
 `;
@@ -95,7 +93,7 @@ const App: React.FC = () => {
       <Router>
         <AppLayout>
           <NavBar />
-          <Content>
+          <Layout.Content>
             {(() => {
               switch (privilegeLevel) {
                 case PrivilegeLevel.NONE:
@@ -246,7 +244,7 @@ const App: React.FC = () => {
                   );
               }
             })()}
-          </Content>
+          </Layout.Content>
         </AppLayout>
       </Router>
     </>

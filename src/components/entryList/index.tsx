@@ -11,8 +11,6 @@ import {
 import styled from 'styled-components';
 import { CenterDiv } from '../themedComponents';
 
-const { Paragraph, Title } = Typography;
-
 const StyledCard = styled(Card)`
   height: 125px;
   min-width: 15vw;
@@ -39,7 +37,7 @@ const ToggleButton = styled(Button)`
   }
 `;
 
-const EntryMessage = styled(Paragraph)`
+const EntryMessage = styled(Typography.Paragraph)`
   color: ${TEXT_GREY};
   line-height: 14px;
   text-transform: capitalize;
@@ -70,7 +68,7 @@ const EntryList: React.FC<EntryListProps> = ({
     <>
       {visible && (
         <>
-          {title && <Title level={4}>{title}</Title>}
+          {title && <Typography.Title level={4}>{title}</Typography.Title>}
           <List
             dataSource={entries}
             grid={{
@@ -85,7 +83,7 @@ const EntryList: React.FC<EntryListProps> = ({
             renderItem={(entry: Entry) => (
               <List.Item>
                 <StyledCard key={entry.title}>
-                  <Title level={4}>{entry.title}</Title>
+                  <Typography.Title level={4}>{entry.title}</Typography.Title>
                   <EntryMessage>{entry.value}</EntryMessage>
                 </StyledCard>
               </List.Item>

@@ -9,8 +9,6 @@ import { SiteProps } from '../../containers/treePage/ducks/types';
 import { RecordStewardshipRequest } from '../forms/ducks/types';
 import { MID_GREEN } from '../../utils/colors';
 
-const { Title } = Typography;
-
 const TreeHeader = styled.div`
   text-transform: capitalize;
 `;
@@ -101,9 +99,9 @@ const TreeInfo: React.FC<TreeProps> = ({
                       Unadopt
                     </Button>
                     <StewardshipContainer>
-                      <Title level={3}>
+                      <Typography.Title level={3}>
                         Record your tree care activity below.
-                      </Title>
+                      </Typography.Title>
                       <StewardshipForm
                         onFinish={onFinishRecordStewardship}
                         form={stewardshipFormInstance}

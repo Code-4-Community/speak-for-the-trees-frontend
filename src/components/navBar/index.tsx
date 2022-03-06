@@ -27,8 +27,6 @@ import c4cLogo from '../../assets/images/c4cTextLogo.png';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import { logout } from '../../auth/ducks/thunks';
 
-const { Paragraph } = Typography;
-
 const NavContainer = styled.div`
   box-shadow: '0 4px 2px -2px grey';
   margin: '0 0 3px 0';
@@ -82,7 +80,7 @@ const LoginButton = styled(Button)`
   color: ${BLACK};
 `;
 
-const Name = styled(Paragraph)`
+const Name = styled(Typography.Paragraph)`
   display: inline-block;
   margin-right: 20px;
 `;
@@ -218,10 +216,10 @@ const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
     return (
       <FlexDiv>
         <Dropdown overlay={menu} placement="bottomRight" arrow>
-          <Paragraph>
+          <Typography.Paragraph>
             <Name>{userFullName}</Name>
             <GreenAvatar size="large" icon={<UserOutlined />} />
-          </Paragraph>
+          </Typography.Paragraph>
         </Dropdown>
       </FlexDiv>
     );

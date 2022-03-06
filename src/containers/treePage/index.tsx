@@ -43,8 +43,6 @@ import { CenterDiv, ReturnButton } from '../../components/themedComponents';
 import { STREET_ZOOM } from '../../components/mapComponents/constants';
 import { CITY_PLANTING_REQUEST_LINK } from '../../assets/content';
 
-const { Title, Link } = Typography;
-
 const TreePageContainer = styled.div`
   width: 90vw;
   margin: 30px auto auto;
@@ -206,9 +204,9 @@ const TreePage: React.FC<TreeProps> = ({
     <TreePlantingRequest>
       The city of Boston plants new trees in the spring and fall primarily based
       on resident requests. Ask the city to plant a tree here at{' '}
-      <Link href={CITY_PLANTING_REQUEST_LINK} target="_blank">
+      <Typography.Link href={CITY_PLANTING_REQUEST_LINK} target="_blank">
         this city tree planting request form
-      </Link>
+      </Typography.Link>
       !
     </TreePlantingRequest>
   );
@@ -355,15 +353,17 @@ const TreePage: React.FC<TreeProps> = ({
               )}
               {latestEntry.main.length === 0 &&
                 latestEntry.extra.length === 0 && (
-                  <Title level={2}>
+                  <Typography.Title level={2}>
                     No data has been collected about this site.
-                  </Title>
+                  </Typography.Title>
                 )}
             </>
           )}
           {asyncRequestIsFailed(siteData) && (
             <TreeMainContainer>
-              <Title level={2}>Tree could not be found.</Title>
+              <Typography.Title level={2}>
+                Tree could not be found.
+              </Typography.Title>
             </TreeMainContainer>
           )}
         </TreePageContainer>

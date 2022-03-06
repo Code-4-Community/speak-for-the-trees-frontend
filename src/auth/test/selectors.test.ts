@@ -12,6 +12,7 @@ import {
   getUsername,
   isLoggedIn,
 } from '../ducks/selectors';
+import { mockTokenResponse, mockUserDataResponse } from '../../App.test';
 
 describe('User Authentication Selectors', () => {
   describe('getPrivilegeLevel', () => {
@@ -69,17 +70,10 @@ describe('User Authentication Selectors', () => {
 
   describe('isLoggedIn', () => {
     it('returns true when a token has been loaded', () => {
-      const payload: TokenPayload = {
-        accessToken:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwcml2aWxlZ2VMZXZlbCI6InN1cGVyQWRtaW4iLCJpc3MiOiJjNGMiLCJleHAiOjE2MDU0ODAzMjMsInVzZXJJZCI6MX0.FEjX15JppwId5PCMd0Rc97yEOXmxWIKwWF6yzWqSLjw',
-        refreshToken:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwcml2aWxlZ2VMZXZlbCI6InN1cGVyQWRtaW4iLCJpc3MiOiJjNGMiLCJleHAiOjE2MDU0ODAzMjMsInVzZXJJZCI6MX0.s1vVyOW1hENuPqBscnW49eupxoMyrlw3NmZ2S_UUbNo',
-      };
-
       const tokens: AsyncRequest<TokenPayload, any> = AsyncRequestCompleted<
         TokenPayload,
         any
-      >(payload);
+      >(mockTokenResponse);
 
       expect(isLoggedIn(tokens)).toEqual(true);
     });
@@ -93,16 +87,10 @@ describe('User Authentication Selectors', () => {
 
   describe('getUserFirstName', () => {
     it("returns the user's first name when user data has been loaded", () => {
-      const data: UserData = {
-        firstName: 'First',
-        lastName: 'Last',
-        email: 'test@email.com',
-        username: 'user',
-      };
       const userData: AsyncRequest<UserData, any> = AsyncRequestCompleted<
         UserData,
         any
-      >(data);
+      >(mockUserDataResponse);
 
       expect(getUserFirstName(userData)).toEqual('First');
     });
@@ -116,16 +104,10 @@ describe('User Authentication Selectors', () => {
 
   describe('getUserFullName', () => {
     it("returns the user's full name when user data has been loaded", () => {
-      const data: UserData = {
-        firstName: 'First',
-        lastName: 'Last',
-        email: 'test@email.com',
-        username: 'user',
-      };
       const userData: AsyncRequest<UserData, any> = AsyncRequestCompleted<
         UserData,
         any
-      >(data);
+      >(mockUserDataResponse);
 
       expect(getUserFullName(userData)).toEqual('First Last');
     });
@@ -139,16 +121,10 @@ describe('User Authentication Selectors', () => {
 
   describe('getUserEmail', () => {
     it("returns the user's email when user data has been loaded", () => {
-      const data: UserData = {
-        firstName: 'First',
-        lastName: 'Last',
-        email: 'test@email.com',
-        username: 'user',
-      };
       const userData: AsyncRequest<UserData, any> = AsyncRequestCompleted<
         UserData,
         any
-      >(data);
+      >(mockUserDataResponse);
 
       expect(getUserEmail(userData)).toEqual('test@email.com');
     });
@@ -162,16 +138,10 @@ describe('User Authentication Selectors', () => {
 
   describe('getUsername', () => {
     it("returns the user's username when user data has been loaded", () => {
-      const data: UserData = {
-        firstName: 'First',
-        lastName: 'Last',
-        email: 'test@email.com',
-        username: 'user',
-      };
       const userData: AsyncRequest<UserData, any> = AsyncRequestCompleted<
         UserData,
         any
-      >(data);
+      >(mockUserDataResponse);
 
       expect(getUsername(userData)).toEqual('user');
     });

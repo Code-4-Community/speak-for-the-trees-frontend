@@ -19,7 +19,6 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import { Helmet } from 'react-helmet';
-const { Paragraph, Title } = Typography;
 
 const formLayout = {
   wrapperCol: { span: 17 },
@@ -42,7 +41,7 @@ const SubmitButton = styled(Button)`
   font-size: 16px;
 `;
 
-const FormTitle = styled(Paragraph)`
+const FormTitle = styled(Typography.Paragraph)`
   margin-top: 45px;
   font-size: 20px;
   font-weight: bold;
@@ -50,7 +49,7 @@ const FormTitle = styled(Paragraph)`
   line-height: 28px;
 `;
 
-const UserInformationText = styled(Paragraph)`
+const UserInformationText = styled(Typography.Paragraph)`
   font-size: 15px;
   line-height: 15px;
 `;
@@ -111,11 +110,13 @@ const Settings: React.FC = () => {
                         footer={null}
                         onCancel={() => setShowDeleteForm(false)}
                       >
-                        <Title level={2}>Delete Account</Title>
-                        <Paragraph>
+                        <Typography.Title level={2}>
+                          Delete Account
+                        </Typography.Title>
+                        <Typography.Paragraph>
                           Enter your password to confirm you'd like to
                           permanently delete your account!
-                        </Paragraph>
+                        </Typography.Paragraph>
                         <DeleteAccountForm />
                       </Modal>
                     </Col>
@@ -155,11 +156,11 @@ const Settings: React.FC = () => {
                   footer={null}
                   onCancel={() => setShowDeleteForm(false)}
                 >
-                  <Title level={2}>Delete Account</Title>
-                  <Paragraph>
+                  <Typography.Title level={2}>Delete Account</Typography.Title>
+                  <Typography.Paragraph>
                     Enter your password to confirm you'd like to permanently
                     delete your account!
-                  </Paragraph>
+                  </Typography.Paragraph>
                   <DeleteAccountForm />
                 </Modal>
 
