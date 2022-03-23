@@ -13,19 +13,17 @@ const ForgotPassword: React.FC = () => {
   const { windowType } = useWindowDimensions();
 
   const [submittedEmail, setSubmittedEmail] = useState(false);
-  const [userNotFound, setUserNotFound] = useState(false);
-  const [form] = Form.useForm();
+  const [email, setEmail] = useState('');
 
   const onFinish = (values: ForgotPasswordRequest) => {
     authClient
       .forgotPassword(values)
-      .then(() => {
-        setSubmittedEmail(true);
-        setUserNotFound(false);
-      })
       .catch(() => {
-        setUserNotFound(true);
-        form.resetFields();
+        return;
+      })
+      .finally(() => {
+        setSubmittedEmail(true);
+        setEmail(values.email);
       });
   };
 
@@ -43,19 +41,13 @@ const ForgotPassword: React.FC = () => {
           pageTitle="Forgot your password?"
           isMobile={isMobile(windowType)}
         />
-        {!submittedEmail || userNotFound ? (
+        {!submittedEmail ? (
           <>
             <Typography.Title level={4}>
               Please enter your email and we will send you the password reset
               instructions to the email address for this account.
             </Typography.Title>
-            <Form form={form} name="forgotPassword" onFinish={onFinish}>
-              {userNotFound && (
-                <Typography.Title level={4}>
-                  We couldn't find an account associated with the given email.
-                  Please try again.
-                </Typography.Title>
-              )}
+            <Form name="forgotPassword" onFinish={onFinish}>
               <Form.Item name="email" rules={enterEmailRules}>
                 <Input placeholder="Email" />
               </Form.Item>
@@ -67,11 +59,10 @@ const ForgotPassword: React.FC = () => {
             </Form>
           </>
         ) : (
-          <>
-            <Typography.Title level={4}>
-              The password reset instructions have been sent to your email!
-            </Typography.Title>
-          </>
+          <Typography.Title level={4}>
+            If an account is registered under {email}, we have sent you a link
+            to reset your password.
+          </Typography.Title>
         )}
       </ContentContainer>
     </>
