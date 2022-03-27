@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { DARK_GREY, MID_GREEN } from '../../utils/colors';
@@ -16,14 +16,9 @@ import { Routes } from '../../App';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
-import {
-  getPrivilegeLevel,
-  getUserFirstName,
-  isAdmin,
-} from '../../auth/ducks/selectors';
+import { getUserFirstName, isAdmin } from '../../auth/ducks/selectors';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
-import { PrivilegeLevel } from '../../auth/ducks/types';
 
 const { Paragraph } = Typography;
 
@@ -45,12 +40,12 @@ const HomeContainer = styled.div`
 const Home: React.FC = () => {
   const { windowType } = useWindowDimensions();
   const userName = useSelector((state: C4CState) =>
-      getUserFirstName(state.authenticationState.userData),
+    getUserFirstName(state.authenticationState.userData),
   );
   const greeting = `${HOME_TITLE}${userName}!`;
 
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
-      isAdmin(state.authenticationState.tokens),
+    isAdmin(state.authenticationState.tokens),
   );
 
   const links: LinkCardProps[] = [
@@ -97,97 +92,97 @@ const Home: React.FC = () => {
   ];
 
   const allLinks: LinkCardProps[] = userIsAdmin
-      ? links.concat(authLinks)
-      : links;
+    ? links.concat(authLinks)
+    : links;
 
   return (
-      <>
-        <Helmet>
-          <title>Home</title>
-          <meta
-              name="description"
-              content="The user's home page after logging in, has links directing them to the blocks, teams, and leaderboard pages."
-          />
-        </Helmet>
-        <PageLayout>
-          <HomeContainer>
-            {(() => {
-              switch (windowType) {
-                case WindowTypes.Mobile:
-                  return (
-                      <>
-                        <PageHeader pageTitle={greeting} isMobile={true} />
-                        <StyledSubtitle>Quick Links</StyledSubtitle>
-                        <LinkCarousel data={allLinks} slidesPerPage={1} />
-                      </>
-                  );
-                case WindowTypes.Tablet:
-                  return (
-                      <>
-                        <PageHeader pageTitle={greeting} />
-                        <StyledSubtitle>Quick Links</StyledSubtitle>
-                        <LinkCarousel data={allLinks} slidesPerPage={2} />
-                      </>
-                  );
-                case WindowTypes.NarrowDesktop:
-                  return (
-                      <>
-                        <PageHeader
-                            pageTitle={greeting}
-                            pageSubtitle={HOME_HEADER}
-                            subtitlecolor={DARK_GREY}
-                        />
-                        <StyledSubtitle>Quick Links</StyledSubtitle>
-                        <List
-                            dataSource={allLinks}
-                            grid={{ gutter: 1, column: 3 }}
-                            /*
+    <>
+      <Helmet>
+        <title>Home</title>
+        <meta
+          name="description"
+          content="The user's home page after logging in, has links directing them to the blocks, teams, and leaderboard pages."
+        />
+      </Helmet>
+      <PageLayout>
+        <HomeContainer>
+          {(() => {
+            switch (windowType) {
+              case WindowTypes.Mobile:
+                return (
+                  <>
+                    <PageHeader pageTitle={greeting} isMobile={true} />
+                    <StyledSubtitle>Quick Links</StyledSubtitle>
+                    <LinkCarousel data={allLinks} slidesPerPage={1} />
+                  </>
+                );
+              case WindowTypes.Tablet:
+                return (
+                  <>
+                    <PageHeader pageTitle={greeting} />
+                    <StyledSubtitle>Quick Links</StyledSubtitle>
+                    <LinkCarousel data={allLinks} slidesPerPage={2} />
+                  </>
+                );
+              case WindowTypes.NarrowDesktop:
+                return (
+                  <>
+                    <PageHeader
+                      pageTitle={greeting}
+                      pageSubtitle={HOME_HEADER}
+                      subtitlecolor={DARK_GREY}
+                    />
+                    <StyledSubtitle>Quick Links</StyledSubtitle>
+                    <List
+                      dataSource={allLinks}
+                      grid={{ gutter: 1, column: 3 }}
+                      /*
                             pagination={{
                               pageSize: 3,
                             }}
                              */
-                            renderItem={(item: LinkCardProps) => (
-                                <LinkCard
-                                    text={item.text}
-                                    path={item.path}
-                                    background={item.background}
-                                />
-                            )}
+                      renderItem={(item: LinkCardProps) => (
+                        <LinkCard
+                          text={item.text}
+                          path={item.path}
+                          background={item.background}
                         />
-                      </>
-                  );
-                case WindowTypes.Desktop:
-                  return (
-                      <>
-                        <PageHeader
-                            pageTitle={greeting}
-                            pageSubtitle={HOME_HEADER}
-                            subtitlecolor={DARK_GREY}
-                        />
-                        <StyledSubtitle>Quick Links</StyledSubtitle>
-                        <List
-                            dataSource={allLinks}
-                            grid={{ gutter: 16, column: 4 }}
-                            /* Remove comment when more links are accessible from home
+                      )}
+                    />
+                  </>
+                );
+              case WindowTypes.Desktop:
+                return (
+                  <>
+                    <PageHeader
+                      pageTitle={greeting}
+                      pageSubtitle={HOME_HEADER}
+                      subtitlecolor={DARK_GREY}
+                    />
+                    <StyledSubtitle>Quick Links</StyledSubtitle>
+                    <List
+                      dataSource={allLinks}
+                      grid={{ gutter: 16, column: 4 }}
+                      /* Remove comment when more links are accessible from home
                             pagination={{
                               pageSize: 4,
                             }}
                              */
-                            renderItem={(item: LinkCardProps) => (
-                                <LinkCard
-                                    text={item.text}
-                                    path={item.path}
-                                    background={item.background}
-                                />
-                            )}
+                      renderItem={(item: LinkCardProps) => (
+                        <LinkCard
+                          text={item.text}
+                          path={item.path}
+                          background={item.background}
                         />
-                      </>
-                  );
-              }
-            })()}
-          </HomeContainer>
-        </PageLayout>
-      </>
+                      )}
+                    />
+                  </>
+                );
+            }
+          })()}
+        </HomeContainer>
+      </PageLayout>
+    </>
   );
 };
 
