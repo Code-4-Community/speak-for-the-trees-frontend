@@ -186,11 +186,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
         />
       </div>
       <MapDiv id="map" ref={mapRef} />
-      <TreePopup
-        treeInfo={activeTreeInfo}
-        popRef={treePopupRef}
-        mobile={false}
-      />
+      <TreePopup treeInfo={activeTreeInfo} popRef={treePopupRef} />
       {children}
     </>
   );

@@ -101,14 +101,12 @@ interface TreePopupProps {
   popRef: React.RefObject<HTMLDivElement>;
   treeInfo: BasicTreeInfo;
   returnTo?: Routes;
-  mobile: boolean;
 }
 
 const TreePopup: React.FC<TreePopupProps> = ({
   popRef,
   treeInfo,
   returnTo,
-  mobile,
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
@@ -123,9 +121,6 @@ const TreePopup: React.FC<TreePopupProps> = ({
   }, [treeInfo]);
 
   const returnState = returnTo && { destination: returnTo };
-  // if on mobile or no return destination specified, open in new tab
-  // location state is only saved within the same tab, does not work when opening new tab
-  const target = !mobile || (!returnState && '_blank');
 
   return (
     <PopupContainer ref={popRef}>
@@ -168,7 +163,7 @@ const TreePopup: React.FC<TreePopupProps> = ({
                       <GreenLinkButton
                         to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
                         state={returnState}
-                        target={target}
+                        target="_blank"
                       >
                         More Info
                       </GreenLinkButton>
