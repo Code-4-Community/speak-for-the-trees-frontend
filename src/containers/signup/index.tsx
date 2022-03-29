@@ -1,19 +1,18 @@
 import React from 'react';
 import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import { Alert, Col, Form, Row, Typography } from 'antd';
+import { Form, message, Typography } from 'antd';
 import { Helmet } from 'react-helmet';
 import GreetingContainer from '../../components/greetingContainer';
-import { getUserData } from '../../auth/ducks/thunks';
+import { getUserData, signup } from '../../auth/ducks/thunks';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { C4CState } from '../../store';
-import { BLACK, LIGHT_GREY, WHITE } from '../../utils/colors';
+import { BLACK, WHITE } from '../../utils/colors';
 import styled from 'styled-components';
 import {
-  CenterDiv,
   InputContainer,
-  TabletPageContainer,
+  InputGreetingContainer,
 } from '../../components/themedComponents';
 import PageHeader from '../../components/pageHeader';
 import SignupForm from '../../components/forms/signupForm';
@@ -25,24 +24,10 @@ import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { RedirectStateProps, Routes } from '../../App';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import { SIGNUP_BODY, SIGNUP_HEADER, SIGNUP_TITLE } from '../../assets/content';
-
-const SignupPageContainer = styled.div`
-  margin: auto;
-  width: 80vw;
-`;
+import { SignupFormValues } from '../../components/forms/ducks/types';
 
 const MobileSignupPageContainer = styled.div`
   padding: 30px;
-`;
-
-export const TabletInputContainer = styled.div`
-  height: 55vh;
-  width: 100%;
-  padding: 2vh 120px 0px 50px;
-  background: ${LIGHT_GREY};
-  box-shadow: 2px 3px 6px ${BLACK}25;
-  border-radius: 6px;
-  overflow: auto;
 `;
 
 const Line = styled.div`
@@ -51,25 +36,10 @@ const Line = styled.div`
   background: ${WHITE};
 `;
 
-const TabletLine = styled.div`
-  height: 2px;
-  margin: -10px -120px 2vh -50px;
-  background: ${WHITE};
-`;
-
 const Title = styled(Typography.Paragraph)`
   color: ${BLACK};
   font-size: 30px;
   line-height: 33px;
-`;
-
-const SignupAlert = styled(Alert)`
-  margin-top: -40px;
-  margin-bottom: 20px;
-`;
-
-const MobileSignupAlert = styled(Alert)`
-  margin-bottom: 20px;
 `;
 
 interface SignupProps {
@@ -85,6 +55,23 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
     isLoggedIn(state.authenticationState.tokens),
   );
   const [signupForm] = Form.useForm();
+
+  const onSignup = (values: SignupFormValues) => {
+    const onError = (msg: string) => message.error(msg);
+
+    dispatch(
+      signup(
+        {
+          email: values.email,
+          username: values.username,
+          password: values.password,
+          firstName: values.firstName,
+          lastName: values.lastName,
+        },
+        onError,
+      ),
+    );
+  };
 
   if (loggedIn) {
     dispatch(getUserData());
@@ -110,78 +97,36 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
               <>
                 <MobileSignupPageContainer>
                   <PageHeader pageTitle={SIGNUP_TITLE} isMobile={true} />
-                  {tokens.kind === AsyncRequestKinds.Failed && (
-                    <MobileSignupAlert message={tokens.error} type="error" />
-                  )}
                   <SignupForm
                     formInstance={signupForm}
+                    onFinish={onSignup}
                     windowType={windowType}
                   />
                 </MobileSignupPageContainer>
               </>
             );
           case WindowTypes.Tablet:
-            return (
-              <PageLayout>
-                <TabletPageContainer>
-                  {tokens.kind === AsyncRequestKinds.Failed && (
-                    <SignupAlert message={tokens.error} type="error" />
-                  )}
-                  <CenterDiv>
-                    <TabletInputContainer>
-                      <Title>{SIGNUP_TITLE}</Title>
-                      <TabletLine />
-                      <SignupForm
-                        formInstance={signupForm}
-                        windowType={windowType}
-                      />
-                    </TabletInputContainer>
-                  </CenterDiv>
-
-                  <br />
-
-                  <CenterDiv>
-                    <GreetingContainer
-                      header={SIGNUP_HEADER}
-                      body={SIGNUP_BODY}
-                      padding={'2vh 5vw 0px'}
-                      height={'25vh'}
-                    />
-                  </CenterDiv>
-                </TabletPageContainer>
-              </PageLayout>
-            );
           case WindowTypes.NarrowDesktop:
           case WindowTypes.Desktop:
             return (
-              <>
-                <PageLayout>
-                  <SignupPageContainer>
-                    {tokens.kind === AsyncRequestKinds.Failed && (
-                      <SignupAlert message={tokens.error} type="error" />
-                    )}
-                    <Row>
-                      <InputContainer span={11}>
-                        <Title>{SIGNUP_TITLE}</Title>
-                        <Line />
-                        <SignupForm
-                          formInstance={signupForm}
-                          windowType={windowType}
-                        />
-                      </InputContainer>
+              <PageLayout>
+                <InputGreetingContainer>
+                  <InputContainer>
+                    <Title>{SIGNUP_TITLE}</Title>
+                    <Line />
+                    <SignupForm
+                      formInstance={signupForm}
+                      onFinish={onSignup}
+                      windowType={windowType}
+                    />
+                  </InputContainer>
 
-                      <Col span={2} />
-
-                      <Col span={11}>
-                        <GreetingContainer
-                          header={SIGNUP_HEADER}
-                          body={SIGNUP_BODY}
-                        />
-                      </Col>
-                    </Row>
-                  </SignupPageContainer>
-                </PageLayout>
-              </>
+                  <GreetingContainer
+                    header={SIGNUP_HEADER}
+                    body={SIGNUP_BODY}
+                  />
+                </InputGreetingContainer>
+              </PageLayout>
             );
         }
       })()}

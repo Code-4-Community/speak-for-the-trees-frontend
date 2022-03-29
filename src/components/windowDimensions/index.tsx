@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
-const breakpointDesktop = 1300;
-const breakpointTablet = 1025;
-const breakpointMobile = 680;
+export const BREAKPOINT_DESKTOP = 1300;
+export const BREAKPOINT_TABLET = 1025;
+export const BREAKPOINT_MOBILE = 680;
 
 export enum WindowTypes {
   Mobile = 'MOBILE',
@@ -20,11 +20,11 @@ interface WindowDimensions {
 const getWindowDimensions = (): WindowDimensions => {
   const { innerWidth: width, innerHeight: height } = window;
   const windowType: WindowTypes =
-    width < breakpointMobile
+    width < BREAKPOINT_MOBILE
       ? WindowTypes.Mobile
-      : width < breakpointTablet
+      : width < BREAKPOINT_TABLET
       ? WindowTypes.Tablet
-      : width < breakpointDesktop
+      : width < BREAKPOINT_DESKTOP
       ? WindowTypes.NarrowDesktop
       : WindowTypes.Desktop;
 

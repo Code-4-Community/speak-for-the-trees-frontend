@@ -3,40 +3,35 @@ import { Typography } from 'antd';
 import { BACKGROUND_GREEN, BLACK } from '../../utils/colors';
 import styled from 'styled-components';
 import logo from '../../assets/images/logo.png';
+import { BREAKPOINT_TABLET } from '../windowDimensions';
 
 interface GreetingContainerProps {
   readonly header: string;
   readonly body: string;
-  readonly height?: string;
-  readonly padding?: string;
-}
-
-interface InfoContainerProps {
-  readonly height?: string;
-  readonly padding?: string;
 }
 
 const InfoContainer = styled.div`
-  padding: ${(props: InfoContainerProps) =>
-    props.padding ? props.padding : '70px 70px 20px'};
-  width: 100%;
-  height: ${(props: InfoContainerProps) =>
-    props.height ? props.height : '60vh'};
+  padding: 50px;
+  width: 40%;
+  height: 525px;
   background: url(${logo}) no-repeat bottom right ${BACKGROUND_GREEN};
   background-size: 65%;
   box-shadow: 1.58105px 3.16211px 6.32421px ${BLACK}25;
   border-radius: 6.32421px;
-  overflow: auto;
+  overflow: hidden;
+
+  @media (max-width: ${BREAKPOINT_TABLET}px) {
+    width: 90%;
+    height: 275px;
+  }
 `;
 
 const GreetingContainer: React.FC<GreetingContainerProps> = ({
   header,
   body,
-  height,
-  padding,
 }) => {
   return (
-    <InfoContainer height={height} padding={padding}>
+    <InfoContainer>
       <Typography.Title style={{ color: BLACK }}>{header}</Typography.Title>
       <Typography.Paragraph>{body}</Typography.Paragraph>
     </InfoContainer>

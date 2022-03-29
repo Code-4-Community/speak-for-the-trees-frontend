@@ -14,6 +14,7 @@ import Client from '../../api/protectedApiClient';
 
 export const login = (
   loginRequest: LoginRequest,
+  onError: () => void,
 ): UserAuthenticationThunkAction<void> => {
   return (
     dispatch,
@@ -37,6 +38,7 @@ export const login = (
       })
       .catch((error) => {
         dispatch(authenticateUser.failed(error.response.data));
+        onError();
       });
   };
 };
@@ -64,6 +66,7 @@ export const refresh = (
 
 export const signup = (
   signupRequest: SignupRequest,
+  onError: (msg: string) => void,
 ): UserAuthenticationThunkAction<void> => {
   return (
     dispatch,
@@ -84,6 +87,7 @@ export const signup = (
       })
       .catch((error) => {
         dispatch(authenticateUser.failed(error.response.data));
+        onError(error.response.data);
       });
   };
 };
