@@ -48,9 +48,10 @@ const PopupBubble = styled.div`
   background-color: ${WHITE};
   min-width: 250px;
   min-height: 150px;
-  padding: 7px 15px;
+  padding: 15px;
   border-radius: 2px;
   box-shadow: 0px 2px 10px 1px ${BLACK}50;
+  overflow: hidden;
 `;
 
 const TreeTitle = styled(Typography.Paragraph)`
@@ -70,6 +71,7 @@ const CloseIcon = styled(CloseOutlined)`
 `;
 
 const Line = styled.div`
+  position: absolute;
   width: 250px;
   height: 2px;
   margin: -15px 0 10px -15px;
