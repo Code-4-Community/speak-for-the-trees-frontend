@@ -20,7 +20,6 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import PageLayout from '../../components/pageLayout';
-import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { RedirectStateProps, Routes } from '../../App';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import { SIGNUP_BODY, SIGNUP_HEADER, SIGNUP_TITLE } from '../../assets/content';

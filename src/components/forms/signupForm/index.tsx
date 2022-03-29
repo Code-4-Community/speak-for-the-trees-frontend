@@ -21,7 +21,6 @@ import {
   newPasswordRules,
   usernameRules,
 } from '../../../utils/formRules';
-import { SignupRequest } from '../../../auth/ducks/types';
 import { SignupFormValues } from '../ducks/types';
 
 const offsetSpan = 1;

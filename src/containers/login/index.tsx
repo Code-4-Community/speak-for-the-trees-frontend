@@ -10,9 +10,8 @@ import {
   UserAuthenticationReducerState,
 } from '../../auth/ducks/types';
 import { isLoggedIn } from '../../auth/ducks/selectors';
-import { asyncRequestIsFailed } from '../../utils/asyncRequest';
 import { RedirectStateProps, Routes } from '../../App';
-import { Alert, Form, message, Typography } from 'antd';
+import { Form, message, Typography } from 'antd';
 import styled from 'styled-components';
 import { BLACK, TEXT_GREY, WHITE } from '../../utils/colors';
 import {
