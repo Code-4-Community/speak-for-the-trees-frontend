@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Card, List, Typography } from 'antd';
+import { Button, Typography } from 'antd';
 import { Entry } from '../../containers/treePage/ducks/types';
 import {
   DARK_GREEN,
@@ -9,13 +9,29 @@ import {
   WHITE,
 } from '../../utils/colors';
 import styled from 'styled-components';
-import { CenterDiv } from '../themedComponents';
 
-const StyledCard = styled(Card)`
-  height: 125px;
-  min-width: 15vw;
+const CardBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  gap: 15px;
+  flex-grow: 1;
+`;
+
+const StyledCard = styled.div`
+  height: 150px;
+  width: 275px;
+  padding: 20px;
   border: solid 1px ${LIGHT_GREY};
-  overflow: auto;
+  overflow: hidden;
+`;
+
+const EntryMessage = styled(Typography.Paragraph)`
+  color: ${TEXT_GREY};
+  line-height: 18px;
+  text-transform: capitalize;
+  font-size: 15px;
 `;
 
 const ToggleButton = styled(Button)`
@@ -23,6 +39,7 @@ const ToggleButton = styled(Button)`
   color: ${DARK_GREEN};
   font-weight: bold;
   margin-bottom: 10px;
+  padding: 0;
   &:hover {
     background: ${WHITE};
     color: ${MID_GREEN};
@@ -35,12 +52,6 @@ const ToggleButton = styled(Button)`
     background: ${WHITE};
     color: ${DARK_GREEN};
   }
-`;
-
-const EntryMessage = styled(Typography.Paragraph)`
-  color: ${TEXT_GREY};
-  line-height: 14px;
-  text-transform: capitalize;
 `;
 
 interface EntryListProps {
@@ -69,35 +80,23 @@ const EntryList: React.FC<EntryListProps> = ({
       {visible && (
         <>
           {title && <Typography.Title level={4}>{title}</Typography.Title>}
-          <List
-            dataSource={entries}
-            grid={{
-              gutter: 16,
-              xs: 1,
-              sm: 1,
-              md: 3,
-              lg: 3,
-              xl: 5,
-              xxl: 5,
-            }}
-            renderItem={(entry: Entry) => (
-              <List.Item>
+          <CardBox>
+            {entries.map((entry: Entry) => {
+              return (
                 <StyledCard key={entry.title}>
                   <Typography.Title level={4}>{entry.title}</Typography.Title>
                   <EntryMessage>{entry.value}</EntryMessage>
                 </StyledCard>
-              </List.Item>
-            )}
-          />
+              );
+            })}
+          </CardBox>
         </>
       )}
 
       {canHide && (
-        <CenterDiv>
-          <ToggleButton type="text" onClick={toggleVisibility}>
-            {visible ? hideText || 'Hide Data' : showText || 'Show Data'}
-          </ToggleButton>
-        </CenterDiv>
+        <ToggleButton type="text" onClick={toggleVisibility}>
+          {visible ? hideText || 'Hide Data' : showText || 'Show Data'}
+        </ToggleButton>
       )}
     </>
   );
