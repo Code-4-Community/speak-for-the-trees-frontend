@@ -9,6 +9,7 @@ import { C4CState } from '../../store';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import ChangePrivilegeForm from '../../components/forms/changePrivilegeForm';
+import AddSiteForm from '../../components/forms/addSiteForm';
 
 const AdminContentContainer = styled.div`
   margin: 100px auto auto;
@@ -37,11 +38,11 @@ const AdminDashboard: React.FC = () => {
       <PageLayout>
         <AdminContentContainer>
           <PageHeader pageTitle="Admin Dashboard" />
-
           <EditUser>
             <Typography.Title level={4}>Edit Admins</Typography.Title>
             <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
           </EditUser>
+          <AddSiteForm />
         </AdminContentContainer>
       </PageLayout>
     </>

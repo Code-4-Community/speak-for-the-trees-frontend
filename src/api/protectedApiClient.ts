@@ -16,6 +16,7 @@ import {
   ChangeUsernameRequest,
   EditSiteRequest,
   UpdateSiteRequest,
+  AddSiteRequest,
 } from '../components/forms/ducks/types';
 import {
   ActivityRequest,
@@ -96,6 +97,7 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
   readonly getAdoptionReport: () => Promise<AdoptionReport>;
   readonly getStewardshipReport: () => Promise<StewardshipReport>;
+  readonly addSite: (request: AddSiteRequest) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -110,6 +112,7 @@ export enum ProtectedApiClientRoutes {
   CREATE_TEAM = '/api/v1/protected/teams/create',
   GET_TEAMS = '/api/v1/protected/teams/',
   GET_ADOPTED_SITES = '/api/v1/protected/sites/adopted_sites',
+  ADD_SITE = 'api/v1/protected/sites/create',
 }
 
 export enum AdminApiClientRoutes {
@@ -404,6 +407,12 @@ const getStewardshipReport = (): Promise<StewardshipReport> => {
   );
 };
 
+const addSite = (): Promise<void> => {
+  return AppAxiosInstance.get(ProtectedApiClientRoutes.ADD_SITE).then(
+    (res) => res.data,
+  );
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -441,6 +450,7 @@ const Client: ProtectedApiClient = Object.freeze({
   updateSite,
   getAdoptionReport,
   getStewardshipReport,
+  addSite,
 });
 
 export default Client;
