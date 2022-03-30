@@ -28,7 +28,7 @@ interface SiteLegendProps {
 const SiteLegend: React.FC<SiteLegendProps> = ({ onCheck }) => {
   return (
     <LegendContainer>
-      <SlideDown defaultOpen={true}>
+      <SlideDown defaultOpen={true} fullSlide={true}>
         <MapLegend view={MapViews.TREES} mobile={false} />
         <Typography.Text strong>Show</Typography.Text>
         <StyledCheckbox

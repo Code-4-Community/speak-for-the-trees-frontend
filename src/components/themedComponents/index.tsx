@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Col, Form, Space, List, Image, InputNumber } from 'antd';
+import { Button, Form, Space, List, Image, InputNumber } from 'antd';
 import { FormItemProps } from 'antd/es/form';
 import {
   BLACK,
@@ -9,6 +9,7 @@ import {
   LIGHT_GREEN,
 } from '../../utils/colors';
 import { LinkButton } from '../linkButton';
+import { BREAKPOINT_TABLET } from '../windowDimensions';
 
 export const ContentContainer = styled.div`
   display: block;
@@ -21,19 +22,34 @@ export const CenterDiv = styled.div`
   margin: auto;
 `;
 
-export const InputContainer = styled(Col)`
-  height: 60vh;
-  width: 60vw;
+export const InputGreetingContainer = styled.div`
+  width: 100vw;
+  min-height: 575px;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  align-content: center;
+  gap: 20px;
+
+  @media (max-width: ${BREAKPOINT_TABLET}px) {
+    min-height: 900px;
+  }
+`;
+
+export const InputContainer = styled.div`
+  height: 525px;
+  width: 550px;
   padding: 30px 120px 0 50px;
   background: ${LIGHT_GREY};
   box-shadow: 2px 3px 6px ${BLACK}25;
   border-radius: 6px;
-  overflow: auto;
-`;
+  overflow: hidden;
 
-export const TabletPageContainer = styled.div`
-  margin: auto;
-  width: 70vw;
+  @media (max-width: ${BREAKPOINT_TABLET}px) {
+    width: 90%;
+  }
 `;
 
 export const FormRow = styled.div`

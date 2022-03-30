@@ -43,6 +43,10 @@ import { CenterDiv, ReturnButton } from '../../components/themedComponents';
 import { STREET_ZOOM } from '../../components/mapComponents/constants';
 import { CITY_PLANTING_REQUEST_LINK } from '../../assets/content';
 
+const EntryDiv = styled(CenterDiv)`
+  margin: 10px 0;
+`;
+
 const TreePageContainer = styled.div`
   width: 90vw;
   margin: 30px auto auto;
@@ -220,7 +224,7 @@ const TreePage: React.FC<TreeProps> = ({
       <Helmet>
         <title>Tree</title>
         <meta
-          name="Individual Tree Page"
+          name="description"
           content="Description of a particular tree site, allows users to adopt a tree and monitor their stewardship activities."
         />
       </Helmet>
@@ -332,16 +336,16 @@ const TreePage: React.FC<TreeProps> = ({
               })()}
               {/* Display main or extra entries, if there are any. Otherwise, display a message that no entries have been collected. */}
               {latestEntry.main.length !== 0 && (
-                <CenterDiv>
+                <EntryDiv>
                   <EntryList
                     entries={latestEntry.main}
                     canHide={false}
                     title="About This Tree"
                   />
-                </CenterDiv>
+                </EntryDiv>
               )}
               {latestEntry.extra.length !== 0 && (
-                <CenterDiv>
+                <EntryDiv>
                   <EntryList
                     entries={latestEntry.extra}
                     canHide={true}
@@ -349,7 +353,7 @@ const TreePage: React.FC<TreeProps> = ({
                     showText="Click to Read More About This Tree"
                     title="Additional Information"
                   />
-                </CenterDiv>
+                </EntryDiv>
               )}
               {latestEntry.main.length === 0 &&
                 latestEntry.extra.length === 0 && (

@@ -23,6 +23,7 @@ describe('User Authentication Thunks', () => {
       const getState = () => generateState({});
       const mockDispatch = jest.fn();
       const mockLogin = jest.fn();
+      const mockOnError = jest.fn();
       mockLogin.mockResolvedValue(mockTokenResponse);
       nock(BASE_URL)
         .get(ProtectedApiClientRoutes.GET_USER_DATA)
@@ -37,10 +38,13 @@ describe('User Authentication Thunks', () => {
         apiClient,
       };
 
-      await login({
-        email: 'Jack Blanc',
-        password: 'password',
-      })(mockDispatch, getState, mockExtraArgs);
+      await login(
+        {
+          email: 'Jack Blanc',
+          password: 'password',
+        },
+        mockOnError,
+      )(mockDispatch, getState, mockExtraArgs);
 
       expect(mockDispatch).toHaveBeenCalledTimes(4);
       expect(mockDispatch).toHaveBeenNthCalledWith(
@@ -52,12 +56,14 @@ describe('User Authentication Thunks', () => {
         userData.loaded(mockUserDataResponse),
       );
       expect(mockLogin).toBeCalledTimes(1);
+      expect(mockOnError).toBeCalledTimes(0);
     });
 
-    it('dispatches authenticateUser.failed() action when API fails', async () => {
+    it('dispatches authenticateUser.failed() action and calls onError when API fails', async () => {
+      const mockLogin = jest.fn();
+      const mockOnError = jest.fn();
       const getState = () => generateState({});
       const mockDispatch = jest.fn();
-      const mockLogin = jest.fn();
       const mockAPIError = {
         response: {
           data: 'Unauthenticated user',
@@ -73,10 +79,13 @@ describe('User Authentication Thunks', () => {
         apiClient,
       };
 
-      await login({
-        email: 'Jack Blanc',
-        password: 'password',
-      })(mockDispatch, getState, mockExtraArgs);
+      await login(
+        {
+          email: 'Jack Blanc',
+          password: 'password',
+        },
+        mockOnError,
+      )(mockDispatch, getState, mockExtraArgs);
 
       expect(mockDispatch).toHaveBeenCalledTimes(2);
       expect(mockDispatch).toHaveBeenNthCalledWith(
@@ -84,12 +93,14 @@ describe('User Authentication Thunks', () => {
         authenticateUser.failed(mockAPIError.response.data),
       );
       expect(mockLogin).toBeCalledTimes(1);
+      expect(mockOnError).toBeCalledTimes(1);
     });
 
     it('dispatches an userData.failed() action after login works but getUserData fails ', async () => {
       const getState = () => generateState({});
       const mockDispatch = jest.fn();
       const mockLogin = jest.fn();
+      const mockOnError = jest.fn();
       mockLogin.mockResolvedValue(mockTokenResponse);
       const mockUserDataError = 'mock fail';
       nock(BASE_URL)
@@ -105,10 +116,13 @@ describe('User Authentication Thunks', () => {
         apiClient,
       };
 
-      await login({
-        email: 'Jack Blanc',
-        password: 'password',
-      })(mockDispatch, getState, mockExtraArgs);
+      await login(
+        {
+          email: 'Jack Blanc',
+          password: 'password',
+        },
+        mockOnError,
+      )(mockDispatch, getState, mockExtraArgs);
 
       expect(mockDispatch).toHaveBeenCalledTimes(4);
       expect(mockDispatch).toHaveBeenNthCalledWith(
@@ -120,6 +134,7 @@ describe('User Authentication Thunks', () => {
         userData.failed(mockUserDataError),
       );
       expect(mockLogin).toBeCalledTimes(1);
+      expect(mockOnError).toBeCalledTimes(0);
     });
   });
 
@@ -202,17 +217,21 @@ describe('User Authentication Thunks', () => {
         protectedApiClient,
         apiClient,
       };
+      const mockOnError = jest.fn();
       nock(BASE_URL)
         .get(ProtectedApiClientRoutes.GET_USER_DATA)
         .reply(200, mockUserDataResponse);
 
-      await signup({
-        password: 'password',
-        username: 'jackblanc',
-        firstName: 'Jack',
-        lastName: 'Blanc',
-        email: 'jack@jackblanc.com',
-      })(mockDispatch, getState, mockExtraArgs);
+      await signup(
+        {
+          password: 'password',
+          username: 'jackblanc',
+          firstName: 'Jack',
+          lastName: 'Blanc',
+          email: 'jack@jackblanc.com',
+        },
+        mockOnError,
+      )(mockDispatch, getState, mockExtraArgs);
 
       expect(mockDispatch).toHaveBeenCalledTimes(4);
       expect(mockDispatch).toHaveBeenNthCalledWith(
@@ -224,8 +243,10 @@ describe('User Authentication Thunks', () => {
         userData.loaded(mockUserDataResponse),
       );
       expect(mockSignup).toBeCalledTimes(1);
+      expect(mockOnError).toBeCalledTimes(0);
     });
-    it('dispatches authenticateUser.failed() action when API fails', async () => {
+
+    it('dispatches authenticateUser.failed() action and calls onError when API fails', async () => {
       const getState = () => generateState({});
       const mockDispatch = jest.fn();
       const mockSignup = jest.fn();
@@ -234,6 +255,8 @@ describe('User Authentication Thunks', () => {
           data: 'Unauthenticated user',
         },
       };
+      const mockOnError = jest.fn();
+
       mockSignup.mockRejectedValue(mockAPIError);
       const mockExtraArgs: ThunkExtraArgs = {
         authClient: {
@@ -244,13 +267,16 @@ describe('User Authentication Thunks', () => {
         apiClient,
       };
 
-      await signup({
-        email: 'jblanc222@gmail.com',
-        username: 'jackblanc',
-        password: 'password',
-        firstName: 'Jack',
-        lastName: 'Blanc',
-      })(mockDispatch, getState, mockExtraArgs);
+      await signup(
+        {
+          email: 'jblanc222@gmail.com',
+          username: 'jackblanc',
+          password: 'password',
+          firstName: 'Jack',
+          lastName: 'Blanc',
+        },
+        mockOnError,
+      )(mockDispatch, getState, mockExtraArgs);
 
       expect(mockDispatch).toHaveBeenCalledTimes(2);
       expect(mockDispatch).toHaveBeenNthCalledWith(
@@ -258,6 +284,7 @@ describe('User Authentication Thunks', () => {
         authenticateUser.failed(mockAPIError.response.data),
       );
       expect(mockSignup).toBeCalledTimes(1);
+      expect(mockOnError).toBeCalledTimes(1);
     });
   });
 
