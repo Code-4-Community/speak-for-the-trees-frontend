@@ -1,10 +1,10 @@
 import React from 'react';
-import { Routes } from '../../App';
+import { Routes } from '../../../App';
 import styled from 'styled-components';
 import { Avatar, Dropdown, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { BLACK, DARK_GREEN, LIGHT_GREEN, WHITE } from '../../utils/colors';
-import { LinkButton } from '../linkButton';
+import { BLACK, DARK_GREEN, LIGHT_GREEN, WHITE } from '../../../utils/colors';
+import { LinkButton } from '../../linkButton';
 import NavMenu from '../navMenu';
 
 const FlexDiv = styled.div`

@@ -3,13 +3,13 @@ import { Routes } from '../../App';
 import styled from 'styled-components';
 import { Col, Row } from 'antd';
 import useWindowDimensions, { WindowTypes } from '../windowDimensions';
-import MobileNavBar from '../mobileComponents/mobileNavBar';
+import MobileNavBar from './mobileNavBar';
 import { BACKGROUND_GREY, MID_GREEN } from '../../utils/colors';
 import sfttLogo from '../../assets/images/sfttNameLogo.png';
 import bostonLogo from '../../assets/images/bostonParksLogo.png';
 import c4cLogo from '../../assets/images/c4cTextLogo.png';
 import { LinkButton } from '../linkButton';
-import NavExtra from '../navExtra';
+import NavExtra from './navExtra';
 
 const NavContainer = styled.div`
   box-shadow: '0 4px 2px -2px grey';

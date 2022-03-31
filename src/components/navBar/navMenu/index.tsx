@@ -1,9 +1,9 @@
 import React from 'react';
-import { Routes } from '../../App';
+import { Routes } from '../../../App';
 import styled from 'styled-components';
 import { Menu } from 'antd';
-import { LinkButton } from '../linkButton';
-import { BLACK, LIGHT_GREEN, LIGHT_GREY } from '../../utils/colors';
+import { LinkButton } from '../../linkButton';
+import { BLACK, LIGHT_GREEN, LIGHT_GREY } from '../../../utils/colors';
 
 const StyledNavMenu = styled(Menu)`
   border: 1px solid ${LIGHT_GREY};

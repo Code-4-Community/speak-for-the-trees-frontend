@@ -7,7 +7,7 @@ import { PageHeaderProps } from 'antd/es/page-header';
 import { MenuOutlined } from '@ant-design/icons';
 import { MID_GREEN, BACKGROUND_GREY } from '../../../utils/colors';
 import Logo from '../../../assets/images/nav-bar-icon.png';
-import NavMenu from '../../navMenu';
+import NavMenu from '../navMenu';
 
 interface MobileNavBarProps {
   readonly isLoggedIn: boolean;
