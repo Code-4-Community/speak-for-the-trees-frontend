@@ -1,11 +1,6 @@
 import React from 'react';
-import { connect, useSelector } from 'react-redux';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { Router, Redirect, Route, Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import {
   PrivilegeLevel,
@@ -31,6 +26,8 @@ import ForgotPasswordReset from './containers/forgotPasswordReset';
 import AuthRedirect from './components/authRedirect';
 import SitePage from './containers/sitePage';
 import Reports from './containers/reports';
+import { logout } from './auth/ducks/thunks';
+import history from './history';
 
 const AppLayout = styled(Layout)`
   min-height: 100vh;
@@ -77,6 +74,13 @@ export interface MapStateProps {
 }
 
 const App: React.FC = () => {
+  const dispatch = useDispatch();
+
+  const onLogout = () => {
+    dispatch(logout());
+    history.go(0);
+  };
+
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
     return getPrivilegeLevel(state.authenticationState.tokens);
   });
@@ -94,7 +98,7 @@ const App: React.FC = () => {
         />
         <meta name="description" content="Speak for the Trees Website" />
       </Helmet>
-      <Router>
+      <Router history={history}>
         <AppLayout>
           <NavBar
             userName={
@@ -104,7 +108,7 @@ const App: React.FC = () => {
               privilegeLevel === PrivilegeLevel.ADMIN ||
               privilegeLevel === PrivilegeLevel.SUPER_ADMIN
             }
-            onLogout={() => {}}
+            onLogout={onLogout}
           />
           <Layout.Content>
             {(() => {
