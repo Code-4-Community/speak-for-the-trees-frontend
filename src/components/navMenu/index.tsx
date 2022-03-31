@@ -3,9 +3,22 @@ import { Routes } from '../../App';
 import styled from 'styled-components';
 import { Menu } from 'antd';
 import { LinkButton } from '../linkButton';
+import { BLACK, LIGHT_GREEN, LIGHT_GREY } from '../../utils/colors';
+
+const StyledNavMenu = styled(Menu)`
+  border: 1px solid ${LIGHT_GREY};
+`;
+
+const StyledNavMenuItem = styled(Menu.Item)`
+  &:hover {
+    background: ${LIGHT_GREEN};
+    color: ${BLACK};
+  }
+`;
 
 const MenuLinkButton = styled(LinkButton)`
   padding-left: 0;
+  margin-top: 0;
 `;
 
 interface NavMenuProps {
@@ -15,21 +28,26 @@ interface NavMenuProps {
 
 const NavMenu: React.FC<NavMenuProps> = ({ isAdmin, onLogout }) => {
   return (
-    <Menu>
-      <Menu.Item>
-        <MenuLinkButton type="text" to={Routes.SETTINGS}>
-          Account Settings
+    <StyledNavMenu>
+      <StyledNavMenuItem>
+        <MenuLinkButton type="text" to={Routes.MY_TREES}>
+          My Trees
         </MenuLinkButton>
-      </Menu.Item>
+      </StyledNavMenuItem>
       {isAdmin && (
-        <Menu.Item>
+        <StyledNavMenuItem>
           <MenuLinkButton type="text" to={Routes.ADMIN}>
             Admins
           </MenuLinkButton>
-        </Menu.Item>
+        </StyledNavMenuItem>
       )}
-      <Menu.Item onClick={onLogout}>Log Out</Menu.Item>
-    </Menu>
+      <StyledNavMenuItem>
+        <MenuLinkButton type="text" to={Routes.SETTINGS}>
+          Account Settings
+        </MenuLinkButton>
+      </StyledNavMenuItem>
+      <StyledNavMenuItem onClick={onLogout}>Log Out</StyledNavMenuItem>
+    </StyledNavMenu>
   );
 };
 
