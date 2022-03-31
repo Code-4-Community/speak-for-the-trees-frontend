@@ -11,7 +11,7 @@ import {
   PrivilegeLevel,
   UserAuthenticationReducerState,
 } from './auth/ducks/types';
-import { getPrivilegeLevel } from './auth/ducks/selectors';
+import { getPrivilegeLevel, getUserFullName } from './auth/ducks/selectors';
 import { C4CState } from './store';
 
 import styled from 'styled-components';
@@ -81,6 +81,10 @@ const App: React.FC = () => {
     return getPrivilegeLevel(state.authenticationState.tokens);
   });
 
+  const userName: string = useSelector((state: C4CState) => {
+    return getUserFullName(state.authenticationState.userData);
+  });
+
   return (
     <>
       <Helmet>
@@ -92,7 +96,16 @@ const App: React.FC = () => {
       </Helmet>
       <Router>
         <AppLayout>
-          <NavBar />
+          <NavBar
+            userName={
+              privilegeLevel !== PrivilegeLevel.NONE ? userName : undefined
+            }
+            isAdmin={
+              privilegeLevel === PrivilegeLevel.ADMIN ||
+              privilegeLevel === PrivilegeLevel.SUPER_ADMIN
+            }
+            onLogout={() => {}}
+          />
           <Layout.Content>
             {(() => {
               switch (privilegeLevel) {
