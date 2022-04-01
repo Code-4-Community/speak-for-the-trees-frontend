@@ -63,3 +63,22 @@ export const SITE_OPTIONS: { label: ReactNode; value: string }[] = [
     value: 'Open',
   },
 ];
+
+export const LIGHT_MAP_STYLES: google.maps.MapTypeStyle[] = [
+  {
+    featureType: 'poi',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+  {
+    featureType: 'poi.park',
+    stylers: [
+      {
+        visibility: 'on',
+      },
+    ],
+  },
+];
