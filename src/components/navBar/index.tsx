@@ -1,31 +1,15 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import {
-  PrivilegeLevel,
-  UserAuthenticationReducerState,
-} from '../../auth/ducks/types';
 import { Routes } from '../../App';
 import styled from 'styled-components';
-import { Avatar, Button, Dropdown, Menu, Row, Col, Typography } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Col, Row } from 'antd';
 import useWindowDimensions, { WindowTypes } from '../windowDimensions';
-import { getPrivilegeLevel, getUserFullName } from '../../auth/ducks/selectors';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { C4CState } from '../../store';
-import MobileNavBar from '../mobileComponents/mobileNavBar';
-import {
-  BACKGROUND_GREY,
-  BLACK,
-  DARK_GREEN,
-  LIGHT_GREEN,
-  MID_GREEN,
-  WHITE,
-} from '../../utils/colors';
+import MobileNavBar from './mobileNavBar';
+import { BACKGROUND_GREY, MID_GREEN } from '../../utils/colors';
 import sfttLogo from '../../assets/images/sfttNameLogo.png';
 import bostonLogo from '../../assets/images/bostonParksLogo.png';
 import c4cLogo from '../../assets/images/c4cTextLogo.png';
-import { asyncRequestIsComplete } from '../../utils/asyncRequest';
-import { logout } from '../../auth/ducks/thunks';
+import { LinkButton } from '../linkButton';
+import NavExtra from './navExtra';
 
 const NavContainer = styled.div`
   box-shadow: '0 4px 2px -2px grey';
@@ -36,14 +20,6 @@ const NavContainer = styled.div`
   min-height: 80px;
   padding: 0;
   overflow: hidden;
-`;
-
-const FlexDiv = styled.div`
-  display: flex;
-  float: right;
-  margin-right: 20px;
-  height: 100%;
-  line-height: 9vh;
 `;
 
 const MainLogo = styled.img`
@@ -61,35 +37,7 @@ const C4CLogo = styled.img`
   line-height: 0px;
 `;
 
-const LandingExtraContainer = styled.div`
-  float: right;
-  padding-right: 2vw;
-  padding-top: 22px;
-  height: 100%;
-`;
-
-const SignupButton = styled(Button)`
-  margin-right: 2vw;
-  background-color: ${LIGHT_GREEN},
-  border-color: ${LIGHT_GREEN};
-`;
-
-const LoginButton = styled(Button)`
-  background-color: ${WHITE};
-  border-color: ${WHITE};
-  color: ${BLACK};
-`;
-
-const Name = styled(Typography.Paragraph)`
-  display: inline-block;
-  margin-right: 20px;
-`;
-
-const GreenAvatar = styled(Avatar)`
-  background-color: ${DARK_GREEN};
-`;
-
-const NoHoverShadeButton = styled(Button)`
+const NoHoverShadeButton = styled(LinkButton)`
   height: 100%;
   overflow: hidden;
   &:hover {
@@ -112,148 +60,54 @@ const NavTitleText = styled.div`
 `;
 
 interface NavBarProps {
-  readonly tokens: UserAuthenticationReducerState['tokens'];
+  readonly userName?: string;
+  readonly isAdmin: boolean;
+  readonly onLogout: () => void;
 }
 
-const NavBar: React.FC<NavBarProps> = ({ tokens }) => {
+const NavBar: React.FC<NavBarProps> = ({ userName, isAdmin, onLogout }) => {
   const { windowType } = useWindowDimensions();
-  const history = useHistory();
-  const dispatch = useDispatch();
 
-  const privilegeLevel = useSelector((state: C4CState) =>
-    getPrivilegeLevel(state.authenticationState.tokens),
-  );
-  const userFullName = useSelector((state: C4CState) =>
-    getUserFullName(state.authenticationState.userData),
-  );
-
-  const isLoggedIn: boolean = privilegeLevel !== PrivilegeLevel.NONE;
-
-  const HeaderTitle = () => (
-    <NoHoverShadeButton type="text" onClick={() => history.push(Routes.HOME)}>
-      <Row align="middle">
-        <Col span={6}>
-          <MainLogo src={sfttLogo} alt="icon" />
-        </Col>
-        <Col span={6}>
-          <NavTitleText>in partnership with</NavTitleText>
-        </Col>
-        <LogoCol span={4}>
-          <BostonLogo src={bostonLogo} />
-        </LogoCol>
-        <Col span={2}>
-          <NavTitleText>and</NavTitleText>
-        </Col>
-        <LogoCol span={4}>
-          <C4CLogo src={c4cLogo} />
-        </LogoCol>
-      </Row>
-    </NoHoverShadeButton>
-  );
-
-  const ShortHeaderTitle = () => (
-    <NoHoverShadeButton type="text" onClick={() => history.push(Routes.HOME)}>
-      <MainLogo src={sfttLogo} alt="icon" />
-    </NoHoverShadeButton>
-  );
-
-  const menu = (
-    <Menu>
-      <Menu.Item
-        onClick={() => {
-          history.push(Routes.SETTINGS);
-        }}
-      >
-        Account Settings
-      </Menu.Item>
-      {(privilegeLevel === PrivilegeLevel.ADMIN ||
-        privilegeLevel === PrivilegeLevel.SUPER_ADMIN) && (
-        <Menu.Item
-          onClick={() => {
-            history.push(Routes.ADMIN);
-          }}
-        >
-          Admins
-        </Menu.Item>
-      )}
-      <Menu.Item
-        onClick={() => {
-          if (asyncRequestIsComplete(tokens)) {
-            dispatch(logout());
-            history.go(0);
-          }
-        }}
-      >
-        Log Out
-      </Menu.Item>
-    </Menu>
-  );
-
-  const LandingExtra = () => {
+  if (windowType === WindowTypes.Mobile) {
     return (
-      <LandingExtraContainer>
-        <SignupButton
-          type="primary"
-          htmlType="submit"
-          size={'large'}
-          onClick={() => history.push(Routes.SIGNUP)}
-        >
-          Sign Up
-        </SignupButton>
-        <LoginButton
-          type="primary"
-          htmlType="submit"
-          size={'large'}
-          onClick={() => history.push(Routes.LOGIN)}
-        >
-          Log In
-        </LoginButton>
-      </LandingExtraContainer>
+      <MobileNavBar
+        isLoggedIn={userName !== undefined}
+        isAdmin={isAdmin}
+        onLogout={onLogout}
+      />
     );
-  };
-
-  const LoggedInExtra = () => {
+  } else {
     return (
-      <FlexDiv>
-        <Dropdown overlay={menu} placement="bottomRight" arrow>
-          <Typography.Paragraph>
-            <Name>{userFullName}</Name>
-            <GreenAvatar size="large" icon={<UserOutlined />} />
-          </Typography.Paragraph>
-        </Dropdown>
-      </FlexDiv>
+      <NavContainer>
+        {windowType === WindowTypes.Desktop ? (
+          <NoHoverShadeButton type="text" to={Routes.HOME}>
+            <Row align="middle">
+              <Col span={6}>
+                <MainLogo src={sfttLogo} alt="icon" />
+              </Col>
+              <Col span={6}>
+                <NavTitleText>in partnership with</NavTitleText>
+              </Col>
+              <LogoCol span={4}>
+                <BostonLogo src={bostonLogo} />
+              </LogoCol>
+              <Col span={2}>
+                <NavTitleText>and</NavTitleText>
+              </Col>
+              <LogoCol span={4}>
+                <C4CLogo src={c4cLogo} />
+              </LogoCol>
+            </Row>
+          </NoHoverShadeButton>
+        ) : (
+          <NoHoverShadeButton type="text" to={Routes.HOME}>
+            <MainLogo src={sfttLogo} alt="icon" />
+          </NoHoverShadeButton>
+        )}
+        <NavExtra userName={userName} isAdmin={isAdmin} onLogout={onLogout} />
+      </NavContainer>
     );
-  };
-
-  switch (windowType) {
-    case WindowTypes.Mobile:
-      return <MobileNavBar isLoggedIn={isLoggedIn} />;
-
-    case WindowTypes.Tablet:
-      return (
-        <NavContainer>
-          <ShortHeaderTitle />
-          {isLoggedIn ? <LoggedInExtra /> : <LandingExtra />}
-        </NavContainer>
-      );
-    case WindowTypes.NarrowDesktop:
-    case WindowTypes.Desktop:
-      return (
-        <NavContainer>
-          <HeaderTitle />
-          {isLoggedIn ? <LoggedInExtra /> : <LandingExtra />}
-        </NavContainer>
-      );
-
-    default:
-      return <></>;
   }
 };
 
-const mapStateToProps = (state: C4CState): NavBarProps => {
-  return {
-    tokens: state.authenticationState.tokens,
-  };
-};
-
-export default connect(mapStateToProps)(NavBar);
+export default NavBar;
