@@ -1,9 +1,5 @@
 import moment from 'moment';
-import {
-  LoginRequest,
-  PrivilegeLevel,
-  SignupRequest,
-} from '../../../auth/ducks/types';
+import { PrivilegeLevel, SignupRequest } from '../../../auth/ducks/types';
 
 export const BOOL_RADIO_OPTS = [
   { label: 'Yes', value: true },
