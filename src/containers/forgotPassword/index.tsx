@@ -12,19 +12,13 @@ import { enterEmailRules } from '../../utils/formRules';
 const ForgotPassword: React.FC = () => {
   const { windowType } = useWindowDimensions();
 
-  const [submittedEmail, setSubmittedEmail] = useState(false);
   const [email, setEmail] = useState('');
 
   const onFinish = (values: ForgotPasswordRequest) => {
-    authClient
-      .forgotPassword(values)
-      .catch(() => {
-        return;
-      })
-      .finally(() => {
-        setSubmittedEmail(true);
-        setEmail(values.email);
-      });
+    setEmail(values.email);
+    authClient.forgotPassword(values).catch(() => {
+      return;
+    });
   };
 
   return (
@@ -41,7 +35,7 @@ const ForgotPassword: React.FC = () => {
           pageTitle="Forgot your password?"
           isMobile={isMobile(windowType)}
         />
-        {!submittedEmail ? (
+        {email === '' ? (
           <>
             <Typography.Title level={4}>
               Please enter your email and we will send you the password reset
