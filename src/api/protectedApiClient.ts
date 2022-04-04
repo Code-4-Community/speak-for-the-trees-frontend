@@ -112,7 +112,7 @@ export enum ProtectedApiClientRoutes {
   CREATE_TEAM = '/api/v1/protected/teams/create',
   GET_TEAMS = '/api/v1/protected/teams/',
   GET_ADOPTED_SITES = '/api/v1/protected/sites/adopted_sites',
-  ADD_SITE = 'api/v1/protected/sites/create',
+  ADD_SITE = 'api/v1/protected/sites/add',
 }
 
 export enum AdminApiClientRoutes {
@@ -407,8 +407,8 @@ const getStewardshipReport = (): Promise<StewardshipReport> => {
   );
 };
 
-const addSite = (): Promise<void> => {
-  return AppAxiosInstance.get(ProtectedApiClientRoutes.ADD_SITE).then(
+const addSite = (request: AddSiteRequest): Promise<void> => {
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.ADD_SITE, request).then(
     (res) => res.data,
   );
 };

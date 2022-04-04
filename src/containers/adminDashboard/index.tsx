@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Row, Typography } from 'antd';
+import { Form, message, Row, Typography } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
@@ -9,8 +9,14 @@ import { C4CState } from '../../store';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import ChangePrivilegeForm from '../../components/forms/changePrivilegeForm';
-import AddSiteForm from '../../components/forms/addSiteForm';
 import { DARK_GREEN } from '../../utils/colors';
+import ProtectedClient from '../../api/protectedApiClient';
+import {
+  AddSiteRequest,
+  UpdateSiteRequest,
+} from '../../components/forms/ducks/types';
+import UpdateSiteForm from '../../components/forms/updateSiteForm';
+import EditSiteForm from '../../components/forms/editSiteForm';
 
 const AdminContentContainer = styled.div`
   margin: 100px auto auto;
@@ -37,6 +43,30 @@ const AdminDashboard: React.FC = () => {
     getPrivilegeLevel(state.authenticationState.tokens),
   );
 
+  const [editSiteForm] = Form.useForm();
+  const [updateSiteForm] = Form.useForm();
+
+  const onSubmitAddSite = (request: UpdateSiteRequest) => {
+    editSiteForm.validateFields().then();
+    const addSiteRequest: AddSiteRequest = {
+      blockId: editSiteForm.getFieldValue('blockId'),
+      lat: editSiteForm.getFieldValue('lat'),
+      lng: editSiteForm.getFieldValue('lng'),
+      city: editSiteForm.getFieldValue('city'),
+      zip: editSiteForm.getFieldValue('zip'),
+      address: editSiteForm.getFieldValue('address'),
+      neighborhoodId: 1,
+      ...request,
+    };
+    ProtectedClient.addSite(addSiteRequest)
+      .then(() => {
+        editSiteForm.resetFields();
+        updateSiteForm.resetFields();
+        message.success('Site added!').then();
+      })
+      .catch((err) => message.error(err.response.data));
+  };
+
   return (
     <>
       <Helmet>
@@ -53,13 +83,14 @@ const AdminDashboard: React.FC = () => {
             <Typography.Title level={4}>Edit Admins</Typography.Title>
             <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
           </EditUser>
+          {/* TODO create a section divider styled-component */}
           <SectionHeader>Add New Site</SectionHeader>
           <MarginBottomRow>
-            <AddSiteForm />
-            {/* <UpdateSiteForm
+            <EditSiteForm formInstance={editSiteForm} />
+            <UpdateSiteForm
               formInstance={updateSiteForm}
-              onFinish={onSubmitUpdateSite}
-            /> */}
+              onFinish={onSubmitAddSite}
+            />
           </MarginBottomRow>
         </AdminContentContainer>
       </PageLayout>
