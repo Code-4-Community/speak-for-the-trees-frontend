@@ -25,6 +25,7 @@ import {
   AdoptionReport,
   StewardshipReport,
 } from '../containers/reports/ducks/types';
+import { AddSitesRequest } from '../containers/adminDashboard/ducks/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -96,6 +97,7 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
   readonly getAdoptionReport: () => Promise<AdoptionReport>;
   readonly getStewardshipReport: () => Promise<StewardshipReport>;
+  readonly addSites: (request: AddSitesRequest) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -120,6 +122,7 @@ export enum AdminApiClientRoutes {
   CHANGE_PRIVILEGE = '/api/v1/protected/user/change_privilege',
   GET_ADOPTION_REPORT = '/api/v1/protected/report/adoption',
   GET_STEWARDSHIP_REPORT = '/api/v1/protected/report/stewardship',
+  ADD_SITES = '/api/v1/protected/sites/add_sites',
 }
 
 const baseTeamRoute = '/api/v1/protected/teams/';
@@ -404,6 +407,12 @@ const getStewardshipReport = (): Promise<StewardshipReport> => {
   );
 };
 
+const addSites = (request: AddSitesRequest): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.ADD_SITES, request).then(
+    (res) => res.data,
+  );
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -441,6 +450,7 @@ const Client: ProtectedApiClient = Object.freeze({
   updateSite,
   getAdoptionReport,
   getStewardshipReport,
+  addSites,
 });
 
 export default Client;
