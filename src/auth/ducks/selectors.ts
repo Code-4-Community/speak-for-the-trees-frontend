@@ -1,6 +1,7 @@
 import {
   NO_USER_ID,
   PrivilegeLevel,
+  TokenPayload,
   UserAuthenticationReducerState,
 } from './types';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
@@ -9,10 +10,27 @@ export const getPrivilegeLevel = (
   tokens: UserAuthenticationReducerState['tokens'],
 ): PrivilegeLevel => {
   if (asyncRequestIsComplete(tokens)) {
-    const payload = JSON.parse(atob(tokens.result.accessToken.split('.')[1]));
+    const payload = getPayload(tokens.result);
     return payload.privilegeLevel;
   }
   return PrivilegeLevel.NONE;
+};
+
+function getPayload(tokens: TokenPayload) {
+  return JSON.parse(atob(tokens.accessToken.split('.')[1]));
+}
+
+export const isAdmin = (
+  tokens: UserAuthenticationReducerState['tokens'],
+): boolean => {
+  if (asyncRequestIsComplete(tokens)) {
+    const payload = getPayload(tokens.result);
+    return (
+      payload.privilegeLevel === PrivilegeLevel.ADMIN ||
+      payload.privilegeLevel === PrivilegeLevel.SUPER_ADMIN
+    );
+  }
+  return false;
 };
 
 export const isLoggedIn = (

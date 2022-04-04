@@ -16,7 +16,7 @@ import { Routes } from '../../App';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
-import { getUserFirstName } from '../../auth/ducks/selectors';
+import { getUserFirstName, isAdmin } from '../../auth/ducks/selectors';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 
@@ -41,6 +41,10 @@ const Home: React.FC = () => {
     getUserFirstName(state.authenticationState.userData),
   );
   const greeting = `${HOME_TITLE}${userName}!`;
+
+  const userIsAdmin: boolean = useSelector((state: C4CState) =>
+    isAdmin(state.authenticationState.tokens),
+  );
 
   const links: LinkCardProps[] = [
     /*
@@ -77,6 +81,18 @@ const Home: React.FC = () => {
     },
   ];
 
+  const authLinks: LinkCardProps[] = [
+    {
+      text: 'Reports',
+      path: `${Routes.REPORTS}`,
+      background: Backgrounds.IMAGE_THREE,
+    },
+  ];
+
+  const allLinks: LinkCardProps[] = userIsAdmin
+    ? links.concat(authLinks)
+    : links;
+
   return (
     <>
       <Helmet>
@@ -95,7 +111,7 @@ const Home: React.FC = () => {
                   <>
                     <PageHeader pageTitle={greeting} isMobile={true} />
                     <StyledSubtitle>Quick Links</StyledSubtitle>
-                    <LinkCarousel data={links} slidesPerPage={1} />
+                    <LinkCarousel data={allLinks} slidesPerPage={1} />
                   </>
                 );
               case WindowTypes.Tablet:
@@ -103,7 +119,7 @@ const Home: React.FC = () => {
                   <>
                     <PageHeader pageTitle={greeting} />
                     <StyledSubtitle>Quick Links</StyledSubtitle>
-                    <LinkCarousel data={links} slidesPerPage={2} />
+                    <LinkCarousel data={allLinks} slidesPerPage={2} />
                   </>
                 );
               case WindowTypes.NarrowDesktop:
@@ -116,13 +132,13 @@ const Home: React.FC = () => {
                     />
                     <StyledSubtitle>Quick Links</StyledSubtitle>
                     <List
-                      dataSource={links}
+                      dataSource={allLinks}
                       grid={{ gutter: 1, column: 3 }}
                       /*
-                      pagination={{
-                        pageSize: 3,
-                      }}
-                       */
+                            pagination={{
+                              pageSize: 3,
+                            }}
+                             */
                       renderItem={(item: LinkCardProps) => (
                         <LinkCard
                           text={item.text}
@@ -143,13 +159,13 @@ const Home: React.FC = () => {
                     />
                     <StyledSubtitle>Quick Links</StyledSubtitle>
                     <List
-                      dataSource={links}
+                      dataSource={allLinks}
                       grid={{ gutter: 16, column: 4 }}
                       /* Remove comment when more links are accessible from home
-                      pagination={{
-                        pageSize: 4,
-                      }}
-                       */
+                            pagination={{
+                              pageSize: 4,
+                            }}
+                             */
                       renderItem={(item: LinkCardProps) => (
                         <LinkCard
                           text={item.text}
