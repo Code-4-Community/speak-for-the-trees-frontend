@@ -8,7 +8,7 @@ import {
   SiteGeoData,
 } from '../../ducks/types';
 import { NO_SITE_SELECTED } from '../../../treePopup';
-import { BOSTON } from '../../constants';
+import { BOSTON, LIGHT_MAP_STYLES } from '../../constants';
 import { addHandleZoomChange, getImageSize } from '../../logic/event';
 import { initSiteView } from '../../logic/init';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
@@ -60,6 +60,10 @@ const TreeMap: React.FC<TreeMapProps> = ({
     };
 
     setLoadedMapData(setMapData);
+
+    mapData.map.setOptions({
+      styles: LIGHT_MAP_STYLES,
+    });
 
     return setMapData;
   };

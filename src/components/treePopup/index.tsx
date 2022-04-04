@@ -48,9 +48,10 @@ const PopupBubble = styled.div`
   background-color: ${WHITE};
   min-width: 250px;
   min-height: 150px;
-  padding: 7px 15px;
+  padding: 15px;
   border-radius: 2px;
   box-shadow: 0px 2px 10px 1px ${BLACK}50;
+  overflow: hidden;
 `;
 
 const TreeTitle = styled(Typography.Paragraph)`
@@ -70,6 +71,7 @@ const CloseIcon = styled(CloseOutlined)`
 `;
 
 const Line = styled.div`
+  position: absolute;
   width: 250px;
   height: 2px;
   margin: -15px 0 10px -15px;
@@ -101,14 +103,12 @@ interface TreePopupProps {
   popRef: React.RefObject<HTMLDivElement>;
   treeInfo: BasicTreeInfo;
   returnTo?: Routes;
-  mobile: boolean;
 }
 
 const TreePopup: React.FC<TreePopupProps> = ({
   popRef,
   treeInfo,
   returnTo,
-  mobile,
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
@@ -123,9 +123,6 @@ const TreePopup: React.FC<TreePopupProps> = ({
   }, [treeInfo]);
 
   const returnState = returnTo && { destination: returnTo };
-  // if on mobile or no return destination specified, open in new tab
-  // location state is only saved within the same tab, does not work when opening new tab
-  const target = !mobile || (!returnState && '_blank');
 
   return (
     <PopupContainer ref={popRef}>
@@ -168,7 +165,7 @@ const TreePopup: React.FC<TreePopupProps> = ({
                       <GreenLinkButton
                         to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
                         state={returnState}
-                        target={target}
+                        target="_blank"
                       >
                         More Info
                       </GreenLinkButton>

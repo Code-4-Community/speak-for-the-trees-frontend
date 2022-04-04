@@ -1,7 +1,5 @@
 # Speak for the Trees Frontend 
 
-![Build Status](https://github.com/Code-4-Community/speak-for-the-trees-frontend/workflows/build/badge.svg?branch=master)
-
 [![Coverage Status](https://coveralls.io/repos/github/Code-4-Community/speak-for-the-trees-frontend/badge.svg?branch=master)](https://coveralls.io/github/Code-4-Community/speak-for-the-trees-frontend?branch=master)
 
 This is the React.js frontend for Speak for the Trees! See below for help with setup and making changes.

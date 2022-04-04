@@ -8,9 +8,7 @@ import { EditSiteRequest } from '../forms/ducks/types';
 import { Flex, GreenButton, WhiteButton } from '../themedComponents';
 import TitleStack from '../titleStack';
 
-const { Text } = Typography;
-
-const Content = styled(Text)`
+const Content = styled(Typography.Text)`
   font-size: 15px;
 `;
 

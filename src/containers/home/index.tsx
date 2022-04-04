@@ -20,9 +20,7 @@ import { getUserFirstName, isAdmin } from '../../auth/ducks/selectors';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 
-const { Paragraph } = Typography;
-
-const StyledSubtitle = styled(Paragraph)`
+const StyledSubtitle = styled(Typography.Paragraph)`
   color: ${MID_GREEN};
   font-size: 20px;
   margin-top: 5vh;

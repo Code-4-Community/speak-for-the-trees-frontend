@@ -5,8 +5,6 @@ import { CrownOutlined } from '@ant-design/icons';
 import { BLACK, LIGHT_GREEN } from '../../utils/colors';
 import { TeamRole } from '../../containers/teamPage/ducks/types';
 
-const { Paragraph } = Typography;
-
 const StyledListItem = styled(List.Item)`
   margin-bottom: 10px;
   width: 85%;
@@ -17,7 +15,7 @@ const StyledListItem = styled(List.Item)`
   padding: 3px 20px;
 `;
 
-const MemberName = styled(Paragraph)`
+const MemberName = styled(Typography.Paragraph)`
   display: inline-block;
   font-size: 15px;
   line-height: 32px;

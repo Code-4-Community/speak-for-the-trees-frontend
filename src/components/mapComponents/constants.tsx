@@ -63,3 +63,24 @@ export const SITE_OPTIONS: { label: ReactNode; value: string }[] = [
     value: 'Open',
   },
 ];
+
+// Relevant documentation: https://developers.google.com/maps/documentation/javascript/style-reference
+// Removes the map's labels for all POIs (points of interest) such as businesses and schools except parks
+export const LIGHT_MAP_STYLES: google.maps.MapTypeStyle[] = [
+  {
+    featureType: 'poi',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+  {
+    featureType: 'poi.park',
+    stylers: [
+      {
+        visibility: 'on',
+      },
+    ],
+  },
+];

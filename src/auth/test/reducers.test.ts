@@ -6,20 +6,15 @@ import {
   UserData,
 } from '../ducks/types';
 import { AsyncRequestCompleted } from '../../utils/asyncRequest';
+import { mockTokenResponse, mockUserDataResponse } from '../../App.test';
 
 describe('User Authentication Reducers', () => {
   describe('Token Payload', () => {
     it('Updates state correctly when a user authenticates successfully', () => {
-      const payload: TokenPayload = {
-        accessToken:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDQ4NzIwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.k0D1rySdVqVatWsjdA4i1YYq-7glzrL3ycSQwz-5zLU',
-        refreshToken:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNGMiLCJleHAiOjE2MDU0NzUwODIsInVzZXJuYW1lIjoiamFja2JsYW5jIn0.FHgEdtz16H5u7mtTqE81N4PUsnzjvwdaJ4GK_jdLWAY',
-      };
-      const action = authenticateUser.loaded(payload);
+      const action = authenticateUser.loaded(mockTokenResponse);
       const expectedNextState: UserAuthenticationReducerState = {
         ...initialUserState,
-        tokens: AsyncRequestCompleted<TokenPayload, void>(payload),
+        tokens: AsyncRequestCompleted<TokenPayload, void>(mockTokenResponse),
       };
       expect(reducers(initialUserState, action)).toEqual(expectedNextState);
     });
@@ -27,16 +22,10 @@ describe('User Authentication Reducers', () => {
 
   describe('UserData', () => {
     it('Updates state correctly when user data is retrieved', () => {
-      const data: UserData = {
-        firstName: 'First',
-        lastName: 'Last',
-        email: 'test@email.com',
-        username: 'user',
-      };
-      const action = userData.loaded(data);
+      const action = userData.loaded(mockUserDataResponse);
       const expectedNextState: UserAuthenticationReducerState = {
         ...initialUserState,
-        userData: AsyncRequestCompleted<UserData, void>(data),
+        userData: AsyncRequestCompleted<UserData, void>(mockUserDataResponse),
       };
 
       expect(reducers(initialUserState, action)).toEqual(expectedNextState);

@@ -25,14 +25,12 @@ import SelectorMapDisplay from '../../components/mapComponents/mapDisplays/selec
 import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
 import { Block, Flex } from '../../components/themedComponents';
 
-const { Text } = Typography;
-
 const SitePageContainer = styled.div`
   width: 90%;
   margin: 8vh auto;
 `;
 
-const SectionHeader = styled(Text)`
+const SectionHeader = styled(Typography.Text)`
   font-weight: bold;
   font-size: 20px;
   color: ${DARK_GREEN};
@@ -68,7 +66,6 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
   const [updateSiteForm] = Form.useForm();
 
   const getSite = () => {
-    // TODO: BUG - getSite isn't getting neighborhood id
     Client.getSite(id)
       .then((s) => setSite(s))
       .catch((err) => message.error(err.response.data));

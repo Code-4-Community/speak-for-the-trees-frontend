@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card, Statistic, Typography } from 'antd';
 
-const { Paragraph } = Typography;
-
 const FeaturedStatsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -16,7 +14,7 @@ const FeaturedStatCard = styled(Card)`
   min-height: 150px;
 `;
 
-const FeaturedStatTitle = styled(Paragraph)`
+const FeaturedStatTitle = styled(Typography.Paragraph)`
   font-size: 20px;
 `;
 

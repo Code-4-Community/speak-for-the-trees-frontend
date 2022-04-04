@@ -1,6 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { signup } from '../../../auth/ducks/thunks';
 import { Routes } from '../../../App';
 import { Button, Col, Form, Input, Row, Typography } from 'antd';
 import { ParagraphProps } from 'antd/lib/typography/Paragraph';
@@ -36,27 +34,15 @@ const Footer: typeof Typography.Paragraph = styled(Typography.Paragraph)<
 
 interface SignupFormProps {
   readonly formInstance: FormInstance;
+  readonly onFinish: (values: SignupFormValues) => void;
   readonly windowType: WindowTypes;
 }
 
 const SignupForm: React.FC<SignupFormProps> = ({
   formInstance,
+  onFinish,
   windowType,
 }) => {
-  const dispatch = useDispatch();
-
-  const onFinish = (values: SignupFormValues) => {
-    dispatch(
-      signup({
-        email: values.email,
-        username: values.username,
-        password: values.password,
-        firstName: values.firstName,
-        lastName: values.lastName,
-      }),
-    );
-  };
-
   return (
     <>
       <Form name="basic" form={formInstance} onFinish={onFinish}>

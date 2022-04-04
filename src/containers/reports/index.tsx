@@ -15,8 +15,6 @@ import {
   getStewardshipTableReport,
 } from './ducks/selectors';
 
-const { TabPane } = Tabs;
-
 const ReportsContainer = styled.div`
   padding: 5vh 5vw;
 `;
@@ -78,7 +76,7 @@ const Reports: React.FC = () => {
             />
           </FeaturedStatsSection>
           <Tabs defaultActiveKey={'1'} type={'card'} size={'large'}>
-            <TabPane tab={'Adoption Report'} key={'1'}>
+            <Tabs.TabPane tab={'Adoption Report'} key={'1'}>
               <Skeleton active loading={adoptionReport === undefined}>
                 {adoptionReport && (
                   <AdoptionReportTable
@@ -86,8 +84,8 @@ const Reports: React.FC = () => {
                   />
                 )}
               </Skeleton>
-            </TabPane>
-            <TabPane tab={'Stewardship Report'} key={'2'}>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab={'Stewardship Report'} key={'2'}>
               <Skeleton active loading={stewardshipReport === undefined}>
                 {stewardshipReport && (
                   <StewardshipReportTable
@@ -97,7 +95,7 @@ const Reports: React.FC = () => {
                   />
                 )}
               </Skeleton>
-            </TabPane>
+            </Tabs.TabPane>
           </Tabs>
         </ReportsContainer>
       </PageLayout>

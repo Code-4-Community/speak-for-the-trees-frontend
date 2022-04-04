@@ -9,6 +9,7 @@ import { UserAuthenticationReducerState } from '../../auth/ducks/types';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import {
   ActivityRequest,
+  MonthYearOption,
   ProtectedSitesReducerState,
   SiteReducerState,
   SplitSiteEntries,
@@ -20,6 +21,7 @@ import styled from 'styled-components';
 import {
   getLatestSplitEntry,
   isTreeAdoptedByUser,
+  mapStewardshipToMonthYearOptions,
   mapStewardshipToTreeCare,
 } from './ducks/selectors';
 import {
@@ -41,7 +43,9 @@ import { CenterDiv, ReturnButton } from '../../components/themedComponents';
 import { STREET_ZOOM } from '../../components/mapComponents/constants';
 import { CITY_PLANTING_REQUEST_LINK } from '../../assets/content';
 
-const { Title, Link } = Typography;
+const EntryDiv = styled(CenterDiv)`
+  margin: 10px 0;
+`;
 
 const TreePageContainer = styled.div`
   width: 90vw;
@@ -99,6 +103,7 @@ interface TreeProps {
   readonly tokens: UserAuthenticationReducerState['tokens'];
   readonly siteData: SiteReducerState['siteData'];
   readonly stewardship: TreeCare[];
+  readonly monthYearOptions: MonthYearOption[];
   readonly adoptedSites: ProtectedSitesReducerState['adoptedSites'];
 }
 
@@ -106,7 +111,12 @@ interface TreeParams {
   id: string;
 }
 
-const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
+const TreePage: React.FC<TreeProps> = ({
+  siteData,
+  stewardship,
+  monthYearOptions,
+  tokens,
+}) => {
   const location = useLocation<RedirectStateProps>();
 
   const dispatch = useDispatch();
@@ -198,9 +208,9 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
     <TreePlantingRequest>
       The city of Boston plants new trees in the spring and fall primarily based
       on resident requests. Ask the city to plant a tree here at{' '}
-      <Link href={CITY_PLANTING_REQUEST_LINK} target="_blank">
+      <Typography.Link href={CITY_PLANTING_REQUEST_LINK} target="_blank">
         this city tree planting request form
-      </Link>
+      </Typography.Link>
       !
     </TreePlantingRequest>
   );
@@ -214,7 +224,7 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
       <Helmet>
         <title>Tree</title>
         <meta
-          name="Individual Tree Page"
+          name="description"
           content="Description of a particular tree site, allows users to adopt a tree and monitor their stewardship activities."
         />
       </Helmet>
@@ -268,7 +278,10 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                           <Col span={1} />
                           <Col span={9}>
                             <TreeCareContainer>
-                              <TreeActivity stewardship={stewardship} />
+                              <TreeActivity
+                                stewardship={stewardship}
+                                monthYearOptions={monthYearOptions}
+                              />
                             </TreeCareContainer>
                           </Col>
                         </Row>
@@ -291,7 +304,10 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                           />
                         </TreeInfoContainer>
                         <TreeCareContainer>
-                          <TreeActivity stewardship={stewardship} />
+                          <TreeActivity
+                            stewardship={stewardship}
+                            monthYearOptions={monthYearOptions}
+                          />
                         </TreeCareContainer>
                       </TreeMainContainer>
                     );
@@ -309,7 +325,10 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                           stewardshipFormInstance={stewardshipFormInstance}
                         />
                         <MobileTreeCareContainer>
-                          <TreeActivity stewardship={stewardship} limit={4} />
+                          <TreeActivity
+                            stewardship={stewardship}
+                            monthYearOptions={monthYearOptions}
+                          />
                         </MobileTreeCareContainer>
                       </MobileTreeMainContainer>
                     );
@@ -317,16 +336,16 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
               })()}
               {/* Display main or extra entries, if there are any. Otherwise, display a message that no entries have been collected. */}
               {latestEntry.main.length !== 0 && (
-                <CenterDiv>
+                <EntryDiv>
                   <EntryList
                     entries={latestEntry.main}
                     canHide={false}
                     title="About This Tree"
                   />
-                </CenterDiv>
+                </EntryDiv>
               )}
               {latestEntry.extra.length !== 0 && (
-                <CenterDiv>
+                <EntryDiv>
                   <EntryList
                     entries={latestEntry.extra}
                     canHide={true}
@@ -334,19 +353,21 @@ const TreePage: React.FC<TreeProps> = ({ siteData, stewardship, tokens }) => {
                     showText="Click to Read More About This Tree"
                     title="Additional Information"
                   />
-                </CenterDiv>
+                </EntryDiv>
               )}
               {latestEntry.main.length === 0 &&
                 latestEntry.extra.length === 0 && (
-                  <Title level={2}>
+                  <Typography.Title level={2}>
                     No data has been collected about this site.
-                  </Title>
+                  </Typography.Title>
                 )}
             </>
           )}
           {asyncRequestIsFailed(siteData) && (
             <TreeMainContainer>
-              <Title level={2}>Tree could not be found.</Title>
+              <Typography.Title level={2}>
+                Tree could not be found.
+              </Typography.Title>
             </TreeMainContainer>
           )}
         </TreePageContainer>
@@ -360,6 +381,9 @@ const mapStateToProps = (state: C4CState): TreeProps => {
     tokens: state.authenticationState.tokens,
     siteData: state.siteState.siteData,
     stewardship: mapStewardshipToTreeCare(
+      state.siteState.stewardshipActivityData,
+    ),
+    monthYearOptions: mapStewardshipToMonthYearOptions(
       state.siteState.stewardshipActivityData,
     ),
     adoptedSites: state.adoptedSitesState.adoptedSites,

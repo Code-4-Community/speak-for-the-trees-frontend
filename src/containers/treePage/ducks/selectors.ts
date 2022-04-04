@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect';
 import {
   AsyncRequest,
   asyncRequestIsComplete,
@@ -10,6 +11,7 @@ import {
   SiteEntryField,
   SiteProps,
   SplitSiteEntries,
+  MonthYearOption,
   StewardshipActivities,
   TreeCare,
 } from './types';
@@ -19,12 +21,14 @@ import {
   compareMainEntries,
   formatDateSuffix,
 } from '../../../utils/stringFormat';
+import { compareByMonthYear } from '../../../utils/compare';
 
 export const mapStewardshipToTreeCare = (
   items: AsyncRequest<StewardshipActivities, any>,
 ): TreeCare[] => {
   if (asyncRequestIsComplete(items)) {
     return items.result.stewardshipActivities.map((item) => {
+      const year = new Date(item.date).getFullYear();
       const month = new Date(item.date).toLocaleString('default', {
         month: 'short',
       });
@@ -36,7 +40,9 @@ export const mapStewardshipToTreeCare = (
       if (item.watered) activityStrings.push('watered');
       if (item.weeded) activityStrings.push('weeded');
       return {
-        date: `${month} ${formatDateSuffix(day)}`,
+        day: formatDateSuffix(day),
+        month,
+        year,
         message: `Was ${activityStrings.join(' and ')}.`,
       };
     });
@@ -96,3 +102,34 @@ export const isTreeAdoptedByUser = (
     return false;
   }
 };
+
+export const mapStewardshipToMonthYearOptions = createSelector(
+  [mapStewardshipToTreeCare],
+  (stewardship: TreeCare[]): MonthYearOption[] => {
+    const monthYearOptions = stewardship
+      // turn the filtered array into an array of labels and values
+      .map((entry) => {
+        return {
+          month: entry.month,
+          year: entry.year,
+        };
+      })
+      // append the current month and year to the options list
+      .concat([
+        {
+          month: new Date().toLocaleString('default', { month: 'short' }),
+          year: new Date().getFullYear(),
+        },
+      ])
+      // remove entries with duplicate month and year
+      .filter(
+        (entry, index, self) =>
+          index ===
+          self.findIndex(
+            (e) => e.month === entry.month && e.year === entry.year,
+          ),
+      );
+    // sort dates by both month and year in reverse chronological order
+    return monthYearOptions.sort(compareByMonthYear).reverse();
+  },
+);
