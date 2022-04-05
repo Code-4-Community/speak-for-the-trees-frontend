@@ -4,6 +4,7 @@ import { uploadSiteRules } from '../../../utils/formRules';
 import { SubmitButton } from '../../themedComponents';
 import { UploadOutlined } from '@ant-design/icons';
 import { UploadProps } from 'antd/lib/upload/interface';
+import ProtectedClient from '../../../api/protectedApiClient';
 
 const UploadSitesForm: React.FC = () => {
   const [uploadSitesForm] = Form.useForm();
@@ -17,10 +18,12 @@ const UploadSitesForm: React.FC = () => {
       onFinish={(values) => {
         const file = values.uploadedSitesCsv.fileList[0];
         const reader = new FileReader();
+        console.log(file);
         reader.onload = (e) => {
           // console.log(e.target.result);
         };
-        reader.readAsText(values.target.file);
+        // reader.readAsText(values.target.file);
+        ProtectedClient.addSites({ sites: '' });
       }}
     >
       <Form.Item
@@ -32,9 +35,7 @@ const UploadSitesForm: React.FC = () => {
           fileList={fileList.fileList}
           onChange={setFileList}
           maxCount={1}
-          beforeUpload={(_, fileList) => {
-            setFileList(fileList);
-          }}
+          beforeUpload={() => false}
           accept=".csv"
         >
           <Button icon={<UploadOutlined />}>Upload .csv</Button>

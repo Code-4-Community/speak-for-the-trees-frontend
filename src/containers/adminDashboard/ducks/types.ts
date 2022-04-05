@@ -1,3 +1,3 @@
 export interface AddSitesRequest {
-  sites: string[];
+  sites: string;
 }
