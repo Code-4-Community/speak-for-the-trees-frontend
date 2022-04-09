@@ -2,19 +2,17 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Routes } from '../../../App';
 import styled from 'styled-components';
-import { PageHeader, Button, Menu, Dropdown } from 'antd';
+import { PageHeader, Dropdown } from 'antd';
 import { PageHeaderProps } from 'antd/es/page-header';
 import { MenuOutlined } from '@ant-design/icons';
-import {
-  MID_GREEN,
-  DARK_GREY,
-  BACKGROUND_GREY,
-  WHITE,
-} from '../../../utils/colors';
+import { MID_GREEN, BACKGROUND_GREY } from '../../../utils/colors';
 import Logo from '../../../assets/images/nav-bar-icon.png';
+import NavMenu from '../navMenu';
 
 interface MobileNavBarProps {
   readonly isLoggedIn: boolean;
+  readonly isAdmin: boolean;
+  readonly onLogout: () => void;
 }
 
 const MobileDropdownMenu = styled(MenuOutlined)`
@@ -36,23 +34,11 @@ const FlexDiv = styled.div`
   display: flex;
 `;
 
-const LogoutButton = styled(Button)`
-  padding: -5px auto;
-  background: ${MID_GREEN};
-  color: ${WHITE};
-  font-size: 12px;
-`;
-
-const RightMenu = styled(Menu)`
-  padding: 15px 5px 10px 10px;
-  text-align: right;
-`;
-
-const GreyItem = styled(Menu.Item)`
-  color: ${DARK_GREY};
-`;
-
-const MobileNavBar: React.FC<MobileNavBarProps> = ({ isLoggedIn }) => {
+const MobileNavBar: React.FC<MobileNavBarProps> = ({
+  isLoggedIn,
+  isAdmin,
+  onLogout,
+}) => {
   const history = useHistory();
 
   return (
@@ -75,28 +61,7 @@ const MobileNavBar: React.FC<MobileNavBarProps> = ({ isLoggedIn }) => {
         isLoggedIn && (
           <FlexDiv>
             <Dropdown
-              overlay={
-                <RightMenu>
-                  <GreyItem
-                    onClick={() => {
-                      history.push(Routes.SETTINGS);
-                    }}
-                  >
-                    Account Settings
-                  </GreyItem>
-                  <Menu.Item>
-                    <LogoutButton
-                      type="primary"
-                      size="large"
-                      onClick={() => {
-                        history.push(Routes.LANDING);
-                      }}
-                    >
-                      Log Out
-                    </LogoutButton>
-                  </Menu.Item>
-                </RightMenu>
-              }
+              overlay={<NavMenu isAdmin={isAdmin} onLogout={onLogout} />}
               placement="bottomLeft"
             >
               <MobileDropdownMenu />
