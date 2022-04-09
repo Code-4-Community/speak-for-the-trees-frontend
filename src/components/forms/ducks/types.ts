@@ -92,3 +92,13 @@ export interface UpdateSiteRequest {
   readonly treeNotes: string | null;
   readonly siteNotes: string | null;
 }
+
+export interface AddSiteRequest extends UpdateSiteRequest {
+  readonly blockId: number;
+  readonly lat: number;
+  readonly lng: number;
+  readonly city: string;
+  readonly zip: string;
+  readonly address: string;
+  readonly neighborhoodId: number;
+}
