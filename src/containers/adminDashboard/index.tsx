@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Form, message, Row, Typography } from 'antd';
+import { Form, message, Row, Typography, Divider } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
@@ -26,6 +26,11 @@ const AdminContentContainer = styled.div`
 const EditUser = styled.div`
   margin: 80px 0px 40px;
   width: 370px;
+`;
+
+const AdminDivider = styled(Divider)`
+  margin-top: 10px;
+  margin-bottom: 20px;
 `;
 
 const SectionHeader = styled(Typography.Text)`
@@ -55,7 +60,7 @@ const AdminDashboard: React.FC = () => {
       city: editSiteForm.getFieldValue('city'),
       zip: editSiteForm.getFieldValue('zip'),
       address: editSiteForm.getFieldValue('address'),
-      neighborhoodId: 1,
+      neighborhoodId: editSiteForm.getFieldValue('neighborhoodId'),
       ...request,
     };
     ProtectedClient.addSite(addSiteRequest)
@@ -83,7 +88,7 @@ const AdminDashboard: React.FC = () => {
             <Typography.Title level={4}>Edit Admins</Typography.Title>
             <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
           </EditUser>
-          {/* TODO create a section divider styled-component */}
+          <AdminDivider />
           <SectionHeader>Add New Site</SectionHeader>
           <MarginBottomRow>
             <EditSiteForm formInstance={editSiteForm} />
