@@ -22,7 +22,7 @@ import {
   QUESTION_THREE,
   QUESTION_TWO,
 } from './content';
-import QuestionList from '../../components/questionList';
+import OrderedList from '../../components/orderedList';
 import { Languages } from '../../App';
 import styled from 'styled-components';
 import { WHITE } from '../../utils/colors';
@@ -56,10 +56,10 @@ const FAQ: React.FC = () => {
           <PageHeader pageTitle={'Frequently Asked Questions'} />
           <Collapse defaultActiveKey={1}>
             <WhitePanel key={1} header={QUESTION_ONE[lang]}>
-              <QuestionList answers={ANSWER_ONE[lang]} />
+              <OrderedList answers={ANSWER_ONE[lang]} />
             </WhitePanel>
             <WhitePanel key={2} header={QUESTION_TWO[lang]}>
-              <QuestionList answers={ANSWER_TWO[lang]} />
+              <OrderedList answers={ANSWER_TWO[lang]} />
             </WhitePanel>
             <WhitePanel key={3} header={QUESTION_THREE[lang]}>
               <Typography.Paragraph>{ANSWER_THREE[lang]}</Typography.Paragraph>
