@@ -64,7 +64,8 @@ export const ANSWER_TWO = {
       <br />
       <img
         src={'https://d2j3fegnzkmagm.cloudfront.net/stewardship-form.png'}
-        alt={'stewardship form'}
+        alt={'Stewardship Form'}
+        style={{ width: '90%' }}
       />
     </>,
   ],
