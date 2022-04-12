@@ -14,10 +14,7 @@ import {
   getCountAdoptedInPastWeek,
   getStewardshipTableReport,
 } from './ducks/selectors';
-
-const ReportsContainer = styled.div`
-  padding: 5vh 5vw;
-`;
+import { PaddedPageContainer } from '../../components/themedComponents';
 
 const FeaturedStatsSection = styled.div`
   margin-bottom: 20px;
@@ -55,7 +52,7 @@ const Reports: React.FC = () => {
         />
       </Helmet>
       <PageLayout>
-        <ReportsContainer>
+        <PaddedPageContainer>
           <PageHeader pageTitle={'Site Report'} />
           <FeaturedStatsSection>
             <FeaturedStats
@@ -97,7 +94,7 @@ const Reports: React.FC = () => {
               </Skeleton>
             </Tabs.TabPane>
           </Tabs>
-        </ReportsContainer>
+        </PaddedPageContainer>
       </PageLayout>
     </>
   );
