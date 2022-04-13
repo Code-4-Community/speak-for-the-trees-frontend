@@ -56,10 +56,10 @@ const FAQ: React.FC = () => {
           <PageHeader pageTitle={'Frequently Asked Questions'} />
           <Collapse defaultActiveKey={1}>
             <WhitePanel key={1} header={QUESTION_ONE[lang]}>
-              <OrderedList answers={ANSWER_ONE[lang]} />
+              <OrderedList items={ANSWER_ONE[lang]} />
             </WhitePanel>
             <WhitePanel key={2} header={QUESTION_TWO[lang]}>
-              <OrderedList answers={ANSWER_TWO[lang]} />
+              <OrderedList items={ANSWER_TWO[lang]} />
             </WhitePanel>
             <WhitePanel key={3} header={QUESTION_THREE[lang]}>
               <Typography.Paragraph>{ANSWER_THREE[lang]}</Typography.Paragraph>
