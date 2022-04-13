@@ -175,6 +175,7 @@ const App: React.FC = () => {
                       <Route path={Routes.LOGIN} exact component={Login} />
                       <Route path={Routes.SIGNUP} exact component={Signup} />
                       <Route path={Routes.TREE} exact component={TreePage} />
+                      <Route path={Routes.FAQ} exact component={FAQ} />
                       <Route path={Routes.HOME} exact component={Home} />
                       <Route
                         path={Routes.SETTINGS}
@@ -222,6 +223,7 @@ const App: React.FC = () => {
                       <Route path={Routes.LOGIN} exact component={Login} />
                       <Route path={Routes.SIGNUP} exact component={Signup} />
                       <Route path={Routes.TREE} exact component={TreePage} />
+                      <Route path={Routes.FAQ} exact component={FAQ} />
                       <Route path={Routes.HOME} exact component={Home} />
                       <Route
                         path={Routes.SETTINGS}
