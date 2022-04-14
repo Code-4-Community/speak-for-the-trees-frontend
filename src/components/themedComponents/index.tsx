@@ -11,6 +11,10 @@ import {
 import { LinkButton } from '../linkButton';
 import { BREAKPOINT_TABLET } from '../windowDimensions';
 
+export const PaddedPageContainer = styled.div`
+  padding: 5vh 5vw;
+`;
+
 export const ContentContainer = styled.div`
   display: block;
   padding: 3vw;

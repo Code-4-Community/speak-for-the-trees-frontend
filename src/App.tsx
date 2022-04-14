@@ -28,12 +28,17 @@ import SitePage from './containers/sitePage';
 import Reports from './containers/reports';
 import { logout } from './auth/ducks/thunks';
 import history from './history';
+import FAQ from './containers/faq';
 
 const AppLayout = styled(Layout)`
   min-height: 100vh;
 `;
 
 type AppProps = UserAuthenticationReducerState;
+
+export enum Languages {
+  ENGLISH = 'ENG',
+}
 
 export enum ParameterizedRouteBases {
   // TEAM = '/team/',
@@ -58,6 +63,7 @@ export enum Routes {
   AVAILABLE_TEAMS = '/available',
   ADMIN = '/admin',
   REPORTS = '/reports',
+  FAQ = '/faq',
   FORGOT_PASSWORD_REQUEST = '/forgot-password',
   FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
   NOT_FOUND = '*',
@@ -120,6 +126,7 @@ const App: React.FC = () => {
                       <Route path={Routes.LOGIN} exact component={Login} />
                       <Route path={Routes.SIGNUP} exact component={Signup} />
                       <Route path={Routes.TREE} exact component={TreePage} />
+                      <Route path={Routes.FAQ} exact component={FAQ} />
                       <AuthRedirect from={Routes.HOME} />
                       <AuthRedirect from={Routes.SETTINGS} />
                       <Route
@@ -168,6 +175,7 @@ const App: React.FC = () => {
                       <Route path={Routes.LOGIN} exact component={Login} />
                       <Route path={Routes.SIGNUP} exact component={Signup} />
                       <Route path={Routes.TREE} exact component={TreePage} />
+                      <Route path={Routes.FAQ} exact component={FAQ} />
                       <Route path={Routes.HOME} exact component={Home} />
                       <Route
                         path={Routes.SETTINGS}
@@ -215,6 +223,7 @@ const App: React.FC = () => {
                       <Route path={Routes.LOGIN} exact component={Login} />
                       <Route path={Routes.SIGNUP} exact component={Signup} />
                       <Route path={Routes.TREE} exact component={TreePage} />
+                      <Route path={Routes.FAQ} exact component={FAQ} />
                       <Route path={Routes.HOME} exact component={Home} />
                       <Route
                         path={Routes.SETTINGS}
