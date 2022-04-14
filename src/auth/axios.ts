@@ -22,6 +22,11 @@ const userAuthenticationExtraArgs = {
 
 const INVALID_ACCESS_TOKEN = 'Given access token is expired or invalid';
 
+// TODO Use throughout application
+export interface AppError extends Omit<AxiosError, 'response'> {
+  readonly response: AxiosResponse<string>;
+}
+
 export const responseErrorInterceptor = async (
   error: AxiosError,
 ): Promise<AxiosResponse> => {
