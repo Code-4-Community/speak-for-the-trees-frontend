@@ -12,7 +12,11 @@ import { Store } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Routes } from '../../../App';
-import { mockTokenResponse, mockUserDataResponse } from '../../../App.test';
+import {
+  invalidExp,
+  mockTokenResponse,
+  mockUserDataResponse,
+} from '../../../App.test';
 
 // window.matchMedia is invoked when rendering the Login page, but is not implemented in JSDOM, so we mock it here
 // see more: https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
@@ -51,7 +55,7 @@ describe('Login', () => {
     // create a mock state where the user is logged in
     const mockAuthState: Partial<C4CState> = {
       authenticationState: {
-        tokens: AsyncRequestCompleted(mockTokenResponse),
+        tokens: AsyncRequestCompleted(mockTokenResponse(invalidExp)),
         userData: AsyncRequestCompleted(mockUserDataResponse),
       },
     };

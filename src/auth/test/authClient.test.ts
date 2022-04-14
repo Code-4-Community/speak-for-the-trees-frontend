@@ -1,9 +1,7 @@
-import { RefreshTokenResponse, TokenPayload } from '../ducks/types';
+import { RefreshTokenResponse } from '../ducks/types';
 import AuthClient, { API_ROUTE } from '../authClient';
 import nock from 'nock';
-import { mockTokenResponse } from '../../App.test';
-
-const BASE_URL = 'http://localhost';
+import { BASE_URL, mockTokenResponse } from '../../App.test';
 
 describe('Authentication Client Tests', () => {
   describe('Login', () => {

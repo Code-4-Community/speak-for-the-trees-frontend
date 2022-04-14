@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import store from '../store';
 import { asyncRequestIsComplete } from '../utils/asyncRequest';
 import { UserAuthenticationReducerState } from './ducks/types';
@@ -22,7 +22,9 @@ const userAuthenticationExtraArgs = {
 
 const INVALID_ACCESS_TOKEN = 'Given access token is expired or invalid';
 
-const responseErrorInterceptor = (error: AxiosError) => {
+export const responseErrorInterceptor = async (
+  error: AxiosError,
+): Promise<AxiosResponse> => {
   const originalRequest = {
     ...error.config,
     _retry: true,
@@ -38,7 +40,7 @@ const responseErrorInterceptor = (error: AxiosError) => {
     isTokenValid(tokens.result.refreshToken) &&
     !(error.config as any)?._retry
   ) {
-    refresh(tokens.result.refreshToken)(
+    await refresh(tokens.result.refreshToken)(
       store.dispatch,
       store.getState,
       userAuthenticationExtraArgs,
