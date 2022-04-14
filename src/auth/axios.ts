@@ -1,11 +1,12 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
-import store from '../store';
+import store, { LOCALSTORAGE_STATE_KEY } from '../store';
 import { asyncRequestIsComplete } from '../utils/asyncRequest';
 import { UserAuthenticationReducerState } from './ducks/types';
 import { isTokenValid } from './ducks/selectors';
 import { logout, refresh } from './ducks/thunks';
 import authClient from './authClient';
 import protectedApiClient from '../api/protectedApiClient';
+import history from '../history';
 
 const AppAxiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_DOMAIN,
@@ -58,7 +59,9 @@ export const responseErrorInterceptor = async (
     error?.response?.data === INVALID_ACCESS_TOKEN &&
     !isTokenValid(tokens.result.refreshToken)
   ) {
-    logout()(store.dispatch, store.getState, userAuthenticationExtraArgs);
+    await logout()(store.dispatch, store.getState, userAuthenticationExtraArgs);
+    localStorage.removeItem(LOCALSTORAGE_STATE_KEY);
+    history.go(0);
   }
   return Promise.reject(error);
 };
