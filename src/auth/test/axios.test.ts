@@ -32,9 +32,6 @@ const mockInvalidAuthState: Partial<C4CState> = {
   },
 };
 
-// prepare to mock the store
-jest.mock('../../store');
-
 // prepare to mock authClient
 jest.mock('../authClient');
 
