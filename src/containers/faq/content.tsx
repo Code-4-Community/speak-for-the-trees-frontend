@@ -97,11 +97,23 @@ export const ANSWER_FIVE = {
     'longer able to care for so others can adopt and care for those trees.',
 };
 export const ANSWER_SIX = {
-  ENG:
-    'You will need to submit a 311 request to the city. If it is a hazard, you should use the word "hazard" in your ' +
-    '311 request and try to describe it specifically - a broken limb in the canopy that is dangling overhead, for ' +
-    'instance, or an increased lean of the main trunk and visible signs of fungal disease. This information will ' +
-    'help the City Arborists triage requests that relate to public safety.',
+  ENG: (
+    <>
+      You will need to submit a{' '}
+      <a
+        href={'https://www.cityofboston.gov/311/'}
+        target={'_blank'}
+        rel={'noopener noreferrer'}
+      >
+        311 request
+      </a>{' '}
+      to the city. If it is a hazard, you should use the word "hazard" in your
+      311 request and try to describe it specifically - a broken limb in the
+      canopy that is dangling overhead, for instance, or an increased lean of
+      the main trunk and visible signs of fungal disease. This information will
+      help the City Arborists triage requests that relate to public safety.
+    </>
+  ),
 };
 export const ANSWER_SEVEN = {
   ENG: (
