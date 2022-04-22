@@ -20,9 +20,12 @@ import AdoptionDirections from '../../components/adoptionDirections';
 import MapLegend from '../../components/mapComponents/mapLegend';
 import { Routes } from '../../App';
 import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
+import SlideDown from '../../components/slideDown';
 
 const PaddedContent = styled.div`
-  padding: 24px 50px;
+  padding: 15px 0px;
+  width: 80%;
+  margin: auto;
 `;
 
 interface LandingProps {
@@ -56,6 +59,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
       {(() => {
         switch (windowType) {
           case WindowTypes.Mobile:
+          case WindowTypes.Tablet:
             return (
               <MobileMapPage
                 mapContent={
@@ -67,23 +71,24 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                 }
                 returnTo={Routes.LANDING}
               >
-                <PaddedContent>
-                  <MobileLandingBar
-                    barHeader={LANDING_TITLE}
-                    barDescription={LANDING_BODY}
-                    isLoggedIn={loggedIn}
-                  >
-                    <MapLegend
-                      view={landingMapView}
-                      mobile={true}
-                      canHide={true}
-                    />
-                    <AdoptionDirections mobile={true} />
-                  </MobileLandingBar>
-                </PaddedContent>
+                <SlideDown defaultOpen={true} slideHeight={60}>
+                  <PaddedContent>
+                    <MobileLandingBar
+                      barHeader={LANDING_TITLE}
+                      barDescription={LANDING_BODY}
+                      isLoggedIn={loggedIn}
+                    >
+                      <MapLegend
+                        view={landingMapView}
+                        mobile={true}
+                        canHide={false}
+                      />
+                      <AdoptionDirections mobile={true} />
+                    </MobileLandingBar>
+                  </PaddedContent>
+                </SlideDown>
               </MobileMapPage>
             );
-          case WindowTypes.Tablet:
           case WindowTypes.NarrowDesktop:
           case WindowTypes.Desktop:
             return (

@@ -82,7 +82,7 @@ const MyTrees: React.FC<MyTreesStateProps> = ({ neighborhoods, sites }) => {
                 }
                 returnTo={Routes.MY_TREES}
               >
-                <SlideDown defaultOpen fullSlide>
+                <SlideDown defaultOpen slideHeight={80}>
                   <TreeSidebar mySites={mySites} />
                 </SlideDown>
               </MobileMapPage>

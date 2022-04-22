@@ -37,11 +37,10 @@ interface AdoptionDirectionsProps {
 }
 
 const AdoptionDirections: React.FC<AdoptionDirectionsProps> = ({ mobile }) => {
-  const fontSize = `${mobile ? '10px' : '12px'}`;
+  const fontSize = `${mobile ? '15px' : '12px'}`;
 
   return (
-    <>
-      <>
+    <div>
         {mobile ? (
           <MobileTitle>{ADOPTION_DIRECTIONS_HEADER}</MobileTitle>
         ) : (
@@ -72,8 +71,7 @@ const AdoptionDirections: React.FC<AdoptionDirectionsProps> = ({ mobile }) => {
             <DirectionCol>{REDIRECTED_DIRECTION}</DirectionCol>
           </Row>
         </FlexibleParagraph>
-      </>
-    </>
+    </div>
   );
 };
 

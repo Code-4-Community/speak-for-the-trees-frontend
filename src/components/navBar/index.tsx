@@ -1,14 +1,14 @@
 import React from 'react';
-import { Routes } from '../../App';
+import {Routes} from '../../App';
 import styled from 'styled-components';
-import { Col, Row } from 'antd';
-import useWindowDimensions, { WindowTypes } from '../windowDimensions';
+import {Col, Row} from 'antd';
+import useWindowDimensions, {WindowTypes} from '../windowDimensions';
 import MobileNavBar from './mobileNavBar';
-import { BACKGROUND_GREY, MID_GREEN } from '../../utils/colors';
+import {BACKGROUND_GREY, MID_GREEN} from '../../utils/colors';
 import sfttLogo from '../../assets/images/sfttNameLogo.png';
 import bostonLogo from '../../assets/images/bostonParksLogo.png';
 import c4cLogo from '../../assets/images/c4cTextLogo.png';
-import { LinkButton } from '../linkButton';
+import {LinkButton} from '../linkButton';
 import NavExtra from './navExtra';
 
 const NavContainer = styled.div`
@@ -68,7 +68,7 @@ interface NavBarProps {
 const NavBar: React.FC<NavBarProps> = ({ userName, isAdmin, onLogout }) => {
   const { windowType } = useWindowDimensions();
 
-  if (windowType === WindowTypes.Mobile) {
+  if (windowType === WindowTypes.Mobile || windowType === WindowTypes.Tablet) {
     return (
       <MobileNavBar
         isLoggedIn={userName !== undefined}

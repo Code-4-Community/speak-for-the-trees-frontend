@@ -69,7 +69,7 @@ interface MapLegendProps {
 const MapLegend: React.FC<MapLegendProps> = ({ view, mobile, canHide }) => {
   const [showLegend, setShowLegend] = useState(true);
 
-  const fontSize = `${mobile ? '10px' : '12px'}`;
+  const fontSize = `${mobile ? '15px' : '12px'}`;
 
   const toggleShowLegend = () => {
     setShowLegend((prevState) => !prevState);
