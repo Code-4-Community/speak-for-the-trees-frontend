@@ -12,7 +12,11 @@ import {
   getUsername,
   isLoggedIn,
 } from '../ducks/selectors';
-import { mockTokenResponse, mockUserDataResponse } from '../../App.test';
+import {
+  invalidExp,
+  mockTokenResponse,
+  mockUserDataResponse,
+} from '../../App.test';
 
 describe('User Authentication Selectors', () => {
   describe('getPrivilegeLevel', () => {
@@ -73,7 +77,7 @@ describe('User Authentication Selectors', () => {
       const tokens: AsyncRequest<TokenPayload, any> = AsyncRequestCompleted<
         TokenPayload,
         any
-      >(mockTokenResponse);
+      >(mockTokenResponse(invalidExp));
 
       expect(isLoggedIn(tokens)).toEqual(true);
     });

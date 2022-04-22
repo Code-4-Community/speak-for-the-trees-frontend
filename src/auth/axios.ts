@@ -1,11 +1,12 @@
-import axios, { AxiosError, AxiosInstance } from 'axios';
-import store from '../store';
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import store, { LOCALSTORAGE_STATE_KEY } from '../store';
 import { asyncRequestIsComplete } from '../utils/asyncRequest';
 import { UserAuthenticationReducerState } from './ducks/types';
 import { isTokenValid } from './ducks/selectors';
 import { logout, refresh } from './ducks/thunks';
 import authClient from './authClient';
 import protectedApiClient from '../api/protectedApiClient';
+import history from '../history';
 
 const AppAxiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_DOMAIN,
@@ -22,7 +23,14 @@ const userAuthenticationExtraArgs = {
 
 const INVALID_ACCESS_TOKEN = 'Given access token is expired or invalid';
 
-const responseErrorInterceptor = (error: AxiosError) => {
+// TODO Use throughout application
+export interface AppError extends Omit<AxiosError, 'response'> {
+  readonly response: AxiosResponse<string>;
+}
+
+export const responseErrorInterceptor = async (
+  error: AxiosError,
+): Promise<AxiosResponse> => {
   const originalRequest = {
     ...error.config,
     _retry: true,
@@ -38,7 +46,7 @@ const responseErrorInterceptor = (error: AxiosError) => {
     isTokenValid(tokens.result.refreshToken) &&
     !(error.config as any)?._retry
   ) {
-    refresh(tokens.result.refreshToken)(
+    await refresh(tokens.result.refreshToken)(
       store.dispatch,
       store.getState,
       userAuthenticationExtraArgs,
@@ -51,7 +59,9 @@ const responseErrorInterceptor = (error: AxiosError) => {
     error?.response?.data === INVALID_ACCESS_TOKEN &&
     !isTokenValid(tokens.result.refreshToken)
   ) {
-    logout()(store.dispatch, store.getState, userAuthenticationExtraArgs);
+    await logout()(store.dispatch, store.getState, userAuthenticationExtraArgs);
+    localStorage.removeItem(LOCALSTORAGE_STATE_KEY);
+    history.go(0);
   }
   return Promise.reject(error);
 };

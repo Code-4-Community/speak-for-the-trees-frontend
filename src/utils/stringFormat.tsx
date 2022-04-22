@@ -1,5 +1,6 @@
 import { Entry, MainSiteEntryOrder } from '../containers/treePage/ducks/types';
 import { NEIGHBORHOOD_IDS } from '../assets/content';
+import { AppError } from '../auth/axios';
 
 /**
  * Converts the given dollar amount to a formatted string
@@ -124,6 +125,6 @@ export function getNeighborhoodName(id: number): string {
  * Returns the error message of the given error.
  * @param err the error
  */
-export function getErrorMessage(err: any): string {
-  return `${err?.response?.data || 'Error encountered'}`;
+export function getErrorMessage(err: AppError): string {
+  return err.response.data;
 }

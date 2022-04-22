@@ -28,17 +28,20 @@ const Reports: React.FC = () => {
 
   useEffect(() => {
     ProtectedApiClient.getAdoptionReport()
-      .then((res: AdoptionReport) => setAdoptionReport(res))
+      .then((adoptionRes: AdoptionReport) => {
+        setAdoptionReport(adoptionRes);
+        ProtectedApiClient.getStewardshipReport()
+          .then((stewardshipRes: StewardshipReport) =>
+            setStewardshipReport(stewardshipRes),
+          )
+          .catch((err) =>
+            message.error(
+              `Could not get stewardship report: ${getErrorMessage(err)}`,
+            ),
+          );
+      })
       .catch((err) =>
         message.error(`Could not get adoption report: ${getErrorMessage(err)}`),
-      );
-
-    ProtectedApiClient.getStewardshipReport()
-      .then((res: StewardshipReport) => setStewardshipReport(res))
-      .catch((err) =>
-        message.error(
-          `Could not get stewardship report: ${getErrorMessage(err)}`,
-        ),
       );
   }, []);
 
