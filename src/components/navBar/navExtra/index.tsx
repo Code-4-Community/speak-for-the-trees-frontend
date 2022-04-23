@@ -6,6 +6,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { BLACK, DARK_GREEN, LIGHT_GREEN, WHITE } from '../../../utils/colors';
 import { LinkButton } from '../../linkButton';
 import NavMenu from '../navMenu';
+import { Location } from 'history';
 
 const FlexDiv = styled.div`
   display: flex;
@@ -46,10 +47,16 @@ const GreenAvatar = styled(Avatar)`
 interface NavExtraProps {
   readonly userName?: string;
   readonly isAdmin: boolean;
+  readonly location: Location<unknown>;
   readonly onLogout: () => void;
 }
 
-const NavExtra: React.FC<NavExtraProps> = ({ userName, isAdmin, onLogout }) => {
+const NavExtra: React.FC<NavExtraProps> = ({
+  userName,
+  isAdmin,
+  location,
+  onLogout,
+}) => {
   if (userName !== undefined) {
     return (
       <FlexDiv>
@@ -73,6 +80,9 @@ const NavExtra: React.FC<NavExtraProps> = ({ userName, isAdmin, onLogout }) => {
           htmlType="submit"
           size={'large'}
           to={Routes.SIGNUP}
+          state={{
+            destination: location.pathname,
+          }}
         >
           Sign Up
         </SignupButton>
@@ -81,6 +91,9 @@ const NavExtra: React.FC<NavExtraProps> = ({ userName, isAdmin, onLogout }) => {
           htmlType="submit"
           size={'large'}
           to={Routes.LOGIN}
+          state={{
+            destination: location.pathname,
+          }}
         >
           Log In
         </LoginButton>

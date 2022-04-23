@@ -18,10 +18,11 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import PageLayout from '../../components/pageLayout';
-import { Routes } from '../../App';
+import { RedirectStateProps, Routes } from '../../App';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import { SIGNUP_BODY, SIGNUP_HEADER, SIGNUP_TITLE } from '../../assets/content';
 import { SignupFormValues } from '../../components/forms/ducks/types';
+import { useLocation } from 'react-router';
 
 const MobileSignupPageContainer = styled.div`
   padding: 30px;
@@ -42,10 +43,15 @@ const Title = styled(Typography.Paragraph)`
 const Signup: React.FC = () => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
+  const location = useLocation<RedirectStateProps>();
   const loggedIn = useSelector((state: C4CState) =>
     isLoggedIn(state.authenticationState.tokens),
   );
   const [signupForm] = Form.useForm();
+
+  const destination: Routes = location.state
+    ? location.state.destination
+    : Routes.HOME;
 
   const onSignup = (values: SignupFormValues) => {
     const onError = (msg: string) => message.error(msg);
@@ -65,7 +71,7 @@ const Signup: React.FC = () => {
   };
 
   if (loggedIn) {
-    return <Redirect to={Routes.HOME} />;
+    return <Redirect to={destination} />;
   } else {
     return (
       <>

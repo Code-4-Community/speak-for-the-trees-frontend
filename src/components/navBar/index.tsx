@@ -10,6 +10,7 @@ import bostonLogo from '../../assets/images/bostonParksLogo.png';
 import c4cLogo from '../../assets/images/c4cTextLogo.png';
 import { LinkButton } from '../linkButton';
 import NavExtra from './navExtra';
+import { useLocation } from 'react-router-dom';
 
 const NavContainer = styled.div`
   box-shadow: '0 4px 2px -2px grey';
@@ -67,6 +68,7 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ userName, isAdmin, onLogout }) => {
   const { windowType } = useWindowDimensions();
+  const location = useLocation();
 
   if (windowType === WindowTypes.Mobile) {
     return (
@@ -104,7 +106,12 @@ const NavBar: React.FC<NavBarProps> = ({ userName, isAdmin, onLogout }) => {
             <MainLogo src={sfttLogo} alt="icon" />
           </NoHoverShadeButton>
         )}
-        <NavExtra userName={userName} isAdmin={isAdmin} onLogout={onLogout} />
+        <NavExtra
+          userName={userName}
+          isAdmin={isAdmin}
+          location={location}
+          onLogout={onLogout}
+        />
       </NavContainer>
     );
   }
