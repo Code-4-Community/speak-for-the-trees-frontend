@@ -63,6 +63,7 @@ const TreeMap: React.FC<TreeMapProps> = ({
 
     mapData.map.setOptions({
       styles: LIGHT_MAP_STYLES,
+      gestureHandling: 'greedy',
     });
 
     return setMapData;

@@ -21,6 +21,7 @@ import MapLegend from '../../components/mapComponents/mapLegend';
 import { Routes } from '../../App';
 import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
 import SlideDown from '../../components/slideDown';
+import { MOBILE_SLIDE_HEIGHT } from '../../components/mapComponents/constants';
 
 const PaddedContent = styled.div`
   padding: 15px 0px;
@@ -71,7 +72,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                 }
                 returnTo={Routes.LANDING}
               >
-                <SlideDown defaultOpen={true} slideHeight={60}>
+                <SlideDown defaultOpen={true} slideHeight={MOBILE_SLIDE_HEIGHT}>
                   <PaddedContent>
                     <MobileLandingBar
                       barHeader={LANDING_TITLE}
