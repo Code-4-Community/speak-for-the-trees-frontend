@@ -41,36 +41,36 @@ const AdoptionDirections: React.FC<AdoptionDirectionsProps> = ({ mobile }) => {
 
   return (
     <div>
-        {mobile ? (
-          <MobileTitle>{ADOPTION_DIRECTIONS_HEADER}</MobileTitle>
-        ) : (
-          <Typography.Title level={3}>
-            {ADOPTION_DIRECTIONS_HEADER}
-          </Typography.Title>
-        )}
+      {mobile ? (
+        <MobileTitle>{ADOPTION_DIRECTIONS_HEADER}</MobileTitle>
+      ) : (
+        <Typography.Title level={3}>
+          {ADOPTION_DIRECTIONS_HEADER}
+        </Typography.Title>
+      )}
 
-        <FlexibleParagraph fontSize={fontSize}>
-          <Row>
-            <NumberCol>
-              <Typography.Text strong>1.</Typography.Text>
-            </NumberCol>
-            <DirectionCol>{FIND_DIRECTION}</DirectionCol>
-          </Row>
+      <FlexibleParagraph fontSize={fontSize}>
+        <Row>
+          <NumberCol>
+            <Typography.Text strong>1.</Typography.Text>
+          </NumberCol>
+          <DirectionCol>{FIND_DIRECTION}</DirectionCol>
+        </Row>
 
-          <Row>
-            <NumberCol>
-              <Typography.Text strong>2.</Typography.Text>
-            </NumberCol>
-            <DirectionCol>{ICONS_DIRECTION}</DirectionCol>
-          </Row>
+        <Row>
+          <NumberCol>
+            <Typography.Text strong>2.</Typography.Text>
+          </NumberCol>
+          <DirectionCol>{ICONS_DIRECTION}</DirectionCol>
+        </Row>
 
-          <Row>
-            <NumberCol>
-              <Typography.Text strong>3.</Typography.Text>
-            </NumberCol>
-            <DirectionCol>{REDIRECTED_DIRECTION}</DirectionCol>
-          </Row>
-        </FlexibleParagraph>
+        <Row>
+          <NumberCol>
+            <Typography.Text strong>3.</Typography.Text>
+          </NumberCol>
+          <DirectionCol>{REDIRECTED_DIRECTION}</DirectionCol>
+        </Row>
+      </FlexibleParagraph>
     </div>
   );
 };
