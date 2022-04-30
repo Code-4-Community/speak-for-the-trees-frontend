@@ -93,12 +93,12 @@ const PlantRequest = styled(Typography.Paragraph)`
 `;
 
 export const NO_SITE_SELECTED = -1;
-export const NO_TREE_PRESENT = -2;
 
 export interface BasicTreeInfo {
   id: number;
   commonName: string;
   address: string;
+  treePresent: boolean;
 }
 
 interface TreePopupProps {
@@ -135,7 +135,7 @@ const TreePopup: React.FC<TreePopupProps> = ({
               <>
                 <TreeTitle>
                   {/* If the site has a tree, then display its common name (if available). Otherwise, display 'Open Planting Site' */}
-                  {treeInfo.id !== NO_TREE_PRESENT
+                  {treeInfo.treePresent
                     ? isEmptyString(treeInfo.commonName)
                       ? 'Unknown Species'
                       : treeInfo.commonName
@@ -149,31 +149,49 @@ const TreePopup: React.FC<TreePopupProps> = ({
               )}
               <GreyText>{treeInfo.address}</GreyText>
               {(() => {
-                switch (treeInfo.id) {
-                  case NO_TREE_PRESENT:
+                if (!treeInfo.treePresent) {
                     return (
-                      <PlantRequest>
-                        Want to plant a tree here?{' '}
-                        <Typography.Link
-                          href={CITY_PLANTING_REQUEST_LINK}
+                      <div>
+                        <PlantRequest>
+                          Want to plant a tree here?{' '}
+                          <Typography.Link
+                            href={CITY_PLANTING_REQUEST_LINK}
+                            target="_blank"
+                          >
+                            Submit a request to the city!
+                          </Typography.Link>
+                        </PlantRequest>
+                        <GreenLinkButton
+                          to={`${ParameterizedRouteBases.SITE}${treeInfo.id}`}
+                          state={{ destination: Routes.MY_TREES }}
                           target="_blank"
+                          // style={{ marginLeft: '.1rem' }}
                         >
-                          Submit a request to the city!
-                        </Typography.Link>
-                      </PlantRequest>
-                    );
-                  default:
-                    return (
-                      <GreenLinkButton
-                        to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
-                        state={returnState}
-                        target="_blank"
-                      >
-                        More Info
-                      </GreenLinkButton>
+                          Edit Site Page
+                        </GreenLinkButton>
+                      </div>
                     );
                 }
-              })()}
+                    return (
+                      <div>
+                        <GreenLinkButton
+                          to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
+                          state={returnState}
+                          target="_blank"
+                        >
+                          More Info
+                        </GreenLinkButton>
+                        <GreenLinkButton
+                          to={`${ParameterizedRouteBases.SITE}${treeInfo.id}`}
+                          state={returnState}
+                          target="_blank"
+                          style={{ marginLeft: '.1rem' }}
+                        >
+                          Edit Site Page
+                        </GreenLinkButton>
+                      </div>
+                    );
+                })()}
             </>
           </PopupBubble>
         </PopupAnchor>

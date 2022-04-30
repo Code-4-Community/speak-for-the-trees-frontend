@@ -109,6 +109,7 @@ const TreeMap: React.FC<TreeMapProps> = ({
         id: NO_SITE_SELECTED,
         commonName: '',
         address: '',
+        treePresent: false,
       }}
     >
       {!mobile && <SiteLegend onCheck={onCheck} />}

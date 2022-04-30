@@ -44,11 +44,18 @@ const TreeCard: React.FC<TreeCardProps> = ({ site }) => {
           </CardInfo>
           <GreenLinkButton
             to={`${ParameterizedRouteBases.TREE}${site.id}`}
-            state={{
-              destination: Routes.MY_TREES,
-            }}
+            state={{ destination: Routes.MY_TREES }}
           >
             More Info
+          </GreenLinkButton>
+
+          <GreenLinkButton
+            to={`${ParameterizedRouteBases.SITE}${site.id}`}
+            state={{ destination: Routes.MY_TREES }}
+            target="_blank"
+            style={{ marginLeft: '.1rem' }}
+          >
+            Edit Site Page
           </GreenLinkButton>
         </CardContent>
       </StyledCard>
