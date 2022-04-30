@@ -13,6 +13,9 @@ import {
 } from '../../utils/colors';
 import { isEmptyString } from '../../utils/isCheck';
 import { CITY_PLANTING_REQUEST_LINK } from '../../assets/content';
+import { isAdmin } from '../../auth/ducks/selectors';
+import { useSelector } from 'react-redux';
+import { C4CState } from '../../store';
 
 const PopupContainer = styled.div`
   position: absolute;
@@ -149,7 +152,23 @@ const TreePopup: React.FC<TreePopupProps> = ({
               )}
               <GreyText>{treeInfo.address}</GreyText>
               {(() => {
+                const userIsAdmin: boolean = useSelector((state: C4CState) =>
+                isAdmin(state.authenticationState.tokens),
+                );
+                let editSiteButton = <div/>;
+                if (userIsAdmin) {
+                editSiteButton = <GreenLinkButton
+                                  to={`${ParameterizedRouteBases.SITE}${treeInfo.id}`}
+                                  state={{ destination: Routes.MY_TREES }}
+                                  target="_blank"
+                                >
+                                  Edit Site Page
+                                </GreenLinkButton>
+}
+
+
                 if (!treeInfo.treePresent) {
+                  
                     return (
                       <div>
                         <PlantRequest>
@@ -161,14 +180,7 @@ const TreePopup: React.FC<TreePopupProps> = ({
                             Submit a request to the city!
                           </Typography.Link>
                         </PlantRequest>
-                        <GreenLinkButton
-                          to={`${ParameterizedRouteBases.SITE}${treeInfo.id}`}
-                          state={{ destination: Routes.MY_TREES }}
-                          target="_blank"
-                          // style={{ marginLeft: '.1rem' }}
-                        >
-                          Edit Site Page
-                        </GreenLinkButton>
+                        {editSiteButton}
                       </div>
                     );
                 }
