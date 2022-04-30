@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Typography } from 'antd';
+import { Button, Form, message, Typography } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
@@ -9,21 +9,42 @@ import { C4CState } from '../../store';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import ChangePrivilegeForm from '../../components/forms/changePrivilegeForm';
+import SignupForm from '../../components/forms/signupForm';
+import { SignupFormValues } from '../../components/forms/ducks/types';
+import ProtectedApiClient from '../../api/protectedApiClient';
+import { Flex } from '../../components/themedComponents';
+import { AppError } from '../../auth/axios';
+import { getErrorMessage } from '../../utils/stringFormat';
 
 const AdminContentContainer = styled.div`
   margin: 100px auto auto;
   width: 80vw;
 `;
 
-const EditUser = styled.div`
-  margin: 80px 0px 40px;
-  width: 370px;
+const DashboardContent = styled.div`
+  width: 450px;
 `;
 
 const AdminDashboard: React.FC = () => {
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
+  const [createChildForm] = Form.useForm();
+
+  const onCreateChild = (values: SignupFormValues) => {
+    ProtectedApiClient.createChild({
+      email: values.email,
+      username: values.username,
+      password: values.password,
+      firstName: values.firstName,
+      lastName: values.lastName,
+    })
+      .then(() => {
+        message.success(`${values.email} successfully added!`);
+        createChildForm.resetFields();
+      })
+      .catch((error: AppError) => message.error(getErrorMessage(error)));
+  };
 
   return (
     <>
@@ -37,11 +58,28 @@ const AdminDashboard: React.FC = () => {
       <PageLayout>
         <AdminContentContainer>
           <PageHeader pageTitle="Admin Dashboard" />
+          <Flex margin={'60px 0 0 0'} gap={'50px 100px'}>
+            <DashboardContent>
+              <Typography.Title level={4}>Edit Admins</Typography.Title>
+              <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
+            </DashboardContent>
 
-          <EditUser>
-            <Typography.Title level={4}>Edit Admins</Typography.Title>
-            <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
-          </EditUser>
+            <DashboardContent>
+              <Typography.Title level={4}>
+                Create Child Accounts
+              </Typography.Title>
+              <SignupForm
+                formInstance={createChildForm}
+                onFinish={onCreateChild}
+              >
+                <Form.Item>
+                  <Button type="primary" htmlType="submit" size="large">
+                    Create Child Account
+                  </Button>
+                </Form.Item>
+              </SignupForm>
+            </DashboardContent>
+          </Flex>
         </AdminContentContainer>
       </PageLayout>
     </>

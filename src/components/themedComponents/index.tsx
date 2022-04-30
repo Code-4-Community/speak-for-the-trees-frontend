@@ -133,15 +133,18 @@ export const InlineImage = styled(Image)`
 `;
 
 export interface FlexProps {
+  margin?: string;
+  gap?: string;
   justifyContent?: string;
 }
 
 export const Flex = styled.div`
+  margin: ${({ margin }: FlexProps) => (margin ? margin : '0')};
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
-  gap: 15px 50px;
+  gap: ${({ gap }: FlexProps) => (gap ? gap : '50px')};
   justify-content: ${({ justifyContent }: FlexProps) =>
     justifyContent ? justifyContent : 'flex-start'};
 `;
