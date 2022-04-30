@@ -11,6 +11,9 @@ import {
 import { LinkButton } from '../linkButton';
 import { BREAKPOINT_TABLET } from '../windowDimensions';
 
+export const MOBILE_FONT_SIZE = '15px';
+export const DESKTOP_FONT_SIZE = '12px';
+
 export const PaddedPageContainer = styled.div`
   padding: 5vh 5vw;
 `;

@@ -8,6 +8,7 @@ import {
   REDIRECTED_DIRECTION,
 } from '../../assets/content';
 import { MID_GREEN } from '../../utils/colors';
+import { DESKTOP_FONT_SIZE, MOBILE_FONT_SIZE } from '../themedComponents';
 
 const MobileTitle = styled(Typography.Paragraph)`
   color: ${MID_GREEN};
@@ -37,7 +38,7 @@ interface AdoptionDirectionsProps {
 }
 
 const AdoptionDirections: React.FC<AdoptionDirectionsProps> = ({ mobile }) => {
-  const fontSize = `${mobile ? '15px' : '12px'}`;
+  const fontSize = `${mobile ? MOBILE_FONT_SIZE : DESKTOP_FONT_SIZE}`;
 
   return (
     <div>
