@@ -42,12 +42,12 @@ const CaretUpStyled = styled(CaretUpOutlined)`
 
 interface SlideDownProps {
   readonly defaultOpen?: boolean;
-  readonly fullSlide?: boolean;
+  readonly slideHeight?: number;
 }
 
 const SlideDown: React.FC<SlideDownProps> = ({
   defaultOpen,
-  fullSlide,
+  slideHeight,
   children,
 }) => {
   const [setActive, setActiveState] = useState<boolean>(defaultOpen || false);
@@ -55,8 +55,6 @@ const SlideDown: React.FC<SlideDownProps> = ({
   function handleClick() {
     setActiveState((prevState) => !prevState);
   }
-
-  const slideHeight = fullSlide ? 80 : 40;
 
   return (
     <SlideDownSectionDiv>
@@ -66,7 +64,7 @@ const SlideDown: React.FC<SlideDownProps> = ({
       <SlideDownContentDiv
         ref={content}
         setActive={setActive}
-        slideHeight={slideHeight}
+        slideHeight={slideHeight || 40}
       >
         <SlideDownTextDiv>{children}</SlideDownTextDiv>
       </SlideDownContentDiv>

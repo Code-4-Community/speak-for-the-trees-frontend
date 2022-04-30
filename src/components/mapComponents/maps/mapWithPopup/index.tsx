@@ -7,11 +7,16 @@ import TreePopup, { BasicTreeInfo } from '../../../treePopup';
 import styled from 'styled-components';
 import { goToPlace } from '../../logic/view';
 import { InitMapData } from '../../ducks/types';
+import { BREAKPOINT_TABLET } from '../../../windowDimensions';
 
 const StyledSearch = styled(Input.Search)`
   width: 20vw;
   position: absolute;
   z-index: 2;
+
+  @media (max-width: ${BREAKPOINT_TABLET}px) {
+    width: 100vw;
+  }
 `;
 
 const MapDiv = styled.div`

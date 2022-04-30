@@ -53,7 +53,7 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
 
     const mapLayersAndListeners = initSiteView(mapData, neighborhoods, sites);
 
-    return {
+    const setMapData: ReturnMapData = {
       map: mapData.map,
       zoom: mapData.zoom,
       privateStreetsLayer: mapLayersAndListeners.privateStreetsLayer,
@@ -63,6 +63,14 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
       zoomListener: mapLayersAndListeners.zoomListener,
       markersArray: mapData.markersArray,
     };
+
+    mapData.map.setOptions({
+      // Configures the map to react to all user touch input,
+      // allowing one finger to be used to control map movement rather than page scrolling
+      gestureHandling: 'greedy',
+    });
+
+    return setMapData;
   };
 
   return (
