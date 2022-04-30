@@ -1,5 +1,5 @@
 import AppAxiosInstance from '../auth/axios';
-import { UserData } from '../auth/ducks/types';
+import { SignupRequest, UserData } from '../auth/ducks/types';
 import {
   TeamResponse,
   Applicant,
@@ -57,6 +57,7 @@ export interface ProtectedApiClient {
   readonly changePrivilegeLevel: (
     request: ChangePrivilegeRequest,
   ) => Promise<void>;
+  readonly createChild: (request: SignupRequest) => Promise<void>;
   readonly getUserData: () => Promise<UserData>;
   readonly createTeam: (request: CreateTeamRequest) => Promise<void>;
   readonly getTeams: () => Promise<TeamResponse[]>;
@@ -118,6 +119,7 @@ export enum AdminApiClientRoutes {
   PASS_RESERVATION_QA = '/api/v1/protected/reservations/pass_qa',
   FAIL_RESERVATION_QA = '/api/v1/protected/reservations/fail_qa',
   CHANGE_PRIVILEGE = '/api/v1/protected/user/change_privilege',
+  CREATE_CHILD = '/api/v1/protected/user/create_child',
   GET_ADOPTION_REPORT = '/api/v1/protected/report/adoption',
   GET_STEWARDSHIP_REPORT = '/api/v1/protected/report/stewardship',
 }
@@ -241,6 +243,12 @@ const changePrivilegeLevel = (
     AdminApiClientRoutes.CHANGE_PRIVILEGE,
     request,
   ).then((res) => res.data);
+};
+
+const createChild = (request: SignupRequest): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.CREATE_CHILD, request).then(
+    (res) => res.data,
+  );
 };
 
 const getUserData = (): Promise<UserData> => {
@@ -417,6 +425,7 @@ const Client: ProtectedApiClient = Object.freeze({
   changeEmail,
   deleteUser,
   changePrivilegeLevel,
+  createChild,
   getUserData,
   createTeam,
   getTeams,

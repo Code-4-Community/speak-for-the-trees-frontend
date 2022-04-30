@@ -1389,6 +1389,63 @@ describe('Admin Protected Client Routes', () => {
       expect(result).toEqual(response);
     });
   });
+
+  describe('createChild', () => {
+    it('makes the right request', async () => {
+      const response = new Promise((res) => res);
+
+      nock(BASE_URL)
+        .post(AdminApiClientRoutes.CREATE_CHILD)
+        .reply(200, response);
+
+      const result = ProtectedApiClient.createChild({
+        firstName: 'Test',
+        lastName: 'Last',
+        email: 'test@test.com',
+        username: 'test',
+        password: 'test',
+      });
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'Invalid email';
+
+      nock(BASE_URL)
+        .post(AdminApiClientRoutes.CREATE_CHILD)
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.createChild({
+        firstName: 'Test',
+        lastName: 'Last',
+        email: 'aterribleemail',
+        username: 'test',
+        password: 'test',
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request', async () => {
+      const response = 'Given password is not correct';
+
+      nock(BASE_URL)
+        .post(AdminApiClientRoutes.CREATE_CHILD)
+        .reply(401, response);
+
+      const result = await ProtectedApiClient.createChild({
+        firstName: 'Test',
+        lastName: 'Last',
+        email: 'test@test.com',
+        username: 'test',
+        password: 'test',
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+  });
+
   describe('editSite', () => {
     it('makes the right request', async () => {
       const response = new Promise((res) => res);
