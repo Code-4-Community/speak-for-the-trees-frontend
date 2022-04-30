@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Form, message, Row, Typography, Divider } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { PrivilegeLevel } from '../../auth/ducks/types';
@@ -17,6 +17,13 @@ import {
 } from '../../components/forms/ducks/types';
 import UpdateSiteForm from '../../components/forms/updateSiteForm';
 import EditSiteForm from '../../components/forms/editSiteForm';
+import SelectorMapDisplay from '../../components/mapComponents/mapDisplays/selectorMapDisplay';
+import { MapGeoDataReducerState } from '../../components/mapComponents/ducks/types';
+import { MapContainer, Block, Flex } from '../../components/themedComponents';
+import useWindowDimensions, {
+  WindowTypes,
+} from '../../components/windowDimensions';
+import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
 
 const AdminContentContainer = styled.div`
   margin: 100px auto auto;
@@ -43,13 +50,27 @@ const MarginBottomRow = styled(Row)`
   margin-bottom: 30px;
 `;
 
-const AdminDashboard: React.FC = () => {
+interface AdminDashboardProps {
+  readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
+  readonly sites: MapGeoDataReducerState['siteGeoData'];
+}
+
+const AdminDashboard: React.FC<AdminDashboardProps> = ({
+  neighborhoods,
+  sites,
+}) => {
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
+  const { windowType } = useWindowDimensions();
+  const dispatch = useDispatch();
 
   const [editSiteForm] = Form.useForm();
   const [updateSiteForm] = Form.useForm();
+
+  useEffect(() => {
+    dispatch(getMapGeoData());
+  }, [dispatch]);
 
   const onSubmitAddSite = (request: UpdateSiteRequest) => {
     editSiteForm.validateFields().then();
@@ -91,7 +112,25 @@ const AdminDashboard: React.FC = () => {
           <AdminDivider />
           <SectionHeader>Add New Site</SectionHeader>
           <MarginBottomRow>
-            <EditSiteForm formInstance={editSiteForm} />
+            <Flex>
+              <Block
+                maxWidth={windowType === WindowTypes.Mobile ? '100%' : '45%'}
+              >
+                <EditSiteForm formInstance={editSiteForm} />
+              </Block>
+              <MapContainer>
+                <SelectorMapDisplay
+                  neighborhoods={neighborhoods}
+                  sites={sites}
+                  onMove={(pos: google.maps.LatLng) => {
+                    editSiteForm.setFieldsValue({
+                      lat: pos.lat(),
+                      lng: pos.lng(),
+                    });
+                  }}
+                />
+              </MapContainer>
+            </Flex>
             <UpdateSiteForm
               formInstance={updateSiteForm}
               onFinish={onSubmitAddSite}
@@ -103,4 +142,11 @@ const AdminDashboard: React.FC = () => {
   );
 };
 
-export default AdminDashboard;
+const mapStateToProps = (state: C4CState): AdminDashboardProps => {
+  return {
+    neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
+    sites: state.mapGeoDataState.siteGeoData,
+  };
+};
+
+export default connect(mapStateToProps)(AdminDashboard);
