@@ -65,6 +65,8 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
     };
 
     mapData.map.setOptions({
+      // Configures the map to react to all user touch input,
+      // allowing one finger to be used to control map movement rather than page scrolling
       gestureHandling: 'greedy',
     });
 
