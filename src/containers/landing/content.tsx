@@ -12,5 +12,5 @@ export const MODAL_PARAGRAPH = {
     'the many benefits mature trees provide.',
 };
 export const MODAL_OK_TEXT = {
-  ENG: 'Adopt a Tree!',
+  ENG: "Explore Boston's urban forest!",
 };
