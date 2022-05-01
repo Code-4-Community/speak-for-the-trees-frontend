@@ -68,6 +68,12 @@ export const Gap = styled.div`
   display: inline-block;
 `;
 
+export const InlineFormItem = styled(Form.Item)<FormItemProps>`
+  display: inline-block;
+  margin: 0 5px;
+  height: 14px;
+`;
+
 export const FormHalfItem = styled(Form.Item)<FormItemProps>`
   width: 46%;
   display: inline-block;
