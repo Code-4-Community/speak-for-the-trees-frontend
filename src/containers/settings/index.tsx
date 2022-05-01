@@ -19,7 +19,6 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import { Helmet } from 'react-helmet';
-import { Flex } from '../../components/themedComponents';
 
 const formLayout = {
   wrapperCol: { span: 17 },

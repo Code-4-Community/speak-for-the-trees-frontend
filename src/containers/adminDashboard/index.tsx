@@ -17,8 +17,8 @@ import { AppError } from '../../auth/axios';
 import { getErrorMessage } from '../../utils/stringFormat';
 
 const AdminContentContainer = styled.div`
-  margin: 100px auto auto;
   width: 80vw;
+  margin: 8vh auto auto;
 `;
 
 const DashboardContent = styled.div`
