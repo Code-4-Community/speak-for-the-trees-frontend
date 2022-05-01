@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { Form, message, Row, Typography, Divider } from 'antd';
-import { Button, Form, message, Typography } from 'antd';
+import { Button, Form, message, Row, Typography, Divider } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
@@ -28,7 +27,6 @@ import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
 import SignupForm from '../../components/forms/signupForm';
 import { SignupFormValues } from '../../components/forms/ducks/types';
 import ProtectedApiClient from '../../api/protectedApiClient';
-import { Flex } from '../../components/themedComponents';
 import { AppError } from '../../auth/axios';
 import { getErrorMessage } from '../../utils/stringFormat';
 
@@ -132,7 +130,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <Typography.Title level={4}>Edit Admins</Typography.Title>
               <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
             </DashboardContent>
-
             <DashboardContent>
               <Typography.Title level={4}>
                 Create Child Accounts
@@ -152,7 +149,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
           <AdminDivider />
           <SectionHeader>Add New Site</SectionHeader>
           <MarginBottomRow>
-            <Flex>
+            <Flex margin={'0 0 40px 0'}>
               <Block
                 maxWidth={windowType === WindowTypes.Mobile ? '100%' : '45%'}
               >
