@@ -163,7 +163,7 @@ const TreePopup: React.FC<TreePopupProps> = ({
                                 >
                                   Edit Site Page
                                 </GreenLinkButton>
-}
+                                }
 
 
                 if (!treeInfo.treePresent) {
@@ -192,14 +192,7 @@ const TreePopup: React.FC<TreePopupProps> = ({
                         >
                           More Info
                         </GreenLinkButton>
-                        <GreenLinkButton
-                          to={`${ParameterizedRouteBases.SITE}${treeInfo.id}`}
-                          state={returnState}
-                          target="_blank"
-                          style={{ marginLeft: '.1rem' }}
-                        >
-                          Edit Site Page
-                        </GreenLinkButton>
+                        <span style={{ marginLeft: '.1rem' }}> {editSiteButton} </span>
                       </div>
                     );
                 })()}
