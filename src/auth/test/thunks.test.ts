@@ -8,9 +8,12 @@ import protectedApiClient, {
 } from '../../api/protectedApiClient';
 import apiClient from '../../api/apiClient';
 import nock from 'nock';
-import { mockTokenResponse, mockUserDataResponse } from '../../App.test';
-
-const BASE_URL = 'http://localhost';
+import {
+  BASE_URL,
+  invalidExp,
+  mockTokenResponse,
+  mockUserDataResponse,
+} from '../../App.test';
 
 export const generateState = (partialState: Partial<C4CState>): C4CState => ({
   ...initialStoreState,
@@ -24,7 +27,7 @@ describe('User Authentication Thunks', () => {
       const mockDispatch = jest.fn();
       const mockLogin = jest.fn();
       const mockOnError = jest.fn();
-      mockLogin.mockResolvedValue(mockTokenResponse);
+      mockLogin.mockResolvedValue(mockTokenResponse(invalidExp));
       nock(BASE_URL)
         .get(ProtectedApiClientRoutes.GET_USER_DATA)
         .reply(200, mockUserDataResponse);
@@ -49,7 +52,7 @@ describe('User Authentication Thunks', () => {
       expect(mockDispatch).toHaveBeenCalledTimes(4);
       expect(mockDispatch).toHaveBeenNthCalledWith(
         4,
-        authenticateUser.loaded(mockTokenResponse),
+        authenticateUser.loaded(mockTokenResponse(invalidExp)),
       );
       expect(mockDispatch).toHaveBeenNthCalledWith(
         3,
@@ -101,7 +104,7 @@ describe('User Authentication Thunks', () => {
       const mockDispatch = jest.fn();
       const mockLogin = jest.fn();
       const mockOnError = jest.fn();
-      mockLogin.mockResolvedValue(mockTokenResponse);
+      mockLogin.mockResolvedValue(mockTokenResponse(invalidExp));
       const mockUserDataError = 'mock fail';
       nock(BASE_URL)
         .get(ProtectedApiClientRoutes.GET_USER_DATA)
@@ -127,7 +130,7 @@ describe('User Authentication Thunks', () => {
       expect(mockDispatch).toHaveBeenCalledTimes(4);
       expect(mockDispatch).toHaveBeenNthCalledWith(
         4,
-        authenticateUser.loaded(mockTokenResponse),
+        authenticateUser.loaded(mockTokenResponse(invalidExp)),
       );
       expect(mockDispatch).toHaveBeenNthCalledWith(
         3,
@@ -162,9 +165,9 @@ describe('User Authentication Thunks', () => {
 
       await refresh(mockRefreshToken)(mockDispatch, getState, mockExtraArgs);
 
-      expect(mockDispatch).toHaveBeenCalledTimes(2);
+      expect(mockDispatch).toHaveBeenCalledTimes(1);
       expect(mockDispatch).toHaveBeenNthCalledWith(
-        2,
+        1,
         authenticateUser.loaded({
           accessToken: mockRefreshTokenResponse.freshAccessToken,
           refreshToken: mockRefreshToken,
@@ -194,9 +197,9 @@ describe('User Authentication Thunks', () => {
 
       await refresh(mockRefreshToken)(mockDispatch, getState, mockExtraArgs);
 
-      expect(mockDispatch).toHaveBeenCalledTimes(2);
+      expect(mockDispatch).toHaveBeenCalledTimes(1);
       expect(mockDispatch).toHaveBeenNthCalledWith(
-        2,
+        1,
         authenticateUser.failed(mockAPIError.response.data),
       );
       expect(mockRefresh).toBeCalledTimes(1);
@@ -208,7 +211,7 @@ describe('User Authentication Thunks', () => {
       const getState = () => generateState({});
       const mockDispatch = jest.fn();
       const mockSignup = jest.fn();
-      mockSignup.mockResolvedValue(mockTokenResponse);
+      mockSignup.mockResolvedValue(mockTokenResponse(invalidExp));
       const mockExtraArgs: ThunkExtraArgs = {
         authClient: {
           ...authClient,
@@ -236,7 +239,7 @@ describe('User Authentication Thunks', () => {
       expect(mockDispatch).toHaveBeenCalledTimes(4);
       expect(mockDispatch).toHaveBeenNthCalledWith(
         4,
-        authenticateUser.loaded(mockTokenResponse),
+        authenticateUser.loaded(mockTokenResponse(invalidExp)),
       );
       expect(mockDispatch).toHaveBeenNthCalledWith(
         3,

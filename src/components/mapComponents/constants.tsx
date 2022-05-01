@@ -26,6 +26,9 @@ export const BOSTON_BOUNDS = {
 
 export const STREET_ZOOM = 19;
 
+export const MOBILE_SLIDE_HEIGHT = 60;
+export const DESKTOP_SLIDE_HEIGHT = 70;
+
 // Three years before the current date
 export const YOUNG_TREE_DATE = new Date().setFullYear(
   new Date().getFullYear() - 3,

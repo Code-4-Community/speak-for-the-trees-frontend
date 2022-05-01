@@ -6,7 +6,11 @@ import { MapViews } from '../../ducks/types';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import SlideDown from '../../../slideDown';
 import MapLegend from '../../mapLegend';
-import { ALL_SITES_VISIBLE, SITE_OPTIONS } from '../../constants';
+import {
+  ALL_SITES_VISIBLE,
+  DESKTOP_SLIDE_HEIGHT,
+  SITE_OPTIONS,
+} from '../../constants';
 
 const LegendContainer = styled.div`
   min-width: 300px;
@@ -28,7 +32,7 @@ interface SiteLegendProps {
 const SiteLegend: React.FC<SiteLegendProps> = ({ onCheck }) => {
   return (
     <LegendContainer>
-      <SlideDown defaultOpen={true} fullSlide={true}>
+      <SlideDown defaultOpen={true} slideHeight={DESKTOP_SLIDE_HEIGHT}>
         <MapLegend view={MapViews.TREES} mobile={false} />
         <Typography.Text strong>Show</Typography.Text>
         <StyledCheckbox

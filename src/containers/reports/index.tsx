@@ -14,10 +14,7 @@ import {
   getCountAdoptedInPastWeek,
   getStewardshipTableReport,
 } from './ducks/selectors';
-
-const ReportsContainer = styled.div`
-  padding: 5vh 5vw;
-`;
+import { PaddedPageContainer } from '../../components/themedComponents';
 
 const FeaturedStatsSection = styled.div`
   margin-bottom: 20px;
@@ -31,17 +28,20 @@ const Reports: React.FC = () => {
 
   useEffect(() => {
     ProtectedApiClient.getAdoptionReport()
-      .then((res: AdoptionReport) => setAdoptionReport(res))
+      .then((adoptionRes: AdoptionReport) => {
+        setAdoptionReport(adoptionRes);
+        ProtectedApiClient.getStewardshipReport()
+          .then((stewardshipRes: StewardshipReport) =>
+            setStewardshipReport(stewardshipRes),
+          )
+          .catch((err) =>
+            message.error(
+              `Could not get stewardship report: ${getErrorMessage(err)}`,
+            ),
+          );
+      })
       .catch((err) =>
         message.error(`Could not get adoption report: ${getErrorMessage(err)}`),
-      );
-
-    ProtectedApiClient.getStewardshipReport()
-      .then((res: StewardshipReport) => setStewardshipReport(res))
-      .catch((err) =>
-        message.error(
-          `Could not get stewardship report: ${getErrorMessage(err)}`,
-        ),
       );
   }, []);
 
@@ -55,7 +55,7 @@ const Reports: React.FC = () => {
         />
       </Helmet>
       <PageLayout>
-        <ReportsContainer>
+        <PaddedPageContainer>
           <PageHeader pageTitle={'Site Report'} />
           <FeaturedStatsSection>
             <FeaturedStats
@@ -97,7 +97,7 @@ const Reports: React.FC = () => {
               </Skeleton>
             </Tabs.TabPane>
           </Tabs>
-        </ReportsContainer>
+        </PaddedPageContainer>
       </PageLayout>
     </>
   );

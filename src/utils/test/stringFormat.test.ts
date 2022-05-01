@@ -11,6 +11,7 @@ import { getDateString } from '../stringFormat';
 import { shortHand } from '../stringFormat';
 import { SHORT_HAND_NAMES } from '../../assets/content';
 import { Entry } from '../../containers/treePage/ducks/types';
+import { AppError } from '../../auth/axios';
 
 test('getMoneyString tests', () => {
   expect(getMoneyString(100000)).toBe('$100,000');
@@ -136,15 +137,21 @@ test('getNeighborhoodName tests', () => {
 });
 
 test('getErrorMessage', () => {
-  const exampleError = { response: { data: 'uh oh', extra: 'data' } };
-  const exampleErrorWithoutData = { response: { extra: 'data' } };
-  const exampleErrorWithoutResponse = {
-    data: { data: 'uh oh', extra: 'data' },
+  const exampleError: AppError = {
+    config: {},
+    isAxiosError: false,
+    message: '',
+    name: '',
+    response: {
+      data: 'uh oh',
+      status: 400,
+      statusText: 'bad',
+      headers: [],
+      config: {},
+    },
+    toJSON: () => {
+      return exampleError;
+    },
   };
   expect(getErrorMessage(exampleError)).toEqual('uh oh');
-  expect(getErrorMessage(exampleErrorWithoutData)).toEqual('Error encountered');
-  expect(getErrorMessage(exampleErrorWithoutResponse)).toEqual(
-    'Error encountered',
-  );
-  expect(getErrorMessage(undefined)).toEqual('Error encountered');
 });

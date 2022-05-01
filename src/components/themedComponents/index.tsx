@@ -11,6 +11,13 @@ import {
 import { LinkButton } from '../linkButton';
 import { BREAKPOINT_TABLET } from '../windowDimensions';
 
+export const MOBILE_FONT_SIZE = '15px';
+export const DESKTOP_FONT_SIZE = '12px';
+
+export const PaddedPageContainer = styled.div`
+  padding: 5vh 5vw;
+`;
+
 export const ContentContainer = styled.div`
   display: block;
   padding: 3vw;
@@ -129,15 +136,18 @@ export const InlineImage = styled(Image)`
 `;
 
 export interface FlexProps {
+  margin?: string;
+  gap?: string;
   justifyContent?: string;
 }
 
 export const Flex = styled.div`
+  margin: ${({ margin }: FlexProps) => (margin ? margin : '0')};
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
-  gap: 15px 50px;
+  gap: ${({ gap }: FlexProps) => (gap ? gap : '50px')};
   justify-content: ${({ justifyContent }: FlexProps) =>
     justifyContent ? justifyContent : 'flex-start'};
 `;

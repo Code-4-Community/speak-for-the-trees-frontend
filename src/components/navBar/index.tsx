@@ -68,7 +68,7 @@ interface NavBarProps {
 const NavBar: React.FC<NavBarProps> = ({ userName, isAdmin, onLogout }) => {
   const { windowType } = useWindowDimensions();
 
-  if (windowType === WindowTypes.Mobile) {
+  if (windowType === WindowTypes.Mobile || windowType === WindowTypes.Tablet) {
     return (
       <MobileNavBar
         isLoggedIn={userName !== undefined}

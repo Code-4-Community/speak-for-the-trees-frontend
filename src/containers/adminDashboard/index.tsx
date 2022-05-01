@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Form, message, Row, Typography, Divider } from 'antd';
+import { Button, Form, message, Typography } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
@@ -24,15 +25,20 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
+import SignupForm from '../../components/forms/signupForm';
+import { SignupFormValues } from '../../components/forms/ducks/types';
+import ProtectedApiClient from '../../api/protectedApiClient';
+import { Flex } from '../../components/themedComponents';
+import { AppError } from '../../auth/axios';
+import { getErrorMessage } from '../../utils/stringFormat';
 
 const AdminContentContainer = styled.div`
   margin: 100px auto auto;
   width: 80vw;
 `;
 
-const EditUser = styled.div`
-  margin: 80px 0px 40px;
-  width: 370px;
+const DashboardContent = styled.div`
+  width: 450px;
 `;
 
 const AdminDivider = styled(Divider)`
@@ -62,8 +68,24 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
+  const [createChildForm] = Form.useForm();
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
+
+  const onCreateChild = (values: SignupFormValues) => {
+    ProtectedApiClient.createChild({
+      email: values.email,
+      username: values.username,
+      password: values.password,
+      firstName: values.firstName,
+      lastName: values.lastName,
+    })
+      .then(() => {
+        message.success(`${values.email} successfully added!`);
+        createChildForm.resetFields();
+      })
+      .catch((error: AppError) => message.error(getErrorMessage(error)));
+  };
 
   const [editSiteForm] = Form.useForm();
   const [updateSiteForm] = Form.useForm();
@@ -105,10 +127,28 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
       <PageLayout>
         <AdminContentContainer>
           <PageHeader pageTitle="Admin Dashboard" />
-          <EditUser>
-            <Typography.Title level={4}>Edit Admins</Typography.Title>
-            <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
-          </EditUser>
+          <Flex margin={'60px 0 0 0'} gap={'50px 100px'}>
+            <DashboardContent>
+              <Typography.Title level={4}>Edit Admins</Typography.Title>
+              <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
+            </DashboardContent>
+
+            <DashboardContent>
+              <Typography.Title level={4}>
+                Create Child Accounts
+              </Typography.Title>
+              <SignupForm
+                formInstance={createChildForm}
+                onFinish={onCreateChild}
+              >
+                <Form.Item>
+                  <Button type="primary" htmlType="submit" size="large">
+                    Create Child Account
+                  </Button>
+                </Form.Item>
+              </SignupForm>
+            </DashboardContent>
+          </Flex>
           <AdminDivider />
           <SectionHeader>Add New Site</SectionHeader>
           <MarginBottomRow>
