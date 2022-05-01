@@ -54,6 +54,10 @@ const UserInformationText = styled(Typography.Paragraph)`
   line-height: 15px;
 `;
 
+const DeleteAccountContainer = styled.div`
+  margin-bottom: 100px;
+`;
+
 const Settings: React.FC = () => {
   const [showDeleteForm, setShowDeleteForm] = useState<boolean>(false);
   const { windowType } = useWindowDimensions();
@@ -97,14 +101,15 @@ const Settings: React.FC = () => {
                       <UserInformationText>{userEmail}</UserInformationText>
                       <FormTitle>Change Username</FormTitle>
                       <ChangeUsernameForm formLayout={formLayout} />
-
-                      <FormTitle>Deactivate or Delete Account</FormTitle>
-                      <SubmitButton
-                        type="primary"
-                        onClick={() => setShowDeleteForm(true)}
-                      >
-                        Continue
-                      </SubmitButton>
+                      <DeleteAccountContainer>
+                        <FormTitle>Deactivate or Delete Account</FormTitle>
+                        <SubmitButton
+                          type="primary"
+                          onClick={() => setShowDeleteForm(true)}
+                        >
+                          Continue
+                        </SubmitButton>
+                      </DeleteAccountContainer>
                       <Modal
                         visible={showDeleteForm}
                         footer={null}
@@ -144,6 +149,12 @@ const Settings: React.FC = () => {
                 <FormTitle>Change Username</FormTitle>
                 <ChangeUsernameForm formLayout={formLayout} />
 
+                <FormTitle>Change Email</FormTitle>
+                <ChangeEmailForm formLayout={formLayout} />
+
+                <FormTitle>Change Password</FormTitle>
+                <ChangePasswordForm formLayout={formLayout} />
+
                 <FormTitle>Deactivate or Delete Account</FormTitle>
                 <SubmitButton
                   type="primary"
@@ -163,12 +174,6 @@ const Settings: React.FC = () => {
                   </Typography.Paragraph>
                   <DeleteAccountForm />
                 </Modal>
-
-                <FormTitle>Change Email</FormTitle>
-                <ChangeEmailForm formLayout={formLayout} />
-
-                <FormTitle>Change Password</FormTitle>
-                <ChangePasswordForm formLayout={formLayout} />
               </MobileSettingsContainer>
             );
         }
