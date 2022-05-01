@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 type MapSidebarProps = {
   readonly header: string;
-  readonly description: string;
+  readonly description: string | JSX.Element;
 };
 
 export const SideBarContentContainer = styled.div`
