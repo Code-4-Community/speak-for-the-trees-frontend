@@ -128,7 +128,9 @@ const TreePopup: React.FC<TreePopupProps> = ({
   }, [treeInfo]);
 
   const returnState = returnTo && { destination: returnTo };
-
+  const userIsAdmin: boolean = useSelector((state: C4CState) =>
+                isAdmin(state.authenticationState.tokens),
+                );
   return (
     <PopupContainer ref={popRef}>
       {isVisible && (
@@ -152,9 +154,6 @@ const TreePopup: React.FC<TreePopupProps> = ({
               )}
               <GreyText>{treeInfo.address}</GreyText>
               {(() => {
-                const userIsAdmin: boolean = useSelector((state: C4CState) =>
-                isAdmin(state.authenticationState.tokens),
-                );
                 let editSiteButton = <div/>;
                 if (userIsAdmin) {
                 editSiteButton = <GreenLinkButton
