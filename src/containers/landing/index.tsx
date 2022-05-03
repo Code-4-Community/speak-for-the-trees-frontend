@@ -6,7 +6,6 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
-import { LANDING_BODY, LANDING_TITLE } from '../../assets/content';
 import { C4CState } from '../../store';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
@@ -16,12 +15,14 @@ import {
   MapGeoDataReducerState,
   MapViews,
 } from '../../components/mapComponents/ducks/types';
-import AdoptionDirections from '../../components/adoptionDirections';
 import MapLegend from '../../components/mapComponents/mapLegend';
 import { Routes } from '../../App';
 import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
 import SlideDown from '../../components/slideDown';
 import { MOBILE_SLIDE_HEIGHT } from '../../components/mapComponents/constants';
+import { LANDING_TITLE } from './landingContent';
+import { Languages } from '../../App';
+import LandingContent from '../../components/landingContent';
 
 const PaddedContent = styled.div`
   padding: 15px 0px;
@@ -47,6 +48,8 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
   const { windowType } = useWindowDimensions();
 
   const landingMapView = MapViews.TREES;
+
+  const lang = Languages.ENGLISH;
 
   return (
     <>
@@ -75,8 +78,8 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                 <SlideDown defaultOpen={true} slideHeight={MOBILE_SLIDE_HEIGHT}>
                   <PaddedContent>
                     <MobileLandingBar
-                      barHeader={LANDING_TITLE}
-                      barDescription={LANDING_BODY}
+                      barHeader={LANDING_TITLE[lang]}
+                      barDescription={<LandingContent />}
                       isLoggedIn={loggedIn}
                     >
                       <MapLegend
@@ -84,7 +87,6 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                         mobile={true}
                         canHide={false}
                       />
-                      <AdoptionDirections mobile={true} />
                     </MobileLandingBar>
                   </PaddedContent>
                 </SlideDown>
@@ -101,13 +103,11 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                     mobile={false}
                   />
                 }
-                sidebarHeader={LANDING_TITLE}
-                sidebarDescription={LANDING_BODY}
+                sidebarHeader={LANDING_TITLE[lang]}
+                sidebarDescription={<LandingContent />}
                 view={landingMapView}
                 windowType={windowType}
-              >
-                <AdoptionDirections mobile={false} />
-              </MapPage>
+              ></MapPage>
             );
         }
       })()}
