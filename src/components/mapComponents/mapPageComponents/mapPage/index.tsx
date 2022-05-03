@@ -10,7 +10,7 @@ import { WindowTypes } from '../../../windowDimensions';
 interface MapPageProps {
   readonly mapContent: JSX.Element;
   readonly sidebarHeader: string;
-  readonly sidebarDescription: string;
+  readonly sidebarDescription: string | JSX.Element;
   readonly view: MapViews;
   readonly windowType: WindowTypes;
 }

@@ -168,3 +168,10 @@ export const Block = styled.div`
   min-width: ${({ minWidth }: BlockProps) => (minWidth ? minWidth : 'auto')};
   flex-grow: ${({ flexGrow }: BlockProps) => (flexGrow ? flexGrow : '0')};
 `;
+
+export const MapContainer = styled.div`
+  display: block;
+  flex-grow: 1;
+  min-width: 35%;
+  min-height: 475px;
+`;
