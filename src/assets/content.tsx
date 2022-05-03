@@ -6,22 +6,6 @@ export const TEAMS_HEADER = 'Take a peek at the teams accepting new members!';
 export const HOME_TITLE = 'Welcome back, ';
 export const HOME_HEADER = "Let's get back to those trees, why don't we?";
 
-// Map Legend
-export const ADOPTED_TREE_ICON_DESCRIPTION =
-  'These trees have already been adopted';
-export const TREE_ICON_DESCRIPTION =
-  "Older trees who don't need as much help but would still love to be adopted";
-export const YOUNG_TREE_ICON_DESCRIPTION =
-  'Newly planted trees who need the most care';
-export const OPEN_SITE_DESCRIPTION =
-  'Empty sites where future trees could be planted';
-export const OPEN_BLOCK_DESCRIPTION = 'Open blocks ready to be reserved';
-export const RESERVED_BLOCK_DESCRIPTION = "Blocks you've already reserved";
-export const CLOSED_BLOCK_DESCRIPTION =
-  'Blocks someone else has already reserved';
-export const PRIVATE_STREET_DESCRIPTION =
-  "Private streets that volunteers shouldn't enter!";
-
 // Login
 export const LOGIN_TITLE = 'Log In';
 export const LOGIN_HEADER = 'Welcome back!';

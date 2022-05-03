@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Col, Row, Typography } from 'antd';
+import { Button, Typography } from 'antd';
 import {
   ADOPTED_TREE_ICON_DESCRIPTION,
   CLOSED_BLOCK_DESCRIPTION,
@@ -10,7 +10,7 @@ import {
   RESERVED_BLOCK_DESCRIPTION,
   TREE_ICON_DESCRIPTION,
   YOUNG_TREE_ICON_DESCRIPTION,
-} from '../../../assets/content';
+} from './content';
 import adoptedTreeIcon from '../../../assets/images/siteIcons/adoptedLarge.png';
 import treeIcon from '../../../assets/images/siteIcons/standardLarge.png';
 import youngTreeIcon from '../../../assets/images/siteIcons/youngLarge.png';
@@ -19,39 +19,70 @@ import { MAP_GREEN, MAP_RED, MAP_YELLOW, RED } from '../../../utils/colors';
 import { MapViews } from '../ducks/types';
 import {
   DESKTOP_FONT_SIZE,
-  InlineImage,
   MOBILE_FONT_SIZE,
+  InlineImage,
 } from '../../themedComponents';
+import { BREAKPOINT_TABLET } from '../../windowDimensions';
+import { Languages } from '../../../App';
 
 const MapLegendContainer = styled.div`
   margin-bottom: 5px;
-`;
-
-const CenterCol = styled(Col)`
-  text-align: center;
+  width: 100%;
 `;
 
 const FlexibleParagraph = styled(Typography.Paragraph)`
   line-height: 15px;
-  font-size: ${(props: FlexibleParagraphProps) => props.fontSize};
+  font-size: ${DESKTOP_FONT_SIZE};
   display: inline-block;
-  max-width: 90%;
+
+  @media (max-width: ${BREAKPOINT_TABLET}px) {
+    font-size: ${MOBILE_FONT_SIZE};
+  }
+`;
+
+const LegendHeader = styled(Typography.Text)`
+  font-size: ${DESKTOP_FONT_SIZE};
+
+  @media (max-width: ${BREAKPOINT_TABLET}px) {
+    font-size: ${MOBILE_FONT_SIZE};
+  }
 `;
 
 const ToggleTextButton = styled(Button)`
   padding: 0px;
 `;
 
+const LegendItem = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 0 40px;
+
+  @media (min-width: ${BREAKPOINT_TABLET}px) {
+    gap: 0 20px;
+  }
+`;
+
+const LegendImage = styled(InlineImage)`
+  height: 20px;
+  width: 20px;
+`;
+
+const RedLineContainer = styled.div`
+  height: 20px;
+  display: flex;
+  align-items: center;
+`;
+
 const RedLine = styled.div`
-  width: 60%;
-  height: 5px;
+  width: 20px;
+  height: 2px;
   display: inline-block;
-  border-top: 2px solid ${RED};
+  background: ${RED};
 `;
 
 const ColorBlock = styled.div`
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   display: inline-block;
   background: ${(props: ColorBlockProps) => props.color};
 `;
@@ -60,20 +91,16 @@ interface ColorBlockProps {
   readonly color: string;
 }
 
-interface FlexibleParagraphProps {
-  readonly fontSize: string;
-}
-
 interface MapLegendProps {
   readonly view: MapViews;
-  readonly mobile: boolean;
   readonly canHide?: boolean;
 }
 
-const MapLegend: React.FC<MapLegendProps> = ({ view, mobile, canHide }) => {
+const MapLegend: React.FC<MapLegendProps> = ({ view, canHide }) => {
   const [showLegend, setShowLegend] = useState(true);
 
-  const fontSize = `${mobile ? MOBILE_FONT_SIZE : DESKTOP_FONT_SIZE}`;
+  // todo: replace this with prop when implementing languages
+  const lang = Languages.ENGLISH;
 
   const toggleShowLegend = () => {
     setShowLegend((prevState) => !prevState);
@@ -88,54 +115,34 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile, canHide }) => {
               <>
                 {showLegend && (
                   <>
-                    <Typography.Text strong>
+                    <LegendHeader strong>
                       What does each icon mean?
-                    </Typography.Text>
+                    </LegendHeader>
                     <br />
-                    <Row>
-                      <CenterCol span={3}>
-                        <InlineImage src={youngTreeIcon} preview={false} />
-                      </CenterCol>
-                      <Col span={1} />
-                      <Col span={20}>
-                        <FlexibleParagraph fontSize={fontSize}>
-                          {YOUNG_TREE_ICON_DESCRIPTION}
-                        </FlexibleParagraph>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <CenterCol span={3}>
-                        <InlineImage src={treeIcon} preview={false} />
-                      </CenterCol>
-                      <Col span={1} />
-                      <Col span={20}>
-                        <FlexibleParagraph fontSize={fontSize}>
-                          {TREE_ICON_DESCRIPTION}
-                        </FlexibleParagraph>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <CenterCol span={3}>
-                        <InlineImage src={adoptedTreeIcon} preview={false} />
-                      </CenterCol>
-                      <Col span={1} />
-                      <Col span={20}>
-                        <FlexibleParagraph fontSize={fontSize}>
-                          {ADOPTED_TREE_ICON_DESCRIPTION}
-                        </FlexibleParagraph>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <CenterCol span={3}>
-                        <InlineImage src={openSiteIcon} preview={false} />
-                      </CenterCol>
-                      <Col span={1} />
-                      <Col span={20}>
-                        <FlexibleParagraph fontSize={fontSize}>
-                          {OPEN_SITE_DESCRIPTION}
-                        </FlexibleParagraph>
-                      </Col>
-                    </Row>
+                    <LegendItem>
+                      <LegendImage src={youngTreeIcon} preview={false} />
+                      <FlexibleParagraph>
+                        {YOUNG_TREE_ICON_DESCRIPTION[lang]}
+                      </FlexibleParagraph>
+                    </LegendItem>
+                    <LegendItem>
+                      <LegendImage src={treeIcon} preview={false} />
+                      <FlexibleParagraph>
+                        {TREE_ICON_DESCRIPTION[lang]}
+                      </FlexibleParagraph>
+                    </LegendItem>
+                    <LegendItem>
+                      <LegendImage src={adoptedTreeIcon} preview={false} />
+                      <FlexibleParagraph>
+                        {ADOPTED_TREE_ICON_DESCRIPTION[lang]}
+                      </FlexibleParagraph>
+                    </LegendItem>
+                    <LegendItem>
+                      <LegendImage src={openSiteIcon} preview={false} />
+                      <FlexibleParagraph>
+                        {OPEN_SITE_DESCRIPTION[lang]}
+                      </FlexibleParagraph>
+                    </LegendItem>
                   </>
                 )}
               </>
@@ -145,43 +152,26 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile, canHide }) => {
               <>
                 {showLegend && (
                   <>
-                    <Typography.Text strong>
-                      Blocks that are colored
-                    </Typography.Text>
+                    <LegendHeader strong>Blocks that are colored</LegendHeader>
                     <br />
-                    <Row>
-                      <CenterCol span={3}>
-                        <ColorBlock color={MAP_GREEN} />
-                      </CenterCol>
-                      <Col span={1} />
-                      <Col span={20}>
-                        <FlexibleParagraph fontSize={fontSize}>
-                          {OPEN_BLOCK_DESCRIPTION}
-                        </FlexibleParagraph>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <CenterCol span={3}>
-                        <ColorBlock color={MAP_YELLOW} />
-                      </CenterCol>
-                      <Col span={1} />
-                      <Col span={20}>
-                        <FlexibleParagraph fontSize={fontSize}>
-                          {RESERVED_BLOCK_DESCRIPTION}
-                        </FlexibleParagraph>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <CenterCol span={3}>
-                        <ColorBlock color={MAP_RED} />
-                      </CenterCol>
-                      <Col span={1} />
-                      <Col span={20}>
-                        <FlexibleParagraph fontSize={fontSize}>
-                          {CLOSED_BLOCK_DESCRIPTION}
-                        </FlexibleParagraph>
-                      </Col>
-                    </Row>
+                    <LegendItem>
+                      <ColorBlock color={MAP_GREEN} />
+                      <FlexibleParagraph>
+                        {OPEN_BLOCK_DESCRIPTION[lang]}
+                      </FlexibleParagraph>
+                    </LegendItem>
+                    <LegendItem>
+                      <ColorBlock color={MAP_YELLOW} />
+                      <FlexibleParagraph>
+                        {RESERVED_BLOCK_DESCRIPTION[lang]}
+                      </FlexibleParagraph>
+                    </LegendItem>
+                    <LegendItem>
+                      <ColorBlock color={MAP_RED} />
+                      <FlexibleParagraph>
+                        {CLOSED_BLOCK_DESCRIPTION[lang]}
+                      </FlexibleParagraph>
+                    </LegendItem>
                   </>
                 )}
               </>
@@ -190,19 +180,16 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, mobile, canHide }) => {
       })()}
       {showLegend && (
         <>
-          <Typography.Text strong>Watch out!</Typography.Text>
+          <LegendHeader strong>Watch out!</LegendHeader>
           <br />
-          <Row>
-            <CenterCol span={3}>
+          <LegendItem>
+            <RedLineContainer>
               <RedLine />
-            </CenterCol>
-            <Col span={1} />
-            <Col span={20}>
-              <FlexibleParagraph fontSize={fontSize}>
-                {PRIVATE_STREET_DESCRIPTION}
-              </FlexibleParagraph>
-            </Col>
-          </Row>
+            </RedLineContainer>
+            <FlexibleParagraph>
+              {PRIVATE_STREET_DESCRIPTION[lang]}
+            </FlexibleParagraph>
+          </LegendItem>
         </>
       )}
       {canHide && (

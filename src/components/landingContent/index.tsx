@@ -1,9 +1,6 @@
 import OrderedList from '../orderedList';
 import { Typography } from 'antd';
-import {
-  ADOPTION_DIRECTIONS,
-  ADOPTION_DIRECTIONS_HEADER,
-} from '../landingContent/content';
+import { ADOPTION_DIRECTIONS, ADOPTION_DIRECTIONS_HEADER } from './content';
 import React from 'react';
 import {
   QUESTIONS_DIRECTIONS,

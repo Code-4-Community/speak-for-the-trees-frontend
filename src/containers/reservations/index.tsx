@@ -59,7 +59,7 @@ const Reservations: React.FC<ReservationsProps> = ({
                 returnTo={Routes.LANDING} // TODO: Change to my_reservations once that is complete
               >
                 <SlideDown>
-                  <MapLegend view={reservationMapView} mobile={true} />
+                  <MapLegend view={reservationMapView} />
                   <BlockTabs />
                 </SlideDown>
               </MobileMapPage>
