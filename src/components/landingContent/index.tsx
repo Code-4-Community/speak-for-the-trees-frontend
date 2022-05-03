@@ -8,7 +8,7 @@ import React from 'react';
 import {
   QUESTIONS_DIRECTIONS,
   LANDING_BODY,
-} from '../../containers/landing/landingContent';
+} from '../../containers/landing/content';
 import { Languages } from '../../App';
 
 export const LandingContent: React.FC = () => {

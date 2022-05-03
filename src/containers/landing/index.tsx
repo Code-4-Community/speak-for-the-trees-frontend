@@ -16,13 +16,35 @@ import {
   MapViews,
 } from '../../components/mapComponents/ducks/types';
 import MapLegend from '../../components/mapComponents/mapLegend';
-import { Routes } from '../../App';
+import { Languages, Routes } from '../../App';
 import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
 import SlideDown from '../../components/slideDown';
 import { MOBILE_SLIDE_HEIGHT } from '../../components/mapComponents/constants';
-import { LANDING_TITLE } from './landingContent';
-import { Languages } from '../../App';
+import { Modal, Typography } from 'antd';
+import { DARK_GREEN } from '../../utils/colors';
+import {
+  MODAL_OK_TEXT,
+  MODAL_PARAGRAPH,
+  MODAL_TITLE,
+  LANDING_TITLE,
+} from './content';
+import { SFTT_PARTNER_LOGOS } from '../../assets/links';
 import LandingContent from '../../components/landingContent';
+
+const ModalTitle = styled(Typography.Text)`
+  font-size: 20px;
+  color: ${DARK_GREEN};
+`;
+
+const ModalParagraph = styled(Typography.Paragraph)`
+  font-size: 16px;
+  line-height: 24px;
+`;
+
+const ModalImage = styled.img`
+  width: 100%;
+  margin-top: 30px;
+`;
 
 const PaddedContent = styled.div`
   padding: 15px 0px;
@@ -41,15 +63,37 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
     isLoggedIn(state.authenticationState.tokens),
   );
 
+  // todo: replace this with prop when implementing languages
+  const lang = Languages.ENGLISH;
+
   useEffect(() => {
     dispatch(getMapGeoData());
   }, [dispatch]);
 
+  // separate useEffect to minimize dependencies/dispatches that will reload map
+  useEffect(() => {
+    // show users who aren't logged in a welcome modal
+    if (!loggedIn) {
+      Modal.info({
+        title: <ModalTitle strong>{MODAL_TITLE[lang]}</ModalTitle>,
+        content: (
+          <ModalParagraph>
+            {MODAL_PARAGRAPH[lang]}
+            <ModalImage src={SFTT_PARTNER_LOGOS} alt={'SFTT Logo'} />
+          </ModalParagraph>
+        ),
+        okText: MODAL_OK_TEXT[lang],
+        centered: true,
+        width: '75%',
+        icon: null,
+        maskClosable: true,
+      });
+    }
+  }, [loggedIn, lang]);
+
   const { windowType } = useWindowDimensions();
 
   const landingMapView = MapViews.TREES;
-
-  const lang = Languages.ENGLISH;
 
   return (
     <>
@@ -107,7 +151,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                 sidebarDescription={<LandingContent />}
                 view={landingMapView}
                 windowType={windowType}
-              ></MapPage>
+              />
             );
         }
       })()}
