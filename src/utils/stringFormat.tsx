@@ -11,11 +11,20 @@ export function getMoneyString(amount: number): string {
 }
 
 /**
- * Converts the given date to a formatted string
+ * Converts the given date to a formatted string of M/D/YYYY
  * @param date the date to convert
  */
 export function getDateString(date: Date): string {
   return `${new Intl.DateTimeFormat('en-US').format(date)}`;
+}
+
+/**
+ * Converts the given date to a formatted string of M.D.YYYY
+ * @param date the date to convert
+ */
+export function getDotDateString(date: Date): string {
+  // add 1 because months are a number (0-11) in JS
+  return `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
 }
 
 /**

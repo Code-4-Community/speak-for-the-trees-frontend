@@ -3,6 +3,7 @@ import {
   combineScientificName,
   compareMainEntries,
   formatDateSuffix,
+  getDotDateString,
   getErrorMessage,
   getMoneyString,
   getNeighborhoodName,
@@ -21,6 +22,11 @@ test('getMoneyString tests', () => {
 test('getDateString tests', () => {
   expect(getDateString(new Date(2020, 5, 10))).toBe('6/10/2020');
   expect(getDateString(new Date(2025, 11, 21))).toBe('12/21/2025');
+});
+
+test('getDotDateString tests', () => {
+  expect(getDotDateString(new Date(2020, 5, 10))).toBe('6.10.2020');
+  expect(getDotDateString(new Date(2025, 11, 21))).toBe('12.21.2025');
 });
 
 test('formatDateSuffix tests', () => {
