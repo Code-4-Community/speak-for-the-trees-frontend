@@ -6,23 +6,6 @@ export const TEAMS_HEADER = 'Take a peek at the teams accepting new members!';
 export const HOME_TITLE = 'Welcome back, ';
 export const HOME_HEADER = "Let's get back to those trees, why don't we?";
 
-// Landing
-export const LANDING_TITLE = "Boston's Street Trees";
-export const LANDING_BODY =
-  "Boston's trees do a lot for our community - they clean our polluted air, offer shade on scorching summer days, " +
-  'block wind on freezing winter nights, and prevent flooding during storms. At Speak for the Trees, ' +
-  "we're determined to improve the size and health of our urban forest, especially in under-served and " +
-  "under-canopied communities. And now you can help grow Boston's urban forest by adopting and caring for a tree!";
-
-// Adoption Directions
-export const ADOPTION_DIRECTIONS_HEADER = 'How to Adopt a Tree';
-export const FIND_DIRECTION =
-  'Find a tree near you by entering your address in the search bar at the at the top left of the map.';
-export const ICONS_DIRECTION =
-  'Click on the dot of a tree you might be interested in adopting.';
-export const REDIRECTED_DIRECTION =
-  'Once you\'ve found a tree to adopt, click on "More Info" to go to that tree\'s page, where you can adopt it!';
-
 // Map Legend
 export const ADOPTED_TREE_ICON_DESCRIPTION =
   'These trees have already been adopted';

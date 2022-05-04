@@ -6,7 +6,6 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
-import { LANDING_BODY, LANDING_TITLE } from '../../assets/content';
 import { C4CState } from '../../store';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
@@ -16,12 +15,36 @@ import {
   MapGeoDataReducerState,
   MapViews,
 } from '../../components/mapComponents/ducks/types';
-import AdoptionDirections from '../../components/adoptionDirections';
 import MapLegend from '../../components/mapComponents/mapLegend';
-import { Routes } from '../../App';
+import { Languages, Routes } from '../../App';
 import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
 import SlideDown from '../../components/slideDown';
 import { MOBILE_SLIDE_HEIGHT } from '../../components/mapComponents/constants';
+import { Modal, Typography } from 'antd';
+import { DARK_GREEN } from '../../utils/colors';
+import {
+  MODAL_OK_TEXT,
+  MODAL_PARAGRAPH,
+  MODAL_TITLE,
+  LANDING_TITLE,
+} from './content';
+import { SFTT_PARTNER_LOGOS } from '../../assets/links';
+import LandingContent from '../../components/landingContent';
+
+const ModalTitle = styled(Typography.Text)`
+  font-size: 20px;
+  color: ${DARK_GREEN};
+`;
+
+const ModalParagraph = styled(Typography.Paragraph)`
+  font-size: 16px;
+  line-height: 24px;
+`;
+
+const ModalImage = styled.img`
+  width: 100%;
+  margin-top: 30px;
+`;
 
 const PaddedContent = styled.div`
   padding: 15px 0px;
@@ -40,9 +63,33 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
     isLoggedIn(state.authenticationState.tokens),
   );
 
+  // todo: replace this with prop when implementing languages
+  const lang = Languages.ENGLISH;
+
   useEffect(() => {
     dispatch(getMapGeoData());
   }, [dispatch]);
+
+  // separate useEffect to minimize dependencies/dispatches that will reload map
+  useEffect(() => {
+    // show users who aren't logged in a welcome modal
+    if (!loggedIn) {
+      Modal.info({
+        title: <ModalTitle strong>{MODAL_TITLE[lang]}</ModalTitle>,
+        content: (
+          <ModalParagraph>
+            {MODAL_PARAGRAPH[lang]}
+            <ModalImage src={SFTT_PARTNER_LOGOS} alt={'SFTT Logo'} />
+          </ModalParagraph>
+        ),
+        okText: MODAL_OK_TEXT[lang],
+        centered: true,
+        width: '75%',
+        icon: null,
+        maskClosable: true,
+      });
+    }
+  }, [loggedIn, lang]);
 
   const { windowType } = useWindowDimensions();
 
@@ -75,8 +122,8 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                 <SlideDown defaultOpen={true} slideHeight={MOBILE_SLIDE_HEIGHT}>
                   <PaddedContent>
                     <MobileLandingBar
-                      barHeader={LANDING_TITLE}
-                      barDescription={LANDING_BODY}
+                      barHeader={LANDING_TITLE[lang]}
+                      barDescription={<LandingContent />}
                       isLoggedIn={loggedIn}
                     >
                       <MapLegend
@@ -84,7 +131,6 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                         mobile={true}
                         canHide={false}
                       />
-                      <AdoptionDirections mobile={true} />
                     </MobileLandingBar>
                   </PaddedContent>
                 </SlideDown>
@@ -101,13 +147,11 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                     mobile={false}
                   />
                 }
-                sidebarHeader={LANDING_TITLE}
-                sidebarDescription={LANDING_BODY}
+                sidebarHeader={LANDING_TITLE[lang]}
+                sidebarDescription={<LandingContent />}
                 view={landingMapView}
                 windowType={windowType}
-              >
-                <AdoptionDirections mobile={false} />
-              </MapPage>
+              />
             );
         }
       })()}

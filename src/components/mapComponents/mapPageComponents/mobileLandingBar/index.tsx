@@ -67,7 +67,7 @@ const StyledFlex = styled(Flex)`
 
 interface MobileLandingBarProps {
   readonly barHeader: string;
-  readonly barDescription: string;
+  readonly barDescription: string | JSX.Element;
   readonly isLoggedIn: boolean;
 }
 
