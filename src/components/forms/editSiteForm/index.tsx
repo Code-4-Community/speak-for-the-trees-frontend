@@ -6,15 +6,20 @@ import { EditSiteRequest } from '../ducks/types';
 import { NEIGHBORHOOD_OPTS } from '../../../assets/content';
 import { Flex, FullInputNumber } from '../../themedComponents';
 import TitleStack from '../../titleStack';
+import styled from 'styled-components';
 
 interface EditSiteFormProps {
   readonly formInstance: FormInstance<EditSiteRequest>;
 }
 
+const EditForm = styled(Form)`
+  width: 100%;
+`;
+
 const EditSiteForm: React.FC<EditSiteFormProps> = ({ formInstance }) => {
   return (
     <>
-      <Form name="basic" form={formInstance}>
+      <EditForm name="basic" form={formInstance}>
         <Flex>
           <TitleStack title={'Address'} flexGrow={'1'}>
             <Form.Item
@@ -70,7 +75,7 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({ formInstance }) => {
             </Form.Item>
           </TitleStack>
         </Flex>
-      </Form>
+      </EditForm>
     </>
   );
 };

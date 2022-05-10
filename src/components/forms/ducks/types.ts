@@ -92,3 +92,5 @@ export interface UpdateSiteRequest {
   readonly treeNotes: string | null;
   readonly siteNotes: string | null;
 }
+
+export interface AddSiteRequest extends UpdateSiteRequest, EditSiteRequest {}

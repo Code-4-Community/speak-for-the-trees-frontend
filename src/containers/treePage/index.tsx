@@ -41,7 +41,7 @@ import TreeActivity from '../../components/treeActivity';
 import EntryList from '../../components/entryList';
 import { CenterDiv, ReturnButton } from '../../components/themedComponents';
 import { STREET_ZOOM } from '../../components/mapComponents/constants';
-import { CITY_PLANTING_REQUEST_LINK } from '../../assets/content';
+import { CITY_PLANTING_REQUEST_LINK } from '../../assets/links';
 
 const EntryDiv = styled(CenterDiv)`
   margin: 10px 0;

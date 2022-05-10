@@ -1,27 +1,29 @@
-import { RefreshTokenResponse, TokenPayload } from '../ducks/types';
+import { RefreshTokenResponse } from '../ducks/types';
 import AuthClient, { API_ROUTE } from '../authClient';
 import nock from 'nock';
-import { mockTokenResponse } from '../../App.test';
-
-const BASE_URL = 'http://localhost';
+import { BASE_URL, invalidExp, mockTokenResponse } from '../../App.test';
 
 describe('Authentication Client Tests', () => {
   describe('Login', () => {
     it('makes the right request', async () => {
-      nock(BASE_URL).post(API_ROUTE.LOGIN).reply(200, mockTokenResponse);
+      nock(BASE_URL)
+        .post(API_ROUTE.LOGIN)
+        .reply(200, mockTokenResponse(invalidExp));
 
       const result = await AuthClient.login({
         email: 'jackblanc',
         password: 'password',
       });
 
-      expect(result).toEqual(mockTokenResponse);
+      expect(result).toEqual(mockTokenResponse(invalidExp));
     });
   });
 
   describe('Sign Up', () => {
     it('makes the right request', async () => {
-      nock(BASE_URL).post(API_ROUTE.SIGNUP).reply(200, mockTokenResponse);
+      nock(BASE_URL)
+        .post(API_ROUTE.SIGNUP)
+        .reply(200, mockTokenResponse(invalidExp));
 
       const result = await AuthClient.signup({
         password: 'password',
@@ -31,7 +33,7 @@ describe('Authentication Client Tests', () => {
         email: 'jblanc222@gmail.com',
       });
 
-      expect(result).toEqual(mockTokenResponse);
+      expect(result).toEqual(mockTokenResponse(invalidExp));
     });
   });
 

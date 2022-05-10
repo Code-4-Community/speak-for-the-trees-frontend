@@ -1,17 +1,11 @@
 import React from 'react';
-import { Routes } from '../../../App';
-import { Button, Col, Form, Input, Row, Typography } from 'antd';
-import { ParagraphProps } from 'antd/lib/typography/Paragraph';
-import { Link } from 'react-router-dom';
-import { TEXT_GREY } from '../../../utils/colors';
-import styled from 'styled-components';
+import { Form, Input } from 'antd';
 import {
   FormHalfItem,
   FormRow,
   FullWidthSpace,
   Gap,
 } from '../../themedComponents';
-import { WindowTypes } from '../../windowDimensions';
 import { FormInstance } from 'antd/es/form';
 import {
   confirmPasswordRules,
@@ -23,25 +17,15 @@ import {
 } from '../../../utils/formRules';
 import { SignupFormValues } from '../ducks/types';
 
-const offsetSpan = 1;
-
-const Footer: typeof Typography.Paragraph = styled(Typography.Paragraph)<
-  ParagraphProps
->`
-  color: ${TEXT_GREY};
-  line-height: 1.5;
-`;
-
 interface SignupFormProps {
   readonly formInstance: FormInstance;
   readonly onFinish: (values: SignupFormValues) => void;
-  readonly windowType: WindowTypes;
 }
 
 const SignupForm: React.FC<SignupFormProps> = ({
   formInstance,
   onFinish,
-  windowType,
+  children,
 }) => {
   return (
     <>
@@ -73,51 +57,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
             <Input.Password placeholder="Confirm Password" />
           </Form.Item>
         </FullWidthSpace>
-        <div>
-          {(() => {
-            switch (windowType) {
-              case WindowTypes.Mobile:
-                return (
-                  <>
-                    <Form.Item>
-                      <Button type="primary" htmlType="submit" size="large">
-                        Sign Up
-                      </Button>
-                    </Form.Item>
-                    <Footer>
-                      ALREADY HAVE AN ACCOUNT?
-                      <br />
-                      LOGIN <Link to={Routes.LOGIN}>HERE!</Link>
-                    </Footer>
-                  </>
-                );
-              case WindowTypes.Tablet:
-              case WindowTypes.NarrowDesktop:
-              case WindowTypes.Desktop:
-                return (
-                  <>
-                    <Row>
-                      <Col>
-                        <Form.Item>
-                          <Button type="primary" htmlType="submit" size="large">
-                            Sign Up
-                          </Button>
-                        </Form.Item>
-                      </Col>
-                      <Col span={offsetSpan} />
-                      <Col>
-                        <Footer>
-                          ALREADY HAVE AN ACCOUNT?
-                          <br />
-                          LOGIN <Link to={Routes.LOGIN}>HERE!</Link>
-                        </Footer>
-                      </Col>
-                    </Row>
-                  </>
-                );
-            }
-          })()}
-        </div>
+        <div>{children}</div>
       </Form>
     </>
   );
