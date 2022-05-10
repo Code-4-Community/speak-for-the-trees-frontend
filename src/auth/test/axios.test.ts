@@ -32,6 +32,9 @@ const mockInvalidAuthState: Partial<C4CState> = {
   },
 };
 
+// mock history for navigation on logout
+jest.mock('../../history');
+
 // prepare to mock authClient
 jest.mock('../authClient');
 

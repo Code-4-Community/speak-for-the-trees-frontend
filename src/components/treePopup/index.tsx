@@ -16,6 +16,8 @@ import { CITY_PLANTING_REQUEST_LINK } from '../../assets/content';
 
 const PopupContainer = styled.div`
   position: absolute;
+  /* override google maps styling, which uses Roboto */
+  font-family: Montserrat;
 `;
 
 const PopupAnchor = styled.div`

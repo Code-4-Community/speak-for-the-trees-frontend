@@ -21,6 +21,9 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
+// Mock window size to test Desktop Nav Bar
+Object.assign(window, { innerWidth: 1400 });
+
 describe('NavBar', () => {
   it('shows proper content when logged out', () => {
     const mockLogout = jest.fn();

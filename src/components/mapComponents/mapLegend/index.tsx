@@ -17,7 +17,11 @@ import youngTreeIcon from '../../../assets/images/siteIcons/youngLarge.png';
 import openSiteIcon from '../../../assets/images/siteIcons/openLarge.png';
 import { MAP_GREEN, MAP_RED, MAP_YELLOW, RED } from '../../../utils/colors';
 import { MapViews } from '../ducks/types';
-import { InlineImage } from '../../themedComponents';
+import {
+  DESKTOP_FONT_SIZE,
+  InlineImage,
+  MOBILE_FONT_SIZE,
+} from '../../themedComponents';
 
 const MapLegendContainer = styled.div`
   margin-bottom: 5px;
@@ -69,7 +73,7 @@ interface MapLegendProps {
 const MapLegend: React.FC<MapLegendProps> = ({ view, mobile, canHide }) => {
   const [showLegend, setShowLegend] = useState(true);
 
-  const fontSize = `${mobile ? '10px' : '12px'}`;
+  const fontSize = `${mobile ? MOBILE_FONT_SIZE : DESKTOP_FONT_SIZE}`;
 
   const toggleShowLegend = () => {
     setShowLegend((prevState) => !prevState);

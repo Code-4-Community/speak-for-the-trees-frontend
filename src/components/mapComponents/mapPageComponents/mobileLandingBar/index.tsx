@@ -10,22 +10,20 @@ import {
   WHITE,
   BLACK,
 } from '../../../../utils/colors';
+import { Flex } from '../../../themedComponents';
 
 const MobileBarContentContainer = styled.div`
   display: block;
-  height: 35vh;
+  padding-bottom: 10px;
 `;
 
 const TitleButtonsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 90vw;
   margin: 0px -30px;
 `;
 
 const TitleContainer = styled.div`
-  display: inline-block;
+  display: block;
   min-width: 200px;
   max-width: 95%;
 `;
@@ -38,12 +36,7 @@ const MobileTitle = styled(Typography.Paragraph)`
 `;
 
 const MobileParagraph = styled(Typography.Paragraph)`
-  font-size: 9px;
-`;
-
-const ButtonsContainer = styled.div`
-  display: inline-block;
-  margin-left: 30px;
+  font-size: 15px;
 `;
 
 const LoginButton = styled(Button)`
@@ -57,19 +50,24 @@ const LoginButton = styled(Button)`
 const SignUpButton = styled(Button)`
   width: 100px;
   height: 50px;
-  margin-top: 15px;
   background-color: ${LIGHT_GREEN};
   border-color: ${LIGHT_GREEN};
 `;
 
 const LandingStatsContainer = styled.div`
-  width: 90vw;
-  margin: 0vh -30px;
+  width: 100%;
+  display: flex;
+  row-gap: 30px;
+  flex-wrap: wrap;
+`;
+
+const StyledFlex = styled(Flex)`
+  margin-bottom: 15px;
 `;
 
 interface MobileLandingBarProps {
   readonly barHeader: string;
-  readonly barDescription: string;
+  readonly barDescription: string | JSX.Element;
   readonly isLoggedIn: boolean;
 }
 
@@ -82,7 +80,7 @@ const MobileLandingBar: React.FC<MobileLandingBarProps> = ({
   const history = useHistory();
 
   return (
-    <>
+    <Flex>
       <MobileBarContentContainer>
         <TitleButtonsContainer>
           <TitleContainer>
@@ -90,7 +88,7 @@ const MobileLandingBar: React.FC<MobileLandingBarProps> = ({
             <MobileParagraph>{barDescription}</MobileParagraph>
           </TitleContainer>
           {!isLoggedIn && (
-            <ButtonsContainer>
+            <StyledFlex justifyContent={'center'}>
               <div>
                 <LoginButton
                   type="primary"
@@ -111,12 +109,12 @@ const MobileLandingBar: React.FC<MobileLandingBarProps> = ({
                   Sign Up
                 </SignUpButton>
               </div>
-            </ButtonsContainer>
+            </StyledFlex>
           )}
         </TitleButtonsContainer>
         <LandingStatsContainer>{children}</LandingStatsContainer>
       </MobileBarContentContainer>
-    </>
+    </Flex>
   );
 };
 

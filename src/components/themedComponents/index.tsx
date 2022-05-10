@@ -11,6 +11,9 @@ import {
 import { LinkButton } from '../linkButton';
 import { BREAKPOINT_TABLET } from '../windowDimensions';
 
+export const MOBILE_FONT_SIZE = '15px';
+export const DESKTOP_FONT_SIZE = '12px';
+
 export const PaddedPageContainer = styled.div`
   padding: 5vh 5vw;
 `;
@@ -63,6 +66,12 @@ export const FormRow = styled.div`
 export const Gap = styled.div`
   width: 8%;
   display: inline-block;
+`;
+
+export const InlineFormItem = styled(Form.Item)<FormItemProps>`
+  display: inline-block;
+  margin: 0 5px;
+  height: 14px;
 `;
 
 export const FormHalfItem = styled(Form.Item)<FormItemProps>`
@@ -133,15 +142,18 @@ export const InlineImage = styled(Image)`
 `;
 
 export interface FlexProps {
+  margin?: string;
+  gap?: string;
   justifyContent?: string;
 }
 
 export const Flex = styled.div`
+  margin: ${({ margin }: FlexProps) => (margin ? margin : '0')};
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
-  gap: 15px 50px;
+  gap: ${({ gap }: FlexProps) => (gap ? gap : '50px')};
   justify-content: ${({ justifyContent }: FlexProps) =>
     justifyContent ? justifyContent : 'flex-start'};
 `;
@@ -161,4 +173,11 @@ export const Block = styled.div`
   max-width: ${({ maxWidth }: BlockProps) => (maxWidth ? maxWidth : 'auto')};
   min-width: ${({ minWidth }: BlockProps) => (minWidth ? minWidth : 'auto')};
   flex-grow: ${({ flexGrow }: BlockProps) => (flexGrow ? flexGrow : '0')};
+`;
+
+export const MapContainer = styled.div`
+  display: block;
+  flex-grow: 1;
+  min-width: 35%;
+  min-height: 475px;
 `;
