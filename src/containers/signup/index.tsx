@@ -1,12 +1,11 @@
 import React from 'react';
-import { useLocation } from 'react-router';
-import { Link, useHistory } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Button, Col, Form, message, Row, Typography } from 'antd';
 import { Helmet } from 'react-helmet';
 import GreetingContainer from '../../components/greetingContainer';
-import { getUserData, signup } from '../../auth/ducks/thunks';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { UserAuthenticationReducerState } from '../../auth/ducks/types';
+import { signup } from '../../auth/ducks/thunks';
+import { useDispatch, useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { BLACK, TEXT_GREY, WHITE } from '../../utils/colors';
 import styled from 'styled-components';
@@ -24,7 +23,6 @@ import { RedirectStateProps, Routes } from '../../App';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import { SIGNUP_BODY, SIGNUP_HEADER, SIGNUP_TITLE } from '../../assets/content';
 import { SignupFormValues } from '../../components/forms/ducks/types';
-import { ParagraphProps } from 'antd/lib/typography/Paragraph';
 
 const MobileSignupPageContainer = styled.div`
   padding: 30px;
@@ -42,28 +40,25 @@ const Title = styled(Typography.Paragraph)`
   line-height: 33px;
 `;
 
-const offsetSpan = 1;
-
-const Footer: typeof Typography.Paragraph = styled(Typography.Paragraph)<
-  ParagraphProps
->`
+const Footer = styled(Typography.Paragraph)`
   color: ${TEXT_GREY};
   line-height: 1.5;
 `;
 
-interface SignupProps {
-  tokens: UserAuthenticationReducerState['tokens'];
-}
+const offsetSpan = 1;
 
-const Signup: React.FC<SignupProps> = ({ tokens }) => {
+const Signup: React.FC = () => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
-  const history = useHistory();
   const location = useLocation<RedirectStateProps>();
   const loggedIn = useSelector((state: C4CState) =>
     isLoggedIn(state.authenticationState.tokens),
   );
   const [signupForm] = Form.useForm();
+
+  const destination: Routes = location.state
+    ? location.state.destination
+    : Routes.HOME;
 
   const onSignup = (values: SignupFormValues) => {
     const onError = (msg: string) => message.error(msg);
@@ -83,27 +78,21 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
   };
 
   if (loggedIn) {
-    dispatch(getUserData());
-    const destination = location.state
-      ? location.state.destination
-      : Routes.HOME;
-    history.push(destination);
-  }
-
-  return (
-    <>
-      <Helmet>
-        <title>Sign Up</title>
-        <meta
-          name="description"
-          content="Where the user can create a new account"
-        />
-      </Helmet>
-      {(() => {
-        switch (windowType) {
-          case WindowTypes.Mobile:
-            return (
-              <>
+    return <Redirect to={destination} />;
+  } else {
+    return (
+      <>
+        <Helmet>
+          <title>Sign Up</title>
+          <meta
+            name="description"
+            content="Where the user can create a new account"
+          />
+        </Helmet>
+        {(() => {
+          switch (windowType) {
+            case WindowTypes.Mobile:
+              return (
                 <MobileSignupPageContainer>
                   <PageHeader pageTitle={SIGNUP_TITLE} isMobile={true} />
                   <SignupForm formInstance={signupForm} onFinish={onSignup}>
@@ -119,59 +108,53 @@ const Signup: React.FC<SignupProps> = ({ tokens }) => {
                     </Footer>
                   </SignupForm>
                 </MobileSignupPageContainer>
-              </>
-            );
-          case WindowTypes.Tablet:
-          case WindowTypes.NarrowDesktop:
-          case WindowTypes.Desktop:
-            return (
-              <PageLayout>
-                <InputGreetingContainer>
-                  <InputContainer>
-                    <Title>{SIGNUP_TITLE}</Title>
-                    <Line />
-                    <SignupForm formInstance={signupForm} onFinish={onSignup}>
-                      <Row>
-                        <Col>
-                          <Form.Item>
-                            <Button
-                              type="primary"
-                              htmlType="submit"
-                              size="large"
-                            >
-                              Sign Up
-                            </Button>
-                          </Form.Item>
-                        </Col>
-                        <Col span={offsetSpan} />
-                        <Col>
-                          <Footer>
-                            ALREADY HAVE AN ACCOUNT?
-                            <br />
-                            LOGIN <Link to={Routes.LOGIN}>HERE!</Link>
-                          </Footer>
-                        </Col>
-                      </Row>
-                    </SignupForm>
-                  </InputContainer>
+              );
+            case WindowTypes.Tablet:
+            case WindowTypes.NarrowDesktop:
+            case WindowTypes.Desktop:
+              return (
+                <PageLayout>
+                  <InputGreetingContainer>
+                    <InputContainer>
+                      <Title>{SIGNUP_TITLE}</Title>
+                      <Line />
+                      <SignupForm formInstance={signupForm} onFinish={onSignup}>
+                        <Row>
+                          <Col>
+                            <Form.Item>
+                              <Button
+                                type="primary"
+                                htmlType="submit"
+                                size="large"
+                              >
+                                Sign Up
+                              </Button>
+                            </Form.Item>
+                          </Col>
+                          <Col span={offsetSpan} />
+                          <Col>
+                            <Footer>
+                              ALREADY HAVE AN ACCOUNT?
+                              <br />
+                              LOGIN <Link to={Routes.LOGIN}>HERE!</Link>
+                            </Footer>
+                          </Col>
+                        </Row>
+                      </SignupForm>
+                    </InputContainer>
 
-                  <GreetingContainer
-                    header={SIGNUP_HEADER}
-                    body={SIGNUP_BODY}
-                  />
-                </InputGreetingContainer>
-              </PageLayout>
-            );
-        }
-      })()}
-    </>
-  );
+                    <GreetingContainer
+                      header={SIGNUP_HEADER}
+                      body={SIGNUP_BODY}
+                    />
+                  </InputGreetingContainer>
+                </PageLayout>
+              );
+          }
+        })()}
+      </>
+    );
+  }
 };
 
-const mapStateToProps = (state: C4CState): SignupProps => {
-  return {
-    tokens: state.authenticationState.tokens,
-  };
-};
-
-export default connect(mapStateToProps)(Signup);
+export default Signup;

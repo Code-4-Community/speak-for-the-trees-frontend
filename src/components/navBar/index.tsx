@@ -7,6 +7,7 @@ import { BACKGROUND_GREY, MID_GREEN } from '../../utils/colors';
 import { LinkButton } from '../linkButton';
 import NavExtra from './navExtra';
 import { SFTT_PARTNER_LOGOS } from '../../assets/links';
+import { useLocation } from 'react-router-dom';
 
 const NavContainer = styled.div`
   box-shadow: '0 4px 2px -2px grey';
@@ -40,6 +41,7 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ userName, isAdmin, onLogout }) => {
   const { windowType } = useWindowDimensions();
+  const location = useLocation();
 
   if (windowType === WindowTypes.Mobile || windowType === WindowTypes.Tablet) {
     return (
@@ -55,7 +57,12 @@ const NavBar: React.FC<NavBarProps> = ({ userName, isAdmin, onLogout }) => {
         <NoHoverShadeButton type="text" to={Routes.HOME}>
           <MainLogo src={SFTT_PARTNER_LOGOS} alt={'SFTT Logo'} />
         </NoHoverShadeButton>
-        <NavExtra userName={userName} isAdmin={isAdmin} onLogout={onLogout} />
+        <NavExtra
+          userName={userName}
+          isAdmin={isAdmin}
+          onLogout={onLogout}
+          location={location}
+        />
       </NavContainer>
     );
   }

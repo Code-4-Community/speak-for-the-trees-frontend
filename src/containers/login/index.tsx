@@ -1,14 +1,11 @@
 import React from 'react';
 import { useLocation } from 'react-router';
 import { Link, Redirect } from 'react-router-dom';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { C4CState } from '../../store';
 import { login } from '../../auth/ducks/thunks';
-import {
-  LoginRequest,
-  UserAuthenticationReducerState,
-} from '../../auth/ducks/types';
+import { LoginRequest } from '../../auth/ducks/types';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import { RedirectStateProps, Routes } from '../../App';
 import { Form, message, Typography } from 'antd';
@@ -55,11 +52,7 @@ const Title = styled(Typography.Paragraph)`
   line-height: 36px;
 `;
 
-interface LoginProps {
-  tokens: UserAuthenticationReducerState['tokens'];
-}
-
-const Login: React.FC<LoginProps> = ({ tokens }) => {
+const Login: React.FC = () => {
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const location = useLocation<RedirectStateProps>();
@@ -158,10 +151,4 @@ const Login: React.FC<LoginProps> = ({ tokens }) => {
   }
 };
 
-const mapStateToProps = (state: C4CState): LoginProps => {
-  return {
-    tokens: state.authenticationState.tokens,
-  };
-};
-
-export default connect(mapStateToProps)(Login);
+export default Login;
