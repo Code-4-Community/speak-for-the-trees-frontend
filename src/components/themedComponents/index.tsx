@@ -68,6 +68,12 @@ export const Gap = styled.div`
   display: inline-block;
 `;
 
+export const InlineFormItem = styled(Form.Item)<FormItemProps>`
+  display: inline-block;
+  margin: 0 5px;
+  height: 14px;
+`;
+
 export const FormHalfItem = styled(Form.Item)<FormItemProps>`
   width: 46%;
   display: inline-block;
@@ -167,4 +173,11 @@ export const Block = styled.div`
   max-width: ${({ maxWidth }: BlockProps) => (maxWidth ? maxWidth : 'auto')};
   min-width: ${({ minWidth }: BlockProps) => (minWidth ? minWidth : 'auto')};
   flex-grow: ${({ flexGrow }: BlockProps) => (flexGrow ? flexGrow : '0')};
+`;
+
+export const MapContainer = styled.div`
+  display: block;
+  flex-grow: 1;
+  min-width: 35%;
+  min-height: 475px;
 `;

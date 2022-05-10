@@ -19,7 +19,7 @@ interface SelectorMapDisplayProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly sites: MapGeoDataReducerState['siteGeoData'];
   readonly onMove: (pos: google.maps.LatLng) => void;
-  readonly site: SiteProps;
+  readonly site?: SiteProps;
 }
 
 const SelectorMapDisplay: React.FC<SelectorMapDisplayProps> = ({

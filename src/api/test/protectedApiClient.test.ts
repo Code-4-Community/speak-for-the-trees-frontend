@@ -1082,6 +1082,128 @@ describe('Protected API Client Tests', () => {
 
   // Site tests
   describe('Protected Site Tests', () => {
+    describe('Add a site', () => {
+      it('makes the right request', async () => {
+        const response = '';
+
+        nock(BASE_URL)
+          .post(ProtectedApiClientRoutes.ADD_SITE)
+          .reply(200, response);
+
+        const testGoodAddSiteRequest = {
+          blockId: 1,
+          address: 'address',
+          city: 'city',
+          zip: '02115',
+          lat: 0,
+          lng: 0,
+          neighborhoodId: 1,
+          treePresent: null,
+          status: null,
+          genus: null,
+          species: null,
+          commonName: null,
+          confidence: null,
+          diameter: null,
+          circumference: null,
+          multistem: null,
+          coverage: null,
+          pruning: null,
+          condition: null,
+          discoloring: null,
+          leaning: null,
+          constrictingGrate: null,
+          wounds: null,
+          pooling: null,
+          stakesWithWires: null,
+          stakesWithoutWires: null,
+          light: null,
+          bicycle: null,
+          bagEmpty: null,
+          bagFilled: null,
+          tape: null,
+          suckerGrowth: null,
+          siteType: null,
+          sidewalkWidth: null,
+          siteWidth: null,
+          siteLength: null,
+          material: null,
+          raisedBed: null,
+          fence: null,
+          trash: null,
+          wires: null,
+          grate: null,
+          stump: null,
+          treeNotes: null,
+          siteNotes: null,
+        };
+        const result = await ProtectedApiClient.addSite(testGoodAddSiteRequest);
+
+        expect(result).toEqual(response);
+      });
+
+      it('makes a bad request', async () => {
+        const response = 'No such site';
+
+        nock(BASE_URL)
+          .post(ProtectedApiClientRoutes.ADD_SITE)
+          .reply(400, response);
+
+        const testBadAddSiteRequest = {
+          blockId: -2,
+          address: '',
+          city: '',
+          zip: '-21312',
+          lat: 999999,
+          lng: 999999,
+          neighborhoodId: 1,
+          treePresent: null,
+          status: null,
+          genus: null,
+          species: null,
+          commonName: null,
+          confidence: null,
+          diameter: null,
+          circumference: null,
+          multistem: null,
+          coverage: null,
+          pruning: null,
+          condition: null,
+          discoloring: null,
+          leaning: null,
+          constrictingGrate: null,
+          wounds: null,
+          pooling: null,
+          stakesWithWires: null,
+          stakesWithoutWires: null,
+          light: null,
+          bicycle: null,
+          bagEmpty: null,
+          bagFilled: null,
+          tape: null,
+          suckerGrowth: null,
+          siteType: null,
+          sidewalkWidth: null,
+          siteWidth: null,
+          siteLength: null,
+          material: null,
+          raisedBed: null,
+          fence: null,
+          trash: null,
+          wires: null,
+          grate: null,
+          stump: null,
+          treeNotes: null,
+          siteNotes: null,
+        };
+        const result = await ProtectedApiClient.addSite(
+          testBadAddSiteRequest,
+        ).catch((err) => err.response.data);
+
+        expect(result).toEqual(response);
+      });
+    });
+
     describe('Adopt a site', () => {
       it('makes the right request', async () => {
         const response = '';
@@ -1524,6 +1646,52 @@ describe('Admin Protected Client Routes', () => {
     });
   });
 
+  describe('getAdoptionReportCsv', () => {
+    it('makes the right request without previousDays', async () => {
+      const response =
+        'Site ID, Address, Name, Email, Date Adopted, Activity Count, ' +
+        'Neighborhood 1, 123 Real St, Jane Doe, janedoe@email.com, ' +
+        '2021-01-31, 1, East Boston';
+
+      nock(BASE_URL)
+        .get(AdminApiClientRoutes.GET_ADOPTION_REPORT_CSV)
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.getAdoptionReportCsv(null);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes the right request with previousDays', async () => {
+      const response =
+        'Site ID, Address, Name, Email, Date Adopted, Activity Count, ' +
+        'Neighborhood 1, 123 Real St, Jane Doe, janedoe@email.com, ' +
+        '2021-01-31, 1, East Boston';
+
+      nock(BASE_URL)
+        .get(ParameterizedAdminApiRoutes.GET_ADOPTION_REPORT_CSV(10))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.getAdoptionReportCsv(10);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request ', async () => {
+      const response = 'Must be an admin';
+
+      nock(BASE_URL)
+        .get(ParameterizedAdminApiRoutes.GET_ADOPTION_REPORT_CSV(10))
+        .reply(401, response);
+
+      const result = await ProtectedApiClient.getAdoptionReportCsv(10).catch(
+        (err) => err.response.data,
+      );
+
+      expect(result).toEqual(response);
+    });
+  });
+
   describe('getStewardshipReport', () => {
     it('makes the right request', async () => {
       const response = [
@@ -1558,6 +1726,52 @@ describe('Admin Protected Client Routes', () => {
         .reply(401, response);
 
       const result = await ProtectedApiClient.getStewardshipReport().catch(
+        (err) => err.response.data,
+      );
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('getStewardshipReportCsv', () => {
+    it('makes the right request without previousDays', async () => {
+      const response =
+        'Site ID, Address, Name, Email, Date Performed, ' +
+        'Watered, Mulched, Cleaned, Weeded 1, 123 Real St, Jane Doe, ' +
+        'janedoe@email.com, 2021-01-31, TRUE, FALSE, FALSE, FALSE';
+
+      nock(BASE_URL)
+        .get(AdminApiClientRoutes.GET_STEWARDSHIP_REPORT_CSV)
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.getStewardshipReportCsv(null);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes the right request with previousDays', async () => {
+      const response =
+        'Site ID, Address, Name, Email, Date Performed, ' +
+        'Watered, Mulched, Cleaned, Weeded 1, 123 Real St, Jane Doe, ' +
+        'janedoe@email.com, 2021-01-31, TRUE, FALSE, FALSE, FALSE';
+
+      nock(BASE_URL)
+        .get(ParameterizedAdminApiRoutes.GET_STEWARDSHIP_REPORT_CSV(10))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.getStewardshipReportCsv(10);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request ', async () => {
+      const response = 'Must be an admin';
+
+      nock(BASE_URL)
+        .get(ParameterizedAdminApiRoutes.GET_STEWARDSHIP_REPORT_CSV(10))
+        .reply(401, response);
+
+      const result = await ProtectedApiClient.getStewardshipReportCsv(10).catch(
         (err) => err.response.data,
       );
 

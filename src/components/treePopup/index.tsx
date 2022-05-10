@@ -12,10 +12,10 @@ import {
   WHITE,
 } from '../../utils/colors';
 import { isEmptyString } from '../../utils/isCheck';
-import { CITY_PLANTING_REQUEST_LINK } from '../../assets/content';
 import { isAdmin } from '../../auth/ducks/selectors';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
+import { CITY_PLANTING_REQUEST_LINK } from '../../assets/links';
 
 const PopupContainer = styled.div`
   position: absolute;
