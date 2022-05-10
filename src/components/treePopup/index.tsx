@@ -12,7 +12,7 @@ import {
   WHITE,
 } from '../../utils/colors';
 import { isEmptyString } from '../../utils/isCheck';
-import { CITY_PLANTING_REQUEST_LINK } from '../../assets/content';
+import { CITY_PLANTING_REQUEST_LINK } from '../../assets/links';
 
 const PopupContainer = styled.div`
   position: absolute;

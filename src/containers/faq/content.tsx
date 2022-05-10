@@ -1,4 +1,5 @@
 import React from 'react';
+import { BOSTON_311_LINK } from '../../assets/links';
 
 // FAQ Questions
 export const QUESTION_ONE = {
@@ -100,11 +101,7 @@ export const ANSWER_SIX = {
   ENG: (
     <>
       You will need to submit a{' '}
-      <a
-        href={'https://www.cityofboston.gov/311/'}
-        target={'_blank'}
-        rel={'noopener noreferrer'}
-      >
+      <a href={BOSTON_311_LINK} target={'_blank'} rel={'noopener noreferrer'}>
         311 request
       </a>{' '}
       to the city. If it is a hazard, you should use the word "hazard" in your
@@ -120,11 +117,7 @@ export const ANSWER_SEVEN = {
     <>
       If your tree has been removed, or there is an empty pit near you and you’d
       like a tree there, you should submit a{' '}
-      <a
-        href={'https://www.cityofboston.gov/311/'}
-        target={'_blank'}
-        rel={'noopener noreferrer'}
-      >
+      <a href={BOSTON_311_LINK} target={'_blank'} rel={'noopener noreferrer'}>
         311 request
       </a>{' '}
       to the city.

@@ -91,9 +91,6 @@ export const RAIN_STAT_TITLE = 'Rain Water Caught';
 export const EMISSIONS_STAT_TITLE = 'Carbon Emissions Captured';
 
 // Other
-export const CITY_PLANTING_REQUEST_LINK =
-  'https://www.cityofboston.gov/mayor/24?topic=new-tree-request';
-
 export enum Neighborhoods {
   BACK_BAY = 'Back Bay',
   CHARLESTOWN = 'Charlestown',
