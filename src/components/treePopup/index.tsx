@@ -154,17 +154,13 @@ const TreePopup: React.FC<TreePopupProps> = ({
               )}
               <GreyText>{treeInfo.address}</GreyText>
               {(() => {
-                let editSiteButton = <div/>;
-                if (userIsAdmin) {
-                editSiteButton = <GreenLinkButton
+                let editSiteButton = <GreenLinkButton
                                   to={`${ParameterizedRouteBases.SITE}${treeInfo.id}`}
                                   state={{ destination: Routes.MY_TREES }}
                                   target="_blank"
                                 >
                                   Edit Site Page
-                                </GreenLinkButton>
-                                }
-
+                                </GreenLinkButton>;
 
                 if (!treeInfo.treePresent) {
                   
@@ -179,10 +175,14 @@ const TreePopup: React.FC<TreePopupProps> = ({
                             Submit a request to the city!
                           </Typography.Link>
                         </PlantRequest>
-                        {editSiteButton}
+                        {userIsAdmin && editSiteButton}
                       </div>
                     );
                 }
+                const StyledDiv = styled.span`
+                  marginLeft: .1rem;
+                `;
+
                     return (
                       <div>
                         <GreenLinkButton
@@ -192,7 +192,7 @@ const TreePopup: React.FC<TreePopupProps> = ({
                         >
                           More Info
                         </GreenLinkButton>
-                        <span style={{ marginLeft: '.1rem' }}> {editSiteButton} </span>
+                        <StyledDiv> {editSiteButton} </StyledDiv>
                       </div>
                     );
                 })()}
