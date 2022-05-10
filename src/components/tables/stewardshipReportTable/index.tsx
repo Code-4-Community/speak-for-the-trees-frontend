@@ -1,10 +1,14 @@
 import React from 'react';
-import { StewardshipReportTableEntry } from '../../../containers/reports/ducks/types';
+import {
+  AdoptionReportEntry,
+  StewardshipReportTableEntry,
+} from '../../../containers/reports/ducks/types';
 import { Table } from 'antd';
 import SiteLink from '../siteLink';
 import { dateSorter, DESCEND_ORDER } from '../utils';
 import Tags from '../tags';
 import CopyText from '../../copyText';
+import { NEIGHBORHOOD_IDS } from '../../../assets/content';
 
 interface StewardshipReportTableProps {
   readonly stewardshipReportTableEntries: StewardshipReportTableEntry[];
@@ -44,11 +48,19 @@ const StewardshipReportTable: React.FC<StewardshipReportTableProps> = ({
           b: StewardshipReportTableEntry,
         ): number => dateSorter(a.datePerformed, b.datePerformed)}
       />
-      {/* todo add filter to neighborhood column */}
       <Table.Column
         title={'Neighborhood'}
         dataIndex={'neighborhood'}
         key={'neighborhood'}
+        // get every neighborhood in alphabetical order as an option
+        filters={Object.values(NEIGHBORHOOD_IDS)
+          .sort()
+          .map((neighborhood: string) => {
+            return { text: neighborhood, value: neighborhood };
+          })}
+        onFilter={(value, record: AdoptionReportEntry) => {
+          return value === record.neighborhood;
+        }}
       />
       <Table.Column
         title={'Activities Performed'}

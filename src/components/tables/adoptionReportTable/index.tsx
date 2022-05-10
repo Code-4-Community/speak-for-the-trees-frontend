@@ -4,6 +4,7 @@ import { Table } from 'antd';
 import SiteLink from '../siteLink';
 import { dateSorter, DESCEND_ORDER } from '../utils';
 import CopyText from '../../copyText';
+import { NEIGHBORHOOD_IDS } from '../../../assets/content';
 
 interface AdoptionReportTableProps {
   readonly adoptionReportEntries: AdoptionReportEntry[];
@@ -49,11 +50,19 @@ const AdoptionReportTable: React.FC<AdoptionReportTableProps> = ({
         dataIndex={'activityCount'}
         key={'activityCount'}
       />
-      {/* todo add filter to neighborhood column */}
       <Table.Column
         title={'Neighborhood'}
         dataIndex={'neighborhood'}
         key={'neighborhood'}
+        // get every neighborhood in alphabetical order as an option
+        filters={Object.values(NEIGHBORHOOD_IDS)
+          .sort()
+          .map((neighborhood: string) => {
+            return { text: neighborhood, value: neighborhood };
+          })}
+        onFilter={(value, record: AdoptionReportEntry) => {
+          return value === record.neighborhood;
+        }}
       />
     </Table>
   );
