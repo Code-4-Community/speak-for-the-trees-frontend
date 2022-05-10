@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector, connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import MapPage from '../../components/mapComponents/mapPageComponents/mapPage';
 import useWindowDimensions, {
@@ -23,10 +23,10 @@ import { MOBILE_SLIDE_HEIGHT } from '../../components/mapComponents/constants';
 import { Modal, Typography } from 'antd';
 import { DARK_GREEN } from '../../utils/colors';
 import {
+  LANDING_TITLE,
   MODAL_OK_TEXT,
   MODAL_PARAGRAPH,
   MODAL_TITLE,
-  LANDING_TITLE,
 } from './content';
 import { SFTT_PARTNER_LOGOS } from '../../assets/links';
 import LandingContent from '../../components/landingContent';
@@ -48,7 +48,7 @@ const ModalImage = styled.img`
 
 const PaddedContent = styled.div`
   padding: 15px 0px;
-  width: 80%;
+  width: 90%;
   margin: auto;
 `;
 
@@ -126,11 +126,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                       barDescription={<LandingContent />}
                       isLoggedIn={loggedIn}
                     >
-                      <MapLegend
-                        view={landingMapView}
-                        mobile={true}
-                        canHide={false}
-                      />
+                      <MapLegend view={landingMapView} canHide={false} />
                     </MobileLandingBar>
                   </PaddedContent>
                 </SlideDown>

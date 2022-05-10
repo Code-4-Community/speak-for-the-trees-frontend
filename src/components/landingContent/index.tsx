@@ -1,13 +1,11 @@
 import OrderedList from '../orderedList';
 import { Typography } from 'antd';
-import {
-  ADOPTION_DIRECTIONS,
-  ADOPTION_DIRECTIONS_HEADER,
-} from '../landingContent/content';
 import React from 'react';
 import {
   QUESTIONS_DIRECTIONS,
   LANDING_BODY,
+  ADOPTION_DIRECTIONS,
+  ADOPTION_DIRECTIONS_HEADER,
 } from '../../containers/landing/content';
 import { Languages } from '../../App';
 

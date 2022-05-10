@@ -33,7 +33,7 @@ const SiteLegend: React.FC<SiteLegendProps> = ({ onCheck }) => {
   return (
     <LegendContainer>
       <SlideDown defaultOpen={true} slideHeight={DESKTOP_SLIDE_HEIGHT}>
-        <MapLegend view={MapViews.TREES} mobile={false} />
+        <MapLegend view={MapViews.TREES} />
         <Typography.Text strong>Show</Typography.Text>
         <StyledCheckbox
           options={SITE_OPTIONS}
