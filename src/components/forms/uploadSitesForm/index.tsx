@@ -1,6 +1,6 @@
 import React from 'react';
 import { Upload, Form, Button } from 'antd';
-import { uploadSiteRules } from '../../../utils/formRules';
+import { requiredRule } from '../../../utils/formRules';
 import { SubmitButton } from '../../themedComponents';
 import { UploadOutlined } from '@ant-design/icons';
 import { UploadProps } from 'antd/lib/upload/interface';
@@ -38,7 +38,7 @@ const UploadSitesForm: React.FC = () => {
     >
       <Form.Item
         name="uploadedSitesCsv"
-        rules={uploadSiteRules}
+        rules={requiredRule('Please upload a .csv file')}
         valuePropName="file"
       >
         <Upload

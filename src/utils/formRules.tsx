@@ -134,10 +134,3 @@ export const positiveNumberRules = (
 export const requiredRule = (message: string): Rule[] => {
   return [{ required: true, message }];
 };
-
-export const uploadSiteRules: Rule[] = [
-  {
-    required: true,
-    message: 'Please upload a .csv file',
-  },
-];
