@@ -47,7 +47,6 @@ export const refresh = (
   refreshToken: string,
 ): UserAuthenticationThunkAction<void> => {
   return (dispatch, getState, { authClient }): Promise<void> => {
-    dispatch(authenticateUser.loading());
     return authClient
       .refresh(refreshToken)
       .then((refreshTokenResponse: RefreshTokenResponse) => {

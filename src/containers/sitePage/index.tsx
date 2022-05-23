@@ -23,7 +23,7 @@ import {
 } from '../../components/forms/ducks/types';
 import SelectorMapDisplay from '../../components/mapComponents/mapDisplays/selectorMapDisplay';
 import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
-import { Block, Flex } from '../../components/themedComponents';
+import { Block, Flex, MapContainer } from '../../components/themedComponents';
 
 const SitePageContainer = styled.div`
   width: 90%;
@@ -34,13 +34,6 @@ const SectionHeader = styled(Typography.Text)`
   font-weight: bold;
   font-size: 20px;
   color: ${DARK_GREEN};
-`;
-
-const MapContainer = styled.div`
-  display: block;
-  flex-grow: 1;
-  min-width: 35%;
-  min-height: 475px;
 `;
 
 const MarginBottomRow = styled(Row)`

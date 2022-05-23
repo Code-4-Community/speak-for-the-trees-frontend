@@ -2,6 +2,11 @@ import React, { useState, useRef } from 'react';
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { MID_GREEN, WHITE } from '../../utils/colors';
+import { BREAKPOINT_TABLET } from '../windowDimensions';
+
+interface SlideDownButtonProps {
+  readonly active: boolean;
+}
 
 const SlideDownButton = styled.button`
   background-color: ${MID_GREEN};
@@ -9,6 +14,11 @@ const SlideDownButton = styled.button`
   border: none;
   outline: none;
   transition: background-color 0.4s ease;
+
+  @media (max-width: ${BREAKPOINT_TABLET}px) {
+    padding: ${({ active }: SlideDownButtonProps) => (active ? '5px' : '20px')};
+    transition: padding 0.4s ease;
+  }
 `;
 
 const SlideDownTextDiv = styled.div`
@@ -42,12 +52,12 @@ const CaretUpStyled = styled(CaretUpOutlined)`
 
 interface SlideDownProps {
   readonly defaultOpen?: boolean;
-  readonly fullSlide?: boolean;
+  readonly slideHeight?: number;
 }
 
 const SlideDown: React.FC<SlideDownProps> = ({
   defaultOpen,
-  fullSlide,
+  slideHeight,
   children,
 }) => {
   const [setActive, setActiveState] = useState<boolean>(defaultOpen || false);
@@ -56,17 +66,15 @@ const SlideDown: React.FC<SlideDownProps> = ({
     setActiveState((prevState) => !prevState);
   }
 
-  const slideHeight = fullSlide ? 80 : 40;
-
   return (
     <SlideDownSectionDiv>
-      <SlideDownButton onClick={handleClick}>
+      <SlideDownButton onClick={handleClick} active={setActive}>
         {setActive ? <CaretDownStyled /> : <CaretUpStyled />}
       </SlideDownButton>
       <SlideDownContentDiv
         ref={content}
         setActive={setActive}
-        slideHeight={slideHeight}
+        slideHeight={slideHeight || 40}
       >
         <SlideDownTextDiv>{children}</SlideDownTextDiv>
       </SlideDownContentDiv>

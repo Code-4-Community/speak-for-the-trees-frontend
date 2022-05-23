@@ -10,7 +10,7 @@ import { WindowTypes } from '../../../windowDimensions';
 interface MapPageProps {
   readonly mapContent: JSX.Element;
   readonly sidebarHeader: string;
-  readonly sidebarDescription: string;
+  readonly sidebarDescription: string | JSX.Element;
   readonly view: MapViews;
   readonly windowType: WindowTypes;
 }
@@ -31,9 +31,7 @@ const MapPage: React.FC<MapPageProps> = ({
           width={windowType === WindowTypes.Desktop ? '20vw' : '25vw'}
         >
           <MapSidebar header={sidebarHeader} description={sidebarDescription}>
-            {view !== MapViews.TREES && (
-              <MapLegend view={view} mobile={false} />
-            )}
+            {view !== MapViews.TREES && <MapLegend view={view} />}
             {children}
           </MapSidebar>
         </Layout.Sider>

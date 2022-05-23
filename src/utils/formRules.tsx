@@ -115,6 +115,22 @@ export const stringNumberRules: Rule[] = [
   },
 ];
 
+export const positiveNumberRules = (
+  form: FormInstance,
+  check: string,
+): Rule[] => {
+  return [
+    {
+      validator() {
+        if (form.getFieldValue(check) < 1) {
+          return Promise.reject('Number must be positive!');
+        }
+        return Promise.resolve();
+      },
+    },
+  ];
+};
+
 export const requiredRule = (message: string): Rule[] => {
   return [{ required: true, message }];
 };

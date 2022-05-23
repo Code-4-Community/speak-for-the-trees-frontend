@@ -3,6 +3,7 @@ import {
   combineScientificName,
   compareMainEntries,
   formatDateSuffix,
+  getDotDateString,
   getErrorMessage,
   getMoneyString,
   getNeighborhoodName,
@@ -11,6 +12,7 @@ import { getDateString } from '../stringFormat';
 import { shortHand } from '../stringFormat';
 import { SHORT_HAND_NAMES } from '../../assets/content';
 import { Entry } from '../../containers/treePage/ducks/types';
+import { AppError } from '../../auth/axios';
 
 test('getMoneyString tests', () => {
   expect(getMoneyString(100000)).toBe('$100,000');
@@ -20,6 +22,11 @@ test('getMoneyString tests', () => {
 test('getDateString tests', () => {
   expect(getDateString(new Date(2020, 5, 10))).toBe('6/10/2020');
   expect(getDateString(new Date(2025, 11, 21))).toBe('12/21/2025');
+});
+
+test('getDotDateString tests', () => {
+  expect(getDotDateString(new Date(2020, 5, 10))).toBe('6.10.2020');
+  expect(getDotDateString(new Date(2025, 11, 21))).toBe('12.21.2025');
 });
 
 test('formatDateSuffix tests', () => {
@@ -136,15 +143,21 @@ test('getNeighborhoodName tests', () => {
 });
 
 test('getErrorMessage', () => {
-  const exampleError = { response: { data: 'uh oh', extra: 'data' } };
-  const exampleErrorWithoutData = { response: { extra: 'data' } };
-  const exampleErrorWithoutResponse = {
-    data: { data: 'uh oh', extra: 'data' },
+  const exampleError: AppError = {
+    config: {},
+    isAxiosError: false,
+    message: '',
+    name: '',
+    response: {
+      data: 'uh oh',
+      status: 400,
+      statusText: 'bad',
+      headers: [],
+      config: {},
+    },
+    toJSON: () => {
+      return exampleError;
+    },
   };
   expect(getErrorMessage(exampleError)).toEqual('uh oh');
-  expect(getErrorMessage(exampleErrorWithoutData)).toEqual('Error encountered');
-  expect(getErrorMessage(exampleErrorWithoutResponse)).toEqual(
-    'Error encountered',
-  );
-  expect(getErrorMessage(undefined)).toEqual('Error encountered');
 });

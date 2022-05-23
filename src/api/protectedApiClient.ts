@@ -1,5 +1,5 @@
 import AppAxiosInstance from '../auth/axios';
-import { UserData } from '../auth/ducks/types';
+import { SignupRequest, UserData } from '../auth/ducks/types';
 import {
   TeamResponse,
   Applicant,
@@ -16,6 +16,7 @@ import {
   ChangeUsernameRequest,
   EditSiteRequest,
   UpdateSiteRequest,
+  AddSiteRequest,
 } from '../components/forms/ducks/types';
 import {
   ActivityRequest,
@@ -58,6 +59,7 @@ export interface ProtectedApiClient {
   readonly changePrivilegeLevel: (
     request: ChangePrivilegeRequest,
   ) => Promise<void>;
+  readonly createChild: (request: SignupRequest) => Promise<void>;
   readonly getUserData: () => Promise<UserData>;
   readonly createTeam: (request: CreateTeamRequest) => Promise<void>;
   readonly getTeams: () => Promise<TeamResponse[]>;
@@ -96,7 +98,14 @@ export interface ProtectedApiClient {
     request: UpdateSiteRequest,
   ) => Promise<void>;
   readonly getAdoptionReport: () => Promise<AdoptionReport>;
+  readonly getAdoptionReportCsv: (
+    previousDays: number | null,
+  ) => Promise<string>;
   readonly getStewardshipReport: () => Promise<StewardshipReport>;
+  readonly getStewardshipReportCsv: (
+    previousDays: number | null,
+  ) => Promise<string>;
+  readonly addSite: (request: AddSiteRequest) => Promise<void>;
   readonly addSites: (request: AddSitesRequest) => Promise<void>;
 }
 
@@ -112,6 +121,7 @@ export enum ProtectedApiClientRoutes {
   CREATE_TEAM = '/api/v1/protected/teams/create',
   GET_TEAMS = '/api/v1/protected/teams/',
   GET_ADOPTED_SITES = '/api/v1/protected/sites/adopted_sites',
+  ADD_SITE = '/api/v1/protected/sites/add',
 }
 
 export enum AdminApiClientRoutes {
@@ -120,8 +130,11 @@ export enum AdminApiClientRoutes {
   PASS_RESERVATION_QA = '/api/v1/protected/reservations/pass_qa',
   FAIL_RESERVATION_QA = '/api/v1/protected/reservations/fail_qa',
   CHANGE_PRIVILEGE = '/api/v1/protected/user/change_privilege',
+  CREATE_CHILD = '/api/v1/protected/user/create_child',
   GET_ADOPTION_REPORT = '/api/v1/protected/report/adoption',
+  GET_ADOPTION_REPORT_CSV = '/api/v1/protected/report/csv/adoption',
   GET_STEWARDSHIP_REPORT = '/api/v1/protected/report/stewardship',
+  GET_STEWARDSHIP_REPORT_CSV = '/api/v1/protected/report/csv/adoption',
   ADD_SITES = '/api/v1/protected/sites/add_sites',
 }
 
@@ -158,6 +171,10 @@ export const ParameterizedApiRoutes = {
 
 export const ParameterizedAdminApiRoutes = {
   EDIT_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/edit`,
+  GET_ADOPTION_REPORT_CSV: (previousDays: number): string =>
+    `/api/v1/protected/report/csv/adoption?previousDays=${previousDays}`,
+  GET_STEWARDSHIP_REPORT_CSV: (previousDays: number): string =>
+    `/api/v1/protected/report/csv/stewardship?previousDays=${previousDays}`,
 };
 
 const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
@@ -244,6 +261,12 @@ const changePrivilegeLevel = (
     AdminApiClientRoutes.CHANGE_PRIVILEGE,
     request,
   ).then((res) => res.data);
+};
+
+const createChild = (request: SignupRequest): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.CREATE_CHILD, request).then(
+    (res) => res.data,
+  );
 };
 
 const getUserData = (): Promise<UserData> => {
@@ -401,8 +424,36 @@ const getAdoptionReport = (): Promise<AdoptionReport> => {
   );
 };
 
+const getAdoptionReportCsv = (previousDays: number | null): Promise<string> => {
+  return AppAxiosInstance.get(
+    `${
+      previousDays
+        ? ParameterizedAdminApiRoutes.GET_ADOPTION_REPORT_CSV(previousDays)
+        : AdminApiClientRoutes.GET_ADOPTION_REPORT_CSV
+    }`,
+  ).then((res) => res.data);
+};
+
 const getStewardshipReport = (): Promise<StewardshipReport> => {
   return AppAxiosInstance.get(AdminApiClientRoutes.GET_STEWARDSHIP_REPORT).then(
+    (res) => res.data,
+  );
+};
+
+const getStewardshipReportCsv = (
+  previousDays: number | null,
+): Promise<string> => {
+  return AppAxiosInstance.get(
+    `${
+      previousDays
+        ? ParameterizedAdminApiRoutes.GET_STEWARDSHIP_REPORT_CSV(previousDays)
+        : AdminApiClientRoutes.GET_STEWARDSHIP_REPORT_CSV
+    }`,
+  ).then((res) => res.data);
+};
+
+const addSite = (request: AddSiteRequest): Promise<void> => {
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.ADD_SITE, request).then(
     (res) => res.data,
   );
 };
@@ -426,6 +477,7 @@ const Client: ProtectedApiClient = Object.freeze({
   changeEmail,
   deleteUser,
   changePrivilegeLevel,
+  createChild,
   getUserData,
   createTeam,
   getTeams,
@@ -449,7 +501,10 @@ const Client: ProtectedApiClient = Object.freeze({
   editSite,
   updateSite,
   getAdoptionReport,
+  getAdoptionReportCsv,
   getStewardshipReport,
+  getStewardshipReportCsv,
+  addSite,
   addSites,
 });
 

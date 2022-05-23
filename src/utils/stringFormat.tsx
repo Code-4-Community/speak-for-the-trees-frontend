@@ -1,5 +1,6 @@
 import { Entry, MainSiteEntryOrder } from '../containers/treePage/ducks/types';
 import { NEIGHBORHOOD_IDS } from '../assets/content';
+import { AppError } from '../auth/axios';
 
 /**
  * Converts the given dollar amount to a formatted string
@@ -10,11 +11,20 @@ export function getMoneyString(amount: number): string {
 }
 
 /**
- * Converts the given date to a formatted string
+ * Converts the given date to a formatted string of M/D/YYYY
  * @param date the date to convert
  */
 export function getDateString(date: Date): string {
   return `${new Intl.DateTimeFormat('en-US').format(date)}`;
+}
+
+/**
+ * Converts the given date to a formatted string of M.D.YYYY
+ * @param date the date to convert
+ */
+export function getDotDateString(date: Date): string {
+  // add 1 because months are a number (0-11) in JS
+  return `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
 }
 
 /**
@@ -124,6 +134,6 @@ export function getNeighborhoodName(id: number): string {
  * Returns the error message of the given error.
  * @param err the error
  */
-export function getErrorMessage(err: any): string {
-  return `${err?.response?.data || 'Error encountered'}`;
+export function getErrorMessage(err: AppError): string {
+  return err.response.data;
 }

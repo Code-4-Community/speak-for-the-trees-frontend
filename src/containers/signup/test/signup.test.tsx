@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import Login from '../index';
+import Signup from '../index';
 import { Provider } from 'react-redux';
 import { generateState } from '../../../auth/test/thunks.test';
 import { C4CAction, C4CState, reducers } from '../../../store';
@@ -18,7 +18,7 @@ import {
   mockUserDataResponse,
 } from '../../../App.test';
 
-// window.matchMedia is invoked when rendering the Login page, but is not implemented in JSDOM, so we mock it here
+// window.matchMedia is invoked when rendering the Signup page, but is not implemented in JSDOM, so we mock it here
 // see more: https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -35,23 +35,23 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 /*
-we surround Login with a Provider so we can mock the store (logged in or not) and BrowserRouter so we can mock the
+we surround Signup with a Provider so we can mock the store (logged in or not) and BrowserRouter so we can mock the
 redirect to Routes.HOME (see more: https://dev.to/iwazaru/how-to-test-react-router-redirection-with-testing-library-3i36)
  */
 const mockRedirectContent = 'Redirected to home';
-const MockLoginApp = (mockStore: Store<C4CState, C4CAction>) => {
+const MockSignupApp = (mockStore: Store<C4CState, C4CAction>) => {
   return (
     <Provider store={mockStore}>
       <BrowserRouter>
-        <Login />
+        <Signup />
         <Route path={Routes.HOME}>{mockRedirectContent}</Route>
       </BrowserRouter>
     </Provider>
   );
 };
 
-describe('Login', () => {
-  it('redirects to home when logged in and empty location (not redirected from some destination)', () => {
+describe('Signup', () => {
+  it('redirects to home when logged in', () => {
     // create a mock state where the user is logged in
     const mockAuthState: Partial<C4CState> = {
       authenticationState: {
@@ -65,12 +65,12 @@ describe('Login', () => {
     });
 
     // render the application
-    render(MockLoginApp(mockStore));
+    render(MockSignupApp(mockStore));
     // check that redirect content was rendered
     expect(screen.queryByText(mockRedirectContent)).toBeInTheDocument();
   });
 
-  it('renders Login page when not logged in', () => {
+  it('renders Signup page when not logged in', () => {
     // create a mock store where the user is not logged in
     const mockAuthState: Partial<C4CState> = {
       authenticationState: {
@@ -84,8 +84,8 @@ describe('Login', () => {
     });
 
     // render the application
-    render(MockLoginApp(mockStore));
-    // check that Login page content was rendered
-    expect(screen.getAllByText('Log In').length).toBeGreaterThan(0);
+    render(MockSignupApp(mockStore));
+    // check that Signup page content was rendered
+    expect(screen.getAllByText('Sign Up').length).toBeGreaterThan(0);
   });
 });

@@ -26,6 +26,7 @@ import {
 import { getMySites } from './ducks/selectors';
 import { Routes } from '../../App';
 import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
+import { MOBILE_SLIDE_HEIGHT } from '../../components/mapComponents/constants';
 
 interface MyTreesStateProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
@@ -71,6 +72,7 @@ const MyTrees: React.FC<MyTreesStateProps> = ({ neighborhoods, sites }) => {
       {(() => {
         switch (windowType) {
           case WindowTypes.Mobile:
+          case WindowTypes.Tablet:
             return (
               <MobileMapPage
                 mapContent={
@@ -82,12 +84,11 @@ const MyTrees: React.FC<MyTreesStateProps> = ({ neighborhoods, sites }) => {
                 }
                 returnTo={Routes.MY_TREES}
               >
-                <SlideDown defaultOpen fullSlide>
+                <SlideDown defaultOpen slideHeight={MOBILE_SLIDE_HEIGHT}>
                   <TreeSidebar mySites={mySites} />
                 </SlideDown>
               </MobileMapPage>
             );
-          case WindowTypes.Tablet:
           case WindowTypes.NarrowDesktop:
           case WindowTypes.Desktop:
             return (
