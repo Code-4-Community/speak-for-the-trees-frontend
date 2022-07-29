@@ -96,7 +96,7 @@ const PlantRequest = styled(Typography.Paragraph)`
 `;
 
 const StyledDiv = styled.span`
-  marginleft: 0.1rem;
+  margin-left: 0.1rem;
 `;
 
 export const NO_SITE_SELECTED = -1;
