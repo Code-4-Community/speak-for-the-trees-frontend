@@ -129,8 +129,8 @@ const TreePopup: React.FC<TreePopupProps> = ({
 
   const returnState = returnTo && { destination: returnTo };
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
-                isAdmin(state.authenticationState.tokens),
-                );
+    isAdmin(state.authenticationState.tokens),
+  );
   return (
     <PopupContainer ref={popRef}>
       {isVisible && (
@@ -154,48 +154,49 @@ const TreePopup: React.FC<TreePopupProps> = ({
               )}
               <GreyText>{treeInfo.address}</GreyText>
               {(() => {
-                let editSiteButton = <GreenLinkButton
-                                  to={`${ParameterizedRouteBases.SITE}${treeInfo.id}`}
-                                  state={{ destination: Routes.MY_TREES }}
-                                  target="_blank"
-                                >
-                                  Edit Site Page
-                                </GreenLinkButton>;
+                const editSiteButton = (
+                  <GreenLinkButton
+                    to={`${ParameterizedRouteBases.SITE}${treeInfo.id}`}
+                    state={{ destination: Routes.MY_TREES }}
+                    target="_blank"
+                  >
+                    Edit Site Page
+                  </GreenLinkButton>
+                );
 
                 if (!treeInfo.treePresent) {
-                  
-                    return (
-                      <div>
-                        <PlantRequest>
-                          Want to plant a tree here?{' '}
-                          <Typography.Link
-                            href={CITY_PLANTING_REQUEST_LINK}
-                            target="_blank"
-                          >
-                            Submit a request to the city!
-                          </Typography.Link>
-                        </PlantRequest>
-                        {userIsAdmin && editSiteButton}
-                      </div>
-                    );
-                }
-                const StyledDiv = styled.span`
-                  marginLeft: .1rem;
-                `;
-
-                    return (
-                      <div>
-                        <GreenLinkButton
-                          to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
-                          state={returnState}
+                  return (
+                    <div>
+                      <PlantRequest>
+                        Want to plant a tree here?{' '}
+                        <Typography.Link
+                          href={CITY_PLANTING_REQUEST_LINK}
                           target="_blank"
                         >
-                          More Info
-                        </GreenLinkButton>
-                        <StyledDiv> {editSiteButton} </StyledDiv>
-                      </div>
-                    );
-                })()}
+                          Submit a request to the city!
+                        </Typography.Link>
+                      </PlantRequest>
+                      {userIsAdmin && editSiteButton}
+                    </div>
+                  );
+                }
+                const StyledDiv = styled.span`
+                  marginleft: 0.1rem;
+                `;
+
+                return (
+                  <div>
+                    <GreenLinkButton
+                      to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
+                      state={returnState}
+                      target="_blank"
+                    >
+                      More Info
+                    </GreenLinkButton>
+                    <StyledDiv> {editSiteButton} </StyledDiv>
+                  </div>
+                );
+              })()}
             </>
           </PopupBubble>
         </PopupAnchor>
