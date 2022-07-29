@@ -17,6 +17,7 @@ import {
   EditSiteRequest,
   UpdateSiteRequest,
   AddSiteRequest,
+  AddSitesRequest,
 } from '../components/forms/ducks/types';
 import {
   ActivityRequest,
@@ -26,7 +27,6 @@ import {
   AdoptionReport,
   StewardshipReport,
 } from '../containers/reports/ducks/types';
-import { AddSitesRequest } from '../containers/adminDashboard/ducks/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -106,7 +106,7 @@ export interface ProtectedApiClient {
     previousDays: number | null,
   ) => Promise<string>;
   readonly addSite: (request: AddSiteRequest) => Promise<void>;
-  readonly addSites: (request: AddSitesRequest) => Promise<void>;
+  readonly addSites: (request: string) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -458,7 +458,7 @@ const addSite = (request: AddSiteRequest): Promise<void> => {
   );
 };
 
-const addSites = (request: AddSitesRequest): Promise<void> => {
+const addSites = (request: string): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.ADD_SITES, request).then(
     (res) => res.data,
   );
