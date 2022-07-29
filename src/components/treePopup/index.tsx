@@ -168,37 +168,31 @@ const TreePopup: React.FC<TreePopupProps> = ({
                 <GreyText strong>Nearby Address</GreyText>
               )}
               <GreyText>{treeInfo.address}</GreyText>
-              {(() => {
-                if (!treeInfo.treePresent) {
-                  return (
-                    <div>
-                      <PlantRequest>
-                        Want to plant a tree here?{' '}
-                        <Typography.Link
-                          href={CITY_PLANTING_REQUEST_LINK}
-                          target="_blank"
-                        >
-                          Submit a request to the city!
-                        </Typography.Link>
-                      </PlantRequest>
-                      {userIsAdmin && editSiteButton}
-                    </div>
-                  );
-                }
-
-                return (
-                  <div>
-                    <GreenLinkButton
-                      to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
-                      state={returnState}
+              {treeInfo.treePresent ? (
+                <>
+                  <GreenLinkButton
+                    to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
+                    state={returnState}
+                    target="_blank"
+                  >
+                    More Info
+                  </GreenLinkButton>
+                  <StyledDiv>{editSiteButton}</StyledDiv>
+                </>
+              ) : (
+                <>
+                  <PlantRequest>
+                    Want to plant a tree here?{' '}
+                    <Typography.Link
+                      href={CITY_PLANTING_REQUEST_LINK}
                       target="_blank"
                     >
-                      More Info
-                    </GreenLinkButton>
-                    <StyledDiv> {editSiteButton} </StyledDiv>
-                  </div>
-                );
-              })()}
+                      Submit a request to the city!
+                    </Typography.Link>
+                  </PlantRequest>
+                  {userIsAdmin && editSiteButton}
+                </>
+              )}
             </>
           </PopupBubble>
         </PopupAnchor>
