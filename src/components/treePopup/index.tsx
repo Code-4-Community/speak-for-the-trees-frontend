@@ -177,7 +177,7 @@ const TreePopup: React.FC<TreePopupProps> = ({
                   >
                     More Info
                   </GreenLinkButton>
-                  <StyledDiv>{editSiteButton}</StyledDiv>
+                  {userIsAdmin && <StyledDiv>{editSiteButton}</StyledDiv>}
                 </>
               ) : (
                 <>
