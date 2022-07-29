@@ -95,6 +95,10 @@ const PlantRequest = styled(Typography.Paragraph)`
   line-height: 17px;
 `;
 
+const StyledDiv = styled.span`
+  marginleft: 0.1rem;
+`;
+
 export const NO_SITE_SELECTED = -1;
 
 export interface BasicTreeInfo {
@@ -180,9 +184,6 @@ const TreePopup: React.FC<TreePopupProps> = ({
                     </div>
                   );
                 }
-                const StyledDiv = styled.span`
-                  marginleft: 0.1rem;
-                `;
 
                 return (
                   <div>
