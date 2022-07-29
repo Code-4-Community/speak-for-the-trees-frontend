@@ -135,6 +135,17 @@ const TreePopup: React.FC<TreePopupProps> = ({
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
     isAdmin(state.authenticationState.tokens),
   );
+
+  const editSiteButton = (
+    <GreenLinkButton
+      to={`${ParameterizedRouteBases.SITE}${treeInfo.id}`}
+      state={{ destination: Routes.MY_TREES }}
+      target="_blank"
+    >
+      Edit Site Page
+    </GreenLinkButton>
+  );
+
   return (
     <PopupContainer ref={popRef}>
       {isVisible && (
@@ -158,16 +169,6 @@ const TreePopup: React.FC<TreePopupProps> = ({
               )}
               <GreyText>{treeInfo.address}</GreyText>
               {(() => {
-                const editSiteButton = (
-                  <GreenLinkButton
-                    to={`${ParameterizedRouteBases.SITE}${treeInfo.id}`}
-                    state={{ destination: Routes.MY_TREES }}
-                    target="_blank"
-                  >
-                    Edit Site Page
-                  </GreenLinkButton>
-                );
-
                 if (!treeInfo.treePresent) {
                   return (
                     <div>
