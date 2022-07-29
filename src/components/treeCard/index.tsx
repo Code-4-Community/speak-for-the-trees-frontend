@@ -5,6 +5,9 @@ import styled from 'styled-components';
 import { CardInfo, GreenLinkButton } from '../themedComponents';
 import { MID_GREEN, TEXT_GREY, LIGHT_GREY } from '../../utils/colors';
 import { SiteFeaturePropertiesResponse } from '../mapComponents/ducks/types';
+import { useSelector } from 'react-redux';
+import { C4CState } from '../../store';
+import { isAdmin } from '../../auth/ducks/selectors';
 
 const StyledCard = styled(Card)`
   width: 95%;
@@ -33,6 +36,10 @@ interface TreeCardProps {
 }
 
 const TreeCard: React.FC<TreeCardProps> = ({ site }) => {
+  const userIsAdmin: boolean = useSelector((state: C4CState) =>
+    isAdmin(state.authenticationState.tokens),
+  );
+
   return (
     <>
       <StyledCard>
@@ -49,14 +56,16 @@ const TreeCard: React.FC<TreeCardProps> = ({ site }) => {
             More Info
           </GreenLinkButton>
 
-          <GreenLinkButton
-            to={`${ParameterizedRouteBases.SITE}${site.id}`}
-            state={{ destination: Routes.MY_TREES }}
-            target="_blank"
-            style={{ marginLeft: '.1rem' }}
-          >
-            Edit Site Page
-          </GreenLinkButton>
+          {userIsAdmin && (
+            <GreenLinkButton
+              to={`${ParameterizedRouteBases.SITE}${site.id}`}
+              state={{ destination: Routes.MY_TREES }}
+              target="_blank"
+              style={{ marginLeft: '.1rem' }}
+            >
+              Edit Site Page
+            </GreenLinkButton>
+          )}
         </CardContent>
       </StyledCard>
     </>
