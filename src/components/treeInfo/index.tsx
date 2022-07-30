@@ -53,7 +53,7 @@ const TreeInfo: React.FC<TreeProps> = ({
     // TODO change to siteData.city and remove check for zip after data is cleaned
     let baseLocation = `Boston`;
     if (siteData.zip) {
-      baseLocation += ` 0${siteData.zip}`;
+      baseLocation += ` ${siteData.zip}`;
     }
 
     if (siteData.address) {
