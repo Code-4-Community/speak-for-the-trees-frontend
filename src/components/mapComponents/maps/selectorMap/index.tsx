@@ -37,6 +37,7 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
     id: NO_SITE_SELECTED,
     commonName: '',
     address: '',
+    treePresent: false,
   };
 
   const setSearchMarkerAndInitSiteMap = (

@@ -181,3 +181,11 @@ export const MapContainer = styled.div`
   min-width: 35%;
   min-height: 475px;
 `;
+
+export interface MarginLeftSpanProps {
+  marginLeft?: number;
+}
+
+export const MarginLeftSpan = styled.span`
+  margin-left: ${({ marginLeft }: MarginLeftSpanProps) => marginLeft ?? 0.1}rem;
+`;

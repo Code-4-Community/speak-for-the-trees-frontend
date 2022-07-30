@@ -2,9 +2,12 @@ import React from 'react';
 import { ParameterizedRouteBases, Routes } from '../../App';
 import { Card, Typography } from 'antd';
 import styled from 'styled-components';
-import { CardInfo, GreenLinkButton } from '../themedComponents';
+import { CardInfo, GreenLinkButton, MarginLeftSpan } from '../themedComponents';
 import { MID_GREEN, TEXT_GREY, LIGHT_GREY } from '../../utils/colors';
 import { SiteFeaturePropertiesResponse } from '../mapComponents/ducks/types';
+import { useSelector } from 'react-redux';
+import { C4CState } from '../../store';
+import { isAdmin } from '../../auth/ducks/selectors';
 
 const StyledCard = styled(Card)`
   width: 95%;
@@ -33,6 +36,10 @@ interface TreeCardProps {
 }
 
 const TreeCard: React.FC<TreeCardProps> = ({ site }) => {
+  const userIsAdmin: boolean = useSelector((state: C4CState) =>
+    isAdmin(state.authenticationState.tokens),
+  );
+
   return (
     <>
       <StyledCard>
@@ -44,12 +51,22 @@ const TreeCard: React.FC<TreeCardProps> = ({ site }) => {
           </CardInfo>
           <GreenLinkButton
             to={`${ParameterizedRouteBases.TREE}${site.id}`}
-            state={{
-              destination: Routes.MY_TREES,
-            }}
+            state={{ destination: Routes.MY_TREES }}
           >
             More Info
           </GreenLinkButton>
+
+          {userIsAdmin && (
+            <MarginLeftSpan>
+              <GreenLinkButton
+                to={`${ParameterizedRouteBases.SITE}${site.id}`}
+                state={{ destination: Routes.MY_TREES }}
+                target="_blank"
+              >
+                Edit Site Page
+              </GreenLinkButton>
+            </MarginLeftSpan>
+          )}
         </CardContent>
       </StyledCard>
     </>
