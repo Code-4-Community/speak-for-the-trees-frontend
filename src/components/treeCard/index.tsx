@@ -2,7 +2,7 @@ import React from 'react';
 import { ParameterizedRouteBases, Routes } from '../../App';
 import { Card, Typography } from 'antd';
 import styled from 'styled-components';
-import { CardInfo, GreenLinkButton } from '../themedComponents';
+import { CardInfo, GreenLinkButton, MarginLeftSpan } from '../themedComponents';
 import { MID_GREEN, TEXT_GREY, LIGHT_GREY } from '../../utils/colors';
 import { SiteFeaturePropertiesResponse } from '../mapComponents/ducks/types';
 import { useSelector } from 'react-redux';
@@ -57,14 +57,15 @@ const TreeCard: React.FC<TreeCardProps> = ({ site }) => {
           </GreenLinkButton>
 
           {userIsAdmin && (
-            <GreenLinkButton
-              to={`${ParameterizedRouteBases.SITE}${site.id}`}
-              state={{ destination: Routes.MY_TREES }}
-              target="_blank"
-              style={{ marginLeft: '.1rem' }}
-            >
-              Edit Site Page
-            </GreenLinkButton>
+            <MarginLeftSpan>
+              <GreenLinkButton
+                to={`${ParameterizedRouteBases.SITE}${site.id}`}
+                state={{ destination: Routes.MY_TREES }}
+                target="_blank"
+              >
+                Edit Site Page
+              </GreenLinkButton>
+            </MarginLeftSpan>
           )}
         </CardContent>
       </StyledCard>

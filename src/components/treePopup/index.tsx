@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Typography } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import { ParameterizedRouteBases, Routes } from '../../App';
-import { GreenLinkButton } from '../themedComponents';
+import { GreenLinkButton, MarginLeftSpan } from '../themedComponents';
 import {
   BLACK,
   DARK_GREY,
@@ -95,10 +95,6 @@ const PlantRequest = styled(Typography.Paragraph)`
   line-height: 17px;
 `;
 
-const StyledDiv = styled.span`
-  margin-left: 0.1rem;
-`;
-
 export const NO_SITE_SELECTED = -1;
 
 export interface BasicTreeInfo {
@@ -177,7 +173,9 @@ const TreePopup: React.FC<TreePopupProps> = ({
                   >
                     More Info
                   </GreenLinkButton>
-                  {userIsAdmin && <StyledDiv>{editSiteButton}</StyledDiv>}
+                  {userIsAdmin && (
+                    <MarginLeftSpan>{editSiteButton}</MarginLeftSpan>
+                  )}
                 </>
               ) : (
                 <>
