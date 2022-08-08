@@ -1,19 +1,14 @@
 import { CheckboxOptionType } from 'antd/lib/checkbox/Group';
 import moment from 'moment';
 import { PrivilegeLevel, SignupRequest } from '../../../auth/ducks/types';
+import { SiteEntryStatus } from '../../../containers/treePage/ducks/types';
 
 export const BOOL_RADIO_OPTS: CheckboxOptionType[] = [
   { label: 'Yes', value: true },
   { label: 'No', value: false },
 ];
 
-export enum SiteEntryStatus {
-  ALIVE = 'Alive',
-  DEAD = 'Dead',
-  DEAD_BUT_STANDING = 'Dead but standing',
-}
-
-export const STATUS_RADIO_OPTS = [
+export const STATUS_RADIO_OPTS: CheckboxOptionType[] = [
   { label: SiteEntryStatus.ALIVE, value: SiteEntryStatus.ALIVE },
   { label: SiteEntryStatus.DEAD, value: SiteEntryStatus.DEAD },
   {

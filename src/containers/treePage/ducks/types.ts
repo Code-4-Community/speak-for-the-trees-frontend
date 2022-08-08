@@ -4,7 +4,6 @@ import { ProtectedSiteActions, SiteActions } from './actions';
 import { ApiExtraArgs } from '../../../api/apiClient';
 import { ProtectedApiExtraArgs } from '../../../api/protectedApiClient';
 import { AsyncRequest } from '../../../utils/asyncRequest';
-import { SiteEntryStatus } from '../../../components/forms/ducks/types';
 
 export interface SiteProps {
   siteId: number;
@@ -113,6 +112,12 @@ export interface SiteEntry {
   treeNotes?: string;
   siteNotes?: string;
   adopter?: string;
+}
+
+export enum SiteEntryStatus {
+  ALIVE = 'Alive',
+  DEAD = 'Dead',
+  DEAD_BUT_STANDING = 'Dead but standing',
 }
 
 export interface SplitSiteEntries {
