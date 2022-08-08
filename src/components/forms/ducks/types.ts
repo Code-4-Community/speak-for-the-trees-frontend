@@ -1,7 +1,8 @@
+import { CheckboxOptionType } from 'antd/lib/checkbox/Group';
 import moment from 'moment';
 import { PrivilegeLevel, SignupRequest } from '../../../auth/ducks/types';
 
-export const BOOL_RADIO_OPTS = [
+export const BOOL_RADIO_OPTS: CheckboxOptionType[] = [
   { label: 'Yes', value: true },
   { label: 'No', value: false },
 ];
