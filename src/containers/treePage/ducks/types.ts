@@ -4,6 +4,7 @@ import { ProtectedSiteActions, SiteActions } from './actions';
 import { ApiExtraArgs } from '../../../api/apiClient';
 import { ProtectedApiExtraArgs } from '../../../api/protectedApiClient';
 import { AsyncRequest } from '../../../utils/asyncRequest';
+import { SiteEntryStatus } from '../../../components/forms/ducks/types';
 
 export interface SiteProps {
   siteId: number;
@@ -73,7 +74,7 @@ export const SiteEntryFields = {
 export interface SiteEntry {
   id: number;
   updatedAt: number;
-  status?: string;
+  status?: SiteEntryStatus;
   genus?: string;
   species?: string;
   commonName?: string;

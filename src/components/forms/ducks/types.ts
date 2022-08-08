@@ -6,6 +6,21 @@ export const BOOL_RADIO_OPTS = [
   { label: 'No', value: false },
 ];
 
+export enum SiteEntryStatus {
+  ALIVE = 'Alive',
+  DEAD = 'Dead',
+  DEAD_BUT_STANDING = 'Dead but standing',
+}
+
+export const STATUS_RADIO_OPTS = [
+  { label: SiteEntryStatus.ALIVE, value: SiteEntryStatus.ALIVE },
+  { label: SiteEntryStatus.DEAD, value: SiteEntryStatus.DEAD },
+  {
+    label: SiteEntryStatus.DEAD_BUT_STANDING,
+    value: SiteEntryStatus.DEAD_BUT_STANDING,
+  },
+];
+
 export interface AuthRequest {
   readonly password: string;
 }

@@ -133,6 +133,9 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
             <UpdateSiteForm
               formInstance={updateSiteForm}
               onFinish={onSubmitUpdateSite}
+              latestSiteEntry={
+                site.entries.length ? site.entries[0] : undefined
+              }
             />
           </MarginBottomRow>
         </SitePageContainer>
