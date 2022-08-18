@@ -1,4 +1,4 @@
-import { isEmptyString, isMobile, isValidLatLng } from '../isCheck';
+import { isEmptyString, isMobile } from '../isCheck';
 import { WindowTypes } from '../../components/windowDimensions';
 
 test('isMobile tests', () => {
@@ -13,13 +13,4 @@ test('isEmptyString tests', () => {
   expect(isEmptyString(' ')).toBe(false);
   expect(isEmptyString('a')).toBe(false);
   expect(isEmptyString('test test')).toBe(false);
-});
-
-test('isValidLatLng tests', () => {
-  expect(isValidLatLng('')).toBe(false);
-  expect(isValidLatLng(',')).toBe(false);
-  expect(isValidLatLng('42.1, -71.98')).toBe(true);
-  expect(isValidLatLng('25, 30, 1')).toBe(false);
-  expect(isValidLatLng('test, test')).toBe(false);
-  expect(isValidLatLng(' 14    , -90  ')).toBe(true);
 });
