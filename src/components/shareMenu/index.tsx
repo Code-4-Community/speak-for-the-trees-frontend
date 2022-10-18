@@ -57,38 +57,36 @@ const ShareMenu: React.FC<ShareMenuProps> = ({ defaultText, link }) => {
   };
 
   return (
-    <>
-      <ShareMenuContainer>
-        <Typography.Title level={4}>Share this site!</Typography.Title>
-        <Input
-          defaultValue={defaultText}
-          value={formText}
-          onChange={(e) => setFormText(e.target.value)}
-        />
-        <StyledButton name="email-button" onClick={onClickMailTo}>
-          <StyledImg src={EmailIcon} alt="Share via email" />
-        </StyledButton>
-        <StyledButton
-          name="twitter-button"
-          href={`https:/twitter.com/share?&text=${formText}`}
-          rel="noreferrer"
-          target="_blank"
-        >
-          <StyledImg src={TwitterIcon} alt="Share to Twitter" />
-        </StyledButton>
-        <StyledButton
-          name="facebook-button"
-          href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F${link}`}
-          rel="noreferrer"
-          target="_blank"
-        >
-          <StyledImg src={FBIcon} alt="Share to Facebook" />
-        </StyledButton>
-        <StyledButton name="copy-button" onClick={onClickCopy}>
-          <StyledImg src={CopyIcon} alt="Copy to clipboard" />
-        </StyledButton>
-      </ShareMenuContainer>
-    </>
+    <ShareMenuContainer>
+      <Typography.Title level={4}>Share this site!</Typography.Title>
+      <Input
+        defaultValue={defaultText}
+        value={formText}
+        onChange={(e) => setFormText(e.target.value)}
+      />
+      <StyledButton name="email-button" onClick={onClickMailTo}>
+        <StyledImg src={EmailIcon} alt="Share via email" />
+      </StyledButton>
+      <StyledButton
+        name="twitter-button"
+        href={`https:/twitter.com/share?&text=${formText}`}
+        rel="noreferrer"
+        target="_blank"
+      >
+        <StyledImg src={TwitterIcon} alt="Share to Twitter" />
+      </StyledButton>
+      <StyledButton
+        name="facebook-button"
+        href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F${link}`}
+        rel="noreferrer"
+        target="_blank"
+      >
+        <StyledImg src={FBIcon} alt="Share to Facebook" />
+      </StyledButton>
+      <StyledButton name="copy-button" onClick={onClickCopy}>
+        <StyledImg src={CopyIcon} alt="Copy to clipboard" />
+      </StyledButton>
+    </ShareMenuContainer>
   );
 };
 
