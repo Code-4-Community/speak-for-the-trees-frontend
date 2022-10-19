@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button } from 'antd';
+import { SizeType } from 'antd/es/config-provider/SizeContext';
 import ShareMenu from '../shareMenu';
 import ShareWhite from '../../assets/images/sharewhite-small.png';
 
@@ -19,7 +20,7 @@ const StyledImg = styled.img`
 
 // link prop is primarily for facebook as the post can only be prefilled with a link, no body text
 interface ShareButtonProps {
-  readonly size: string;
+  readonly size: SizeType;
   readonly defaultText: string;
   readonly link: string;
 }
