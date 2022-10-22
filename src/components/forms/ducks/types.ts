@@ -50,6 +50,7 @@ export interface EditSiteRequest {
   readonly lat: number;
   readonly lng: number;
   readonly neighborhoodId: number;
+  readonly plantingDate?: number;
 }
 
 export interface UpdateSiteRequest {
