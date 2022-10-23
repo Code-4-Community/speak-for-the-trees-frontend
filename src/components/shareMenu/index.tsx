@@ -11,12 +11,10 @@ const ShareMenuContainer = styled.div`
   margin: 20px 0px;
 `;
 
-const StyledButton = styled(Button)`
-  && {
-    margin-top: 10px;
-    margin-right: 10px;
-    width: 60px;
-  }
+const MediaShareButton = styled(Button)`
+  margin-top: 10px;
+  margin-right: 10px;
+  width: 60px;
 
   &:hover {
     background-color: #e7ffc7;
@@ -64,28 +62,28 @@ const ShareMenu: React.FC<ShareMenuProps> = ({ defaultText, link }) => {
         value={formText}
         onChange={(e) => setFormText(e.target.value)}
       />
-      <StyledButton name="email-button" onClick={onClickMailTo}>
+      <MediaShareButton name="email-button" onClick={onClickMailTo}>
         <StyledImg src={EmailIcon} alt="Share via email" />
-      </StyledButton>
-      <StyledButton
+      </MediaShareButton>
+      <MediaShareButton
         name="twitter-button"
         href={`https:/twitter.com/share?&text=${formText}`}
         rel="noreferrer"
         target="_blank"
       >
         <StyledImg src={TwitterIcon} alt="Share to Twitter" />
-      </StyledButton>
-      <StyledButton
+      </MediaShareButton>
+      <MediaShareButton
         name="facebook-button"
         href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F${link}`}
         rel="noreferrer"
         target="_blank"
       >
         <StyledImg src={FBIcon} alt="Share to Facebook" />
-      </StyledButton>
-      <StyledButton name="copy-button" onClick={onClickCopy}>
+      </MediaShareButton>
+      <MediaShareButton name="copy-button" onClick={onClickCopy}>
         <StyledImg src={CopyIcon} alt="Copy to clipboard" />
-      </StyledButton>
+      </MediaShareButton>
     </ShareMenuContainer>
   );
 };

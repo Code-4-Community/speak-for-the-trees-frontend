@@ -6,11 +6,9 @@ import ShareMenu from '../shareMenu';
 import ShareWhite from '../../assets/images/sharewhite-small.png';
 
 const StyledShareButton = styled(Button)`
-  && {
-    margin: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+  margin: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
 `;
 
 const StyledImg = styled.img`
