@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Select } from 'antd';
+import { Form, Input, Select, DatePicker } from 'antd';
 import { FormInstance } from 'antd/es/form';
 import { requiredRule, zipCodeRules } from '../../../utils/formRules';
 import { EditSiteRequest } from '../ducks/types';
@@ -72,6 +72,15 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({ formInstance }) => {
               rules={requiredRule('Please enter a longitude!')}
             >
               <FullInputNumber placeholder={'Longitude'} />
+            </Form.Item>
+          </TitleStack>
+          <TitleStack
+            title={'Planting Date'}
+            minWidth={'45%'}
+            flexGrow={'1'}
+          >
+            <Form.Item name={'plantingDate'}>
+              <DatePicker format={'MM/DD/YYYY'} />
             </Form.Item>
           </TitleStack>
         </Flex>
