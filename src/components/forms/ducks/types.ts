@@ -94,3 +94,7 @@ export interface UpdateSiteRequest {
 }
 
 export interface AddSiteRequest extends UpdateSiteRequest, EditSiteRequest {}
+
+export interface NameSiteEntryRequest {
+  readonly name: string;
+}

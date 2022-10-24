@@ -6,8 +6,12 @@ import PageHeader from '../../components/pageHeader';
 import StewardshipForm from '../forms/stewardshipForm';
 import styled from 'styled-components';
 import { SiteProps } from '../../containers/treePage/ducks/types';
-import { RecordStewardshipRequest } from '../forms/ducks/types';
+import {
+  NameSiteEntryRequest,
+  RecordStewardshipRequest,
+} from '../forms/ducks/types';
 import { MID_GREEN } from '../../utils/colors';
+import TreeNameDisplay from '../treeNameDisplay';
 
 const TreeHeader = styled.div`
   text-transform: capitalize;
@@ -32,6 +36,8 @@ interface TreeProps {
     values: RecordStewardshipRequest,
   ) => void;
   readonly stewardshipFormInstance: FormInstance;
+  readonly editTreeNameFormInstance: FormInstance<NameSiteEntryRequest>;
+  readonly onClickEditTreeName: (values: NameSiteEntryRequest) => void;
 }
 
 const TreeInfo: React.FC<TreeProps> = ({
@@ -43,6 +49,8 @@ const TreeInfo: React.FC<TreeProps> = ({
   onClickUnadopt,
   onFinishRecordStewardship,
   stewardshipFormInstance,
+  editTreeNameFormInstance,
+  onClickEditTreeName,
 }) => {
   const history = useHistory();
   const location = useLocation<RedirectStateProps>();
