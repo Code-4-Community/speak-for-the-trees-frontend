@@ -145,16 +145,16 @@ function toggleMarkers(markersArray: google.maps.Marker[], v: boolean) {
  * Sets the style of the sites layer according to each tree's age and adoption status and the zoom level.
  * @param sitesLayer the layer
  * @param visibleSites which sites are visible
- * @param imageSize the image size, should be between [0, 2]
- * @param v true to make the layer visible, false to make it invisible
+ * @param imageSize the image size, should be an integer in range [0, 2]
+ * @param visible true to make the layer visible, false to make it invisible
  */
 export function setSitesStyle(
   sitesLayer: google.maps.Data,
   visibleSites: CheckboxValueType[],
   imageSize: number,
-  v: boolean,
+  visible: boolean,
 ): void {
-  if (v) {
+  if (visible) {
     let siteVisible: boolean;
 
     sitesLayer.setStyle((feature) => {
