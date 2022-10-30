@@ -145,7 +145,7 @@ function toggleMarkers(markersArray: google.maps.Marker[], v: boolean) {
  * Sets the style of the sites layer according to each tree's age and adoption status and the zoom level.
  * @param sitesLayer the layer
  * @param visibleSites which sites are visible
- * @param zoomLevel the current zoom level where zooming in increases zoom level
+ * @param zoomLevel the zoom level between 16 and 22 where zooming in increases zoom level
  * @param visible true to make the layer visible, false to make it invisible
  */
 export function setSitesStyle(

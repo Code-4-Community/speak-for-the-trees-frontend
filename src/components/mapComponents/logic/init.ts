@@ -105,7 +105,7 @@ export function initBlocks(
  * @param setActiveTreeInfo the callback function to update the active tree info
  * @param popPopup the callback function to pop the popup at the location
  * @param map the map to add the layer to
- * @param zoomLevel the current zoom level where zooming in increases zoom level
+ * @param zoomLevel the zoom level between 16 and 22 where zooming in increases zoom level
  * @param visible whether to initiate the layer as visible
  */
 export function initSites(
