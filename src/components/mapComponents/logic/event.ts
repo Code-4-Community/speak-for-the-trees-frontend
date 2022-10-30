@@ -158,12 +158,7 @@ export function addHandleZoomChange(
         setBlocksStyle(blocksLayer, zoomedIn);
         break;
       case MapViews.TREES:
-        setSitesStyle(
-          sitesLayer,
-          visibleSites,
-          getImageSize(zoomLevel, view),
-          zoomedIn,
-        );
+        setSitesStyle(sitesLayer, visibleSites, zoomLevel, zoomedIn);
         break;
     }
   });
@@ -172,14 +167,18 @@ export function addHandleZoomChange(
 /**
  * Determines the image size given the zoom level and the view.
  * @param zoomLevel the zoom level
- * @param view the view
  */
-export function getImageSize(zoomLevel: number, view: MapViews): number {
-  let imageSize = 0;
-  if (zoomLevel >= STREET_ZOOM) {
-    imageSize = 2;
-  } else if (zoomLevel > view + 1) {
-    imageSize = 1;
+export function getImageSize(zoomLevel: number): number {
+  let imageSize;
+  if (zoomLevel >= 21) {
+    imageSize = 35;
+  } else if (zoomLevel >= 19) {
+    imageSize = 20;
+  } else if (zoomLevel >= 18) {
+    imageSize = 13;
+  } else {
+    imageSize = 5;
   }
+  // zoom ranges from 16 to 22
   return imageSize;
 }

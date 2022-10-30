@@ -9,7 +9,7 @@ import {
 } from '../../ducks/types';
 import { NO_SITE_SELECTED } from '../../../treePopup';
 import { BOSTON, LIGHT_MAP_STYLES } from '../../constants';
-import { addHandleZoomChange, getImageSize } from '../../logic/event';
+import { addHandleZoomChange } from '../../logic/event';
 import { initSiteView } from '../../logic/init';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { setSitesStyle } from '../../logic/style';
@@ -88,12 +88,7 @@ const TreeMap: React.FC<TreeMapProps> = ({
 
       const zoom = loadedMapData.map.getZoom();
       if (zoom >= MapViews.TREES) {
-        setSitesStyle(
-          loadedMapData.sitesLayer,
-          values,
-          getImageSize(zoom, MapViews.TREES),
-          true,
-        );
+        setSitesStyle(loadedMapData.sitesLayer, values, zoom, true);
       }
     }
   };

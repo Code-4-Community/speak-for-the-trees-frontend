@@ -3,10 +3,10 @@ import { Loader } from '@googlemaps/js-api-loader';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { ReactNode } from 'react';
 import { FullWidthSpace, InlineImage } from '../themedComponents';
-import youngTreeIcon from '../../assets/images/siteIcons/youngLarge.png';
-import standardTreeIcon from '../../assets/images/siteIcons/standardLarge.png';
-import adoptedTreeIcon from '../../assets/images/siteIcons/adoptedLarge.png';
-import openSiteIcon from '../../assets/images/siteIcons/openLarge.png';
+import youngTreeIcon from '../../assets/images/siteIcons/youngIcon.svg';
+import standardTreeIcon from '../../assets/images/siteIcons/standardIcon.svg';
+import adoptedTreeIcon from '../../assets/images/siteIcons/adoptedIcon.svg';
+import openSiteIcon from '../../assets/images/siteIcons/openIcon.svg';
 import { Typography } from 'antd';
 
 const MAP_ID = '76c08a2450c223d9';
