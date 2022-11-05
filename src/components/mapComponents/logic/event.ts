@@ -179,5 +179,6 @@ export function getImageSize(zoomLevel: number): number {
   } else {
     imageSize = 5;
   }
+  // TODO go over icon sizes at each level and write tests for getImageSize()
   return imageSize;
 }
