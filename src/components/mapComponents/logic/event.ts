@@ -169,16 +169,6 @@ export function addHandleZoomChange(
  * @param zoomLevel the zoom level between 16 and 22 where zooming in increases zoom level
  */
 export function getImageSize(zoomLevel: number): number {
-  let imageSize;
-  if (zoomLevel >= 21) {
-    imageSize = 35;
-  } else if (zoomLevel >= 19) {
-    imageSize = 20;
-  } else if (zoomLevel >= 18) {
-    imageSize = 13;
-  } else {
-    imageSize = 5;
-  }
-  // TODO go over icon sizes at each level and write tests for getImageSize()
-  return imageSize;
+  // found the quadratic line of best fit using regression
+  return 0.23 * Math.pow(zoomLevel, 2) - 3.94 * zoomLevel + 12.21;
 }
