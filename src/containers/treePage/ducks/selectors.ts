@@ -66,7 +66,7 @@ export const getLatestEntry = (
   namesList: Record<string, string>,
 ): Entry[] => {
   if (asyncRequestIsComplete(items)) {
-    if (items.result.entries[0]) {
+    if (items.result.entries.length > 0) {
       return Object.entries(items.result.entries[0]).reduce<Entry[]>(
         (soFar, [key, value]) => {
           if (namesList[key] && (value || value === false)) {

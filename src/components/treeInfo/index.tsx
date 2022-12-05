@@ -71,7 +71,7 @@ const TreeInfo: React.FC<TreeProps> = ({
             // Display 'Open Planting Site' if no tree has been planted
             // Otherwise, display the tree's commonName or 'Unknown Species' if no commonName exists
             pageTitle={
-              siteData.entries[0] && siteData.entries[0].treePresent
+              siteData.entries[0]?.treePresent
                 ? siteData.entries[0].commonName
                   ? siteData.entries[0].commonName
                   : 'Unknown Species'
