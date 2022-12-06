@@ -66,18 +66,22 @@ export const getLatestEntry = (
   namesList: Record<string, string>,
 ): Entry[] => {
   if (asyncRequestIsComplete(items)) {
-    return Object.entries(items.result.entries[0]).reduce<Entry[]>(
-      (soFar, [key, value]) => {
-        if (namesList[key] && (value || value === false)) {
-          soFar.push({
-            title: namesList[key],
-            value: booleanToString(value.toString()),
-          });
-        }
-        return soFar;
-      },
-      [],
-    );
+    if (items.result.entries.length > 0) {
+      return Object.entries(items.result.entries[0]).reduce<Entry[]>(
+        (soFar, [key, value]) => {
+          if (namesList[key] && (value || value === false)) {
+            soFar.push({
+              title: namesList[key],
+              value: booleanToString(value.toString()),
+            });
+          }
+          return soFar;
+        },
+        [],
+      );
+    } else {
+      return [];
+    }
   }
   return [];
 };
