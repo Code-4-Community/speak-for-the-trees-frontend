@@ -23,12 +23,6 @@ const ToggleTextButton = styled(Button)`
 `;
 
 const UnadoptButton = styled(Button)`
-  && {
-    background-color: white;
-    border: 1px solid red;
-    color: red;
-  }
-
   & :hover {
     background-color: #fff1f1;
   }
@@ -79,9 +73,6 @@ const TreeInfo: React.FC<TreeProps> = ({
   const shareButton = (
     <ShareButton
       size={mobile ? 'middle' : 'large'}
-      // if user owns the tree, show first line
-      // otherwise if someone else has adopted, show second line
-      // otherwise nobody has adopted the tree - show final line
       defaultText={
         userOwnsTree
           ? 'Check out this tree I adopted!'
@@ -124,7 +115,7 @@ const TreeInfo: React.FC<TreeProps> = ({
                 {userOwnsTree ? (
                   <>
                     <UnadoptButton
-                      type="primary"
+                      danger
                       size={mobile ? 'middle' : 'large'}
                       onClick={onClickUnadopt}
                     >

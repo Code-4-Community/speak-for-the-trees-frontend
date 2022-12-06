@@ -34,8 +34,6 @@ interface ShareMenuProps {
 const ShareMenu: React.FC<ShareMenuProps> = ({ defaultText, link }) => {
   const [formText, setFormText] = useState(`${defaultText} ${link}`);
 
-  // goal is to open email window in new tab to stay consistent with more info and other share buttons
-  // doing this because using the mailto link as the button's href prop won't open in a new tab even with target=_blank
   const onClickMailTo = () => {
     window.open(
       `mailto:?&subject=Check out this tree!&body=${formText}`,
