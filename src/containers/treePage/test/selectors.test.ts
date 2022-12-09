@@ -15,6 +15,7 @@ import {
   ExtraSiteEntryNames,
   MonthYearOption,
   SiteEntryFields,
+  SiteEntryStatus,
 } from '../ducks/types';
 import {
   mapStewardshipToTreeCare,
@@ -110,7 +111,7 @@ describe('Tree Page Selectors', () => {
       {
         id: 0,
         updatedAt: 200,
-        status: 'good',
+        status: SiteEntryStatus.ALIVE,
         species: 'tree',
         genus: 'big',
         circumference: 4,
@@ -119,7 +120,7 @@ describe('Tree Page Selectors', () => {
       {
         id: 1,
         updatedAt: 100,
-        status: 'bad',
+        status: SiteEntryStatus.DEAD,
         species: 'not a tree',
         circumference: 2,
         bicycle: false,
@@ -141,7 +142,7 @@ describe('Tree Page Selectors', () => {
           },
           {
             title: 'Status',
-            value: 'good',
+            value: SiteEntryStatus.ALIVE,
           },
         ],
         extra: [
@@ -186,7 +187,7 @@ describe('Tree Page Selectors', () => {
         },
         {
           title: 'Status',
-          value: 'good',
+          value: SiteEntryStatus.ALIVE,
         },
         {
           title: 'Species',
