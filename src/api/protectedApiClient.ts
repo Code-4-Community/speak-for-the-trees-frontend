@@ -17,7 +17,6 @@ import {
   EditSiteRequest,
   UpdateSiteRequest,
   AddSiteRequest,
-  AddSitesRequest,
 } from '../components/forms/ducks/types';
 import {
   ActivityRequest,

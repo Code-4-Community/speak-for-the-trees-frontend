@@ -1,43 +1,48 @@
 import React from 'react';
-import { Upload, Form, Button } from 'antd';
+import { message, Upload, Form, Button } from 'antd';
 import { requiredRule } from '../../../utils/formRules';
 import { SubmitButton } from '../../themedComponents';
 import { UploadOutlined } from '@ant-design/icons';
 import { UploadProps } from 'antd/lib/upload/interface';
 import ProtectedClient from '../../../api/protectedApiClient';
-import { AddSiteRequest } from '../ducks/types';
+
+interface UploadSitesFormRule {
+  sitesCSV: UploadProps;
+}
 
 const UploadSitesForm: React.FC = () => {
-  const [uploadSitesForm] = Form.useForm();
+  const [uploadSitesForm] = Form.useForm<UploadSitesFormRule>();
 
   const [fileList, setFileList] = React.useState<UploadProps>({});
+
+  const handleUploadSites = (values: UploadSitesFormRule) => {
+    const csvFile = values.sitesCSV.fileList?.[0];
+    if (!csvFile) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event: ProgressEvent) => {
+      const csvBody = (event.target as FileReader).result as string;
+      ProtectedClient.addSites(csvBody)
+        .then(() => {
+          message.success('Sites successfully added!');
+        })
+        .catch(() => {
+          message.error('Sites could not be added');
+        });
+    };
+    reader.readAsText(csvFile.originFileObj);
+  };
 
   return (
     <Form
       name="uploadSites"
       form={uploadSitesForm}
-      onFinish={(values) => {
-        const file = values.uploadedSitesCsv.fileList[0];
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          const allSites: AddSiteRequest[] = [];
-
-          const sites: string[] = e.target.result.split('\n');
-          // ignore header line
-          sites.shift();
-          sites.forEach((element) => {
-            const site = element.split(',');
-            // site = ['13 Street', '12222', 'Back Bay']
-            console.log(site);
-          });
-
-          ProtectedClient.addSites({ sites: e.target.result });
-        };
-        reader.readAsText(file.originFileObj);
-      }}
+      onFinish={handleUploadSites}
     >
       <Form.Item
-        name="uploadedSitesCsv"
+        name="sitesCSV"
         rules={requiredRule('Please upload a .csv file')}
         valuePropName="file"
       >
