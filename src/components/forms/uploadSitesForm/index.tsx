@@ -23,8 +23,8 @@ const UploadSitesForm: React.FC = () => {
 
     const reader = new FileReader();
     reader.onload = (event: ProgressEvent) => {
-      const csvBody = (event.target as FileReader).result as string;
-      ProtectedClient.addSites(csvBody)
+      const csvText = (event.target as FileReader).result as string;
+      ProtectedClient.addSites(csvText)
         .then(() => {
           message.success('Sites successfully added!');
         })
