@@ -57,7 +57,7 @@ const UploadSitesForm: React.FC = () => {
         </Upload>
       </Form.Item>
       <SubmitButton type="primary" htmlType="submit">
-        Confirm
+        Upload
       </SubmitButton>
     </Form>
   );
