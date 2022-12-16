@@ -169,6 +169,13 @@ export function addHandleZoomChange(
  * @param zoomLevel the zoom level between 16 and 22 where zooming in increases zoom level
  */
 export function getImageSize(zoomLevel: number): number {
-  // found the quadratic line of best fit using regression
-  return 0.23 * Math.pow(zoomLevel, 2) - 3.94 * zoomLevel + 12.21;
+  if (zoomLevel >= 21) {
+    return 35;
+  } else if (zoomLevel >= 19) {
+    return 20;
+  } else if (zoomLevel >= 18) {
+    return 13;
+  } else {
+    return 5;
+  }
 }

@@ -178,11 +178,11 @@ export function setSitesStyle(
         siteVisible = visibleSites.includes('Standard');
       }
 
-      const iconDimension = getImageSize(zoomLevel);
+      const iconSize = getImageSize(zoomLevel);
       return {
         icon: {
           url: iconType,
-          scaledSize: new google.maps.Size(iconDimension, iconDimension),
+          scaledSize: new google.maps.Size(iconSize, iconSize),
         },
         visible: siteVisible,
       };
