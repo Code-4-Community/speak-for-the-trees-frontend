@@ -139,9 +139,9 @@ export function getErrorMessage(err: AppError): string {
 }
 
 /**
- * Converts a string to a latitude and longitude.
- * @param str the string
- * @return the converted LatLng or null if the given string is formatted incorrectly
+ * Parses a string to a latitude and longitude, if possible.
+ * @param str the string to parse
+ * @return the converted LatLng or null if the given string cannot be parsed
  */
 export function parseLatLng(str: string): google.maps.LatLng | null {
   const latLng = str.split(',');
