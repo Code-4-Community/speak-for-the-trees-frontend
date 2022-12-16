@@ -185,7 +185,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
       <div id="pac-container">
         <StyledSearch
           id={'pac-input'}
-          placeholder="Address"
+          placeholder="Search by address"
           value={searchInput}
           onChange={(event) => setSearchInput(event.target.value)}
         />
