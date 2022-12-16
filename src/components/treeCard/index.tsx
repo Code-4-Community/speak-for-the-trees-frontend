@@ -8,6 +8,7 @@ import { SiteFeaturePropertiesResponse } from '../mapComponents/ducks/types';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { isAdmin } from '../../auth/ducks/selectors';
+import ShareButton from '../../components/shareButton';
 
 const StyledCard = styled(Card)`
   width: 95%;
@@ -55,6 +56,11 @@ const TreeCard: React.FC<TreeCardProps> = ({ site }) => {
           >
             More Info
           </GreenLinkButton>
+          <ShareButton
+            size="middle"
+            defaultText="Check out this tree I adopted!"
+            link={`map.treeboston.org/tree/${site.id ? site.id : ''}`}
+          ></ShareButton>
 
           {userIsAdmin && (
             <MarginLeftSpan>

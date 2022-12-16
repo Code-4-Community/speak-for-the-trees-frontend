@@ -14,6 +14,7 @@ const SlideDownButton = styled.button`
   border: none;
   outline: none;
   transition: background-color 0.4s ease;
+  cursor: pointer;
 
   @media (max-width: ${BREAKPOINT_TABLET}px) {
     padding: ${({ active }: SlideDownButtonProps) => (active ? '5px' : '20px')};

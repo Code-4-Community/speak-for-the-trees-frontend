@@ -28,7 +28,7 @@ const MapPage: React.FC<MapPageProps> = ({
       <PageLayout>
         {mapContent}
         <Layout.Sider
-          width={windowType === WindowTypes.Desktop ? '20vw' : '25vw'}
+          width={windowType === WindowTypes.Desktop ? '22vw' : '25vw'}
         >
           <MapSidebar header={sidebarHeader} description={sidebarDescription}>
             {view !== MapViews.TREES && <MapLegend view={view} />}

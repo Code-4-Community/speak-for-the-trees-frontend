@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { SiteProps } from '../../containers/treePage/ducks/types';
 import { RecordStewardshipRequest } from '../forms/ducks/types';
 import { MID_GREEN } from '../../utils/colors';
+import ShareButton from '../../components/shareButton';
 
 const TreeHeader = styled.div`
   text-transform: capitalize;
@@ -19,6 +20,12 @@ const StewardshipContainer = styled.div`
 
 const ToggleTextButton = styled(Button)`
   padding: 0px;
+`;
+
+const UnadoptButton = styled(Button)`
+  & :hover {
+    background-color: #fff1f1;
+  }
 `;
 
 interface TreeProps {
@@ -47,7 +54,7 @@ const TreeInfo: React.FC<TreeProps> = ({
   const history = useHistory();
   const location = useLocation<RedirectStateProps>();
 
-  const adopted = siteData.entries[0].adopter !== null;
+  const adopted = siteData.entries[0] && siteData.entries[0].adopter !== null;
 
   const getSiteLocation = (): string => {
     // TODO change to siteData.city and remove check for zip after data is cleaned
@@ -63,6 +70,22 @@ const TreeInfo: React.FC<TreeProps> = ({
     }
   };
 
+  const shareButton = (
+    <ShareButton
+      size={mobile ? 'middle' : 'large'}
+      defaultText={
+        userOwnsTree
+          ? 'Check out this tree I adopted!'
+          : adopted
+          ? 'Check out this tree near you!'
+          : `This tree${
+              siteData.address ? ' at ' + siteData.address : ''
+            } needs someone to take care of it!`
+      }
+      link={`map.treeboston.org/tree/${siteData.siteId}`}
+    />
+  );
+
   return (
     <>
       <TreeHeader>
@@ -71,7 +94,7 @@ const TreeInfo: React.FC<TreeProps> = ({
             // Display 'Open Planting Site' if no tree has been planted
             // Otherwise, display the tree's commonName or 'Unknown Species' if no commonName exists
             pageTitle={
-              siteData.entries[0].treePresent
+              siteData.entries[0]?.treePresent
                 ? siteData.entries[0].commonName
                   ? siteData.entries[0].commonName
                   : 'Unknown Species'
@@ -91,13 +114,14 @@ const TreeInfo: React.FC<TreeProps> = ({
               <>
                 {userOwnsTree ? (
                   <>
-                    <Button
-                      type="primary"
+                    <UnadoptButton
+                      danger
                       size={mobile ? 'middle' : 'large'}
                       onClick={onClickUnadopt}
                     >
                       Unadopt
-                    </Button>
+                    </UnadoptButton>
+                    {shareButton}
                     <StewardshipContainer>
                       <Typography.Title level={3}>
                         Record your tree care activity below.
@@ -118,23 +142,27 @@ const TreeInfo: React.FC<TreeProps> = ({
                     >
                       {adopted ? 'Already Adopted' : 'Adopt'}
                     </Button>
+                    {shareButton}
                   </>
                 )}
               </>
             );
           case false:
             return (
-              <ToggleTextButton
-                type="link"
-                size="large"
-                onClick={() =>
-                  history.push(Routes.LOGIN, {
-                    destination: location.pathname,
-                  })
-                }
-              >
-                Log in to adopt this tree!
-              </ToggleTextButton>
+              <>
+                <ToggleTextButton
+                  type="link"
+                  size="large"
+                  onClick={() =>
+                    history.push(Routes.LOGIN, {
+                      destination: location.pathname,
+                    })
+                  }
+                >
+                  Log in to adopt this tree!
+                </ToggleTextButton>
+                {shareButton}
+              </>
             );
         }
       })()}
