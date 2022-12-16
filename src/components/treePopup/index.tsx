@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Typography } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import { ParameterizedRouteBases, Routes } from '../../App';
-import { GreenLinkButton } from '../themedComponents';
+import { GreenLinkButton, MarginLeftSpan } from '../themedComponents';
 import {
   BLACK,
   DARK_GREY,
@@ -12,6 +12,9 @@ import {
   WHITE,
 } from '../../utils/colors';
 import { isEmptyString } from '../../utils/isCheck';
+import { isAdmin } from '../../auth/ducks/selectors';
+import { useSelector } from 'react-redux';
+import { C4CState } from '../../store';
 import { CITY_PLANTING_REQUEST_LINK } from '../../assets/links';
 
 const PopupContainer = styled.div`
@@ -93,12 +96,12 @@ const PlantRequest = styled(Typography.Paragraph)`
 `;
 
 export const NO_SITE_SELECTED = -1;
-export const NO_TREE_PRESENT = -2;
 
 export interface BasicTreeInfo {
   id: number;
   commonName: string;
   address: string;
+  treePresent: boolean;
 }
 
 interface TreePopupProps {
@@ -125,6 +128,19 @@ const TreePopup: React.FC<TreePopupProps> = ({
   }, [treeInfo]);
 
   const returnState = returnTo && { destination: returnTo };
+  const userIsAdmin: boolean = useSelector((state: C4CState) =>
+    isAdmin(state.authenticationState.tokens),
+  );
+
+  const editSiteButton = (
+    <GreenLinkButton
+      to={`${ParameterizedRouteBases.SITE}${treeInfo.id}`}
+      state={{ destination: Routes.MY_TREES }}
+      target="_blank"
+    >
+      Edit Site Page
+    </GreenLinkButton>
+  );
 
   return (
     <PopupContainer ref={popRef}>
@@ -135,7 +151,7 @@ const TreePopup: React.FC<TreePopupProps> = ({
               <>
                 <TreeTitle>
                   {/* If the site has a tree, then display its common name (if available). Otherwise, display 'Open Planting Site' */}
-                  {treeInfo.id !== NO_TREE_PRESENT
+                  {treeInfo.treePresent
                     ? isEmptyString(treeInfo.commonName)
                       ? 'Unknown Species'
                       : treeInfo.commonName
@@ -148,32 +164,33 @@ const TreePopup: React.FC<TreePopupProps> = ({
                 <GreyText strong>Nearby Address</GreyText>
               )}
               <GreyText>{treeInfo.address}</GreyText>
-              {(() => {
-                switch (treeInfo.id) {
-                  case NO_TREE_PRESENT:
-                    return (
-                      <PlantRequest>
-                        Want to plant a tree here?{' '}
-                        <Typography.Link
-                          href={CITY_PLANTING_REQUEST_LINK}
-                          target="_blank"
-                        >
-                          Submit a request to the city!
-                        </Typography.Link>
-                      </PlantRequest>
-                    );
-                  default:
-                    return (
-                      <GreenLinkButton
-                        to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
-                        state={returnState}
-                        target="_blank"
-                      >
-                        More Info
-                      </GreenLinkButton>
-                    );
-                }
-              })()}
+              {treeInfo.treePresent ? (
+                <>
+                  <GreenLinkButton
+                    to={`${ParameterizedRouteBases.TREE}${treeInfo.id}`}
+                    state={returnState}
+                    target="_blank"
+                  >
+                    More Info
+                  </GreenLinkButton>
+                  {userIsAdmin && (
+                    <MarginLeftSpan>{editSiteButton}</MarginLeftSpan>
+                  )}
+                </>
+              ) : (
+                <>
+                  <PlantRequest>
+                    Want to plant a tree here?{' '}
+                    <Typography.Link
+                      href={CITY_PLANTING_REQUEST_LINK}
+                      target="_blank"
+                    >
+                      Submit a request to the city!
+                    </Typography.Link>
+                  </PlantRequest>
+                  {userIsAdmin && editSiteButton}
+                </>
+              )}
             </>
           </PopupBubble>
         </PopupAnchor>

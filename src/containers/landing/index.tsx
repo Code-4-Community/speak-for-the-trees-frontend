@@ -87,6 +87,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
         width: '75%',
         icon: null,
         maskClosable: true,
+        autoFocusButton: null,
       });
     }
   }, [loggedIn, lang]);

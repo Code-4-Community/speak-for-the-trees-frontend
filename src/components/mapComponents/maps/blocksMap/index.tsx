@@ -63,6 +63,7 @@ const BlocksMap: React.FC<BlocksMapProps> = ({
         id: NO_SITE_SELECTED,
         commonName: '',
         address: '',
+        treePresent: false,
       }}
     />
   );

@@ -98,13 +98,12 @@ export const zipCodeRules: Rule[] = [
     message: 'Please enter a valid zip code!',
   },
   {
-    pattern: /[0-9]{4}/,
-    message: 'Zip code must use numbers only',
+    pattern: /[0-9]{5}/,
+    message: 'Zip code must only consist of numbers',
   },
   {
-    len: 4,
-    message:
-      'Zip code must be 4 digits long - enter without leading 0, ex. enter 02125 as 2125',
+    len: 5,
+    message: 'Zip code must be 5 digits long',
   },
 ];
 

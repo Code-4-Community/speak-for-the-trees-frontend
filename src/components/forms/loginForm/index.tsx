@@ -3,7 +3,6 @@ import { LoginRequest } from '../../../auth/ducks/types';
 import { Button, Form, Input } from 'antd';
 import styled from 'styled-components';
 import { WindowTypes } from '../../windowDimensions';
-import { FormHalfItem, FormRow, Gap } from '../../themedComponents';
 import { FormInstance } from 'antd/es/form';
 import { enterEmailRules, loginPasswordRules } from '../../../utils/formRules';
 
@@ -18,8 +17,15 @@ const LoginButton = styled(Button)`
   margin-top: 1.5vh;
 `;
 
+interface StyledFormItemProps {
+  readonly windowtype: WindowTypes;
+}
+
 const StyledFormItem = styled(Form.Item)`
-  margin-bottom: 10px;
+  margin-bottom: ${(props: StyledFormItemProps) =>
+    [WindowTypes.Mobile, WindowTypes.Tablet].includes(props.windowtype)
+      ? '20px'
+      : '10px'};
 `;
 
 const LoginForm: React.FC<LoginFormProps> = ({
@@ -30,49 +36,17 @@ const LoginForm: React.FC<LoginFormProps> = ({
   return (
     <>
       <Form name="basic" form={formInstance} onFinish={onFinish}>
-        {(() => {
-          switch (windowType) {
-            case WindowTypes.Mobile:
-            case WindowTypes.Tablet:
-              return (
-                <>
-                  <Form.Item name="email" rules={enterEmailRules}>
-                    <Input placeholder="Email" />
-                  </Form.Item>
-                  <Form.Item name="password" rules={loginPasswordRules}>
-                    <Input.Password placeholder="Password" />
-                  </Form.Item>
-
-                  <Form.Item>
-                    <LoginButton type="primary" htmlType="submit" size="large">
-                      Log In
-                    </LoginButton>
-                  </Form.Item>
-                </>
-              );
-            case WindowTypes.NarrowDesktop:
-            case WindowTypes.Desktop:
-              return (
-                <>
-                  <FormRow>
-                    <FormHalfItem name="email" rules={enterEmailRules}>
-                      <Input placeholder="Email" />
-                    </FormHalfItem>
-                    <Gap />
-                    <FormHalfItem name="password" rules={loginPasswordRules}>
-                      <Input.Password placeholder="Password" />
-                    </FormHalfItem>
-                  </FormRow>
-
-                  <StyledFormItem>
-                    <LoginButton type="primary" htmlType="submit" size="large">
-                      Log In
-                    </LoginButton>
-                  </StyledFormItem>
-                </>
-              );
-          }
-        })()}
+        <Form.Item name="email" rules={enterEmailRules}>
+          <Input placeholder="Email" />
+        </Form.Item>
+        <Form.Item name="password" rules={loginPasswordRules}>
+          <Input.Password placeholder="Password" />
+        </Form.Item>
+        <StyledFormItem windowtype={windowType}>
+          <LoginButton type="primary" htmlType="submit" size="large">
+            Log In
+          </LoginButton>
+        </StyledFormItem>
       </Form>
     </>
   );

@@ -8,7 +8,7 @@ import {
   setPrivateStreetsStyle,
   setSitesStyle,
 } from './style';
-import { BasicTreeInfo, NO_TREE_PRESENT } from '../../treePopup';
+import { BasicTreeInfo } from '../../treePopup';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 
 // Logic for adding event listeners and handling events
@@ -109,18 +109,13 @@ export function addTreePopupOnClick(
 ): void {
   sitesLayer.addListener('click', (event) => {
     const eventFeature = event.feature;
-    let siteId = eventFeature.getProperty('id');
-
-    // Set site ID to tell tree popup this is an open planting site
-    if (!eventFeature.getProperty('treePresent')) {
-      siteId = NO_TREE_PRESENT;
-    }
 
     // Sets the information to display in the popup
     setActiveTreeInfo({
-      id: siteId,
+      id: eventFeature.getProperty('id'),
       commonName: eventFeature.getProperty('commonName'),
       address: eventFeature.getProperty('address'),
+      treePresent: eventFeature.getProperty('treePresent'),
     });
     // Popup appears at the site
     eventFeature.getGeometry().forEachLatLng(popPopup);
