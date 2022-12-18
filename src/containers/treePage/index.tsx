@@ -257,7 +257,8 @@ const TreePage: React.FC<TreeProps> = ({
                 {`<`} Return to Tree Map
               </ReturnButton>
 
-              {!siteData.result.entries[0].treePresent && (
+              {(!siteData.result.entries[0] ||
+                !siteData.result.entries[0].treePresent) && (
                 <PlantInstructionContainer
                   message={noTreeMessage}
                   description={treePlantingRequest}

@@ -73,7 +73,7 @@ export const SiteEntryFields = {
 export interface SiteEntry {
   id: number;
   updatedAt: number;
-  status?: string;
+  status?: SiteEntryStatus;
   genus?: string;
   species?: string;
   commonName?: string;
@@ -113,6 +113,12 @@ export interface SiteEntry {
   siteNotes?: string;
   treeName?: string;
   adopter?: string;
+}
+
+export enum SiteEntryStatus {
+  ALIVE = 'Alive',
+  DEAD = 'Dead',
+  DEAD_BUT_STANDING = 'Dead but standing',
 }
 
 export interface SplitSiteEntries {
