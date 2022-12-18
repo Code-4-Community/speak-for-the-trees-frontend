@@ -1,5 +1,13 @@
 import styled from 'styled-components';
-import { Button, Form, Space, List, Image, InputNumber } from 'antd';
+import {
+  Button,
+  Form,
+  Space,
+  List,
+  Image,
+  InputNumber,
+  Typography,
+} from 'antd';
 import { FormItemProps } from 'antd/es/form';
 import {
   BLACK,
@@ -7,6 +15,8 @@ import {
   MID_GREEN,
   WHITE,
   LIGHT_GREEN,
+  DARK_GREEN,
+  DARK_GREY,
 } from '../../utils/colors';
 import { LinkButton } from '../linkButton';
 import { BREAKPOINT_TABLET } from '../windowDimensions';
@@ -188,4 +198,34 @@ export interface MarginLeftSpanProps {
 
 export const MarginLeftSpan = styled.span`
   margin-left: ${({ marginLeft }: MarginLeftSpanProps) => marginLeft ?? 0.1}rem;
+`;
+
+export interface StyledTitleProps {
+  readonly isMobile?: boolean;
+}
+
+export const StyledTitle = styled(Typography.Paragraph)`
+  font-size: ${(props: StyledSubtitleProps) =>
+    props.isMobile ? '30px' : '44px'};
+  line-height: ${(props: StyledSubtitleProps) =>
+    props.isMobile ? '48px' : '76px'};
+  color: ${DARK_GREEN};
+  font-weight: bold;
+`;
+
+export interface StyledSubtitleProps {
+  readonly subtitlecolor?: string;
+  readonly isMobile?: boolean;
+}
+
+export const StyledSubtitle = styled(Typography.Paragraph)`
+  font-weight: normal;
+  font-size: ${(props: StyledSubtitleProps) =>
+    props.isMobile ? '14px' : '24px'};
+  line-height: ${(props: StyledSubtitleProps) =>
+    props.isMobile ? '14px' : '32px'};
+  margin-top: ${(props: StyledSubtitleProps) =>
+    props.isMobile ? '-20px' : '-40px'};
+  color: ${(props: StyledSubtitleProps) =>
+    props.subtitlecolor ? props.subtitlecolor : { DARK_GREY }};
 `;

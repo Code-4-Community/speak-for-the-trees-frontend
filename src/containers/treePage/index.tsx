@@ -185,9 +185,11 @@ const TreePage: React.FC<TreeProps> = ({
     protectedApiClient
       .nameSiteEntry(id, values)
       .then(() => {
-        message.success('Tree name changed!').then();
+        message.success('Tree name changed!');
       })
-      .catch((err) => message.error(err.response.data));
+      .catch((err) =>
+        message.error(`Failed to name site: ${err.response.data}`),
+      );
   };
 
   const loggedIn: boolean = useSelector((state: C4CState) =>

@@ -2,7 +2,6 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Typography, Button, FormInstance } from 'antd';
 import { RedirectStateProps, Routes } from '../../App';
-import PageHeader from '../../components/pageHeader';
 import StewardshipForm from '../forms/stewardshipForm';
 import styled from 'styled-components';
 import { SiteProps } from '../../containers/treePage/ducks/types';
@@ -12,6 +11,7 @@ import {
 } from '../forms/ducks/types';
 import { MID_GREEN } from '../../utils/colors';
 import ShareButton from '../../components/shareButton';
+import TreePageHeader from '../treePageHeader';
 
 const TreeHeader = styled.div`
   text-transform: capitalize;
@@ -97,7 +97,7 @@ const TreeInfo: React.FC<TreeProps> = ({
     <>
       <TreeHeader>
         {
-          <PageHeader
+          <TreePageHeader
             // Display 'Open Planting Site' if no tree has been planted
             // Otherwise, display the tree's commonName or 'Unknown Species' if no commonName exists
             pageTitle={
@@ -107,9 +107,17 @@ const TreeInfo: React.FC<TreeProps> = ({
                   : 'Unknown Species'
                 : 'Open Planting Site'
             }
-            isMobile={mobile}
             pageSubtitle={getSiteLocation()}
+            isMobile={mobile}
+            userOwnsTree={userOwnsTree}
             subtitlecolor={MID_GREEN}
+            editTreeNameForm={editTreeNameFormInstance}
+            onClickEditTreeName={onClickEditTreeName}
+            treeName={
+              siteData.entries[0].treeName
+                ? siteData.entries[0].treeName
+                : 'Name this tree!'
+            }
           />
         }
       </TreeHeader>
