@@ -4,6 +4,7 @@ import { Typography, Button, FormInstance } from 'antd';
 import { RedirectStateProps, Routes } from '../../App';
 import StewardshipForm from '../forms/stewardshipForm';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 import { SiteProps } from '../../containers/treePage/ducks/types';
 import {
   NameSiteEntryRequest,
@@ -12,6 +13,8 @@ import {
 import { MID_GREEN } from '../../utils/colors';
 import ShareButton from '../../components/shareButton';
 import TreePageHeader from '../treePageHeader';
+import { C4CState } from '../../store';
+import { isAdmin } from '../../auth/ducks/selectors';
 
 const TreeHeader = styled.div`
   text-transform: capitalize;
@@ -63,6 +66,10 @@ const TreeInfo: React.FC<TreeProps> = ({
 
   const adopted = siteData.entries[0] && siteData.entries[0].adopter !== null;
 
+  const userIsAdmin: boolean = useSelector((state: C4CState) =>
+    isAdmin(state.authenticationState.tokens),
+  );
+
   const getSiteLocation = (): string => {
     // TODO change to siteData.city and remove check for zip after data is cleaned
     let baseLocation = `Boston`;
@@ -109,7 +116,7 @@ const TreeInfo: React.FC<TreeProps> = ({
             }
             pageSubtitle={getSiteLocation()}
             isMobile={mobile}
-            userOwnsTree={userOwnsTree}
+            canEditTreeName={userIsAdmin || userOwnsTree}
             subtitlecolor={MID_GREEN}
             editTreeNameForm={editTreeNameFormInstance}
             onClickEditTreeName={onClickEditTreeName}

@@ -14,7 +14,7 @@ interface TreePageHeaderProps extends StyledSubtitleProps {
   readonly pageTitle: string;
   readonly pageSubtitle: string;
   readonly treeName: string;
-  readonly userOwnsTree: boolean;
+  readonly canEditTreeName: boolean;
   readonly editTreeNameForm: FormInstance<NameSiteEntryRequest>;
   readonly onClickEditTreeName: (values: NameSiteEntryRequest) => void;
 }
@@ -36,7 +36,7 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
   pageTitle,
   pageSubtitle,
   treeName,
-  userOwnsTree,
+  canEditTreeName,
   editTreeNameForm,
   onClickEditTreeName,
   isMobile,
@@ -45,20 +45,11 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
   const [editingTreeName, setEditingTreeName] = useState<boolean>(false);
   const [displayedTreeName, setDisplayedTreeName] = useState<string>(treeName);
 
-  //   useEffect(() => {
-  //     editTreeNameForm.setFieldsValue({
-  //       name: displayedTreeName,
-  //     });
-  //   }, [displayedTreeName]);
-
   const handleTreeNameChange = () => {
     setEditingTreeName(false);
-    const newTreeName = editTreeNameForm.getFieldValue('name');
-    setDisplayedTreeName(newTreeName);
-    const nameSiteEntryRequest: NameSiteEntryRequest = {
-      name: newTreeName,
-    };
-    onClickEditTreeName(nameSiteEntryRequest);
+    const treeName = editTreeNameForm.getFieldValue('name');
+    setDisplayedTreeName(treeName);
+    onClickEditTreeName({ name: treeName });
   };
 
   return (
@@ -74,7 +65,7 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
       ) : (
         <StyledSubtitleText subtitlecolor={subtitlecolor} isMobile={isMobile}>
           {displayedTreeName}
-          {userOwnsTree && (
+          {canEditTreeName && (
             <StyledEditOutline
               onClick={() => {
                 setEditingTreeName(true);
