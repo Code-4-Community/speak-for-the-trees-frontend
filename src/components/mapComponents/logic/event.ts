@@ -47,7 +47,7 @@ export function addHandleSearch(
 
       place.geometry = {
         location: latLng,
-        viewport: new google.maps.LatLngBounds(), // TODO newLatLng
+        viewport: new google.maps.LatLngBounds(),
       };
     }
 
