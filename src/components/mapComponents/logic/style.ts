@@ -16,7 +16,6 @@ import { shortHand } from '../../../utils/stringFormat';
 import { SHORT_HAND_NAMES } from '../../../assets/content';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { getImageSize } from './event';
-import { MapViews } from '../ducks/types';
 
 // Logic to style data layers on map
 
