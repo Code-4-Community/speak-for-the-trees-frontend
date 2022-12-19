@@ -17,7 +17,8 @@ interface EditTreeNameFormProps extends StyledButtonProps {
 }
 
 const StyledForm = styled(Form)`
-  margin-top: -20px;
+  margin-top: ${(props: StyledButtonProps) =>
+    props.isMobile ? '-20px' : '-30px'};
   margin-bottom: 20px;
 `;
 
