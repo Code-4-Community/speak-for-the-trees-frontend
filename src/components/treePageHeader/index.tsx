@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FormInstance } from 'antd';
+import { escape, unescape } from 'lodash';
 import { NameSiteEntryRequest } from '../forms/ducks/types';
 import EditTreeNameForm from '../forms/editTreeNameForm';
 import {
@@ -43,13 +44,16 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
   subtitlecolor,
 }) => {
   const [editingTreeName, setEditingTreeName] = useState<boolean>(false);
-  const [displayedTreeName, setDisplayedTreeName] = useState<string>(treeName);
+  const [displayedTreeName, setDisplayedTreeName] = useState<string>(
+    unescape(treeName),
+  );
 
   const handleTreeNameChange = () => {
     setEditingTreeName(false);
     const treeName = editTreeNameForm.getFieldValue('name');
-    setDisplayedTreeName(treeName);
-    onClickEditTreeName({ name: treeName });
+    const sanitizedTreeName = escape(treeName);
+    setDisplayedTreeName(sanitizedTreeName);
+    onClickEditTreeName({ name: sanitizedTreeName });
   };
 
   return (
