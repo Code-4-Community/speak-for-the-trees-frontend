@@ -60,8 +60,8 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
 
   const onTreeNameChange = () => {
     setEditingTreeName(false);
-    const treeName = editTreeNameForm.getFieldValue('name');
-    onClickEditTreeName({ name: escape(treeName) });
+    const newTreeName = editTreeNameForm.getFieldValue('name');
+    onClickEditTreeName({ name: escape(newTreeName) });
   };
 
   return (
