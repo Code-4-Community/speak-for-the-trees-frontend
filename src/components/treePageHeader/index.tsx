@@ -31,6 +31,7 @@ const StyledSubtitleText = styled(StyledSubtitle)`
     props.isMobile ? '14px' : ''};
   margin-top: ${(props: StyledSubtitleProps) =>
     props.isMobile ? '-30px' : '-35px'};
+  text-transform: none;
 `;
 
 const TreePageHeader: React.FC<TreePageHeaderProps> = ({
@@ -51,9 +52,8 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
   const handleTreeNameChange = () => {
     setEditingTreeName(false);
     const treeName = editTreeNameForm.getFieldValue('name');
-    const sanitizedTreeName = escape(treeName);
-    setDisplayedTreeName(sanitizedTreeName);
-    onClickEditTreeName({ name: sanitizedTreeName });
+    setDisplayedTreeName(treeName);
+    onClickEditTreeName({ name: escape(treeName) });
   };
 
   return (
