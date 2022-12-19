@@ -10,6 +10,7 @@ import {
 } from '../themedComponents';
 import styled from 'styled-components';
 import { EditOutlined } from '@ant-design/icons';
+import { isEmptyString } from '../../utils/isCheck';
 
 interface TreePageHeaderProps extends StyledSubtitleProps {
   readonly pageTitle: string;
@@ -51,6 +52,12 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
 }) => {
   const [editingTreeName, setEditingTreeName] = useState<boolean>(false);
 
+  const treeDisplayName = canEditTreeName
+    ? isEmptyString(unescape(treeName))
+      ? 'Name this tree!'
+      : unescape(treeName)
+    : '';
+
   const onTreeNameChange = () => {
     setEditingTreeName(false);
     const treeName = editTreeNameForm.getFieldValue('name');
@@ -69,7 +76,7 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
         />
       ) : (
         <TreeNameText subtitlecolor={subtitlecolor} isMobile={isMobile}>
-          {unescape(treeName)}
+          {treeDisplayName}
           {canEditTreeName && (
             <StyledEditOutline
               onClick={() => {

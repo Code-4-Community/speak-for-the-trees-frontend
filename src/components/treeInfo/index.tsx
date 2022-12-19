@@ -120,7 +120,7 @@ const TreeInfo: React.FC<TreeProps> = ({
             subtitlecolor={MID_GREEN}
             editTreeNameForm={editTreeNameFormInstance}
             onClickEditTreeName={onClickEditTreeName}
-            treeName={siteData.entries[0].treeName || 'Name this tree!'}
+            treeName={siteData.entries[0].treeName || ''}
           />
         }
       </TreeHeader>
