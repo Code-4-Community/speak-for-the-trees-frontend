@@ -50,15 +50,11 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
   subtitlecolor,
 }) => {
   const [editingTreeName, setEditingTreeName] = useState<boolean>(false);
-  const [displayedTreeName, setDisplayedTreeName] = useState<string>(
-    unescape(treeName),
-  );
 
-  const handleTreeNameChange = () => {
+  const onTreeNameChange = () => {
     setEditingTreeName(false);
     const treeName = editTreeNameForm.getFieldValue('name');
     onClickEditTreeName({ name: escape(treeName) });
-    setDisplayedTreeName(treeName || 'Name this tree!');
   };
 
   return (
@@ -68,12 +64,12 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
         <EditTreeNameForm
           form={editTreeNameForm}
           isMobile={isMobile}
-          onSubmit={handleTreeNameChange}
+          onSubmit={onTreeNameChange}
           onCancel={() => setEditingTreeName(false)}
         />
       ) : (
         <TreeNameText subtitlecolor={subtitlecolor} isMobile={isMobile}>
-          {displayedTreeName}
+          {unescape(treeName)}
           {canEditTreeName && (
             <StyledEditOutline
               onClick={() => {
