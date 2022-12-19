@@ -52,10 +52,10 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
 }) => {
   const [editingTreeName, setEditingTreeName] = useState<boolean>(false);
 
-  const treeDisplayName = canEditTreeName
-    ? isEmptyString(unescape(treeName))
-      ? 'Name this tree!'
-      : unescape(treeName)
+  const treeDisplayName = !isEmptyString(unescape(treeName))
+    ? unescape(treeName)
+    : canEditTreeName
+    ? 'Name this tree!'
     : '';
 
   const onTreeNameChange = () => {
