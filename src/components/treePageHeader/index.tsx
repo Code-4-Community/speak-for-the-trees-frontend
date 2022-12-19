@@ -69,10 +69,10 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
       <StyledTitle isMobile={isMobile}>{pageTitle}</StyledTitle>
       {editingTreeName ? (
         <EditTreeNameForm
-          form={editTreeNameForm}
+          editTreeNameForm={editTreeNameForm}
           isMobile={isMobile}
-          onSubmit={onTreeNameChange}
-          onCancel={() => setEditingTreeName(false)}
+          onSubmitNameChange={onTreeNameChange}
+          onCancelNameChange={() => setEditingTreeName(false)}
         />
       ) : (
         <TreeNameText subtitlecolor={subtitlecolor} isMobile={isMobile}>
