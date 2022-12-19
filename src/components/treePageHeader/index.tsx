@@ -25,13 +25,18 @@ const StyledEditOutline = styled(EditOutlined)`
   margin-left: 5px;
 `;
 
-const StyledSubtitleText = styled(StyledSubtitle)`
+const TreeNameText = styled(StyledSubtitle)`
   font-size: ${(props: StyledSubtitleProps) => (props.isMobile ? '14px' : '')};
   line-height: ${(props: StyledSubtitleProps) =>
     props.isMobile ? '14px' : ''};
   margin-top: ${(props: StyledSubtitleProps) =>
     props.isMobile ? '-30px' : '-35px'};
   text-transform: none;
+`;
+
+const AddressText = styled(StyledSubtitle)`
+  margin-top: ${(props: StyledSubtitleProps) =>
+    props.isMobile ? '-20px' : '-10px'};
 `;
 
 const TreePageHeader: React.FC<TreePageHeaderProps> = ({
@@ -67,7 +72,7 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
           onCancel={() => setEditingTreeName(false)}
         />
       ) : (
-        <StyledSubtitleText subtitlecolor={subtitlecolor} isMobile={isMobile}>
+        <TreeNameText subtitlecolor={subtitlecolor} isMobile={isMobile}>
           {displayedTreeName}
           {canEditTreeName && (
             <StyledEditOutline
@@ -76,11 +81,11 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
               }}
             />
           )}
-        </StyledSubtitleText>
+        </TreeNameText>
       )}
-      <StyledSubtitle isMobile={isMobile} subtitlecolor={subtitlecolor}>
+      <AddressText isMobile={isMobile} subtitlecolor={subtitlecolor}>
         {pageSubtitle}
-      </StyledSubtitle>
+      </AddressText>
     </>
   );
 };
