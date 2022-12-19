@@ -17,18 +17,18 @@ interface EditTreeNameFormProps extends StyledButtonProps {
 }
 
 const StyledForm = styled(Form)`
-  margin-top: -30px;
+  margin-top: -20px;
   margin-bottom: 20px;
 `;
 
-const StyledGreenButton = styled(GreenButton)`
+const SubmitButton = styled(GreenButton)`
   margin-top: 0;
   margin-right: 10px;
   font-size: ${(props: StyledButtonProps) => (props.isMobile ? '13px' : '')};
   height: ${(props: StyledButtonProps) => (props.isMobile ? '32px' : '')};
 `;
 
-const StyledWhiteButton = styled(WhiteButton)`
+const CancelButton = styled(WhiteButton)`
   margin-top: 0;
   font-size: ${(props: StyledButtonProps) => (props.isMobile ? '13px' : '')};
   height: ${(props: StyledButtonProps) => (props.isMobile ? '32px' : '')};
@@ -51,12 +51,12 @@ const EditTreeNameForm: React.FC<EditTreeNameFormProps> = ({
         <Input placeholder="Enter tree name" />
       </Form.Item>
       <Form.Item>
-        <StyledGreenButton isMobile={isMobile} onClick={onSubmitNameChange}>
+        <SubmitButton isMobile={isMobile} onClick={onSubmitNameChange}>
           Change Name
-        </StyledGreenButton>
-        <StyledWhiteButton isMobile={isMobile} onClick={onCancelNameChange}>
+        </SubmitButton>
+        <CancelButton isMobile={isMobile} onClick={onCancelNameChange}>
           Cancel
-        </StyledWhiteButton>
+        </CancelButton>
       </Form.Item>
     </StyledForm>
   );

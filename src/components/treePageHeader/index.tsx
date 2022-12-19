@@ -31,13 +31,13 @@ const TreeNameText = styled(StyledSubtitle)`
   line-height: ${(props: StyledSubtitleProps) =>
     props.isMobile ? '14px' : ''};
   margin-top: ${(props: StyledSubtitleProps) =>
-    props.isMobile ? '-30px' : '-35px'};
+    props.isMobile ? '-25px' : '-35px'};
   text-transform: none;
 `;
 
 const AddressText = styled(StyledSubtitle)`
   margin-top: ${(props: StyledSubtitleProps) =>
-    props.isMobile ? '-20px' : '-10px'};
+    props.isMobile ? '0px' : '-10px'};
 `;
 
 const TreePageHeader: React.FC<TreePageHeaderProps> = ({

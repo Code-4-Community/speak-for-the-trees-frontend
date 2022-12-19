@@ -227,5 +227,5 @@ export const StyledSubtitle = styled(Typography.Paragraph)`
   margin-top: ${(props: StyledSubtitleProps) =>
     props.isMobile ? '-20px' : '-40px'};
   color: ${(props: StyledSubtitleProps) =>
-    props.subtitlecolor ? props.subtitlecolor : { DARK_GREY }};
+    props.subtitlecolor || { DARK_GREY }};
 `;
