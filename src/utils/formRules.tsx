@@ -133,3 +133,10 @@ export const positiveNumberRules = (
 export const requiredRule = (message: string): Rule[] => {
   return [{ required: true, message }];
 };
+
+export const treeNameRules: Rule[] = [
+  {
+    max: 60,
+    message: 'Tree name must be at most 60 characters long.',
+  },
+];
