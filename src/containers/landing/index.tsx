@@ -120,7 +120,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                 }
                 returnTo={Routes.LANDING}
               >
-                <SlideDown defaultOpen={true} slideHeight={MOBILE_SLIDE_HEIGHT}>
+                <SlideDown slideHeight={MOBILE_SLIDE_HEIGHT}>
                   <PaddedContent>
                     <MobileLandingBar
                       barHeader={LANDING_TITLE[lang]}
