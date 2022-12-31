@@ -1,6 +1,7 @@
 import { Entry, MainSiteEntryOrder } from '../containers/treePage/ducks/types';
 import { NEIGHBORHOOD_IDS } from '../assets/content';
 import { AppError } from '../auth/axios';
+import { Coordinate } from '../components/mapComponents/ducks/types';
 
 /**
  * Converts the given dollar amount to a formatted string
@@ -143,7 +144,7 @@ export function getErrorMessage(err: AppError): string {
  * @param str the string to parse
  * @return the converted LatLng or null if the given string cannot be parsed
  */
-export function parseLatLng(str: string): google.maps.LatLng | null {
+export function parseLatLng(str: string): Coordinate | null {
   const latLng = str.split(',');
   if (latLng.length !== 2) {
     return null;
@@ -155,5 +156,5 @@ export function parseLatLng(str: string): google.maps.LatLng | null {
     return null;
   }
 
-  return new google.maps.LatLng(lat, lng);
+  return [lat, lng];
 }

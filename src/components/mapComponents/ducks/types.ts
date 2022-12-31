@@ -80,7 +80,7 @@ interface MapGeometry {
   coordinates: Coordinate[][][] | Coordinate;
 }
 
-type Coordinate = [number, number];
+export type Coordinate = [number, number];
 
 // ---------------------------------Redux----------------------------------------
 

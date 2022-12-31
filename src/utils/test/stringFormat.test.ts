@@ -167,11 +167,9 @@ test('parseLatLng tests', () => {
   expect(parseLatLng('')).toBe(null);
   expect(parseLatLng(',')).toBe(null);
   expect(parseLatLng('5')).toBe(null);
-  expect(parseLatLng('42.1, -71.98')).toBe(
-    new google.maps.LatLng(42.1, -71.98),
-  );
+  expect(parseLatLng('42.1, -71.98')).toEqual([42.1, -71.98]);
   expect(parseLatLng('25, 30, 1')).toBe(null);
   expect(parseLatLng('test, testing')).toBe(null);
-  expect(parseLatLng(' -14    , 90  ')).toBe(new google.maps.LatLng(-14, 90));
-  expect(parseLatLng('0, -.3')).toBe(new google.maps.LatLng(0, -0.3));
+  expect(parseLatLng(' -14    , 90  ')).toEqual([-14, 90]);
+  expect(parseLatLng('0, -.3')).toEqual([0, -0.3]);
 });
