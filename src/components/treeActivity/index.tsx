@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Row, Col, Typography, List, Select, Pagination } from 'antd';
+import { Typography, List, Select, Pagination } from 'antd';
 import {
   MonthYearOption,
   TreeCare,
 } from '../../containers/treePage/ducks/types';
-import { TitleProps } from 'antd/lib/typography/Title';
-import { DARK_GREEN, MID_GREEN, TEXT_GREY } from '../../utils/colors';
+import { DARK_GREEN, MID_GREEN } from '../../utils/colors';
 import { UNABBREVIATED_MONTHS } from '../../assets/content';
+import CareEntry from '../careEntry';
 import styled from 'styled-components';
 
 const TreeCareTitle = styled(Typography.Paragraph)`
@@ -15,26 +15,6 @@ const TreeCareTitle = styled(Typography.Paragraph)`
   font-weight: bold;
   line-height: 26px;
   color: ${DARK_GREEN};
-`;
-
-const CareEntry = styled.div`
-  margin: 15px;
-`;
-
-const EntryDate = styled(Typography.Paragraph)<TitleProps>`
-  display: inline;
-  text-align: center;
-  line-height: 0px;
-  font-size: 18px;
-  font-weight: bold;
-  color: ${DARK_GREEN};
-`;
-
-const EntryMessage = styled(Typography.Paragraph)`
-  display: inline;
-  text-align: center;
-  line-height: 0px;
-  color: ${TEXT_GREY};
 `;
 
 const StewardshipActivityDropdownContainer = styled.div`
@@ -114,17 +94,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
           emptyText: 'No Stewardship Activities Recorded for this Tree',
         }}
         renderItem={(value, key) => (
-          <CareEntry key={key}>
-            <Row>
-              <Col span={5}>
-                <EntryDate>{value.month + ' ' + value.day}</EntryDate>
-              </Col>
-              <Col span={1} />
-              <Col span={18}>
-                <EntryMessage>{value.message}</EntryMessage>
-              </Col>
-            </Row>
-          </CareEntry>
+          <CareEntry activity={value} key={key}></CareEntry>
         )}
       />
       <CenteredPagination

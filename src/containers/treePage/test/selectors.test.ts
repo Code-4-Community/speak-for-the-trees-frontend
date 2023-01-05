@@ -58,12 +58,14 @@ describe('Tree Page Selectors', () => {
           month: 'Jan',
           year: 2021,
           message: 'Was mulched and watered and weeded.',
+          id: 0,
         },
         {
           day: '23rd',
           month: 'Feb',
           year: 2021,
           message: 'Was cleared of waste.',
+          id: 1,
         },
       ];
 
