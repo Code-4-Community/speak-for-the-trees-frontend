@@ -188,6 +188,7 @@ export interface TreeCare {
   year: number;
   day: string;
   message: string;
+  id: number;
 }
 
 export interface MonthYearOption {
