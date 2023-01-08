@@ -156,6 +156,30 @@ const TreePage: React.FC<TreeProps> = ({
       );
   };
 
+  const onFinishEditStewardship = (activityId: number, form: FormInstance) => {
+    return (values: RecordStewardshipRequest) => {
+      const activities: ActivityRequest = {
+        date: values.activityDate.format('L'),
+        watered: values.stewardshipActivities.includes('Watered'),
+        mulched: values.stewardshipActivities.includes('Mulched'),
+        cleaned: values.stewardshipActivities.includes(
+          'Cleared Waste & Litter',
+        ),
+        weeded: values.stewardshipActivities.includes('Weeded'),
+      };
+      protectedApiClient
+        .editStewardship(activityId, activities)
+        .then(() => {
+          message.success('Stewardship modified');
+          form.resetFields();
+          dispatch(getSiteData(id));
+        })
+        .catch((err) =>
+          message.error(`Failed to record stewardship: ${err.response.data}`),
+        );
+    };
+  };
+
   const onClickAdopt = () => {
     protectedApiClient
       .adoptSite(id)
@@ -301,6 +325,9 @@ const TreePage: React.FC<TreeProps> = ({
                               <TreeActivity
                                 stewardship={stewardship}
                                 monthYearOptions={monthYearOptions}
+                                onFinishEditStewardship={
+                                  onFinishEditStewardship
+                                }
                               />
                             </TreeCareContainer>
                           </Col>

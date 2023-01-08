@@ -87,6 +87,10 @@ export interface ProtectedApiClient {
     siteId: number,
     request: ActivityRequest,
   ) => Promise<void>;
+  readonly editStewardship: (
+    activityId: number,
+    request: ActivityRequest,
+  ) => Promise<void>;
   readonly deleteStewardship: (activityId: number) => Promise<void>;
   readonly getAdoptedSites: () => Promise<AdoptedSites>;
   readonly editSite: (
@@ -166,6 +170,8 @@ export const ParameterizedApiRoutes = {
   UNADOPT_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/unadopt`,
   RECORD_STEWARDSHIP: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/record_stewardship`,
+  EDIT_STEWARDSHIP: (activityId: number): string =>
+    `${baseSiteRoute}edit_stewardship/${activityId}`,
   DELETE_STEWARDSHIP: (actvityId: number): string =>
     `${baseSiteRoute}remove_stewardship/${actvityId}`,
   UPDATE_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/update`,
@@ -393,6 +399,16 @@ const recordStewardship = (
   ).then((res) => res.data);
 };
 
+const editStewardship = (
+  activityId: number,
+  request: ActivityRequest,
+): Promise<void> => {
+  return AppAxiosInstance.post(
+    ParameterizedApiRoutes.EDIT_STEWARDSHIP(activityId),
+    request,
+  ).then((res) => res.data);
+};
+
 const deleteStewardship = (siteId: number): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.DELETE_STEWARDSHIP(siteId),
@@ -504,6 +520,7 @@ const Client: ProtectedApiClient = Object.freeze({
   adoptSite,
   unadoptSite,
   recordStewardship,
+  editStewardship,
   deleteStewardship,
   getAdoptedSites,
   editSite,
