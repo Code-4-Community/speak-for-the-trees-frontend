@@ -40,11 +40,16 @@ const CenteredPagination = styled(Pagination)`
 interface TreeActivityProps {
   readonly stewardship: TreeCare[];
   readonly monthYearOptions: MonthYearOption[];
+  readonly onFinishEditStewardship: (
+    activityId: number,
+    form: FormInstance<RecordStewardshipRequest>,
+  ) => (values: RecordStewardshipRequest) => void;
 }
 
 const TreeActivity: React.FC<TreeActivityProps> = ({
   stewardship,
   monthYearOptions,
+  onFinishEditStewardship,
 }) => {
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toLocaleString('default', { month: 'short' }),
@@ -94,7 +99,11 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
           emptyText: 'No Stewardship Activities Recorded for this Tree',
         }}
         renderItem={(value, key) => (
-          <CareEntry activity={value} key={key}></CareEntry>
+          <CareEntry
+            activity={value}
+            onFinishEditStewardship={onFinishEditStewardship}
+            key={key}
+          ></CareEntry>
         )}
       />
       <CenteredPagination
