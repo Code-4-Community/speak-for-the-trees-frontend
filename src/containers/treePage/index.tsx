@@ -136,14 +136,20 @@ const TreePage: React.FC<TreeProps> = ({
     }
   }, [dispatch, id, tokens]);
 
-  const onFinishRecordStewardship = (values: RecordStewardshipRequest) => {
-    const activities: ActivityRequest = {
+  const generateActivityRequest = (
+    values: RecordStewardshipRequest,
+  ): ActivityRequest => {
+    return {
       date: values.activityDate.format('L'),
       watered: values.stewardshipActivities.includes('Watered'),
       mulched: values.stewardshipActivities.includes('Mulched'),
       cleaned: values.stewardshipActivities.includes('Cleared Waste & Litter'),
       weeded: values.stewardshipActivities.includes('Weeded'),
     };
+  };
+
+  const onFinishRecordStewardship = (values: RecordStewardshipRequest) => {
+    const activities = generateActivityRequest(values);
     protectedApiClient
       .recordStewardship(id, activities)
       .then(() => {
@@ -158,15 +164,7 @@ const TreePage: React.FC<TreeProps> = ({
 
   const onFinishEditStewardship = (activityId: number, form: FormInstance) => {
     return (values: RecordStewardshipRequest) => {
-      const activities: ActivityRequest = {
-        date: values.activityDate.format('L'),
-        watered: values.stewardshipActivities.includes('Watered'),
-        mulched: values.stewardshipActivities.includes('Mulched'),
-        cleaned: values.stewardshipActivities.includes(
-          'Cleared Waste & Litter',
-        ),
-        weeded: values.stewardshipActivities.includes('Weeded'),
-      };
+      const activities = generateActivityRequest(values);
       protectedApiClient
         .editStewardship(activityId, activities)
         .then(() => {
@@ -356,6 +354,7 @@ const TreePage: React.FC<TreeProps> = ({
                           <TreeActivity
                             stewardship={stewardship}
                             monthYearOptions={monthYearOptions}
+                            onFinishEditStewardship={onFinishEditStewardship}
                           />
                         </TreeCareContainer>
                       </TreeMainContainer>
@@ -379,6 +378,7 @@ const TreePage: React.FC<TreeProps> = ({
                           <TreeActivity
                             stewardship={stewardship}
                             monthYearOptions={monthYearOptions}
+                            onFinishEditStewardship={onFinishEditStewardship}
                           />
                         </MobileTreeCareContainer>
                       </MobileTreeMainContainer>
