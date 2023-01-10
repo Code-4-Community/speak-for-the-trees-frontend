@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { TreeCare } from '../../containers/treePage/ducks/types';
 import { Row, Col, Typography, Button, Form } from 'antd';
-import { DARK_GREEN, MID_GREEN, TEXT_GREY } from '../../utils/colors';
+import { DARK_GREEN, TEXT_GREY } from '../../utils/colors';
 import { EditOutlined } from '@ant-design/icons';
 import { TitleProps } from 'antd/lib/typography/Title';
 import styled from 'styled-components';
