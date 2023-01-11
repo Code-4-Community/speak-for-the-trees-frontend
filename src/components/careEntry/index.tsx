@@ -41,11 +41,13 @@ interface CareEntryProps {
     activityId: number,
     form: FormInstance<RecordStewardshipRequest>,
   ) => (values: RecordStewardshipRequest) => void;
+  readonly showButtons: boolean;
 }
 
 const CareEntry: React.FC<CareEntryProps> = ({
   activity,
   onFinishEditStewardship,
+  showButtons,
 }) => {
   const [showForm, setShowForm] = useState<boolean>(false);
   const [stewardshipFormInstance] = Form.useForm();
@@ -60,9 +62,11 @@ const CareEntry: React.FC<CareEntryProps> = ({
           <Col span={1} />
           <Col span={18}>
             <EntryMessage>{activity.message}</EntryMessage>
-            <EditButton type="primary" onClick={() => setShowForm(!showForm)}>
-              <EditOutlined />
-            </EditButton>
+            {showButtons && (
+              <EditButton type="primary" onClick={() => setShowForm(!showForm)}>
+                <EditOutlined />
+              </EditButton>
+            )}
           </Col>
         </Row>
         {showForm && (

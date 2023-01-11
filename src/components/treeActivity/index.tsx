@@ -8,6 +8,9 @@ import { DARK_GREEN, MID_GREEN } from '../../utils/colors';
 import { UNABBREVIATED_MONTHS } from '../../assets/content';
 import CareEntry from '../careEntry';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { PrivilegeLevel } from '../../auth/ducks/types';
+import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 
 const TreeCareTitle = styled(Typography.Paragraph)`
   margin: 0px 5px;
@@ -44,12 +47,14 @@ interface TreeActivityProps {
     activityId: number,
     form: FormInstance<RecordStewardshipRequest>,
   ) => (values: RecordStewardshipRequest) => void;
+  readonly doesUserOwnTree: boolean;
 }
 
 const TreeActivity: React.FC<TreeActivityProps> = ({
   stewardship,
   monthYearOptions,
   onFinishEditStewardship,
+  doesUserOwnTree,
 }) => {
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toLocaleString('default', { month: 'short' }),
@@ -69,6 +74,15 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
   });
 
   const [pageNumber, setPageNumber] = useState(0);
+
+  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
+    getPrivilegeLevel(state.authenticationState.tokens),
+  );
+
+  const showButtons =
+    doesUserOwnTree ||
+    privilegeLevel === PrivilegeLevel.ADMIN ||
+    privilegeLevel === PrivilegeLevel.SUPER_ADMIN;
 
   return (
     <>
@@ -102,6 +116,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
           <CareEntry
             activity={value}
             onFinishEditStewardship={onFinishEditStewardship}
+            showButtons={showButtons}
             key={key}
           ></CareEntry>
         )}
