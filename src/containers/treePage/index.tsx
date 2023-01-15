@@ -155,29 +155,7 @@ const TreePage: React.FC<TreeProps> = ({
         message.error(`Failed to record stewardship: ${err.response.data}`),
       );
   };
-
-  const onClickDeleteActivity = (activityId: number, userId: number) => {
-    protectedApiClient
-      .deleteStewardship(activityId)
-      .then(() => {
-        message.success('Stewardship Activity Deleted');
-      })
-      .catch((err) => {
-        message.error(
-          `Failed to delete stewardship activity: ${err.response.data}`,
-        );
-      });
-    dispatch(getSiteData(id));
-
-    // for (let i = 0; i < selectedActivities.length; i++) {
-    //   if (selectedActivities[i].activityId === activityId) {
-    //     selectedActivities.splice(i, 1);
-    //   }
-    // }
-    // setSelectedActivities(selectedActivities);
-    // dispatch(getSiteData(id));
-  };
-
+  
   const onClickAdopt = () => {
     protectedApiClient
       .adoptSite(id)
