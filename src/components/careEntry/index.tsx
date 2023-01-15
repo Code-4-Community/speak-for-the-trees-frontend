@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { TreeCare } from '../../containers/treePage/ducks/types';
-import { Row, Col, Typography, Button, Form } from 'antd';
+import { Row, Col, Typography, Button, Form, Modal } from 'antd';
 import { DARK_GREEN, TEXT_GREY } from '../../utils/colors';
-import { EditOutlined } from '@ant-design/icons';
+import { EditOutlined, CloseOutlined } from '@ant-design/icons';
 import { TitleProps } from 'antd/lib/typography/Title';
 import styled from 'styled-components';
 import StewardshipForm from '../forms/stewardshipForm';
@@ -33,6 +33,16 @@ const EditButton = styled(Button)`
   font-size: 20px;
   padding: 0px 10px;
   line-height: 0px;
+`;
+
+const StyledClose = styled(CloseOutlined)`
+  color: red;
+  padding: 5px;
+  border-radius: 3px;
+
+  & :hover {
+    background-color: #ffd1d1;
+  }
 `;
 
 interface CareEntryProps {
@@ -69,7 +79,14 @@ const CareEntry: React.FC<CareEntryProps> = ({
             )}
           </Col>
         </Row>
-        {showForm && (
+        <Modal
+          bodyStyle={{ height: '220px', paddingBottom: '15px' }}
+          title="Edit stewardship"
+          visible={showForm}
+          onCancel={() => setShowForm(false)}
+          footer={null}
+          closeIcon={<StyledClose />}
+        >
           <StewardshipForm
             onFinish={onFinishEditStewardship(
               activity.id,
@@ -77,7 +94,7 @@ const CareEntry: React.FC<CareEntryProps> = ({
             )}
             form={stewardshipFormInstance}
           />
-        )}
+        </Modal>
       </Entry>
     </>
   );
