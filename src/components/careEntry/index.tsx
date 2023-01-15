@@ -59,7 +59,7 @@ const CareEntry: React.FC<CareEntryProps> = ({
   onFinishEditStewardship,
   showButtons,
 }) => {
-  const [showForm, setShowForm] = useState<boolean>(false);
+  const [showEditForm, setShowEditForm] = useState<boolean>(false);
   const [stewardshipFormInstance] = Form.useForm();
 
   return (
@@ -73,29 +73,32 @@ const CareEntry: React.FC<CareEntryProps> = ({
           <Col span={18}>
             <EntryMessage>{activity.message}</EntryMessage>
             {showButtons && (
-              <EditButton type="primary" onClick={() => setShowForm(!showForm)}>
+              <EditButton
+                type="primary"
+                onClick={() => setShowEditForm(!showEditForm)}
+              >
                 <EditOutlined />
               </EditButton>
             )}
           </Col>
         </Row>
-        <Modal
-          bodyStyle={{ height: '220px', paddingBottom: '15px' }}
-          title="Edit stewardship"
-          visible={showForm}
-          onCancel={() => setShowForm(false)}
-          footer={null}
-          closeIcon={<StyledClose />}
-        >
-          <StewardshipForm
-            onFinish={onFinishEditStewardship(
-              activity.id,
-              stewardshipFormInstance,
-            )}
-            form={stewardshipFormInstance}
-          />
-        </Modal>
       </Entry>
+      <Modal
+        bodyStyle={{ paddingBottom: '5px' }}
+        title="Edit stewardship"
+        visible={showEditForm}
+        onCancel={() => setShowEditForm(false)}
+        footer={null}
+        closeIcon={<StyledClose />}
+      >
+        <StewardshipForm
+          onFinish={onFinishEditStewardship(
+            activity.id,
+            stewardshipFormInstance,
+          )}
+          form={stewardshipFormInstance}
+        />
+      </Modal>
     </>
   );
 };
