@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import {Row, Col, Typography, List, Select, Pagination, message, Modal, Button,} from 'antd';
+import { Row, Col, Typography, List, Select, Pagination, message, Modal, Button } from 'antd';
 import {
   MonthYearOption,
   TreeCare,
 } from '../../containers/treePage/ducks/types';
 import { TitleProps } from 'antd/lib/typography/Title';
-import {DARK_GREEN, LIGHT_GREY, MID_GREEN, TEXT_GREY, WHITE,
-} from '../../utils/colors';
+import { DARK_GREEN, LIGHT_GREY, MID_GREEN, TEXT_GREY, WHITE } from '../../utils/colors';
 import { UNABBREVIATED_MONTHS } from '../../assets/content';
 import styled from 'styled-components';
 import { LinkButton } from '../linkButton';
@@ -80,8 +79,7 @@ const DeleteActivityButton = styled(LinkButton)`
 const DeleteIconStyle = styled.img`
   max-height: 25px;
   margin-bottom: 2px;
-`
-;
+`;
 
 const ConfirmDelete = styled(Button)`
   margin: 10px;
@@ -160,6 +158,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
 
   return (
     <>
+      {/* {console.log(selectOptions)} */}
       <TreeCareTitle>Recent Tree Care Activity</TreeCareTitle>
       <StewardshipActivityDropdownContainer>
         <StewardshipActivityDropdown>
@@ -186,7 +185,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
           emptyText: 'No Stewardship Activities Recorded for this Tree',
         }}
         renderItem={(value, key) => (
-          <CareEntry>
+          <CareEntry key={key}>
             <Row>
               <Col span={5}>
                 <EntryDate>{value.month + ' ' + value.day}</EntryDate>

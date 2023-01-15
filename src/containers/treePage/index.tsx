@@ -155,7 +155,7 @@ const TreePage: React.FC<TreeProps> = ({
         message.error(`Failed to record stewardship: ${err.response.data}`),
       );
   };
-  
+
   const onClickAdopt = () => {
     protectedApiClient
       .adoptSite(id)
