@@ -1,13 +1,36 @@
-import React, { useState } from 'react';
-import { Row, Col, Typography, List, Select, Pagination } from 'antd';
+import React, { useEffect, useState } from 'react';
+import {
+  Row,
+  Col,
+  Typography,
+  List,
+  Select,
+  Pagination,
+  message,
+  Modal,
+  Button,
+} from 'antd';
 import {
   MonthYearOption,
   TreeCare,
 } from '../../containers/treePage/ducks/types';
 import { TitleProps } from 'antd/lib/typography/Title';
-import { DARK_GREEN, MID_GREEN, TEXT_GREY } from '../../utils/colors';
+import {
+  DARK_GREEN,
+  LIGHT_GREY,
+  MID_GREEN,
+  TEXT_GREY,
+  WHITE,
+} from '../../utils/colors';
 import { UNABBREVIATED_MONTHS } from '../../assets/content';
 import styled from 'styled-components';
+import { LinkButton } from '../linkButton';
+import protectedApiClient from '../../api/protectedApiClient';
+import { useDispatch, useSelector } from 'react-redux';
+import DeleteIcon from '../../assets/images/delete-icon.png';
+import { C4CState } from '../../store';
+import { getPrivilegeLevel, getUserID } from '../../auth/ducks/selectors';
+import { PrivilegeLevel } from '../../auth/ducks/types';
 
 const TreeCareTitle = styled(Typography.Paragraph)`
   margin: 0px 5px;
@@ -57,22 +80,67 @@ const CenteredPagination = styled(Pagination)`
   }
 `;
 
+const DeleteActivityButton = styled(LinkButton)`
+  margin: 10px;
+  padding-left: 10px;
+  background: ${WHITE};
+  border: none;
+  padding-left: 10px;
+  float: right;
+  &:hover {
+    background-color: ${LIGHT_GREY};
+  }
+`;
+
+const ConfirmDelete = styled(Button)`
+  margin: 10px;
+  padding-left: 10px;
+  padding-left: 10px;
+  &:hover {
+    background-color: ${LIGHT_GREY};
+  }
+`;
+
 interface TreeActivityProps {
   readonly stewardship: TreeCare[];
   readonly monthYearOptions: MonthYearOption[];
+  readonly doesUserOwnTree: boolean;
 }
 
 const TreeActivity: React.FC<TreeActivityProps> = ({
   stewardship,
   monthYearOptions,
+  doesUserOwnTree,
 }) => {
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toLocaleString('default', { month: 'short' }),
   );
+
+  const currentUserId = useSelector((state: C4CState) =>
+    getUserID(state.authenticationState.tokens),
+  );
+
+  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
+    getPrivilegeLevel(state.authenticationState.tokens),
+  );
+
+  const showButtons =
+    doesUserOwnTree ||
+    privilegeLevel === PrivilegeLevel.ADMIN ||
+    privilegeLevel === PrivilegeLevel.SUPER_ADMIN;
+
+  const [selectedActivities, setSelectedActivities] = useState(stewardship);
+
+  useEffect(() => {
+    setSelectedActivities(stewardship);
+  }, [stewardship]);
+
+  const dispatch = useDispatch();
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  const selectedMonthYearStewardship: TreeCare[] = stewardship.filter(
+  const selectedMonthYearStewardship: TreeCare[] = selectedActivities.filter(
     (entry) => entry.month === selectedMonth && entry.year === selectedYear,
   );
+  const [showForm, setShowForm] = useState<boolean>(false);
   const selectOptions: {
     label: string;
     value: string;
@@ -85,9 +153,32 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
 
   const [pageNumber, setPageNumber] = useState(0);
 
+  const DeleteIconStyle = styled.img`
+    max-height: 25px;
+    margin-bottom: 2px;
+  `;
+
+  const onClickDeleteActivity = (activityId: number, userId: number) => {
+    protectedApiClient
+      .deleteStewardship(activityId)
+      .then(() => {
+        message.success('Stewardship Activity Deleted');
+      })
+      .catch((err) => {
+        message.error(
+          `Failed to delete stewardship activity: ${err.response.data}`,
+        );
+      });
+    for (let i = 0; i < selectedActivities.length; i++) {
+      if (selectedActivities[i].activityId === activityId) {
+        selectedActivities.splice(i, 1);
+      }
+    }
+    setSelectedActivities(selectedActivities);
+  };
+
   return (
     <>
-      {/* {console.log(selectOptions)} */}
       <TreeCareTitle>Recent Tree Care Activity</TreeCareTitle>
       <StewardshipActivityDropdownContainer>
         <StewardshipActivityDropdown>
@@ -114,7 +205,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
           emptyText: 'No Stewardship Activities Recorded for this Tree',
         }}
         renderItem={(value, key) => (
-          <CareEntry key={key}>
+          <CareEntry>
             <Row>
               <Col span={5}>
                 <EntryDate>{value.month + ' ' + value.day}</EntryDate>
@@ -122,8 +213,35 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
               <Col span={1} />
               <Col span={18}>
                 <EntryMessage>{value.message}</EntryMessage>
+                {showButtons && (
+                  <DeleteActivityButton
+                    type="primary"
+                    onClick={() => setShowForm(!showForm)}
+                  >
+                    <DeleteIconStyle
+                      src={DeleteIcon}
+                      alt="Delete Stewardship Activity"
+                    />
+                  </DeleteActivityButton>
+                )}
               </Col>
             </Row>
+            <Modal
+              title="Confirm Stewardship Deletion"
+              visible={showForm}
+              onOk={() => setShowForm(false)}
+              onCancel={() => setShowForm(false)}
+              footer={null}
+            >
+              <p>Are you sure you want to delete this stewardship activity? </p>
+              <ConfirmDelete
+                onClick={() => {
+                  onClickDeleteActivity(value.activityId, value.userId);
+                }}
+              >
+                Delete
+              </ConfirmDelete>
+            </Modal>
           </CareEntry>
         )}
       />
