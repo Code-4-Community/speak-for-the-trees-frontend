@@ -1,26 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Row,
-  Col,
-  Typography,
-  List,
-  Select,
-  Pagination,
-  message,
-  Modal,
-  Button,
-} from 'antd';
+import {Row, Col, Typography, List, Select, Pagination, message, Modal, Button,} from 'antd';
 import {
   MonthYearOption,
   TreeCare,
 } from '../../containers/treePage/ducks/types';
 import { TitleProps } from 'antd/lib/typography/Title';
-import {
-  DARK_GREEN,
-  LIGHT_GREY,
-  MID_GREEN,
-  TEXT_GREY,
-  WHITE,
+import {DARK_GREEN, LIGHT_GREY, MID_GREEN, TEXT_GREY, WHITE,
 } from '../../utils/colors';
 import { UNABBREVIATED_MONTHS } from '../../assets/content';
 import styled from 'styled-components';
@@ -92,6 +77,12 @@ const DeleteActivityButton = styled(LinkButton)`
   }
 `;
 
+const DeleteIconStyle = styled.img`
+  max-height: 25px;
+  margin-bottom: 2px;
+`
+;
+
 const ConfirmDelete = styled(Button)`
   margin: 10px;
   padding-left: 10px;
@@ -116,10 +107,6 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
     new Date().toLocaleString('default', { month: 'short' }),
   );
 
-  const currentUserId = useSelector((state: C4CState) =>
-    getUserID(state.authenticationState.tokens),
-  );
-
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
@@ -135,7 +122,6 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
     setSelectedActivities(stewardship);
   }, [stewardship]);
 
-  const dispatch = useDispatch();
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const selectedMonthYearStewardship: TreeCare[] = selectedActivities.filter(
     (entry) => entry.month === selectedMonth && entry.year === selectedYear,
@@ -153,12 +139,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
 
   const [pageNumber, setPageNumber] = useState(0);
 
-  const DeleteIconStyle = styled.img`
-    max-height: 25px;
-    margin-bottom: 2px;
-  `;
-
-  const onClickDeleteActivity = (activityId: number, userId: number) => {
+  const onClickDeleteActivity = (activityId: number) => {
     protectedApiClient
       .deleteStewardship(activityId)
       .then(() => {
@@ -236,7 +217,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
               <p>Are you sure you want to delete this stewardship activity? </p>
               <ConfirmDelete
                 onClick={() => {
-                  onClickDeleteActivity(value.activityId, value.userId);
+                  onClickDeleteActivity(value.activityId);
                 }}
               >
                 Delete
