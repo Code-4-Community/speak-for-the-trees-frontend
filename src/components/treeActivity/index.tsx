@@ -1,11 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Typography, List, Select, Pagination, message, Modal, Button } from 'antd';
+import {
+  Row,
+  Col,
+  Typography,
+  List,
+  Select,
+  Pagination,
+  message,
+  Modal,
+  Button,
+} from 'antd';
 import {
   MonthYearOption,
   TreeCare,
 } from '../../containers/treePage/ducks/types';
 import { TitleProps } from 'antd/lib/typography/Title';
-import { DARK_GREEN, LIGHT_GREY, MID_GREEN, TEXT_GREY, WHITE } from '../../utils/colors';
+import {
+  DARK_GREEN,
+  LIGHT_GREY,
+  MID_GREEN,
+  TEXT_GREY,
+  WHITE,
+} from '../../utils/colors';
 import { UNABBREVIATED_MONTHS } from '../../assets/content';
 import styled from 'styled-components';
 import { LinkButton } from '../linkButton';
@@ -124,7 +140,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
   const selectedMonthYearStewardship: TreeCare[] = selectedActivities.filter(
     (entry) => entry.month === selectedMonth && entry.year === selectedYear,
   );
-  const [showForm, setShowForm] = useState<boolean>(false);
+
   const selectOptions: {
     label: string;
     value: string;
@@ -141,19 +157,41 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
     protectedApiClient
       .deleteStewardship(activityId)
       .then(() => {
-        message.success('Stewardship Activity Deleted');
+        message.success('Stewardship Activity ' + activityId + ' Deleted');
       })
       .catch((err) => {
         message.error(
           `Failed to delete stewardship activity: ${err.response.data}`,
         );
       });
-    for (let i = 0; i < selectedActivities.length; i++) {
-      if (selectedActivities[i].activityId === activityId) {
-        selectedActivities.splice(i, 1);
-      }
-    }
-    setSelectedActivities(selectedActivities);
+
+    setSelectedActivities(
+      selectedActivities.filter((act) => act.activityId !== activityId),
+    );
+  };
+
+  const [showForm, setShowForm] = useState<boolean>(false);
+  const [activityToDelete, setActivityToDelete] = useState<number>(0);
+
+  const DeleteModalDisplay = () => {
+    return (
+      <Modal
+        title="Confirm Stewardship Deletion"
+        visible={showForm}
+        onOk={() => setShowForm(false)}
+        onCancel={() => setShowForm(false)}
+        footer={null}
+      >
+        <p>Are you sure you want to delete this stewardship activity? </p>
+        <ConfirmDelete
+          onClick={() => {
+            onClickDeleteActivity(activityToDelete);
+          }}
+        >
+          Delete {activityToDelete}
+        </ConfirmDelete>
+      </Modal>
+    );
   };
 
   return (
@@ -196,32 +234,20 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
                 {showButtons && (
                   <DeleteActivityButton
                     type="primary"
-                    onClick={() => setShowForm(!showForm)}
+                    onClick={() => {
+                      setShowForm(!showForm);
+                      setActivityToDelete(value.activityId);
+                    }}
                   >
                     <DeleteIconStyle
                       src={DeleteIcon}
                       alt="Delete Stewardship Activity"
                     />
+                    {DeleteModalDisplay()}
                   </DeleteActivityButton>
                 )}
               </Col>
             </Row>
-            <Modal
-              title="Confirm Stewardship Deletion"
-              visible={showForm}
-              onOk={() => setShowForm(false)}
-              onCancel={() => setShowForm(false)}
-              footer={null}
-            >
-              <p>Are you sure you want to delete this stewardship activity? </p>
-              <ConfirmDelete
-                onClick={() => {
-                  onClickDeleteActivity(value.activityId);
-                }}
-              >
-                Delete
-              </ConfirmDelete>
-            </Modal>
           </CareEntry>
         )}
       />
