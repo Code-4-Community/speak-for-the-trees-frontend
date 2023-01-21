@@ -301,7 +301,6 @@ const TreePage: React.FC<TreeProps> = ({
                               <TreeActivity
                                 stewardship={stewardship}
                                 monthYearOptions={monthYearOptions}
-                                doesUserOwnTree={doesUserOwnTree}
                               />
                             </TreeCareContainer>
                           </Col>
@@ -330,7 +329,6 @@ const TreePage: React.FC<TreeProps> = ({
                           <TreeActivity
                             stewardship={stewardship}
                             monthYearOptions={monthYearOptions}
-                            doesUserOwnTree={doesUserOwnTree}
                           />
                         </TreeCareContainer>
                       </TreeMainContainer>
@@ -354,7 +352,6 @@ const TreePage: React.FC<TreeProps> = ({
                           <TreeActivity
                             stewardship={stewardship}
                             monthYearOptions={monthYearOptions}
-                            doesUserOwnTree={doesUserOwnTree}
                           />
                         </MobileTreeCareContainer>
                       </MobileTreeMainContainer>

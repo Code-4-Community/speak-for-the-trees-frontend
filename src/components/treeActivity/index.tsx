@@ -26,11 +26,10 @@ import { UNABBREVIATED_MONTHS } from '../../assets/content';
 import styled from 'styled-components';
 import { LinkButton } from '../linkButton';
 import protectedApiClient from '../../api/protectedApiClient';
-import { useDispatch, useSelector } from 'react-redux';
-import DeleteIcon from '../../assets/images/delete-icon.png';
+import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
-import { getPrivilegeLevel, getUserID } from '../../auth/ducks/selectors';
-import { PrivilegeLevel } from '../../auth/ducks/types';
+import { isAdmin, getUserID } from '../../auth/ducks/selectors';
+import { DeleteOutlined } from '@ant-design/icons';
 
 const TreeCareTitle = styled(Typography.Paragraph)`
   margin: 0px 5px;
@@ -81,25 +80,20 @@ const CenteredPagination = styled(Pagination)`
 `;
 
 const DeleteActivityButton = styled(LinkButton)`
+  color: white;
   margin: 10px;
-  padding-left: 10px;
-  background: ${WHITE};
+  padding: 0px 10px;
+  background: #d07b69;
   border: none;
-  padding-left: 10px;
   float: right;
   &:hover {
+    color: #d07b69;
     background-color: ${LIGHT_GREY};
   }
 `;
 
-const DeleteIconStyle = styled.img`
-  max-height: 25px;
-  margin-bottom: 2px;
-`;
-
 const ConfirmDelete = styled(Button)`
   margin: 10px;
-  padding-left: 10px;
   padding-left: 10px;
   &:hover {
     background-color: ${LIGHT_GREY};
@@ -109,26 +103,23 @@ const ConfirmDelete = styled(Button)`
 interface TreeActivityProps {
   readonly stewardship: TreeCare[];
   readonly monthYearOptions: MonthYearOption[];
-  readonly doesUserOwnTree: boolean;
 }
 
 const TreeActivity: React.FC<TreeActivityProps> = ({
   stewardship,
   monthYearOptions,
-  doesUserOwnTree,
 }) => {
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toLocaleString('default', { month: 'short' }),
   );
 
-  const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
-    getPrivilegeLevel(state.authenticationState.tokens),
+  const currentUserId = useSelector((state: C4CState) =>
+      getUserID(state.authenticationState.tokens),
   );
 
-  const showButtons =
-    doesUserOwnTree ||
-    privilegeLevel === PrivilegeLevel.ADMIN ||
-    privilegeLevel === PrivilegeLevel.SUPER_ADMIN;
+  const userIsAdmin: boolean = useSelector((state: C4CState) =>
+      isAdmin(state.authenticationState.tokens),
+  );
 
   const [selectedActivities, setSelectedActivities] = useState(stewardship);
 
@@ -231,7 +222,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
               <Col span={1} />
               <Col span={18}>
                 <EntryMessage>{value.message}</EntryMessage>
-                {showButtons && (
+                {(value.userId === currentUserId || userIsAdmin) && (
                   <DeleteActivityButton
                     type="primary"
                     onClick={() => {
@@ -239,10 +230,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
                       setActivityToDelete(value.activityId);
                     }}
                   >
-                    <DeleteIconStyle
-                      src={DeleteIcon}
-                      alt="Delete Stewardship Activity"
-                    />
+                    <DeleteOutlined />
                     {DeleteModalDisplay()}
                   </DeleteActivityButton>
                 )}

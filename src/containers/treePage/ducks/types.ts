@@ -183,6 +183,7 @@ export const ExtraSiteEntryNames: Record<string, string> = {
 
 export interface TreeCare {
   activityId: number;
+  userId: number;
   month: string;
   year: number;
   day: string;
