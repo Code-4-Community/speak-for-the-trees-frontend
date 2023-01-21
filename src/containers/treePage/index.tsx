@@ -401,12 +401,15 @@ const TreePage: React.FC<TreeProps> = ({
 };
 
 const mapStateToProps = (state: C4CState): TreeProps => {
+  const stewardship = mapStewardshipToTreeCare(
+    state.siteState.stewardshipActivityData,
+  );
+  console.log('map');
+  console.log(stewardship);
   return {
     tokens: state.authenticationState.tokens,
     siteData: state.siteState.siteData,
-    stewardship: mapStewardshipToTreeCare(
-      state.siteState.stewardshipActivityData,
-    ),
+    stewardship: stewardship,
     monthYearOptions: mapStewardshipToMonthYearOptions(
       state.siteState.stewardshipActivityData,
     ),
