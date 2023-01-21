@@ -327,7 +327,6 @@ const TreePage: React.FC<TreeProps> = ({
                                 onFinishEditStewardship={
                                   onFinishEditStewardship
                                 }
-                                doesUserOwnTree={doesUserOwnTree}
                               />
                             </TreeCareContainer>
                           </Col>

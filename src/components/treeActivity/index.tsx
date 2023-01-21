@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import {
   Typography,
   List,
@@ -107,7 +108,6 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
   stewardship,
   monthYearOptions,
   onFinishEditStewardship,
-  doesUserOwnTree,
 }) => {
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toLocaleString('default', { month: 'short' }),
@@ -141,6 +141,10 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
 
   function showButtons(activityOwner) {
     return userIsAdmin || userId == activityOwner;
+  }
+
+  function treeCareToMoment(month: string, day: string, year: number) {
+    return moment(`${month} ${day} ${year}`, 'MMM Do YYYY');
   }
 
   return (
@@ -202,6 +206,11 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
                           stewardshipFormInstance,
                         )}
                         form={stewardshipFormInstance}
+                        initialDate={treeCareToMoment(
+                          activity.month,
+                          activity.day,
+                          activity.year,
+                        )}
                       />
                     </Modal>
                   </>
