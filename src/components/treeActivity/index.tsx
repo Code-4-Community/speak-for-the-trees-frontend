@@ -5,7 +5,7 @@ import {
   TreeCare,
 } from '../../containers/treePage/ducks/types';
 import { TitleProps } from 'antd/lib/typography/Title';
-import { DARK_GREEN, LIGHT_GREY, MID_GREEN, TEXT_GREY } from '../../utils/colors';
+import { DARK_GREEN, LIGHT_GREY, MID_GREEN, TEXT_GREY, LIGHT_RED } from '../../utils/colors';
 import { UNABBREVIATED_MONTHS } from '../../assets/content';
 import styled from 'styled-components';
 import { LinkButton } from '../linkButton';
@@ -67,11 +67,10 @@ const DeleteActivityButton = styled(LinkButton)`
   color: white;
   margin: 10px;
   padding: 0px 10px;
-  background: #d07b69;
+  background: ${LIGHT_RED};
   border: none;
-  float: right;
   &:hover {
-    color: #d07b69;
+    color: ${LIGHT_RED};
     background-color: ${LIGHT_GREY};
   }
 `;
@@ -203,8 +202,10 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
                 <EntryDate>{value.month + ' ' + value.day}</EntryDate>
               </Col>
               <Col span={1} />
-              <Col span={18}>
+              <Col span={16}>
                 <EntryMessage>{value.message}</EntryMessage>
+              </Col>
+              <Col span={2}>
                 {(value.userId === currentUserId || userIsAdmin) && (
                   <DeleteActivityButton
                     type="primary"
