@@ -66,6 +66,8 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
   stewardship,
   monthYearOptions,
 }) => {
+  console.log(new Date().getTimezoneOffset());
+
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toLocaleString('default', { month: 'short' }),
   );
