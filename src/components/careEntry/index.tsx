@@ -7,44 +7,6 @@ import { TitleProps } from 'antd/lib/typography/Title';
 import styled from 'styled-components';
 import StewardshipForm from '../forms/stewardshipForm';
 
-const Entry = styled.div`
-  margin: 15px;
-`;
-
-const EntryDate = styled(Typography.Paragraph)<TitleProps>`
-  display: inline;
-  text-align: center;
-  line-height: 0px;
-  font-size: 18px;
-  font-weight: bold;
-  color: ${DARK_GREEN};
-`;
-
-const EntryMessage = styled(Typography.Paragraph)`
-  display: inline;
-  text-align: center;
-  line-height: 0px;
-  color: ${TEXT_GREY};
-`;
-
-const EditButton = styled(Button)`
-  color: white;
-  float: right;
-  font-size: 20px;
-  padding: 0px 10px;
-  line-height: 0px;
-`;
-
-const StyledClose = styled(CloseOutlined)`
-  color: red;
-  padding: 5px;
-  border-radius: 3px;
-
-  & :hover {
-    background-color: #ffd1d1;
-  }
-`;
-
 interface CareEntryProps {
   readonly activity: TreeCare;
   readonly onFinishEditStewardship: (
