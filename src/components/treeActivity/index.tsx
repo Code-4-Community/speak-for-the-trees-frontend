@@ -66,8 +66,6 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
   stewardship,
   monthYearOptions,
 }) => {
-  console.log(new Date().getTimezoneOffset());
-
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toLocaleString('default', { month: 'short' }),
   );
@@ -89,6 +87,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
 
   return (
     <>
+      {/* {console.log(selectOptions)} */}
       <TreeCareTitle>Recent Tree Care Activity</TreeCareTitle>
       <StewardshipActivityDropdownContainer>
         <StewardshipActivityDropdown>

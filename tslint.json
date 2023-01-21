@@ -21,8 +21,7 @@
     "no-empty-interface": false,
     "max-classes-per-file": false,
     "jsx-no-multiline-js": false,
-    "no-empty": false,
-    "no-console": false
+    "no-empty": false
   },
   "rulesDirectory": []
 }
