@@ -401,7 +401,11 @@ const deleteStewardship = (siteId: number): Promise<void> => {
 
 const getAdoptedSites = (): Promise<AdoptedSites> => {
   return AppAxiosInstance.get(ProtectedApiClientRoutes.GET_ADOPTED_SITES).then(
-    (res) => res.data,
+    (res) => {
+      console.log('route');
+      console.log(res.data);
+      return res.data;
+    },
   );
 };
 
