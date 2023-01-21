@@ -61,6 +61,8 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
 
   const [searchInput, setSearchInput] = useState('');
 
+  const [mapTypeId, setMapTypeId] = useState<string>('roadmap');
+
   useEffect(() => {
     setMapElement(mapRef.current);
   }, [mapRef]);
