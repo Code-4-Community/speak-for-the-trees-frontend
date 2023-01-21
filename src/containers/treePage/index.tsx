@@ -163,6 +163,7 @@ const TreePage: React.FC<TreeProps> = ({
   };
 
   const onFinishEditStewardship = (activityId: number, form: FormInstance) => {
+    // console.log(activityId, form);
     return (values: RecordStewardshipRequest) => {
       const activities = generateActivityRequest(values);
       protectedApiClient
