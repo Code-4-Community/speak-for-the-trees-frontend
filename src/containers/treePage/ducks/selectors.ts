@@ -28,9 +28,6 @@ export const mapStewardshipToTreeCare = (
 ): TreeCare[] => {
   if (asyncRequestIsComplete(items)) {
     return items.result.stewardshipActivities.map((item) => {
-      console.log(item.date);
-      console.log(new Date(item.date));
-
       const year = new Date(item.date).getFullYear();
       const month = new Date(item.date).toLocaleString('default', {
         month: 'short',
