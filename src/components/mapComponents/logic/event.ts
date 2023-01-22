@@ -165,7 +165,7 @@ export function addHandleZoomChange(
 }
 
 /**
- * Determines the image size given the zoom level and the view.
+ * Determines the image size from the zoom level.
  * @param zoomLevel the zoom level between 16 and 22 where zooming in increases zoom level
  */
 export function getImageSize(zoomLevel: number): number {
