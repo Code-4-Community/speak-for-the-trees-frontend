@@ -167,7 +167,7 @@ export const ParameterizedApiRoutes = {
   RECORD_STEWARDSHIP: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/record_stewardship`,
   DELETE_STEWARDSHIP: (actvityId: number): string =>
-    `${baseSiteRoute}remove_stewardship/${actvityId}`,
+    `${baseSiteRoute}delete_stewardship/${actvityId}`,
   UPDATE_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/update`,
   NAME_SITE_ENTRY: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/name_entry`,

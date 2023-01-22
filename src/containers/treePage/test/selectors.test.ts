@@ -54,12 +54,16 @@ describe('Tree Page Selectors', () => {
     it('returns correctly formatted strings with different stewardship combinations', () => {
       const expectedTreeCare: TreeCare[] = [
         {
+          activityId: 0,
+          userId: 1,
           day: '1st',
           month: 'Jan',
           year: 2021,
           message: 'Was mulched and watered and weeded.',
         },
         {
+          activityId: 1,
+          userId: 1,
           day: '23rd',
           month: 'Feb',
           year: 2021,
