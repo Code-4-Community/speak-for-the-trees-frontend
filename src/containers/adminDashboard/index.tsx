@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Button, Form, message, Row, Typography, Divider } from 'antd';
 import PageHeader from '../../components/pageHeader';
@@ -69,6 +69,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const [createChildForm] = Form.useForm();
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
+
+  const [marker, setMarker] = useState<google.maps.Marker>();
 
   const onCreateChild = (values: SignupFormValues) => {
     ProtectedApiClient.createChild({
@@ -153,7 +155,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <Block
                 maxWidth={windowType === WindowTypes.Mobile ? '100%' : '45%'}
               >
-                <EditSiteForm formInstance={editSiteForm} />
+                <EditSiteForm
+                  formInstance={editSiteForm}
+                  onEdit={(formLat: number, formLng: number) =>
+                    marker?.setPosition(
+                      new google.maps.LatLng(formLat, formLng),
+                    )
+                  }
+                />
               </Block>
               <MapContainer>
                 <SelectorMapDisplay
@@ -165,6 +174,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       lng: pos.lng(),
                     });
                   }}
+                  setMarker={setMarker}
                 />
               </MapContainer>
             </Flex>

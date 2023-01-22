@@ -10,16 +10,39 @@ import styled from 'styled-components';
 
 interface EditSiteFormProps {
   readonly formInstance: FormInstance<EditSiteRequest>;
+  readonly onEdit: (formLat: number, formLng: number) => void;
 }
 
 const EditForm = styled(Form)`
   width: 100%;
 `;
 
-const EditSiteForm: React.FC<EditSiteFormProps> = ({ formInstance }) => {
+// function updateMapPin(lat: number, lng: number) {
+//   // If the place does not have a geometry (if the user did not enter a valid location)
+//   const pinLatLng = new google.maps.LatLng(lat, lng);
+//
+//   // Goes to the place they searched for
+//   const pinMarker = new google.maps.Marker();
+//   pinMarker.setPosition(pinLatLng);
+//   zoomToLocation(pinLatLng, map, zoomLevel);
+// }
+
+const EditSiteForm: React.FC<EditSiteFormProps> = ({
+  formInstance,
+  onEdit,
+}) => {
   return (
     <>
-      <EditForm name="basic" form={formInstance}>
+      <EditForm
+        name="basic"
+        form={formInstance}
+        onValuesChange={(changedValues, allValues) => {
+          if (changedValues.lat || changedValues.lng) {
+            // @ts-ignore
+            onEdit(allValues.lat, allValues.lng);
+          }
+        }}
+      >
         <Flex>
           <TitleStack title={'Address'} flexGrow={'1'}>
             <Form.Item

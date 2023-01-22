@@ -16,12 +16,14 @@ interface SiteFeaturesProps {
   readonly site: SiteProps;
   readonly editSiteForm: FormInstance<EditSiteRequest>;
   readonly onSubmit: (request: EditSiteRequest) => void;
+  readonly onEdit: (formLat: number, formLng: number) => void;
 }
 
 const SiteFeatures: React.FC<SiteFeaturesProps> = ({
   site,
   editSiteForm,
   onSubmit,
+  onEdit,
 }) => {
   const [editingFeatures, setEditingFeatures] = useState(false);
 
@@ -41,7 +43,7 @@ const SiteFeatures: React.FC<SiteFeaturesProps> = ({
     case true:
       return (
         <>
-          <EditSiteForm formInstance={editSiteForm} />
+          <EditSiteForm formInstance={editSiteForm} onEdit={onEdit} />
 
           <Flex justifyContent={'flex-end'}>
             <WhiteButton onClick={() => setEditingFeatures(false)}>
