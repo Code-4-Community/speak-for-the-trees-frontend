@@ -17,16 +17,6 @@ const EditForm = styled(Form)`
   width: 100%;
 `;
 
-// function updateMapPin(lat: number, lng: number) {
-//   // If the place does not have a geometry (if the user did not enter a valid location)
-//   const pinLatLng = new google.maps.LatLng(lat, lng);
-//
-//   // Goes to the place they searched for
-//   const pinMarker = new google.maps.Marker();
-//   pinMarker.setPosition(pinLatLng);
-//   zoomToLocation(pinLatLng, map, zoomLevel);
-// }
-
 const EditSiteForm: React.FC<EditSiteFormProps> = ({
   formInstance,
   onEdit,
