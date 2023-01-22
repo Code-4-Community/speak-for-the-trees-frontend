@@ -111,6 +111,7 @@ export interface SiteEntry {
   stump?: boolean;
   treeNotes?: string;
   siteNotes?: string;
+  treeName?: string;
   adopter?: string;
 }
 

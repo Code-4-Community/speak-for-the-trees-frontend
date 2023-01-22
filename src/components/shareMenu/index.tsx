@@ -65,7 +65,7 @@ const ShareMenu: React.FC<ShareMenuProps> = ({ defaultText, link }) => {
       </MediaShareButton>
       <MediaShareButton
         name="twitter-button"
-        href={`https:/twitter.com/share?&text=${formText}`}
+        href={`https://twitter.com/share?&text=${formText}`}
         rel="noreferrer"
         target="_blank"
       >

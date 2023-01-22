@@ -2,13 +2,19 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Typography, Button, FormInstance } from 'antd';
 import { RedirectStateProps, Routes } from '../../App';
-import PageHeader from '../../components/pageHeader';
 import StewardshipForm from '../forms/stewardshipForm';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 import { SiteProps } from '../../containers/treePage/ducks/types';
-import { RecordStewardshipRequest } from '../forms/ducks/types';
+import {
+  NameSiteEntryRequest,
+  RecordStewardshipRequest,
+} from '../forms/ducks/types';
 import { MID_GREEN } from '../../utils/colors';
 import ShareButton from '../../components/shareButton';
+import TreePageHeader from '../treePageHeader';
+import { C4CState } from '../../store';
+import { isAdmin } from '../../auth/ducks/selectors';
 
 const TreeHeader = styled.div`
   text-transform: capitalize;
@@ -39,6 +45,8 @@ interface TreeProps {
     values: RecordStewardshipRequest,
   ) => void;
   readonly stewardshipFormInstance: FormInstance;
+  readonly editTreeNameFormInstance: FormInstance<NameSiteEntryRequest>;
+  readonly onClickEditTreeName: (values: NameSiteEntryRequest) => void;
 }
 
 const TreeInfo: React.FC<TreeProps> = ({
@@ -50,11 +58,17 @@ const TreeInfo: React.FC<TreeProps> = ({
   onClickUnadopt,
   onFinishRecordStewardship,
   stewardshipFormInstance,
+  editTreeNameFormInstance,
+  onClickEditTreeName,
 }) => {
   const history = useHistory();
   const location = useLocation<RedirectStateProps>();
 
   const adopted = siteData.entries[0] && siteData.entries[0].adopter !== null;
+
+  const userIsAdmin: boolean = useSelector((state: C4CState) =>
+    isAdmin(state.authenticationState.tokens),
+  );
 
   const getSiteLocation = (): string => {
     // TODO change to siteData.city and remove check for zip after data is cleaned
@@ -90,7 +104,7 @@ const TreeInfo: React.FC<TreeProps> = ({
     <>
       <TreeHeader>
         {
-          <PageHeader
+          <TreePageHeader
             // Display 'Open Planting Site' if no tree has been planted
             // Otherwise, display the tree's commonName or 'Unknown Species' if no commonName exists
             pageTitle={
@@ -100,9 +114,13 @@ const TreeInfo: React.FC<TreeProps> = ({
                   : 'Unknown Species'
                 : 'Open Planting Site'
             }
-            isMobile={mobile}
             pageSubtitle={getSiteLocation()}
+            isMobile={mobile}
+            canEditTreeName={userIsAdmin || userOwnsTree}
             subtitlecolor={MID_GREEN}
+            editTreeNameForm={editTreeNameFormInstance}
+            onClickEditTreeName={onClickEditTreeName}
+            treeName={siteData.entries[0].treeName || ''}
           />
         }
       </TreeHeader>

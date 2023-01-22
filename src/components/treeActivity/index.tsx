@@ -87,7 +87,6 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
 
   return (
     <>
-      {/* {console.log(selectOptions)} */}
       <TreeCareTitle>Recent Tree Care Activity</TreeCareTitle>
       <StewardshipActivityDropdownContainer>
         <StewardshipActivityDropdown>

@@ -7,6 +7,7 @@ import {
   getErrorMessage,
   getMoneyString,
   getNeighborhoodName,
+  parseLatLng,
 } from '../stringFormat';
 import { getDateString } from '../stringFormat';
 import { shortHand } from '../stringFormat';
@@ -160,4 +161,15 @@ test('getErrorMessage', () => {
     },
   };
   expect(getErrorMessage(exampleError)).toEqual('uh oh');
+});
+
+test('parseLatLng tests', () => {
+  expect(parseLatLng('')).toBe(null);
+  expect(parseLatLng(',')).toBe(null);
+  expect(parseLatLng('5')).toBe(null);
+  expect(parseLatLng('42.1, -71.98')).toEqual([42.1, -71.98]);
+  expect(parseLatLng('25, 30, 1')).toBe(null);
+  expect(parseLatLng('test, testing')).toBe(null);
+  expect(parseLatLng(' -14    , 90  ')).toEqual([-14, 90]);
+  expect(parseLatLng('0, -.3')).toEqual([0, -0.3]);
 });
