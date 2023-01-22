@@ -10,7 +10,7 @@ import { isAdmin, getUserID } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
 import StewardshipForm from '../forms/stewardshipForm';
 
-const StyledEntry = styled.div`
+const Entry = styled.div`
   margin: 15px;
 `;
 
@@ -81,7 +81,7 @@ const CareEntry: React.FC<CareEntryProps> = ({
 
   return (
     <>
-      <StyledEntry>
+      <Entry>
         <Row>
           <Col span={5}>
             <EntryDate>{activity.month + ' ' + activity.day}</EntryDate>
@@ -101,7 +101,7 @@ const CareEntry: React.FC<CareEntryProps> = ({
             )}
           </Col>
         </Row>
-      </StyledEntry>
+      </Entry>
       <Modal
         bodyStyle={{ paddingBottom: '5px' }}
         title="Edit stewardship"
