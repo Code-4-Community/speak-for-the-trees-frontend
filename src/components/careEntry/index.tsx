@@ -2,13 +2,20 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import { TreeCare } from '../../containers/treePage/ducks/types';
 import { Row, Col, Typography, Button, Form, Modal } from 'antd';
-import { DARK_GREEN, TEXT_GREY } from '../../utils/colors';
-import { EditOutlined, CloseOutlined } from '@ant-design/icons';
+import {
+  DARK_GREEN,
+  TEXT_GREY,
+  LIGHT_RED,
+  LIGHT_GREY,
+} from '../../utils/colors';
+import { EditOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
 import { TitleProps } from 'antd/lib/typography/Title';
 import { useSelector } from 'react-redux';
 import { isAdmin, getUserID } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
 import StewardshipForm from '../forms/stewardshipForm';
+import { LinkButton } from '../linkButton';
+import { useParams } from 'react-router-dom';
 
 const Entry = styled.div`
   margin: 15px;
@@ -48,6 +55,26 @@ const StyledClose = styled(CloseOutlined)`
   }
 `;
 
+const DeleteActivityButton = styled(LinkButton)`
+  color: white;
+  margin: 10px;
+  padding: 0px 10px;
+  background: ${LIGHT_RED};
+  border: none;
+  &:hover {
+    color: ${LIGHT_RED};
+    background-color: ${LIGHT_GREY};
+  }
+`;
+
+const ConfirmDelete = styled(Button)`
+  margin: 10px;
+  padding-left: 10px;
+  &:hover {
+    background-color: ${LIGHT_GREY};
+  }
+`;
+
 interface CareEntryProps {
   readonly activity: TreeCare;
   readonly onFinishEditStewardship: (
@@ -65,7 +92,11 @@ const CareEntry: React.FC<CareEntryProps> = ({
   onFinishEditStewardship,
 }) => {
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
+  const [showDeleteForm, setShowDeleteForm] = useState<boolean>(false);
   const [stewardshipFormInstance] = Form.useForm();
+
+  const id = Number(useParams<TreeParams>().id);
+  console.log(id);
 
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
     isAdmin(state.authenticationState.tokens),
@@ -92,12 +123,20 @@ const CareEntry: React.FC<CareEntryProps> = ({
           </Col>
           <Col span={2}>
             {showButtons(activity.ownerId) && (
-              <EditButton
-                type="primary"
-                onClick={() => setShowEditForm(!showEditForm)}
-              >
-                <EditOutlined />
-              </EditButton>
+              <>
+                <EditButton
+                  type="primary"
+                  onClick={() => setShowEditForm(!showEditForm)}
+                >
+                  <EditOutlined />
+                </EditButton>
+                <DeleteActivityButton
+                  type="primary"
+                  onClick={() => setShowDeleteForm(!showDeleteForm)}
+                >
+                  <DeleteOutlined />
+                </DeleteActivityButton>
+              </>
             )}
           </Col>
         </Row>
@@ -122,6 +161,22 @@ const CareEntry: React.FC<CareEntryProps> = ({
             activity.year,
           )}
         />
+      </Modal>
+      <Modal
+        title="Confirm Stewardship Deletion"
+        visible={showDeleteForm}
+        onOk={() => setShowDeleteForm(false)}
+        onCancel={() => setShowDeleteForm(false)}
+        footer={null}
+      >
+        <p>Are you sure you want to delete this stewardship activity? </p>
+        <ConfirmDelete
+          onClick={() => {
+            onClickDeleteActivity(activityToDelete);
+          }}
+        >
+          Delete
+        </ConfirmDelete>
       </Modal>
     </>
   );

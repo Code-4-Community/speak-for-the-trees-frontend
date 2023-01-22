@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, List, Select, Pagination } from 'antd';
 import {
   MonthYearOption,
@@ -44,7 +44,6 @@ interface TreeActivityProps {
     activityId: number,
     form: FormInstance<RecordStewardshipRequest>,
   ) => (values: RecordStewardshipRequest) => void;
-  readonly doesUserOwnTree: boolean;
 }
 
 const TreeActivity: React.FC<TreeActivityProps> = ({
@@ -55,8 +54,15 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toLocaleString('default', { month: 'short' }),
   );
+
+  const [selectedActivities, setSelectedActivities] = useState(stewardship);
+
+  useEffect(() => {
+    setSelectedActivities(stewardship);
+  }, [stewardship]);
+
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  const selectedMonthYearStewardship: TreeCare[] = stewardship.filter(
+  const selectedMonthYearStewardship: TreeCare[] = selectedActivities.filter(
     (entry) => entry.month === selectedMonth && entry.year === selectedYear,
   );
   const selectOptions: {
@@ -73,7 +79,6 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
 
   return (
     <>
-      {/* {console.log(selectOptions)} */}
       <TreeCareTitle>Recent Tree Care Activity</TreeCareTitle>
       <StewardshipActivityDropdownContainer>
         <StewardshipActivityDropdown>
