@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import { TreeCare } from '../../containers/treePage/ducks/types';
-import { Row, Col, Typography, Button, Form, Modal } from 'antd';
+import { Row, Col, Typography, Button, Form, Modal, message } from 'antd';
 import {
   DARK_GREEN,
   TEXT_GREY,
@@ -10,12 +10,15 @@ import {
 } from '../../utils/colors';
 import { EditOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
 import { TitleProps } from 'antd/lib/typography/Title';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { isAdmin, getUserID } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
 import StewardshipForm from '../forms/stewardshipForm';
 import { LinkButton } from '../linkButton';
 import { useParams } from 'react-router-dom';
+import { RecordStewardshipRequest } from '../forms/ducks/types';
+import { getSiteData } from '../../containers/treePage/ducks/thunks';
+import protectedApiClient from '../../api/protectedApiClient';
 
 const Entry = styled.div`
   margin: 15px;
@@ -39,7 +42,6 @@ const EntryMessage = styled(Typography.Paragraph)`
 
 const EditButton = styled(Button)`
   color: white;
-  float: right;
   font-size: 20px;
   padding: 0px 10px;
   line-height: 0px;
@@ -77,14 +79,20 @@ const ConfirmDelete = styled(Button)`
 
 interface CareEntryProps {
   readonly activity: TreeCare;
-  readonly onFinishEditStewardship: (
-    activityId: number,
-    form: FormInstance<RecordStewardshipRequest>,
-  ) => (values: RecordStewardshipRequest) => void;
 }
 
 function treeCareToMoment(month: string, day: string, year: number) {
   return moment(`${month} ${day} ${year}`, 'MMM Do YYYY');
+}
+
+function generateActivityRequest(values: RecordStewardshipRequest) {
+  return {
+    date: values.activityDate.format('L'),
+    watered: values.stewardshipActivities.includes('Watered'),
+    mulched: values.stewardshipActivities.includes('Mulched'),
+    cleaned: values.stewardshipActivities.includes('Cleared Waste & Litter'),
+    weeded: values.stewardshipActivities.includes('Weeded'),
+  };
 }
 
 const CareEntry: React.FC<CareEntryProps> = ({
@@ -96,7 +104,35 @@ const CareEntry: React.FC<CareEntryProps> = ({
   const [stewardshipFormInstance] = Form.useForm();
 
   const id = Number(useParams<TreeParams>().id);
-  console.log(id);
+  const dispatch = useDispatch();
+
+  function onFinishEditStewardship(values: RecordStewardshipRequest) {
+    const activities = generateActivityRequest(values);
+    protectedApiClient
+      .editStewardship(activity.activityId, activities)
+      .then(() => {
+        message.success('Stewardship modified');
+        stewardshipFormInstance.resetFields();
+        dispatch(getSiteData(id));
+      })
+      .catch((err) =>
+        message.error(`Failed to record stewardship: ${err.response.data}`),
+      );
+  }
+
+  function onClickDeleteActivity() {
+    protectedApiClient
+      .deleteStewardship(activity.activityId)
+      .then(() => {
+        message.success('Stewardship Activity Deleted');
+        dispatch(getSiteData(id));
+      })
+      .catch((err) => {
+        message.error(
+          `Failed to delete stewardship activity: ${err.response.data}`,
+        );
+      });
+  }
 
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
     isAdmin(state.authenticationState.tokens),
@@ -106,9 +142,7 @@ const CareEntry: React.FC<CareEntryProps> = ({
     getUserID(state.authenticationState.tokens),
   );
 
-  function showButtons(activityOwner) {
-    return userIsAdmin || userId == activityOwner;
-  }
+  const showButtons = userIsAdmin || userId === activity.ownerId;
 
   return (
     <>
@@ -118,11 +152,11 @@ const CareEntry: React.FC<CareEntryProps> = ({
             <EntryDate>{activity.month + ' ' + activity.day}</EntryDate>
           </Col>
           <Col span={1} />
-          <Col span={16}>
+          <Col span={13}>
             <EntryMessage>{activity.message}</EntryMessage>
           </Col>
-          <Col span={2}>
-            {showButtons(activity.ownerId) && (
+          <Col span={5}>
+            {showButtons && (
               <>
                 <EditButton
                   type="primary"
@@ -150,10 +184,7 @@ const CareEntry: React.FC<CareEntryProps> = ({
         closeIcon={<StyledClose />}
       >
         <StewardshipForm
-          onFinish={onFinishEditStewardship(
-            activity.activityId,
-            stewardshipFormInstance,
-          )}
+          onFinish={onFinishEditStewardship}
           form={stewardshipFormInstance}
           initialDate={treeCareToMoment(
             activity.month,
@@ -170,13 +201,7 @@ const CareEntry: React.FC<CareEntryProps> = ({
         footer={null}
       >
         <p>Are you sure you want to delete this stewardship activity? </p>
-        <ConfirmDelete
-          onClick={() => {
-            onClickDeleteActivity(activityToDelete);
-          }}
-        >
-          Delete
-        </ConfirmDelete>
+        <ConfirmDelete onClick={onClickDeleteActivity}>Delete</ConfirmDelete>
       </Modal>
     </>
   );
