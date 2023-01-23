@@ -162,23 +162,6 @@ const TreePage: React.FC<TreeProps> = ({
       );
   };
 
-  const onFinishEditStewardship = (activityId: number, form: FormInstance) => {
-    // console.log(activityId, form);
-    return (values: RecordStewardshipRequest) => {
-      const activities = generateActivityRequest(values);
-      protectedApiClient
-        .editStewardship(activityId, activities)
-        .then(() => {
-          message.success('Stewardship modified');
-          form.resetFields();
-          dispatch(getSiteData(id));
-        })
-        .catch((err) =>
-          message.error(`Failed to record stewardship: ${err.response.data}`),
-        );
-    };
-  };
-
   const onClickAdopt = () => {
     protectedApiClient
       .adoptSite(id)
@@ -324,9 +307,6 @@ const TreePage: React.FC<TreeProps> = ({
                               <TreeActivity
                                 stewardship={stewardship}
                                 monthYearOptions={monthYearOptions}
-                                onFinishEditStewardship={
-                                  onFinishEditStewardship
-                                }
                               />
                             </TreeCareContainer>
                           </Col>
@@ -355,7 +335,6 @@ const TreePage: React.FC<TreeProps> = ({
                           <TreeActivity
                             stewardship={stewardship}
                             monthYearOptions={monthYearOptions}
-                            onFinishEditStewardship={onFinishEditStewardship}
                           />
                         </TreeCareContainer>
                       </TreeMainContainer>
@@ -379,7 +358,6 @@ const TreePage: React.FC<TreeProps> = ({
                           <TreeActivity
                             stewardship={stewardship}
                             monthYearOptions={monthYearOptions}
-                            onFinishEditStewardship={onFinishEditStewardship}
                           />
                         </MobileTreeCareContainer>
                       </MobileTreeMainContainer>
