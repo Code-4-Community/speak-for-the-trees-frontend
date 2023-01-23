@@ -110,7 +110,7 @@ interface TreeProps {
   readonly adoptedSites: ProtectedSitesReducerState['adoptedSites'];
 }
 
-interface TreeParams {
+export interface TreeParams {
   id: string;
 }
 
