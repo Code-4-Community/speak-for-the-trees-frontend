@@ -136,20 +136,14 @@ const TreePage: React.FC<TreeProps> = ({
     }
   }, [dispatch, id, tokens]);
 
-  const generateActivityRequest = (
-    values: RecordStewardshipRequest,
-  ): ActivityRequest => {
-    return {
+  const onFinishRecordStewardship = (values: RecordStewardshipRequest) => {
+    const activities: ActivityRequest = {
       date: values.activityDate.format('L'),
       watered: values.stewardshipActivities.includes('Watered'),
       mulched: values.stewardshipActivities.includes('Mulched'),
       cleaned: values.stewardshipActivities.includes('Cleared Waste & Litter'),
       weeded: values.stewardshipActivities.includes('Weeded'),
     };
-  };
-
-  const onFinishRecordStewardship = (values: RecordStewardshipRequest) => {
-    const activities = generateActivityRequest(values);
     protectedApiClient
       .recordStewardship(id, activities)
       .then(() => {

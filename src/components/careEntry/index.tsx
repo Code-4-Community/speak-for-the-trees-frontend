@@ -81,18 +81,11 @@ interface CareEntryProps {
   readonly activity: TreeCare;
 }
 
-function treeCareToMoment(month: string, day: string, year: number) {
-  return moment(`${month} ${day} ${year}`, 'MMM Do YYYY');
-}
-
-function generateActivityRequest(values: RecordStewardshipRequest) {
-  return {
-    date: values.activityDate.format('L'),
-    watered: values.stewardshipActivities.includes('Watered'),
-    mulched: values.stewardshipActivities.includes('Mulched'),
-    cleaned: values.stewardshipActivities.includes('Cleared Waste & Litter'),
-    weeded: values.stewardshipActivities.includes('Weeded'),
-  };
+function treeCareToMoment(activity: TreeCare) {
+  return moment(
+    `${activity.month} ${activity.day} ${activity.year}`,
+    'MMM Do YYYY',
+  );
 }
 
 const CareEntry: React.FC<CareEntryProps> = ({
@@ -107,7 +100,13 @@ const CareEntry: React.FC<CareEntryProps> = ({
   const dispatch = useDispatch();
 
   function onFinishEditStewardship(values: RecordStewardshipRequest) {
-    const activities = generateActivityRequest(values);
+    const activities: ActivityRequest = {
+      date: values.activityDate.format('L'),
+      watered: values.stewardshipActivities.includes('Watered'),
+      mulched: values.stewardshipActivities.includes('Mulched'),
+      cleaned: values.stewardshipActivities.includes('Cleared Waste & Litter'),
+      weeded: values.stewardshipActivities.includes('Weeded'),
+    };
     protectedApiClient
       .editStewardship(activity.activityId, activities)
       .then(() => {
@@ -186,11 +185,7 @@ const CareEntry: React.FC<CareEntryProps> = ({
         <StewardshipForm
           onFinish={onFinishEditStewardship}
           form={stewardshipFormInstance}
-          initialDate={treeCareToMoment(
-            activity.month,
-            activity.day,
-            activity.year,
-          )}
+          initialDate={treeCareToMoment(activity)}
         />
       </Modal>
       <Modal
