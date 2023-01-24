@@ -50,7 +50,6 @@ interface TreeActivityProps {
 const TreeActivity: React.FC<TreeActivityProps> = ({
   stewardship,
   monthYearOptions,
-  onFinishEditStewardship,
 }) => {
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toLocaleString('default', { month: 'short' }),
@@ -100,11 +99,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
           emptyText: 'No Stewardship Activities Recorded for this Tree',
         }}
         renderItem={(activity, key) => (
-          <CareEntry
-            key={key}
-            activity={activity}
-            onFinishEditStewardship={onFinishEditStewardship}
-          />
+          <CareEntry key={key} activity={activity} />
         )}
       />
       <CenteredPagination
