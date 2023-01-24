@@ -11,6 +11,10 @@ import {
 import styled from 'styled-components';
 import { EditOutlined } from '@ant-design/icons';
 import { isEmptyString } from '../../utils/isCheck';
+import { getSiteData } from '../../containers/treePage/ducks/thunks';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { TreeParams } from '../../containers/treePage';
 
 interface TreePageHeaderProps extends StyledSubtitleProps {
   readonly pageTitle: string;
@@ -51,6 +55,8 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
   subtitlecolor,
 }) => {
   const [editingTreeName, setEditingTreeName] = useState<boolean>(false);
+  const siteId = Number(useParams<TreeParams>().id);
+  const dispatch = useDispatch();
 
   const treeDisplayName = !isEmptyString(unescape(treeName))
     ? unescape(treeName)
@@ -62,6 +68,7 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
     setEditingTreeName(false);
     const newTreeName = editTreeNameForm.getFieldValue('name');
     onClickEditTreeName({ name: escape(newTreeName) });
+    dispatch(getSiteData(siteId));
   };
 
   return (
@@ -71,6 +78,7 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
         <EditTreeNameForm
           editTreeNameForm={editTreeNameForm}
           isMobile={isMobile}
+          treeName={treeName}
           onSubmitNameChange={onTreeNameChange}
           onCancelNameChange={() => setEditingTreeName(false)}
         />
