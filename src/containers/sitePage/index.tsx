@@ -51,7 +51,7 @@ interface SitePageProps {
 
 const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
   const [site, setSite] = useState<SiteProps>();
-  const [marker, setMarker] = useState<google.maps.Marker>();
+  const [mapSearchMarker, setMapSearchMarker] = useState<google.maps.Marker>();
   const id = Number(useParams<SiteParams>().id);
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
@@ -109,8 +109,8 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
                 site={site}
                 editSiteForm={editSiteForm}
                 onSubmit={onSubmitEditSite}
-                onEdit={(formLat: number, formLng: number) =>
-                  marker?.setPosition(new google.maps.LatLng(formLat, formLng))
+                onEdit={(latLng: google.maps.LatLng) =>
+                  mapSearchMarker?.setPosition(latLng)
                 }
               />
             </Block>
@@ -125,7 +125,7 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
                   });
                 }}
                 site={site}
-                setMarker={setMarker}
+                setMarker={setMapSearchMarker}
               />
             </MapContainer>
           </Flex>

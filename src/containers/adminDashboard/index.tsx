@@ -70,7 +70,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
 
-  const [marker, setMarker] = useState<google.maps.Marker>();
+  const [mapSearchMarker, setMapSearchMarker] = useState<google.maps.Marker>();
 
   const onCreateChild = (values: SignupFormValues) => {
     ProtectedApiClient.createChild({
@@ -157,10 +157,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
               >
                 <EditSiteForm
                   formInstance={editSiteForm}
-                  onEdit={(formLat: number, formLng: number) =>
-                    marker?.setPosition(
-                      new google.maps.LatLng(formLat, formLng),
-                    )
+                  onEdit={(latLng: google.maps.LatLng) =>
+                    mapSearchMarker?.setPosition(latLng)
                   }
                 />
               </Block>
@@ -174,7 +172,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       lng: pos.lng(),
                     });
                   }}
-                  setMarker={setMarker}
+                  setMarker={setMapSearchMarker}
                 />
               </MapContainer>
             </Flex>

@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 interface EditSiteFormProps {
   readonly formInstance: FormInstance<EditSiteRequest>;
-  readonly onEdit: (formLat: number, formLng: number) => void;
+  readonly onEdit: (latLng: google.maps.LatLng) => void;
 }
 
 const EditForm = styled(Form)`
@@ -29,7 +29,7 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({
         onValuesChange={(changedValues, allValues) => {
           if (changedValues.lat || changedValues.lng) {
             // @ts-ignore
-            onEdit(allValues.lat, allValues.lng);
+            onEdit(new google.maps.LatLng(allValues.lat, allValues.lng));
           }
         }}
       >

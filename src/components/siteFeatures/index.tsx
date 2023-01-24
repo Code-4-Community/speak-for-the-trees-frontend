@@ -16,7 +16,7 @@ interface SiteFeaturesProps {
   readonly site: SiteProps;
   readonly editSiteForm: FormInstance<EditSiteRequest>;
   readonly onSubmit: (request: EditSiteRequest) => void;
-  readonly onEdit: (formLat: number, formLng: number) => void;
+  readonly onEdit: (latLng: google.maps.LatLng) => void;
 }
 
 const SiteFeatures: React.FC<SiteFeaturesProps> = ({
