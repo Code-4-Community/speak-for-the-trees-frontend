@@ -88,10 +88,7 @@ function treeCareToMoment(activity: TreeCare) {
   );
 }
 
-const CareEntry: React.FC<CareEntryProps> = ({
-  activity,
-  onFinishEditStewardship,
-}) => {
+const CareEntry: React.FC<CareEntryProps> = ({ activity }) => {
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
   const [showDeleteForm, setShowDeleteForm] = useState<boolean>(false);
   const [stewardshipFormInstance] = Form.useForm();
@@ -141,7 +138,7 @@ const CareEntry: React.FC<CareEntryProps> = ({
     getUserID(state.authenticationState.tokens),
   );
 
-  const showButtons = userIsAdmin || userId === activity.ownerId;
+  const showButtons = userIsAdmin || userId === activity.userId;
 
   return (
     <>

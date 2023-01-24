@@ -48,8 +48,6 @@ export const mapStewardshipToTreeCare = (
         month,
         year,
         message: `Was ${activityStrings.join(' and ')}.`,
-        activityId: item.id,
-        ownerId: item.userId,
       };
     });
   }
