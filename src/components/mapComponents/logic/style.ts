@@ -8,15 +8,14 @@ import {
   WHITE,
 } from '../../../utils/colors';
 import { YOUNG_TREE_DATE } from '../constants';
-import {
-  ADOPTED_ICONS,
-  OPEN_ICONS,
-  STANDARD_ICONS,
-  YOUNG_ICONS,
-} from '../../../assets/images/siteIcons';
+import adoptedIcon from '../../../assets/images/siteIcons/adoptedIcon.svg';
+import openIcon from '../../../assets/images/siteIcons/openIcon.svg';
+import standardIcon from '../../../assets/images/siteIcons/standardIcon.svg';
+import youngIcon from '../../../assets/images/siteIcons/youngIcon.svg';
 import { shortHand } from '../../../utils/stringFormat';
 import { SHORT_HAND_NAMES } from '../../../assets/content';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import { getImageSize } from './event';
 
 // Logic to style data layers on map
 
@@ -145,41 +144,45 @@ function toggleMarkers(markersArray: google.maps.Marker[], v: boolean) {
  * Sets the style of the sites layer according to each tree's age and adoption status and the zoom level.
  * @param sitesLayer the layer
  * @param visibleSites which sites are visible
- * @param imageSize the image size, should be between [0, 2]
- * @param v true to make the layer visible, false to make it invisible
+ * @param zoomLevel the zoom level between 16 and 22 where zooming in increases zoom level
+ * @param visible true to make the layer visible, false to make it invisible
  */
 export function setSitesStyle(
   sitesLayer: google.maps.Data,
   visibleSites: CheckboxValueType[],
-  imageSize: number,
-  v: boolean,
+  zoomLevel: number,
+  visible: boolean,
 ): void {
-  if (v) {
+  if (visible) {
     let siteVisible: boolean;
 
     sitesLayer.setStyle((feature) => {
-      let iconType: string[];
+      let iconType: string;
       const plantedDate = feature.getProperty('plantingDate');
       const adopted = !!feature.getProperty('adopterId');
       if (!feature.getProperty('treePresent')) {
         // If there is no tree present, use the openSiteIcon
-        iconType = OPEN_ICONS;
+        iconType = openIcon;
         siteVisible = visibleSites.includes('Open');
       } else if (adopted) {
         // If the tree is adopted, use the adoptedTreeIcon
-        iconType = ADOPTED_ICONS;
+        iconType = adoptedIcon;
         siteVisible = visibleSites.includes('Adopted');
       } else if (!!plantedDate && plantedDate > YOUNG_TREE_DATE) {
         // If the tree was planted within the past three years, use youngTreeIcon
-        iconType = YOUNG_ICONS;
+        iconType = youngIcon;
         siteVisible = visibleSites.includes('Young');
       } else {
-        iconType = STANDARD_ICONS;
+        iconType = standardIcon;
         siteVisible = visibleSites.includes('Standard');
       }
 
+      const iconSize = getImageSize(zoomLevel);
       return {
-        icon: iconType[imageSize],
+        icon: {
+          url: iconType,
+          scaledSize: new google.maps.Size(iconSize, iconSize),
+        },
         visible: siteVisible,
       };
     });

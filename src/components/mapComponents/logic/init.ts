@@ -105,7 +105,7 @@ export function initBlocks(
  * @param setActiveTreeInfo the callback function to update the active tree info
  * @param popPopup the callback function to pop the popup at the location
  * @param map the map to add the layer to
- * @param imageSize the default size of site icons
+ * @param zoomLevel the zoom level between 16 and 22 where zooming in increases zoom level
  * @param visible whether to initiate the layer as visible
  */
 export function initSites(
@@ -114,7 +114,7 @@ export function initSites(
   setActiveTreeInfo: (value: BasicTreeInfo) => void,
   popPopup: (latLng: google.maps.LatLng) => void,
   map: google.maps.Map,
-  imageSize: number,
+  zoomLevel: number,
   visible: boolean,
 ): google.maps.Data {
   const sitesLayer = new google.maps.Data({ map });
@@ -123,7 +123,7 @@ export function initSites(
   // Adds listener so tree popup appears when site clicked
   addTreePopupOnClick(sitesLayer, setActiveTreeInfo, popPopup);
   // Initially hidden while the neighborhoods are shown
-  setSitesStyle(sitesLayer, visibleSites, imageSize, visible);
+  setSitesStyle(sitesLayer, visibleSites, zoomLevel, visible);
   return sitesLayer;
 }
 
@@ -191,7 +191,7 @@ export function initSiteView(
     mapData.setActiveTreeInfo,
     mapData.popPopup,
     mapData.map,
-    getImageSize(mapData.zoom, MapViews.TREES),
+    getImageSize(mapData.zoom),
     zoomedIn,
   );
 
