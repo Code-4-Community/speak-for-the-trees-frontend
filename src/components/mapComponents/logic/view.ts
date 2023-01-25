@@ -4,7 +4,7 @@
  * Zooms the map in to the given location, smoothly panning to the desired location.
  * @param location the lat/lng location to zoom to
  * @param map the map
- * @param zoomLevel the level to zoom to
+ * @param zoomLevel the level to zoom to between 16 and 22 where zooming in increases zoom level
  */
 export function zoomToLocation(
   location: google.maps.LatLng,
@@ -21,7 +21,7 @@ export function zoomToLocation(
  * @param place the place to go to
  * @param marker the marker to set at the place
  * @param map the map to zoom
- * @param zoomLevel the level to zoom to
+ * @param zoomLevel the level to zoom to between 16 and 22 where zooming in increases zoom level
  */
 export function goToPlace(
   place: google.maps.places.PlaceResult,

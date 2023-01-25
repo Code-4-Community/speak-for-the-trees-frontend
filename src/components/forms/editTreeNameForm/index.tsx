@@ -11,6 +11,7 @@ interface StyledButtonProps {
 }
 
 interface EditTreeNameFormProps extends StyledButtonProps {
+  readonly treeName: string;
   readonly editTreeNameForm: FormInstance<NameSiteEntryRequest>;
   readonly onSubmitNameChange: () => void;
   readonly onCancelNameChange: () => void;
@@ -37,6 +38,7 @@ const CancelButton = styled(WhiteButton)`
 
 const EditTreeNameForm: React.FC<EditTreeNameFormProps> = ({
   isMobile,
+  treeName,
   editTreeNameForm,
   onSubmitNameChange,
   onCancelNameChange,
@@ -49,7 +51,7 @@ const EditTreeNameForm: React.FC<EditTreeNameFormProps> = ({
       size={isMobile ? 'small' : 'middle'}
     >
       <Form.Item name="name" rules={treeNameRules}>
-        <Input placeholder="Enter tree name" />
+        <Input placeholder="Enter tree name" defaultValue={treeName} />
       </Form.Item>
       <Form.Item>
         <SubmitButton isMobile={isMobile} onClick={onSubmitNameChange}>
