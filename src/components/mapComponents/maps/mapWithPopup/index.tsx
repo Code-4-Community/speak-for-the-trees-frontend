@@ -1,5 +1,5 @@
 import React, { createRef, useEffect, useState, useCallback } from 'react';
-import { Input, message } from 'antd';
+import { Input, message, Switch } from 'antd';
 import { MapViews, ReturnMapData } from '../../ducks/types';
 import { BOSTON_BOUNDS, LOADER, STREET_ZOOM } from '../../constants';
 import { addHandleSearch } from '../../logic/event';
@@ -17,6 +17,13 @@ const StyledSearch = styled(Input.Search)`
   @media (max-width: ${BREAKPOINT_TABLET}px) {
     width: 100vw;
   }
+`;
+
+const StyledSwitch = styled(Switch)`
+  z-index: 3;
+  position: absolute;
+  top: 300px;
+  left: 80vw;
 `;
 
 const MapDiv = styled.div`
@@ -61,6 +68,14 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
 
   const [searchInput, setSearchInput] = useState('');
 
+  const [mapTypeId, setMapTypeId] = useState<string>('roadmap');
+
+  function toggleMapView(checked: boolean): void {
+    checked ? setMapTypeId('satellite') : setMapTypeId('roadmap');
+  }
+
+  // const toggleMapView = (checked: boolean) => {checked ? setMapTypeId('satellite') : setMapTypeId('roadmap')};
+
   useEffect(() => {
     setMapElement(mapRef.current);
   }, [mapRef]);
@@ -82,6 +97,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
               latLngBounds: BOSTON_BOUNDS,
               strictBounds: false,
             },
+            mapTypeId: mapTypeId,
           });
 
           // Declare everything that must be created within the loader
@@ -178,7 +194,16 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
         })
         .catch((err) => message.error(err.message));
     }
-  }, [mapElement, treePopupElement, view, zoom, lat, lng, initMapCallback]);
+  }, [
+    mapElement,
+    treePopupElement,
+    view,
+    zoom,
+    lat,
+    lng,
+    initMapCallback,
+    mapTypeId,
+  ]);
 
   return (
     <>
@@ -189,6 +214,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
           value={searchInput}
           onChange={(event) => setSearchInput(event.target.value)}
         />
+        <StyledSwitch onChange={toggleMapView} />
       </div>
       <MapDiv id="map" ref={mapRef} />
       <TreePopup treeInfo={activeTreeInfo} popRef={treePopupRef} />
