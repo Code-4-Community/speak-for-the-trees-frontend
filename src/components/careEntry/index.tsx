@@ -191,6 +191,7 @@ const CareEntry: React.FC<CareEntryProps> = ({ activity }) => {
         onOk={() => setShowDeleteForm(false)}
         onCancel={() => setShowDeleteForm(false)}
         footer={null}
+        closeIcon={<StyledClose />}
       >
         <p>Are you sure you want to delete this stewardship activity? </p>
         <ConfirmDelete onClick={onClickDeleteActivity}>Delete</ConfirmDelete>
