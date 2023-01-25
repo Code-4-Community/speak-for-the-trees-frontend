@@ -19,6 +19,9 @@ import { useParams } from 'react-router-dom';
 import { RecordStewardshipRequest } from '../forms/ducks/types';
 import { getSiteData } from '../../containers/treePage/ducks/thunks';
 import protectedApiClient from '../../api/protectedApiClient';
+import { TreeParams } from '../../containers/treePage';
+import { ActivityRequest } from '../../containers/treePage/ducks/types';
+import { C4CState } from '../../store';
 
 const Entry = styled.div`
   margin: 15px;
