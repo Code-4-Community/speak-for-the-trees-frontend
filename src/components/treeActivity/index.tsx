@@ -44,7 +44,6 @@ interface TreeActivityProps {
     activityId: number,
     form: FormInstance<RecordStewardshipRequest>,
   ) => (values: RecordStewardshipRequest) => void;
-  readonly doesUserOwnTree: boolean;
 }
 
 const TreeActivity: React.FC<TreeActivityProps> = ({
