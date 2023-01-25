@@ -1,5 +1,5 @@
 import React, { createRef, useEffect, useState, useCallback } from 'react';
-import { Input, message, Switch } from 'antd';
+import { Input, message, Switch, Card} from 'antd';
 import { MapViews, ReturnMapData } from '../../ducks/types';
 import { BOSTON_BOUNDS, LOADER, STREET_ZOOM } from '../../constants';
 import { addHandleSearch } from '../../logic/event';
@@ -19,11 +19,19 @@ const StyledSearch = styled(Input.Search)`
   }
 `;
 
-const StyledSwitch = styled(Switch)`
+const StyledCard = styled(Card)`
   z-index: 3;
   position: absolute;
-  top: 300px;
-  left: 80vw;
+  top: 15vh;
+  right: 26vw;
+  border: 1px grey solid;
+  padding: 10px;
+  line-height: 1.25;
+
+  @media (max-width: ${BREAKPOINT_TABLET}px) {
+    right: 2vw;
+    top: 27vh;
+  }
 `;
 
 const MapDiv = styled.div`
@@ -97,7 +105,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
               latLngBounds: BOSTON_BOUNDS,
               strictBounds: false,
             },
-            mapTypeId: mapTypeId,
+            mapTypeId,
           });
 
           // Declare everything that must be created within the loader
@@ -214,7 +222,13 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
           value={searchInput}
           onChange={(event) => setSearchInput(event.target.value)}
         />
-        <StyledSwitch onChange={toggleMapView} />
+        <StyledCard bodyStyle={{ padding: '0px' }}>
+          Current Map Style:
+          <br />
+          {mapTypeId}
+          <br />
+          <Switch onChange={toggleMapView} />
+        </StyledCard>
       </div>
       <MapDiv id="map" ref={mapRef} />
       <TreePopup treeInfo={activeTreeInfo} popRef={treePopupRef} />
