@@ -25,7 +25,7 @@ interface StewardshipFormProps {
     stewardshipActivities: string[];
   }) => void;
   form: FormInstance;
-  initialDate: moment.Moment;
+  initialDate?: moment.Moment;
 }
 
 const StewardshipForm: React.FC<StewardshipFormProps> = ({
