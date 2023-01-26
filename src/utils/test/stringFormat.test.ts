@@ -8,6 +8,7 @@ import {
   getMoneyString,
   getNeighborhoodName,
   parseLatLng,
+  generateTreeCareMessage,
 } from '../stringFormat';
 import { getDateString } from '../stringFormat';
 import { shortHand } from '../stringFormat';
@@ -172,4 +173,47 @@ test('parseLatLng tests', () => {
   expect(parseLatLng('test, testing')).toBe(null);
   expect(parseLatLng(' -14    , 90  ')).toEqual([-14, 90]);
   expect(parseLatLng('0, -.3')).toEqual([0, -0.3]);
+});
+
+test('generateTreeCareMessage tests', () => {
+  expect(
+    generateTreeCareMessage({
+      cleaned: true,
+      mulched: true,
+      watered: true,
+      weeded: true,
+    }),
+  ).toBe('Was cleared of waste, mulched, watered, and weeded.');
+  expect(
+    generateTreeCareMessage({
+      cleaned: false,
+      mulched: true,
+      watered: true,
+      weeded: true,
+    }),
+  ).toBe('Was mulched, watered, and weeded.');
+  expect(
+    generateTreeCareMessage({
+      cleaned: true,
+      mulched: false,
+      watered: false,
+      weeded: true,
+    }),
+  ).toBe('Was cleared of waste and weeded.');
+  expect(
+    generateTreeCareMessage({
+      cleaned: false,
+      mulched: true,
+      watered: true,
+      weeded: false,
+    }),
+  ).toBe('Was mulched and watered.');
+  expect(
+    generateTreeCareMessage({
+      cleaned: true,
+      mulched: false,
+      watered: false,
+      weeded: false,
+    }),
+  ).toBe('Was cleared of waste.');
 });

@@ -1,4 +1,8 @@
-import { Entry, MainSiteEntryOrder } from '../containers/treePage/ducks/types';
+import {
+  Entry,
+  MainSiteEntryOrder,
+  ActivityLog,
+} from '../containers/treePage/ducks/types';
 import { NEIGHBORHOOD_IDS } from '../assets/content';
 import { AppError } from '../auth/axios';
 import { Coordinate } from '../components/mapComponents/ducks/types';
@@ -157,4 +161,25 @@ export function parseLatLng(str: string): Coordinate | null {
   }
 
   return [lat, lng];
+}
+
+export function generateTreeCareMessage(item: ActivityLog): string {
+  const activityStrings = [];
+  if (item.cleaned) activityStrings.push('cleared of waste');
+  if (item.mulched) activityStrings.push('mulched');
+  if (item.watered) activityStrings.push('watered');
+  if (item.weeded) activityStrings.push('weeded');
+
+  const numberOfActivities = activityStrings.length;
+
+  // invariant: at least one activity will be present
+  if (numberOfActivities == 1) {
+    return `Was ${activityStrings[0]}.`;
+  } else if (numberOfActivities == 2) {
+    return `Was ${activityStrings[0]} and ${activityStrings[1]}.`;
+  } else {
+    return `Was ${activityStrings
+      .slice(0, numberOfActivities - 1)
+      .join(', ')}, and ${activityStrings.at(-1)}.`;
+  }
 }

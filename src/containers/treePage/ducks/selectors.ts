@@ -3,6 +3,7 @@ import {
   AsyncRequest,
   asyncRequestIsComplete,
 } from '../../../utils/asyncRequest';
+import { generateTreeCareMessage } from '../../../utils/stringFormat';
 import {
   AdoptedSites,
   Entry,
@@ -35,19 +36,13 @@ export const mapStewardshipToTreeCare = (
         month: 'short',
       });
       const day = new Date(item.date).getDate();
-
-      const activityStrings = [];
-      if (item.cleaned) activityStrings.push('cleared of waste');
-      if (item.mulched) activityStrings.push('mulched');
-      if (item.watered) activityStrings.push('watered');
-      if (item.weeded) activityStrings.push('weeded');
       return {
         activityId,
         userId,
         day: formatDateSuffix(day),
         month,
         year,
-        message: `Was ${activityStrings.join(' and ')}.`,
+        message: generateTreeCareMessage(item),
       };
     });
   }
