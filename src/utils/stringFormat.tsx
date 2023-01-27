@@ -1,7 +1,7 @@
 import {
   Entry,
   MainSiteEntryOrder,
-  ActivityLog,
+  Activity,
 } from '../containers/treePage/ducks/types';
 import { NEIGHBORHOOD_IDS } from '../assets/content';
 import { AppError } from '../auth/axios';
@@ -163,7 +163,7 @@ export function parseLatLng(str: string): Coordinate | null {
   return [lat, lng];
 }
 
-export function generateTreeCareMessage(item: ActivityLog): string {
+export function generateTreeCareMessage(item: Activity): string {
   const activityStrings = [];
   if (item.cleaned) activityStrings.push('cleared of waste');
   if (item.mulched) activityStrings.push('mulched');
@@ -173,9 +173,9 @@ export function generateTreeCareMessage(item: ActivityLog): string {
   const numberOfActivities = activityStrings.length;
 
   // invariant: at least one activity will be present
-  if (numberOfActivities == 1) {
+  if (numberOfActivities === 1) {
     return `Was ${activityStrings[0]}.`;
-  } else if (numberOfActivities == 2) {
+  } else if (numberOfActivities === 2) {
     return `Was ${activityStrings[0]} and ${activityStrings[1]}.`;
   } else {
     return `Was ${activityStrings
