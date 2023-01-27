@@ -1,11 +1,11 @@
 import React from 'react';
 import { LoginRequest } from '../../../auth/ducks/types';
-import { Button, Form, Input } from 'antd';
+import { Form, Input } from 'antd';
 import styled from 'styled-components';
 import { WindowTypes } from '../../windowDimensions';
 import { FormInstance } from 'antd/es/form';
 import { enterEmailRules, loginPasswordRules } from '../../../utils/formRules';
-import {GreenButton} from "../../themedComponents";
+import { GreenButton } from '../../themedComponents';
 
 interface LoginFormProps {
   readonly formInstance: FormInstance;

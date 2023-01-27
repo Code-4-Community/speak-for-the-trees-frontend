@@ -4,10 +4,9 @@ import styled from 'styled-components';
 import { Avatar, Dropdown, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { BLACK, DARK_GREEN, LIGHT_GREEN, WHITE } from '../../../utils/colors';
-import { LinkButton } from '../../linkButton';
 import NavMenu from '../navMenu';
 import { Location } from 'history';
-import {GreenLinkButton} from "../../themedComponents";
+import { GreenLinkButton } from '../../themedComponents';
 
 const FlexDiv = styled.div`
   display: flex;

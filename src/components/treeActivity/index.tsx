@@ -8,13 +8,12 @@ import { TitleProps } from 'antd/lib/typography/Title';
 import { DARK_GREEN, LIGHT_GREY, MID_GREEN, TEXT_GREY, LIGHT_RED } from '../../utils/colors';
 import { UNABBREVIATED_MONTHS } from '../../assets/content';
 import styled from 'styled-components';
-import { LinkButton } from '../linkButton';
 import protectedApiClient from '../../api/protectedApiClient';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { isAdmin, getUserID } from '../../auth/ducks/selectors';
 import { DeleteOutlined } from '@ant-design/icons';
-import {GreenLinkButton} from "../themedComponents";
+import { GreenLinkButton } from '../themedComponents';
 
 const TreeCareTitle = styled(Typography.Paragraph)`
   margin: 0px 5px;
