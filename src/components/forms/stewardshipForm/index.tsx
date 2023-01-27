@@ -41,7 +41,7 @@ const StewardshipForm: React.FC<StewardshipFormProps> = ({
   ];
 
   const disabledDate = (current: moment.Moment): boolean => {
-    // Can not select future days or days more than two weeks ago
+    // Can not select future days
     return current > moment().endOf('day');
   };
 

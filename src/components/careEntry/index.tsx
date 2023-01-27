@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import moment from 'moment';
 import { TreeCare } from '../../containers/treePage/ducks/types';
 import { Row, Col, Typography, Button, Form, Modal, message } from 'antd';
 import {
@@ -7,9 +6,12 @@ import {
   TEXT_GREY,
   LIGHT_RED,
   LIGHT_GREY,
+  WHITE,
+  RED,
+  PINK,
 } from '../../utils/colors';
+import { treeCareToMoment } from '../../utils/treeFunctions';
 import { EditOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
-import { TitleProps } from 'antd/lib/typography/Title';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdmin, getUserID } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
@@ -27,7 +29,7 @@ const Entry = styled.div`
   margin: 15px;
 `;
 
-const EntryDate = styled(Typography.Paragraph)<TitleProps>`
+const EntryDate = styled(Typography.Paragraph)`
   display: inline;
   text-align: center;
   line-height: 0px;
@@ -44,29 +46,30 @@ const EntryMessage = styled(Typography.Paragraph)`
 `;
 
 const EditButton = styled(Button)`
-  color: white;
+  color: ${WHITE};
   font-size: 20px;
   padding: 0px 10px;
   line-height: 0px;
 `;
 
 const StyledClose = styled(CloseOutlined)`
-  color: red;
+  color: ${RED};
   padding: 5px;
   border-radius: 3px;
 
   & :hover {
-    background-color: #ffd1d1;
+    background-color: ${PINK};
   }
 `;
 
 const DeleteActivityButton = styled(LinkButton)`
-  color: white;
+  color: ${WHITE};
   margin: 10px;
   padding: 0px 10px;
   background: ${LIGHT_RED};
   border: none;
-  &:hover {
+
+  & :hover {
     color: ${LIGHT_RED};
     background-color: ${LIGHT_GREY};
   }
@@ -75,20 +78,14 @@ const DeleteActivityButton = styled(LinkButton)`
 const ConfirmDelete = styled(Button)`
   margin: 10px;
   padding-left: 10px;
-  &:hover {
+
+  & :hover {
     background-color: ${LIGHT_GREY};
   }
 `;
 
 interface CareEntryProps {
   readonly activity: TreeCare;
-}
-
-function treeCareToMoment(activity: TreeCare) {
-  return moment(
-    `${activity.month} ${activity.day} ${activity.year}`,
-    'MMM Do YYYY',
-  );
 }
 
 const CareEntry: React.FC<CareEntryProps> = ({ activity }) => {
@@ -150,13 +147,12 @@ const CareEntry: React.FC<CareEntryProps> = ({ activity }) => {
           <Col span={5}>
             <EntryDate>{activity.month + ' ' + activity.day}</EntryDate>
           </Col>
-          <Col span={1} />
-          <Col span={13}>
+          <Col span={showButtons ? 13 : 18}>
             <EntryMessage>{activity.message}</EntryMessage>
           </Col>
-          <Col span={5}>
-            {showButtons && (
-              <>
+          {showButtons && (
+            <Col span={5}>
+              <div style={{ float: 'right' }}>
                 <EditButton
                   type="primary"
                   onClick={() => setShowEditForm(!showEditForm)}
@@ -169,9 +165,9 @@ const CareEntry: React.FC<CareEntryProps> = ({ activity }) => {
                 >
                   <DeleteOutlined />
                 </DeleteActivityButton>
-              </>
-            )}
-          </Col>
+              </div>
+            </Col>
+          )}
         </Row>
       </Entry>
       <Modal
