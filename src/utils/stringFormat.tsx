@@ -164,7 +164,7 @@ export function parseLatLng(str: string): Coordinate | null {
 }
 
 export function generateTreeCareMessage(item: Activity): string {
-  const activityStrings: Array<string> = [];
+  const activityStrings = [] as string[];
   if (item.cleaned) activityStrings.push('cleared of waste');
   if (item.mulched) activityStrings.push('mulched');
   if (item.watered) activityStrings.push('watered');
@@ -180,6 +180,6 @@ export function generateTreeCareMessage(item: Activity): string {
   } else {
     return `Was ${activityStrings
       .slice(0, numberOfActivities - 1)
-      .join(', ')}, and ${activityStrings.at(-1)}.`;
+      .join(', ')}, and ${activityStrings[numberOfActivities - 1]}.`;
   }
 }
