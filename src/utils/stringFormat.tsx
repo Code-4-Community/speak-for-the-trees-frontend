@@ -164,7 +164,7 @@ export function parseLatLng(str: string): Coordinate | null {
 }
 
 export function generateTreeCareMessage(item: Activity): string {
-  const activityStrings = [];
+  const activityStrings: Array<string> = [];
   if (item.cleaned) activityStrings.push('cleared of waste');
   if (item.mulched) activityStrings.push('mulched');
   if (item.watered) activityStrings.push('watered');
