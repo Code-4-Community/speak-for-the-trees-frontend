@@ -7,6 +7,7 @@ import bkg1 from '../../assets/images/bkg1.png';
 import bkg2 from '../../assets/images/bkg2.png';
 import bkg3 from '../../assets/images/bkg3.png';
 import bkg4 from '../../assets/images/bkg4.png';
+import {GreenLinkButton} from "../themedComponents";
 
 export enum Backgrounds {
   IMAGE_ONE = 'img1',
@@ -44,13 +45,10 @@ const StyledCard = styled(Card)`
   }
 `;
 
-const StyledLinkButton = styled(LinkButton)`
+const StyledLinkButton = styled(GreenLinkButton)`
   height: 40px;
   min-width: 90%;
   margin-top: 80%;
-  border: ${LIGHT_GREEN} 4px;
-  background: ${LIGHT_GREEN};
-  color: ${WHITE};
   font-size: 18px;
   font-weight: 400;
 `;

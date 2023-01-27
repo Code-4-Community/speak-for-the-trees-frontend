@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { WindowTypes } from '../../windowDimensions';
 import { FormInstance } from 'antd/es/form';
 import { enterEmailRules, loginPasswordRules } from '../../../utils/formRules';
+import {GreenButton} from "../../themedComponents";
 
 interface LoginFormProps {
   readonly formInstance: FormInstance;
@@ -12,7 +13,7 @@ interface LoginFormProps {
   readonly windowType: WindowTypes;
 }
 
-const LoginButton = styled(Button)`
+const LoginButton = styled(GreenButton)`
   width: 96px;
   margin-top: 1.5vh;
 `;

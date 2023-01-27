@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { isAdmin, getUserID } from '../../auth/ducks/selectors';
 import { DeleteOutlined } from '@ant-design/icons';
+import {GreenLinkButton} from "../themedComponents";
 
 const TreeCareTitle = styled(Typography.Paragraph)`
   margin: 0px 5px;
@@ -63,8 +64,7 @@ const CenteredPagination = styled(Pagination)`
   }
 `;
 
-const DeleteActivityButton = styled(LinkButton)`
-  color: white;
+const DeleteActivityButton = styled(GreenLinkButton)`
   margin: 10px;
   padding: 0px 10px;
   background: ${LIGHT_RED};

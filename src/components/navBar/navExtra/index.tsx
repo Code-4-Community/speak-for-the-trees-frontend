@@ -7,6 +7,7 @@ import { BLACK, DARK_GREEN, LIGHT_GREEN, WHITE } from '../../../utils/colors';
 import { LinkButton } from '../../linkButton';
 import NavMenu from '../navMenu';
 import { Location } from 'history';
+import {GreenLinkButton} from "../../themedComponents";
 
 const FlexDiv = styled.div`
   display: flex;
@@ -23,13 +24,13 @@ const LandingExtraContainer = styled.div`
   height: 100%;
 `;
 
-const SignupButton = styled(LinkButton)`
+const SignupButton = styled(GreenLinkButton)`
   margin-right: 2vw;
   background-color: ${LIGHT_GREEN},
   border-color: ${LIGHT_GREEN};
 `;
 
-const LoginButton = styled(LinkButton)`
+const LoginButton = styled(GreenLinkButton)`
   background-color: ${WHITE};
   border-color: ${WHITE};
   color: ${BLACK};

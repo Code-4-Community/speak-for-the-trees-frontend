@@ -129,6 +129,11 @@ export const GreenLinkButton = styled(LinkButton)`
   color: ${WHITE};
 `;
 
+export const MenuLinkButton = styled(LinkButton)`
+  padding-left: 0;
+  margin-top: 0;
+`;
+
 export const MainContent = styled.div`
   height: 100%;
 `;
