@@ -510,7 +510,7 @@ describe('Protected API Client Tests', () => {
         const response: TeamResponse[] = [
           {
             id: 1,
-            name: 'team 1',
+            teamName: 'team 1',
             bio: 'this is team 1',
             members: [
               {
@@ -534,7 +534,7 @@ describe('Protected API Client Tests', () => {
           },
           {
             id: 2,
-            name: 'team 2',
+            teamName: 'team 2',
             bio: 'this is team 2',
             members: [
               {
@@ -573,7 +573,7 @@ describe('Protected API Client Tests', () => {
       it('makes the right request', async () => {
         const response: TeamResponse = {
           id: 1,
-          name: 'team 1',
+          teamName: 'team 1',
           bio: 'this is team 1',
           members: [
             {

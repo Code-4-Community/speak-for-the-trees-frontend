@@ -2,7 +2,13 @@ import {
   AsyncRequest,
   asyncRequestIsComplete,
 } from '../../../utils/asyncRequest';
-import { TeamResponse, TeamProps, GoalProps, GoalResponseJSON } from './types';
+import {
+  TeamResponse,
+  TeamProps,
+  GoalProps,
+  GoalResponseJSON,
+  TeamRole,
+} from './types';
 
 export const teamResponseRequestToTeamProps = (
   team: AsyncRequest<TeamResponse, any>,
@@ -16,7 +22,7 @@ export const teamResponseRequestToTeamProps = (
 const teamResponseToTeamProps = (team: TeamResponse): TeamProps => {
   return {
     id: team.id,
-    name: team.name,
+    teamName: team.teamName,
     bio: team.bio,
     members: team.members,
     goals: mapGoalResponseJSONToGoalProps(team.goals),
@@ -41,8 +47,24 @@ const mapGoalResponseJSONToGoalProps = (
 // This is to prevent the TeamProps from being undefined
 const emptyTeam: () => TeamProps = () => ({
   id: 0,
-  name: '',
+  teamName: '',
   bio: '',
   members: [],
   goals: [],
 });
+
+export const getTeamRole = (
+  team: AsyncRequest<TeamResponse, any>,
+  userId: number,
+): TeamRole => {
+  if (asyncRequestIsComplete(team)) {
+    const member = team.result.members.find(
+      (potentialMember) => potentialMember.userId === userId,
+    );
+    if (member) {
+      return member.teamRole;
+    }
+    return TeamRole.NONE;
+  }
+  return TeamRole.NONE;
+};
