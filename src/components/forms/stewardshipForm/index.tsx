@@ -1,15 +1,9 @@
 import React from 'react';
 import moment from 'moment';
-import {
-  Button,
-  Form,
-  Checkbox,
-  Typography,
-  DatePicker,
-  FormInstance,
-} from 'antd';
+import { Form, Checkbox, Typography, DatePicker, FormInstance } from 'antd';
 import styled from 'styled-components';
 import { activitiesDateRules, activitiesRules } from '../../../utils/formRules';
+import { SubmitButton } from '../../themedComponents';
 
 const ItemLabel = styled(Typography.Paragraph)`
   line-height: 0px;
@@ -62,9 +56,7 @@ const StewardshipForm: React.FC<StewardshipFormProps> = ({
           <Checkbox.Group options={stewardshipOptions} />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
+          <SubmitButton htmlType="submit">Submit</SubmitButton>
         </Form.Item>
       </Form>
     </>

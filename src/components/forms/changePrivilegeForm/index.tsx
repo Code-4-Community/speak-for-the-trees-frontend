@@ -69,9 +69,7 @@ const ChangePrivilegeForm: React.FC<ChangePrivilegeFormProps> = ({
         <Input.Password placeholder="Password" />
       </Form.Item>
 
-      <SubmitButton type="primary" htmlType="submit">
-        Confirm
-      </SubmitButton>
+      <SubmitButton htmlType="submit">Confirm</SubmitButton>
     </Form>
   );
 };

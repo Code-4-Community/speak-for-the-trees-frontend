@@ -93,12 +93,6 @@ export const FullWidthSpace = styled(Space)`
   width: 100%;
 `;
 
-export const SubmitButton = styled(Button)`
-  min-width: 96px;
-  height: 40px;
-  font-size: 16px;
-`;
-
 export const GreenButton = styled(Button)`
   margin-top: 10px;
   background: ${LIGHT_GREEN};
@@ -106,6 +100,11 @@ export const GreenButton = styled(Button)`
   color: ${WHITE};
   font-size: 16px;
   height: 36px;
+`;
+
+export const SubmitButton = styled(GreenButton)`
+  min-width: 96px;
+  height: 40px;
 `;
 
 export const WhiteButton = styled(Button)`
