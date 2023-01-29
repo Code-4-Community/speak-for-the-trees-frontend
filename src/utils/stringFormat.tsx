@@ -173,13 +173,9 @@ export function generateTreeCareMessage(item: Activity): string {
   const numberOfActivities = activityStrings.length;
 
   // invariant: at least one activity will be present
-  if (numberOfActivities === 1) {
-    return `Was ${activityStrings[0]}.`;
-  } else if (numberOfActivities === 2) {
-    return `Was ${activityStrings[0]} and ${activityStrings[1]}.`;
+  if (numberOfActivities == 0) {
+    throw new Error('At least one activity must be true');
   } else {
-    return `Was ${activityStrings
-      .slice(0, numberOfActivities - 1)
-      .join(', ')}, and ${activityStrings[numberOfActivities - 1]}.`;
+    return `Was ${new Intl.ListFormat().format(activityStrings)}.`;
   }
 }

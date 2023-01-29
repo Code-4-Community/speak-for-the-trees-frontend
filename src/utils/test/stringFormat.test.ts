@@ -216,4 +216,12 @@ test('generateTreeCareMessage tests', () => {
       weeded: false,
     }),
   ).toBe('Was cleared of waste.');
+  expect(() => {
+    generateTreeCareMessage({
+      cleaned: false,
+      mulched: false,
+      watered: false,
+      weeded: false,
+    });
+  }).toThrowError(new Error('At least one activity must be true'));
 });
