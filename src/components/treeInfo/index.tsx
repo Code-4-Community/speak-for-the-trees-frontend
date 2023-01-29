@@ -92,7 +92,7 @@ const TreeInfo: React.FC<TreeProps> = ({
           ? 'Check out this tree I adopted!'
           : adopted
           ? 'Check out this tree near you!'
-          : `This tree${
+          : `This ${(siteData.entries[0].commonName ?? 'tree').toLowerCase()}${
               siteData.address ? ' at ' + siteData.address : ''
             } needs someone to take care of it!`
       }
