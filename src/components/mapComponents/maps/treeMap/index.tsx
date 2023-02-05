@@ -16,6 +16,24 @@ import { setSitesStyle } from '../../logic/style';
 import SiteLegend from '../../mapPageComponents/siteLegend';
 import { MapStateProps, Routes } from '../../../../App';
 import MapWithPopup from '../mapWithPopup';
+import { Card, Switch } from 'antd';
+import styled from 'styled-components';
+import { BREAKPOINT_TABLET } from '../../../windowDimensions';
+
+const StyledCard = styled(Card)`
+  z-index: 3;
+  position: absolute;
+  top: 10.5vh;
+  right: 22.5vw;
+  border: 1px grey solid;
+  padding: 10px;
+  line-height: 1.25;
+
+  @media (max-width: ${BREAKPOINT_TABLET}px) {
+    right: 2vw;
+    top: 27vh;
+  }
+`;
 
 interface TreeMapProps {
   readonly neighborhoods: NeighborhoodGeoData;
@@ -33,6 +51,12 @@ const TreeMap: React.FC<TreeMapProps> = ({
   const location = useLocation<MapStateProps>();
 
   const [loadedMapData, setLoadedMapData] = useState<ReturnMapData>();
+
+  const [mapTypeId, setMapTypeId] = useState<string>('roadmap');
+
+  function toggleMapView(checked: boolean): void {
+    checked ? setMapTypeId('satellite') : setMapTypeId('roadmap');
+  }
 
   let defaultZoom = 12;
   let defaultCenter = BOSTON;
@@ -57,8 +81,8 @@ const TreeMap: React.FC<TreeMapProps> = ({
       searchMarker,
       zoomListener: mapLayersAndListeners.zoomListener,
       markersArray: mapData.markersArray,
+      mapTypeId,
     };
-
     setLoadedMapData(setMapData);
 
     mapData.map.setOptions({
@@ -84,11 +108,11 @@ const TreeMap: React.FC<TreeMapProps> = ({
         values,
         MapViews.TREES,
         loadedMapData.map,
+        mapTypeId,
       );
-
       const zoom = loadedMapData.map.getZoom();
       if (zoom >= MapViews.TREES) {
-        setSitesStyle(loadedMapData.sitesLayer, values, zoom, true);
+        setSitesStyle(loadedMapData.sitesLayer, values, zoom, true, mapTypeId);
       }
     }
   };
@@ -106,8 +130,16 @@ const TreeMap: React.FC<TreeMapProps> = ({
         address: '',
         treePresent: false,
       }}
+      mapTypeId={mapTypeId}
     >
       {!mobile && <SiteLegend onCheck={onCheck} />}
+      <StyledCard bodyStyle={{ padding: '0px' }}>
+        Current Map Style:
+        <br />
+        {mapTypeId}
+        <br />
+        <Switch onChange={toggleMapView} />
+      </StyledCard>
     </MapWithPopup>
   );
 };

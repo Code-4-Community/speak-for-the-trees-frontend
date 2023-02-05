@@ -12,6 +12,10 @@ import adoptedIcon from '../../../assets/images/siteIcons/adoptedIcon.svg';
 import openIcon from '../../../assets/images/siteIcons/openIcon.svg';
 import standardIcon from '../../../assets/images/siteIcons/standardIcon.svg';
 import youngIcon from '../../../assets/images/siteIcons/youngIcon.svg';
+import satelliteAdoptedIcon from '../../../assets/images/siteIcons/satelliteAdoptedIcon.svg';
+import satelliteOpenIcon from '../../../assets/images/siteIcons/satelliteOpenIcon.svg';
+import satelliteStandardIcon from '../../../assets/images/siteIcons/satelliteStandardIcon.svg';
+import satelliteYoungIcon from '../../../assets/images/siteIcons/satelliteYoungIcon.svg';
 import { shortHand } from '../../../utils/stringFormat';
 import { SHORT_HAND_NAMES } from '../../../assets/content';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
@@ -85,11 +89,13 @@ export function setNeighborhoodsStyle(
   neighborhoodsLayer: google.maps.Data,
   markers: google.maps.Marker[],
   v: boolean,
+  mapTypeId: string,
 ): void {
   toggleMarkers(markers, v);
   neighborhoodsLayer.setStyle((feature) => {
     return {
-      fillColor: `${MAP_GREEN}`,
+      fillColor: mapTypeId === 'roadmap' ? `${MAP_GREEN}` : `${RED}`,
+      // fillColor: `${MAP_GREEN}`,
       fillOpacity: feature.getProperty('canopyCoverage'),
       strokeWeight: 1,
       strokeColor: `${DARK_GREY}`,
@@ -152,9 +158,11 @@ export function setSitesStyle(
   visibleSites: CheckboxValueType[],
   zoomLevel: number,
   visible: boolean,
+  mapTypeId: string,
 ): void {
   if (visible) {
     let siteVisible: boolean;
+    const icons = getIcons(mapTypeId);
 
     sitesLayer.setStyle((feature) => {
       let iconType: string;
@@ -162,18 +170,18 @@ export function setSitesStyle(
       const adopted = !!feature.getProperty('adopterId');
       if (!feature.getProperty('treePresent')) {
         // If there is no tree present, use the openSiteIcon
-        iconType = openIcon;
+        iconType = icons.openIcon;
         siteVisible = visibleSites.includes('Open');
       } else if (adopted) {
         // If the tree is adopted, use the adoptedTreeIcon
-        iconType = adoptedIcon;
+        iconType = icons.adoptedIcon;
         siteVisible = visibleSites.includes('Adopted');
       } else if (!!plantedDate && plantedDate > YOUNG_TREE_DATE) {
         // If the tree was planted within the past three years, use youngTreeIcon
-        iconType = youngIcon;
+        iconType = icons.youngIcon;
         siteVisible = visibleSites.includes('Young');
       } else {
-        iconType = standardIcon;
+        iconType = icons.standardIcon;
         siteVisible = visibleSites.includes('Standard');
       }
 
@@ -189,4 +197,20 @@ export function setSitesStyle(
   } else {
     sitesLayer.setStyle({ visible: false });
   }
+}
+
+function getIcons(mapTypeId: string) {
+  return mapTypeId === 'roadmap'
+    ? {
+        openIcon: openIcon,
+        adoptedIcon: adoptedIcon,
+        youngIcon: youngIcon,
+        standardIcon: standardIcon,
+      }
+    : {
+        openIcon: satelliteOpenIcon,
+        adoptedIcon: satelliteAdoptedIcon,
+        youngIcon: satelliteYoungIcon,
+        standardIcon: satelliteStandardIcon,
+      };
 }

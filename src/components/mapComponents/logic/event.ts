@@ -151,6 +151,7 @@ export function addHandleZoomChange(
   visibleSites: CheckboxValueType[],
   view: MapViews,
   map: google.maps.Map,
+  mapTypeId: string,
 ): google.maps.MapsEventListener {
   return google.maps.event.addListener(map, 'zoom_changed', () => {
     const zoomLevel = map.getZoom();
@@ -159,7 +160,12 @@ export function addHandleZoomChange(
     if (zoomLevel >= view) {
       zoomedIn = true;
     }
-    setNeighborhoodsStyle(neighborhoodsLayer, markersArray, !zoomedIn);
+    setNeighborhoodsStyle(
+      neighborhoodsLayer,
+      markersArray,
+      !zoomedIn,
+      mapTypeId,
+    );
     setPrivateStreetsStyle(privateStreetsLayer, false);
 
     switch (view) {
@@ -167,7 +173,7 @@ export function addHandleZoomChange(
         setBlocksStyle(blocksLayer, zoomedIn);
         break;
       case MapViews.TREES:
-        setSitesStyle(sitesLayer, visibleSites, zoomLevel, zoomedIn);
+        setSitesStyle(sitesLayer, visibleSites, zoomLevel, zoomedIn, mapTypeId);
         break;
     }
   });

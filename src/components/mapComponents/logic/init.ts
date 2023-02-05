@@ -60,6 +60,7 @@ export function initNeighborhoods(
   view: MapViews,
   map: google.maps.Map,
   visible: boolean,
+  mapTypeId: string,
 ): google.maps.Data {
   const neighborhoodsLayer = new google.maps.Data({ map });
   // Loads the objects into the layer
@@ -71,7 +72,7 @@ export function initNeighborhoods(
     marker.setMap(map);
   });
   // Sets the style of the layer, initially the neighborhoods are shown by themselves
-  setNeighborhoodsStyle(neighborhoodsLayer, markersArray, visible);
+  setNeighborhoodsStyle(neighborhoodsLayer, markersArray, visible, mapTypeId);
   // Adds the event listener
   addZoomToClickedNeighborhood(neighborhoodsLayer, view, map);
   return neighborhoodsLayer;
@@ -116,6 +117,7 @@ export function initSites(
   map: google.maps.Map,
   zoomLevel: number,
   visible: boolean,
+  mapTypeId: string,
 ): google.maps.Data {
   const sitesLayer = new google.maps.Data({ map });
   // Loads the objects into the layer
@@ -123,7 +125,7 @@ export function initSites(
   // Adds listener so tree popup appears when site clicked
   addTreePopupOnClick(sitesLayer, setActiveTreeInfo, popPopup);
   // Initially hidden while the neighborhoods are shown
-  setSitesStyle(sitesLayer, visibleSites, zoomLevel, visible);
+  setSitesStyle(sitesLayer, visibleSites, zoomLevel, visible, mapTypeId);
   return sitesLayer;
 }
 
@@ -184,6 +186,7 @@ export function initSiteView(
     MapViews.TREES,
     mapData.map,
     !zoomedIn,
+    mapData.mapTypeId,
   );
   const sitesLayer = initSites(
     sites,
@@ -193,6 +196,7 @@ export function initSiteView(
     mapData.map,
     getImageSize(mapData.zoom),
     zoomedIn,
+    mapData.mapTypeId,
   );
 
   initUserLocation(mapData.map);
@@ -206,6 +210,7 @@ export function initSiteView(
     ALL_SITES_VISIBLE,
     MapViews.TREES,
     mapData.map,
+    mapData.mapTypeId,
   );
 
   return {
@@ -250,6 +255,7 @@ export function initBlockView(
     ALL_SITES_VISIBLE,
     MapViews.BLOCKS,
     mapData.map,
+    mapData.mapTypeId,
   );
 
   return {

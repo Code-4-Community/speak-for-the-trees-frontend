@@ -109,6 +109,7 @@ export interface BasicMapData {
   readonly map: google.maps.Map;
   readonly zoom: number;
   readonly markersArray: google.maps.Marker[];
+  readonly mapTypeId: string;
 }
 
 // Data given to initMap functions to set up map features outside of LOADER.load().then()

@@ -1,5 +1,5 @@
 import React, { createRef, useEffect, useState, useCallback } from 'react';
-import { Input, message, Switch, Card} from 'antd';
+import { Input, message } from 'antd';
 import { MapViews, ReturnMapData } from '../../ducks/types';
 import { BOSTON_BOUNDS, LOADER, STREET_ZOOM } from '../../constants';
 import { addHandleSearch } from '../../logic/event';
@@ -19,21 +19,6 @@ const StyledSearch = styled(Input.Search)`
   }
 `;
 
-const StyledCard = styled(Card)`
-  z-index: 3;
-  position: absolute;
-  top: 15vh;
-  right: 26vw;
-  border: 1px grey solid;
-  padding: 10px;
-  line-height: 1.25;
-
-  @media (max-width: ${BREAKPOINT_TABLET}px) {
-    right: 2vw;
-    top: 27vh;
-  }
-`;
-
 const MapDiv = styled.div`
   height: 100%;
 `;
@@ -45,6 +30,7 @@ interface MapWithPopupProps {
   readonly lng: number;
   readonly initMap: (mapData: InitMapData) => ReturnMapData;
   readonly defaultActiveTree: BasicTreeInfo;
+  readonly mapTypeId: string;
 }
 
 let map: google.maps.Map;
@@ -58,6 +44,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
   initMap,
   defaultActiveTree,
   children,
+  mapTypeId,
 }) => {
   // BasicTreeInfo to display in tree popup
   const [activeTreeInfo, setActiveTreeInfo] = useState<BasicTreeInfo>(
@@ -75,14 +62,6 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
   );
 
   const [searchInput, setSearchInput] = useState('');
-
-  const [mapTypeId, setMapTypeId] = useState<string>('roadmap');
-
-  function toggleMapView(checked: boolean): void {
-    checked ? setMapTypeId('satellite') : setMapTypeId('roadmap');
-  }
-
-  // const toggleMapView = (checked: boolean) => {checked ? setMapTypeId('satellite') : setMapTypeId('roadmap')};
 
   useEffect(() => {
     setMapElement(mapRef.current);
@@ -163,8 +142,10 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
             markersArray,
             popPopup,
             setActiveTreeInfo,
+            mapTypeId,
           };
 
+          console.log(mapTypeId);
           const setMapData = initMapCallback(thisMapData);
 
           // Sets up the autocomplete search bar, only shows places in Boston for suggestions)
@@ -222,13 +203,6 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
           value={searchInput}
           onChange={(event) => setSearchInput(event.target.value)}
         />
-        <StyledCard bodyStyle={{ padding: '0px' }}>
-          Current Map Style:
-          <br />
-          {mapTypeId}
-          <br />
-          <Switch onChange={toggleMapView} />
-        </StyledCard>
       </div>
       <MapDiv id="map" ref={mapRef} />
       <TreePopup treeInfo={activeTreeInfo} popRef={treePopupRef} />
