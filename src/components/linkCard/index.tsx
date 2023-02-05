@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card } from 'antd';
-import { PALE_GREEN, WHITE } from '../../utils/colors';
+import { PALE_GREEN } from '../../utils/colors';
 import bkg1 from '../../assets/images/bkg1.png';
 import bkg2 from '../../assets/images/bkg2.png';
 import bkg3 from '../../assets/images/bkg3.png';
