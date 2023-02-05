@@ -131,6 +131,8 @@ export const GreenLinkButton = styled(LinkButton)`
 export const MenuLinkButton = styled(LinkButton)`
   padding-left: 0;
   margin-top: 0;
+  width: 100%;
+  text-align: left;
 `;
 
 export const MainContent = styled.div`
