@@ -60,6 +60,7 @@ export enum EditableSiteEntryFields {
   STUMP = 'stump',
   TREE_NOTES = 'treeNotes',
   SITE_NOTES = 'siteNotes',
+  PLANTING_DATE = 'plantingDate',
 }
 
 export type SiteEntryField =
@@ -113,6 +114,7 @@ export interface SiteEntry {
   siteNotes?: string;
   treeName?: string;
   adopter?: string;
+  plantingDate?: moment.Moment;
 }
 
 export enum SiteEntryStatus {
@@ -179,6 +181,7 @@ export const ExtraSiteEntryNames: Record<string, string> = {
   stump: 'Is there a stump?',
   treeNotes: 'Tree Notes',
   siteNotes: 'Site Notes',
+  plantingDate: 'Date Planted',
 };
 
 export interface TreeCare {
