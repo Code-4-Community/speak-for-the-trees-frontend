@@ -10,6 +10,7 @@ export const PALE_GREEN = '#E5EBDA';
 export const BACKGROUND_GREEN = '#D4EDAA';
 export const WHITE = '#FFFFFF';
 export const RED = '#FF0000';
+export const LIGHT_RED = '#D07B69';
 
 // Map Colors
 export const MAP_GREEN = '#117733';

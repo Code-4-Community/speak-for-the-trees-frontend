@@ -1,4 +1,9 @@
-import { AdoptedSites, StewardshipActivities, SiteProps } from '../ducks/types';
+import {
+  AdoptedSites,
+  StewardshipActivities,
+  SiteProps,
+  SiteEntryStatus,
+} from '../ducks/types';
 import { getSiteData, getAdoptedSites } from '../ducks/thunks';
 import {
   siteData,
@@ -62,7 +67,7 @@ describe('Tree Page Thunks', () => {
           {
             id: 1,
             updatedAt: 200,
-            status: 'good',
+            status: SiteEntryStatus.ALIVE,
             species: 'tree',
             genus: 'big',
             circumference: 4,
@@ -71,7 +76,7 @@ describe('Tree Page Thunks', () => {
           {
             id: 2,
             updatedAt: 100,
-            status: 'bad',
+            status: SiteEntryStatus.DEAD_BUT_STANDING,
             species: 'not a tree',
             circumference: 2,
             bicycle: false,
@@ -182,7 +187,7 @@ describe('Tree Page Thunks', () => {
           {
             id: 1,
             updatedAt: 200,
-            status: 'good',
+            status: SiteEntryStatus.ALIVE,
             species: 'tree',
             genus: 'big',
             circumference: 4,
@@ -191,7 +196,7 @@ describe('Tree Page Thunks', () => {
           {
             id: 2,
             updatedAt: 100,
-            status: 'bad',
+            status: SiteEntryStatus.DEAD,
             species: 'not a tree',
             circumference: 2,
             bicycle: false,

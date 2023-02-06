@@ -11,10 +11,10 @@ import {
   TREE_ICON_DESCRIPTION,
   YOUNG_TREE_ICON_DESCRIPTION,
 } from './content';
-import adoptedTreeIcon from '../../../assets/images/siteIcons/adoptedLarge.png';
-import treeIcon from '../../../assets/images/siteIcons/standardLarge.png';
-import youngTreeIcon from '../../../assets/images/siteIcons/youngLarge.png';
-import openSiteIcon from '../../../assets/images/siteIcons/openLarge.png';
+import adoptedTreeIcon from '../../../assets/images/siteIcons/adoptedIcon.svg';
+import treeIcon from '../../../assets/images/siteIcons/standardIcon.svg';
+import youngTreeIcon from '../../../assets/images/siteIcons/youngIcon.svg';
+import openSiteIcon from '../../../assets/images/siteIcons/openIcon.svg';
 import { MAP_GREEN, MAP_RED, MAP_YELLOW, RED } from '../../../utils/colors';
 import { MapViews } from '../ducks/types';
 import {

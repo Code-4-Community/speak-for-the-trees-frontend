@@ -80,7 +80,7 @@ interface MapGeometry {
   coordinates: Coordinate[][][] | Coordinate;
 }
 
-type Coordinate = [number, number];
+export type Coordinate = [number, number];
 
 // ---------------------------------Redux----------------------------------------
 
@@ -102,7 +102,7 @@ export type MapGeoDataThunkAction<R> = ThunkAction<
 // The different map views and zoom value the associated data layer appears at
 export enum MapViews {
   BLOCKS = 13,
-  TREES = 16,
+  TREES = 15,
 }
 
 export interface BasicMapData {

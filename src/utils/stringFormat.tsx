@@ -1,6 +1,7 @@
 import { Entry, MainSiteEntryOrder } from '../containers/treePage/ducks/types';
 import { NEIGHBORHOOD_IDS } from '../assets/content';
 import { AppError } from '../auth/axios';
+import { Coordinate } from '../components/mapComponents/ducks/types';
 
 /**
  * Converts the given dollar amount to a formatted string
@@ -136,4 +137,24 @@ export function getNeighborhoodName(id: number): string {
  */
 export function getErrorMessage(err: AppError): string {
   return err.response.data;
+}
+
+/**
+ * Parses a string to a latitude and longitude, if possible.
+ * @param str the string to parse
+ * @return the converted LatLng or null if the given string cannot be parsed
+ */
+export function parseLatLng(str: string): Coordinate | null {
+  const latLng = str.split(',');
+  if (latLng.length !== 2) {
+    return null;
+  }
+
+  const lat = parseFloat(latLng[0]);
+  const lng = parseFloat(latLng[1]);
+  if (isNaN(lat) || isNaN(lng)) {
+    return null;
+  }
+
+  return [lat, lng];
 }

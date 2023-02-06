@@ -15,6 +15,7 @@ import {
   ExtraSiteEntryNames,
   MonthYearOption,
   SiteEntryFields,
+  SiteEntryStatus,
 } from '../ducks/types';
 import {
   mapStewardshipToTreeCare,
@@ -53,12 +54,16 @@ describe('Tree Page Selectors', () => {
     it('returns correctly formatted strings with different stewardship combinations', () => {
       const expectedTreeCare: TreeCare[] = [
         {
+          activityId: 0,
+          userId: 1,
           day: '1st',
           month: 'Jan',
           year: 2021,
           message: 'Was mulched and watered and weeded.',
         },
         {
+          activityId: 1,
+          userId: 1,
           day: '23rd',
           month: 'Feb',
           year: 2021,
@@ -110,7 +115,7 @@ describe('Tree Page Selectors', () => {
       {
         id: 0,
         updatedAt: 200,
-        status: 'good',
+        status: SiteEntryStatus.ALIVE,
         species: 'tree',
         genus: 'big',
         circumference: 4,
@@ -119,7 +124,7 @@ describe('Tree Page Selectors', () => {
       {
         id: 1,
         updatedAt: 100,
-        status: 'bad',
+        status: SiteEntryStatus.DEAD,
         species: 'not a tree',
         circumference: 2,
         bicycle: false,
@@ -141,7 +146,7 @@ describe('Tree Page Selectors', () => {
           },
           {
             title: 'Status',
-            value: 'good',
+            value: SiteEntryStatus.ALIVE,
           },
         ],
         extra: [
@@ -186,7 +191,7 @@ describe('Tree Page Selectors', () => {
         },
         {
           title: 'Status',
-          value: 'good',
+          value: SiteEntryStatus.ALIVE,
         },
         {
           title: 'Species',

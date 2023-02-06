@@ -17,6 +17,7 @@ import {
   EditSiteRequest,
   UpdateSiteRequest,
   AddSiteRequest,
+  NameSiteEntryRequest,
 } from '../components/forms/ducks/types';
 import {
   ActivityRequest,
@@ -105,6 +106,10 @@ export interface ProtectedApiClient {
     previousDays: number | null,
   ) => Promise<string>;
   readonly addSite: (request: AddSiteRequest) => Promise<void>;
+  readonly nameSiteEntry: (
+    siteId: number,
+    request: NameSiteEntryRequest,
+  ) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -162,8 +167,10 @@ export const ParameterizedApiRoutes = {
   RECORD_STEWARDSHIP: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/record_stewardship`,
   DELETE_STEWARDSHIP: (actvityId: number): string =>
-    `${baseSiteRoute}remove_stewardship/${actvityId}`,
+    `${baseSiteRoute}delete_stewardship/${actvityId}`,
   UPDATE_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/update`,
+  NAME_SITE_ENTRY: (siteId: number): string =>
+    `${baseSiteRoute}${siteId}/name_entry`,
 };
 
 export const ParameterizedAdminApiRoutes = {
@@ -455,6 +462,16 @@ const addSite = (request: AddSiteRequest): Promise<void> => {
   );
 };
 
+const nameSiteEntry = (
+  siteId: number,
+  request: NameSiteEntryRequest,
+): Promise<void> => {
+  return AppAxiosInstance.post(
+    ParameterizedApiRoutes.NAME_SITE_ENTRY(siteId),
+    request,
+  ).then((res) => res.data);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -496,6 +513,7 @@ const Client: ProtectedApiClient = Object.freeze({
   getStewardshipReport,
   getStewardshipReportCsv,
   addSite,
+  nameSiteEntry,
 });
 
 export default Client;

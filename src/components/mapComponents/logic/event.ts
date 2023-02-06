@@ -10,6 +10,7 @@ import {
 } from './style';
 import { BasicTreeInfo } from '../../treePopup';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import { parseLatLng } from '../../../utils/stringFormat';
 
 // Logic for adding event listeners and handling events
 
@@ -37,12 +38,20 @@ export function addHandleSearch(
     const place: google.maps.places.PlaceResult = autocomplete.getPlace();
     // If the place does not have a geometry (if the user did not enter a valid location)
     if (!place.geometry) {
-      // Predicts the place the user wanted and sets the search marker at that place
-      predictPlace(place, autoService, placesService, callback);
-      return;
+      const latLng = parseLatLng(place.name);
+      if (!latLng) {
+        // Predicts the place the user wanted and sets the search marker at that place
+        predictPlace(place, autoService, placesService, callback);
+        return;
+      }
+
+      place.geometry = {
+        location: new google.maps.LatLng(latLng[0], latLng[1]),
+        viewport: new google.maps.LatLngBounds(),
+      };
     }
 
-    // Otherwise just goes to the place they searched for
+    // Goes to the place they searched for
     goToPlace(place, searchMarker, map, STREET_ZOOM);
   });
 }
@@ -158,28 +167,24 @@ export function addHandleZoomChange(
         setBlocksStyle(blocksLayer, zoomedIn);
         break;
       case MapViews.TREES:
-        setSitesStyle(
-          sitesLayer,
-          visibleSites,
-          getImageSize(zoomLevel, view),
-          zoomedIn,
-        );
+        setSitesStyle(sitesLayer, visibleSites, zoomLevel, zoomedIn);
         break;
     }
   });
 }
 
 /**
- * Determines the image size given the zoom level and the view.
- * @param zoomLevel the zoom level
- * @param view the view
+ * Determines the image size from the zoom level.
+ * @param zoomLevel the zoom level between 16 and 22 where zooming in increases zoom level
  */
-export function getImageSize(zoomLevel: number, view: MapViews): number {
-  let imageSize = 0;
-  if (zoomLevel >= STREET_ZOOM) {
-    imageSize = 2;
-  } else if (zoomLevel > view + 1) {
-    imageSize = 1;
+export function getImageSize(zoomLevel: number): number {
+  if (zoomLevel >= 21) {
+    return 35;
+  } else if (zoomLevel >= 19) {
+    return 20;
+  } else if (zoomLevel >= 18) {
+    return 13;
+  } else {
+    return 5;
   }
-  return imageSize;
 }

@@ -73,7 +73,7 @@ export const SiteEntryFields = {
 export interface SiteEntry {
   id: number;
   updatedAt: number;
-  status?: string;
+  status?: SiteEntryStatus;
   genus?: string;
   species?: string;
   commonName?: string;
@@ -111,7 +111,14 @@ export interface SiteEntry {
   stump?: boolean;
   treeNotes?: string;
   siteNotes?: string;
+  treeName?: string;
   adopter?: string;
+}
+
+export enum SiteEntryStatus {
+  ALIVE = 'Alive',
+  DEAD = 'Dead',
+  DEAD_BUT_STANDING = 'Dead but standing',
 }
 
 export interface SplitSiteEntries {
@@ -175,6 +182,8 @@ export const ExtraSiteEntryNames: Record<string, string> = {
 };
 
 export interface TreeCare {
+  activityId: number;
+  userId: number;
   month: string;
   year: number;
   day: string;

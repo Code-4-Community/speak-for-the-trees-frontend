@@ -1,18 +1,27 @@
 import React from 'react';
-import { Col, Form, Input, Radio, Row } from 'antd';
+import { Form, Input, Radio, Row, Space } from 'antd';
 import { FormInstance, Rule } from 'antd/es/form';
-import { BOOL_RADIO_OPTS, UpdateSiteRequest } from '../ducks/types';
+import {
+  BOOL_RADIO_OPTS,
+  STATUS_RADIO_OPTS,
+  UpdateSiteRequest,
+} from '../ducks/types';
 import { Flex, SubmitButton } from '../../themedComponents';
 import TitleStack from '../../titleStack';
-import { SiteEntryFields } from '../../../containers/treePage/ducks/types';
+import {
+  SiteEntry,
+  SiteEntryFields,
+} from '../../../containers/treePage/ducks/types';
 import { stringNumberRules } from '../../../utils/formRules';
 import { getSEFieldDisplayName } from '../../../containers/treePage/ducks/selectors';
+import { CheckboxOptionType } from 'antd/es/checkbox/Group';
 
-interface BoolRadioProps {
+interface RadioInputProps {
   readonly name: string;
+  readonly options?: CheckboxOptionType[];
 }
 
-interface StringInputProps extends BoolRadioProps {
+interface StringInputProps extends RadioInputProps {
   readonly placeholder: string;
   readonly rules?: Rule[];
 }
@@ -20,19 +29,28 @@ interface StringInputProps extends BoolRadioProps {
 interface UpdateSiteFormProps {
   readonly formInstance: FormInstance;
   readonly onFinish: (request: UpdateSiteRequest) => void;
+  readonly latestSiteEntry?: SiteEntry;
 }
 
 const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
   formInstance,
   onFinish,
+  latestSiteEntry,
 }) => {
-  const BoolRadioCol: React.FC<BoolRadioProps> = ({ name }) => {
+  const RadioInput: React.FC<RadioInputProps> = ({ name, options }) => {
+    const radioOptions = options ?? BOOL_RADIO_OPTS;
     return (
-      <Col span={6}>
-        <Form.Item name={name}>
-          <Radio.Group options={BOOL_RADIO_OPTS} />
-        </Form.Item>
-      </Col>
+      <Form.Item name={name}>
+        <Radio.Group>
+          <Space direction="vertical">
+            {radioOptions.map((option: CheckboxOptionType) => (
+              <Radio key={option.label as string} value={option.value}>
+                {option.label}
+              </Radio>
+            ))}
+          </Space>
+        </Radio.Group>
+      </Form.Item>
     );
   };
 
@@ -48,173 +66,178 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
     );
   };
 
+  const formInitialValues = {
+    treePresent: latestSiteEntry?.treePresent ?? false,
+    multistem: latestSiteEntry?.multistem ?? false,
+    discoloring: latestSiteEntry?.discoloring ?? false,
+    leaning: latestSiteEntry?.leaning ?? false,
+    constrictingGrate: latestSiteEntry?.constrictingGrate ?? false,
+    wounds: latestSiteEntry?.wounds ?? false,
+    pooling: latestSiteEntry?.pooling ?? false,
+    stakesWithWires: latestSiteEntry?.stakesWithWires ?? false,
+    stakesWithoutWires: latestSiteEntry?.stakesWithoutWires ?? false,
+    light: latestSiteEntry?.light ?? false,
+    bicycle: latestSiteEntry?.bicycle ?? false,
+    bagEmpty: latestSiteEntry?.bagEmpty ?? false,
+    bagFilled: latestSiteEntry?.bagFilled ?? false,
+    tape: latestSiteEntry?.tape ?? false,
+    suckerGrowth: latestSiteEntry?.suckerGrowth ?? false,
+    raisedBed: latestSiteEntry?.raisedBed ?? false,
+    fence: latestSiteEntry?.fence ?? false,
+    trash: latestSiteEntry?.trash ?? false,
+    wires: latestSiteEntry?.wires ?? false,
+    grate: latestSiteEntry?.grate ?? false,
+    stump: latestSiteEntry?.stump ?? false,
+    status: latestSiteEntry?.status ?? null,
+  };
+
   return (
     <Form
       name="basic"
       form={formInstance}
       onFinish={onFinish}
       style={{ width: '100%' }}
-      initialValues={{
-        treePresent: false,
-        multistem: false,
-        discoloring: false,
-        leaning: false,
-        constrictingGrate: false,
-        wounds: false,
-        pooling: false,
-        stakesWithWires: false,
-        stakesWithoutWires: false,
-        light: false,
-        bicycle: false,
-        bagEmpty: false,
-        bagFilled: false,
-        tape: false,
-        suckerGrowth: false,
-        raisedBed: false,
-        fence: false,
-        trash: false,
-        wires: false,
-        grate: false,
-        stump: false,
-      }}
+      initialValues={formInitialValues}
     >
       <Flex>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.TREE_PRESENT)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.TREE_PRESENT} />
+          <RadioInput name={SiteEntryFields.TREE_PRESENT} />
+        </TitleStack>
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.STATUS)}
+          minWidth={'150px'}
+        >
+          <RadioInput
+            name={SiteEntryFields.STATUS}
+            options={STATUS_RADIO_OPTS}
+          />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.STUMP)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.STUMP} />
+          <RadioInput name={SiteEntryFields.STUMP} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.MULTISTEM)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.MULTISTEM} />
+          <RadioInput name={SiteEntryFields.MULTISTEM} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.DISCOLORING)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.DISCOLORING} />
+          <RadioInput name={SiteEntryFields.DISCOLORING} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.LEANING)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.LEANING} />
+          <RadioInput name={SiteEntryFields.LEANING} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.CONSTRICTING_GRATE)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.CONSTRICTING_GRATE} />
+          <RadioInput name={SiteEntryFields.CONSTRICTING_GRATE} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.WOUNDS)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.WOUNDS} />
+          <RadioInput name={SiteEntryFields.WOUNDS} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.POOLING)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.POOLING} />
+          <RadioInput name={SiteEntryFields.POOLING} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.STAKES_WITH_WIRES)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.STAKES_WITH_WIRES} />
+          <RadioInput name={SiteEntryFields.STAKES_WITH_WIRES} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.STAKES_WITHOUT_WIRES)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.STAKES_WITHOUT_WIRES} />
+          <RadioInput name={SiteEntryFields.STAKES_WITHOUT_WIRES} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.LIGHT)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.LIGHT} />
+          <RadioInput name={SiteEntryFields.LIGHT} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.BICYCLE)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.BICYCLE} />
+          <RadioInput name={SiteEntryFields.BICYCLE} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.BAG_EMPTY)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.BAG_EMPTY} />
+          <RadioInput name={SiteEntryFields.BAG_EMPTY} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.BAG_FILLED)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.BAG_FILLED} />
+          <RadioInput name={SiteEntryFields.BAG_FILLED} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.TAPE)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.TAPE} />
+          <RadioInput name={SiteEntryFields.TAPE} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.SUCKER_GROWTH)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.SUCKER_GROWTH} />
+          <RadioInput name={SiteEntryFields.SUCKER_GROWTH} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.RAISED_BED)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.RAISED_BED} />
+          <RadioInput name={SiteEntryFields.RAISED_BED} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.FENCE)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.FENCE} />
+          <RadioInput name={SiteEntryFields.FENCE} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.TRASH)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.TRASH} />
+          <RadioInput name={SiteEntryFields.TRASH} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.WIRES)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.WIRES} />
+          <RadioInput name={SiteEntryFields.WIRES} />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.GRATE)}
           minWidth={'150px'}
         >
-          <BoolRadioCol name={SiteEntryFields.GRATE} />
+          <RadioInput name={SiteEntryFields.GRATE} />
         </TitleStack>
       </Flex>
 
       <Flex>
-        <TitleStack
-          title={getSEFieldDisplayName(SiteEntryFields.STATUS)}
-          minWidth={'20%'}
-          flexGrow={'1'}
-        >
-          <StringInput placeholder={'Status'} name={SiteEntryFields.STATUS} />
-        </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.GENUS)}
           minWidth={'20%'}
@@ -343,7 +366,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.MATERIAL)}
-          minWidth={'45%'}
+          minWidth={'20%'}
           flexGrow={'1'}
         >
           <StringInput
@@ -353,7 +376,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.TREE_NOTES)}
-          minWidth={'45%'}
+          minWidth={'20%'}
           flexGrow={'1'}
         >
           <StringInput
@@ -363,7 +386,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.SITE_NOTES)}
-          minWidth={'45%'}
+          minWidth={'20%'}
           flexGrow={'1'}
         >
           <StringInput

@@ -32,7 +32,10 @@ import { C4CState } from '../../store';
 import { getAdoptedSites, getSiteData } from './ducks/thunks';
 import protectedApiClient from '../../api/protectedApiClient';
 import TreeBackground from '../../assets/images/grey-logo.png';
-import { RecordStewardshipRequest } from '../../components/forms/ducks/types';
+import {
+  NameSiteEntryRequest,
+  RecordStewardshipRequest,
+} from '../../components/forms/ducks/types';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
@@ -107,7 +110,7 @@ interface TreeProps {
   readonly adoptedSites: ProtectedSitesReducerState['adoptedSites'];
 }
 
-interface TreeParams {
+export interface TreeParams {
   id: string;
 }
 
@@ -124,6 +127,7 @@ const TreePage: React.FC<TreeProps> = ({
   const { windowType } = useWindowDimensions();
 
   const [stewardshipFormInstance] = Form.useForm();
+  const [editTreeNameFormInstance] = Form.useForm();
 
   useEffect(() => {
     dispatch(getSiteData(id));
@@ -175,6 +179,17 @@ const TreePage: React.FC<TreeProps> = ({
       .catch((err) => {
         message.error(`Failed to unadopt site: ${err.response.data}`);
       });
+  };
+
+  const onClickEditTreeName = (values: NameSiteEntryRequest) => {
+    protectedApiClient
+      .nameSiteEntry(id, values)
+      .then(() => {
+        message.success('Tree name changed!');
+      })
+      .catch((err) =>
+        message.error(`Failed to name site: ${err.response.data}`),
+      );
   };
 
   const loggedIn: boolean = useSelector((state: C4CState) =>
@@ -244,7 +259,8 @@ const TreePage: React.FC<TreeProps> = ({
                 {`<`} Return to Tree Map
               </ReturnButton>
 
-              {!siteData.result.entries[0].treePresent && (
+              {(!siteData.result.entries[0] ||
+                !siteData.result.entries[0].treePresent) && (
                 <PlantInstructionContainer
                   message={noTreeMessage}
                   description={treePlantingRequest}
@@ -272,6 +288,10 @@ const TreePage: React.FC<TreeProps> = ({
                                 stewardshipFormInstance={
                                   stewardshipFormInstance
                                 }
+                                editTreeNameFormInstance={
+                                  editTreeNameFormInstance
+                                }
+                                onClickEditTreeName={onClickEditTreeName}
                               />
                             </TreeInfoContainer>
                           </Col>
@@ -301,6 +321,8 @@ const TreePage: React.FC<TreeProps> = ({
                               onFinishRecordStewardship
                             }
                             stewardshipFormInstance={stewardshipFormInstance}
+                            editTreeNameFormInstance={editTreeNameFormInstance}
+                            onClickEditTreeName={onClickEditTreeName}
                           />
                         </TreeInfoContainer>
                         <TreeCareContainer>
@@ -323,6 +345,8 @@ const TreePage: React.FC<TreeProps> = ({
                           onClickUnadopt={onClickUnadopt}
                           onFinishRecordStewardship={onFinishRecordStewardship}
                           stewardshipFormInstance={stewardshipFormInstance}
+                          editTreeNameFormInstance={editTreeNameFormInstance}
+                          onClickEditTreeName={onClickEditTreeName}
                         />
                         <MobileTreeCareContainer>
                           <TreeActivity
