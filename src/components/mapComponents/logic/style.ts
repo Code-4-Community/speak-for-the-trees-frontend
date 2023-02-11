@@ -94,7 +94,7 @@ export function setNeighborhoodsStyle(
   toggleMarkers(markers, v);
   neighborhoodsLayer.setStyle((feature) => {
     return {
-      fillColor: mapTypeId === 'roadmap' ? `${MAP_GREEN}` : `${RED}`,
+      fillColor: mapTypeId === 'roadmap' ? `${MAP_GREEN}` : `${WHITE}`,
       // fillColor: `${MAP_GREEN}`,
       fillOpacity: feature.getProperty('canopyCoverage'),
       strokeWeight: 1,
@@ -113,12 +113,13 @@ export function setNeighborhoodsStyle(
 export function createNeighborhoodMarker(
   feature: google.maps.Data.Feature,
   map: google.maps.Map,
+  mapTypeId: string,
 ): google.maps.Marker {
   return new google.maps.Marker({
     map,
     draggable: false,
     label: {
-      color: `${WHITE}`,
+      color: mapTypeId === 'roadmap' ? `${WHITE}` : `${BLACK}`,
       fontWeight: 'bold',
       text: shortHand(feature.getProperty('name'), SHORT_HAND_NAMES),
     },

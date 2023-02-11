@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { goToPlace } from '../../logic/view';
 import { InitMapData } from '../../ducks/types';
 import { BREAKPOINT_TABLET } from '../../../windowDimensions';
+import { createPortal } from 'react-dom';
 
 const StyledSearch = styled(Input.Search)`
   width: 20vw;

@@ -67,7 +67,7 @@ export function initNeighborhoods(
   neighborhoodsLayer.addGeoJson(neighborhoods);
   // Add a name marker to each neighborhood after the GeoJson loads
   neighborhoodsLayer.forEach((feature) => {
-    const marker = createNeighborhoodMarker(feature, map);
+    const marker = createNeighborhoodMarker(feature, map, mapTypeId);
     markersArray.push(marker);
     marker.setMap(map);
   });
