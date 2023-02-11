@@ -1,4 +1,10 @@
-import React, { createRef, useEffect, useState, useCallback } from 'react';
+import React, {
+  createRef,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
 import { Input, message } from 'antd';
 import { MapViews, ReturnMapData } from '../../ducks/types';
 import { BOSTON_BOUNDS, LOADER, STREET_ZOOM } from '../../constants';
@@ -8,7 +14,7 @@ import styled from 'styled-components';
 import { goToPlace } from '../../logic/view';
 import { InitMapData } from '../../ducks/types';
 import { BREAKPOINT_TABLET } from '../../../windowDimensions';
-import { createPortal } from 'react-dom';
+import { createPortal, render } from 'react-dom';
 
 const StyledSearch = styled(Input.Search)`
   width: 20vw;
@@ -32,6 +38,7 @@ interface MapWithPopupProps {
   readonly initMap: (mapData: InitMapData) => ReturnMapData;
   readonly defaultActiveTree: BasicTreeInfo;
   readonly mapTypeId: string;
+  readonly toggleViewCard: React.FC;
 }
 
 let map: google.maps.Map;
@@ -46,6 +53,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
   defaultActiveTree,
   children,
   mapTypeId,
+  toggleViewCard,
 }) => {
   // BasicTreeInfo to display in tree popup
   const [activeTreeInfo, setActiveTreeInfo] = useState<BasicTreeInfo>(
@@ -63,6 +71,8 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
   );
 
   const [searchInput, setSearchInput] = useState('');
+
+  const toggleViewDiv = useRef(document.createElement('div'));
 
   useEffect(() => {
     setMapElement(mapRef.current);
@@ -87,6 +97,10 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
             },
             mapTypeId,
           });
+
+          map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
+            toggleViewDiv.current,
+          );
 
           // Declare everything that must be created within the loader
           // A class for the custom popup
@@ -205,6 +219,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
           onChange={(event) => setSearchInput(event.target.value)}
         />
       </div>
+      {createPortal(toggleViewCard, toggleViewDiv.current)}
       <MapDiv id="map" ref={mapRef} />
       <TreePopup treeInfo={activeTreeInfo} popRef={treePopupRef} />
       {children}

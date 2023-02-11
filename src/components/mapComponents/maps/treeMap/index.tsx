@@ -22,18 +22,22 @@ import { BREAKPOINT_TABLET } from '../../../windowDimensions';
 
 const StyledCard = styled(Card)`
   z-index: 3;
-  position: absolute;
-  top: 12vh;
-  right: 22.5vw;
   border: 1px grey solid;
   padding: 10px;
-  line-height: 1.25;
+  line-height: 1.6;
+
+  top: 1vh;
+  right: 0.5vw;
 
   @media (max-width: ${BREAKPOINT_TABLET}px) {
-    right: 2vw;
-    top: 20vh;
+    top: 5vh;
+    right: 0.5vw;
   }
 `;
+
+// position: absolute;
+// top: 12vh;
+// right: 22.5vw;
 
 interface TreeMapProps {
   readonly neighborhoods: NeighborhoodGeoData;
@@ -52,7 +56,7 @@ const TreeMap: React.FC<TreeMapProps> = ({
 
   const [loadedMapData, setLoadedMapData] = useState<ReturnMapData>();
 
-  const [mapTypeId, setMapTypeId] = useState<string>('satellite');
+  const [mapTypeId, setMapTypeId] = useState<string>('roadmap');
 
   function toggleMapView(checked: boolean): void {
     checked ? setMapTypeId('satellite') : setMapTypeId('roadmap');
@@ -131,14 +135,16 @@ const TreeMap: React.FC<TreeMapProps> = ({
         treePresent: false,
       }}
       mapTypeId={mapTypeId}
+      toggleViewCard={
+        <StyledCard bodyStyle={{ padding: '0px' }}>
+          Current Map Style:
+          <br />
+          <b>{mapTypeId}</b>
+          <br />
+          <Switch onChange={toggleMapView} />
+        </StyledCard>
+      }
     >
-      <StyledCard bodyStyle={{ padding: '0px' }}>
-        Current Map Style:
-        <br />
-        {mapTypeId}
-        <br />
-        <Switch onChange={toggleMapView} />
-      </StyledCard>
       {!mobile && <SiteLegend onCheck={onCheck} />}
     </MapWithPopup>
   );
