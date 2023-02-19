@@ -189,7 +189,9 @@ export function getImageSize(zoomLevel: number): number {
   } else if (zoomLevel >= 19) {
     return 20;
   } else if (zoomLevel >= 18) {
-    return 15;
+    return 14;
+  } else if (zoomLevel >= 17) {
+    return 9;
   } else {
     return 6;
   }

@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import { goToPlace } from '../../logic/view';
 import { InitMapData } from '../../ducks/types';
 import { BREAKPOINT_TABLET } from '../../../windowDimensions';
-import { createPortal, render } from 'react-dom';
+import { createPortal } from 'react-dom';
 
 const StyledSearch = styled(Input.Search)`
   width: 20vw;
@@ -38,7 +38,7 @@ interface MapWithPopupProps {
   readonly initMap: (mapData: InitMapData) => ReturnMapData;
   readonly defaultActiveTree: BasicTreeInfo;
   readonly mapTypeId: string;
-  readonly toggleViewCard: React.FC;
+  readonly toggleViewCard: JSX.Element;
 }
 
 let map: google.maps.Map;
@@ -160,7 +160,6 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
             mapTypeId,
           };
 
-          console.log(mapTypeId);
           const setMapData = initMapCallback(thisMapData);
 
           // Sets up the autocomplete search bar, only shows places in Boston for suggestions)

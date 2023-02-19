@@ -19,11 +19,7 @@ interface BlocksMapProps {
   readonly returnTo?: Routes;
 }
 
-const BlocksMap: React.FC<BlocksMapProps> = ({
-  neighborhoods,
-  blocks,
-  returnTo,
-}) => {
+const BlocksMap: React.FC<BlocksMapProps> = ({ neighborhoods, blocks }) => {
   const location = useLocation<MapStateProps>();
 
   let defaultZoom = 12;

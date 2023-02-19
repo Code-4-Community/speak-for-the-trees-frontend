@@ -72,6 +72,12 @@ export interface SiteFeaturePropertiesResponse {
   address?: string;
 }
 
+export interface SiteOption {
+  image: string;
+  label: string;
+  value: string;
+}
+
 // ---------------------------------Shared Types----------------------------------------
 // These types follow the GeoJSON format: https://tools.ietf.org/html/rfc7946
 

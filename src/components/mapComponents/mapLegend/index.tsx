@@ -11,10 +11,6 @@ import {
   TREE_ICON_DESCRIPTION,
   YOUNG_TREE_ICON_DESCRIPTION,
 } from './content';
-import adoptedTreeIcon from '../../../assets/images/siteIcons/adoptedIcon.svg';
-import treeIcon from '../../../assets/images/siteIcons/standardIcon.svg';
-import youngTreeIcon from '../../../assets/images/siteIcons/youngIcon.svg';
-import openSiteIcon from '../../../assets/images/siteIcons/openIcon.svg';
 import { MAP_GREEN, MAP_RED, MAP_YELLOW, RED } from '../../../utils/colors';
 import { MapViews } from '../ducks/types';
 import {
@@ -94,9 +90,10 @@ interface ColorBlockProps {
 interface MapLegendProps {
   readonly view: MapViews;
   readonly canHide?: boolean;
+  readonly icons: string[];
 }
 
-const MapLegend: React.FC<MapLegendProps> = ({ view, canHide }) => {
+const MapLegend: React.FC<MapLegendProps> = ({ view, canHide, icons }) => {
   const [showLegend, setShowLegend] = useState(true);
 
   // todo: replace this with prop when implementing languages
@@ -105,6 +102,8 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, canHide }) => {
   const toggleShowLegend = () => {
     setShowLegend((prevState) => !prevState);
   };
+
+  const [youngIcon, standardIcon, adoptedIcon, openIcon] = icons;
 
   return (
     <MapLegendContainer>
@@ -120,25 +119,25 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, canHide }) => {
                     </LegendHeader>
                     <br />
                     <LegendItem>
-                      <LegendImage src={youngTreeIcon} preview={false} />
+                      <LegendImage src={youngIcon} preview={false} />
                       <FlexibleParagraph>
                         {YOUNG_TREE_ICON_DESCRIPTION[lang]}
                       </FlexibleParagraph>
                     </LegendItem>
                     <LegendItem>
-                      <LegendImage src={treeIcon} preview={false} />
+                      <LegendImage src={standardIcon} preview={false} />
                       <FlexibleParagraph>
                         {TREE_ICON_DESCRIPTION[lang]}
                       </FlexibleParagraph>
                     </LegendItem>
                     <LegendItem>
-                      <LegendImage src={adoptedTreeIcon} preview={false} />
+                      <LegendImage src={adoptedIcon} preview={false} />
                       <FlexibleParagraph>
                         {ADOPTED_TREE_ICON_DESCRIPTION[lang]}
                       </FlexibleParagraph>
                     </LegendItem>
                     <LegendItem>
-                      <LegendImage src={openSiteIcon} preview={false} />
+                      <LegendImage src={openIcon} preview={false} />
                       <FlexibleParagraph>
                         {OPEN_SITE_DESCRIPTION[lang]}
                       </FlexibleParagraph>
