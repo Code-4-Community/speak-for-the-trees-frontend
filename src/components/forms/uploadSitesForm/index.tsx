@@ -32,7 +32,7 @@ const UploadSitesForm: React.FC = () => {
           message.error('Sites could not be added');
         });
     };
-    reader.readAsText(csvFile.originFileObj);
+    reader.readAsText(csvFile.originFileObj as Blob);
   };
 
   return (
