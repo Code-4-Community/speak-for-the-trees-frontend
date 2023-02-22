@@ -9,6 +9,7 @@ import { C4CState } from '../../store';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import ChangePrivilegeForm from '../../components/forms/changePrivilegeForm';
+import UploadSitesForm from '../../components/forms/uploadSitesForm';
 import { DARK_GREEN } from '../../utils/colors';
 import ProtectedClient from '../../api/protectedApiClient';
 import {
@@ -144,6 +145,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   </Button>
                 </Form.Item>
               </SignupForm>
+            </DashboardContent>
+            <DashboardContent>
+              <Typography.Title level={4}>Add Sites</Typography.Title>
+              <UploadSitesForm />
             </DashboardContent>
           </Flex>
           <AdminDivider />
