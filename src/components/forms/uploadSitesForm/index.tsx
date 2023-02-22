@@ -17,7 +17,6 @@ const UploadSitesForm: React.FC = () => {
 
   const handleUploadSites = (values: UploadSitesFormRule) => {
     const csvFile = values.sitesCSV.fileList?.[0];
-    console.log(csvFile);
     if (!csvFile) {
       return;
     }
