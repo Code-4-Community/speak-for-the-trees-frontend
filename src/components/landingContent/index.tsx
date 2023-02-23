@@ -1,6 +1,7 @@
 import OrderedList from '../orderedList';
 import { Typography } from 'antd';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   QUESTIONS_DIRECTIONS,
   LANDING_BODY,
@@ -10,6 +11,7 @@ import {
 import { Languages } from '../../App';
 
 export const LandingContent: React.FC = () => {
+  const { t } = useTranslation();
   const lang = Languages.ENGLISH;
 
   return (
