@@ -85,7 +85,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
         autoFocusButton: null,
       });
     }
-  }, [loggedIn]);
+  }, [loggedIn, t]);
 
   const { windowType } = useWindowDimensions();
 

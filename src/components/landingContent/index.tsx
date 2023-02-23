@@ -8,7 +8,7 @@ import { n } from '../../utils/stringFormat';
 export const LandingContent: React.FC = () => {
   const { t } = useTranslation(n('landing'), { nsMode: 'fallback' });
 
-  const questions_directions: JSX.Element[] = t<string, string[]>(
+  const questionsDirections: JSX.Element[] = t<string, string[]>(
     'sidebar.questionDirections.directions',
     {
       returnObjects: true,
@@ -22,14 +22,18 @@ export const LandingContent: React.FC = () => {
             href={'https://map.treeboston.org/faq'}
             target={'_blank'}
             rel={'noopener noreferrer'}
-          />
+          >
+            {' '}
+          </a>
         ),
         contactUsLink: (
           <a
             href={`mailto:${CONTACT_EMAIL}`}
             target={'_blank'}
             rel={'noopener noreferrer'}
-          />
+          >
+            {' '}
+          </a>
         ),
       }}
       key={index}
@@ -54,14 +58,16 @@ export const LandingContent: React.FC = () => {
               href={'https://treeboston.org/get-involved/adopt/'}
               target={'_blank'}
               rel={'noopener noreferrer'}
-            />
+            >
+              {' '}
+            </a>
           ),
         }}
       />
       <br />
       <br />
       {t('sidebar.questionDirections.questions')}
-      <OrderedList items={questions_directions} />
+      <OrderedList items={questionsDirections} />
 
       <Typography.Title level={3}>
         {t('adoptionDirections.header')}

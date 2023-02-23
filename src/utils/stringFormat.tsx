@@ -172,6 +172,6 @@ export function n(namespace: string | string[]): string | string[] {
 
   const namespaces = typeof namespace === 'string' ? [namespace] : namespace;
   return namespaces
-    .map((namespace: string) => `${site?.toLowerCase()}${namespace}`)
+    .map((nspace: string) => `${site?.toLowerCase()}${nspace}`)
     .concat(namespaces);
 }
