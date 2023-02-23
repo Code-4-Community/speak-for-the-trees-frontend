@@ -18,8 +18,7 @@ export const QUESTION_FIVE = {
   ENG: 'Can I adopt multiple trees?',
 };
 export const QUESTION_SIX = {
-  ENG:
-    'What should I do if my tree is severely damaged or it looks like there is insect/fungi damage?',
+  ENG: 'What should I do if my tree is severely damaged or it looks like there is insect/fungi damage?',
 };
 export const QUESTION_SEVEN = {
   ENG: 'What should I do if my tree is no longer there?',
@@ -125,6 +124,5 @@ export const ANSWER_SEVEN = {
   ),
 };
 export const ANSWER_EIGHT = {
-  ENG:
-    'Please do not plant anything within the tree pits. You may mulch the tree if you’d like and weed the pit.',
+  ENG: 'Please do not plant anything within the tree pits. You may mulch the tree if you’d like and weed the pit.',
 };
