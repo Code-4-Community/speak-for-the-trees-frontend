@@ -40,6 +40,11 @@ export enum Languages {
   ENGLISH = 'ENG',
 }
 
+export enum Websites {
+  SFTT = 'SFTT',
+  CAMBRiDGE = 'CAMBRIDGE',
+}
+
 export enum ParameterizedRouteBases {
   // TEAM = '/team/',
   SITE = '/site/',
@@ -78,6 +83,8 @@ export interface MapStateProps {
   readonly lat: number;
   readonly lng: number;
 }
+
+export const site = process.env.REACT_APP_WEBSITE;
 
 const App: React.FC = () => {
   const dispatch = useDispatch();

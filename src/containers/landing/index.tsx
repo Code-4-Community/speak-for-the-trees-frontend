@@ -25,6 +25,7 @@ import { Modal, Typography } from 'antd';
 import { DARK_GREEN } from '../../utils/colors';
 import { SFTT_PARTNER_LOGOS } from '../../assets/links';
 import LandingContent from '../../components/landingContent';
+import { n } from '../../utils/stringFormat';
 
 const ModalTitle = styled(Typography.Text)`
   font-size: 20px;
@@ -53,7 +54,7 @@ interface LandingProps {
 }
 
 const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
-  const { t } = useTranslation('landing');
+  const { t } = useTranslation(n(['landing']), { nsMode: 'fallback' });
 
   const dispatch = useDispatch();
   const loggedIn: boolean = useSelector((state: C4CState) =>

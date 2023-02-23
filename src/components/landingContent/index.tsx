@@ -3,9 +3,13 @@ import { Typography } from 'antd';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { CONTACT_EMAIL } from '../../assets/links';
+import { n } from '../../utils/stringFormat';
 
 export const LandingContent: React.FC = () => {
-  const { t } = useTranslation('landing');
+  const { t } = useTranslation(n('landing'), { nsMode: 'fallback' });
+
+  console.log(n('landing'));
+  console.log(t('sidebar.body.learnMore'));
 
   const questions_directions: JSX.Element[] = t<string, string[]>(
     'sidebar.questionDirections.directions',
@@ -45,7 +49,8 @@ export const LandingContent: React.FC = () => {
       <br />
       <br />
       <Trans
-        i18nKey="landing:sidebar.body.learnMore"
+        ns={'landing'}
+        i18nKey="sidebar.body.learnMore"
         components={{
           adoptLink: (
             <a

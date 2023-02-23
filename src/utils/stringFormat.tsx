@@ -2,6 +2,7 @@ import { Entry, MainSiteEntryOrder } from '../containers/treePage/ducks/types';
 import { NEIGHBORHOOD_IDS } from '../assets/content';
 import { AppError } from '../auth/axios';
 import { Coordinate } from '../components/mapComponents/ducks/types';
+import { site, Websites } from '../App';
 
 /**
  * Converts the given dollar amount to a formatted string
@@ -157,4 +158,20 @@ export function parseLatLng(str: string): Coordinate | null {
   }
 
   return [lat, lng];
+}
+
+/**
+ * Generate i18n namespaces to use based on the website
+ * @param namespace base namespace to use
+ * @returns the namespaces
+ */
+export function n(namespace: string | string[]): string | string[] {
+  if (site === Websites.SFTT) {
+    return namespace;
+  }
+
+  const namespaces = typeof namespace === 'string' ? [namespace] : namespace;
+  return namespaces
+    .map((namespace: string) => `${site?.toLowerCase()}${namespace}`)
+    .concat(namespaces);
 }
