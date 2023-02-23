@@ -1,27 +1,70 @@
 import OrderedList from '../orderedList';
 import { Typography } from 'antd';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  QUESTIONS_DIRECTIONS,
-  LANDING_BODY,
-  ADOPTION_DIRECTIONS,
-  ADOPTION_DIRECTIONS_HEADER,
-} from '../../containers/landing/content';
-import { Languages } from '../../App';
+import { Trans, useTranslation } from 'react-i18next';
+import { CONTACT_EMAIL } from '../../assets/links';
 
 export const LandingContent: React.FC = () => {
-  const { t } = useTranslation();
-  const lang = Languages.ENGLISH;
+  const { t } = useTranslation('landing');
+
+  const questions_directions: JSX.Element[] = t<string, string[]>(
+    'sidebar.questionDirections.directions',
+    {
+      returnObjects: true,
+    },
+  ).map((key: string, index: number) => (
+    <Trans
+      i18nKey={key}
+      components={{
+        faqLink: (
+          <a
+            href={'https://map.treeboston.org/faq'}
+            target={'_blank'}
+            rel={'noopener noreferrer'}
+          />
+        ),
+        contactUsLink: (
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            target={'_blank'}
+            rel={'noopener noreferrer'}
+          />
+        ),
+      }}
+      key={index}
+    />
+  ));
+
+  const adoptionDirections: string[] = t('adoptionDirections.body', {
+    returnObjects: true,
+  });
 
   return (
     <>
-      {LANDING_BODY[lang]}
-      <OrderedList items={QUESTIONS_DIRECTIONS[lang]} />
+      {t('sidebar.body.introduction', { joinArrays: ' ' })}
+      <br />
+      <br />
+      <Trans
+        i18nKey="landing:sidebar.body.learnMore"
+        components={{
+          adoptLink: (
+            <a
+              href={'https://treeboston.org/get-involved/adopt/'}
+              target={'_blank'}
+              rel={'noopener noreferrer'}
+            />
+          ),
+        }}
+      />
+      <br />
+      <br />
+      {t('sidebar.questionDirections.questions')}
+      <OrderedList items={questions_directions} />
+
       <Typography.Title level={3}>
-        {ADOPTION_DIRECTIONS_HEADER[lang]}
+        {t('adoptionDirections.header')}
       </Typography.Title>
-      <OrderedList items={ADOPTION_DIRECTIONS[lang]} />
+      <OrderedList items={adoptionDirections} />
     </>
   );
 };
