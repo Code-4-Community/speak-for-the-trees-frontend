@@ -8,9 +8,6 @@ import { n } from '../../utils/stringFormat';
 export const LandingContent: React.FC = () => {
   const { t } = useTranslation(n('landing'), { nsMode: 'fallback' });
 
-  console.log(n('landing'));
-  console.log(t('sidebar.body.learnMore'));
-
   const questions_directions: JSX.Element[] = t<string, string[]>(
     'sidebar.questionDirections.directions',
     {
