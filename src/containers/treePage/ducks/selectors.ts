@@ -8,7 +8,6 @@ import {
   Entry,
   ExtraSiteEntryNames,
   MainSiteEntryNames,
-  SiteEntryField,
   SiteProps,
   SplitSiteEntries,
   MonthYearOption,
