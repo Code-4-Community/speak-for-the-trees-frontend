@@ -14,7 +14,6 @@ import {
   MainSiteEntryNames,
   ExtraSiteEntryNames,
   MonthYearOption,
-  SiteEntryFields,
   SiteEntryStatus,
 } from '../ducks/types';
 import {
@@ -23,7 +22,6 @@ import {
   getLatestEntry,
   isTreeAdoptedByUser,
   mapStewardshipToMonthYearOptions,
-  getSEFieldDisplayName,
 } from '../ducks/selectors';
 
 describe('Tree Page Selectors', () => {
@@ -236,15 +234,6 @@ describe('Tree Page Selectors', () => {
         extra: [],
       });
     });
-  });
-
-  describe('getSEFieldDisplayName', () => {
-    expect(getSEFieldDisplayName(SiteEntryFields.BAG_EMPTY)).toBe(
-      'Has an empty bag?',
-    );
-    expect(getSEFieldDisplayName(SiteEntryFields.UPDATED_AT)).toBe(
-      'Updated At',
-    );
   });
 
   describe('isTreeAdoptedByUser', () => {

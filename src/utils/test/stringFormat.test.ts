@@ -7,12 +7,13 @@ import {
   getErrorMessage,
   getMoneyString,
   getNeighborhoodName,
+  getSEFieldDisplayName,
   parseLatLng,
 } from '../stringFormat';
 import { getDateString } from '../stringFormat';
 import { shortHand } from '../stringFormat';
 import { SHORT_HAND_NAMES } from '../../assets/content';
-import { Entry } from '../../containers/treePage/ducks/types';
+import { Entry, SiteEntryFields } from '../../containers/treePage/ducks/types';
 import { AppError } from '../../auth/axios';
 
 test('getMoneyString tests', () => {
@@ -110,6 +111,13 @@ test('compareMainEntries tests', () => {
       { title: 'Updated At', value: 'test' },
     ),
   ).toBe(1);
+});
+
+test('getSEFieldDisplayName tests', () => {
+  expect(getSEFieldDisplayName(SiteEntryFields.BAG_EMPTY)).toBe(
+    'Has an empty bag?',
+  );
+  expect(getSEFieldDisplayName(SiteEntryFields.UPDATED_AT)).toBe('Updated At');
 });
 
 test('combineScientificName tests', () => {

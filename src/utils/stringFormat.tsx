@@ -1,4 +1,10 @@
-import { Entry, MainSiteEntryOrder } from '../containers/treePage/ducks/types';
+import {
+  Entry,
+  ExtraSiteEntryNames,
+  MainSiteEntryNames,
+  MainSiteEntryOrder,
+  SiteEntryField,
+} from '../containers/treePage/ducks/types';
 import { NEIGHBORHOOD_IDS } from '../assets/content';
 import { AppError } from '../auth/axios';
 import { Coordinate } from '../components/mapComponents/ducks/types';
@@ -90,6 +96,16 @@ export function compareMainEntries(e1: Entry, e2: Entry): number {
   } else {
     return 1;
   }
+}
+
+/**
+ * Returns the display name for the site entry field.
+ * @param field the entry field name
+ */
+export function getSEFieldDisplayName(field: SiteEntryField): string {
+  return (
+    MainSiteEntryNames[field] || ExtraSiteEntryNames[field] || 'Unknown Field'
+  );
 }
 
 /**
