@@ -21,17 +21,18 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({
   formInstance,
   onEdit,
 }) => {
+  const onValuesChange = (changedValues: any, allValues: any) => {
+    if (changedValues.lat || changedValues.lng) {
+      const values = allValues as EditSiteRequest;
+      onEdit(new google.maps.LatLng(values.lat, values.lng));
+    }
+  };
   return (
     <>
       <EditForm
         name="basic"
         form={formInstance}
-        onValuesChange={(changedValues, allValues) => {
-          if (changedValues.lat || changedValues.lng) {
-            // @ts-ignore
-            onEdit(new google.maps.LatLng(allValues.lat, allValues.lng));
-          }
-        }}
+        onValuesChange={onValuesChange}
       >
         <Flex>
           <TitleStack title={'Address'} flexGrow={'1'}>
