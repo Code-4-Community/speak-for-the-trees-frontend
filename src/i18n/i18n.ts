@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import landing from './en/landing.json';
-import cambridgelanding from './en/cambridge-landing.json';
+import { landing, cambridgeLanding } from './en';
+import { landingEs } from './es';
 
 // the translations
 // (tip move them in a JSON file and import them,
@@ -9,7 +9,10 @@ import cambridgelanding from './en/cambridge-landing.json';
 const resources = {
   en: {
     landing,
-    cambridgelanding,
+    cambridgelanding: cambridgeLanding,
+  },
+  es: {
+    landing: landingEs,
   },
 };
 
