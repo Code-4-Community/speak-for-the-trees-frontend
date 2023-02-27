@@ -8,7 +8,7 @@ import {
 import { NEIGHBORHOOD_IDS } from '../assets/content';
 import { AppError } from '../auth/axios';
 import { Coordinate } from '../components/mapComponents/ducks/types';
-import { site, Websites } from '../App';
+import { Websites } from '../App';
 
 /**
  * Converts the given dollar amount to a formatted string
@@ -177,17 +177,25 @@ export function parseLatLng(str: string): Coordinate | null {
 }
 
 /**
- * Generate i18n namespaces to use based on the website
- * @param namespace base namespace to use
+ * Generate i18n namespaces to use based for the given website and base namespace(s)
+ * @param site the website to generate the namespaces for
+ * @param namespace base namespace(s) to use
  * @returns the namespaces
  */
-export function n(namespace: string | string[]): string | string[] {
+export function n(
+  site: Websites,
+  namespace: string | string[],
+): string | string[] {
   if (site === Websites.SFTT) {
     return namespace;
   }
 
   const namespaces = typeof namespace === 'string' ? [namespace] : namespace;
   return namespaces
-    .map((nspace: string) => `${site?.toLowerCase()}${nspace}`)
+    .map((nspace: string) => {
+      const capitalizedNspace =
+        nspace.charAt(0).toUpperCase() + nspace.slice(1);
+      return `${site.toLowerCase()}${capitalizedNspace}`;
+    })
     .concat(namespaces);
 }

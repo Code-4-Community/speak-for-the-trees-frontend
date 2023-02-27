@@ -17,7 +17,7 @@ import {
   MapViews,
 } from '../../components/mapComponents/ducks/types';
 import MapLegend from '../../components/mapComponents/mapLegend';
-import { Routes } from '../../App';
+import { Routes, site } from '../../App';
 import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
 import SlideDown from '../../components/slideDown';
 import { MOBILE_SLIDE_HEIGHT } from '../../components/mapComponents/constants';
@@ -54,7 +54,7 @@ interface LandingProps {
 }
 
 const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
-  const { t } = useTranslation(n(['landing']), { nsMode: 'fallback' });
+  const { t } = useTranslation(n(site, ['landing']), { nsMode: 'fallback' });
 
   const dispatch = useDispatch();
   const loggedIn: boolean = useSelector((state: C4CState) =>

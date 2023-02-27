@@ -4,9 +4,10 @@ import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { CONTACT_EMAIL } from '../../assets/links';
 import { n } from '../../utils/stringFormat';
+import { site } from '../../App';
 
 export const LandingContent: React.FC = () => {
-  const { t } = useTranslation(n('landing'), { nsMode: 'fallback' });
+  const { t } = useTranslation(n(site, 'landing'), { nsMode: 'fallback' });
 
   const questionsDirections: JSX.Element[] = t<string, string[]>(
     'sidebar.questionDirections.directions',

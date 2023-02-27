@@ -9,7 +9,7 @@ import { landingEs } from './es';
 const resources = {
   en: {
     landing,
-    cambridgelanding: cambridgeLanding,
+    cambridgeLanding,
   },
   es: {
     landing: landingEs,

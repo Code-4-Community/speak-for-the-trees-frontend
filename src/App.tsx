@@ -84,7 +84,8 @@ export interface MapStateProps {
   readonly lng: number;
 }
 
-export const site = process.env.REACT_APP_WEBSITE;
+export const site =
+  (process.env.REACT_APP_WEBSITE as Websites) || Websites.SFTT;
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
