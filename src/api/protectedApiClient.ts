@@ -17,6 +17,7 @@ import {
   EditSiteRequest,
   UpdateSiteRequest,
   AddSiteRequest,
+  AddSitesRequest,
   NameSiteEntryRequest,
 } from '../components/forms/ducks/types';
 import {
@@ -110,7 +111,7 @@ export interface ProtectedApiClient {
     siteId: number,
     request: NameSiteEntryRequest,
   ) => Promise<void>;
-  readonly addSites: (request: string) => Promise<void>;
+  readonly addSites: (request: AddSitesRequest) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -474,7 +475,7 @@ const nameSiteEntry = (
   ).then((res) => res.data);
 };
 
-const addSites = (request: string): Promise<void> => {
+const addSites = (request: AddSitesRequest): Promise<void> => {
   return AppAxiosInstance.post(AdminApiClientRoutes.ADD_SITES, request).then(
     (res) => res.data,
   );
