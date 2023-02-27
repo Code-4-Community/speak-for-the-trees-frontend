@@ -5,7 +5,6 @@ import { SubmitButton } from '../../themedComponents';
 import { UploadOutlined } from '@ant-design/icons';
 import { UploadProps } from 'antd/lib/upload/interface';
 import ProtectedClient from '../../../api/protectedApiClient';
-import { escape } from 'lodash';
 
 interface UploadSitesFormRule {
   sitesCSV: UploadProps;
