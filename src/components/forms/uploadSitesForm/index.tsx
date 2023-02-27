@@ -5,6 +5,7 @@ import { SubmitButton } from '../../themedComponents';
 import { UploadOutlined } from '@ant-design/icons';
 import { UploadProps } from 'antd/lib/upload/interface';
 import ProtectedClient from '../../../api/protectedApiClient';
+import { escape } from 'lodash';
 
 interface UploadSitesFormRule {
   sitesCSV: UploadProps;
@@ -24,7 +25,7 @@ const UploadSitesForm: React.FC = () => {
     const reader = new FileReader();
     reader.onload = (event: ProgressEvent) => {
       const csvText = (event.target as FileReader).result as string;
-      ProtectedClient.addSites(csvText)
+      ProtectedClient.addSites({ csvText })
         .then(() => {
           message.success('Sites successfully added!');
         })
