@@ -30,6 +30,8 @@ import { SignupFormValues } from '../../components/forms/ducks/types';
 import ProtectedApiClient from '../../api/protectedApiClient';
 import { AppError } from '../../auth/axios';
 import { getErrorMessage } from '../../utils/stringFormat';
+import { round } from 'lodash';
+import { LAT_LNG_PRECISION } from '../../components/forms/constants';
 
 const AdminContentContainer = styled.div`
   width: 80vw;
@@ -166,8 +168,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   sites={sites}
                   onMove={(pos: google.maps.LatLng) => {
                     editSiteForm.setFieldsValue({
-                      lat: pos.lat(),
-                      lng: pos.lng(),
+                      lat: round(pos.lat(), LAT_LNG_PRECISION),
+                      lng: round(pos.lng(), LAT_LNG_PRECISION),
                     });
                   }}
                 />
