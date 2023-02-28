@@ -11,6 +11,7 @@ import { NO_SITE_SELECTED } from '../../../treePopup';
 import {
   BOSTON,
   LIGHT_MAP_STYLES,
+  MAP_TYPES,
   SITE_OPTIONS_ROADMAP,
   SITE_OPTIONS_SATELLITE,
 } from '../../constants';
@@ -53,10 +54,6 @@ const StyledSwitch = styled(Switch)`
   margin: 0px 10px;
 `;
 
-// position: absolute;
-// top: 12vh;
-// right: 22.5vw;
-
 interface TreeMapProps {
   readonly neighborhoods: NeighborhoodGeoData;
   readonly sites: SiteGeoData;
@@ -69,17 +66,19 @@ const TreeMap: React.FC<TreeMapProps> = ({ neighborhoods, sites, mobile }) => {
 
   const [loadedMapData, setLoadedMapData] = useState<ReturnMapData>();
 
-  const [mapTypeId, setMapTypeId] = useState<string>('roadmap');
+  const [mapTypeId, setMapTypeId] = useState<string>(MAP_TYPES.ROADMAP);
 
   function toggleMapView(checked: boolean): void {
-    checked ? setMapTypeId('satellite') : setMapTypeId('roadmap');
+    checked
+      ? setMapTypeId(MAP_TYPES.SATELLITE)
+      : setMapTypeId(MAP_TYPES.ROADMAP);
   }
 
   const toggleViewCard = (
     <StyledCard bodyStyle={{ padding: '0px' }}>
       Current Map Style:
       <br />
-      {mapTypeId === 'roadmap' ? (
+      {mapTypeId === MAP_TYPES.ROADMAP ? (
         <>
           <SelectedSpan>roadmap</SelectedSpan>
           <StyledSwitch onChange={toggleMapView} />
@@ -174,7 +173,7 @@ const TreeMap: React.FC<TreeMapProps> = ({ neighborhoods, sites, mobile }) => {
         <SiteLegend
           onCheck={onCheck}
           siteOptions={
-            mapTypeId === 'roadmap'
+            mapTypeId === MAP_TYPES.ROADMAP
               ? SITE_OPTIONS_ROADMAP
               : SITE_OPTIONS_SATELLITE
           }

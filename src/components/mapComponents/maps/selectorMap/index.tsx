@@ -5,7 +5,7 @@ import {
   ReturnMapData,
   SiteGeoData,
 } from '../../ducks/types';
-import { BOSTON, STREET_ZOOM } from '../../constants';
+import { BOSTON, MAP_TYPES, STREET_ZOOM } from '../../constants';
 
 import { BasicTreeInfo, NO_SITE_SELECTED } from '../../../treePopup';
 import MapWithPopup from '../mapWithPopup';
@@ -67,6 +67,7 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
       searchMarker,
       zoomListener: mapLayersAndListeners.zoomListener,
       markersArray: mapData.markersArray,
+      mapTypeId: MAP_TYPES.DEFAULT,
     };
 
     mapData.map.setOptions({
@@ -86,6 +87,7 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
       lng={defaultCenter.lng}
       initMap={setSearchMarkerAndInitSiteMap}
       defaultActiveTree={basicSite}
+      mapTypeId={MAP_TYPES.DEFAULT}
     />
   );
 };

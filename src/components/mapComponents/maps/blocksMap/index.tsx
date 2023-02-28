@@ -8,7 +8,7 @@ import {
   ReturnMapData,
 } from '../../ducks/types';
 import { NO_SITE_SELECTED } from '../../../treePopup';
-import { BOSTON } from '../../constants';
+import { BOSTON, MAP_TYPES } from '../../constants';
 import { initBlockView } from '../../logic/init';
 import { MapStateProps, Routes } from '../../../../App';
 import MapWithPopup from '../mapWithPopup';
@@ -34,7 +34,12 @@ const BlocksMap: React.FC<BlocksMapProps> = ({ neighborhoods, blocks }) => {
     const searchMarker = new google.maps.Marker({
       map: mapData.map,
     });
-    const mapLayersAndListeners = initBlockView(mapData, neighborhoods, blocks);
+    const mapLayersAndListeners = initBlockView(
+      mapData,
+      neighborhoods,
+      blocks,
+      MAP_TYPES.DEFAULT,
+    );
 
     return {
       map: mapData.map,
@@ -45,6 +50,7 @@ const BlocksMap: React.FC<BlocksMapProps> = ({ neighborhoods, blocks }) => {
       searchMarker,
       zoomListener: mapLayersAndListeners.zoomListener,
       markersArray: mapData.markersArray,
+      mapTypeId: MAP_TYPES.DEFAULT,
     };
   };
 
@@ -61,6 +67,7 @@ const BlocksMap: React.FC<BlocksMapProps> = ({ neighborhoods, blocks }) => {
         address: '',
         treePresent: false,
       }}
+      mapTypeId={MAP_TYPES.DEFAULT}
     />
   );
 };

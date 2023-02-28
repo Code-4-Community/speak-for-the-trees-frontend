@@ -7,7 +7,7 @@ import {
   RED,
   WHITE,
 } from '../../../utils/colors';
-import { YOUNG_TREE_DATE } from '../constants';
+import { MAP_TYPES, YOUNG_TREE_DATE } from '../constants';
 import adoptedIcon from '../../../assets/images/siteIcons/adoptedIcon.svg';
 import openIcon from '../../../assets/images/siteIcons/openIcon.svg';
 import standardIcon from '../../../assets/images/siteIcons/standardIcon.svg';
@@ -94,7 +94,7 @@ export function setNeighborhoodsStyle(
   toggleMarkers(markers, v);
   neighborhoodsLayer.setStyle((feature) => {
     return {
-      fillColor: mapTypeId === 'roadmap' ? `${MAP_GREEN}` : `${WHITE}`,
+      fillColor: mapTypeId === MAP_TYPES.ROADMAP ? `${MAP_GREEN}` : `${WHITE}`,
       // fillColor: `${MAP_GREEN}`,
       fillOpacity: feature.getProperty('canopyCoverage'),
       strokeWeight: 1,
@@ -119,7 +119,7 @@ export function createNeighborhoodMarker(
     map,
     draggable: false,
     label: {
-      color: mapTypeId === 'roadmap' ? `${WHITE}` : `${BLACK}`,
+      color: mapTypeId === MAP_TYPES.ROADMAP ? `${WHITE}` : `${BLACK}`,
       fontWeight: 'bold',
       text: shortHand(feature.getProperty('name'), SHORT_HAND_NAMES),
     },
@@ -201,12 +201,12 @@ export function setSitesStyle(
 }
 
 function getIcons(mapTypeId: string) {
-  return mapTypeId === 'roadmap'
+  return mapTypeId === MAP_TYPES.ROADMAP
     ? {
-        openIcon: openIcon,
-        adoptedIcon: adoptedIcon,
-        youngIcon: youngIcon,
-        standardIcon: standardIcon,
+        openIcon,
+        adoptedIcon,
+        youngIcon,
+        standardIcon,
       }
     : {
         openIcon: satelliteOpenIcon,

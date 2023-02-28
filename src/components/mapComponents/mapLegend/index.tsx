@@ -20,6 +20,7 @@ import {
 } from '../../themedComponents';
 import { BREAKPOINT_TABLET } from '../../windowDimensions';
 import { Languages } from '../../../App';
+import { SITE_OPTIONS_ROADMAP } from '../constants';
 
 const MapLegendContainer = styled.div`
   margin-bottom: 5px;
@@ -90,7 +91,7 @@ interface ColorBlockProps {
 interface MapLegendProps {
   readonly view: MapViews;
   readonly canHide?: boolean;
-  readonly icons: string[];
+  readonly icons?: string[];
 }
 
 const MapLegend: React.FC<MapLegendProps> = ({ view, canHide, icons }) => {
@@ -103,7 +104,8 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, canHide, icons }) => {
     setShowLegend((prevState) => !prevState);
   };
 
-  const [youngIcon, standardIcon, adoptedIcon, openIcon] = icons;
+  const [youngIcon, standardIcon, adoptedIcon, openIcon] =
+    icons ?? SITE_OPTIONS_ROADMAP.map((option) => option.image);
 
   return (
     <MapLegendContainer>

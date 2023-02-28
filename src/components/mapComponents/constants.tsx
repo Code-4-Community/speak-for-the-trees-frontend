@@ -88,92 +88,6 @@ export const SITE_OPTIONS_SATELLITE: SiteOption[] = [
   },
 ];
 
-// export const SITE_OPTIONS: { icons: { image: string; value: string }[] } = {
-//   roadmap: [
-//     {
-//       image: youngTreeIcon,
-//       label: 'Young Trees',
-//       value: 'Young',
-//     },
-//     {
-//       image: standardTreeIcon,
-//       label: 'Older Trees',
-//       value: 'Standard',
-//     },
-//     {
-//       image: adoptedTreeIcon,
-//       label: 'Adopted Trees',
-//       value: 'Adopted',
-//     },
-//     {
-//       image: openSiteIcon,
-//       label: 'Planting Sites',
-//       value: 'Open',
-//     },
-//   ],
-//   satellite: [
-//     {
-//       image: satelliteYoungIcon,
-//       label: 'Young Trees',
-//       value: 'Young',
-//     },
-//     {
-//       image: satelliteStandardIcon,
-//       label: 'Older Trees',
-//       value: 'Standard',
-//     },
-//     {
-//       image: satelliteAdoptedIcon,
-//       label: 'Adopted Trees',
-//       value: 'Adopted',
-//     },
-//     {
-//       image: satelliteOpenIcon,
-//       label: 'Planting Sites',
-//       value: 'Open',
-//     },
-//   ],
-// };
-
-// export const SITE_OPTIONS: { icons: { label: ReactNode; value: string }[] } = {
-//   roadmap: [
-//     {
-//       label: treeSpan(youngTreeIcon, 'Young Trees'),
-//       value: 'Young',
-//     },
-//     {
-//       label: treeSpan(standardTreeIcon, 'Older Trees'),
-//       value: 'Standard',
-//     },
-//     {
-//       label: treeSpan(adoptedTreeIcon, 'Adopted Trees'),
-//       value: 'Adopted',
-//     },
-//     {
-//       label: treeSpan(openSiteIcon, 'Planting Sites'),
-//       value: 'Open',
-//     },
-//   ],
-//   satellite: [
-//     {
-//       label: treeSpan(satelliteYoungIcon, 'Young Trees'),
-//       value: 'Young',
-//     },
-//     {
-//       label: treeSpan(satelliteStandardIcon, 'Older Trees'),
-//       value: 'Standard',
-//     },
-//     {
-//       label: treeSpan(satelliteAdoptedIcon, 'Adopted Trees'),
-//       value: 'Adopted',
-//     },
-//     {
-//       label: treeSpan(satelliteOpenIcon, 'Planting Sites'),
-//       value: 'Open',
-//     },
-//   ],
-// };
-
 // Relevant documentation: https://developers.google.com/maps/documentation/javascript/style-reference
 // Removes the map's labels for all POIs (points of interest) such as businesses and schools except parks
 export const LIGHT_MAP_STYLES: google.maps.MapTypeStyle[] = [
@@ -194,3 +108,9 @@ export const LIGHT_MAP_STYLES: google.maps.MapTypeStyle[] = [
     ],
   },
 ];
+
+export enum MAP_TYPES {
+  ROADMAP = 'roadmap',
+  SATELLITE = 'satellite',
+  DEFAULT = 'roadmap',
+}

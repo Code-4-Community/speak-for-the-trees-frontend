@@ -38,7 +38,7 @@ interface MapWithPopupProps {
   readonly initMap: (mapData: InitMapData) => ReturnMapData;
   readonly defaultActiveTree: BasicTreeInfo;
   readonly mapTypeId: string;
-  readonly toggleViewCard: JSX.Element;
+  readonly toggleViewCard?: JSX.Element;
 }
 
 let map: google.maps.Map;
@@ -218,7 +218,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
           onChange={(event) => setSearchInput(event.target.value)}
         />
       </div>
-      {createPortal(toggleViewCard, toggleViewDiv.current)}
+      {toggleViewCard && createPortal(toggleViewCard, toggleViewDiv.current)}
       <MapDiv id="map" ref={mapRef} />
       <TreePopup treeInfo={activeTreeInfo} popRef={treePopupRef} />
       {children}

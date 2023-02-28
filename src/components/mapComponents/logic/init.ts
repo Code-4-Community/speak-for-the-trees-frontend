@@ -231,6 +231,7 @@ export function initBlockView(
   mapData: InitMapData,
   neighborhoods: NeighborhoodGeoData,
   blocks: BlockGeoData,
+  mapTypeId: string,
 ): MapLayersAndListeners {
   const zoomedIn = mapData.zoom >= MapViews.BLOCKS;
 
@@ -241,6 +242,7 @@ export function initBlockView(
     MapViews.BLOCKS,
     mapData.map,
     !zoomedIn,
+    mapTypeId,
   );
   const blocksLayer = initBlocks(blocks, mapData.map, true);
 
