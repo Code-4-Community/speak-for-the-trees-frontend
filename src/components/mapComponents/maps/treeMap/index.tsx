@@ -61,7 +61,12 @@ interface TreeMapProps {
   readonly returnTo?: Routes;
 }
 
-const TreeMap: React.FC<TreeMapProps> = ({ neighborhoods, sites, mobile }) => {
+const TreeMap: React.FC<TreeMapProps> = ({
+  neighborhoods,
+  sites,
+  mobile,
+  returnTo,
+}) => {
   const location = useLocation<MapStateProps>();
 
   const [loadedMapData, setLoadedMapData] = useState<ReturnMapData>();

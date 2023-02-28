@@ -95,7 +95,6 @@ export function setNeighborhoodsStyle(
   neighborhoodsLayer.setStyle((feature) => {
     return {
       fillColor: mapTypeId === MAP_TYPES.ROADMAP ? `${MAP_GREEN}` : `${WHITE}`,
-      // fillColor: `${MAP_GREEN}`,
       fillOpacity: feature.getProperty('canopyCoverage'),
       strokeWeight: 1,
       strokeColor: `${DARK_GREY}`,
