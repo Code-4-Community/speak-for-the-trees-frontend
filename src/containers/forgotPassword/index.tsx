@@ -13,7 +13,7 @@ import { enterEmailRules } from '../../utils/formRules';
 import { n } from '../../utils/stringFormat';
 
 const ForgotPassword: React.FC = () => {
-  const { t } = useTranslation(n(site, ['forgotPassword']), {
+  const { t } = useTranslation(n(site, ['forgotPassword', 'forms']), {
     nsMode: 'fallback',
   });
 
@@ -46,11 +46,11 @@ const ForgotPassword: React.FC = () => {
             </Typography.Title>
             <Form name="forgotPassword" onFinish={onFinish}>
               <Form.Item name="email" rules={enterEmailRules}>
-                <Input placeholder="Email" />
+                <Input placeholder={t('email')} />
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit" size="large">
-                  Submit
+                  {t('submit')}
                 </Button>
               </Form.Item>
             </Form>
