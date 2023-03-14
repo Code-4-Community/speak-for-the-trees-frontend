@@ -9,6 +9,7 @@ import { C4CState } from '../../store';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import ChangePrivilegeForm from '../../components/forms/changePrivilegeForm';
+import UploadSitesForm from '../../components/forms/uploadSitesForm';
 import { DARK_GREEN } from '../../utils/colors';
 import ProtectedClient from '../../api/protectedApiClient';
 import {
@@ -29,6 +30,8 @@ import { SignupFormValues } from '../../components/forms/ducks/types';
 import ProtectedApiClient from '../../api/protectedApiClient';
 import { AppError } from '../../auth/axios';
 import { getErrorMessage } from '../../utils/stringFormat';
+import { round } from 'lodash';
+import { LAT_LNG_PRECISION } from '../../components/forms/constants';
 
 const AdminContentContainer = styled.div`
   width: 80vw;
@@ -145,6 +148,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 </Form.Item>
               </SignupForm>
             </DashboardContent>
+            <DashboardContent>
+              <Typography.Title level={4}>Add Sites</Typography.Title>
+              <UploadSitesForm />
+            </DashboardContent>
           </Flex>
           <AdminDivider />
           <SectionHeader>Add New Site</SectionHeader>
@@ -161,8 +168,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   sites={sites}
                   onMove={(pos: google.maps.LatLng) => {
                     editSiteForm.setFieldsValue({
-                      lat: pos.lat(),
-                      lng: pos.lng(),
+                      lat: round(pos.lat(), LAT_LNG_PRECISION),
+                      lng: round(pos.lng(), LAT_LNG_PRECISION),
                     });
                   }}
                 />

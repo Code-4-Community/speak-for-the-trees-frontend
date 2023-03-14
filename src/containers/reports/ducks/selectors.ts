@@ -18,9 +18,8 @@ export const getStewardshipTableReport = (
   stewardshipReport: StewardshipReport,
 ): StewardshipReportTableEntry[] => {
   return stewardshipReport.stewardshipReport.map((entry, idx) => {
-    const activitiesPerformed: string[] = STEWARDSHIP_REPORT_ACTIVITY_KEYS.filter(
-      (activity) => entry[activity],
-    );
+    const activitiesPerformed: string[] =
+      STEWARDSHIP_REPORT_ACTIVITY_KEYS.filter((activity) => entry[activity]);
 
     return {
       entryId: idx,

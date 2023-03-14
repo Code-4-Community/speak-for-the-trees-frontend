@@ -34,9 +34,8 @@ export enum ReportTypes {
 
 const Reports: React.FC = () => {
   const [adoptionReport, setAdoptionReport] = useState<AdoptionReport>();
-  const [stewardshipReport, setStewardshipReport] = useState<
-    StewardshipReport
-  >();
+  const [stewardshipReport, setStewardshipReport] =
+    useState<StewardshipReport>();
   const [reportCsvData, setReportCsvData] = useState<string>();
   const [reportCsvName, setReportCsvName] = useState<string>();
 

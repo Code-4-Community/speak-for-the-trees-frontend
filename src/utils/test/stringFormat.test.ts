@@ -7,14 +7,17 @@ import {
   getErrorMessage,
   getMoneyString,
   getNeighborhoodName,
+  getSEFieldDisplayName,
+  n,
   parseLatLng,
   generateTreeCareMessage,
 } from '../stringFormat';
 import { getDateString } from '../stringFormat';
 import { shortHand } from '../stringFormat';
 import { SHORT_HAND_NAMES } from '../../assets/content';
-import { Entry } from '../../containers/treePage/ducks/types';
+import { Entry, SiteEntryFields } from '../../containers/treePage/ducks/types';
 import { AppError } from '../../auth/axios';
+import { Websites } from '../../App';
 
 test('getMoneyString tests', () => {
   expect(getMoneyString(100000)).toBe('$100,000');
@@ -111,6 +114,13 @@ test('compareMainEntries tests', () => {
       { title: 'Updated At', value: 'test' },
     ),
   ).toBe(1);
+});
+
+test('getSEFieldDisplayName tests', () => {
+  expect(getSEFieldDisplayName(SiteEntryFields.BAG_EMPTY)).toBe(
+    'Has an empty bag?',
+  );
+  expect(getSEFieldDisplayName(SiteEntryFields.UPDATED_AT)).toBe('Updated At');
 });
 
 test('combineScientificName tests', () => {
@@ -224,4 +234,23 @@ test('generateTreeCareMessage tests', () => {
       weeded: false,
     });
   }).toThrowError(new Error('At least one activity must be true'));
+});
+
+test('n tests', () => {
+  expect(n(Websites.SFTT, 'landing')).toBe('landing');
+  expect(n(Websites.SFTT, ['notFound', 'landing'])).toEqual([
+    'notFound',
+    'landing',
+  ]);
+  expect(n(Websites.CAMBRiDGE, 'login')).toEqual(['cambridgeLogin', 'login']);
+  expect(
+    n(Websites.CAMBRiDGE, ['signUp', 'forgotPasswordReset', 'fallback']),
+  ).toEqual([
+    'cambridgeSignUp',
+    'cambridgeForgotPasswordReset',
+    'cambridgeFallback',
+    'signUp',
+    'forgotPasswordReset',
+    'fallback',
+  ]);
 });

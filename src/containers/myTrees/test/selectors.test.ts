@@ -60,15 +60,11 @@ describe('My Trees Selectors', () => {
         adoptedSites: [1, 2],
       };
 
-      const siteFeatureRequest: AsyncRequest<
-        SiteGeoData,
-        any
-      > = AsyncRequestCompleted<SiteGeoData, any>(dummySites);
+      const siteFeatureRequest: AsyncRequest<SiteGeoData, any> =
+        AsyncRequestCompleted<SiteGeoData, any>(dummySites);
 
-      const myAdoptedSiteRequest: AsyncRequest<
-        AdoptedSites,
-        any
-      > = AsyncRequestCompleted<AdoptedSites, any>(mySites);
+      const myAdoptedSiteRequest: AsyncRequest<AdoptedSites, any> =
+        AsyncRequestCompleted<AdoptedSites, any>(mySites);
 
       expect(
         getMySites(myAdoptedSiteRequest, siteFeatureRequest),
@@ -93,15 +89,11 @@ describe('My Trees Selectors', () => {
         adoptedSites: [1, 3],
       };
 
-      const siteFeatureRequest: AsyncRequest<
-        SiteGeoData,
-        any
-      > = AsyncRequestCompleted<SiteGeoData, any>(dummySites);
+      const siteFeatureRequest: AsyncRequest<SiteGeoData, any> =
+        AsyncRequestCompleted<SiteGeoData, any>(dummySites);
 
-      const myAdoptedSiteRequest: AsyncRequest<
-        AdoptedSites,
-        any
-      > = AsyncRequestCompleted<AdoptedSites, any>(mySites);
+      const myAdoptedSiteRequest: AsyncRequest<AdoptedSites, any> =
+        AsyncRequestCompleted<AdoptedSites, any>(mySites);
 
       expect(
         getMySites(myAdoptedSiteRequest, siteFeatureRequest),
@@ -116,15 +108,11 @@ describe('My Trees Selectors', () => {
     });
 
     it('returns empty array when adopted site request is not complete', () => {
-      const siteFeatureRequest: AsyncRequest<
-        SiteGeoData,
-        any
-      > = AsyncRequestCompleted<SiteGeoData, any>(dummySites);
+      const siteFeatureRequest: AsyncRequest<SiteGeoData, any> =
+        AsyncRequestCompleted<SiteGeoData, any>(dummySites);
 
-      const myAdoptedSiteRequest: AsyncRequest<
-        AdoptedSites,
-        any
-      > = AsyncRequestNotStarted<AdoptedSites, any>();
+      const myAdoptedSiteRequest: AsyncRequest<AdoptedSites, any> =
+        AsyncRequestNotStarted<AdoptedSites, any>();
 
       expect(
         getMySites(myAdoptedSiteRequest, siteFeatureRequest),
@@ -136,15 +124,11 @@ describe('My Trees Selectors', () => {
         adoptedSites: [1, 2],
       };
 
-      const siteFeatureRequest: AsyncRequest<
-        SiteGeoData,
-        any
-      > = AsyncRequestFailed<SiteGeoData, any>(dummySites);
+      const siteFeatureRequest: AsyncRequest<SiteGeoData, any> =
+        AsyncRequestFailed<SiteGeoData, any>(dummySites);
 
-      const myAdoptedSiteRequest: AsyncRequest<
-        AdoptedSites,
-        any
-      > = AsyncRequestCompleted<AdoptedSites, any>(mySites);
+      const myAdoptedSiteRequest: AsyncRequest<AdoptedSites, any> =
+        AsyncRequestCompleted<AdoptedSites, any>(mySites);
 
       expect(
         getMySites(myAdoptedSiteRequest, siteFeatureRequest),
@@ -156,15 +140,11 @@ describe('My Trees Selectors', () => {
         adoptedSites: [],
       };
 
-      const siteFeatureRequest: AsyncRequest<
-        SiteGeoData,
-        any
-      > = AsyncRequestCompleted<SiteGeoData, any>(dummySites);
+      const siteFeatureRequest: AsyncRequest<SiteGeoData, any> =
+        AsyncRequestCompleted<SiteGeoData, any>(dummySites);
 
-      const myAdoptedSiteRequest: AsyncRequest<
-        AdoptedSites,
-        any
-      > = AsyncRequestCompleted<AdoptedSites, any>(mySites);
+      const myAdoptedSiteRequest: AsyncRequest<AdoptedSites, any> =
+        AsyncRequestCompleted<AdoptedSites, any>(mySites);
 
       expect(
         getMySites(myAdoptedSiteRequest, siteFeatureRequest),

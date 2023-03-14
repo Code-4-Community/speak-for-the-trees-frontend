@@ -36,8 +36,8 @@ export const responseErrorInterceptor = async (
     _retry: true,
   };
 
-  const tokens: UserAuthenticationReducerState['tokens'] = store.getState()
-    .authenticationState.tokens;
+  const tokens: UserAuthenticationReducerState['tokens'] =
+    store.getState().authenticationState.tokens;
 
   if (
     asyncRequestIsComplete(tokens) &&
@@ -72,8 +72,8 @@ AppAxiosInstance.interceptors.response.use(
 );
 
 AppAxiosInstance.interceptors.request.use((config) => {
-  const tokens: UserAuthenticationReducerState['tokens'] = store.getState()
-    .authenticationState.tokens;
+  const tokens: UserAuthenticationReducerState['tokens'] =
+    store.getState().authenticationState.tokens;
   if (asyncRequestIsComplete(tokens)) {
     config.headers['X-Access-Token'] = tokens.result.accessToken;
   }

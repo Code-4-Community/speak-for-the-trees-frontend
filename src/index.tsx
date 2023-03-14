@@ -7,6 +7,9 @@ import { Integrations } from '@sentry/tracing';
 import { Provider } from 'react-redux';
 import store from './store';
 
+// import i18n (needs to be bundled)
+import './i18n/i18n';
+
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
   integrations: [new Integrations.BrowserTracing()],
