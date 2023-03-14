@@ -1,11 +1,15 @@
 import {
   Entry,
-  MainSiteEntryOrder,
   Activity,
+  ExtraSiteEntryNames,
+  MainSiteEntryNames,
+  MainSiteEntryOrder,
+  SiteEntryField,
 } from '../containers/treePage/ducks/types';
 import { NEIGHBORHOOD_IDS } from '../assets/content';
 import { AppError } from '../auth/axios';
 import { Coordinate } from '../components/mapComponents/ducks/types';
+import { Websites } from '../App';
 
 /**
  * Converts the given dollar amount to a formatted string
@@ -93,6 +97,16 @@ export function compareMainEntries(e1: Entry, e2: Entry): number {
   } else {
     return 1;
   }
+}
+
+/**
+ * Returns the display name for the site entry field.
+ * @param field the entry field name
+ */
+export function getSEFieldDisplayName(field: SiteEntryField): string {
+  return (
+    MainSiteEntryNames[field] || ExtraSiteEntryNames[field] || 'Unknown Field'
+  );
 }
 
 /**
@@ -184,4 +198,27 @@ export function generateTreeCareMessage(item: Activity): string {
       .slice(0, numberOfActivities - 1)
       .join(', ')}, and ${activityStrings[numberOfActivities - 1]}.`;
   }
+
+/**
+ * Generate i18n namespaces to use based for the given website and base namespace(s)
+ * @param site the website to generate the namespaces for
+ * @param namespace base namespace(s) to use
+ * @returns the namespaces
+ */
+export function n(
+  site: Websites,
+  namespace: string | string[],
+): string | string[] {
+  if (site === Websites.SFTT) {
+    return namespace;
+  }
+
+  const namespaces = typeof namespace === 'string' ? [namespace] : namespace;
+  return namespaces
+    .map((nspace: string) => {
+      const capitalizedNspace =
+        nspace.charAt(0).toUpperCase() + nspace.slice(1);
+      return `${site.toLowerCase()}${capitalizedNspace}`;
+    })
+    .concat(namespaces);
 }

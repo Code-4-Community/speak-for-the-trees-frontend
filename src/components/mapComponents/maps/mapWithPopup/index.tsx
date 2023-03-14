@@ -45,9 +45,8 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
   children,
 }) => {
   // BasicTreeInfo to display in tree popup
-  const [activeTreeInfo, setActiveTreeInfo] = useState<BasicTreeInfo>(
-    defaultActiveTree,
-  );
+  const [activeTreeInfo, setActiveTreeInfo] =
+    useState<BasicTreeInfo>(defaultActiveTree);
 
   const initMapCallback = useCallback(initMap, []);
 

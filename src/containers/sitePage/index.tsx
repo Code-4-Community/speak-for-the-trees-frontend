@@ -24,6 +24,8 @@ import {
 import SelectorMapDisplay from '../../components/mapComponents/mapDisplays/selectorMapDisplay';
 import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
 import { Block, Flex, MapContainer } from '../../components/themedComponents';
+import { round } from 'lodash';
+import { LAT_LNG_PRECISION } from '../../components/forms/constants';
 
 const SitePageContainer = styled.div`
   width: 90%;
@@ -116,8 +118,8 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
                 sites={sites}
                 onMove={(pos: google.maps.LatLng) => {
                   editSiteForm.setFieldsValue({
-                    lat: pos.lat(),
-                    lng: pos.lng(),
+                    lat: round(pos.lat(), LAT_LNG_PRECISION),
+                    lng: round(pos.lng(), LAT_LNG_PRECISION),
                   });
                 }}
                 site={site}
