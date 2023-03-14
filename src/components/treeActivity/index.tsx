@@ -4,7 +4,7 @@ import {
   MonthYearOption,
   TreeCare,
 } from '../../containers/treePage/ducks/types';
-import { DARK_GREEN } from '../../utils/colors';
+import { DARK_GREEN, MID_GREEN } from '../../utils/colors';
 import { UNABBREVIATED_MONTHS } from '../../assets/content';
 import styled from 'styled-components';
 import CareEntry from '../careEntry';
