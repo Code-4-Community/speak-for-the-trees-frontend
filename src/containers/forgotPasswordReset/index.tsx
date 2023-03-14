@@ -14,8 +14,12 @@ export interface NewPasswords {
   readonly confirmPassword: string;
 }
 
+interface ForgotPasswordResetParams {
+  key: string;
+}
+
 const ForgotPasswordReset: React.FC = () => {
-  const { key } = useParams();
+  const { key } = useParams<ForgotPasswordResetParams>();
   const { windowType } = useWindowDimensions();
   const [resetPasswordForm] = Form.useForm();
 

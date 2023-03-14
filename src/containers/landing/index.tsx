@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
 import MapPage from '../../components/mapComponents/mapPageComponents/mapPage';
 import useWindowDimensions, {
   WindowTypes,
@@ -16,20 +17,15 @@ import {
   MapViews,
 } from '../../components/mapComponents/ducks/types';
 import MapLegend from '../../components/mapComponents/mapLegend';
-import { Languages, Routes } from '../../App';
+import { Routes, site } from '../../App';
 import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
 import SlideDown from '../../components/slideDown';
 import { MOBILE_SLIDE_HEIGHT } from '../../components/mapComponents/constants';
 import { Modal, Typography } from 'antd';
 import { DARK_GREEN } from '../../utils/colors';
-import {
-  LANDING_TITLE,
-  MODAL_OK_TEXT,
-  MODAL_PARAGRAPH,
-  MODAL_TITLE,
-} from './content';
 import { SFTT_PARTNER_LOGOS } from '../../assets/links';
 import LandingContent from '../../components/landingContent';
+import { n } from '../../utils/stringFormat';
 
 const ModalTitle = styled(Typography.Text)`
   font-size: 20px;
@@ -58,13 +54,12 @@ interface LandingProps {
 }
 
 const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
+  const { t } = useTranslation(n(site, ['landing']), { nsMode: 'fallback' });
+
   const dispatch = useDispatch();
   const loggedIn: boolean = useSelector((state: C4CState) =>
     isLoggedIn(state.authenticationState.tokens),
   );
-
-  // todo: replace this with prop when implementing languages
-  const lang = Languages.ENGLISH;
 
   useEffect(() => {
     dispatch(getMapGeoData());
@@ -75,14 +70,14 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
     // show users who aren't logged in a welcome modal
     if (!loggedIn) {
       Modal.info({
-        title: <ModalTitle strong>{MODAL_TITLE[lang]}</ModalTitle>,
+        title: <ModalTitle strong>{t('welcomeModal.title')}</ModalTitle>,
         content: (
           <ModalParagraph>
-            {MODAL_PARAGRAPH[lang]}
+            {t('welcomeModal.paragraph')}
             <ModalImage src={SFTT_PARTNER_LOGOS} alt={'SFTT Logo'} />
           </ModalParagraph>
         ),
-        okText: MODAL_OK_TEXT[lang],
+        okText: t('welcomeModal.okText'),
         centered: true,
         width: '75%',
         icon: null,
@@ -90,7 +85,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
         autoFocusButton: null,
       });
     }
-  }, [loggedIn, lang]);
+  }, [loggedIn, t]);
 
   const { windowType } = useWindowDimensions();
 
@@ -123,7 +118,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                 <SlideDown slideHeight={MOBILE_SLIDE_HEIGHT}>
                   <PaddedContent>
                     <MobileLandingBar
-                      barHeader={LANDING_TITLE[lang]}
+                      barHeader={t('sidebar.title')}
                       barDescription={<LandingContent />}
                       isLoggedIn={loggedIn}
                     >
@@ -144,7 +139,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                     mobile={false}
                   />
                 }
-                sidebarHeader={LANDING_TITLE[lang]}
+                sidebarHeader={t('sidebar.title')}
                 sidebarDescription={<LandingContent />}
                 view={landingMapView}
                 windowType={windowType}
