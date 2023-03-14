@@ -177,6 +177,29 @@ export function parseLatLng(str: string): Coordinate | null {
   return [lat, lng];
 }
 
+export function generateTreeCareMessage(item: Activity): string {
+  const activityStrings = [] as string[];
+  if (item.cleaned) activityStrings.push('cleared of waste');
+  if (item.mulched) activityStrings.push('mulched');
+  if (item.watered) activityStrings.push('watered');
+  if (item.weeded) activityStrings.push('weeded');
+
+  const numberOfActivities = activityStrings.length;
+
+  // invariant: at least one activity will be present
+  if (numberOfActivities === 0) {
+    throw new Error('At least one activity must be true');
+  } else if (numberOfActivities === 1) {
+    return `Was ${activityStrings[0]}.`;
+  } else if (numberOfActivities === 2) {
+    return `Was ${activityStrings[0]} and ${activityStrings[1]}.`;
+  } else {
+    return `Was ${activityStrings
+      .slice(0, numberOfActivities - 1)
+      .join(', ')}, and ${activityStrings[numberOfActivities - 1]}.`;
+  }
+}
+
 /**
  * Generate i18n namespaces to use based for the given website and base namespace(s)
  * @param site the website to generate the namespaces for
@@ -199,27 +222,4 @@ export function n(
       return `${site.toLowerCase()}${capitalizedNspace}`;
     })
     .concat(namespaces);
-}
-
-export function generateTreeCareMessage(item: Activity): string {
-  const activityStrings = [] as string[];
-  if (item.cleaned) activityStrings.push('cleared of waste');
-  if (item.mulched) activityStrings.push('mulched');
-  if (item.watered) activityStrings.push('watered');
-  if (item.weeded) activityStrings.push('weeded');
-
-  const numberOfActivities = activityStrings.length;
-
-  // invariant: at least one activity will be present
-  if (numberOfActivities === 0) {
-    throw new Error('At least one activity must be true');
-  } else if (numberOfActivities === 1) {
-    return `Was ${activityStrings[0]}.`;
-  } else if (numberOfActivities === 2) {
-    return `Was ${activityStrings[0]} and ${activityStrings[1]}.`;
-  } else {
-    return `Was ${activityStrings
-      .slice(0, numberOfActivities - 1)
-      .join(', ')}, and ${activityStrings[numberOfActivities - 1]}.`;
-  }
 }
