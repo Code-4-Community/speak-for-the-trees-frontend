@@ -1,27 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Row,
-  Col,
-  Typography,
-  List,
-  Select,
-  Pagination,
-  message,
-  Modal,
-  Button,
-} from 'antd';
+import React, { useState } from 'react';
+import { Typography, List, Select, Pagination } from 'antd';
 import {
   MonthYearOption,
   TreeCare,
 } from '../../containers/treePage/ducks/types';
-import { TitleProps } from 'antd/lib/typography/Title';
-import {
-  DARK_GREEN,
-  LIGHT_GREY,
-  MID_GREEN,
-  TEXT_GREY,
-  LIGHT_RED,
-} from '../../utils/colors';
+import { DARK_GREEN } from '../../utils/colors';
 import { UNABBREVIATED_MONTHS } from '../../assets/content';
 import styled from 'styled-components';
 import CareEntry from '../careEntry';
