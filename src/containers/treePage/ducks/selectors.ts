@@ -8,7 +8,6 @@ import {
   Entry,
   ExtraSiteEntryNames,
   MainSiteEntryNames,
-  SiteEntryField,
   SiteProps,
   SplitSiteEntries,
   MonthYearOption,
@@ -88,16 +87,6 @@ export const getLatestEntry = (
     }
   }
   return [];
-};
-
-/**
- * Returns the display name for the site entry field.
- * @param field the entry field name
- */
-export const getSEFieldDisplayName = (field: SiteEntryField): string => {
-  return (
-    MainSiteEntryNames[field] || ExtraSiteEntryNames[field] || 'Unknown Field'
-  );
 };
 
 export const isTreeAdoptedByUser = (

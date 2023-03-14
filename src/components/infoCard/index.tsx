@@ -10,9 +10,9 @@ type InfoCardProps = {
   readonly body: string;
 };
 
-const CardHeader: typeof Typography.Paragraph = styled(Typography.Paragraph)<
-  ParagraphProps
->`
+const CardHeader: typeof Typography.Paragraph = styled(
+  Typography.Paragraph,
+)<ParagraphProps>`
   color: ${TEXT_GREY};
   font-size: 18px;
   line-height: 1;
