@@ -1,10 +1,13 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { AdoptionReportEntry } from '../../../containers/reports/ducks/types';
 import { Table } from 'antd';
+import { site } from '../../../App';
 import SiteLink from '../siteLink';
 import { dateSorter, DESCEND_ORDER } from '../utils';
 import CopyText from '../../copyText';
 import { NEIGHBORHOOD_IDS } from '../../../assets/content';
+import { n } from '../../../utils/stringFormat';
 
 interface AdoptionReportTableProps {
   readonly adoptionReportEntries: AdoptionReportEntry[];
@@ -13,6 +16,8 @@ interface AdoptionReportTableProps {
 const AdoptionReportTable: React.FC<AdoptionReportTableProps> = ({
   adoptionReportEntries,
 }) => {
+  const { t } = useTranslation(n(site, ['tables']), { nsMode: 'fallback' });
+
   return (
     <Table
       dataSource={adoptionReportEntries}
@@ -23,21 +28,29 @@ const AdoptionReportTable: React.FC<AdoptionReportTableProps> = ({
       }}
     >
       <Table.Column
-        title={'Site ID'}
+        title={t('report_columns.site_id')}
         dataIndex={'siteId'}
         key={'siteId'}
         render={(siteId: number) => <SiteLink siteId={siteId} />}
       />
-      <Table.Column title={'Address'} dataIndex={'address'} key={'address'} />
-      <Table.Column title={"Adopter's Name"} dataIndex={'name'} key={'name'} />
       <Table.Column
-        title={"Adopter's Email"}
+        title={t('report_columns.address')}
+        dataIndex={'address'}
+        key={'address'}
+      />
+      <Table.Column
+        title={t('report_columns.adopter_name')}
+        dataIndex={'name'}
+        key={'name'}
+      />
+      <Table.Column
+        title={t('report_columns.adopter_email')}
         dataIndex={'email'}
         key={'email'}
         render={(email: string) => <CopyText text={email} />}
       />
       <Table.Column
-        title={'Date Adopted'}
+        title={t('report_columns.date_adopted')}
         dataIndex={'dateAdopted'}
         key={'dateAdopted'}
         defaultSortOrder={DESCEND_ORDER}
@@ -46,12 +59,12 @@ const AdoptionReportTable: React.FC<AdoptionReportTableProps> = ({
         }
       />
       <Table.Column
-        title={'Activity Count'}
+        title={t('report_columns.activity_count')}
         dataIndex={'activityCount'}
         key={'activityCount'}
       />
       <Table.Column
-        title={'Neighborhood'}
+        title={t('report_columns.neighborhood')}
         dataIndex={'neighborhood'}
         key={'neighborhood'}
         // get every neighborhood in alphabetical order as an option

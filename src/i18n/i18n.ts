@@ -6,6 +6,7 @@ import {
   forgotPassword,
   forgotPasswordReset,
   forms,
+  tables,
   cambridgeLanding,
 } from './en';
 import { landingEs } from './es';
@@ -20,6 +21,7 @@ const resources = {
     forgotPassword,
     forgotPasswordReset,
     forms,
+    tables,
     cambridgeLanding,
   },
   es: {

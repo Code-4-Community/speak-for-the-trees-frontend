@@ -27,6 +27,10 @@ const ExportDataForm: React.FC<ExportDataFormProps> = ({
 }) => {
   const { t } = useTranslation(n(site, ['forms']), { nsMode: 'fallback' });
 
+  const exportDataContent: string[] = t('export_data.export_data', {
+    returnObjects: true,
+  });
+
   return (
     <Form name="downloadCsv" form={formInstance} onFinish={onFinish}>
       <Form.Item
@@ -46,14 +50,14 @@ const ExportDataForm: React.FC<ExportDataFormProps> = ({
         </Select>
       </Form.Item>
       <Typography.Paragraph>
-        Export data from the past
+        {exportDataContent[0]}
         <InlineFormItem
           name="previousDays"
           rules={positiveNumberRules(formInstance, 'previousDays')}
         >
           <InputNumber defaultValue={undefined} onChange={onUpdate} />
         </InlineFormItem>
-        {t('export_data.export_data')}
+        {exportDataContent[1]}
       </Typography.Paragraph>
       <Form.Item>
         <Button htmlType="submit" size="middle">
