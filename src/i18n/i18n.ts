@@ -1,6 +1,15 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import { landing, cambridgeLanding } from './en';
+import {
+  landing,
+  notFound,
+  forgotPassword,
+  forgotPasswordReset,
+  reports,
+  forms,
+  tables,
+  cambridgeLanding,
+} from './en';
 import { landingEs } from './es';
 
 // the translations
@@ -9,6 +18,12 @@ import { landingEs } from './es';
 const resources = {
   en: {
     landing,
+    notFound,
+    forgotPassword,
+    forgotPasswordReset,
+    reports,
+    forms,
+    tables,
     cambridgeLanding,
   },
   es: {
