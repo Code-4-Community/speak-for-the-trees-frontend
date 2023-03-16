@@ -1,0 +1,18 @@
+{
+  "reports": "Reports",
+  "site_report": "Site Report",
+  "stats": {
+    "adopted_trees": "Adopted Trees",
+    "adopted_trees_last_week": "Trees Adopted Since Last Week",
+    "stewardships_performed": "Stewardship Activities Performed"
+  },
+  "table_name": {
+    "adoption": "Adoption Report",
+    "stewardship": "Stewardship Report"
+  },
+  "download_reports": "Download Reports",
+  "messages": {
+    "stewardship_error": "Could not get stewardship report: {{error}}",
+    "adoption_error": "Could not get adoption report: {{error}}"
+  }
+}
