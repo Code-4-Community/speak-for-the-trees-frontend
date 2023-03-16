@@ -64,7 +64,7 @@ const Reports: React.FC = () => {
           t('messages.adoption_error', { error: getErrorMessage(err) }),
         ),
       );
-  }, []);
+  }, [t]);
 
   const onClickExportData = () => {
     const today = new Date();
