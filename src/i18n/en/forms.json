@@ -1,8 +1,17 @@
 {
   "email": "Email",
   "submit": "Submit",
-  "password": {
+  "reset_password": {
     "new_password": "New Password",
     "confirm_password": "Confirm Password"
+  },
+  "export_data": {
+    "report_required": "Must pick a report!",
+    "report_type_placeholder": "Select the report to download.",
+    "export_data": [
+      "Export data from the past",
+      "days (leave empty to export all data)."
+    ],
+    "load_report": "Load Report"
   }
 }

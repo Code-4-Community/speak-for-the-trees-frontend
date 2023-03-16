@@ -55,14 +55,16 @@ const ForgotPasswordReset: React.FC = () => {
 
         <Form name="resetPassword" form={resetPasswordForm} onFinish={onFinish}>
           <Form.Item name="password" rules={newPasswordRules}>
-            <Input.Password placeholder={t('password.new_password')} />
+            <Input.Password placeholder={t('reset_password.new_password')} />
           </Form.Item>
 
           <Form.Item
             name="confirmPassword"
             rules={confirmPasswordRules(resetPasswordForm, 'password')}
           >
-            <Input.Password placeholder={t('password.confirm_password')} />
+            <Input.Password
+              placeholder={t('reset_password.confirm_password')}
+            />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" size="large">
