@@ -22,7 +22,7 @@ interface SelectorMapDisplayProps {
   readonly onMove: (pos: google.maps.LatLng) => void;
   readonly site?: SiteProps;
   readonly mapTypeId: string;
-  readonly setMapTypeId: React.Dispatch<React.SetStateAction<MAP_TYPES>>;
+  readonly setMapTypeId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SelectorMapDisplay: React.FC<SelectorMapDisplayProps> = ({

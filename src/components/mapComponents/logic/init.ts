@@ -177,7 +177,7 @@ export function initSiteView(
   mapData: InitMapData,
   neighborhoods: NeighborhoodGeoData,
   sites: SiteGeoData,
-  setMapTypeId: React.Dispatch<React.SetStateAction<MAP_TYPES>>,
+  setMapTypeId: React.Dispatch<React.SetStateAction<string>>,
 ): MapLayersAndListeners {
   const zoomedIn = mapData.zoom >= MapViews.TREES;
 
@@ -237,7 +237,7 @@ export function initBlockView(
   neighborhoods: NeighborhoodGeoData,
   blocks: BlockGeoData,
   mapTypeId: string,
-  setMapTypeId: React.Dispatch<React.SetStateAction<google.maps.MapTypeId>>,
+  setMapTypeId: React.Dispatch<React.SetStateAction<string>>,
 ): MapLayersAndListeners {
   const zoomedIn = mapData.zoom >= MapViews.BLOCKS;
 

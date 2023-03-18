@@ -29,7 +29,7 @@ interface TreeMapProps {
   readonly mobile: boolean;
   readonly returnTo?: Routes;
   readonly mapTypeId: string;
-  readonly setMapTypeId: React.Dispatch<React.SetStateAction<MAP_TYPES>>;
+  readonly setMapTypeId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const TreeMap: React.FC<TreeMapProps> = ({

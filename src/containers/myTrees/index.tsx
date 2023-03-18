@@ -62,7 +62,7 @@ const MyTrees: React.FC<MyTreesStateProps> = ({ neighborhoods, sites }) => {
     },
   );
 
-  const [mapTypeId, setMapTypeId] = useState<MAP_TYPES>(MAP_TYPES.ROADMAP);
+  const [mapTypeId, setMapTypeId] = useState<string>(MAP_TYPES.ROADMAP);
 
   return (
     <>

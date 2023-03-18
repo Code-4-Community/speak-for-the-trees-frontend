@@ -52,7 +52,6 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
   defaultActiveTree,
   children,
   mapTypeId,
-  toggleViewCard,
 }) => {
   // BasicTreeInfo to display in tree popup
   const [activeTreeInfo, setActiveTreeInfo] =
@@ -220,7 +219,6 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
           onChange={(event) => setSearchInput(event.target.value)}
         />
       </div>
-      {toggleViewCard && createPortal(toggleViewCard, toggleViewDiv.current)}
       <MapDiv id="map" ref={mapRef} />
       <TreePopup treeInfo={activeTreeInfo} popRef={treePopupRef} />
       {children}

@@ -99,7 +99,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
 
   const landingMapView = MapViews.TREES;
 
-  const [mapTypeId, setMapTypeId] = useState<MAP_TYPES>(MAP_TYPES.ROADMAP);
+  const [mapTypeId, setMapTypeId] = useState<string>(MAP_TYPES.ROADMAP);
 
   return (
     <>

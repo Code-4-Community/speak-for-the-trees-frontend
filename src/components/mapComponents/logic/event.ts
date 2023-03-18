@@ -188,7 +188,7 @@ export function addHandleZoomChange(
  */
 export function addHandleMapTypeChange(
   map: google.maps.Map,
-  setMapTypeId: React.Dispatch<React.SetStateAction<MAP_TYPES>>,
+  setMapTypeId: React.Dispatch<React.SetStateAction<string>>,
 ): google.maps.MapsEventListener {
   return google.maps.event.addListener(map, 'maptypeid_changed', () => {
     const mapTypeId = map.getMapTypeId();
