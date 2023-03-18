@@ -11,8 +11,6 @@ import {
 import { BasicTreeInfo } from '../../treePopup';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { parseLatLng } from '../../../utils/stringFormat';
-import { useMapTypeContext } from '../../../context/mapTypeContext';
-import { MapTypes, SetStateType } from '../../../context/types';
 
 // Logic for adding event listeners and handling events
 
@@ -192,8 +190,6 @@ export function addHandleMapTypeChange(
 ): google.maps.MapsEventListener {
   return google.maps.event.addListener(map, 'maptypeid_changed', () => {
     const mapTypeId = map.getMapTypeId();
-
-    console.log('New map type: ' + mapTypeId);
     setMapTypeId(mapTypeId);
   });
 }

@@ -21,7 +21,6 @@ import {
 import { BREAKPOINT_TABLET } from '../../windowDimensions';
 import { Languages } from '../../../App';
 import { SITE_OPTIONS_ROADMAP } from '../constants';
-import { useMapTypeContext } from '../../../context/mapTypeContext';
 
 const MapLegendContainer = styled.div`
   margin-bottom: 5px;
@@ -97,10 +96,6 @@ interface MapLegendProps {
 
 const MapLegend: React.FC<MapLegendProps> = ({ view, canHide, icons }) => {
   const [showLegend, setShowLegend] = useState(true);
-  const mapTypeState = useMapTypeContext();
-  console.log(
-    `I am the MapLegend component and I think the current map type is: ${mapTypeState}`,
-  );
 
   // todo: replace this with prop when implementing languages
   const lang = Languages.ENGLISH;
