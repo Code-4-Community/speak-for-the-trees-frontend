@@ -131,6 +131,7 @@ export interface MapLayersAndListeners {
   readonly blocksLayer?: google.maps.Data;
   readonly sitesLayer?: google.maps.Data;
   zoomListener: google.maps.MapsEventListener; // mutable to allow parent components to unload/assign new zoom event listeners
+  readonly mapTypeListener: google.maps.MapsEventListener;
 }
 
 // Data returned to the map after initMap functions are called

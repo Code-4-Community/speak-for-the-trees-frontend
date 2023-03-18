@@ -3,6 +3,8 @@ import { useLocation } from 'react-router';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
+import { site } from '../../App';
 import { C4CState } from '../../store';
 import { login } from '../../auth/ducks/thunks';
 import { LoginRequest } from '../../auth/ducks/types';
@@ -22,6 +24,7 @@ import LoginForm from '../../components/forms/loginForm';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
+import { n } from '../../utils/stringFormat';
 import {
   LOGIN_BODY,
   LOGIN_ERROR,

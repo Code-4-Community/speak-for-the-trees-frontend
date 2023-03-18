@@ -18,6 +18,9 @@ interface SelectorMapProps {
   readonly sites: SiteGeoData;
   readonly onMove: (pos: google.maps.LatLng) => void;
   readonly site?: SiteProps;
+  readonly setMapTypeId: React.Dispatch<
+    React.SetStateAction<google.maps.MapTypeId>
+  >;
 }
 
 const SelectorMap: React.FC<SelectorMapProps> = ({
@@ -25,6 +28,7 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
   sites,
   onMove,
   site,
+  setMapTypeId,
 }) => {
   const defaultZoom = STREET_ZOOM;
 
@@ -56,7 +60,12 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
       }
     });
 
-    const mapLayersAndListeners = initSiteView(mapData, neighborhoods, sites);
+    const mapLayersAndListeners = initSiteView(
+      mapData,
+      neighborhoods,
+      sites,
+      setMapTypeId,
+    );
 
     const setMapData: ReturnMapData = {
       map: mapData.map,
@@ -66,6 +75,7 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
       sitesLayer: mapLayersAndListeners.sitesLayer,
       searchMarker,
       zoomListener: mapLayersAndListeners.zoomListener,
+      mapTypeListener: mapLayersAndListeners.mapTypeListener,
       markersArray: mapData.markersArray,
       mapTypeId: MAP_TYPES.DEFAULT,
     };

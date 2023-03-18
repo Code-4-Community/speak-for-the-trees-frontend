@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Button, Form, message, Row, Typography, Divider } from 'antd';
 import PageHeader from '../../components/pageHeader';
@@ -72,6 +72,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const [createChildForm] = Form.useForm();
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
+
+  const [mapTypeId, setMapTypeId] = useState<google.maps.MapTypeId>(
+    google.maps.MapTypeId.ROADMAP,
+  );
 
   const onCreateChild = (values: SignupFormValues) => {
     ProtectedApiClient.createChild({
@@ -172,6 +176,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       lng: round(pos.lng(), LAT_LNG_PRECISION),
                     });
                   }}
+                  setMapTypeId={setMapTypeId}
                 />
               </MapContainer>
             </Flex>

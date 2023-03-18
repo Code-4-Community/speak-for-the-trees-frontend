@@ -13,6 +13,7 @@ import {
   SiteGeoData,
 } from '../ducks/types';
 import {
+  addHandleMapTypeChange,
   addHandleZoomChange,
   addTreePopupOnClick,
   addZoomToClickedNeighborhood,
@@ -176,6 +177,7 @@ export function initSiteView(
   mapData: InitMapData,
   neighborhoods: NeighborhoodGeoData,
   sites: SiteGeoData,
+  setMapTypeId: React.Dispatch<React.SetStateAction<google.maps.MapTypeId>>,
 ): MapLayersAndListeners {
   const zoomedIn = mapData.zoom >= MapViews.TREES;
 
@@ -213,11 +215,14 @@ export function initSiteView(
     mapData.mapTypeId,
   );
 
+  const mapTypeListener = addHandleMapTypeChange(mapData.map, setMapTypeId);
+
   return {
     privateStreetsLayer,
     neighborhoodsLayer,
     sitesLayer,
     zoomListener,
+    mapTypeListener,
   };
 }
 
@@ -232,6 +237,7 @@ export function initBlockView(
   neighborhoods: NeighborhoodGeoData,
   blocks: BlockGeoData,
   mapTypeId: string,
+  setMapTypeId: React.Dispatch<React.SetStateAction<google.maps.MapTypeId>>,
 ): MapLayersAndListeners {
   const zoomedIn = mapData.zoom >= MapViews.BLOCKS;
 
@@ -260,10 +266,13 @@ export function initBlockView(
     mapData.mapTypeId,
   );
 
+  const mapTypeListener = addHandleMapTypeChange(mapData.map, setMapTypeId);
+
   return {
     privateStreetsLayer,
     neighborhoodsLayer,
     blocksLayer,
     zoomListener,
+    mapTypeListener,
   };
 }

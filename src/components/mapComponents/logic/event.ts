@@ -11,6 +11,8 @@ import {
 import { BasicTreeInfo } from '../../treePopup';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { parseLatLng } from '../../../utils/stringFormat';
+import { useMapTypeContext } from '../../../context/mapTypeContext';
+import { MapTypes, SetStateType } from '../../../context/types';
 
 // Logic for adding event listeners and handling events
 
@@ -176,6 +178,23 @@ export function addHandleZoomChange(
         setSitesStyle(sitesLayer, visibleSites, zoomLevel, zoomedIn, mapTypeId);
         break;
     }
+  });
+}
+
+/**
+ *
+ * @param map
+ * @returns
+ */
+export function addHandleMapTypeChange(
+  map: google.maps.Map,
+  setMapTypeId: React.Dispatch<React.SetStateAction<google.maps.MapTypeId>>,
+): google.maps.MapsEventListener {
+  return google.maps.event.addListener(map, 'maptypeid_changed', () => {
+    const mapTypeId = map.getMapTypeId();
+
+    console.log('New map type: ' + mapTypeId);
+    setMapTypeId(mapTypeId);
   });
 }
 

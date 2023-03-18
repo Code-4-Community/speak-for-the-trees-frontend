@@ -89,7 +89,11 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
             center: { lat, lng },
             zoom,
             fullscreenControl: false,
-            mapTypeControl: false,
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+              position: google.maps.ControlPosition.TOP_RIGHT,
+              mapTypeIds: ['roadmap', 'satellite'],
+            },
             restriction: {
               latLngBounds: BOSTON_BOUNDS,
               strictBounds: false,

@@ -59,6 +59,9 @@ interface TreeMapProps {
   readonly sites: SiteGeoData;
   readonly mobile: boolean;
   readonly returnTo?: Routes;
+  readonly setMapTypeId: React.Dispatch<
+    React.SetStateAction<google.maps.MapTypeId>
+  >;
 }
 
 const TreeMap: React.FC<TreeMapProps> = ({
@@ -66,6 +69,7 @@ const TreeMap: React.FC<TreeMapProps> = ({
   sites,
   mobile,
   returnTo,
+  setMapTypeId,
 }) => {
   const location = useLocation<MapStateProps>();
 
@@ -111,7 +115,12 @@ const TreeMap: React.FC<TreeMapProps> = ({
     const searchMarker = new google.maps.Marker({
       map: mapData.map,
     });
-    const mapLayersAndListeners = initSiteView(mapData, neighborhoods, sites);
+    const mapLayersAndListeners = initSiteView(
+      mapData,
+      neighborhoods,
+      sites,
+      setMapTypeId,
+    );
 
     const setMapData: ReturnMapData = {
       map: mapData.map,
@@ -121,6 +130,7 @@ const TreeMap: React.FC<TreeMapProps> = ({
       sitesLayer: mapLayersAndListeners.sitesLayer,
       searchMarker,
       zoomListener: mapLayersAndListeners.zoomListener,
+      mapTypeListener: mapLayersAndListeners.mapTypeListener,
       markersArray: mapData.markersArray,
       mapTypeId,
     };
