@@ -1,6 +1,6 @@
 import { predictPlace } from './predict';
 import { goToPlace, zoomToLocation } from './view';
-import { STREET_ZOOM } from '../constants';
+import { MAP_TYPES, STREET_ZOOM } from '../constants';
 import { MapViews } from '../ducks/types';
 import {
   setBlocksStyle,
@@ -188,7 +188,7 @@ export function addHandleZoomChange(
  */
 export function addHandleMapTypeChange(
   map: google.maps.Map,
-  setMapTypeId: React.Dispatch<React.SetStateAction<google.maps.MapTypeId>>,
+  setMapTypeId: React.Dispatch<React.SetStateAction<MAP_TYPES>>,
 ): google.maps.MapsEventListener {
   return google.maps.event.addListener(map, 'maptypeid_changed', () => {
     const mapTypeId = map.getMapTypeId();

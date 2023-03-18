@@ -22,46 +22,14 @@ import { setSitesStyle } from '../../logic/style';
 import SiteLegend from '../../mapPageComponents/siteLegend';
 import { MapStateProps, Routes } from '../../../../App';
 import MapWithPopup from '../mapWithPopup';
-import { Card, Switch } from 'antd';
-import styled from 'styled-components';
-import { BREAKPOINT_TABLET } from '../../../windowDimensions';
-import { TEXT_GREY } from '../../../../utils/colors';
-
-const StyledCard = styled(Card)`
-  z-index: 3;
-  border: 1px grey solid;
-  padding: 10px;
-  line-height: 2;
-
-  top: 1vh;
-  right: 0.5vw;
-
-  @media (max-width: ${BREAKPOINT_TABLET}px) {
-    top: 5vh;
-    right: 0.5vw;
-  }
-`;
-
-const SelectedSpan = styled('span')`
-  font-weight: bold;
-`;
-
-const UnSelectedSpan = styled('span')`
-  color: ${TEXT_GREY};
-`;
-
-const StyledSwitch = styled(Switch)`
-  margin: 0px 10px;
-`;
 
 interface TreeMapProps {
   readonly neighborhoods: NeighborhoodGeoData;
   readonly sites: SiteGeoData;
   readonly mobile: boolean;
   readonly returnTo?: Routes;
-  readonly setMapTypeId: React.Dispatch<
-    React.SetStateAction<google.maps.MapTypeId>
-  >;
+  readonly mapTypeId: string;
+  readonly setMapTypeId: React.Dispatch<React.SetStateAction<MAP_TYPES>>;
 }
 
 const TreeMap: React.FC<TreeMapProps> = ({
@@ -69,39 +37,12 @@ const TreeMap: React.FC<TreeMapProps> = ({
   sites,
   mobile,
   returnTo,
+  mapTypeId,
   setMapTypeId,
 }) => {
   const location = useLocation<MapStateProps>();
 
   const [loadedMapData, setLoadedMapData] = useState<ReturnMapData>();
-
-  const [mapTypeId, setMapTypeId] = useState<string>(MAP_TYPES.ROADMAP);
-
-  function toggleMapView(checked: boolean): void {
-    checked
-      ? setMapTypeId(MAP_TYPES.SATELLITE)
-      : setMapTypeId(MAP_TYPES.ROADMAP);
-  }
-
-  const toggleViewCard = (
-    <StyledCard bodyStyle={{ padding: '0px' }}>
-      Current Map Style:
-      <br />
-      {mapTypeId === MAP_TYPES.ROADMAP ? (
-        <>
-          <SelectedSpan>roadmap</SelectedSpan>
-          <StyledSwitch onChange={toggleMapView} />
-          <UnSelectedSpan>satellite</UnSelectedSpan>
-        </>
-      ) : (
-        <>
-          <UnSelectedSpan>roadmap</UnSelectedSpan>
-          <StyledSwitch onChange={toggleMapView} />
-          <SelectedSpan>satellite</SelectedSpan>
-        </>
-      )}
-    </StyledCard>
-  );
 
   let defaultZoom = 12;
   let defaultCenter = BOSTON;
@@ -182,7 +123,6 @@ const TreeMap: React.FC<TreeMapProps> = ({
         treePresent: false,
       }}
       mapTypeId={mapTypeId}
-      toggleViewCard={toggleViewCard}
     >
       {!mobile && (
         <SiteLegend

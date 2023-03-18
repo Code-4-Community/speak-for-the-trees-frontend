@@ -9,6 +9,7 @@ import {
 import { MapGeoDataReducerState } from '../../ducks/types';
 import TreeMap from '../../maps/treeMap';
 import { Routes } from '../../../../App';
+import { MAP_TYPES } from '../../constants';
 
 const EmptyMapContainer = styled.div`
   text-align: center;
@@ -20,6 +21,8 @@ interface TreeMapDisplayProps {
   readonly sites: MapGeoDataReducerState['siteGeoData'];
   readonly mobile: boolean;
   readonly returnTo?: Routes;
+  readonly mapTypeId: string;
+  readonly setMapTypeId: React.Dispatch<React.SetStateAction<MAP_TYPES>>;
 }
 
 const TreeMapDisplay: React.FC<TreeMapDisplayProps> = ({
@@ -27,6 +30,8 @@ const TreeMapDisplay: React.FC<TreeMapDisplayProps> = ({
   sites,
   mobile,
   returnTo,
+  mapTypeId,
+  setMapTypeId,
 }) => (
   <Layout.Content>
     {asyncRequestIsComplete(neighborhoods) && asyncRequestIsComplete(sites) && (
@@ -35,6 +40,8 @@ const TreeMapDisplay: React.FC<TreeMapDisplayProps> = ({
         sites={sites.result}
         mobile={mobile}
         returnTo={returnTo}
+        mapTypeId={mapTypeId}
+        setMapTypeId={setMapTypeId}
       />
     )}
     {(asyncRequestIsFailed(neighborhoods) || asyncRequestIsFailed(sites)) && (

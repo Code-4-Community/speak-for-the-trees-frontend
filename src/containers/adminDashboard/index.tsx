@@ -32,6 +32,7 @@ import { AppError } from '../../auth/axios';
 import { getErrorMessage } from '../../utils/stringFormat';
 import { round } from 'lodash';
 import { LAT_LNG_PRECISION } from '../../components/forms/constants';
+import { MAP_TYPES } from '../../components/mapComponents/constants';
 
 const AdminContentContainer = styled.div`
   width: 80vw;
@@ -73,9 +74,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
 
-  const [mapTypeId, setMapTypeId] = useState<google.maps.MapTypeId>(
-    google.maps.MapTypeId.ROADMAP,
-  );
+  const [mapTypeId, setMapTypeId] = useState<MAP_TYPES>(MAP_TYPES.ROADMAP);
 
   const onCreateChild = (values: SignupFormValues) => {
     ProtectedApiClient.createChild({
@@ -176,6 +175,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       lng: round(pos.lng(), LAT_LNG_PRECISION),
                     });
                   }}
+                  mapTypeId={mapTypeId}
                   setMapTypeId={setMapTypeId}
                 />
               </MapContainer>

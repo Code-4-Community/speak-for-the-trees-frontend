@@ -38,7 +38,6 @@ interface MapWithPopupProps {
   readonly initMap: (mapData: InitMapData) => ReturnMapData;
   readonly defaultActiveTree: BasicTreeInfo;
   readonly mapTypeId: string;
-  readonly toggleViewCard?: JSX.Element;
 }
 
 let map: google.maps.Map;

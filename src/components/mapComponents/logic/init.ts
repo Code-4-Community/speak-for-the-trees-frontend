@@ -23,7 +23,7 @@ import { BasicTreeInfo } from '../../treePopup';
 import { message } from 'antd';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { InitMapData } from '../ducks/types';
-import { ALL_SITES_VISIBLE } from '../constants';
+import { ALL_SITES_VISIBLE, MAP_TYPES } from '../constants';
 
 // Logic for creating and setting up data layers/markers
 
@@ -177,7 +177,7 @@ export function initSiteView(
   mapData: InitMapData,
   neighborhoods: NeighborhoodGeoData,
   sites: SiteGeoData,
-  setMapTypeId: React.Dispatch<React.SetStateAction<google.maps.MapTypeId>>,
+  setMapTypeId: React.Dispatch<React.SetStateAction<MAP_TYPES>>,
 ): MapLayersAndListeners {
   const zoomedIn = mapData.zoom >= MapViews.TREES;
 

@@ -17,12 +17,16 @@ interface BlocksMapProps {
   readonly neighborhoods: NeighborhoodGeoData;
   readonly blocks: BlockGeoData;
   readonly returnTo?: Routes;
+  readonly mapTypeId: string;
+  readonly setMapTypeId: React.Dispatch<React.SetStateAction<MAP_TYPES>>;
 }
 
 const BlocksMap: React.FC<BlocksMapProps> = ({
   neighborhoods,
   blocks,
   returnTo,
+  mapTypeId,
+  setMapTypeId,
 }) => {
   const location = useLocation<MapStateProps>();
 
@@ -42,7 +46,8 @@ const BlocksMap: React.FC<BlocksMapProps> = ({
       mapData,
       neighborhoods,
       blocks,
-      MAP_TYPES.DEFAULT,
+      mapTypeId,
+      setMapTypeId,
     );
 
     return {
@@ -53,8 +58,9 @@ const BlocksMap: React.FC<BlocksMapProps> = ({
       sitesLayer: mapLayersAndListeners.sitesLayer,
       searchMarker,
       zoomListener: mapLayersAndListeners.zoomListener,
+      mapTypeListener: mapLayersAndListeners.mapTypeListener,
       markersArray: mapData.markersArray,
-      mapTypeId: MAP_TYPES.DEFAULT,
+      mapTypeId,
     };
   };
 

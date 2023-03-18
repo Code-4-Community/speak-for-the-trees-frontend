@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import MapPage from '../../components/mapComponents/mapPageComponents/mapPage/index';
 import TreeSidebar from '../../components/treeSidebar/index';
 import { Spin } from 'antd';
@@ -26,7 +26,10 @@ import {
 import { getMySites } from './ducks/selectors';
 import { Routes } from '../../App';
 import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
-import { MOBILE_SLIDE_HEIGHT } from '../../components/mapComponents/constants';
+import {
+  MAP_TYPES,
+  MOBILE_SLIDE_HEIGHT,
+} from '../../components/mapComponents/constants';
 
 interface MyTreesStateProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
@@ -59,6 +62,8 @@ const MyTrees: React.FC<MyTreesStateProps> = ({ neighborhoods, sites }) => {
     },
   );
 
+  const [mapTypeId, setMapTypeId] = useState<MAP_TYPES>(MAP_TYPES.ROADMAP);
+
   return (
     <>
       <Helmet>
@@ -80,6 +85,8 @@ const MyTrees: React.FC<MyTreesStateProps> = ({ neighborhoods, sites }) => {
                     neighborhoods={neighborhoods}
                     sites={sites}
                     mobile={true}
+                    mapTypeId={mapTypeId}
+                    setMapTypeId={setMapTypeId}
                   />
                 }
                 returnTo={Routes.MY_TREES}
@@ -98,6 +105,8 @@ const MyTrees: React.FC<MyTreesStateProps> = ({ neighborhoods, sites }) => {
                     neighborhoods={neighborhoods}
                     sites={sites}
                     mobile={false}
+                    mapTypeId={mapTypeId}
+                    setMapTypeId={setMapTypeId}
                   />
                 }
                 view={treeMapView}

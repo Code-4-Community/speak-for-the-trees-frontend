@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import MapPage from '../../components/mapComponents/mapPageComponents/mapPage';
@@ -19,7 +19,10 @@ import MapLegend from '../../components/mapComponents/mapLegend';
 import { Languages, Routes } from '../../App';
 import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
 import SlideDown from '../../components/slideDown';
-import { MOBILE_SLIDE_HEIGHT } from '../../components/mapComponents/constants';
+import {
+  MAP_TYPES,
+  MOBILE_SLIDE_HEIGHT,
+} from '../../components/mapComponents/constants';
 import { Modal, Typography } from 'antd';
 import { DARK_GREEN } from '../../utils/colors';
 import {
@@ -96,6 +99,8 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
 
   const landingMapView = MapViews.TREES;
 
+  const [mapTypeId, setMapTypeId] = useState<MAP_TYPES>(MAP_TYPES.ROADMAP);
+
   return (
     <>
       <Helmet>
@@ -116,6 +121,8 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                     neighborhoods={neighborhoods}
                     sites={sites}
                     mobile={true}
+                    mapTypeId={mapTypeId}
+                    setMapTypeId={setMapTypeId}
                   />
                 }
                 returnTo={Routes.LANDING}
@@ -142,6 +149,8 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                     neighborhoods={neighborhoods}
                     sites={sites}
                     mobile={false}
+                    mapTypeId={mapTypeId}
+                    setMapTypeId={setMapTypeId}
                   />
                 }
                 sidebarHeader={LANDING_TITLE[lang]}
