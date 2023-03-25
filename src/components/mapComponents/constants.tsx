@@ -108,9 +108,3 @@ export const LIGHT_MAP_STYLES: google.maps.MapTypeStyle[] = [
     ],
   },
 ];
-
-export enum MAP_TYPES {
-  ROADMAP = 'roadmap',
-  SATELLITE = 'satellite',
-  DEFAULT = 'roadmap',
-}

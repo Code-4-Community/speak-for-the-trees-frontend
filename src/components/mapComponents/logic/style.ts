@@ -7,7 +7,7 @@ import {
   RED,
   WHITE,
 } from '../../../utils/colors';
-import { MAP_TYPES, YOUNG_TREE_DATE } from '../constants';
+import { YOUNG_TREE_DATE } from '../constants';
 import adoptedIcon from '../../../assets/images/siteIcons/adoptedIcon.svg';
 import openIcon from '../../../assets/images/siteIcons/openIcon.svg';
 import standardIcon from '../../../assets/images/siteIcons/standardIcon.svg';
@@ -20,6 +20,7 @@ import { shortHand } from '../../../utils/stringFormat';
 import { SHORT_HAND_NAMES } from '../../../assets/content';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { getImageSize } from './event';
+import { MapTypes } from '../../../context/types';
 
 // Logic to style data layers on map
 
@@ -89,12 +90,13 @@ export function setNeighborhoodsStyle(
   neighborhoodsLayer: google.maps.Data,
   markers: google.maps.Marker[],
   v: boolean,
-  mapTypeId: string,
+  mapTypeId: MapTypes,
 ): void {
   toggleMarkers(markers, v);
   neighborhoodsLayer.setStyle((feature) => {
+    console.log('one');
     return {
-      fillColor: mapTypeId === MAP_TYPES.ROADMAP ? `${MAP_GREEN}` : `${WHITE}`,
+      fillColor: mapTypeId === MapTypes.ROADMAP ? MAP_GREEN : WHITE,
       fillOpacity: feature.getProperty('canopyCoverage'),
       strokeWeight: 1,
       strokeColor: `${DARK_GREY}`,
@@ -112,13 +114,14 @@ export function setNeighborhoodsStyle(
 export function createNeighborhoodMarker(
   feature: google.maps.Data.Feature,
   map: google.maps.Map,
-  mapTypeId: string,
+  mapTypeId: MapTypes,
 ): google.maps.Marker {
+  console.log('two');
   return new google.maps.Marker({
     map,
     draggable: false,
     label: {
-      color: mapTypeId === MAP_TYPES.ROADMAP ? `${WHITE}` : `${BLACK}`,
+      color: mapTypeId === MapTypes.ROADMAP ? WHITE : BLACK,
       fontWeight: 'bold',
       text: shortHand(feature.getProperty('name'), SHORT_HAND_NAMES),
     },
@@ -158,7 +161,7 @@ export function setSitesStyle(
   visibleSites: CheckboxValueType[],
   zoomLevel: number,
   visible: boolean,
-  mapTypeId: string,
+  mapTypeId: MapTypes,
 ): void {
   if (visible) {
     let siteVisible: boolean;
@@ -199,8 +202,9 @@ export function setSitesStyle(
   }
 }
 
-function getIcons(mapTypeId: string) {
-  return mapTypeId === MAP_TYPES.ROADMAP
+function getIcons(mapTypeId: MapTypes) {
+  console.log('three');
+  return mapTypeId === MapTypes.ROADMAP
     ? {
         openIcon,
         adoptedIcon,

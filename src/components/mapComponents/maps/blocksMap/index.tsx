@@ -8,26 +8,28 @@ import {
   ReturnMapData,
 } from '../../ducks/types';
 import { NO_SITE_SELECTED } from '../../../treePopup';
-import { BOSTON, MAP_TYPES } from '../../constants';
+import { BOSTON } from '../../constants';
 import { initBlockView } from '../../logic/init';
 import { MapStateProps, Routes } from '../../../../App';
 import MapWithPopup from '../mapWithPopup';
+import { MapTypes, SetStateType } from '../../../../context/types';
+import { useMapTypeContext } from '../../../../context/mapTypeContext';
 
 interface BlocksMapProps {
   readonly neighborhoods: NeighborhoodGeoData;
   readonly blocks: BlockGeoData;
   readonly returnTo?: Routes;
-  readonly mapTypeId: string;
-  readonly setMapTypeId: React.Dispatch<React.SetStateAction<string>>;
+  readonly setMapTypeId: SetStateType<MapTypes>;
 }
 
 const BlocksMap: React.FC<BlocksMapProps> = ({
   neighborhoods,
   blocks,
   returnTo,
-  mapTypeId,
   setMapTypeId,
 }) => {
+  const mapTypeId = useMapTypeContext();
+
   const location = useLocation<MapStateProps>();
 
   let defaultZoom = 12;
@@ -77,7 +79,7 @@ const BlocksMap: React.FC<BlocksMapProps> = ({
         address: '',
         treePresent: false,
       }}
-      mapTypeId={MAP_TYPES.DEFAULT}
+      mapTypeId={MapTypes.ROADMAP}
     />
   );
 };

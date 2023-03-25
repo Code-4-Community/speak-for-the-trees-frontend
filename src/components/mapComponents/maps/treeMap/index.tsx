@@ -11,7 +11,6 @@ import { NO_SITE_SELECTED } from '../../../treePopup';
 import {
   BOSTON,
   LIGHT_MAP_STYLES,
-  MAP_TYPES,
   SITE_OPTIONS_ROADMAP,
   SITE_OPTIONS_SATELLITE,
 } from '../../constants';
@@ -22,14 +21,18 @@ import { setSitesStyle } from '../../logic/style';
 import SiteLegend from '../../mapPageComponents/siteLegend';
 import { MapStateProps, Routes } from '../../../../App';
 import MapWithPopup from '../mapWithPopup';
+import { MapTypes, SetStateType } from '../../../../context/types';
+import {
+  MapTypeContext,
+  useMapTypeContext,
+} from '../../../../context/mapTypeContext';
 
 interface TreeMapProps {
   readonly neighborhoods: NeighborhoodGeoData;
   readonly sites: SiteGeoData;
   readonly mobile: boolean;
   readonly returnTo?: Routes;
-  readonly mapTypeId: string;
-  readonly setMapTypeId: React.Dispatch<React.SetStateAction<string>>;
+  readonly setMapTypeId: SetStateType<MapTypes>;
 }
 
 const TreeMap: React.FC<TreeMapProps> = ({
@@ -37,12 +40,12 @@ const TreeMap: React.FC<TreeMapProps> = ({
   sites,
   mobile,
   returnTo,
-  mapTypeId,
   setMapTypeId,
 }) => {
   const location = useLocation<MapStateProps>();
 
   const [loadedMapData, setLoadedMapData] = useState<ReturnMapData>();
+  const mapTypeId = useMapTypeContext();
 
   let defaultZoom = 12;
   let defaultCenter = BOSTON;
@@ -73,7 +76,7 @@ const TreeMap: React.FC<TreeMapProps> = ({
       zoomListener: mapLayersAndListeners.zoomListener,
       mapTypeListener: mapLayersAndListeners.mapTypeListener,
       markersArray: mapData.markersArray,
-      mapTypeId,
+      mapTypeId, // FLAG
     };
     setLoadedMapData(setMapData);
 
@@ -110,31 +113,35 @@ const TreeMap: React.FC<TreeMapProps> = ({
   };
 
   return (
-    <MapWithPopup
-      zoom={defaultZoom}
-      view={MapViews.TREES}
-      lat={defaultCenter.lat}
-      lng={defaultCenter.lng}
-      initMap={initMap}
-      defaultActiveTree={{
-        id: NO_SITE_SELECTED,
-        commonName: '',
-        address: '',
-        treePresent: false,
-      }}
-      mapTypeId={mapTypeId}
-    >
-      {!mobile && (
-        <SiteLegend
-          onCheck={onCheck}
-          siteOptions={
-            mapTypeId === MAP_TYPES.ROADMAP
-              ? SITE_OPTIONS_ROADMAP
-              : SITE_OPTIONS_SATELLITE
-          }
-        />
+    <MapTypeContext.Consumer>
+      {(mapType) => (
+        <MapWithPopup
+          zoom={defaultZoom}
+          view={MapViews.TREES}
+          lat={defaultCenter.lat}
+          lng={defaultCenter.lng}
+          initMap={initMap}
+          defaultActiveTree={{
+            id: NO_SITE_SELECTED,
+            commonName: '',
+            address: '',
+            treePresent: false,
+          }}
+          mapTypeId={mapType}
+        >
+          {!mobile && (
+            <SiteLegend
+              onCheck={onCheck}
+              siteOptions={
+                mapType === MapTypes.ROADMAP
+                  ? SITE_OPTIONS_ROADMAP
+                  : SITE_OPTIONS_SATELLITE
+              }
+            />
+          )}
+        </MapWithPopup>
       )}
-    </MapWithPopup>
+    </MapTypeContext.Consumer>
   );
 };
 

@@ -1,10 +1,4 @@
-import React, {
-  createRef,
-  useEffect,
-  useState,
-  useCallback,
-  useRef,
-} from 'react';
+import React, { createRef, useEffect, useState, useCallback } from 'react';
 import { Input, message } from 'antd';
 import { MapViews, ReturnMapData } from '../../ducks/types';
 import { BOSTON_BOUNDS, LOADER, STREET_ZOOM } from '../../constants';
@@ -14,7 +8,7 @@ import styled from 'styled-components';
 import { goToPlace } from '../../logic/view';
 import { InitMapData } from '../../ducks/types';
 import { BREAKPOINT_TABLET } from '../../../windowDimensions';
-import { createPortal } from 'react-dom';
+import { MapTypes } from '../../../../context/types';
 
 const StyledSearch = styled(Input.Search)`
   width: 20vw;
@@ -37,7 +31,7 @@ interface MapWithPopupProps {
   readonly lng: number;
   readonly initMap: (mapData: InitMapData) => ReturnMapData;
   readonly defaultActiveTree: BasicTreeInfo;
-  readonly mapTypeId: string;
+  readonly mapTypeId: MapTypes;
 }
 
 let map: google.maps.Map;
@@ -50,8 +44,8 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
   lng,
   initMap,
   defaultActiveTree,
-  children,
   mapTypeId,
+  children,
 }) => {
   // BasicTreeInfo to display in tree popup
   const [activeTreeInfo, setActiveTreeInfo] =
@@ -68,8 +62,6 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
   );
 
   const [searchInput, setSearchInput] = useState('');
-
-  const toggleViewDiv = useRef(document.createElement('div'));
 
   useEffect(() => {
     setMapElement(mapRef.current);
@@ -96,12 +88,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
               latLngBounds: BOSTON_BOUNDS,
               strictBounds: false,
             },
-            mapTypeId,
           });
-
-          map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
-            toggleViewDiv.current,
-          );
 
           // Declare everything that must be created within the loader
           // A class for the custom popup
@@ -198,16 +185,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
         })
         .catch((err) => message.error(err.message));
     }
-  }, [
-    mapElement,
-    treePopupElement,
-    view,
-    zoom,
-    lat,
-    lng,
-    initMapCallback,
-    mapTypeId,
-  ]);
+  }, [mapElement, treePopupElement, view, zoom, lat, lng, initMapCallback]);
 
   return (
     <>

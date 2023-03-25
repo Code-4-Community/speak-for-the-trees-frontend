@@ -26,10 +26,9 @@ import {
 import { getMySites } from './ducks/selectors';
 import { Routes } from '../../App';
 import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
-import {
-  MAP_TYPES,
-  MOBILE_SLIDE_HEIGHT,
-} from '../../components/mapComponents/constants';
+import { MOBILE_SLIDE_HEIGHT } from '../../components/mapComponents/constants';
+import { MapTypes } from '../../context/types';
+import { MapTypeContext } from '../../context/mapTypeContext';
 
 interface MyTreesStateProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
@@ -62,7 +61,7 @@ const MyTrees: React.FC<MyTreesStateProps> = ({ neighborhoods, sites }) => {
     },
   );
 
-  const [mapTypeId, setMapTypeId] = useState<string>(MAP_TYPES.ROADMAP);
+  const [mapTypeId, setMapTypeId] = useState<MapTypes>(MapTypes.ROADMAP);
 
   return (
     <>
@@ -74,58 +73,58 @@ const MyTrees: React.FC<MyTreesStateProps> = ({ neighborhoods, sites }) => {
         />
       </Helmet>
 
-      {(() => {
-        switch (windowType) {
-          case WindowTypes.Mobile:
-          case WindowTypes.Tablet:
-            return (
-              <MobileMapPage
-                mapContent={
-                  <TreeMapDisplay
-                    neighborhoods={neighborhoods}
-                    sites={sites}
-                    mobile={true}
-                    mapTypeId={mapTypeId}
-                    setMapTypeId={setMapTypeId}
-                  />
-                }
-                returnTo={Routes.MY_TREES}
-              >
-                <SlideDown defaultOpen slideHeight={MOBILE_SLIDE_HEIGHT}>
-                  <TreeSidebar mySites={mySites} />
-                </SlideDown>
-              </MobileMapPage>
-            );
-          case WindowTypes.NarrowDesktop:
-          case WindowTypes.Desktop:
-            return (
-              <MapPage
-                mapContent={
-                  <TreeMapDisplay
-                    neighborhoods={neighborhoods}
-                    sites={sites}
-                    mobile={false}
-                    mapTypeId={mapTypeId}
-                    setMapTypeId={setMapTypeId}
-                  />
-                }
-                view={treeMapView}
-                sidebarHeader={MY_TREES_TITLE}
-                sidebarDescription={MY_TREES_BODY}
-                windowType={windowType}
-              >
-                {asyncRequestIsComplete(sites) && (
-                  <TreeSidebar mySites={mySites} />
-                )}
-                {asyncRequestIsLoading(sites) && (
-                  <EmptyTreesContainer>
-                    <Spin size="large" />
-                  </EmptyTreesContainer>
-                )}
-              </MapPage>
-            );
-        }
-      })()}
+      <MapTypeContext.Provider value={mapTypeId}>
+        {(() => {
+          switch (windowType) {
+            case WindowTypes.Mobile:
+            case WindowTypes.Tablet:
+              return (
+                <MobileMapPage
+                  mapContent={
+                    <TreeMapDisplay
+                      neighborhoods={neighborhoods}
+                      sites={sites}
+                      mobile={true}
+                      setMapTypeId={setMapTypeId}
+                    />
+                  }
+                  returnTo={Routes.MY_TREES}
+                >
+                  <SlideDown defaultOpen slideHeight={MOBILE_SLIDE_HEIGHT}>
+                    <TreeSidebar mySites={mySites} />
+                  </SlideDown>
+                </MobileMapPage>
+              );
+            case WindowTypes.NarrowDesktop:
+            case WindowTypes.Desktop:
+              return (
+                <MapPage
+                  mapContent={
+                    <TreeMapDisplay
+                      neighborhoods={neighborhoods}
+                      sites={sites}
+                      mobile={false}
+                      setMapTypeId={setMapTypeId}
+                    />
+                  }
+                  view={treeMapView}
+                  sidebarHeader={MY_TREES_TITLE}
+                  sidebarDescription={MY_TREES_BODY}
+                  windowType={windowType}
+                >
+                  {asyncRequestIsComplete(sites) && (
+                    <TreeSidebar mySites={mySites} />
+                  )}
+                  {asyncRequestIsLoading(sites) && (
+                    <EmptyTreesContainer>
+                      <Spin size="large" />
+                    </EmptyTreesContainer>
+                  )}
+                </MapPage>
+              );
+          }
+        })()}
+      </MapTypeContext.Provider>
     </>
   );
 };

@@ -4,6 +4,7 @@ import { MapActions } from './actions';
 import { ApiExtraArgs } from '../../../api/apiClient';
 import { AsyncRequest } from '../../../utils/asyncRequest';
 import { BasicTreeInfo } from '../../treePopup';
+import { MapTypes } from '../../../context/types';
 
 // ---------------------------------Blocks----------------------------------------
 
@@ -115,7 +116,7 @@ export interface BasicMapData {
   readonly map: google.maps.Map;
   readonly zoom: number;
   readonly markersArray: google.maps.Marker[];
-  readonly mapTypeId: string;
+  readonly mapTypeId: MapTypes;
 }
 
 // Data given to initMap functions to set up map features outside of LOADER.load().then()

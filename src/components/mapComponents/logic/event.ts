@@ -1,6 +1,6 @@
 import { predictPlace } from './predict';
 import { goToPlace, zoomToLocation } from './view';
-import { MAP_TYPES, STREET_ZOOM } from '../constants';
+import { STREET_ZOOM } from '../constants';
 import { MapViews } from '../ducks/types';
 import {
   setBlocksStyle,
@@ -11,6 +11,7 @@ import {
 import { BasicTreeInfo } from '../../treePopup';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { parseLatLng } from '../../../utils/stringFormat';
+import { MapTypes, SetStateType } from '../../../context/types';
 
 // Logic for adding event listeners and handling events
 
@@ -151,15 +152,12 @@ export function addHandleZoomChange(
   visibleSites: CheckboxValueType[],
   view: MapViews,
   map: google.maps.Map,
-  mapTypeId: string,
+  mapTypeId: MapTypes,
 ): google.maps.MapsEventListener {
   return google.maps.event.addListener(map, 'zoom_changed', () => {
     const zoomLevel = map.getZoom();
-    let zoomedIn = false;
+    const zoomedIn = zoomLevel >= view;
 
-    if (zoomLevel >= view) {
-      zoomedIn = true;
-    }
     setNeighborhoodsStyle(
       neighborhoodsLayer,
       markersArray,
@@ -185,12 +183,28 @@ export function addHandleZoomChange(
  * @returns
  */
 export function addHandleMapTypeChange(
+  neighborhoodsLayer: google.maps.Data,
+  markersArray: google.maps.Marker[],
+  sitesLayer: google.maps.Data,
+  visibleSites: CheckboxValueType[],
+  view: MapViews,
   map: google.maps.Map,
-  setMapTypeId: React.Dispatch<React.SetStateAction<string>>,
+  setMapTypeId: SetStateType<MapTypes>,
 ): google.maps.MapsEventListener {
   return google.maps.event.addListener(map, 'maptypeid_changed', () => {
-    const mapTypeId = map.getMapTypeId();
+    const zoomLevel = map.getZoom();
+    const zoomedIn = zoomLevel >= view;
+
+    const mapTypeId = (map.getMapTypeId() as string).toUpperCase() as MapTypes;
     setMapTypeId(mapTypeId);
+
+    setNeighborhoodsStyle(
+      neighborhoodsLayer,
+      markersArray,
+      !zoomedIn,
+      mapTypeId,
+    );
+    setSitesStyle(sitesLayer, visibleSites, zoomLevel, zoomedIn, mapTypeId);
   });
 }
 

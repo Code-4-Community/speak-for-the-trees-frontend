@@ -5,21 +5,22 @@ import {
   ReturnMapData,
   SiteGeoData,
 } from '../../ducks/types';
-import { BOSTON, MAP_TYPES, STREET_ZOOM } from '../../constants';
+import { BOSTON, STREET_ZOOM } from '../../constants';
 
 import { BasicTreeInfo, NO_SITE_SELECTED } from '../../../treePopup';
 import MapWithPopup from '../mapWithPopup';
 import { SiteProps } from '../../../../containers/treePage/ducks/types';
 import { InitMapData } from '../../ducks/types';
 import { initSiteView } from '../../logic/init';
+import { MapTypes, SetStateType } from '../../../../context/types';
+import { MapTypeContext } from '../../../../context/mapTypeContext';
 
 interface SelectorMapProps {
   readonly neighborhoods: NeighborhoodGeoData;
   readonly sites: SiteGeoData;
   readonly onMove: (pos: google.maps.LatLng) => void;
   readonly site?: SiteProps;
-  readonly mapTypeId: string;
-  readonly setMapTypeId: React.Dispatch<React.SetStateAction<string>>;
+  readonly setMapTypeId: SetStateType<MapTypes>;
 }
 
 const SelectorMap: React.FC<SelectorMapProps> = ({
@@ -27,7 +28,6 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
   sites,
   onMove,
   site,
-  mapTypeId,
   setMapTypeId,
 }) => {
   const defaultZoom = STREET_ZOOM;
@@ -77,7 +77,7 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
       zoomListener: mapLayersAndListeners.zoomListener,
       mapTypeListener: mapLayersAndListeners.mapTypeListener,
       markersArray: mapData.markersArray,
-      mapTypeId,
+      mapTypeId: MapTypes.SATELLITE, // FLAG
     };
 
     mapData.map.setOptions({
@@ -90,15 +90,19 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
   };
 
   return (
-    <MapWithPopup
-      zoom={defaultZoom}
-      view={MapViews.TREES}
-      lat={defaultCenter.lat}
-      lng={defaultCenter.lng}
-      initMap={setSearchMarkerAndInitSiteMap}
-      defaultActiveTree={basicSite}
-      mapTypeId={mapTypeId}
-    />
+    <MapTypeContext.Consumer>
+      {(mapTypeId) => (
+        <MapWithPopup
+          zoom={defaultZoom}
+          view={MapViews.TREES}
+          lat={defaultCenter.lat}
+          lng={defaultCenter.lng}
+          initMap={setSearchMarkerAndInitSiteMap}
+          defaultActiveTree={basicSite}
+          mapTypeId={mapTypeId}
+        />
+      )}
+    </MapTypeContext.Consumer>
   );
 };
 

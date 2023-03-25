@@ -23,7 +23,8 @@ import { BasicTreeInfo } from '../../treePopup';
 import { message } from 'antd';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { InitMapData } from '../ducks/types';
-import { ALL_SITES_VISIBLE, MAP_TYPES } from '../constants';
+import { ALL_SITES_VISIBLE } from '../constants';
+import { MapTypes, SetStateType } from '../../../context/types';
 
 // Logic for creating and setting up data layers/markers
 
@@ -61,7 +62,7 @@ export function initNeighborhoods(
   view: MapViews,
   map: google.maps.Map,
   visible: boolean,
-  mapTypeId: string,
+  mapTypeId: MapTypes,
 ): google.maps.Data {
   const neighborhoodsLayer = new google.maps.Data({ map });
   // Loads the objects into the layer
@@ -118,7 +119,7 @@ export function initSites(
   map: google.maps.Map,
   zoomLevel: number,
   visible: boolean,
-  mapTypeId: string,
+  mapTypeId: MapTypes,
 ): google.maps.Data {
   const sitesLayer = new google.maps.Data({ map });
   // Loads the objects into the layer
@@ -177,7 +178,7 @@ export function initSiteView(
   mapData: InitMapData,
   neighborhoods: NeighborhoodGeoData,
   sites: SiteGeoData,
-  setMapTypeId: React.Dispatch<React.SetStateAction<string>>,
+  setMapTypeId: SetStateType<MapTypes>,
 ): MapLayersAndListeners {
   const zoomedIn = mapData.zoom >= MapViews.TREES;
 
@@ -215,7 +216,15 @@ export function initSiteView(
     mapData.mapTypeId,
   );
 
-  const mapTypeListener = addHandleMapTypeChange(mapData.map, setMapTypeId);
+  const mapTypeListener = addHandleMapTypeChange(
+    neighborhoodsLayer,
+    mapData.markersArray,
+    sitesLayer,
+    ALL_SITES_VISIBLE,
+    MapViews.TREES,
+    mapData.map,
+    setMapTypeId,
+  );
 
   return {
     privateStreetsLayer,
@@ -236,8 +245,8 @@ export function initBlockView(
   mapData: InitMapData,
   neighborhoods: NeighborhoodGeoData,
   blocks: BlockGeoData,
-  mapTypeId: string,
-  setMapTypeId: React.Dispatch<React.SetStateAction<string>>,
+  mapTypeId: MapTypes,
+  setMapTypeId: SetStateType<MapTypes>,
 ): MapLayersAndListeners {
   const zoomedIn = mapData.zoom >= MapViews.BLOCKS;
 
@@ -263,10 +272,18 @@ export function initBlockView(
     ALL_SITES_VISIBLE,
     MapViews.BLOCKS,
     mapData.map,
-    mapData.mapTypeId,
+    mapTypeId,
   );
 
-  const mapTypeListener = addHandleMapTypeChange(mapData.map, setMapTypeId);
+  const mapTypeListener = addHandleMapTypeChange(
+    neighborhoodsLayer,
+    mapData.markersArray,
+    blocksLayer,
+    ALL_SITES_VISIBLE,
+    MapViews.TREES,
+    mapData.map,
+    setMapTypeId,
+  );
 
   return {
     privateStreetsLayer,
