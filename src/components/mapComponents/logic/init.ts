@@ -213,7 +213,6 @@ export function initSiteView(
     ALL_SITES_VISIBLE,
     MapViews.TREES,
     mapData.map,
-    mapData.mapTypeId,
   );
 
   const mapTypeListener = addHandleMapTypeChange(
@@ -272,7 +271,6 @@ export function initBlockView(
     ALL_SITES_VISIBLE,
     MapViews.BLOCKS,
     mapData.map,
-    mapTypeId,
   );
 
   const mapTypeListener = addHandleMapTypeChange(

@@ -33,6 +33,7 @@ export function setPrivateStreetsStyle(
   privateStreetsLayer: google.maps.Data,
   v: boolean,
 ): void {
+  console.log('private streets');
   privateStreetsLayer.setStyle({
     strokeColor: `${RED}`,
     strokeWeight: 2,
@@ -49,6 +50,7 @@ export function setBlocksStyle(
   blocksLayer: google.maps.Data,
   v: boolean,
 ): void {
+  console.log('blocks');
   if (v) {
     blocksLayer.setStyle((feature) => {
       let color = `${MAP_GREEN}`;
@@ -92,6 +94,7 @@ export function setNeighborhoodsStyle(
   v: boolean,
   mapTypeId: MapTypes,
 ): void {
+  console.log('neighborhoods');
   toggleMarkers(markers, v);
   neighborhoodsLayer.setStyle((feature) => {
     return {
@@ -161,6 +164,7 @@ export function setSitesStyle(
   visible: boolean,
   mapTypeId: MapTypes,
 ): void {
+  console.log('sites');
   if (visible) {
     let siteVisible: boolean;
     const icons = getIcons(mapTypeId);
