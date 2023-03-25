@@ -9,7 +9,6 @@ import {
 import { ChangePrivilegeRequest } from '../ducks/types';
 import { SubmitButton } from '../../themedComponents';
 import styled from 'styled-components';
-import { SelectValue } from 'antd/lib/select';
 import { PrivilegeLevel } from '../../../auth/ducks/types';
 
 const RoleDropdown = styled(Select)`
@@ -26,7 +25,7 @@ const ChangePrivilegeForm: React.FC<ChangePrivilegeFormProps> = ({
 }) => {
   const [changePrivilegeForm] = Form.useForm();
 
-  const onRoleChange = (role: SelectValue) => {
+  const onRoleChange = (role: unknown) => {
     changePrivilegeForm.setFieldsValue({ newLevel: role });
   };
 

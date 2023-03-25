@@ -5,8 +5,10 @@ import {
   SiteEntryFields,
 } from '../../containers/treePage/ducks/types';
 import { Table } from 'antd';
-import { booleanToString } from '../../utils/stringFormat';
-import { getSEFieldDisplayName } from '../../containers/treePage/ducks/selectors';
+import {
+  booleanToString,
+  getSEFieldDisplayName,
+} from '../../utils/stringFormat';
 
 interface SiteEntryTableProps {
   readonly siteEntries: SiteEntry[];

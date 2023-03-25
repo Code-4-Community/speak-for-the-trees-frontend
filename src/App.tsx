@@ -29,6 +29,7 @@ import Reports from './containers/reports';
 import { logout } from './auth/ducks/thunks';
 import history from './history';
 import FAQ from './containers/faq';
+import Email from './containers/email';
 
 const AppLayout = styled(Layout)`
   min-height: 100vh;
@@ -38,6 +39,11 @@ type AppProps = UserAuthenticationReducerState;
 
 export enum Languages {
   ENGLISH = 'ENG',
+}
+
+export enum Websites {
+  SFTT = 'SFTT',
+  CAMBRiDGE = 'CAMBRIDGE',
 }
 
 export enum ParameterizedRouteBases {
@@ -66,6 +72,7 @@ export enum Routes {
   FAQ = '/faq',
   FORGOT_PASSWORD_REQUEST = '/forgot-password',
   FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
+  EMAIL = '/email',
   NOT_FOUND = '*',
 }
 
@@ -78,6 +85,9 @@ export interface MapStateProps {
   readonly lat: number;
   readonly lng: number;
 }
+
+export const site =
+  (process.env.REACT_APP_WEBSITE as Websites) || Websites.SFTT;
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -261,6 +271,7 @@ const App: React.FC = () => {
                         component={AdminDashboard}
                       />
                       <Route path={Routes.REPORTS} exact component={Reports} />
+                      <Route path={Routes.EMAIL} exact component={Email} />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact

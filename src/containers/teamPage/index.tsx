@@ -205,6 +205,7 @@ const TeamPage: React.FC = () => {
               ) {
                 return (
                   <TeamMember
+                    key={member.userId}
                     id={member.userId}
                     teamRole={member.teamRole}
                     username={member.username}
