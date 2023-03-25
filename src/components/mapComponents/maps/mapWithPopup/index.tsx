@@ -31,7 +31,6 @@ interface MapWithPopupProps {
   readonly lng: number;
   readonly initMap: (mapData: InitMapData) => ReturnMapData;
   readonly defaultActiveTree: BasicTreeInfo;
-  readonly mapTypeId: MapTypes;
 }
 
 let map: google.maps.Map;
@@ -44,7 +43,6 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
   lng,
   initMap,
   defaultActiveTree,
-  mapTypeId,
   children,
 }) => {
   // BasicTreeInfo to display in tree popup
@@ -145,7 +143,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
             markersArray,
             popPopup,
             setActiveTreeInfo,
-            mapTypeId,
+            mapTypeId: MapTypes.ROADMAP,
           };
 
           const setMapData = initMapCallback(thisMapData);

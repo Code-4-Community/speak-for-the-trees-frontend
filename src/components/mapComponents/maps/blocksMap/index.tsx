@@ -79,7 +79,6 @@ const BlocksMap: React.FC<BlocksMapProps> = ({
         address: '',
         treePresent: false,
       }}
-      mapTypeId={MapTypes.ROADMAP}
     />
   );
 };

@@ -90,19 +90,14 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
   };
 
   return (
-    <MapTypeContext.Consumer>
-      {(mapTypeId) => (
-        <MapWithPopup
-          zoom={defaultZoom}
-          view={MapViews.TREES}
-          lat={defaultCenter.lat}
-          lng={defaultCenter.lng}
-          initMap={setSearchMarkerAndInitSiteMap}
-          defaultActiveTree={basicSite}
-          mapTypeId={mapTypeId}
-        />
-      )}
-    </MapTypeContext.Consumer>
+    <MapWithPopup
+      zoom={defaultZoom}
+      view={MapViews.TREES}
+      lat={defaultCenter.lat}
+      lng={defaultCenter.lng}
+      initMap={setSearchMarkerAndInitSiteMap}
+      defaultActiveTree={basicSite}
+    />
   );
 };
 

@@ -103,7 +103,6 @@ const TreeMap: React.FC<TreeMapProps> = ({
         values,
         MapViews.TREES,
         loadedMapData.map,
-        mapTypeId,
       );
       const zoom = loadedMapData.map.getZoom();
       if (zoom >= MapViews.TREES) {
@@ -113,35 +112,30 @@ const TreeMap: React.FC<TreeMapProps> = ({
   };
 
   return (
-    <MapTypeContext.Consumer>
-      {(mapType) => (
-        <MapWithPopup
-          zoom={defaultZoom}
-          view={MapViews.TREES}
-          lat={defaultCenter.lat}
-          lng={defaultCenter.lng}
-          initMap={initMap}
-          defaultActiveTree={{
-            id: NO_SITE_SELECTED,
-            commonName: '',
-            address: '',
-            treePresent: false,
-          }}
-          mapTypeId={mapType}
-        >
-          {!mobile && (
-            <SiteLegend
-              onCheck={onCheck}
-              siteOptions={
-                mapType === MapTypes.ROADMAP
-                  ? SITE_OPTIONS_ROADMAP
-                  : SITE_OPTIONS_SATELLITE
-              }
-            />
-          )}
-        </MapWithPopup>
+    <MapWithPopup
+      zoom={defaultZoom}
+      view={MapViews.TREES}
+      lat={defaultCenter.lat}
+      lng={defaultCenter.lng}
+      initMap={initMap}
+      defaultActiveTree={{
+        id: NO_SITE_SELECTED,
+        commonName: '',
+        address: '',
+        treePresent: false,
+      }}
+    >
+      {!mobile && (
+        <SiteLegend
+          onCheck={onCheck}
+          siteOptions={
+            mapTypeId === MapTypes.ROADMAP
+              ? SITE_OPTIONS_ROADMAP
+              : SITE_OPTIONS_SATELLITE
+          }
+        />
       )}
-    </MapTypeContext.Consumer>
+    </MapWithPopup>
   );
 };
 

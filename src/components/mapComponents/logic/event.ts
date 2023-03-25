@@ -152,11 +152,12 @@ export function addHandleZoomChange(
   visibleSites: CheckboxValueType[],
   view: MapViews,
   map: google.maps.Map,
-  mapTypeId: MapTypes,
 ): google.maps.MapsEventListener {
   return google.maps.event.addListener(map, 'zoom_changed', () => {
     const zoomLevel = map.getZoom();
     const zoomedIn = zoomLevel >= view;
+
+    const mapTypeId = (map.getMapTypeId() as string).toUpperCase() as MapTypes;
 
     setNeighborhoodsStyle(
       neighborhoodsLayer,
@@ -178,9 +179,14 @@ export function addHandleZoomChange(
 }
 
 /**
- *
- * @param map
- * @returns
+ * Adds an event listener to handle map type changes.
+ * @param neighborhoodsLayer the neighborhoods layer
+ * @param markersArray the array of neighborhood label markers
+ * @param sitesLayer the sites layer
+ * @param visibleSites which sites are visible
+ * @param view the view
+ * @param map the map
+ * @param setMapTypeId function to update the map type
  */
 export function addHandleMapTypeChange(
   neighborhoodsLayer: google.maps.Data,

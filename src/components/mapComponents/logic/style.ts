@@ -94,7 +94,6 @@ export function setNeighborhoodsStyle(
 ): void {
   toggleMarkers(markers, v);
   neighborhoodsLayer.setStyle((feature) => {
-    console.log('one');
     return {
       fillColor: mapTypeId === MapTypes.ROADMAP ? MAP_GREEN : WHITE,
       fillOpacity: feature.getProperty('canopyCoverage'),
@@ -116,7 +115,6 @@ export function createNeighborhoodMarker(
   map: google.maps.Map,
   mapTypeId: MapTypes,
 ): google.maps.Marker {
-  console.log('two');
   return new google.maps.Marker({
     map,
     draggable: false,
@@ -203,7 +201,6 @@ export function setSitesStyle(
 }
 
 function getIcons(mapTypeId: MapTypes) {
-  console.log('three');
   return mapTypeId === MapTypes.ROADMAP
     ? {
         openIcon,
