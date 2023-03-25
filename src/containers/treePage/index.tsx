@@ -81,7 +81,6 @@ const TreeCareContainer = styled.div`
 const MobileTreeCareContainer = styled.div`
   margin-top: 5vh;
   border: solid 1px ${LIGHT_GREY};
-  max-height: 50vh;
   padding: 30px 15px 5px;
 `;
 
@@ -274,7 +273,7 @@ const TreePage: React.FC<TreeProps> = ({
                     return (
                       <TreeMainContainer>
                         <Row>
-                          <Col span={14}>
+                          <Col span={11}>
                             <TreeInfoContainer>
                               <TreeInfo
                                 siteData={siteData.result}
@@ -295,8 +294,8 @@ const TreePage: React.FC<TreeProps> = ({
                               />
                             </TreeInfoContainer>
                           </Col>
-                          <Col span={1} />
-                          <Col span={9}>
+                          <Col span={2} />
+                          <Col span={11}>
                             <TreeCareContainer>
                               <TreeActivity
                                 stewardship={stewardship}
