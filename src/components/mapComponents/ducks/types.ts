@@ -116,13 +116,13 @@ export interface BasicMapData {
   readonly map: google.maps.Map;
   readonly zoom: number;
   readonly markersArray: google.maps.Marker[];
-  readonly mapTypeId: MapTypes;
 }
 
 // Data given to initMap functions to set up map features outside of LOADER.load().then()
 export interface InitMapData extends BasicMapData {
   readonly popPopup: (latLng: google.maps.LatLng) => void;
   readonly setActiveTreeInfo: (info: BasicTreeInfo) => void;
+  readonly mapTypeId: MapTypes;
 }
 
 // Map data layers and listeners
@@ -136,6 +136,8 @@ export interface MapLayersAndListeners {
 }
 
 // Data returned to the map after initMap functions are called
-export interface ReturnMapData extends BasicMapData, MapLayersAndListeners {
+export interface ReturnMapData
+  extends Omit<BasicMapData, 'mapTypeId'>,
+    MapLayersAndListeners {
   readonly searchMarker: google.maps.Marker;
 }

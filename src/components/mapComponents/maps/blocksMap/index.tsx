@@ -48,7 +48,6 @@ const BlocksMap: React.FC<BlocksMapProps> = ({
       mapData,
       neighborhoods,
       blocks,
-      mapTypeId,
       setMapTypeId,
     );
 
@@ -62,7 +61,6 @@ const BlocksMap: React.FC<BlocksMapProps> = ({
       zoomListener: mapLayersAndListeners.zoomListener,
       mapTypeListener: mapLayersAndListeners.mapTypeListener,
       markersArray: mapData.markersArray,
-      mapTypeId,
     };
   };
 

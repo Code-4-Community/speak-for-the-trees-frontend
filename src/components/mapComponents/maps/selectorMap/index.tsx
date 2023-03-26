@@ -13,7 +13,6 @@ import { SiteProps } from '../../../../containers/treePage/ducks/types';
 import { InitMapData } from '../../ducks/types';
 import { initSiteView } from '../../logic/init';
 import { MapTypes, SetStateType } from '../../../../context/types';
-import { MapTypeContext } from '../../../../context/mapTypeContext';
 
 interface SelectorMapProps {
   readonly neighborhoods: NeighborhoodGeoData;
@@ -77,7 +76,6 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
       zoomListener: mapLayersAndListeners.zoomListener,
       mapTypeListener: mapLayersAndListeners.mapTypeListener,
       markersArray: mapData.markersArray,
-      mapTypeId: MapTypes.SATELLITE, // FLAG
     };
 
     mapData.map.setOptions({

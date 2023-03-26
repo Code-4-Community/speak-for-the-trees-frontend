@@ -22,10 +22,7 @@ import SiteLegend from '../../mapPageComponents/siteLegend';
 import { MapStateProps, Routes } from '../../../../App';
 import MapWithPopup from '../mapWithPopup';
 import { MapTypes, SetStateType } from '../../../../context/types';
-import {
-  MapTypeContext,
-  useMapTypeContext,
-} from '../../../../context/mapTypeContext';
+import { useMapTypeContext } from '../../../../context/mapTypeContext';
 
 interface TreeMapProps {
   readonly neighborhoods: NeighborhoodGeoData;
@@ -76,7 +73,6 @@ const TreeMap: React.FC<TreeMapProps> = ({
       zoomListener: mapLayersAndListeners.zoomListener,
       mapTypeListener: mapLayersAndListeners.mapTypeListener,
       markersArray: mapData.markersArray,
-      mapTypeId, // FLAG
     };
     setLoadedMapData(setMapData);
 
