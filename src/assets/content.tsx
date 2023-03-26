@@ -2,10 +2,6 @@
 export const TEAMS_TITLE = 'Available Teams';
 export const TEAMS_HEADER = 'Take a peek at the teams accepting new members!';
 
-// Home
-export const HOME_TITLE = 'Welcome back, ';
-export const HOME_HEADER = "Let's get back to those trees, why don't we?";
-
 // Team Leaderboard
 export const TEAM_LEADERBOARD_TITLE = 'Team Leaderboard';
 export const TEAM_LEADERBOARD_HEADER =
