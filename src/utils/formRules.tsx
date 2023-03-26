@@ -1,8 +1,15 @@
+import i18n from '../i18n/i18n';
 import { FormInstance, Rule } from 'antd/es/form';
 
 export const enterEmailRules: Rule[] = [
-  { required: true, message: 'Please input your email!' },
-  { type: 'email', message: 'Not a valid email address' },
+  {
+    required: true,
+    message: i18n.t('validation.email_required', { ns: 'forms' }),
+  },
+  {
+    type: 'email',
+    message: i18n.t('validation.email_invalid', { ns: 'forms' }),
+  },
 ];
 
 export const targetUserEmailRules: Rule[] = [

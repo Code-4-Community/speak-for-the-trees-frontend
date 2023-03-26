@@ -6,14 +6,6 @@ export const TEAMS_HEADER = 'Take a peek at the teams accepting new members!';
 export const HOME_TITLE = 'Welcome back, ';
 export const HOME_HEADER = "Let's get back to those trees, why don't we?";
 
-// Login
-export const LOGIN_TITLE = 'Log In';
-export const LOGIN_HEADER = 'Welcome back!';
-export const LOGIN_BODY =
-  "Thanks for volunteering with us! Your work is vital in supporting the health of Boston's urban forest. " +
-  "Let's get back to those trees.";
-export const LOGIN_ERROR = 'The email or password you entered was incorrect.';
-
 // Signup
 export const SIGNUP_TITLE = 'Sign Up';
 export const SIGNUP_HEADER = 'Nice to meet you!';

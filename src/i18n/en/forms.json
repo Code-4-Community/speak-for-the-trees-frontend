@@ -1,6 +1,8 @@
 {
   "email": "Email",
+  "password": "Password",
   "submit": "Submit",
+  "log_in": "Log In",
   "reset_password": {
     "new_password": "New Password",
     "confirm_password": "Confirm Password"
@@ -13,5 +15,9 @@
       "days (leave empty to export all data)."
     ],
     "load_report": "Load Report"
+  },
+  "validation": {
+    "email_required": "Please input your email!",
+    "email_invalid": "Not a valid email address"
   }
 }
