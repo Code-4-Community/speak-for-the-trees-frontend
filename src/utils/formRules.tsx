@@ -28,14 +28,14 @@ export const loginPasswordRules: Rule[] = [
   },
 ];
 
-export const passwordHelp =
-  'Your new password must be at least 8 characters long.';
-
 export const newPasswordRules: Rule[] = [
-  { required: true, message: 'Please enter a new password!' },
+  {
+    required: true,
+    message: i18n.t('validation.password_required', { ns: 'forms' }),
+  },
   {
     min: 8,
-    message: passwordHelp,
+    message: i18n.t('validation.password_min_length', { ns: 'forms' }),
   },
 ];
 
@@ -46,13 +46,15 @@ export const confirmPasswordRules = (
   return [
     {
       required: true,
-      message: 'Please confirm your new password!',
+      message: i18n.t('validation.confirm_password_required', { ns: 'forms' }),
     },
     {
       validator(_, value) {
         const password = form.getFieldValue(check);
         if (value && password !== value) {
-          return Promise.reject('Passwords do not match');
+          return Promise.reject(
+            i18n.t('validation.confirm_password_match', { ns: 'forms' }),
+          );
         }
         return Promise.resolve();
       },
@@ -63,19 +65,22 @@ export const confirmPasswordRules = (
 export const firstNameRules: Rule[] = [
   {
     required: true,
-    message: 'Please input your first name!',
+    message: i18n.t('validation.first_name_required', { ns: 'forms' }),
   },
 ];
 
 export const lastNameRules: Rule[] = [
   {
     required: true,
-    message: 'Please input your last name!',
+    message: i18n.t('validation.last_name_required', { ns: 'forms' }),
   },
 ];
 
 export const usernameRules: Rule[] = [
-  { required: true, message: 'Please enter a username!' },
+  {
+    required: true,
+    message: i18n.t('validation.username_required', { ns: 'forms' }),
+  },
 ];
 
 export const activitiesRules: Rule[] = [

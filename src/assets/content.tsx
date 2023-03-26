@@ -6,14 +6,6 @@ export const TEAMS_HEADER = 'Take a peek at the teams accepting new members!';
 export const HOME_TITLE = 'Welcome back, ';
 export const HOME_HEADER = "Let's get back to those trees, why don't we?";
 
-// Signup
-export const SIGNUP_TITLE = 'Sign Up';
-export const SIGNUP_HEADER = 'Nice to meet you!';
-export const SIGNUP_BODY =
-  'Thanks for your interest in volunteering with us! Taking care of over 9,000 trees (and counting!) is much ' +
-  "harder than it seems, but with our dedicated volunteers, we're able to make Boston a cleaner, safer, and " +
-  'more equitable community one tree at a time. Welcome to the team!';
-
 // Team Leaderboard
 export const TEAM_LEADERBOARD_TITLE = 'Team Leaderboard';
 export const TEAM_LEADERBOARD_HEADER =
