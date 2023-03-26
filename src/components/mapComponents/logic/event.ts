@@ -157,7 +157,7 @@ export function addHandleZoomChange(
     const zoomLevel = map.getZoom();
     const zoomedIn = zoomLevel >= view;
 
-    const mapTypeId = (map.getMapTypeId() as string).toUpperCase() as MapTypes;
+    const mapTypeId = convertToMapTypes(map.getMapTypeId());
 
     setNeighborhoodsStyle(
       neighborhoodsLayer,
@@ -176,6 +176,10 @@ export function addHandleZoomChange(
         break;
     }
   });
+}
+
+function convertToMapTypes(mapTypeId: google.maps.MapTypeId): MapTypes {
+  return (mapTypeId as string).toUpperCase() as MapTypes;
 }
 
 /**
@@ -201,7 +205,7 @@ export function addHandleMapTypeChange(
     const zoomLevel = map.getZoom();
     const zoomedIn = zoomLevel >= view;
 
-    const mapTypeId = (map.getMapTypeId() as string).toUpperCase() as MapTypes;
+    const mapTypeId = convertToMapTypes(map.getMapTypeId());
     setMapTypeId(mapTypeId);
 
     setNeighborhoodsStyle(
