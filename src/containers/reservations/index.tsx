@@ -55,11 +55,10 @@ const Reservations: React.FC<ReservationsProps> = ({
             return (
               <MobileMapPage
                 mapContent={
-                  <MapTypeContext.Provider value={mapTypeId}>
+                  <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
                     <BlocksMapDisplay
                       neighborhoods={neighborhoods}
                       blocks={blocks}
-                      setMapTypeId={setMapTypeId}
                     />
                   </MapTypeContext.Provider>
                 }
@@ -77,11 +76,10 @@ const Reservations: React.FC<ReservationsProps> = ({
             return (
               <MapPage
                 mapContent={
-                  <MapTypeContext.Provider value={mapTypeId}>
+                  <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
                     <BlocksMapDisplay
                       neighborhoods={neighborhoods}
                       blocks={blocks}
-                      setMapTypeId={setMapTypeId}
                     />
                   </MapTypeContext.Provider>
                 }

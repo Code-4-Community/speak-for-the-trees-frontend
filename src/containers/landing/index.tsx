@@ -109,7 +109,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
           content="The first page someone sees if they are not logged in, contains a read only map of Boston neighborhoods and some information about the tree counts of Speak for the Trees"
         />
       </Helmet>
-      <MapTypeContext.Provider value={mapTypeId}>
+      <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
         {(() => {
           switch (windowType) {
             case WindowTypes.Mobile:
@@ -121,7 +121,6 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                       neighborhoods={neighborhoods}
                       sites={sites}
                       mobile={true}
-                      setMapTypeId={setMapTypeId}
                     />
                   }
                   returnTo={Routes.LANDING}
@@ -148,7 +147,6 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                       neighborhoods={neighborhoods}
                       sites={sites}
                       mobile={false}
-                      setMapTypeId={setMapTypeId}
                     />
                   }
                   sidebarHeader={LANDING_TITLE[lang]}

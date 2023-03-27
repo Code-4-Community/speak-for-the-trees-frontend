@@ -62,13 +62,11 @@ const MarginBottomRow = styled(Row)`
 interface AdminDashboardProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly sites: MapGeoDataReducerState['siteGeoData'];
-  // readonly setMapTypeId: SetStateType<MapTypes>;
 }
 
 const AdminDashboard: React.FC<AdminDashboardProps> = ({
   neighborhoods,
   sites,
-  // setMapTypeId,
 }) => {
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
@@ -168,7 +166,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
               >
                 <EditSiteForm formInstance={editSiteForm} />
               </Block>
-              <MapTypeContext.Provider value={mapTypeId}>
+              <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
                 <MapContainer>
                   <SelectorMapDisplay
                     neighborhoods={neighborhoods}
@@ -179,7 +177,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         lng: round(pos.lng(), LAT_LNG_PRECISION),
                       });
                     }}
-                    setMapTypeId={setMapTypeId}
                   />
                 </MapContainer>
               </MapTypeContext.Provider>

@@ -12,23 +12,20 @@ import { BOSTON } from '../../constants';
 import { initBlockView } from '../../logic/init';
 import { MapStateProps, Routes } from '../../../../App';
 import MapWithPopup from '../mapWithPopup';
-import { MapTypes, SetStateType } from '../../../../context/types';
 import { useMapTypeContext } from '../../../../context/mapTypeContext';
 
 interface BlocksMapProps {
   readonly neighborhoods: NeighborhoodGeoData;
   readonly blocks: BlockGeoData;
   readonly returnTo?: Routes;
-  readonly setMapTypeId: SetStateType<MapTypes>;
 }
 
 const BlocksMap: React.FC<BlocksMapProps> = ({
   neighborhoods,
   blocks,
   returnTo,
-  setMapTypeId,
 }) => {
-  const mapTypeId = useMapTypeContext();
+  const [mapTypeId, setMapTypeId] = useMapTypeContext();
 
   const location = useLocation<MapStateProps>();
 

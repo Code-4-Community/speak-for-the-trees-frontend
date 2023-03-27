@@ -73,7 +73,7 @@ const MyTrees: React.FC<MyTreesStateProps> = ({ neighborhoods, sites }) => {
         />
       </Helmet>
 
-      <MapTypeContext.Provider value={mapTypeId}>
+      <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
         {(() => {
           switch (windowType) {
             case WindowTypes.Mobile:
@@ -85,7 +85,6 @@ const MyTrees: React.FC<MyTreesStateProps> = ({ neighborhoods, sites }) => {
                       neighborhoods={neighborhoods}
                       sites={sites}
                       mobile={true}
-                      setMapTypeId={setMapTypeId}
                     />
                   }
                   returnTo={Routes.MY_TREES}
@@ -104,7 +103,6 @@ const MyTrees: React.FC<MyTreesStateProps> = ({ neighborhoods, sites }) => {
                       neighborhoods={neighborhoods}
                       sites={sites}
                       mobile={false}
-                      setMapTypeId={setMapTypeId}
                     />
                   }
                   view={treeMapView}

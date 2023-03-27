@@ -12,14 +12,13 @@ import MapWithPopup from '../mapWithPopup';
 import { SiteProps } from '../../../../containers/treePage/ducks/types';
 import { InitMapData } from '../../ducks/types';
 import { initSiteView } from '../../logic/init';
-import { MapTypes, SetStateType } from '../../../../context/types';
+import { useMapTypeContext } from '../../../../context/mapTypeContext';
 
 interface SelectorMapProps {
   readonly neighborhoods: NeighborhoodGeoData;
   readonly sites: SiteGeoData;
   readonly onMove: (pos: google.maps.LatLng) => void;
   readonly site?: SiteProps;
-  readonly setMapTypeId: SetStateType<MapTypes>;
 }
 
 const SelectorMap: React.FC<SelectorMapProps> = ({
@@ -27,9 +26,10 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
   sites,
   onMove,
   site,
-  setMapTypeId,
 }) => {
   const defaultZoom = STREET_ZOOM;
+
+  const [mapTypeId, setMapTypeId] = useMapTypeContext();
 
   const defaultCenter: google.maps.LatLngLiteral = site
     ? { lat: site.lat, lng: site.lng }

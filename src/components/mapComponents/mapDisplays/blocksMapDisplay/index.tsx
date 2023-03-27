@@ -9,7 +9,6 @@ import {
 import { MapGeoDataReducerState } from '../../ducks/types';
 import { Routes } from '../../../../App';
 import BlocksMap from '../../maps/blocksMap';
-import { MapTypes, SetStateType } from '../../../../context/types';
 
 const EmptyMapContainer = styled.div`
   text-align: center;
@@ -20,14 +19,12 @@ interface BlocksMapDisplayProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
   readonly blocks: MapGeoDataReducerState['blockGeoData'];
   readonly returnTo?: Routes;
-  readonly setMapTypeId: SetStateType<MapTypes>;
 }
 
 const BlocksMapDisplay: React.FC<BlocksMapDisplayProps> = ({
   neighborhoods,
   blocks,
   returnTo,
-  setMapTypeId,
 }) => (
   <Layout.Content>
     {asyncRequestIsComplete(neighborhoods) &&
@@ -36,7 +33,6 @@ const BlocksMapDisplay: React.FC<BlocksMapDisplayProps> = ({
           neighborhoods={neighborhoods.result}
           blocks={blocks.result}
           returnTo={returnTo}
-          setMapTypeId={setMapTypeId}
         />
       )}
     {(asyncRequestIsFailed(neighborhoods) || asyncRequestIsFailed(blocks)) && (

@@ -9,7 +9,6 @@ import {
 import { MapGeoDataReducerState } from '../../ducks/types';
 import SelectorMap from '../../maps/selectorMap';
 import { SiteProps } from '../../../../containers/treePage/ducks/types';
-import { MapTypes, SetStateType } from '../../../../context/types';
 
 const EmptyMapContainer = styled.div`
   text-align: center;
@@ -21,7 +20,6 @@ interface SelectorMapDisplayProps {
   readonly sites: MapGeoDataReducerState['siteGeoData'];
   readonly onMove: (pos: google.maps.LatLng) => void;
   readonly site?: SiteProps;
-  readonly setMapTypeId: SetStateType<MapTypes>;
 }
 
 const SelectorMapDisplay: React.FC<SelectorMapDisplayProps> = ({
@@ -29,7 +27,6 @@ const SelectorMapDisplay: React.FC<SelectorMapDisplayProps> = ({
   sites,
   onMove,
   site,
-  setMapTypeId,
 }) => (
   <>
     {asyncRequestIsComplete(neighborhoods) && asyncRequestIsComplete(sites) && (
@@ -38,7 +35,6 @@ const SelectorMapDisplay: React.FC<SelectorMapDisplayProps> = ({
         sites={sites.result}
         onMove={onMove}
         site={site}
-        setMapTypeId={setMapTypeId}
       />
     )}
     {(asyncRequestIsFailed(neighborhoods) || asyncRequestIsFailed(sites)) && (

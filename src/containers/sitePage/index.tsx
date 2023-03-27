@@ -116,7 +116,7 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
                 onSubmit={onSubmitEditSite}
               />
             </Block>
-            <MapTypeContext.Provider value={mapTypeId}>
+            <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
               <MapContainer>
                 <SelectorMapDisplay
                   neighborhoods={neighborhoods}
@@ -128,7 +128,6 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
                     });
                   }}
                   site={site}
-                  setMapTypeId={setMapTypeId}
                 />
               </MapContainer>
             </MapTypeContext.Provider>

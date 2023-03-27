@@ -21,7 +21,7 @@ import { setSitesStyle } from '../../logic/style';
 import SiteLegend from '../../mapPageComponents/siteLegend';
 import { MapStateProps, Routes } from '../../../../App';
 import MapWithPopup from '../mapWithPopup';
-import { MapTypes, SetStateType } from '../../../../context/types';
+import { MapTypes } from '../../../../context/types';
 import { useMapTypeContext } from '../../../../context/mapTypeContext';
 
 interface TreeMapProps {
@@ -29,7 +29,6 @@ interface TreeMapProps {
   readonly sites: SiteGeoData;
   readonly mobile: boolean;
   readonly returnTo?: Routes;
-  readonly setMapTypeId: SetStateType<MapTypes>;
 }
 
 const TreeMap: React.FC<TreeMapProps> = ({
@@ -37,12 +36,11 @@ const TreeMap: React.FC<TreeMapProps> = ({
   sites,
   mobile,
   returnTo,
-  setMapTypeId,
 }) => {
   const location = useLocation<MapStateProps>();
 
   const [loadedMapData, setLoadedMapData] = useState<ReturnMapData>();
-  const mapTypeId = useMapTypeContext();
+  const [mapTypeId, setMapTypeId] = useMapTypeContext();
 
   let defaultZoom = 12;
   let defaultCenter = BOSTON;

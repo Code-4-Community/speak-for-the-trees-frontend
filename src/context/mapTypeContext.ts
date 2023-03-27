@@ -1,6 +1,10 @@
 import React, { useContext } from 'react';
-import { MapTypes } from './types';
+import { MapTypes, SetStateType } from './types';
 
-export const MapTypeContext = React.createContext<MapTypes>(MapTypes.ROADMAP);
+export const MapTypeContext = React.createContext<
+  [MapTypes, SetStateType<MapTypes>]
+  // @ts-ignore
+>([MapTypes.ROADMAP, undefined]);
 
-export const useMapTypeContext = (): MapTypes => useContext(MapTypeContext);
+export const useMapTypeContext = (): [MapTypes, SetStateType<MapTypes>] =>
+  useContext(MapTypeContext);
