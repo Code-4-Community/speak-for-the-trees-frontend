@@ -4,3 +4,5 @@ export enum MapTypes {
 }
 
 export type SetStateType<R> = React.Dispatch<React.SetStateAction<R>>;
+
+export type MapTypeContextType = [MapTypes, SetStateType<MapTypes>];

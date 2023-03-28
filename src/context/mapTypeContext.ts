@@ -1,9 +1,15 @@
 import React, { useContext } from 'react';
-import { MapTypes, SetStateType } from './types';
+import { MapTypes, MapTypeContextType } from './types';
 
-export const MapTypeContext = React.createContext<
-  [MapTypes, SetStateType<MapTypes>]
->([MapTypes.ROADMAP, (value: React.SetStateAction<MapTypes>) => undefined]);
+const defaultMapTypeContext: MapTypeContextType = [
+  MapTypes.ROADMAP,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  (value: React.SetStateAction<MapTypes>) => {},
+];
 
-export const useMapTypeContext = (): [MapTypes, SetStateType<MapTypes>] =>
+export const MapTypeContext = React.createContext<MapTypeContextType>(
+  defaultMapTypeContext,
+);
+
+export const useMapTypeContext = (): MapTypeContextType =>
   useContext(MapTypeContext);
