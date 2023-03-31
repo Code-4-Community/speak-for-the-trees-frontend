@@ -29,11 +29,11 @@ const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({
       newPassword: values.newPassword,
     })
       .then(() => {
-        message.success('Password changed!');
+        message.success(t('change_password.success'));
         changePasswordForm.resetFields();
       })
       .catch((err) =>
-        message.error(`Password could not be changed: ${err.response.data}`),
+        message.error(t('change_password.error', { error: err.response.data })),
       );
   };
 
@@ -45,25 +45,25 @@ const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({
       {...formLayout}
     >
       <Form.Item name="currentPassword" rules={loginPasswordRules}>
-        <Input.Password placeholder="Current Password" />
+        <Input.Password placeholder={t('current_password')} />
       </Form.Item>
       <Form.Item
         name="newPassword"
-        help={t('validation.password_min_length')}
+        help={t('validation.password_new_min_length')}
         rules={newPasswordRules}
       >
-        <Input.Password placeholder="New Password" />
+        <Input.Password placeholder={t('reset_password.new_password')} />
       </Form.Item>
       <Form.Item
         name="confirmPassword"
         dependencies={['newPassword']}
         rules={confirmPasswordRules(changePasswordForm, 'newPassword')}
       >
-        <Input.Password placeholder="Confirm Password" />
+        <Input.Password placeholder={t('reset_password.confirm_password')} />
       </Form.Item>
       <Form.Item>
         <SubmitButton type="primary" htmlType="submit">
-          Save
+          {t('save')}
         </SubmitButton>
       </Form.Item>
     </Form>

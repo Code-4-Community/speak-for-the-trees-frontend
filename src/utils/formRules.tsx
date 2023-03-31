@@ -24,18 +24,18 @@ export const targetUserEmailRules: Rule[] = [
 export const loginPasswordRules: Rule[] = [
   {
     required: true,
-    message: 'Please input your password!',
+    message: i18n.t('validation.password_required'),
   },
 ];
 
 export const newPasswordRules: Rule[] = [
   {
     required: true,
-    message: i18n.t('validation.password_required', { ns: 'forms' }),
+    message: i18n.t('validation.password_new_required', { ns: 'forms' }),
   },
   {
     min: 8,
-    message: i18n.t('validation.password_min_length', { ns: 'forms' }),
+    message: i18n.t('validation.password_new_min_length', { ns: 'forms' }),
   },
 ];
 
@@ -46,7 +46,9 @@ export const confirmPasswordRules = (
   return [
     {
       required: true,
-      message: i18n.t('validation.confirm_password_required', { ns: 'forms' }),
+      message: i18n.t('validation.confirm_password_new_required', {
+        ns: 'forms',
+      }),
     },
     {
       validator(_, value) {
