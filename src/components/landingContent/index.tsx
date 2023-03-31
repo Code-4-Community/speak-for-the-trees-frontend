@@ -51,7 +51,7 @@ export const LandingContent: React.FC = () => {
       <br />
       <br />
       <Trans
-        ns={'landing'}
+        ns="landing"
         i18nKey="sidebar.body.learnMore"
         components={{
           adoptLink: (
