@@ -11,14 +11,15 @@ import LinkCard, {
 } from '../../components/linkCard';
 import LinkCarousel from '../../components/linkCarousel';
 import HomeBackground from '../../assets/images/grey-logo.png';
-import { HOME_HEADER, HOME_TITLE } from '../../assets/content';
-import { Routes } from '../../App';
+import { Routes, site } from '../../App';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import { getUserFirstName, isAdmin } from '../../auth/ducks/selectors';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../utils/stringFormat';
 
 const StyledSubtitle = styled(Typography.Paragraph)`
   color: ${MID_GREEN};
@@ -36,11 +37,13 @@ const HomeContainer = styled.div`
 `;
 
 const Home: React.FC = () => {
+  const { t } = useTranslation(n(site, ['home']), { nsMode: 'fallback' });
+
   const { windowType } = useWindowDimensions();
   const userName = useSelector((state: C4CState) =>
     getUserFirstName(state.authenticationState.userData),
   );
-  const greeting = `${HOME_TITLE}${userName}!`;
+  const greeting = `${t('title')}${userName}!`;
 
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
     isAdmin(state.authenticationState.tokens),
@@ -49,33 +52,33 @@ const Home: React.FC = () => {
   const links: LinkCardProps[] = [
     /*
     {
-      text: 'My Blocks',
+      text: t('link_cards.my_blocks'),
       path: `${Routes.RESERVATIONS}`,
       background: Backgrounds.IMAGE_ONE,
     },
     {
-      text: 'View Teams',
+      text: t('link_cards.view_teams'),
       path: `${Routes.AVAILABLE_TEAMS}`,
       background: Backgrounds.IMAGE_TWO,
     },
     {
-      text: 'Volunteer Leaderboard',
+      text: t('link_cards.volunteer_leaderboard'),
       path: `${Routes.VOLUNTEER}`,
       background: Backgrounds.IMAGE_THREE,
     },
     {
-      text: 'Team Leaderboard',
+      text: t('link_cards.team_leaderboard'),
       path: `${Routes.TEAM_LEADERBOARD}`,
       background: Backgrounds.IMAGE_FOUR,
     },
     */
     {
-      text: 'My Trees',
+      text: t('link_cards.my_trees'),
       path: `${Routes.MY_TREES}`,
       background: Backgrounds.IMAGE_ONE,
     },
     {
-      text: 'Settings',
+      text: t('link_cards.settings'),
       path: `${Routes.SETTINGS}`,
       background: Backgrounds.IMAGE_TWO,
     },
@@ -83,7 +86,7 @@ const Home: React.FC = () => {
 
   const authLinks: LinkCardProps[] = [
     {
-      text: 'Reports',
+      text: t('link_cards.reports'),
       path: `${Routes.REPORTS}`,
       background: Backgrounds.IMAGE_THREE,
     },
@@ -96,7 +99,7 @@ const Home: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Home</title>
+        <title>{t('home')}</title>
         <meta
           name="description"
           content="The user's home page after logging in, has links directing them to the blocks, teams, and leaderboard pages."
@@ -110,7 +113,7 @@ const Home: React.FC = () => {
                 return (
                   <>
                     <PageHeader pageTitle={greeting} isMobile={true} />
-                    <StyledSubtitle>Quick Links</StyledSubtitle>
+                    <StyledSubtitle>{t('quick_links')}</StyledSubtitle>
                     <LinkCarousel data={allLinks} slidesPerPage={1} />
                   </>
                 );
@@ -118,7 +121,7 @@ const Home: React.FC = () => {
                 return (
                   <>
                     <PageHeader pageTitle={greeting} />
-                    <StyledSubtitle>Quick Links</StyledSubtitle>
+                    <StyledSubtitle>{t('quick_links')}</StyledSubtitle>
                     <LinkCarousel data={allLinks} slidesPerPage={2} />
                   </>
                 );
@@ -127,10 +130,10 @@ const Home: React.FC = () => {
                   <>
                     <PageHeader
                       pageTitle={greeting}
-                      pageSubtitle={HOME_HEADER}
+                      pageSubtitle={t('header')}
                       subtitlecolor={DARK_GREY}
                     />
-                    <StyledSubtitle>Quick Links</StyledSubtitle>
+                    <StyledSubtitle>{t('quick_links')}</StyledSubtitle>
                     <List
                       dataSource={allLinks}
                       grid={{ gutter: 1, column: 3 }}
@@ -154,10 +157,10 @@ const Home: React.FC = () => {
                   <>
                     <PageHeader
                       pageTitle={greeting}
-                      pageSubtitle={HOME_HEADER}
+                      pageSubtitle={t('header')}
                       subtitlecolor={DARK_GREY}
                     />
-                    <StyledSubtitle>Quick Links</StyledSubtitle>
+                    <StyledSubtitle>{t('quick_links')}</StyledSubtitle>
                     <List
                       dataSource={allLinks}
                       grid={{ gutter: 16, column: 4 }}

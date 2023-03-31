@@ -1,0 +1,16 @@
+{
+  "title": "Log In",
+  "welcome_back": {
+    "header": "Welcome back!",
+    "body": [
+      "Thanks for volunteering with us! Your work is vital in supporting the health of Boston's urban forest.",
+      "Let's get back to those trees."
+    ]
+  },
+  "login_error": "The email or password you entered was incorrect.",
+  "forgot_password": {
+    "header": "FORGOT PASSWORD?",
+    "new_to_sftt": "NEW TO SPEAK FOR THE TREES?",
+    "sign_up": "SIGN UP <signUpLink>HERE</signUpLink>!"
+  }
+}
