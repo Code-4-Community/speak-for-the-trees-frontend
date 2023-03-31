@@ -13,5 +13,20 @@
       "days (leave empty to export all data)."
     ],
     "load_report": "Load Report"
+  },
+  "name_form": {
+    "placeholder": "Enter tree name",
+    "submit": "Change Name",
+    "cancel": "Cancel"
+  },
+  "stewardship": {
+    "activities": {
+      "watered": "Watered",
+      "mulched": "Mulched",
+      "weeded": "Weeded",
+      "cleaned": "Cleared Waste & Litter"
+    },
+    "date_label": "Activity Date",
+    "activity_label": "Stewardship Activities"
   }
 }

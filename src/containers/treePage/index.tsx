@@ -45,6 +45,9 @@ import EntryList from '../../components/entryList';
 import { CenterDiv, ReturnButton } from '../../components/themedComponents';
 import { STREET_ZOOM } from '../../components/mapComponents/constants';
 import { CITY_PLANTING_REQUEST_LINK } from '../../assets/links';
+import { Trans, useTranslation } from 'react-i18next';
+import { site } from '../../App';
+import { n } from '../../utils/stringFormat';
 
 const EntryDiv = styled(CenterDiv)`
   margin: 10px 0;
@@ -119,6 +122,8 @@ const TreePage: React.FC<TreeProps> = ({
   monthYearOptions,
   tokens,
 }) => {
+  const { t } = useTranslation(n(site, ['myTrees']), { nsMode: 'fallback' });
+
   const location = useLocation<RedirectStateProps>();
 
   const dispatch = useDispatch();
@@ -146,12 +151,14 @@ const TreePage: React.FC<TreeProps> = ({
     protectedApiClient
       .recordStewardship(id, activities)
       .then(() => {
-        message.success('Stewardship Recorded');
+        message.success(t('messages.stewardship_success'));
         stewardshipFormInstance.resetFields();
         dispatch(getSiteData(id));
       })
       .catch((err) =>
-        message.error(`Failed to record stewardship: ${err.response.data}`),
+        message.error(
+          t('messages.stewardship_failure', { error: err.response.data }),
+        ),
       );
   };
 
@@ -159,11 +166,13 @@ const TreePage: React.FC<TreeProps> = ({
     protectedApiClient
       .adoptSite(id)
       .then(() => {
-        message.success('Adopted site!');
+        message.success(t('messages.adopt_success'));
         dispatch(getAdoptedSites());
       })
       .catch((err) => {
-        message.error(`Failed to adopt site: ${err.response.data}`);
+        message.error(
+          t('messages.adopt_failure', { error: err.response.data }),
+        );
       });
   };
 
@@ -171,12 +180,14 @@ const TreePage: React.FC<TreeProps> = ({
     protectedApiClient
       .unadoptSite(id)
       .then(() => {
-        message.success('Unadopted site!');
+        message.success(t('messages.unadopt_success'));
         dispatch(getSiteData(id));
         dispatch(getAdoptedSites());
       })
       .catch((err) => {
-        message.error(`Failed to unadopt site: ${err.response.data}`);
+        message.error(
+          t('messages.unadopt_failure', { error: err.response.data }),
+        );
       });
   };
 
@@ -184,10 +195,12 @@ const TreePage: React.FC<TreeProps> = ({
     protectedApiClient
       .nameSiteEntry(id, values)
       .then(() => {
-        message.success('Tree name changed!');
+        message.success(t('messages.edit_name_success'));
       })
       .catch((err) =>
-        message.error(`Failed to name site: ${err.response.data}`),
+        message.error(
+          t('messages.edit_name_failure', { error: err.response.data }),
+        ),
       );
   };
 
@@ -209,10 +222,11 @@ const TreePage: React.FC<TreeProps> = ({
 
   const noTreeMessage: JSX.Element = asyncRequestIsComplete(siteData) ? (
     <NoTreeMessage>
-      There is no tree at{' '}
-      {siteData.result.address ||
-        `${siteData.result.lat}° N, ${Math.abs(siteData.result.lng)}° W`}
-      !
+      {t('no_tree_message', {
+        location:
+          siteData.result.address ||
+          `${siteData.result.lat}° N, ${Math.abs(siteData.result.lng)}° W`,
+      })}
     </NoTreeMessage>
   ) : (
     <></>
@@ -220,12 +234,14 @@ const TreePage: React.FC<TreeProps> = ({
 
   const treePlantingRequest: JSX.Element = (
     <TreePlantingRequest>
-      The city of Boston plants new trees in the spring and fall primarily based
-      on resident requests. Ask the city to plant a tree here at{' '}
-      <Typography.Link href={CITY_PLANTING_REQUEST_LINK} target="_blank">
-        this city tree planting request form
-      </Typography.Link>
-      !
+      <Trans t={t} i18nKey={'tree_planting_request'}>
+        The city of Boston plants new trees in the spring and fall primarily on
+        resident requests. Ask the city to plant a tree here at{' '}
+        <Typography.Link href={CITY_PLANTING_REQUEST_LINK} target="_blank">
+          this city tree planting request form
+        </Typography.Link>
+        !
+      </Trans>
     </TreePlantingRequest>
   );
 
@@ -255,7 +271,7 @@ const TreePage: React.FC<TreeProps> = ({
                   activeId: siteData.result.siteId,
                 }}
               >
-                {`<`} Return to Tree Map
+                {`< ${t('return')}`}
               </ReturnButton>
 
               {(!siteData.result.entries[0] ||
@@ -363,7 +379,7 @@ const TreePage: React.FC<TreeProps> = ({
                   <EntryList
                     entries={latestEntry.main}
                     canHide={false}
-                    title="About This Tree"
+                    title={t('tree_info.about')}
                   />
                 </EntryDiv>
               )}
@@ -372,24 +388,22 @@ const TreePage: React.FC<TreeProps> = ({
                   <EntryList
                     entries={latestEntry.extra}
                     canHide={true}
-                    hideText="Hide Extra Tree Details"
-                    showText="Click to Read More About This Tree"
-                    title="Additional Information"
+                    hideText={t('tree_info.hide_text')}
+                    showText={t('tree_info.show_text')}
+                    title={t('tree_info.additional_information')}
                   />
                 </EntryDiv>
               )}
               {latestEntry.main.length === 0 &&
                 latestEntry.extra.length === 0 && (
-                  <Typography.Title level={2}>
-                    No data has been collected about this site.
-                  </Typography.Title>
+                  <Typography.Title level={2}>{t('no_data')}</Typography.Title>
                 )}
             </>
           )}
           {asyncRequestIsFailed(siteData) && (
             <TreeMainContainer>
               <Typography.Title level={2}>
-                Tree could not be found.
+                {t('tree_not_found')}
               </Typography.Title>
             </TreeMainContainer>
           )}

@@ -5,6 +5,9 @@ import TwitterIcon from '../../assets/images/twitter-icon.png';
 import EmailIcon from '../../assets/images/email-icon.png';
 import FBIcon from '../../assets/images/facebook-icon.png';
 import CopyIcon from '../../assets/images/copy-icon.png';
+import { useTranslation } from 'react-i18next';
+import { site } from '../../App';
+import { n } from '../../utils/stringFormat';
 
 const ShareMenuContainer = styled.div`
   max-width: 550px;
@@ -32,11 +35,13 @@ interface ShareMenuProps {
 }
 
 const ShareMenu: React.FC<ShareMenuProps> = ({ defaultText, link }) => {
+  const { t } = useTranslation(n(site, ['shareMenu']), { nsMode: 'fallback' });
+
   const [formText, setFormText] = useState(`${defaultText} ${link}`);
 
   const onClickMailTo = () => {
     window.open(
-      `mailto:?&subject=Check out this tree!&body=${formText}`,
+      `mailto:?&subject=${t('email_subject')}&body=${formText}`,
       '_blank',
     );
   };
@@ -45,23 +50,23 @@ const ShareMenu: React.FC<ShareMenuProps> = ({ defaultText, link }) => {
     navigator.clipboard
       .writeText(formText)
       .then(() => {
-        message.success('Copied to clipboard');
+        message.success(t('messages.copy_success'));
       })
       .catch(() => {
-        message.error('Failed to copy to clipboard');
+        message.error(t('messages.copy_failure'));
       });
   };
 
   return (
     <ShareMenuContainer>
-      <Typography.Title level={4}>Share this site!</Typography.Title>
+      <Typography.Title level={4}>{t('title')}</Typography.Title>
       <Input
         defaultValue={defaultText}
         value={formText}
         onChange={(e) => setFormText(e.target.value)}
       />
       <MediaShareButton name="email-button" onClick={onClickMailTo}>
-        <StyledImg src={EmailIcon} alt="Share via email" />
+        <StyledImg src={EmailIcon} alt={t('alt.email')} />
       </MediaShareButton>
       <MediaShareButton
         name="twitter-button"
@@ -69,7 +74,7 @@ const ShareMenu: React.FC<ShareMenuProps> = ({ defaultText, link }) => {
         rel="noreferrer"
         target="_blank"
       >
-        <StyledImg src={TwitterIcon} alt="Share to Twitter" />
+        <StyledImg src={TwitterIcon} alt={t('alt.twitter')} />
       </MediaShareButton>
       <MediaShareButton
         name="facebook-button"
@@ -77,10 +82,10 @@ const ShareMenu: React.FC<ShareMenuProps> = ({ defaultText, link }) => {
         rel="noreferrer"
         target="_blank"
       >
-        <StyledImg src={FBIcon} alt="Share to Facebook" />
+        <StyledImg src={FBIcon} alt={t('alt.facebook')} />
       </MediaShareButton>
       <MediaShareButton name="copy-button" onClick={onClickCopy}>
-        <StyledImg src={CopyIcon} alt="Copy to clipboard" />
+        <StyledImg src={CopyIcon} alt={t('alt.copy')} />
       </MediaShareButton>
     </ShareMenuContainer>
   );

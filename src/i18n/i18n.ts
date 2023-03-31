@@ -9,6 +9,9 @@ import {
   forms,
   tables,
   cambridgeLanding,
+  myTrees,
+  treeInfo,
+  shareMenu,
 } from './en';
 import { landingEs } from './es';
 
@@ -25,6 +28,9 @@ const resources = {
     forms,
     tables,
     cambridgeLanding,
+    myTrees,
+    treeInfo,
+    shareMenu,
   },
   es: {
     landing: landingEs,
