@@ -4,6 +4,9 @@ import { ProtectedSiteActions, SiteActions } from './actions';
 import { ApiExtraArgs } from '../../../api/apiClient';
 import { ProtectedApiExtraArgs } from '../../../api/protectedApiClient';
 import { AsyncRequest } from '../../../utils/asyncRequest';
+import i18n from '../../../i18n/i18n';
+
+const t = i18n.t;
 
 export interface SiteProps {
   siteId: number;
@@ -127,12 +130,12 @@ export interface SplitSiteEntries {
 }
 
 export const MainSiteEntryNames: Record<string, string> = {
-  updatedAt: 'Updated At',
-  status: 'Status',
-  genus: 'Genus',
-  species: 'Species',
-  commonName: 'Common Name',
-  diameter: 'Diameter at Breast Height (inches)',
+  updatedAt: t('main.updatedAt', { ns: 'treeInfoTypes' }),
+  status: t('main.status', { ns: 'treeInfoTypes' }),
+  genus: t('main.genus', { ns: 'treeInfoTypes' }),
+  species: t('main.species', { ns: 'treeInfoTypes' }),
+  commonName: t('main.commonName', { ns: 'treeInfoTypes' }),
+  diameter: t('main.diameter', { ns: 'treeInfoTypes' }),
 };
 
 export const MainSiteEntryOrder: Record<string, number> = {
@@ -146,39 +149,39 @@ export const MainSiteEntryOrder: Record<string, number> = {
 };
 
 export const ExtraSiteEntryNames: Record<string, string> = {
-  treePresent: 'Is there a tree present?',
-  confidence: 'Confidence',
-  circumference: 'Circumference (inches)',
-  multistem: 'Multistem?',
-  coverage: 'Coverage',
-  pruning: 'Amount of Pruning',
-  condition: 'Condition',
-  discoloring: 'Discolored leaves?',
-  leaning: 'Is the tree leaning?',
-  constrictingGrate: 'Constricting Grate',
-  wounds: 'Trunk wounds?',
-  pooling: 'Pooling water?',
-  stakesWithWires: 'Has stakes with wires?',
-  stakesWithoutWires: 'Has stakes without wires?',
-  light: 'Lights around tree?',
-  bicycle: 'Bicycle tied to tree?',
-  bagEmpty: 'Has an empty bag?',
-  bagFilled: 'Has a filled bag?',
-  tape: 'Tape on tree?',
-  suckerGrowth: 'Is there sucker growth?',
-  siteType: 'Site Type',
-  sidewalkWidth: 'Sidewalk Width',
-  siteWidth: 'Site Width (inches)',
-  siteLength: 'Site Length (inches)',
-  material: 'Material in Pit',
-  raisedBed: 'Is there a raised bed?',
-  fence: 'Is there a fence?',
-  trash: 'Is there trash?',
-  wires: 'Are there wires overhead?',
-  grate: 'Is there a grate around the tree base?',
-  stump: 'Is there a stump?',
-  treeNotes: 'Tree Notes',
-  siteNotes: 'Site Notes',
+  treePresent: t('extra.treePresent', { ns: 'treeInfoTypes' }),
+  confidence: t('extra.confidence', { ns: 'treeInfoTypes' }),
+  circumference: t('extra.circumference', { ns: 'treeInfoTypes' }),
+  multistem: t('extra.multistem', { ns: 'treeInfoTypes' }),
+  coverage: t('extra.coverage', { ns: 'treeInfoTypes' }),
+  pruning: t('extra.pruning', { ns: 'treeInfoTypes' }),
+  condition: t('extra.condition', { ns: 'treeInfoTypes' }),
+  discoloring: t('extra.discoloring', { ns: 'treeInfoTypes' }),
+  leaning: t('extra.leaning', { ns: 'treeInfoTypes' }),
+  constrictingGrate: t('extra.constrictingGrate', { ns: 'treeInfoTypes' }),
+  wounds: t('extra.wounds', { ns: 'treeInfoTypes' }),
+  pooling: t('extra.pooling', { ns: 'treeInfoTypes' }),
+  stakesWithWires: t('extra.stakesWithWires', { ns: 'treeInfoTypes' }),
+  stakesWithoutWires: t('extra.stakesWithoutWires', { ns: 'treeInfoTypes' }),
+  light: t('extra.light', { ns: 'treeInfoTypes' }),
+  bicycle: t('extra.bicycle', { ns: 'treeInfoTypes' }),
+  bagEmpty: t('extra.bagEmpty', { ns: 'treeInfoTypes' }),
+  bagFilled: t('extra.bagFilled', { ns: 'treeInfoTypes' }),
+  tape: t('extra.tape', { ns: 'treeInfoTypes' }),
+  suckerGrowth: t('extra.suckerGrowth', { ns: 'treeInfoTypes' }),
+  siteType: t('extra.siteType', { ns: 'treeInfoTypes' }),
+  sidewalkWidth: t('extra.sidewalkWidth', { ns: 'treeInfoTypes' }),
+  siteWidth: t('extra.siteWidth', { ns: 'treeInfoTypes' }),
+  siteLength: t('extra.siteLength', { ns: 'treeInfoTypes' }),
+  material: t('extra.material', { ns: 'treeInfoTypes' }),
+  raisedBed: t('extra.raisedBed', { ns: 'treeInfoTypes' }),
+  fence: t('extra.fence', { ns: 'treeInfoTypes' }),
+  trash: t('extra.trash', { ns: 'treeInfoTypes' }),
+  wires: t('extra.wires', { ns: 'treeInfoTypes' }),
+  grate: t('extra.grate', { ns: 'treeInfoTypes' }),
+  stump: t('extra.stump', { ns: 'treeInfoTypes' }),
+  treeNotes: t('extra.treeNotes', { ns: 'treeInfoTypes' }),
+  siteNotes: t('extra.siteNotes', { ns: 'treeInfoTypes' }),
 };
 
 export interface TreeCare {

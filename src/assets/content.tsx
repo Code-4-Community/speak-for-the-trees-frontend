@@ -1,3 +1,5 @@
+import i18n from '../i18n/i18n';
+
 // Available Teams
 export const TEAMS_TITLE = 'Available Teams';
 export const TEAMS_HEADER = 'Take a peek at the teams accepting new members!';
@@ -54,18 +56,18 @@ export const SHORT_HAND_NAMES: { [fullName: string]: string } = {
 
 // Dictionary containing 3-letter month abbreviations and their unabbreviated names
 export const UNABBREVIATED_MONTHS: { [abbreviatedMonth: string]: string } = {
-  Jan: 'January',
-  Feb: 'February',
-  Mar: 'March',
-  Apr: 'April',
-  May: 'May',
-  Jun: 'June',
-  Jul: 'July',
-  Aug: 'August',
-  Sep: 'September',
-  Oct: 'October',
-  Nov: 'November',
-  Dec: 'December',
+  Jan: i18n.t('unabbreviated_months.jan', { ns: 'content' }),
+  Feb: i18n.t('unabbreviated_months.feb', { ns: 'content' }),
+  Mar: i18n.t('unabbreviated_months.mar', { ns: 'content' }),
+  Apr: i18n.t('unabbreviated_months.apr', { ns: 'content' }),
+  May: i18n.t('unabbreviated_months.may', { ns: 'content' }),
+  Jun: i18n.t('unabbreviated_months.jun', { ns: 'content' }),
+  Jul: i18n.t('unabbreviated_months.jul', { ns: 'content' }),
+  Aug: i18n.t('unabbreviated_months.aug', { ns: 'content' }),
+  Sep: i18n.t('unabbreviated_months.sep', { ns: 'content' }),
+  Oct: i18n.t('unabbreviated_months.oct', { ns: 'content' }),
+  Nov: i18n.t('unabbreviated_months.nov', { ns: 'content' }),
+  Dec: i18n.t('unabbreviated_months.dec', { ns: 'content' }),
 };
 
 // Dictionary containing 3-letter month abbreviations and their numeric equivalent

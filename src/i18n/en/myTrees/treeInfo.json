@@ -1,0 +1,19 @@
+{
+  "share_messages": {
+    "user_owns": "Check out this tree I adopted!",
+    "adopted": "Check out this tree near you!",
+    "open": "This tree {{location}} needs someone to take care of it!"
+  },
+  "species_title": {
+    "unknown": "Unknown Species",
+    "open": "Open Planting Site"
+  },
+  "actions": {
+    "unadopt": "Unadopt",
+    "record_activity": "Record your tree care activity below.",
+    "adopted": "Already Adopted",
+    "adopt": "Adopt"
+  },
+  "log_in": "Log in to adopt this tree!",
+  "name_prompt": "Name this tree!"
+}

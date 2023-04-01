@@ -8,10 +8,14 @@ import {
   reports,
   forms,
   tables,
+  content,
   cambridgeLanding,
   myTrees,
   treeInfo,
   shareMenu,
+  treeActivity,
+  careEntry,
+  treeInfoTypes,
 } from './en';
 import { landingEs } from './es';
 
@@ -27,10 +31,14 @@ const resources = {
     reports,
     forms,
     tables,
+    content,
     cambridgeLanding,
     myTrees,
     treeInfo,
     shareMenu,
+    treeActivity,
+    careEntry,
+    treeInfoTypes,
   },
   es: {
     landing: landingEs,

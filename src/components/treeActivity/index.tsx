@@ -8,6 +8,9 @@ import { DARK_GREEN, MID_GREEN } from '../../utils/colors';
 import { UNABBREVIATED_MONTHS } from '../../assets/content';
 import styled from 'styled-components';
 import CareEntry from '../careEntry';
+import { useTranslation } from 'react-i18next';
+import { site } from '../../App';
+import { n } from '../../utils/stringFormat';
 
 const TreeCareTitle = styled(Typography.Paragraph)`
   margin: 0px 5px;
@@ -46,6 +49,10 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
   stewardship,
   monthYearOptions,
 }) => {
+  const { t } = useTranslation(n(site, ['treeActivity']), {
+    nsMode: 'fallback',
+  });
+
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toLocaleString('default', { month: 'short' }),
   );
@@ -67,10 +74,10 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
 
   return (
     <>
-      <TreeCareTitle>Recent Tree Care Activity</TreeCareTitle>
+      <TreeCareTitle>{t('title')}</TreeCareTitle>
       <StewardshipActivityDropdownContainer>
         <StewardshipActivityDropdown>
-          Month and year to display activities for:{' '}
+          {t('date_dropdown_label')}
           <Select
             showSearch
             style={{ width: 200 }}
@@ -90,7 +97,7 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
         )}
         itemLayout="vertical"
         locale={{
-          emptyText: 'No Stewardship Activities Recorded for this Tree',
+          emptyText: t('list_empty_text'),
         }}
         renderItem={(activity, key) => (
           <CareEntry key={key} activity={activity} />

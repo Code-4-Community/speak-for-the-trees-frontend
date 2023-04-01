@@ -10,6 +10,9 @@ import { NEIGHBORHOOD_IDS } from '../assets/content';
 import { AppError } from '../auth/axios';
 import { Coordinate } from '../components/mapComponents/ducks/types';
 import { Websites } from '../App';
+import i18n from '../i18n/i18n';
+
+const t = i18n.t;
 
 /**
  * Converts the given dollar amount to a formatted string
@@ -179,24 +182,30 @@ export function parseLatLng(str: string): Coordinate | null {
 
 export function generateTreeCareMessage(item: Activity): string {
   const activityStrings = [] as string[];
-  if (item.cleaned) activityStrings.push('cleared of waste');
-  if (item.mulched) activityStrings.push('mulched');
-  if (item.watered) activityStrings.push('watered');
-  if (item.weeded) activityStrings.push('weeded');
+  if (item.cleaned)
+    activityStrings.push(t('activity_message.cleaned', { ns: 'careEntry' }));
+  if (item.mulched)
+    activityStrings.push(t('activity_message.mulched', { ns: 'careEntry' }));
+  if (item.watered)
+    activityStrings.push(t('activity_message.watered', { ns: 'careEntry' }));
+  if (item.weeded)
+    activityStrings.push(t('activity_message.weeded', { ns: 'careEntry' }));
 
   const numberOfActivities = activityStrings.length;
+  const prefix = t('activity_message.prefix', { ns: 'careEntry' });
+  const join = t('activity_message.join', { ns: 'careEntry' });
 
   // invariant: at least one activity will be present
   if (numberOfActivities === 0) {
-    throw new Error('At least one activity must be true');
+    throw new Error(t('activity_message.error', { ns: 'careEntry' }));
   } else if (numberOfActivities === 1) {
-    return `Was ${activityStrings[0]}.`;
+    return `${prefix} ${activityStrings[0]}.`;
   } else if (numberOfActivities === 2) {
-    return `Was ${activityStrings[0]} and ${activityStrings[1]}.`;
+    return `${prefix} ${activityStrings[0]} ${join} ${activityStrings[1]}.`;
   } else {
-    return `Was ${activityStrings
+    return `${prefix} ${activityStrings
       .slice(0, numberOfActivities - 1)
-      .join(', ')}, and ${activityStrings[numberOfActivities - 1]}.`;
+      .join(', ')}, ${join} ${activityStrings[numberOfActivities - 1]}.`;
   }
 }
 

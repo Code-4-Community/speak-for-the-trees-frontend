@@ -234,14 +234,18 @@ const TreePage: React.FC<TreeProps> = ({
 
   const treePlantingRequest: JSX.Element = (
     <TreePlantingRequest>
-      <Trans t={t} i18nKey={'tree_planting_request'}>
-        The city of Boston plants new trees in the spring and fall primarily on
-        resident requests. Ask the city to plant a tree here at{' '}
-        <Typography.Link href={CITY_PLANTING_REQUEST_LINK} target="_blank">
-          this city tree planting request form
-        </Typography.Link>
-        !
-      </Trans>
+      <Trans
+        t={t}
+        i18nKey="tree_planting_request"
+        components={{
+          1: (
+            <Typography.Link
+              href={CITY_PLANTING_REQUEST_LINK}
+              target="_blank"
+            ></Typography.Link>
+          ),
+        }}
+      />
     </TreePlantingRequest>
   );
 
@@ -379,7 +383,7 @@ const TreePage: React.FC<TreeProps> = ({
                   <EntryList
                     entries={latestEntry.main}
                     canHide={false}
-                    title={t('tree_info.about')}
+                    title={t('info_tiles.about')}
                   />
                 </EntryDiv>
               )}
@@ -388,9 +392,9 @@ const TreePage: React.FC<TreeProps> = ({
                   <EntryList
                     entries={latestEntry.extra}
                     canHide={true}
-                    hideText={t('tree_info.hide_text')}
-                    showText={t('tree_info.show_text')}
-                    title={t('tree_info.additional_information')}
+                    hideText={t('info_tiles.hide_text')}
+                    showText={t('info_tiles.show_text')}
+                    title={t('info_tiles.additional_information')}
                   />
                 </EntryDiv>
               )}
