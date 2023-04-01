@@ -9,6 +9,9 @@ import {
   WHITE,
 } from '../../utils/colors';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+import { site } from '../../App';
+import { n } from '../../utils/stringFormat';
 
 const CardBox = styled.div`
   display: flex;
@@ -69,6 +72,10 @@ const EntryList: React.FC<EntryListProps> = ({
   showText,
   title,
 }) => {
+  const { t } = useTranslation(n(site, ['treePage']), {
+    nsMode: 'fallback',
+  });
+
   const [visible, setVisible] = useState<boolean>(!canHide);
 
   const toggleVisibility = (): void => {
@@ -95,7 +102,9 @@ const EntryList: React.FC<EntryListProps> = ({
 
       {canHide && (
         <ToggleButton type="text" onClick={toggleVisibility}>
-          {visible ? hideText || 'Hide Data' : showText || 'Show Data'}
+          {visible
+            ? hideText || t('info_tiles.hide_default')
+            : showText || t('info_tiles.show_default')}
         </ToggleButton>
       )}
     </>

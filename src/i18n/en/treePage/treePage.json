@@ -7,7 +7,9 @@
   "info_tiles": {
     "about": "About This Tree",
     "hide_text": "Hide Extra Tree Details",
+    "hide_default": "Hide Data",
     "show_text": "Click to Read More About This Tree",
+    "show_default": "Show Data",
     "additional_information": "Additional Information"
   },
   "messages": {

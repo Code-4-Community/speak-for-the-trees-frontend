@@ -122,7 +122,9 @@ const TreePage: React.FC<TreeProps> = ({
   monthYearOptions,
   tokens,
 }) => {
-  const { t } = useTranslation(n(site, ['myTrees']), { nsMode: 'fallback' });
+  const { t } = useTranslation(n(site, ['treePage', 'forms']), {
+    nsMode: 'fallback',
+  });
 
   const location = useLocation<RedirectStateProps>();
 
@@ -143,10 +145,18 @@ const TreePage: React.FC<TreeProps> = ({
   const onFinishRecordStewardship = (values: RecordStewardshipRequest) => {
     const activities: ActivityRequest = {
       date: values.activityDate.format('L'),
-      watered: values.stewardshipActivities.includes('Watered'),
-      mulched: values.stewardshipActivities.includes('Mulched'),
-      cleaned: values.stewardshipActivities.includes('Cleared Waste & Litter'),
-      weeded: values.stewardshipActivities.includes('Weeded'),
+      watered: values.stewardshipActivities.includes(
+        t('stewardship.activities.watered'),
+      ),
+      mulched: values.stewardshipActivities.includes(
+        t('stewardship.activities.mulched'),
+      ),
+      cleaned: values.stewardshipActivities.includes(
+        t('stewardship.activities.cleaned'),
+      ),
+      weeded: values.stewardshipActivities.includes(
+        t('stewardship.activities.weeded'),
+      ),
     };
     protectedApiClient
       .recordStewardship(id, activities)

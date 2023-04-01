@@ -5,6 +5,7 @@
     "genus": "Genus",
     "species": "Species",
     "commonName": "Common Name",
+    "scientificName": "Scientific Name",
     "diameter": "Diameter at Breast Height (inches)"
   },
   "extra": {

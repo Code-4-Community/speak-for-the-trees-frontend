@@ -117,15 +117,19 @@ export function getSEFieldDisplayName(field: SiteEntryField): string {
  * @param entries the list of entries
  */
 export function combineScientificName(entries: Entry[]): Entry[] {
+  const title_species = t('main.species', { ns: 'treeInfoTypes' });
+  const title_genus = t('main.genus', { ns: 'treeInfoTypes' });
+  const title_sci_name = t('main.scientificName', { ns: 'treeInfoTypes' });
+
   const newEntries: Entry[] = [];
   let species;
   let genus;
   entries.forEach((entry: Entry) => {
     switch (entry.title) {
-      case 'Species':
+      case title_species:
         species = entry.value;
         break;
-      case 'Genus':
+      case title_genus:
         genus = entry.value;
         break;
       default:
@@ -134,11 +138,11 @@ export function combineScientificName(entries: Entry[]): Entry[] {
     }
   });
   if (species && genus) {
-    newEntries.push({ title: 'Scientific Name', value: `${genus} ${species}` });
+    newEntries.push({ title: title_sci_name, value: `${genus} ${species}` });
   } else if (species) {
-    newEntries.push({ title: 'Species', value: species });
+    newEntries.push({ title: title_species, value: species });
   } else if (genus) {
-    newEntries.push({ title: 'Genus', value: genus });
+    newEntries.push({ title: title_genus, value: genus });
   }
 
   return newEntries;

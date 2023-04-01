@@ -139,13 +139,13 @@ export const MainSiteEntryNames: Record<string, string> = {
 };
 
 export const MainSiteEntryOrder: Record<string, number> = {
-  'Updated At': 1,
-  'Common Name': 2,
-  Genus: 3,
-  Species: 4,
-  'Scientific Name': 3,
-  'Diameter at Breast Height (inches)': 5,
-  Status: 6,
+  [t('main.updatedAt', { ns: 'treeInfoTypes' })]: 1,
+  [t('main.commonName', { ns: 'treeInfoTypes' })]: 2,
+  [t('main.genus', { ns: 'treeInfoTypes' })]: 3,
+  [t('main.species', { ns: 'treeInfoTypes' })]: 4,
+  [t('main.scientificName', { ns: 'treeInfoTypes' })]: 3,
+  [t('main.diameter', { ns: 'treeInfoTypes' })]: 5,
+  [t('main.status', { ns: 'treeInfoTypes' })]: 6,
 };
 
 export const ExtraSiteEntryNames: Record<string, string> = {
