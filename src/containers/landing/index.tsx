@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
@@ -90,8 +90,6 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
   const { windowType } = useWindowDimensions();
 
   const landingMapView = MapViews.TREES;
-
-  const [mapTypeId, setMapTypeId] = useState<MapTypes>(MapTypes.ROADMAP);
 
   return (
     <>
