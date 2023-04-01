@@ -29,7 +29,7 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
 }) => {
   const defaultZoom = STREET_ZOOM;
 
-  const [mapTypeId, setMapTypeId] = useMapTypeContext();
+  const [, setMapTypeId] = useMapTypeContext();
 
   const defaultCenter: google.maps.LatLngLiteral = site
     ? { lat: site.lat, lng: site.lng }

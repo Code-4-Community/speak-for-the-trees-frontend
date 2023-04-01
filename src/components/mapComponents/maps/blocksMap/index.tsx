@@ -25,7 +25,7 @@ const BlocksMap: React.FC<BlocksMapProps> = ({
   blocks,
   returnTo,
 }) => {
-  const [mapTypeId, setMapTypeId] = useMapTypeContext();
+  const [, setMapTypeId] = useMapTypeContext();
 
   const location = useLocation<MapStateProps>();
 
