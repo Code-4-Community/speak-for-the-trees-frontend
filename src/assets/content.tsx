@@ -4,26 +4,6 @@ import i18n from '../i18n/i18n';
 export const TEAMS_TITLE = 'Available Teams';
 export const TEAMS_HEADER = 'Take a peek at the teams accepting new members!';
 
-// Home
-export const HOME_TITLE = 'Welcome back, ';
-export const HOME_HEADER = "Let's get back to those trees, why don't we?";
-
-// Login
-export const LOGIN_TITLE = 'Log In';
-export const LOGIN_HEADER = 'Welcome back!';
-export const LOGIN_BODY =
-  "Thanks for volunteering with us! Your work is vital in supporting the health of Boston's urban forest. " +
-  "Let's get back to those trees.";
-export const LOGIN_ERROR = 'The email or password you entered was incorrect.';
-
-// Signup
-export const SIGNUP_TITLE = 'Sign Up';
-export const SIGNUP_HEADER = 'Nice to meet you!';
-export const SIGNUP_BODY =
-  'Thanks for your interest in volunteering with us! Taking care of over 9,000 trees (and counting!) is much ' +
-  "harder than it seems, but with our dedicated volunteers, we're able to make Boston a cleaner, safer, and " +
-  'more equitable community one tree at a time. Welcome to the team!';
-
 // Team Leaderboard
 export const TEAM_LEADERBOARD_TITLE = 'Team Leaderboard';
 export const TEAM_LEADERBOARD_HEADER =

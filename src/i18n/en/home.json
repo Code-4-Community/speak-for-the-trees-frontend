@@ -1,0 +1,15 @@
+{
+  "home": "Home",
+  "title": "Welcome back, ",
+  "header": "Let's get back to those trees, why don't we?",
+  "quick_links": "Quick Links",
+  "link_cards": {
+    "my_blocks": "My Blocks",
+    "view_teams": "View Teams",
+    "volunteer_leaderboard": "Volunteer Leaderboard",
+    "team_leaderboard": "Team Leaderboard",
+    "my_trees": "My Trees",
+    "settings": "Settings",
+    "reports": "Reports"
+  }
+}

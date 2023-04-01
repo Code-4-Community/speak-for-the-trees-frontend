@@ -6,6 +6,11 @@ import {
   forgotPassword,
   forgotPasswordReset,
   reports,
+  login,
+  signup,
+  home,
+  settings,
+  faq,
   forms,
   tables,
   content,
@@ -29,6 +34,11 @@ const resources = {
     forgotPassword,
     forgotPasswordReset,
     reports,
+    login,
+    signup,
+    home,
+    settings,
+    faq,
     forms,
     tables,
     content,
@@ -56,7 +66,7 @@ i18n
     // you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage
     // if you're using a language detector, do not define the lng option
     fallbackLng: 'en',
-    debug: true,
+    debug: process.env.NODE_ENV === 'development',
     returnNull: false,
 
     interpolation: {

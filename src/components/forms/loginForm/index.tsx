@@ -5,6 +5,9 @@ import styled from 'styled-components';
 import { WindowTypes } from '../../windowDimensions';
 import { FormInstance } from 'antd/es/form';
 import { enterEmailRules, loginPasswordRules } from '../../../utils/formRules';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../../utils/stringFormat';
+import { site } from '../../../App';
 
 interface LoginFormProps {
   readonly formInstance: FormInstance;
@@ -33,18 +36,20 @@ const LoginForm: React.FC<LoginFormProps> = ({
   onFinish,
   windowType,
 }) => {
+  const { t } = useTranslation(n(site, ['forms']), { nsMode: 'fallback' });
+
   return (
     <>
       <Form name="basic" form={formInstance} onFinish={onFinish}>
         <Form.Item name="email" rules={enterEmailRules}>
-          <Input placeholder="Email" />
+          <Input placeholder={t('email')} />
         </Form.Item>
         <Form.Item name="password" rules={loginPasswordRules}>
-          <Input.Password placeholder="Password" />
+          <Input.Password placeholder={t('password')} />
         </Form.Item>
         <StyledFormItem windowtype={windowType}>
           <LoginButton type="primary" htmlType="submit" size="large">
-            Log In
+            {t('log_in')}
           </LoginButton>
         </StyledFormItem>
       </Form>

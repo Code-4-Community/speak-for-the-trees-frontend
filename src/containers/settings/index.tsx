@@ -19,6 +19,9 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../utils/stringFormat';
+import { site } from '../../App';
 
 const formLayout = {
   wrapperCol: { span: 17 },
@@ -59,6 +62,10 @@ const DeleteAccountContainer = styled.div`
 `;
 
 const Settings: React.FC = () => {
+  const { t } = useTranslation(n(site, ['settings', 'forms']), {
+    nsMode: 'fallback',
+  });
+
   const [showDeleteForm, setShowDeleteForm] = useState<boolean>(false);
   const { windowType } = useWindowDimensions();
   const userFullName = useSelector((state: C4CState) =>
@@ -74,7 +81,7 @@ const Settings: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Settings</title>
+        <title>{t('settings')}</title>
         <meta
           name="description"
           content="Where the user can change their account settings, including their username, email, and password, and delete their account."
@@ -88,26 +95,34 @@ const Settings: React.FC = () => {
             return (
               <PageLayout>
                 <SettingsContainer>
-                  <PageHeader pageTitle="Account Settings" />
+                  <PageHeader pageTitle={t('title')} />
 
                   <Row>
                     <Col span={cSpan}>
-                      <FormTitle>Profile</FormTitle>
-                      <UserInformationText strong>Name</UserInformationText>
+                      <FormTitle>{t('header.profile')}</FormTitle>
+                      <UserInformationText strong>
+                        {t('name')}
+                      </UserInformationText>
                       <UserInformationText>{userFullName}</UserInformationText>
-                      <UserInformationText strong>Username</UserInformationText>
+                      <UserInformationText strong>
+                        {t('username')}
+                      </UserInformationText>
                       <UserInformationText>{userUsername}</UserInformationText>
-                      <UserInformationText strong>Email</UserInformationText>
+                      <UserInformationText strong>
+                        {t('email')}
+                      </UserInformationText>
                       <UserInformationText>{userEmail}</UserInformationText>
-                      <FormTitle>Change Username</FormTitle>
+
+                      <FormTitle>{t('header.change_username')}</FormTitle>
                       <ChangeUsernameForm formLayout={formLayout} />
+
                       <DeleteAccountContainer>
-                        <FormTitle>Deactivate or Delete Account</FormTitle>
+                        <FormTitle>{t('header.delete_account')}</FormTitle>
                         <SubmitButton
                           type="primary"
                           onClick={() => setShowDeleteForm(true)}
                         >
-                          Continue
+                          {t('continue')}
                         </SubmitButton>
                       </DeleteAccountContainer>
                       <Modal
@@ -116,11 +131,10 @@ const Settings: React.FC = () => {
                         onCancel={() => setShowDeleteForm(false)}
                       >
                         <Typography.Title level={2}>
-                          Delete Account
+                          {t('delete_account_modal.title')}
                         </Typography.Title>
                         <Typography.Paragraph>
-                          Enter your password to confirm you'd like to
-                          permanently delete your account!
+                          {t('delete_account_modal.confirmation')}
                         </Typography.Paragraph>
                         <DeleteAccountForm />
                       </Modal>
@@ -129,10 +143,10 @@ const Settings: React.FC = () => {
                     <Col span={1} />
 
                     <Col span={cSpan}>
-                      <FormTitle>Change Email</FormTitle>
+                      <FormTitle>{t('header.change_email')}</FormTitle>
                       <ChangeEmailForm formLayout={formLayout} />
 
-                      <FormTitle>Change Password</FormTitle>
+                      <FormTitle>{t('header.change_password')}</FormTitle>
                       <ChangePasswordForm formLayout={formLayout} />
                     </Col>
                   </Row>
@@ -142,35 +156,36 @@ const Settings: React.FC = () => {
           case WindowTypes.Mobile:
             return (
               <MobileSettingsContainer>
-                <PageHeader pageTitle="Account Settings" isMobile={true} />
-                <FormTitle>Profile</FormTitle>
+                <PageHeader pageTitle={t('title')} isMobile={true} />
+                <FormTitle>{t('header.profile')}</FormTitle>
                 <UserInformationText>{userFullName}</UserInformationText>
                 <UserInformationText>{userEmail}</UserInformationText>
-                <FormTitle>Change Username</FormTitle>
+                <FormTitle>{t('header.change_username')}</FormTitle>
                 <ChangeUsernameForm formLayout={formLayout} />
 
-                <FormTitle>Change Email</FormTitle>
+                <FormTitle>{t('header.change_email')}</FormTitle>
                 <ChangeEmailForm formLayout={formLayout} />
 
-                <FormTitle>Change Password</FormTitle>
+                <FormTitle>{t('header.change_password')}</FormTitle>
                 <ChangePasswordForm formLayout={formLayout} />
 
-                <FormTitle>Deactivate or Delete Account</FormTitle>
+                <FormTitle>{t('header.delete_account')}</FormTitle>
                 <SubmitButton
                   type="primary"
                   onClick={() => setShowDeleteForm(true)}
                 >
-                  Continue
+                  {t('continue')}
                 </SubmitButton>
                 <Modal
                   visible={showDeleteForm}
                   footer={null}
                   onCancel={() => setShowDeleteForm(false)}
                 >
-                  <Typography.Title level={2}>Delete Account</Typography.Title>
+                  <Typography.Title level={2}>
+                    {t('delete_account_modal.title')}
+                  </Typography.Title>
                   <Typography.Paragraph>
-                    Enter your password to confirm you'd like to permanently
-                    delete your account!
+                    {t('delete_account_modal.confirmation')}
                   </Typography.Paragraph>
                   <DeleteAccountForm />
                 </Modal>
