@@ -1,5 +1,6 @@
 export const BLACK = '#000000';
 export const TEXT_GREY = '#AFAEAE';
+export const DARK_TEXT_GREY = '#646464';
 export const LIGHT_GREY = '#E5E5E5';
 export const BACKGROUND_GREY = '#F3F3F3';
 export const DARK_GREY = '#444444';

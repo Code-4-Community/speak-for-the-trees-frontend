@@ -10,7 +10,7 @@ import { isLoggedIn } from '../../auth/ducks/selectors';
 import { RedirectStateProps, Routes, site } from '../../App';
 import { Form, message, Typography } from 'antd';
 import styled from 'styled-components';
-import { BLACK, TEXT_GREY, WHITE } from '../../utils/colors';
+import {BLACK, DARK_TEXT_GREY, WHITE} from '../../utils/colors';
 import {
   InputContainer,
   InputGreetingContainer,
@@ -36,7 +36,7 @@ const Line = styled.div`
 `;
 
 const Footer = styled(Typography.Paragraph)`
-  color: ${TEXT_GREY};
+  color: ${DARK_TEXT_GREY};
   line-height: 1.5;
   margin-top: 1.5vh;
   margin-bottom: -10px;
