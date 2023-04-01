@@ -6,24 +6,29 @@ import { enterEmailRules, loginPasswordRules } from '../../../utils/formRules';
 import { ChangeEmailRequest } from '../ducks/types';
 import { SubmitButton } from '../../themedComponents';
 import { getUserData } from '../../../auth/ducks/thunks';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../../utils/stringFormat';
+import { site } from '../../../App';
 
 interface ChangeEmailFormProps {
   readonly formLayout: { wrapperCol: { span: number } };
 }
 
 const ChangeEmailForm: React.FC<ChangeEmailFormProps> = ({ formLayout }) => {
+  const { t } = useTranslation(n(site, ['forms']), { nsMode: 'fallback' });
+
   const [changeEmailForm] = Form.useForm();
   const dispatch = useDispatch();
 
   const onFinishChangeEmail = (values: ChangeEmailRequest) => {
     ProtectedApiClient.changeEmail(values)
       .then(() => {
-        message.success('Email changed!');
+        message.success(t('change_email.success'));
         changeEmailForm.resetFields();
         dispatch(getUserData());
       })
       .catch((err) =>
-        message.error(`Email could not be changed: ${err.response.data}`),
+        message.error(t('change_email.error', { error: err.response.data })),
       );
   };
 
@@ -35,14 +40,14 @@ const ChangeEmailForm: React.FC<ChangeEmailFormProps> = ({ formLayout }) => {
       {...formLayout}
     >
       <Form.Item name="newEmail" rules={enterEmailRules}>
-        <Input placeholder="New Email Address" />
+        <Input placeholder={t('change_email.new_email')} />
       </Form.Item>
       <Form.Item name="password" rules={loginPasswordRules}>
-        <Input.Password placeholder="Password" />
+        <Input.Password placeholder={t('password')} />
       </Form.Item>
       <Form.Item>
         <SubmitButton type="primary" htmlType="submit">
-          Save
+          {t('save')}
         </SubmitButton>
       </Form.Item>
     </Form>

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import StewardshipReportTable from '../../components/tables/stewardshipReportTable';
 import ProtectedApiClient from '../../api/protectedApiClient';
 import { Form, message, Skeleton, Tabs, Typography } from 'antd';
+import { site } from '../../App';
 import { AdoptionReport, StewardshipReport } from './ducks/types';
 import { Helmet } from 'react-helmet';
 import PageLayout from '../../components/pageLayout';
@@ -9,7 +11,7 @@ import styled from 'styled-components';
 import PageHeader from '../../components/pageHeader';
 import FeaturedStats from '../../components/featuredStats';
 import AdoptionReportTable from '../../components/tables/adoptionReportTable';
-import { getDotDateString, getErrorMessage } from '../../utils/stringFormat';
+import { getDotDateString, getErrorMessage, n } from '../../utils/stringFormat';
 import {
   getCountAdoptedInPastWeek,
   getStewardshipTableReport,
@@ -33,6 +35,8 @@ export enum ReportTypes {
 }
 
 const Reports: React.FC = () => {
+  const { t } = useTranslation(n(site, ['reports']), { nsMode: 'fallback' });
+
   const [adoptionReport, setAdoptionReport] = useState<AdoptionReport>();
   const [stewardshipReport, setStewardshipReport] =
     useState<StewardshipReport>();
@@ -51,14 +55,16 @@ const Reports: React.FC = () => {
           )
           .catch((err) =>
             message.error(
-              `Could not get stewardship report: ${getErrorMessage(err)}`,
+              t('messages.stewardship_error', { error: getErrorMessage(err) }),
             ),
           );
       })
       .catch((err) =>
-        message.error(`Could not get adoption report: ${getErrorMessage(err)}`),
+        message.error(
+          t('messages.adoption_error', { error: getErrorMessage(err) }),
+        ),
       );
-  }, []);
+  }, [t]);
 
   const onClickExportData = () => {
     const today = new Date();
@@ -77,7 +83,7 @@ const Reports: React.FC = () => {
           })
           .catch((err: AppError) =>
             message.error(
-              `Could not get adoption report: ${getErrorMessage(err)}`,
+              t('messages.adoption_error', { error: getErrorMessage(err) }),
             ),
           );
         break;
@@ -91,7 +97,7 @@ const Reports: React.FC = () => {
           })
           .catch((err: AppError) =>
             message.error(
-              `Could not get stewardship report: ${getErrorMessage(err)}`,
+              t('messages.stewardship_error', { error: getErrorMessage(err) }),
             ),
           );
     }
@@ -105,7 +111,7 @@ const Reports: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Reports</title>
+        <title>{t('reports')}</title>
         <meta
           name="description"
           content="A page where admins can see and download the latest adoption and stewardship reports."
@@ -113,27 +119,27 @@ const Reports: React.FC = () => {
       </Helmet>
       <PageLayout>
         <PaddedPageContainer>
-          <PageHeader pageTitle={'Site Report'} />
+          <PageHeader pageTitle={t('site_report')} />
           <FeaturedStatsSection>
             <FeaturedStats
               featuredStats={[
                 {
-                  title: 'Adopted Trees',
+                  title: t('stats.adopted_trees'),
                   stat: adoptionReport?.adoptionReport.length,
                 },
                 {
-                  title: 'Trees Adopted Since Last Week',
+                  title: t('stats.adopted_trees_last_week'),
                   stat: getCountAdoptedInPastWeek(adoptionReport),
                 },
                 {
-                  title: 'Stewardship Activities Performed',
+                  title: t('stats.stewardships_performed'),
                   stat: stewardshipReport?.stewardshipReport.length,
                 },
               ]}
             />
           </FeaturedStatsSection>
           <Tabs defaultActiveKey={'1'} type={'card'} size={'large'}>
-            <Tabs.TabPane tab={'Adoption Report'} key={'1'}>
+            <Tabs.TabPane tab={t('table_name.adoption')} key={'1'}>
               <Skeleton active loading={adoptionReport === undefined}>
                 {adoptionReport && (
                   <AdoptionReportTable
@@ -142,7 +148,7 @@ const Reports: React.FC = () => {
                 )}
               </Skeleton>
             </Tabs.TabPane>
-            <Tabs.TabPane tab={'Stewardship Report'} key={'2'}>
+            <Tabs.TabPane tab={t('table_name.stewardship')} key={'2'}>
               <Skeleton active loading={stewardshipReport === undefined}>
                 {stewardshipReport && (
                   <StewardshipReportTable
@@ -156,7 +162,9 @@ const Reports: React.FC = () => {
           </Tabs>
 
           <ExportDataSection>
-            <Typography.Title level={3}>Download Reports</Typography.Title>
+            <Typography.Title level={3}>
+              {t('download_reports')}
+            </Typography.Title>
             <ExportDataForm
               formInstance={exportDataForm}
               onFinish={onClickExportData}

@@ -19,10 +19,11 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import PageLayout from '../../components/pageLayout';
-import { RedirectStateProps, Routes } from '../../App';
+import { RedirectStateProps, Routes, site } from '../../App';
 import { isLoggedIn } from '../../auth/ducks/selectors';
-import { SIGNUP_BODY, SIGNUP_HEADER, SIGNUP_TITLE } from '../../assets/content';
 import { SignupFormValues } from '../../components/forms/ducks/types';
+import { Trans, useTranslation } from 'react-i18next';
+import { n } from '../../utils/stringFormat';
 
 const MobileSignupPageContainer = styled.div`
   padding: 30px;
@@ -48,6 +49,10 @@ const Footer = styled(Typography.Paragraph)`
 const offsetSpan = 1;
 
 const Signup: React.FC = () => {
+  const { t } = useTranslation(n(site, ['signup', 'forms']), {
+    nsMode: 'fallback',
+  });
+
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const location = useLocation<RedirectStateProps>();
@@ -83,7 +88,7 @@ const Signup: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Sign Up</title>
+          <title>{t('title')}</title>
           <meta
             name="description"
             content="Where the user can create a new account"
@@ -94,17 +99,23 @@ const Signup: React.FC = () => {
             case WindowTypes.Mobile:
               return (
                 <MobileSignupPageContainer>
-                  <PageHeader pageTitle={SIGNUP_TITLE} isMobile={true} />
+                  <PageHeader pageTitle={t('title')} isMobile={true} />
                   <SignupForm formInstance={signupForm} onFinish={onSignup}>
                     <Form.Item>
                       <Button type="primary" htmlType="submit" size="large">
-                        Sign Up
+                        {t('sign_up')}
                       </Button>
                     </Form.Item>
                     <Footer>
-                      ALREADY HAVE AN ACCOUNT?
+                      {t('have_account.already_have_account')}
                       <br />
-                      LOGIN <Link to={Routes.LOGIN}>HERE!</Link>
+                      <Trans
+                        ns="signup"
+                        i18nKey="have_account.login_here"
+                        components={{
+                          loginLink: <Link to={Routes.LOGIN} />,
+                        }}
+                      />
                     </Footer>
                   </SignupForm>
                 </MobileSignupPageContainer>
@@ -116,7 +127,7 @@ const Signup: React.FC = () => {
                 <PageLayout>
                   <InputGreetingContainer>
                     <InputContainer>
-                      <Title>{SIGNUP_TITLE}</Title>
+                      <Title>{t('title')}</Title>
                       <Line />
                       <SignupForm formInstance={signupForm} onFinish={onSignup}>
                         <Row>
@@ -127,16 +138,22 @@ const Signup: React.FC = () => {
                                 htmlType="submit"
                                 size="large"
                               >
-                                Sign Up
+                                {t('sign_up')}
                               </Button>
                             </Form.Item>
                           </Col>
                           <Col span={offsetSpan} />
                           <Col>
                             <Footer>
-                              ALREADY HAVE AN ACCOUNT?
+                              {t('have_account.already_have_account')}
                               <br />
-                              LOGIN <Link to={Routes.LOGIN}>HERE!</Link>
+                              <Trans
+                                ns="signup"
+                                i18nKey="have_account.login_here"
+                                components={{
+                                  loginLink: <Link to={Routes.LOGIN} />,
+                                }}
+                              />
                             </Footer>
                           </Col>
                         </Row>
@@ -144,8 +161,8 @@ const Signup: React.FC = () => {
                     </InputContainer>
 
                     <GreetingContainer
-                      header={SIGNUP_HEADER}
-                      body={SIGNUP_BODY}
+                      header={t('header')}
+                      body={t('body', { joinArrays: ' ' })}
                     />
                   </InputGreetingContainer>
                 </PageLayout>

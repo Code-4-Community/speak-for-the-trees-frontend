@@ -6,7 +6,11 @@ import {
   PrivilegeLevel,
   UserAuthenticationReducerState,
 } from './auth/ducks/types';
-import { getPrivilegeLevel, getUserFullName } from './auth/ducks/selectors';
+import {
+  getPrivilegeLevel,
+  isAdmin,
+  getUserFullName,
+} from './auth/ducks/selectors';
 import { C4CState } from './store';
 
 import styled from 'styled-components';
@@ -39,6 +43,11 @@ type AppProps = UserAuthenticationReducerState;
 
 export enum Languages {
   ENGLISH = 'ENG',
+}
+
+export enum Websites {
+  SFTT = 'SFTT',
+  CAMBRiDGE = 'CAMBRIDGE',
 }
 
 export enum ParameterizedRouteBases {
@@ -81,6 +90,9 @@ export interface MapStateProps {
   readonly lng: number;
 }
 
+export const site =
+  (process.env.REACT_APP_WEBSITE as Websites) || Websites.SFTT;
+
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -95,6 +107,10 @@ const App: React.FC = () => {
 
   const userName: string = useSelector((state: C4CState) => {
     return getUserFullName(state.authenticationState.userData);
+  });
+
+  const isAnAdmin: boolean = useSelector((state: C4CState) => {
+    return isAdmin(state.authenticationState.tokens);
   });
 
   return (
@@ -112,10 +128,7 @@ const App: React.FC = () => {
             userName={
               privilegeLevel !== PrivilegeLevel.NONE ? userName : undefined
             }
-            isAdmin={
-              privilegeLevel === PrivilegeLevel.ADMIN ||
-              privilegeLevel === PrivilegeLevel.SUPER_ADMIN
-            }
+            isAdmin={isAnAdmin}
             onLogout={onLogout}
           />
           <Layout.Content>

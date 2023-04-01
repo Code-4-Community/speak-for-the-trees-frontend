@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
 import authClient from '../../auth/authClient';
 import { ForgotPasswordRequest } from '../../auth/ducks/types';
 import useWindowDimensions from '../../components/windowDimensions';
 import { Button, Form, Input, Typography } from 'antd';
+import { site } from '../../App';
 import PageHeader from '../../components/pageHeader';
 import { ContentContainer } from '../../components/themedComponents';
 import { isMobile } from '../../utils/isCheck';
 import { enterEmailRules } from '../../utils/formRules';
+import { n } from '../../utils/stringFormat';
 
 const ForgotPassword: React.FC = () => {
+  const { t } = useTranslation(n(site, ['forgotPassword', 'forms']), {
+    nsMode: 'fallback',
+  });
+
   const { windowType } = useWindowDimensions();
 
   const [email, setEmail] = useState('');
@@ -31,31 +38,26 @@ const ForgotPassword: React.FC = () => {
         />
       </Helmet>
       <ContentContainer>
-        <PageHeader
-          pageTitle="Forgot your password?"
-          isMobile={isMobile(windowType)}
-        />
+        <PageHeader pageTitle={t('header')} isMobile={isMobile(windowType)} />
         {email === '' ? (
           <>
             <Typography.Title level={4}>
-              Please enter your email and we will send you the password reset
-              instructions to the email address for this account.
+              {t('reset_instructions')}
             </Typography.Title>
             <Form name="forgotPassword" onFinish={onFinish}>
               <Form.Item name="email" rules={enterEmailRules}>
-                <Input placeholder="Email" />
+                <Input placeholder={t('email')} />
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit" size="large">
-                  Submit
+                  {t('submit')}
                 </Button>
               </Form.Item>
             </Form>
           </>
         ) : (
           <Typography.Title level={4}>
-            If an account is registered under {email}, we have sent you a link
-            to reset your password.
+            {t('send_reset_email', { email })}
           </Typography.Title>
         )}
       </ContentContainer>

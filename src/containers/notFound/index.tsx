@@ -1,11 +1,15 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import { Routes } from '../../App';
+import { useTranslation } from 'react-i18next';
+import { Routes, site } from '../../App';
 import { ContentContainer } from '../../components/themedComponents';
 import { Typography } from 'antd';
+import { n } from '../../utils/stringFormat';
 
 const NotFound: React.FC = () => {
+  const { t } = useTranslation(n(site, ['notFound']), { nsMode: 'fallback' });
+
   return (
     <>
       <Helmet>
@@ -16,11 +20,9 @@ const NotFound: React.FC = () => {
         />
       </Helmet>
       <ContentContainer>
-        <Typography.Title>
-          Oops! We can't find the page you're looking for.
-        </Typography.Title>
+        <Typography.Title>{t('title')}</Typography.Title>
         <Link to={Routes.HOME}>
-          <Typography.Link>Take me back home!</Typography.Link>
+          <Typography.Link>{t('home_redirect')}</Typography.Link>
         </Link>
       </ContentContainer>
     </>

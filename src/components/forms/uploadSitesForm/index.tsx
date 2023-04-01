@@ -56,6 +56,11 @@ const UploadSitesForm: React.FC = () => {
           <Button icon={<UploadOutlined />}>Upload .csv</Button>
         </Upload>
       </Form.Item>
+      <div>
+        <a href="https://d2j3fegnzkmagm.cloudfront.net/add_sites_template.csv">
+          Download CSV template
+        </a>
+      </div>
       <SubmitButton type="primary" htmlType="submit">
         Upload
       </SubmitButton>
