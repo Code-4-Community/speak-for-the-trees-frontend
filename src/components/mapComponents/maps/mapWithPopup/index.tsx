@@ -195,7 +195,16 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
         })
         .catch((err) => message.error(err.message));
     }
-  }, [mapElement, treePopupElement, view, zoom, lat, lng, initMapCallback]);
+  }, [
+    mapElement,
+    treePopupElement,
+    view,
+    zoom,
+    lat,
+    lng,
+    initMapCallback,
+    windowType,
+  ]);
 
   return (
     <>
