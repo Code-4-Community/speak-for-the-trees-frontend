@@ -7,8 +7,11 @@ import TreePopup, { BasicTreeInfo } from '../../../treePopup';
 import styled from 'styled-components';
 import { goToPlace } from '../../logic/view';
 import { InitMapData } from '../../ducks/types';
-import { BREAKPOINT_TABLET } from '../../../windowDimensions';
+import useWindowDimensions, {
+  BREAKPOINT_TABLET,
+} from '../../../windowDimensions';
 import { MapTypes } from '../../../../context/types';
+import { isMobile } from '../../../../utils/isCheck';
 
 const StyledSearch = styled(Input.Search)`
   width: 20vw;
@@ -61,6 +64,8 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
 
   const [searchInput, setSearchInput] = useState('');
 
+  const { windowType } = useWindowDimensions();
+
   useEffect(() => {
     setMapElement(mapRef.current);
   }, [mapRef]);
@@ -79,7 +84,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
             fullscreenControl: false,
             mapTypeControl: true,
             mapTypeControlOptions: {
-              position: google.maps.ControlPosition.TOP_RIGHT,
+              position: google.maps.ControlPosition.RIGHT_TOP,
               mapTypeIds: ['roadmap', 'satellite'],
             },
             restriction: {
@@ -87,6 +92,13 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
               strictBounds: false,
             },
           });
+
+          if (isMobile(windowType)) {
+            // Move mapTypeControl down
+            const emptyDiv = document.createElement('div');
+            emptyDiv.setAttribute('style', 'height: 40px;');
+            map.controls[google.maps.ControlPosition.TOP_RIGHT].push(emptyDiv);
+          }
 
           // Declare everything that must be created within the loader
           // A class for the custom popup
