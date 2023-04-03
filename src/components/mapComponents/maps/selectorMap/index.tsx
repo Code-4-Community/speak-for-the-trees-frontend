@@ -12,6 +12,7 @@ import MapWithPopup from '../mapWithPopup';
 import { SiteProps } from '../../../../containers/treePage/ducks/types';
 import { InitMapData } from '../../ducks/types';
 import { initSiteView } from '../../logic/init';
+import { useMapTypeContext } from '../../../../context/mapTypeContext';
 
 interface SelectorMapProps {
   readonly neighborhoods: NeighborhoodGeoData;
@@ -27,6 +28,8 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
   site,
 }) => {
   const defaultZoom = STREET_ZOOM;
+
+  const [, setMapTypeId] = useMapTypeContext();
 
   const defaultCenter: google.maps.LatLngLiteral = site
     ? { lat: site.lat, lng: site.lng }
@@ -56,7 +59,12 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
       }
     });
 
-    const mapLayersAndListeners = initSiteView(mapData, neighborhoods, sites);
+    const mapLayersAndListeners = initSiteView(
+      mapData,
+      neighborhoods,
+      sites,
+      setMapTypeId,
+    );
 
     const setMapData: ReturnMapData = {
       map: mapData.map,
@@ -66,6 +74,7 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
       sitesLayer: mapLayersAndListeners.sitesLayer,
       searchMarker,
       zoomListener: mapLayersAndListeners.zoomListener,
+      mapTypeListener: mapLayersAndListeners.mapTypeListener,
       markersArray: mapData.markersArray,
     };
 

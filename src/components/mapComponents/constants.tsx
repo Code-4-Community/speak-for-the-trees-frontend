@@ -1,13 +1,14 @@
-import React from 'react';
 import { Loader } from '@googlemaps/js-api-loader';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
-import { ReactNode } from 'react';
-import { FullWidthSpace, InlineImage } from '../themedComponents';
 import youngTreeIcon from '../../assets/images/siteIcons/youngIcon.svg';
 import standardTreeIcon from '../../assets/images/siteIcons/standardIcon.svg';
 import adoptedTreeIcon from '../../assets/images/siteIcons/adoptedIcon.svg';
 import openSiteIcon from '../../assets/images/siteIcons/openIcon.svg';
-import { Typography } from 'antd';
+import satelliteYoungIcon from '../../assets/images/siteIcons/satelliteYoungIcon.svg';
+import satelliteStandardIcon from '../../assets/images/siteIcons/satelliteStandardIcon.svg';
+import satelliteAdoptedIcon from '../../assets/images/siteIcons/satelliteAdoptedIcon.svg';
+import satelliteOpenIcon from '../../assets/images/siteIcons/satelliteOpenIcon.svg';
+import { SiteOption } from './ducks/types';
 
 const MAP_ID = '76c08a2450c223d9';
 export const LOADER = new Loader({
@@ -34,35 +35,55 @@ export const YOUNG_TREE_DATE = new Date().setFullYear(
   new Date().getFullYear() - 3,
 );
 
-const treeSpan = (treeIcon: string, labelString: string): ReactNode => {
-  return (
-    <FullWidthSpace direction={'horizontal'} size={'small'}>
-      <InlineImage src={treeIcon} preview={false} />
-      <Typography.Text>{labelString}</Typography.Text>
-    </FullWidthSpace>
-  );
-};
 export const ALL_SITES_VISIBLE: CheckboxValueType[] = [
   'Young',
   'Adopted',
   'Standard',
   'Open',
 ];
-export const SITE_OPTIONS: { label: ReactNode; value: string }[] = [
+
+export const SITE_OPTIONS_ROADMAP: SiteOption[] = [
   {
-    label: treeSpan(youngTreeIcon, 'Young Trees'),
+    image: youngTreeIcon,
+    label: 'Young Trees',
     value: 'Young',
   },
   {
-    label: treeSpan(standardTreeIcon, 'Older Trees'),
+    image: standardTreeIcon,
+    label: 'Older Trees',
     value: 'Standard',
   },
   {
-    label: treeSpan(adoptedTreeIcon, 'Adopted Trees'),
+    image: adoptedTreeIcon,
+    label: 'Adopted Trees',
     value: 'Adopted',
   },
   {
-    label: treeSpan(openSiteIcon, 'Planting Sites'),
+    image: openSiteIcon,
+    label: 'Planting Sites',
+    value: 'Open',
+  },
+];
+
+export const SITE_OPTIONS_SATELLITE: SiteOption[] = [
+  {
+    image: satelliteYoungIcon,
+    label: 'Young Trees',
+    value: 'Young',
+  },
+  {
+    image: satelliteStandardIcon,
+    label: 'Older Trees',
+    value: 'Standard',
+  },
+  {
+    image: satelliteAdoptedIcon,
+    label: 'Adopted Trees',
+    value: 'Adopted',
+  },
+  {
+    image: satelliteOpenIcon,
+    label: 'Planting Sites',
     value: 'Open',
   },
 ];

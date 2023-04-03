@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { goToPlace } from '../../logic/view';
 import { InitMapData } from '../../ducks/types';
 import { BREAKPOINT_TABLET } from '../../../windowDimensions';
+import { MapTypes } from '../../../../context/types';
 
 const StyledSearch = styled(Input.Search)`
   width: 20vw;
@@ -76,7 +77,11 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
             center: { lat, lng },
             zoom,
             fullscreenControl: false,
-            mapTypeControl: false,
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+              position: google.maps.ControlPosition.TOP_RIGHT,
+              mapTypeIds: ['roadmap', 'satellite'],
+            },
             restriction: {
               latLngBounds: BOSTON_BOUNDS,
               strictBounds: false,
@@ -138,6 +143,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
             markersArray,
             popPopup,
             setActiveTreeInfo,
+            mapTypeId: MapTypes.ROADMAP,
           };
 
           const setMapData = initMapCallback(thisMapData);

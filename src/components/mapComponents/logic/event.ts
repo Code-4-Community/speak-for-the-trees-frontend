@@ -11,6 +11,7 @@ import {
 import { BasicTreeInfo } from '../../treePopup';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { parseLatLng } from '../../../utils/stringFormat';
+import { MapTypes, SetStateType } from '../../../context/types';
 
 // Logic for adding event listeners and handling events
 
@@ -154,12 +155,16 @@ export function addHandleZoomChange(
 ): google.maps.MapsEventListener {
   return google.maps.event.addListener(map, 'zoom_changed', () => {
     const zoomLevel = map.getZoom();
-    let zoomedIn = false;
+    const zoomedIn = zoomLevel >= view;
 
-    if (zoomLevel >= view) {
-      zoomedIn = true;
-    }
-    setNeighborhoodsStyle(neighborhoodsLayer, markersArray, !zoomedIn);
+    const mapTypeId = convertToMapTypes(map.getMapTypeId());
+
+    setNeighborhoodsStyle(
+      neighborhoodsLayer,
+      markersArray,
+      !zoomedIn,
+      mapTypeId,
+    );
     setPrivateStreetsStyle(privateStreetsLayer, false);
 
     switch (view) {
@@ -167,9 +172,49 @@ export function addHandleZoomChange(
         setBlocksStyle(blocksLayer, zoomedIn);
         break;
       case MapViews.TREES:
-        setSitesStyle(sitesLayer, visibleSites, zoomLevel, zoomedIn);
+        setSitesStyle(sitesLayer, visibleSites, zoomLevel, zoomedIn, mapTypeId);
         break;
     }
+  });
+}
+
+function convertToMapTypes(mapTypeId: google.maps.MapTypeId): MapTypes {
+  return (mapTypeId as string).toUpperCase() as MapTypes;
+}
+
+/**
+ * Adds an event listener to handle map type changes.
+ * @param neighborhoodsLayer the neighborhoods layer
+ * @param markersArray the array of neighborhood label markers
+ * @param sitesLayer the sites layer
+ * @param visibleSites which sites are visible
+ * @param view the view
+ * @param map the map
+ * @param setMapTypeId function to update the map type
+ */
+export function addHandleMapTypeChange(
+  neighborhoodsLayer: google.maps.Data,
+  markersArray: google.maps.Marker[],
+  sitesLayer: google.maps.Data,
+  visibleSites: CheckboxValueType[],
+  view: MapViews,
+  map: google.maps.Map,
+  setMapTypeId: SetStateType<MapTypes>,
+): google.maps.MapsEventListener {
+  return google.maps.event.addListener(map, 'maptypeid_changed', () => {
+    const zoomLevel = map.getZoom();
+    const zoomedIn = zoomLevel >= view;
+
+    const mapTypeId = convertToMapTypes(map.getMapTypeId());
+    setMapTypeId(mapTypeId);
+
+    setNeighborhoodsStyle(
+      neighborhoodsLayer,
+      markersArray,
+      !zoomedIn,
+      mapTypeId,
+    );
+    setSitesStyle(sitesLayer, visibleSites, zoomLevel, zoomedIn, mapTypeId);
   });
 }
 
@@ -183,8 +228,10 @@ export function getImageSize(zoomLevel: number): number {
   } else if (zoomLevel >= 19) {
     return 20;
   } else if (zoomLevel >= 18) {
-    return 13;
+    return 14;
+  } else if (zoomLevel >= 17) {
+    return 9;
   } else {
-    return 5;
+    return 6;
   }
 }
