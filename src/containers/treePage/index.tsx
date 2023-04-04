@@ -6,7 +6,7 @@ import { Col, Form, message, Row, Typography, Alert } from 'antd';
 import { RedirectStateProps, Routes } from '../../App';
 import { Helmet } from 'react-helmet';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
-import { isAdmin, isLoggedIn } from '../../auth/ducks/selectors';
+import { isLoggedIn } from '../../auth/ducks/selectors';
 import {
   ActivityRequest,
   MonthYearOption,

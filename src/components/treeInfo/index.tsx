@@ -198,6 +198,3 @@ const TreeInfo: React.FC<TreeProps> = ({
 };
 
 export default TreeInfo;
-function dispatch(arg0: any) {
-  throw new Error('Function not implemented.');
-}
