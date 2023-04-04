@@ -6,6 +6,7 @@ import { Routes } from '../../App';
 import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
 import PageHeader from '../../components/pageHeader';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const EmailPageContainer = styled.div`
   width: 90vw;
@@ -25,7 +26,7 @@ const Email: React.FC = () => {
       <PageLayout>
         <EmailPageContainer>
           <ReturnButton to={Routes.LANDING}>
-            {`<`} Return to Tree Map
+            <ArrowLeftOutlined /> Return to Tree Map
           </ReturnButton>
           <PageHeader pageTitle="Volunteer Emailer" />
           <Typography.Title level={4}>

@@ -45,6 +45,7 @@ import EntryList from '../../components/entryList';
 import { CenterDiv, ReturnButton } from '../../components/themedComponents';
 import { STREET_ZOOM } from '../../components/mapComponents/constants';
 import { CITY_PLANTING_REQUEST_LINK } from '../../assets/links';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const EntryDiv = styled(CenterDiv)`
   margin: 10px 0;
@@ -56,7 +57,7 @@ const TreePageContainer = styled.div`
 `;
 
 const TreeMainContainer = styled.div`
-  margin: 50px 30px 30px;
+  margin: 30px;
 `;
 
 const MobileTreeMainContainer = styled.div`
@@ -255,7 +256,7 @@ const TreePage: React.FC<TreeProps> = ({
                   activeId: siteData.result.siteId,
                 }}
               >
-                {`<`} Return to Tree Map
+                <ArrowLeftOutlined /> Return to Tree Map
               </ReturnButton>
 
               {(!siteData.result.entries[0] ||
@@ -266,6 +267,7 @@ const TreePage: React.FC<TreeProps> = ({
                   type="success"
                 />
               )}
+
               {(() => {
                 switch (windowType) {
                   case WindowTypes.Desktop:

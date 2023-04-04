@@ -117,6 +117,8 @@ export const WhiteButton = styled(Button)`
 `;
 
 export const ReturnButton = styled(LinkButton)`
+  margin-top: 20px;
+  margin-left: 30px;
   height: 45px;
   border-color: ${MID_GREEN};
   font-size: 18px;
