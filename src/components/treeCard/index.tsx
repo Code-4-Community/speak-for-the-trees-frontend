@@ -56,6 +56,7 @@ const TreeCard: React.FC<TreeCardProps> = ({ site }) => {
           >
             More Info
           </GreenLinkButton>
+
           <ShareButton
             size="middle"
             defaultText="Check out this tree I adopted!"
