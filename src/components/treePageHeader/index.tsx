@@ -15,6 +15,7 @@ import { getSiteData } from '../../containers/treePage/ducks/thunks';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { TreeParams } from '../../containers/treePage';
+import { DARK_TEXT_GREY } from '../../utils/colors';
 
 interface TreePageHeaderProps extends StyledSubtitleProps {
   readonly pageTitle: string;
@@ -31,12 +32,14 @@ const StyledEditOutline = styled(EditOutlined)`
 `;
 
 const TreeNameText = styled(StyledSubtitle)`
-  font-size: ${(props: StyledSubtitleProps) => (props.isMobile ? '14px' : '')};
+  font-size: ${(props: StyledSubtitleProps) =>
+    props.isMobile ? '14' : '20'}px;
   line-height: ${(props: StyledSubtitleProps) =>
-    props.isMobile ? '14px' : ''};
+    props.isMobile ? '14' : '24'}px;
   margin-top: ${(props: StyledSubtitleProps) =>
-    props.isMobile ? '-25px' : '-35px'};
+    props.isMobile ? '-25' : '-45'}px;
   text-transform: none;
+  color: ${DARK_TEXT_GREY};
 `;
 
 const AddressText = styled(StyledSubtitle)`

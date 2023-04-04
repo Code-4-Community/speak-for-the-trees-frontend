@@ -10,7 +10,12 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const EmailPageContainer = styled.div`
   width: 90vw;
-  margin: 30px auto auto;
+  margin-top: 30px;
+  margin-left: 70px;
+`;
+
+const EmailMainContainer = styled.div`
+  margin: 30px;
 `;
 
 const Email: React.FC = () => {
@@ -28,10 +33,12 @@ const Email: React.FC = () => {
           <ReturnButton to={Routes.LANDING}>
             <ArrowLeftOutlined /> Return to Tree Map
           </ReturnButton>
-          <PageHeader pageTitle="Volunteer Emailer" />
-          <Typography.Title level={4}>
-            Select a type of email to send volunteers
-          </Typography.Title>
+          <EmailMainContainer>
+            <PageHeader pageTitle="Volunteer Emailer" />
+            <Typography.Title level={4}>
+              Select a type of email to send volunteers
+            </Typography.Title>
+          </EmailMainContainer>
         </EmailPageContainer>
       </PageLayout>
     </>
