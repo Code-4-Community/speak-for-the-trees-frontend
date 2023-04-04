@@ -1082,7 +1082,7 @@ describe('Protected API Client Tests', () => {
 
   // Site tests
   describe('Protected Site Tests', () => {
-    describe('Add a site', () => {
+    describe('addSite', () => {
       it('makes the right request', async () => {
         const response = '';
 
@@ -1204,7 +1204,47 @@ describe('Protected API Client Tests', () => {
       });
     });
 
-    describe('Adopt a site', () => {
+    describe('addSites', () => {
+      it('makes the right request', async () => {
+        const response = '';
+
+        nock(BASE_URL)
+          .post(AdminApiClientRoutes.ADD_SITES)
+          .reply(200, response);
+
+        const testGoodAddSitesRequest = {
+          csvText:
+            'lat,lng,city,zip,address,neighborhood,treePresent,status,genus,species,commonName,confidence,diameter,circumference,multistem,coverage,pruning,condition,discoloring,leaning,constrictingGrate,wounds,pooling,stakesWithWires,stakesWithoutWires,light,bicycle,bagEmpty,bagFilled,tape,suckerGrowth,siteType,sidewalkWidth,siteWidth,siteLength,material,raisedBed,fence,trash,wires,grate,stump,treeNotes,siteNotes\n' +
+            '48.58903249,-75.2434242,Boston,12345,Columbus Ave,Back Bay,TRUE,Alive,Genus,Species,Common Name,Confidence,10.2,92,TRUE,coverage,pruning,very good condition,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Site type,sidewalk width,193.233,1023,material,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Notes on trees,Notes on sites',
+        };
+        const result = await ProtectedApiClient.addSites(
+          testGoodAddSitesRequest,
+        );
+
+        expect(result).toEqual(response);
+      });
+
+      it('makes a bad request', async () => {
+        const response = 'No such site';
+
+        nock(BASE_URL)
+          .post(AdminApiClientRoutes.ADD_SITES)
+          .reply(400, response);
+
+        const testBadAddSitesRequest = {
+          csvText:
+            'lat,lng,city,zip,address,neighborhood,treePresent,status,genus,species,commonName,confidence,diameter,circumference,multistem,coverage,pruning,condition,discoloring,leaning,constrictingGrate,wounds,pooling,stakesWithWires,stakesWithoutWires,light,bicycle,bagEmpty,bagFilled,tape,suckerGrowth,siteType,sidewalkWidth,siteWidth,siteLength,material\n' +
+            '48.58903249,-75.2434242,Boston,12345,Columbus Ave,Back Bay,TRUE,Alive,Genus,Species,Common Name,Confidence,10.2,92,TRUE,TRUE,Site type,sidewalk width,193.233,1023,material,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Notes on trees,Notes on sites',
+        };
+        const result = await ProtectedApiClient.addSites(
+          testBadAddSitesRequest,
+        ).catch((err) => err.response.data);
+
+        expect(result).toEqual(response);
+      });
+    });
+
+    describe('adoptSite', () => {
       it('makes the right request', async () => {
         const response = '';
 
@@ -1232,7 +1272,7 @@ describe('Protected API Client Tests', () => {
       });
     });
 
-    describe('Unadopt a site', () => {
+    describe('unadoptSite', () => {
       it('makes the right request', async () => {
         const response = '';
 
@@ -1260,7 +1300,35 @@ describe('Protected API Client Tests', () => {
       });
     });
 
-    describe('Record stewardship', () => {
+    describe('forceUnadoptSite', () => {
+      it('makes the right request', async () => {
+        const response = '';
+
+        nock(BASE_URL)
+          .post(ParameterizedApiRoutes.FORCE_UNADOPT_SITE(1))
+          .reply(200, response);
+
+        const result = await ProtectedApiClient.forceUnadoptSite(1);
+
+        expect(result).toEqual(response);
+      });
+
+      it('makes a bad request', async () => {
+        const response = 'Was not adopted';
+
+        nock(BASE_URL)
+          .post(ParameterizedApiRoutes.FORCE_UNADOPT_SITE(1))
+          .reply(400, response);
+
+        const result = await ProtectedApiClient.forceUnadoptSite(1).catch(
+          (err) => err.response.data,
+        );
+
+        expect(result).toEqual(response);
+      });
+    });
+
+    describe('recordStewardship', () => {
       it('makes the right request', async () => {
         const response = '';
 
@@ -1298,7 +1366,63 @@ describe('Protected API Client Tests', () => {
       });
     });
 
-    describe('Delete stewardship', () => {
+    describe('editStewardship', () => {
+      it('makes the right request', async () => {
+        const response = '';
+
+        nock(BASE_URL)
+          .post(ParameterizedApiRoutes.EDIT_STEWARDSHIP(1))
+          .reply(200, response);
+
+        const result = await ProtectedApiClient.editStewardship(1, {
+          date: '10/12/2020',
+          watered: true,
+          mulched: false,
+          cleaned: true,
+          weeded: false,
+        });
+
+        expect(result).toEqual(response);
+      });
+
+      it('makes a bad request', async () => {
+        const response = 'all false';
+
+        nock(BASE_URL)
+          .post(ParameterizedApiRoutes.EDIT_STEWARDSHIP(1))
+          .reply(400, response);
+
+        const result = await ProtectedApiClient.editStewardship(1, {
+          date: '10/12/2020',
+          watered: false,
+          mulched: false,
+          cleaned: false,
+          weeded: false,
+        }).catch((err) => err.response.data);
+
+        expect(result).toEqual(response);
+      });
+
+      it('makes an unauthorized request', async () => {
+        const response = 'Must be admin or author';
+
+        nock(BASE_URL)
+          .post(ParameterizedApiRoutes.EDIT_STEWARDSHIP(1))
+          .reply(401, response);
+
+        const result = await ProtectedApiClient.editStewardship(1, {
+          date: '10/12/2020',
+          watered: true,
+          mulched: false,
+          cleaned: true,
+          weeded: false,
+        }).catch((err) => err.response.data);
+
+        expect(result).toEqual(response);
+      });
+    });
+
+    describe('deleteStewardship', () => {
       it('makes the right request', async () => {
         const response = '';
 
@@ -1340,7 +1464,7 @@ describe('Protected API Client Tests', () => {
       });
     });
 
-    describe('Get adopted sites', () => {
+    describe('getAdoptedSites', () => {
       it('makes the right request', async () => {
         const response = {
           adoptedSites: [1, 2, 3],
@@ -1357,7 +1481,7 @@ describe('Protected API Client Tests', () => {
     });
   });
 
-  describe('Update site', () => {
+  describe('updateSite', () => {
     it('makes the right request', async () => {
       const response = {};
 
@@ -1774,6 +1898,50 @@ describe('Admin Protected Client Routes', () => {
       const result = await ProtectedApiClient.getStewardshipReportCsv(10).catch(
         (err) => err.response.data,
       );
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('nameSiteEntry', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.NAME_SITE_ENTRY(1))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.nameSiteEntry(1, {
+        name: 'New name',
+      });
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'Name too long';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.NAME_SITE_ENTRY(1))
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.nameSiteEntry(1, {
+        name: 'A'.repeat(61),
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request ', async () => {
+      const response = 'Must be an admin';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.NAME_SITE_ENTRY(1))
+        .reply(401, response);
+
+      const result = await ProtectedApiClient.nameSiteEntry(1, {
+        name: 'New name',
+      }).catch((err) => err.response.data);
 
       expect(result).toEqual(response);
     });
