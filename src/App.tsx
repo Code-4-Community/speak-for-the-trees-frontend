@@ -52,7 +52,7 @@ export enum Websites {
 
 // export const SITE = (process.env.TENANT || Websites.SFTT) as Websites;
 
-export const site = (process.env.TENANT as Websites) || Websites.SFTT;
+export const site = (process.env.REACT_APP_TENANT as Websites) || Websites.SFTT;
 
 export enum ParameterizedRouteBases {
   // TEAM = '/team/',
