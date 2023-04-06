@@ -242,9 +242,9 @@ test('n tests', () => {
     'notFound',
     'landing',
   ]);
-  expect(n(Websites.CAMBRiDGE, 'login')).toEqual(['cambridgeLogin', 'login']);
+  expect(n(Websites.CAMBRIDGE, 'login')).toEqual(['cambridgeLogin', 'login']);
   expect(
-    n(Websites.CAMBRiDGE, ['signUp', 'forgotPasswordReset', 'fallback']),
+    n(Websites.CAMBRIDGE, ['signUp', 'forgotPasswordReset', 'fallback']),
   ).toEqual([
     'cambridgeSignUp',
     'cambridgeForgotPasswordReset',

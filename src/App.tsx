@@ -47,8 +47,12 @@ export enum Languages {
 
 export enum Websites {
   SFTT = 'SFTT',
-  CAMBRiDGE = 'CAMBRIDGE',
+  CAMBRIDGE = 'CAMBRIDGE',
 }
+
+// export const SITE = (process.env.TENANT || Websites.SFTT) as Websites;
+
+export const site = (process.env.REACT_APP_TENANT as Websites) || Websites.SFTT;
 
 export enum ParameterizedRouteBases {
   // TEAM = '/team/',
@@ -89,9 +93,6 @@ export interface MapStateProps {
   readonly lat: number;
   readonly lng: number;
 }
-
-export const site =
-  (process.env.REACT_APP_WEBSITE as Websites) || Websites.SFTT;
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
