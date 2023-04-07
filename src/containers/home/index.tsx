@@ -11,7 +11,8 @@ import LinkCard, {
 } from '../../components/linkCard';
 import LinkCarousel from '../../components/linkCarousel';
 import HomeBackground from '../../assets/images/grey-logo.png';
-import { Routes, site } from '../../App';
+import { Routes } from '../../App';
+import { site } from '../../constants';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';

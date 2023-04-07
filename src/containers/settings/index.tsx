@@ -21,7 +21,7 @@ import useWindowDimensions, {
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../utils/stringFormat';
-import { site } from '../../App';
+import { site } from '../../constants';
 
 const formLayout = {
   wrapperCol: { span: 17 },

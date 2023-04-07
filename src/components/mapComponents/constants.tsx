@@ -9,6 +9,7 @@ import satelliteStandardIcon from '../../assets/images/siteIcons/satelliteStanda
 import satelliteAdoptedIcon from '../../assets/images/siteIcons/satelliteAdoptedIcon.svg';
 import satelliteOpenIcon from '../../assets/images/siteIcons/satelliteOpenIcon.svg';
 import { SiteOption } from './ducks/types';
+import { Websites, site } from '../../constants';
 
 const MAP_ID = '76c08a2450c223d9';
 export const LOADER = new Loader({
@@ -17,13 +18,25 @@ export const LOADER = new Loader({
   mapIds: [MAP_ID],
 });
 
-export const BOSTON: google.maps.LatLngLiteral = { lat: 42.315, lng: -71.0589 };
-export const BOSTON_BOUNDS = {
+const BOSTON = { lat: 42.315, lng: -71.0589 };
+const CAMBRIDGE = { lat: 42.3736, lng: -71.1097 };
+export const DEFAULT_CENTER: google.maps.LatLngLiteral =
+  site === Websites.CAMBRIDGE ? CAMBRIDGE : BOSTON;
+
+const BOSTON_BOUNDS = {
   north: 42.42,
   south: 42.2,
   west: -71.28,
   east: -70.83,
 };
+const CAMBRIDGE_BOUNDS = {
+  north: 42.412,
+  south: 42.344,
+  west: -71.182,
+  east: -71.05,
+};
+export const MAP_BOUNDS =
+  site === Websites.CAMBRIDGE ? CAMBRIDGE_BOUNDS : BOSTON_BOUNDS;
 
 export const STREET_ZOOM = 19;
 

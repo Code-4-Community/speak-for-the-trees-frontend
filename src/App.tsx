@@ -45,15 +45,6 @@ export enum Languages {
   ENGLISH = 'ENG',
 }
 
-export enum Websites {
-  SFTT = 'SFTT',
-  CAMBRIDGE = 'CAMBRIDGE',
-}
-
-// export const SITE = (process.env.TENANT || Websites.SFTT) as Websites;
-
-export const site = (process.env.REACT_APP_TENANT as Websites) || Websites.SFTT;
-
 export enum ParameterizedRouteBases {
   // TEAM = '/team/',
   SITE = '/site/',

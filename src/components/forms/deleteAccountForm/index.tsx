@@ -8,7 +8,7 @@ import { LOCALSTORAGE_STATE_KEY } from '../../../store';
 import { SubmitButton } from '../../themedComponents';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
-import { site } from '../../../App';
+import { site } from '../../../constants';
 
 const DeleteAccountForm: React.FC = () => {
   const { t } = useTranslation(n(site, ['forms']), { nsMode: 'fallback' });

@@ -8,7 +8,7 @@ import {
 } from '../../../utils/formRules';
 import { ChangePasswordFormValues } from '../ducks/types';
 import { SubmitButton } from '../../themedComponents';
-import { site } from '../../../App';
+import { site } from '../../../constants';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
 

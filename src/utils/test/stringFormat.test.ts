@@ -17,7 +17,7 @@ import { shortHand } from '../stringFormat';
 import { SHORT_HAND_NAMES } from '../../assets/content';
 import { Entry, SiteEntryFields } from '../../containers/treePage/ducks/types';
 import { AppError } from '../../auth/axios';
-import { Websites } from '../../App';
+import { Websites } from '../../constants';
 
 test('getMoneyString tests', () => {
   expect(getMoneyString(100000)).toBe('$100,000');

@@ -1,7 +1,7 @@
 import React, { createRef, useEffect, useState, useCallback } from 'react';
 import { Input, message } from 'antd';
 import { MapViews, ReturnMapData } from '../../ducks/types';
-import { BOSTON_BOUNDS, LOADER, STREET_ZOOM } from '../../constants';
+import { MAP_BOUNDS, LOADER, STREET_ZOOM } from '../../constants';
 import { addHandleSearch } from '../../logic/event';
 import TreePopup, { BasicTreeInfo } from '../../../treePopup';
 import styled from 'styled-components';
@@ -88,7 +88,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
               mapTypeIds: ['roadmap', 'satellite'],
             },
             restriction: {
-              latLngBounds: BOSTON_BOUNDS,
+              latLngBounds: MAP_BOUNDS,
               strictBounds: false,
             },
           });
@@ -165,7 +165,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
             'pac-input',
           ) as HTMLInputElement;
           const autocomplete = new google.maps.places.Autocomplete(input, {
-            bounds: BOSTON_BOUNDS,
+            bounds: MAP_BOUNDS,
             strictBounds: true,
           });
           // Services provided by Google Maps
