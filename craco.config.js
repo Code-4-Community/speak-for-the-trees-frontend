@@ -11,11 +11,7 @@ const themeOverride =
         '@mid-green': '#2e5b80',
         '@dark-green': '#1a4b68',
       }
-    : {
-        '@light-green': '#569bc3',
-        '@mid-green': '#2e5b80',
-        '@dark-green': '#1a4b68',
-      };
+    : {};
 
 module.exports = {
   plugins: [
