@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import StewardshipReportTable from '../../components/tables/stewardshipReportTable';
 import ProtectedApiClient from '../../api/protectedApiClient';
 import { Form, message, Skeleton, Tabs, Typography } from 'antd';
-import { site } from '../../App';
+import { site } from '../../constants';
 import { AdoptionReport, StewardshipReport } from './ducks/types';
 import { Helmet } from 'react-helmet';
 import PageLayout from '../../components/pageLayout';

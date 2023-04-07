@@ -8,7 +8,7 @@ import {
   Select,
   Typography,
 } from 'antd';
-import { site } from '../../../App';
+import { site } from '../../../constants';
 import { positiveNumberRules, requiredRule } from '../../../utils/formRules';
 import { InlineFormItem } from '../../themedComponents';
 import { ReportTypes } from '../../../containers/reports';

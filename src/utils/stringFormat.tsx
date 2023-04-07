@@ -9,7 +9,7 @@ import {
 import { NEIGHBORHOOD_IDS } from '../assets/content';
 import { AppError } from '../auth/axios';
 import { Coordinate } from '../components/mapComponents/ducks/types';
-import { Websites } from '../App';
+import { Websites } from '../constants';
 
 /**
  * Converts the given dollar amount to a formatted string
