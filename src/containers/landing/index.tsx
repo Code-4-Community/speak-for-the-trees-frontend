@@ -18,7 +18,7 @@ import {
 } from '../../components/mapComponents/ducks/types';
 import MapLegend from '../../components/mapComponents/mapLegend';
 import { Routes } from '../../App';
-import { Websites, site } from '../../constants';
+import { site } from '../../constants';
 import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
 import SlideDown from '../../components/slideDown';
 import { MOBILE_SLIDE_HEIGHT } from '../../components/mapComponents/constants';
@@ -29,6 +29,7 @@ import LandingContent from '../../components/landingContent';
 import { n } from '../../utils/stringFormat';
 import { MapTypes } from '../../context/types';
 import { MapTypeContext } from '../../context/mapTypeContext';
+import { isSFTT } from '../../utils/isCheck';
 
 const ModalTitle = styled(Typography.Text)`
   font-size: 20px;
@@ -40,13 +41,8 @@ const ModalParagraph = styled(Typography.Paragraph)`
   line-height: 24px;
 `;
 
-interface ModalImageProps {
-  readonly isCambridge: boolean;
-}
-
 const ModalImage = styled.img`
-  width: ${({ isCambridge }: ModalImageProps) =>
-    isCambridge ? '400px' : '100%'};
+  width: ${isSFTT() ? '100%' : '400px'};
   margin-top: 30px;
 `;
 
@@ -85,11 +81,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
           <ModalParagraph>
             {t('welcomeModal.paragraph')}
             <br />
-            <ModalImage
-              src={SFTT_PARTNER_LOGOS}
-              alt={'SFTT Logo'}
-              isCambridge={site === Websites.CAMBRIDGE}
-            />
+            <ModalImage src={SFTT_PARTNER_LOGOS} alt={'SFTT Logo'} />
           </ModalParagraph>
         ),
         okText: t('welcomeModal.okText'),
