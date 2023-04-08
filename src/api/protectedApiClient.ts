@@ -84,6 +84,7 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
   readonly adoptSite: (siteId: number) => Promise<void>;
   readonly unadoptSite: (siteId: number) => Promise<void>;
+  readonly forceUnadoptSite: (siteId: number) => Promise<void>;
   readonly recordStewardship: (
     siteId: number,
     request: ActivityRequest,
@@ -171,6 +172,8 @@ export const ParameterizedApiRoutes = {
     `${baseTeamRoute}${teamId}/transfer_ownership`,
   ADOPT_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/adopt`,
   UNADOPT_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/unadopt`,
+  FORCE_UNADOPT_SITE: (siteId: number): string =>
+    `${baseSiteRoute}${siteId}/force_unadopt`,
   RECORD_STEWARDSHIP: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/record_stewardship`,
   EDIT_STEWARDSHIP: (activityId: number): string =>
@@ -392,6 +395,12 @@ const unadoptSite = (siteId: number): Promise<void> => {
   ).then((res) => res.data);
 };
 
+const forceUnadoptSite = (siteId: number): Promise<void> => {
+  return AppAxiosInstance.post(
+    ParameterizedApiRoutes.FORCE_UNADOPT_SITE(siteId),
+  ).then((res) => res.data);
+};
+
 const recordStewardship = (
   siteId: number,
   request: ActivityRequest,
@@ -528,6 +537,7 @@ const Client: ProtectedApiClient = Object.freeze({
   transferOwnership,
   adoptSite,
   unadoptSite,
+  forceUnadoptSite,
   recordStewardship,
   editStewardship,
   deleteStewardship,
