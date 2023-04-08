@@ -149,6 +149,7 @@ export const MainSiteEntryOrder: Record<string, number> = {
 };
 
 export const ExtraSiteEntryNames: Record<string, string> = {
+  // SFTT
   treePresent: t('extra.treePresent', { ns: 'treeInfoTypes' }),
   confidence: t('extra.confidence', { ns: 'treeInfoTypes' }),
   circumference: t('extra.circumference', { ns: 'treeInfoTypes' }),
@@ -182,6 +183,44 @@ export const ExtraSiteEntryNames: Record<string, string> = {
   stump: t('extra.stump', { ns: 'treeInfoTypes' }),
   treeNotes: t('extra.treeNotes', { ns: 'treeInfoTypes' }),
   siteNotes: t('extra.siteNotes', { ns: 'treeInfoTypes' }),
+  // CAMBRIDGE
+  trunks: 'Trunks',
+  speciesShort: 'Species (Short)',
+  location: 'Location',
+  siteRetiredReason: 'Site Retired Reason',
+  inspectr: 'Inspectr',
+  abutsOpenArea: 'Abuts Open Area',
+  treeWellCover: 'Tree Well Cover',
+  treeGrateActionReq: 'Tree Grate Action Req',
+  globalId: 'Global ID',
+  pb: 'PB',
+  siteReplanted: 'Site Replanted',
+  overheadWires: 'Overhead Wires',
+  ownership: 'Ownership',
+  scheduledRemoval: 'Scheduled Removal',
+  structuralSoil: 'Structural Soil',
+  wateringResponsibility: 'Watering Responsibility',
+  cultivar: 'Cultivar',
+  solarRating: 'Solar Rating',
+  bareRoot: 'Bare Root',
+  adaCompliant: 'ADA Compliant',
+  cartegraphPlantDate: 'Cartegraph Plant Date',
+  locationRetired: 'Location Retired',
+  createdDate: 'Created Date',
+  order: 'Order',
+  plantingSeason: 'Planting Season',
+  exposedRootFlare: 'Exposed Root Flare',
+  stTreePruningZone: 'St Tree Pruning Zone',
+  memTree: 'Mem Tree',
+  cartegraphRetireDate: 'Cartegraph Retire Date',
+  removalReason: 'Removal Reason',
+  offStTreePruningZone: 'Off St Tree Pruning Zone',
+  plantingContract: 'Planting Contract',
+  treeWellDepth: 'Tree Well Depth',
+  removalDate: 'Removal Date',
+  scientificName: 'Scientific Name',
+  biocharAdded: 'Biochar Added',
+  lastEditedUser: 'Last Edited User',
 };
 
 export interface TreeCare {

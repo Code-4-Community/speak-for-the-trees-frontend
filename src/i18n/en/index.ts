@@ -1,3 +1,4 @@
+// SFTT
 export { default as landing } from './landing.json';
 export { default as notFound } from './notFound.json';
 export { default as forgotPassword } from './forgotPassword.json';
@@ -20,4 +21,5 @@ export { default as forms } from './forms.json';
 export { default as tables } from './tables.json';
 export { default as content } from './content.json';
 
+// CAMBRIDGE
 export { default as cambridgeLanding } from './cambridge-landing.json';

@@ -17,7 +17,7 @@ import { shortHand } from '../stringFormat';
 import { SHORT_HAND_NAMES } from '../../assets/content';
 import { Entry, SiteEntryFields } from '../../containers/treePage/ducks/types';
 import { AppError } from '../../auth/axios';
-import { Websites } from '../../App';
+import { Websites } from '../../constants';
 
 test('getMoneyString tests', () => {
   expect(getMoneyString(100000)).toBe('$100,000');
@@ -242,9 +242,9 @@ test('n tests', () => {
     'notFound',
     'landing',
   ]);
-  expect(n(Websites.CAMBRiDGE, 'login')).toEqual(['cambridgeLogin', 'login']);
+  expect(n(Websites.CAMBRIDGE, 'login')).toEqual(['cambridgeLogin', 'login']);
   expect(
-    n(Websites.CAMBRiDGE, ['signUp', 'forgotPasswordReset', 'fallback']),
+    n(Websites.CAMBRIDGE, ['signUp', 'forgotPasswordReset', 'fallback']),
   ).toEqual([
     'cambridgeSignUp',
     'cambridgeForgotPasswordReset',
