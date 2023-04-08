@@ -10,7 +10,7 @@ import {
 } from '../../utils/colors';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { site } from '../../App';
+import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 
 const CardBox = styled.div`

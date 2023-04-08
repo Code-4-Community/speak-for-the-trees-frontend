@@ -16,7 +16,7 @@ import TreePageHeader from '../treePageHeader';
 import { C4CState } from '../../store';
 import { isAdmin } from '../../auth/ducks/selectors';
 import { useTranslation } from 'react-i18next';
-import { site } from '../../App';
+import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 import { isSFTT } from '../../utils/isCheck';
 

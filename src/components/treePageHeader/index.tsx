@@ -16,7 +16,7 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { TreeParams } from '../../containers/treePage';
 import { useTranslation } from 'react-i18next';
-import { site } from '../../App';
+import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 
 interface TreePageHeaderProps extends StyledSubtitleProps {

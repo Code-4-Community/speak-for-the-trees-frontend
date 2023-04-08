@@ -9,7 +9,7 @@ import { UNABBREVIATED_MONTHS } from '../../assets/content';
 import styled from 'styled-components';
 import CareEntry from '../careEntry';
 import { useTranslation } from 'react-i18next';
-import { site } from '../../App';
+import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 
 const TreeCareTitle = styled(Typography.Paragraph)`

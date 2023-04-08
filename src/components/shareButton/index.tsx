@@ -5,7 +5,7 @@ import { SizeType } from 'antd/es/config-provider/SizeContext';
 import ShareMenu from '../shareMenu';
 import ShareWhite from '../../assets/images/sharewhite-small.png';
 import { useTranslation } from 'react-i18next';
-import { site } from '../../App';
+import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 
 const StyledShareButton = styled(Button)`

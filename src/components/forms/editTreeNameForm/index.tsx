@@ -6,7 +6,7 @@ import { NameSiteEntryRequest } from '../ducks/types';
 import { GreenButton, WhiteButton } from '../../themedComponents';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { site } from '../../../App';
+import { site } from '../../../constants';
 import { n } from '../../../utils/stringFormat';
 
 interface StyledButtonProps {

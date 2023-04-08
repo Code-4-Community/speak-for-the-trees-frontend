@@ -46,7 +46,7 @@ import { CenterDiv, ReturnButton } from '../../components/themedComponents';
 import { STREET_ZOOM } from '../../components/mapComponents/constants';
 import { CITY_PLANTING_REQUEST_LINK } from '../../assets/links';
 import { Trans, useTranslation } from 'react-i18next';
-import { site } from '../../App';
+import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 
 const EntryDiv = styled(CenterDiv)`

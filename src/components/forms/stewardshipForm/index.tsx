@@ -11,7 +11,7 @@ import {
 import styled from 'styled-components';
 import { activitiesDateRules, activitiesRules } from '../../../utils/formRules';
 import { useTranslation } from 'react-i18next';
-import { site } from '../../../App';
+import { site } from '../../../constants';
 import { n } from '../../../utils/stringFormat';
 
 const ItemLabel = styled(Typography.Paragraph)`

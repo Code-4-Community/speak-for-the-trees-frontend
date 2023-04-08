@@ -6,7 +6,7 @@ import EmailIcon from '../../assets/images/email-icon.png';
 import FBIcon from '../../assets/images/facebook-icon.png';
 import CopyIcon from '../../assets/images/copy-icon.png';
 import { useTranslation } from 'react-i18next';
-import { site } from '../../App';
+import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 
 const ShareMenuContainer = styled.div`

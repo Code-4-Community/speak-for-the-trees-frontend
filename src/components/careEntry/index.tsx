@@ -25,7 +25,7 @@ import { TreeParams } from '../../containers/treePage';
 import { ActivityRequest } from '../../containers/treePage/ducks/types';
 import { C4CState } from '../../store';
 import { useTranslation } from 'react-i18next';
-import { site } from '../../App';
+import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 
 const Entry = styled.div`
