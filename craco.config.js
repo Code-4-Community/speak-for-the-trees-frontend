@@ -4,6 +4,8 @@ process.env.BROWSER = 'none';
 
 const site = process.env.REACT_APP_TENANT || 'SFTT';
 
+console.log(process.env);
+
 const themeOverride =
   site === 'CAMBRIDGE'
     ? {

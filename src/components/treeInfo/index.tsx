@@ -15,6 +15,7 @@ import ShareButton from '../../components/shareButton';
 import TreePageHeader from '../treePageHeader';
 import { C4CState } from '../../store';
 import { isAdmin } from '../../auth/ducks/selectors';
+import { isSFTT } from '../../utils/isCheck';
 
 const TreeHeader = styled.div`
   text-transform: capitalize;
@@ -72,7 +73,7 @@ const TreeInfo: React.FC<TreeProps> = ({
 
   const getSiteLocation = (): string => {
     // TODO change to siteData.city and remove check for zip after data is cleaned
-    let baseLocation = `Boston`;
+    let baseLocation = isSFTT() ? 'Boston' : 'Cambridge';
     if (siteData.zip) {
       baseLocation += ` ${siteData.zip}`;
     }

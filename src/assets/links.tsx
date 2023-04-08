@@ -1,7 +1,7 @@
-import { Websites, site } from '../constants';
+import { isSFTT } from '../utils/isCheck';
 
 export const SFTT_PARTNER_LOGOS = `https://d2j3fegnzkmagm.cloudfront.net/${
-  site === Websites.CAMBRIDGE ? 'cambridge' : 'sftt'
+  isSFTT() ? 'sftt' : 'cambridge'
 }-partners.png`;
 
 export const CITY_PLANTING_REQUEST_LINK =
