@@ -18,7 +18,7 @@ import {
 import { SignupFormValues } from '../ducks/types';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
-import { site } from '../../../App';
+import { site } from '../../../constants';
 
 interface SignupFormProps {
   readonly formInstance: FormInstance;

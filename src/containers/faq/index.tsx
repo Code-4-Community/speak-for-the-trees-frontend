@@ -5,7 +5,7 @@ import PageHeader from '../../components/pageHeader';
 import { PaddedPageContainer } from '../../components/themedComponents';
 import { Collapse, Typography } from 'antd';
 import OrderedList from '../../components/orderedList';
-import { site } from '../../App';
+import { site } from '../../constants';
 import styled from 'styled-components';
 import { WHITE } from '../../utils/colors';
 import { Trans, useTranslation } from 'react-i18next';

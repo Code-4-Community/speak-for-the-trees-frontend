@@ -8,7 +8,7 @@ import { SubmitButton } from '../../themedComponents';
 import { getUserData } from '../../../auth/ducks/thunks';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
-import { site } from '../../../App';
+import { site } from '../../../constants';
 
 interface ChangeEmailFormProps {
   readonly formLayout: { wrapperCol: { span: number } };

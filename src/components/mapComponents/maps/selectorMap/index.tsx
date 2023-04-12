@@ -5,7 +5,7 @@ import {
   ReturnMapData,
   SiteGeoData,
 } from '../../ducks/types';
-import { BOSTON, STREET_ZOOM } from '../../constants';
+import { DEFAULT_CENTER, STREET_ZOOM } from '../../constants';
 
 import { BasicTreeInfo, NO_SITE_SELECTED } from '../../../treePopup';
 import MapWithPopup from '../mapWithPopup';
@@ -33,7 +33,7 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
 
   const defaultCenter: google.maps.LatLngLiteral = site
     ? { lat: site.lat, lng: site.lng }
-    : BOSTON;
+    : DEFAULT_CENTER;
 
   // BasicTreeInfo to display in tree popup
   const basicSite: BasicTreeInfo = {

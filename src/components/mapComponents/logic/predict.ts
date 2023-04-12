@@ -1,4 +1,4 @@
-import { BOSTON_BOUNDS } from '../constants';
+import { MAP_BOUNDS } from '../constants';
 
 // Map logic for making predictions from user input
 
@@ -40,7 +40,7 @@ export function predictPlace(
 
   // Uses the autocomplete service to make predictions within Boston
   autoService.getPlacePredictions(
-    { input: place.name, bounds: BOSTON_BOUNDS },
+    { input: place.name, bounds: MAP_BOUNDS },
     callbackOnFirstPrediction,
   );
 }
