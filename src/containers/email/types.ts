@@ -9,7 +9,7 @@ export interface EmailerFilters {
   activityCountMin: number;
   activityCountMax?: number;
   neighborhoods: string[];
-  treeSpecies: string[];
+  commonNames: string[];
   adoptedStart?: string;
   adoptedEnd?: string;
   lastActivityStart?: string;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import moment from 'moment';
 import { EmailerFilters } from '../../containers/email/types';
 import {
@@ -12,9 +12,10 @@ import {
 import { SliderMarks } from 'antd/lib/slider';
 import styled from 'styled-components';
 import { Neighborhoods } from '../../assets/content';
+import apiClient from '../../api/apiClient';
 
 const StyledCollapse = styled(Collapse)`
-  max-width: 500px;
+  max-width: 400px;
 `;
 
 const StyledAutoComplete = styled(AutoComplete)`
@@ -29,9 +30,7 @@ interface EmailerFilterFormProps {
 
 const MAX_COUNT = 10;
 
-function activityCountRange(
-  filters: EmailerFilters,
-): [number, number | undefined] {
+function activityCountRange(filters: EmailerFilters): [number, number] {
   return [filters.activityCountMin, filters.activityCountMax || MAX_COUNT + 1];
 }
 
@@ -51,23 +50,39 @@ const neighborhoodOptions = Object.values(Neighborhoods)
   })
   .sort();
 
+let commonNameOptions: { value: string }[] = [];
+apiClient.getAllCommonNames().then((res) => {
+  commonNameOptions = res.map((name) => {
+    return { value: name };
+  });
+});
+
 const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
   filters,
   setFilters,
 }) => {
   const [neighborhoodSearch, setNeighborhoodSearch] = useState<string>('');
-  const onNeighborhoodAdd = () => {
-    // console.log(neighborhoodSearch in ['Mattapan']);
-    if (Object.values(Neighborhoods).find((s) => s === neighborhoodSearch)) {
-      setFilters({
-        ...filters,
-        neighborhoods: [...filters.neighborhoods, neighborhoodSearch],
-      });
-      setNeighborhoodSearch('');
-    } else {
-      message.warn('Must add a valid neighborhood');
-    }
-  };
+  const [namesSearch, setNamesSearch] = useState<string>('');
+
+  const onAddFilter = useCallback(
+    (
+      key: string,
+      options: { value: string }[],
+      searchValue: string,
+      warning: string,
+    ) => {
+      return () => {
+        if (options.map((option) => option.value).includes(searchValue)) {
+          if (!filters[key].includes(searchValue)) {
+            setFilters({ ...filters, [key]: [...filters[key], searchValue] });
+          }
+        } else {
+          message.warn(warning);
+        }
+      };
+    },
+    [filters, setFilters],
+  );
 
   return (
     <StyledCollapse ghost={true}>
@@ -126,12 +141,40 @@ const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
             option?.value.toLowerCase().includes(input.toLowerCase())
           }
         />
-        <Button type="primary" onClick={onNeighborhoodAdd}>
+        <Button
+          type="primary"
+          onClick={onAddFilter(
+            'neighborhoods',
+            neighborhoodOptions,
+            neighborhoodSearch,
+            'Must add a valid neighborhood',
+          )}
+        >
           Add
         </Button>
       </Collapse.Panel>
       <Collapse.Panel header="Common Name">
-        <p>baso</p>
+        <StyledAutoComplete
+          placeholder="Enter a tree name"
+          options={commonNameOptions}
+          value={namesSearch}
+          onChange={(text) => setNamesSearch(text)}
+          onSelect={(value: string) => setNamesSearch(value)}
+          filterOption={(input: string, option) =>
+            option?.value.toLowerCase().includes(input.toLowerCase())
+          }
+        />
+        <Button
+          type="primary"
+          onClick={onAddFilter(
+            'commonNames',
+            commonNameOptions,
+            namesSearch,
+            'Must add a valid tree name',
+          )}
+        >
+          Add
+        </Button>
       </Collapse.Panel>
     </StyledCollapse>
   );

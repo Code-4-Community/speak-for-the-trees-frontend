@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Select, Typography, Button } from 'antd';
@@ -31,8 +31,27 @@ const Email: React.FC = () => {
   const [filters, setFilters] = useState<EmailerFilters>({
     activityCountMin: 0,
     neighborhoods: [],
-    treeSpecies: [],
+    commonNames: [],
   });
+
+  function generateFilterButtons(key: string) {
+    return filters[key].map((n) => {
+      return (
+        <NeighborhoodFilter
+          key={n}
+          onClick={() =>
+            setFilters({
+              ...filters,
+              [key]: filters[key].filter((v) => v !== n),
+            })
+          }
+        >
+          <CloseOutlined />
+          {n}
+        </NeighborhoodFilter>
+      );
+    });
+  }
 
   return (
     <>
@@ -61,22 +80,9 @@ const Email: React.FC = () => {
             onChange={(value) => setEmailType(value)}
           />
           <EmailerFilterForm filters={filters} setFilters={setFilters} />
-          {filters.neighborhoods.map((n) => {
-            return (
-              <NeighborhoodFilter
-                key={n}
-                onClick={() =>
-                  setFilters({
-                    ...filters,
-                    neighborhoods: filters.neighborhoods.filter((v) => v !== n),
-                  })
-                }
-              >
-                <CloseOutlined />
-                {n}
-              </NeighborhoodFilter>
-            );
-          })}
+          {generateFilterButtons('neighborhoods')}
+          <br />
+          {generateFilterButtons('commonNames')}
         </EmailPageContainer>
       </PageLayout>
     </>

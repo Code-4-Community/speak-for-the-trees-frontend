@@ -29,6 +29,7 @@ export interface ApiClient {
   readonly getStewardshipActivities: (
     siteId: number,
   ) => Promise<StewardshipActivities>;
+  readonly getAllCommonNames: () => Promise<string[]>;
 }
 
 export enum ApiClientRoutes {
@@ -49,6 +50,7 @@ export const ParameterizedApiRoutes = {
   GET_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}`,
   GET_STEWARDSHIP_ACTIVITIES: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/stewardship_activities`,
+  GET_ALL_COMMON_NAMES: (): string => `${baseSiteRoute}info/common_names`,
 };
 
 const getUsersLeaderboard = (
@@ -107,6 +109,12 @@ const getStewardshipActivities = (
   ).then((res) => res.data);
 };
 
+const getAllCommonNames = (): Promise<string[]> => {
+  return AppAxiosInstance.get(
+    ParameterizedApiRoutes.GET_ALL_COMMON_NAMES(),
+  ).then((res) => res.data.names);
+};
+
 const Client: ApiClient = Object.freeze({
   getUsersLeaderboard,
   getTeamsLeaderboard,
@@ -115,6 +123,7 @@ const Client: ApiClient = Object.freeze({
   getSiteGeoData,
   getSite,
   getStewardshipActivities,
+  getAllCommonNames,
 });
 
 export default Client;
