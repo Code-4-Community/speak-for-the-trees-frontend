@@ -1136,6 +1136,7 @@ describe('Protected API Client Tests', () => {
           stump: null,
           treeNotes: null,
           siteNotes: null,
+          plantingDate: null,
         };
         const result = await ProtectedApiClient.addSite(testGoodAddSiteRequest);
 
@@ -1195,6 +1196,7 @@ describe('Protected API Client Tests', () => {
           stump: null,
           treeNotes: null,
           siteNotes: null,
+          plantingDate: null,
         };
         const result = await ProtectedApiClient.addSite(
           testBadAddSiteRequest,
@@ -1528,6 +1530,7 @@ describe('Protected API Client Tests', () => {
         stump: null,
         treeNotes: null,
         siteNotes: null,
+        plantingDate: null,
       });
 
       expect(result).toEqual(response);
@@ -1578,6 +1581,7 @@ describe('Protected API Client Tests', () => {
         stump: null,
         treeNotes: null,
         siteNotes: null,
+        plantingDate: null,
       }).catch((err) => err.response.data);
 
       expect(result).toEqual(response);
