@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Button,
   Form,
@@ -7,9 +8,11 @@ import {
   Select,
   Typography,
 } from 'antd';
+import { site } from '../../../constants';
 import { positiveNumberRules, requiredRule } from '../../../utils/formRules';
 import { InlineFormItem } from '../../themedComponents';
 import { ReportTypes } from '../../../containers/reports';
+import { n } from '../../../utils/stringFormat';
 
 interface ExportDataFormProps {
   readonly formInstance: FormInstance;
@@ -22,11 +25,20 @@ const ExportDataForm: React.FC<ExportDataFormProps> = ({
   onFinish,
   onUpdate,
 }) => {
+  const { t } = useTranslation(n(site, ['forms']), { nsMode: 'fallback' });
+
+  const exportDataContent: string[] = t('export_data.export_data', {
+    returnObjects: true,
+  });
+
   return (
     <Form name="downloadCsv" form={formInstance} onFinish={onFinish}>
-      <Form.Item name="type" rules={requiredRule('Must pick a report!')}>
+      <Form.Item
+        name="type"
+        rules={requiredRule(t('export_data.report_required'))}
+      >
         <Select
-          placeholder={'Select the report to download.'}
+          placeholder={t('export_data.report_type_placeholder')}
           onSelect={onUpdate}
         >
           <Select.Option value={ReportTypes.ADOPTION}>
@@ -38,18 +50,18 @@ const ExportDataForm: React.FC<ExportDataFormProps> = ({
         </Select>
       </Form.Item>
       <Typography.Paragraph>
-        Export data from the past
+        {exportDataContent[0]}
         <InlineFormItem
           name="previousDays"
           rules={positiveNumberRules(formInstance, 'previousDays')}
         >
           <InputNumber defaultValue={undefined} onChange={onUpdate} />
         </InlineFormItem>
-        days (leave empty to export all data).
+        {exportDataContent[1]}
       </Typography.Paragraph>
       <Form.Item>
-        <Button htmlType={'submit'} size="middle">
-          Load Report
+        <Button htmlType="submit" size="middle">
+          {t('export_data.load_report')}
         </Button>
       </Form.Item>
     </Form>

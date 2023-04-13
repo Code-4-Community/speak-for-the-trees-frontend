@@ -6,8 +6,13 @@ import { loginPasswordRules } from '../../../utils/formRules';
 import { AuthRequest } from '../ducks/types';
 import { LOCALSTORAGE_STATE_KEY } from '../../../store';
 import { SubmitButton } from '../../themedComponents';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../../utils/stringFormat';
+import { site } from '../../../constants';
 
 const DeleteAccountForm: React.FC = () => {
+  const { t } = useTranslation(n(site, ['forms']), { nsMode: 'fallback' });
+
   const history = useHistory();
 
   const onFinishDeleteUser = (value: AuthRequest) => {
@@ -17,18 +22,18 @@ const DeleteAccountForm: React.FC = () => {
         history.go(0);
       })
       .catch((err) =>
-        message.error(`Could not delete user: ${err.response.data}`),
+        message.error(t('delete_account.error', { error: err.response.data })),
       );
   };
 
   return (
     <Form name="deleteAccount" onFinish={onFinishDeleteUser}>
       <Form.Item name="password" rules={loginPasswordRules}>
-        <Input.Password placeholder="Password" />
+        <Input.Password placeholder={t('password')} />
       </Form.Item>
       <Form.Item>
         <SubmitButton type="primary" htmlType="submit" danger>
-          Delete Account
+          {t('delete_account.submit')}
         </SubmitButton>
       </Form.Item>
     </Form>

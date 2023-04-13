@@ -6,7 +6,11 @@ import {
   PrivilegeLevel,
   UserAuthenticationReducerState,
 } from './auth/ducks/types';
-import { getPrivilegeLevel, getUserFullName } from './auth/ducks/selectors';
+import {
+  getPrivilegeLevel,
+  isAdmin,
+  getUserFullName,
+} from './auth/ducks/selectors';
 import { C4CState } from './store';
 
 import styled from 'styled-components';
@@ -29,6 +33,7 @@ import Reports from './containers/reports';
 import { logout } from './auth/ducks/thunks';
 import history from './history';
 import FAQ from './containers/faq';
+import Email from './containers/email';
 
 const AppLayout = styled(Layout)`
   min-height: 100vh;
@@ -66,6 +71,7 @@ export enum Routes {
   FAQ = '/faq',
   FORGOT_PASSWORD_REQUEST = '/forgot-password',
   FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
+  EMAIL = '/email',
   NOT_FOUND = '*',
 }
 
@@ -95,6 +101,10 @@ const App: React.FC = () => {
     return getUserFullName(state.authenticationState.userData);
   });
 
+  const isAnAdmin: boolean = useSelector((state: C4CState) => {
+    return isAdmin(state.authenticationState.tokens);
+  });
+
   return (
     <>
       <Helmet>
@@ -110,10 +120,7 @@ const App: React.FC = () => {
             userName={
               privilegeLevel !== PrivilegeLevel.NONE ? userName : undefined
             }
-            isAdmin={
-              privilegeLevel === PrivilegeLevel.ADMIN ||
-              privilegeLevel === PrivilegeLevel.SUPER_ADMIN
-            }
+            isAdmin={isAnAdmin}
             onLogout={onLogout}
           />
           <Layout.Content>
@@ -261,6 +268,7 @@ const App: React.FC = () => {
                         component={AdminDashboard}
                       />
                       <Route path={Routes.REPORTS} exact component={Reports} />
+                      <Route path={Routes.EMAIL} exact component={Email} />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact

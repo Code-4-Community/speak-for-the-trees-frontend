@@ -14,7 +14,6 @@ import {
   MainSiteEntryNames,
   ExtraSiteEntryNames,
   MonthYearOption,
-  SiteEntryFields,
   SiteEntryStatus,
 } from '../ducks/types';
 import {
@@ -23,7 +22,6 @@ import {
   getLatestEntry,
   isTreeAdoptedByUser,
   mapStewardshipToMonthYearOptions,
-  getSEFieldDisplayName,
 } from '../ducks/selectors';
 
 describe('Tree Page Selectors', () => {
@@ -59,7 +57,7 @@ describe('Tree Page Selectors', () => {
           day: '1st',
           month: 'Jan',
           year: 2021,
-          message: 'Was mulched and watered and weeded.',
+          message: 'Was mulched, watered, and weeded.',
         },
         {
           activityId: 1,
@@ -71,19 +69,15 @@ describe('Tree Page Selectors', () => {
         },
       ];
 
-      const request: AsyncRequest<
-        StewardshipActivities,
-        any
-      > = AsyncRequestCompleted<StewardshipActivities, any>(dummyActivities);
+      const request: AsyncRequest<StewardshipActivities, any> =
+        AsyncRequestCompleted<StewardshipActivities, any>(dummyActivities);
 
       expect(mapStewardshipToTreeCare(request)).toStrictEqual(expectedTreeCare);
     });
 
     it('returns empty array if request is not complete', () => {
-      const request: AsyncRequest<
-        StewardshipActivities,
-        any
-      > = AsyncRequestFailed<StewardshipActivities, any>(dummyActivities);
+      const request: AsyncRequest<StewardshipActivities, any> =
+        AsyncRequestFailed<StewardshipActivities, any>(dummyActivities);
 
       expect(mapStewardshipToTreeCare(request)).toEqual([]);
     });
@@ -93,10 +87,8 @@ describe('Tree Page Selectors', () => {
         stewardshipActivities: [],
       };
 
-      const request: AsyncRequest<
-        StewardshipActivities,
-        any
-      > = AsyncRequestCompleted<StewardshipActivities, any>(emptyActivities);
+      const request: AsyncRequest<StewardshipActivities, any> =
+        AsyncRequestCompleted<StewardshipActivities, any>(emptyActivities);
 
       expect(mapStewardshipToTreeCare(request)).toEqual([]);
     });
@@ -170,10 +162,8 @@ describe('Tree Page Selectors', () => {
     });
 
     it('returns empty arrays when site props have not been loaded', () => {
-      const splitRequest: AsyncRequest<
-        SiteProps,
-        any
-      > = AsyncRequestNotStarted();
+      const splitRequest: AsyncRequest<SiteProps, any> =
+        AsyncRequestNotStarted();
 
       expect(getLatestSplitEntry(splitRequest)).toStrictEqual({
         main: [],
@@ -236,10 +226,8 @@ describe('Tree Page Selectors', () => {
     });
 
     it('returns empty arrays when site props have not been loaded', () => {
-      const splitRequest: AsyncRequest<
-        SiteProps,
-        any
-      > = AsyncRequestNotStarted();
+      const splitRequest: AsyncRequest<SiteProps, any> =
+        AsyncRequestNotStarted();
 
       expect(getLatestSplitEntry(splitRequest)).toStrictEqual({
         main: [],
@@ -248,34 +236,21 @@ describe('Tree Page Selectors', () => {
     });
   });
 
-  describe('getSEFieldDisplayName', () => {
-    expect(getSEFieldDisplayName(SiteEntryFields.BAG_EMPTY)).toBe(
-      'Has an empty bag?',
-    );
-    expect(getSEFieldDisplayName(SiteEntryFields.UPDATED_AT)).toBe(
-      'Updated At',
-    );
-  });
-
   describe('isTreeAdoptedByUser', () => {
     const dummyAdoptedSites: AdoptedSites = {
       adoptedSites: [0, 1, 3],
     };
 
     it('returns true when the user has adopted the given site and request is completed', () => {
-      const isAdoptedRequest: AsyncRequest<
-        AdoptedSites,
-        any
-      > = AsyncRequestCompleted<AdoptedSites, any>(dummyAdoptedSites);
+      const isAdoptedRequest: AsyncRequest<AdoptedSites, any> =
+        AsyncRequestCompleted<AdoptedSites, any>(dummyAdoptedSites);
 
       expect(isTreeAdoptedByUser(isAdoptedRequest, 3)).toBe(true);
     });
 
     it('returns false when the user has not adopted tree', () => {
-      const isAdoptedRequest: AsyncRequest<
-        AdoptedSites,
-        any
-      > = AsyncRequestCompleted<AdoptedSites, any>(dummyAdoptedSites);
+      const isAdoptedRequest: AsyncRequest<AdoptedSites, any> =
+        AsyncRequestCompleted<AdoptedSites, any>(dummyAdoptedSites);
 
       expect(isTreeAdoptedByUser(isAdoptedRequest, 2)).toBe(false);
     });
@@ -285,19 +260,15 @@ describe('Tree Page Selectors', () => {
         adoptedSites: [],
       };
 
-      const isAdoptedRequest: AsyncRequest<
-        AdoptedSites,
-        any
-      > = AsyncRequestCompleted<AdoptedSites, any>(emptyAdoptedSites);
+      const isAdoptedRequest: AsyncRequest<AdoptedSites, any> =
+        AsyncRequestCompleted<AdoptedSites, any>(emptyAdoptedSites);
 
       expect(isTreeAdoptedByUser(isAdoptedRequest, 0)).toBe(false);
     });
 
     it('returns false when request is not completed', () => {
-      const isAdoptedRequest: AsyncRequest<
-        AdoptedSites,
-        any
-      > = AsyncRequestNotStarted<AdoptedSites, any>();
+      const isAdoptedRequest: AsyncRequest<AdoptedSites, any> =
+        AsyncRequestNotStarted<AdoptedSites, any>();
 
       expect(isTreeAdoptedByUser(isAdoptedRequest, 0)).toBe(false);
     });
@@ -316,10 +287,8 @@ describe('Tree Page Selectors', () => {
         },
       ];
 
-      const request: AsyncRequest<
-        StewardshipActivities,
-        any
-      > = AsyncRequestCompleted<StewardshipActivities, any>(emptyActivities);
+      const request: AsyncRequest<StewardshipActivities, any> =
+        AsyncRequestCompleted<StewardshipActivities, any>(emptyActivities);
 
       expect(mapStewardshipToMonthYearOptions(request)).toStrictEqual(
         expectedMonthYearOptions,
@@ -378,10 +347,8 @@ describe('Tree Page Selectors', () => {
         },
       ];
 
-      const request: AsyncRequest<
-        StewardshipActivities,
-        any
-      > = AsyncRequestCompleted<StewardshipActivities, any>(dummyActivities);
+      const request: AsyncRequest<StewardshipActivities, any> =
+        AsyncRequestCompleted<StewardshipActivities, any>(dummyActivities);
 
       expect(mapStewardshipToMonthYearOptions(request)).toStrictEqual(
         expectedMonthYearOptions,
@@ -445,10 +412,8 @@ describe('Tree Page Selectors', () => {
         },
       ];
 
-      const request: AsyncRequest<
-        StewardshipActivities,
-        any
-      > = AsyncRequestCompleted<StewardshipActivities, any>(dummyActivities);
+      const request: AsyncRequest<StewardshipActivities, any> =
+        AsyncRequestCompleted<StewardshipActivities, any>(dummyActivities);
 
       expect(mapStewardshipToMonthYearOptions(request)).toStrictEqual(
         expectedMonthYearOptions,

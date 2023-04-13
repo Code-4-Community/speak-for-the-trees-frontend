@@ -17,6 +17,7 @@ import {
   EditSiteRequest,
   SiteEntriesRequest,
   AddSiteRequest,
+  AddSitesRequest,
   NameSiteEntryRequest,
 } from '../components/forms/ducks/types';
 import {
@@ -83,8 +84,13 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
   readonly adoptSite: (siteId: number) => Promise<void>;
   readonly unadoptSite: (siteId: number) => Promise<void>;
+  readonly forceUnadoptSite: (siteId: number) => Promise<void>;
   readonly recordStewardship: (
     siteId: number,
+    request: ActivityRequest,
+  ) => Promise<void>;
+  readonly editStewardship: (
+    activityId: number,
     request: ActivityRequest,
   ) => Promise<void>;
   readonly deleteStewardship: (activityId: number) => Promise<void>;
@@ -110,6 +116,7 @@ export interface ProtectedApiClient {
     siteId: number,
     request: NameSiteEntryRequest,
   ) => Promise<void>;
+  readonly addSites: (request: AddSitesRequest) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -138,6 +145,7 @@ export enum AdminApiClientRoutes {
   GET_ADOPTION_REPORT_CSV = '/api/v1/protected/report/csv/adoption',
   GET_STEWARDSHIP_REPORT = '/api/v1/protected/report/stewardship',
   GET_STEWARDSHIP_REPORT_CSV = '/api/v1/protected/report/csv/adoption',
+  ADD_SITES = '/api/v1/protected/sites/add_sites',
 }
 
 const baseTeamRoute = '/api/v1/protected/teams/';
@@ -164,8 +172,12 @@ export const ParameterizedApiRoutes = {
     `${baseTeamRoute}${teamId}/transfer_ownership`,
   ADOPT_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/adopt`,
   UNADOPT_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/unadopt`,
+  FORCE_UNADOPT_SITE: (siteId: number): string =>
+    `${baseSiteRoute}${siteId}/force_unadopt`,
   RECORD_STEWARDSHIP: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/record_stewardship`,
+  EDIT_STEWARDSHIP: (activityId: number): string =>
+    `${baseSiteRoute}edit_stewardship/${activityId}`,
   DELETE_STEWARDSHIP: (actvityId: number): string =>
     `${baseSiteRoute}delete_stewardship/${actvityId}`,
   UPDATE_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/update`,
@@ -383,12 +395,28 @@ const unadoptSite = (siteId: number): Promise<void> => {
   ).then((res) => res.data);
 };
 
+const forceUnadoptSite = (siteId: number): Promise<void> => {
+  return AppAxiosInstance.post(
+    ParameterizedApiRoutes.FORCE_UNADOPT_SITE(siteId),
+  ).then((res) => res.data);
+};
+
 const recordStewardship = (
   siteId: number,
   request: ActivityRequest,
 ): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.RECORD_STEWARDSHIP(siteId),
+    request,
+  ).then((res) => res.data);
+};
+
+const editStewardship = (
+  activityId: number,
+  request: ActivityRequest,
+): Promise<void> => {
+  return AppAxiosInstance.post(
+    ParameterizedApiRoutes.EDIT_STEWARDSHIP(activityId),
     request,
   ).then((res) => res.data);
 };
@@ -473,6 +501,12 @@ const nameSiteEntry = (
   ).then((res) => res.data);
 };
 
+const addSites = (request: AddSitesRequest): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.ADD_SITES, request).then(
+    (res) => res.data,
+  );
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -504,7 +538,9 @@ const Client: ProtectedApiClient = Object.freeze({
   transferOwnership,
   adoptSite,
   unadoptSite,
+  forceUnadoptSite,
   recordStewardship,
+  editStewardship,
   deleteStewardship,
   getAdoptedSites,
   editSite,
@@ -515,6 +551,7 @@ const Client: ProtectedApiClient = Object.freeze({
   getStewardshipReportCsv,
   addSite,
   nameSiteEntry,
+  addSites,
 });
 
 export default Client;

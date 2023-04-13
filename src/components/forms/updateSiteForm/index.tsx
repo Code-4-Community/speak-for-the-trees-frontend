@@ -14,8 +14,8 @@ import {
   SiteEntryStatus,
 } from '../../../containers/treePage/ducks/types';
 import { stringNumberRules } from '../../../utils/formRules';
-import { getSEFieldDisplayName } from '../../../containers/treePage/ducks/selectors';
 import { CheckboxOptionType } from 'antd/es/checkbox/Group';
+import { getSEFieldDisplayName } from '../../../utils/stringFormat';
 
 interface RadioInputProps {
   readonly name: string;
