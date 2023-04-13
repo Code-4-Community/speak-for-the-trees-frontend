@@ -19,7 +19,6 @@ import useWindowDimensions, {
 } from '../../components/windowDimensions';
 import {
   EditSiteRequest,
-  SiteEntriesRequest,
   UpdateSiteRequest,
 } from '../../components/forms/ducks/types';
 import SelectorMapDisplay from '../../components/mapComponents/mapDisplays/selectorMapDisplay';
@@ -82,11 +81,7 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
   };
 
   const onSubmitUpdateSite = (request: UpdateSiteRequest) => {
-    const entries: SiteEntriesRequest = {
-      ...request,
-      plantingDate: request.plantingDate?.format('L') || null,
-    };
-    ProtectedClient.updateSite(id, entries)
+    ProtectedClient.updateSite(id, request)
       .then(() => {
         updateSiteForm.resetFields();
         message.success('Site updated!').then();
