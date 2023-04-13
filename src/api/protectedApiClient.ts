@@ -19,6 +19,7 @@ import {
   AddSiteRequest,
   AddSitesRequest,
   NameSiteEntryRequest,
+  SendEmailRequest,
 } from '../components/forms/ducks/types';
 import {
   ActivityRequest,
@@ -117,6 +118,7 @@ export interface ProtectedApiClient {
     request: NameSiteEntryRequest,
   ) => Promise<void>;
   readonly addSites: (request: AddSitesRequest) => Promise<void>;
+  readonly sendEmail: (request: SendEmailRequest) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -146,6 +148,7 @@ export enum AdminApiClientRoutes {
   GET_STEWARDSHIP_REPORT = '/api/v1/protected/report/stewardship',
   GET_STEWARDSHIP_REPORT_CSV = '/api/v1/protected/report/csv/adoption',
   ADD_SITES = '/api/v1/protected/sites/add_sites',
+  SEND_EMAIL = '/api/v1/protected/neighborhoods/send_email',
 }
 
 const baseTeamRoute = '/api/v1/protected/teams/';
@@ -506,6 +509,12 @@ const addSites = (request: AddSitesRequest): Promise<void> => {
   );
 };
 
+const sendEmail = (request: SendEmailRequest): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.SEND_EMAIL, request).then(
+    (res) => res.data,
+  );
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -551,6 +560,7 @@ const Client: ProtectedApiClient = Object.freeze({
   addSite,
   nameSiteEntry,
   addSites,
+  sendEmail,
 });
 
 export default Client;

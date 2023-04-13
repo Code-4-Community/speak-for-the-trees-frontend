@@ -113,3 +113,12 @@ export interface AddSitesRequest {
 export interface NameSiteEntryRequest {
   readonly name: string;
 }
+
+export interface SendEmailFormValues {
+  readonly emailSubject: string;
+  readonly emailBody: string;
+}
+
+export interface SendEmailRequest extends SendEmailFormValues {
+  readonly emails: string[];
+}

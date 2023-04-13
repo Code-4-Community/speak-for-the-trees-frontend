@@ -6,6 +6,7 @@ import { Routes } from '../../App';
 import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
 import PageHeader from '../../components/pageHeader';
+import SendEmailForm from '../../components/forms/sendEmailForm';
 
 const EmailPageContainer = styled.div`
   width: 90vw;
@@ -13,6 +14,8 @@ const EmailPageContainer = styled.div`
 `;
 
 const Email: React.FC = () => {
+  const selectedEmails = ['jung.du@northeastern.edu'];
+
   return (
     <>
       <Helmet>
@@ -31,6 +34,7 @@ const Email: React.FC = () => {
           <Typography.Title level={4}>
             Select a type of email to send volunteers
           </Typography.Title>
+          <SendEmailForm emails={selectedEmails} />
         </EmailPageContainer>
       </PageLayout>
     </>
