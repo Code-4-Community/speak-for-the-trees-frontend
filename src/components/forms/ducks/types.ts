@@ -105,6 +105,11 @@ export interface UpdateSiteRequest {
   readonly plantingDate: moment.Moment | null;
 }
 
+export interface SiteEntriesRequest
+  extends Omit<UpdateSiteRequest, 'plantingDate'> {
+  readonly plantingDate: string | null;
+}
+
 export interface AddSiteRequest extends UpdateSiteRequest, EditSiteRequest {}
 
 export interface AddSitesRequest {
