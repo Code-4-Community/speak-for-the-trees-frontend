@@ -66,7 +66,7 @@ const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
 
   const onAddFilter = useCallback(
     (
-      key: string,
+      key: 'neighborhoods' | 'commonNames',
       options: { value: string }[],
       searchValue: string,
       warning: string,
@@ -86,7 +86,7 @@ const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
 
   return (
     <StyledCollapse ghost={true}>
-      <Collapse.Panel header="Activity Count">
+      <Collapse.Panel header="Activity Count" key="activityCount">
         <p>{`${filters.activityCountMin} - ${
           filters.activityCountMax || MAX_COUNT + '+'
         }`}</p>
@@ -106,7 +106,7 @@ const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
           }}
         />
       </Collapse.Panel>
-      <Collapse.Panel header="Adoption Date">
+      <Collapse.Panel header="Adoption Date" key="adoptionDate">
         <DatePicker.RangePicker
           onChange={(_, dateStrings) =>
             setFilters({
@@ -118,7 +118,7 @@ const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
           disabledDate={disabledDate}
         />
       </Collapse.Panel>
-      <Collapse.Panel header="Last Activity Date">
+      <Collapse.Panel header="Last Activity Date" key="lastActivityDate">
         <DatePicker.RangePicker
           onChange={(_, dateStrings) =>
             setFilters({
@@ -130,12 +130,12 @@ const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
           disabledDate={disabledDate}
         />
       </Collapse.Panel>
-      <Collapse.Panel header="Neighborhood">
+      <Collapse.Panel header="Neighborhood" key="neighborhood">
         <StyledAutoComplete
           placeholder="Enter a neighborhood"
           options={neighborhoodOptions}
           value={neighborhoodSearch}
-          onChange={(text) => setNeighborhoodSearch(text)}
+          onChange={(text: string) => setNeighborhoodSearch(text)}
           onSelect={(value: string) => setNeighborhoodSearch(value)}
           filterOption={(input: string, option) =>
             option?.value.toLowerCase().includes(input.toLowerCase())
@@ -153,12 +153,12 @@ const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
           Add
         </Button>
       </Collapse.Panel>
-      <Collapse.Panel header="Common Name">
+      <Collapse.Panel header="Common Name" key="commonName">
         <StyledAutoComplete
           placeholder="Enter a tree name"
           options={commonNameOptions}
           value={namesSearch}
-          onChange={(text) => setNamesSearch(text)}
+          onChange={(text: string) => setNamesSearch(text)}
           onSelect={(value: string) => setNamesSearch(value)}
           filterOption={(input: string, option) =>
             option?.value.toLowerCase().includes(input.toLowerCase())

@@ -34,7 +34,7 @@ const Email: React.FC = () => {
     commonNames: [],
   });
 
-  function generateFilterButtons(key: string) {
+  function generateFilterButtons(key: 'neighborhoods' | 'commonNames') {
     return filters[key].map((n) => {
       return (
         <NeighborhoodFilter
@@ -73,11 +73,11 @@ const Email: React.FC = () => {
           </Typography.Title>
           <StyledSelect
             defaultValue={EmailType.INACTIVE}
-            options={Object.keys(EmailType).map((key) => ({
+            options={Object.entries(EmailType).map(([key, value]) => ({
               value: key,
-              label: EmailType[key],
+              label: value,
             }))}
-            onChange={(value) => setEmailType(value)}
+            onChange={(value: EmailType) => setEmailType(value)}
           />
           <EmailerFilterForm filters={filters} setFilters={setFilters} />
           {generateFilterButtons('neighborhoods')}
