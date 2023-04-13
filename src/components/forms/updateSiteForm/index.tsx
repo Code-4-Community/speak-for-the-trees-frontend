@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Radio, Row, Space } from 'antd';
+import { Form, Input, Radio, Row, Space, DatePicker } from 'antd';
 import { FormInstance, Rule } from 'antd/es/form';
 import {
   BOOL_RADIO_OPTS,
@@ -11,6 +11,7 @@ import TitleStack from '../../titleStack';
 import {
   SiteEntry,
   SiteEntryFields,
+  SiteEntryStatus,
 } from '../../../containers/treePage/ducks/types';
 import { stringNumberRules } from '../../../utils/formRules';
 import { CheckboxOptionType } from 'antd/es/checkbox/Group';
@@ -24,6 +25,10 @@ interface RadioInputProps {
 interface StringInputProps extends RadioInputProps {
   readonly placeholder: string;
   readonly rules?: Rule[];
+}
+
+interface DateSelectorProps {
+  readonly name: string;
 }
 
 interface UpdateSiteFormProps {
@@ -66,6 +71,14 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
     );
   };
 
+  const DateSelector: React.FC<DateSelectorProps> = ({ name }) => {
+    return (
+      <Form.Item name={name}>
+        <DatePicker format={'MM/DD/YYYY'} />
+      </Form.Item>
+    );
+  };
+
   const formInitialValues = {
     treePresent: latestSiteEntry?.treePresent ?? false,
     multistem: latestSiteEntry?.multistem ?? false,
@@ -88,7 +101,8 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
     wires: latestSiteEntry?.wires ?? false,
     grate: latestSiteEntry?.grate ?? false,
     stump: latestSiteEntry?.stump ?? false,
-    status: latestSiteEntry?.status ?? null,
+    status: latestSiteEntry?.status ?? SiteEntryStatus.ALIVE,
+    plantingDate: null,
   };
 
   return (
@@ -234,6 +248,12 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           minWidth={'150px'}
         >
           <RadioInput name={SiteEntryFields.GRATE} />
+        </TitleStack>
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.PLANTING_DATE)}
+          minWidth={'150px'}
+        >
+          <DateSelector name={SiteEntryFields.PLANTING_DATE} />
         </TitleStack>
       </Flex>
 

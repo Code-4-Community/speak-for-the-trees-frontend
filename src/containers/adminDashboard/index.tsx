@@ -110,6 +110,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
       address: editSiteForm.getFieldValue('address'),
       neighborhoodId: editSiteForm.getFieldValue('neighborhoodId'),
       ...request,
+      plantingDate: updateSiteForm.getFieldValue('plantingDate')?.format('L'),
     };
     ProtectedClient.addSite(addSiteRequest)
       .then(() => {

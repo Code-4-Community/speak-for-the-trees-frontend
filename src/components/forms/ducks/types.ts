@@ -102,6 +102,12 @@ export interface UpdateSiteRequest {
   readonly stump: boolean | null;
   readonly treeNotes: string | null;
   readonly siteNotes: string | null;
+  readonly plantingDate: moment.Moment | null;
+}
+
+export interface SiteEntriesRequest
+  extends Omit<UpdateSiteRequest, 'plantingDate'> {
+  readonly plantingDate: string | null;
 }
 
 export interface AddSiteRequest extends UpdateSiteRequest, EditSiteRequest {}
