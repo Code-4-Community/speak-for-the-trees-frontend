@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import moment from 'moment';
-import dayjs from 'dayjs';
 import { EmailerFilters } from '../../containers/email/types';
 import {
   Collapse,
@@ -38,23 +37,20 @@ function activityCountRange(filters: EmailerFilters): [number, number] {
 }
 
 function formatDates(
-  filters: EmailerFilters,
-  startKey: string,
-  endKey: string,
-) {
-  return filters[startKey] && filters[endKey]
-    ? [dayjs(filters[startKey]), dayjs(filters[endKey])]
-    : ['', ''];
+  start?: string,
+  end?: string,
+): [moment.Moment | null, moment.Moment | null] | undefined {
+  if (start && end) return [moment(start), moment(end)];
+}
+
+function disabledDate(current: moment.Moment): boolean {
+  // Can not select future days
+  return current > moment().endOf('day');
 }
 
 const activityCountLabels: SliderMarks = {
   0: '0',
   [MAX_COUNT + 1]: `${MAX_COUNT}+`,
-};
-
-const disabledDate = (current: moment.Moment): boolean => {
-  // Can not select future days
-  return current > moment().endOf('day');
 };
 
 const neighborhoodOptions = Object.values(Neighborhoods)
@@ -100,8 +96,6 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
     [filters, setFilters],
   );
 
-  console.log(filters);
-
   return (
     <StyledCollapse ghost={true}>
       <Collapse.Panel header="Activity Count" key="activityCount">
@@ -125,8 +119,8 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
         />
       </Collapse.Panel>
       <Collapse.Panel header="Adoption Date" key="adoptionDate">
-        <StyledRangePicker
-          value={formatDates(filters, 'adoptedStart', 'adoptedEnd')}
+        <DatePicker.RangePicker
+          value={formatDates(filters.adoptedStart, filters.adoptedEnd)}
           onChange={(_, dateStrings) =>
             setFilters({
               ...filters,
@@ -151,7 +145,10 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
       </Collapse.Panel>
       <Collapse.Panel header="Last Activity Date" key="lastActivityDate">
         <StyledRangePicker
-          value={formatDates(filters, 'lastActivityStart', 'lastActivityEnd')}
+          value={formatDates(
+            filters.lastActivityStart,
+            filters.lastActivityEnd,
+          )}
           onChange={(_, dateStrings) =>
             setFilters({
               ...filters,
