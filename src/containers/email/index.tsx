@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Select, Typography, Button } from 'antd';
@@ -7,7 +7,7 @@ import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
 import PageHeader from '../../components/pageHeader';
 import { EmailType, EmailerFilters } from './types';
-import EmailerFilterForm from '../../components/emailerFilterForm';
+import EmailerFilterControls from '../../components/emailerFilterControls';
 import { CloseOutlined } from '@ant-design/icons';
 
 const EmailPageContainer = styled.div`
@@ -15,10 +15,7 @@ const EmailPageContainer = styled.div`
   margin: 30px auto auto;
 `;
 
-const StyledSelect = styled(Select)`
-  margin-top: 20px;
-  min-width: 150px;
-`;
+const selectStyles = { marginTop: 20, minWidth: 150 };
 
 const NeighborhoodFilter = styled(Button)`
   padding: 1px 8px;
@@ -71,7 +68,8 @@ const Email: React.FC = () => {
           <Typography.Title level={4}>
             Select a type of email to send volunteers
           </Typography.Title>
-          <StyledSelect
+          <Select
+            style={selectStyles}
             defaultValue={EmailType.INACTIVE}
             options={Object.entries(EmailType).map(([key, value]) => ({
               value: key,
@@ -79,7 +77,7 @@ const Email: React.FC = () => {
             }))}
             onChange={(value: EmailType) => setEmailType(value)}
           />
-          <EmailerFilterForm filters={filters} setFilters={setFilters} />
+          <EmailerFilterControls filters={filters} setFilters={setFilters} />
           {generateFilterButtons('neighborhoods')}
           <br />
           {generateFilterButtons('commonNames')}

@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import moment from 'moment';
+import dayjs from 'dayjs';
 import { EmailerFilters } from '../../containers/email/types';
 import {
   Collapse,
@@ -13,17 +14,19 @@ import { SliderMarks } from 'antd/lib/slider';
 import styled from 'styled-components';
 import { Neighborhoods } from '../../assets/content';
 import apiClient from '../../api/apiClient';
+import { CloseOutlined } from '@ant-design/icons';
 
 const StyledCollapse = styled(Collapse)`
   max-width: 400px;
 `;
 
-const StyledAutoComplete = styled(AutoComplete)`
-  width: 200px;
+const StyledRangePicker = styled(DatePicker.RangePicker)`
   margin-right: 15px;
 `;
 
-interface EmailerFilterFormProps {
+const autoCompleteStyles = { width: 200, marginRight: 15 };
+
+interface EmailerFilterControlsProps {
   filters: EmailerFilters;
   setFilters: React.Dispatch<React.SetStateAction<EmailerFilters>>;
 }
@@ -32,6 +35,16 @@ const MAX_COUNT = 10;
 
 function activityCountRange(filters: EmailerFilters): [number, number] {
   return [filters.activityCountMin, filters.activityCountMax || MAX_COUNT + 1];
+}
+
+function formatDates(
+  filters: EmailerFilters,
+  startKey: string,
+  endKey: string,
+) {
+  return filters[startKey] && filters[endKey]
+    ? [dayjs(filters[startKey]), dayjs(filters[endKey])]
+    : ['', ''];
 }
 
 const activityCountLabels: SliderMarks = {
@@ -57,7 +70,7 @@ apiClient.getAllCommonNames().then((res) => {
   });
 });
 
-const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
+const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
   filters,
   setFilters,
 }) => {
@@ -75,6 +88,9 @@ const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
         if (options.map((option) => option.value).includes(searchValue)) {
           if (!filters[key].includes(searchValue)) {
             setFilters({ ...filters, [key]: [...filters[key], searchValue] });
+            key === 'neighborhoods'
+              ? setNeighborhoodSearch('')
+              : setNamesSearch('');
           }
         } else {
           message.warn(warning);
@@ -83,6 +99,8 @@ const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
     },
     [filters, setFilters],
   );
+
+  console.log(filters);
 
   return (
     <StyledCollapse ghost={true}>
@@ -107,7 +125,8 @@ const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
         />
       </Collapse.Panel>
       <Collapse.Panel header="Adoption Date" key="adoptionDate">
-        <DatePicker.RangePicker
+        <StyledRangePicker
+          value={formatDates(filters, 'adoptedStart', 'adoptedEnd')}
           onChange={(_, dateStrings) =>
             setFilters({
               ...filters,
@@ -117,9 +136,22 @@ const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
           }
           disabledDate={disabledDate}
         />
+        <Button
+          type="primary"
+          onClick={() =>
+            setFilters({
+              ...filters,
+              adoptedStart: undefined,
+              adoptedEnd: undefined,
+            })
+          }
+        >
+          <CloseOutlined />
+        </Button>
       </Collapse.Panel>
       <Collapse.Panel header="Last Activity Date" key="lastActivityDate">
-        <DatePicker.RangePicker
+        <StyledRangePicker
+          value={formatDates(filters, 'lastActivityStart', 'lastActivityEnd')}
           onChange={(_, dateStrings) =>
             setFilters({
               ...filters,
@@ -129,16 +161,29 @@ const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
           }
           disabledDate={disabledDate}
         />
+        <Button
+          type="primary"
+          onClick={() =>
+            setFilters({
+              ...filters,
+              lastActivityStart: undefined,
+              lastActivityEnd: undefined,
+            })
+          }
+        >
+          <CloseOutlined />
+        </Button>
       </Collapse.Panel>
       <Collapse.Panel header="Neighborhood" key="neighborhood">
-        <StyledAutoComplete
+        <AutoComplete
+          style={autoCompleteStyles}
           placeholder="Enter a neighborhood"
           options={neighborhoodOptions}
           value={neighborhoodSearch}
           onChange={(text: string) => setNeighborhoodSearch(text)}
           onSelect={(value: string) => setNeighborhoodSearch(value)}
           filterOption={(input: string, option) =>
-            option?.value.toLowerCase().includes(input.toLowerCase())
+            !!option?.value.toLowerCase().includes(input.toLowerCase())
           }
         />
         <Button
@@ -154,14 +199,15 @@ const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
         </Button>
       </Collapse.Panel>
       <Collapse.Panel header="Common Name" key="commonName">
-        <StyledAutoComplete
+        <AutoComplete
+          style={autoCompleteStyles}
           placeholder="Enter a tree name"
           options={commonNameOptions}
           value={namesSearch}
           onChange={(text: string) => setNamesSearch(text)}
           onSelect={(value: string) => setNamesSearch(value)}
           filterOption={(input: string, option) =>
-            option?.value.toLowerCase().includes(input.toLowerCase())
+            !!option?.value.toLowerCase().includes(input.toLowerCase())
           }
         />
         <Button
@@ -180,4 +226,4 @@ const EmailerFilterForm: React.FC<EmailerFilterFormProps> = ({
   );
 };
 
-export default EmailerFilterForm;
+export default EmailerFilterControls;
