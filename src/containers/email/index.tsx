@@ -69,6 +69,7 @@ const Email: React.FC = () => {
             Select a type of email to send volunteers
           </Typography.Title>
           <Select
+            value={emailType}
             style={selectStyles}
             defaultValue={EmailType.INACTIVE}
             options={Object.entries(EmailType).map(([key, value]) => ({
