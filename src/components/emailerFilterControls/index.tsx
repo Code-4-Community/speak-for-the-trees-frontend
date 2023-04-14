@@ -119,7 +119,7 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
         />
       </Collapse.Panel>
       <Collapse.Panel header="Adoption Date" key="adoptionDate">
-        <DatePicker.RangePicker
+        <StyledRangePicker
           value={formatDates(filters.adoptedStart, filters.adoptedEnd)}
           onChange={(_, dateStrings) =>
             setFilters({
