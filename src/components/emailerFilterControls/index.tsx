@@ -59,19 +59,19 @@ const neighborhoodOptions = Object.values(Neighborhoods)
   })
   .sort();
 
-let commonNameOptions: { value: string }[] = [];
-apiClient.getAllCommonNames().then((res) => {
-  commonNameOptions = res.map((name) => {
-    return { value: name };
-  });
-});
-
 const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
   filters,
   setFilters,
 }) => {
   const [neighborhoodSearch, setNeighborhoodSearch] = useState<string>('');
   const [namesSearch, setNamesSearch] = useState<string>('');
+
+  let commonNameOptions: { value: string }[] = [];
+  apiClient.getAllCommonNames().then((res) => {
+    commonNameOptions = res.map((name) => {
+      return { value: name };
+    });
+  });
 
   const onAddFilter = useCallback(
     (
