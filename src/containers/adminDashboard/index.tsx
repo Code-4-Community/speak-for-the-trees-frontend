@@ -185,9 +185,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         lng: round(pos.lng(), LAT_LNG_PRECISION),
                       });
                     }}
-                  setMarker={setMapSearchMarker}
-                />
-              </MapContainer>
+                    setMarker={setMapSearchMarker}
+                  />
+                </MapContainer>
+              </MapTypeContext.Provider>
             </Flex>
             <UpdateSiteForm
               formInstance={updateSiteForm}

@@ -137,9 +137,10 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
                     });
                   }}
                   site={site}
-                setMarker={setMapSearchMarker}
-              />
-            </MapContainer>
+                  setMarker={setMapSearchMarker}
+                />
+              </MapContainer>
+            </MapTypeContext.Provider>
           </Flex>
 
           <SectionHeader strong>Site Entries</SectionHeader>
