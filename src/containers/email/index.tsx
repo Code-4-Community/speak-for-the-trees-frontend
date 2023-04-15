@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { Select, Typography, Button } from 'antd';
+import { Select, Typography } from 'antd';
 import { Routes } from '../../App';
 import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
 import PageHeader from '../../components/pageHeader';
 import { EmailType, EmailerFilters } from './types';
 import EmailerFilterControls from '../../components/emailerFilterControls';
-import { CloseOutlined } from '@ant-design/icons';
 
 const EmailPageContainer = styled.div`
   width: 90vw;
@@ -17,12 +16,6 @@ const EmailPageContainer = styled.div`
 
 const selectStyles = { marginTop: 20, minWidth: 150 };
 
-const NeighborhoodFilter = styled(Button)`
-  padding: 1px 8px;
-  margin: 0px 5px;
-  line-height: 0.8;
-`;
-
 const Email: React.FC = () => {
   const [emailType, setEmailType] = useState<EmailType>(EmailType.INACTIVE);
   const [filters, setFilters] = useState<EmailerFilters>({
@@ -30,25 +23,6 @@ const Email: React.FC = () => {
     neighborhoods: [],
     commonNames: [],
   });
-
-  function generateFilterButtons(key: 'neighborhoods' | 'commonNames') {
-    return filters[key].map((n) => {
-      return (
-        <NeighborhoodFilter
-          key={n}
-          onClick={() =>
-            setFilters({
-              ...filters,
-              [key]: filters[key].filter((v) => v !== n),
-            })
-          }
-        >
-          <CloseOutlined />
-          {n}
-        </NeighborhoodFilter>
-      );
-    });
-  }
 
   return (
     <>
@@ -79,9 +53,6 @@ const Email: React.FC = () => {
             onChange={(value: EmailType) => setEmailType(value)}
           />
           <EmailerFilterControls filters={filters} setFilters={setFilters} />
-          {generateFilterButtons('neighborhoods')}
-          <br />
-          {generateFilterButtons('commonNames')}
         </EmailPageContainer>
       </PageLayout>
     </>

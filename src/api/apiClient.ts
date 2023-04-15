@@ -29,7 +29,7 @@ export interface ApiClient {
   readonly getStewardshipActivities: (
     siteId: number,
   ) => Promise<StewardshipActivities>;
-  readonly getAllCommonNames: () => Promise<string[]>;
+  readonly getAllCommonNames: () => Promise<{ names: string[] }>;
 }
 
 export enum ApiClientRoutes {
@@ -38,6 +38,7 @@ export enum ApiClientRoutes {
   GET_ALL_BLOCKS = '/api/v1/map/blocks',
   GET_ALL_NEIGHBORHOODS = '/api/v1/map/neighborhoods',
   GET_ALL_SITES = '/api/v1/map/sites',
+  GET_ALL_COMMON_NAMES = '/api/v1/sites/info/common_names',
 }
 
 const baseSiteRoute = '/api/v1/sites/';
@@ -50,7 +51,6 @@ export const ParameterizedApiRoutes = {
   GET_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}`,
   GET_STEWARDSHIP_ACTIVITIES: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/stewardship_activities`,
-  GET_ALL_COMMON_NAMES: (): string => `${baseSiteRoute}info/common_names`,
 };
 
 const getUsersLeaderboard = (
@@ -109,10 +109,10 @@ const getStewardshipActivities = (
   ).then((res) => res.data);
 };
 
-const getAllCommonNames = (): Promise<string[]> => {
-  return AppAxiosInstance.get(
-    ParameterizedApiRoutes.GET_ALL_COMMON_NAMES(),
-  ).then((res) => res.data.names);
+const getAllCommonNames = (): Promise<{ names: string[] }> => {
+  return AppAxiosInstance.get(ApiClientRoutes.GET_ALL_COMMON_NAMES).then(
+    (res) => res.data,
+  );
 };
 
 const Client: ApiClient = Object.freeze({

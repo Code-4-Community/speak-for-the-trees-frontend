@@ -1,14 +1,7 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { EmailerFilters } from '../../containers/email/types';
-import {
-  Collapse,
-  Slider,
-  DatePicker,
-  AutoComplete,
-  Button,
-  message,
-} from 'antd';
+import { Collapse, Slider, DatePicker, Button, Select, message } from 'antd';
 import { SliderMarks } from 'antd/lib/slider';
 import styled from 'styled-components';
 import { Neighborhoods } from '../../assets/content';
@@ -23,17 +16,20 @@ const StyledRangePicker = styled(DatePicker.RangePicker)`
   margin-right: 15px;
 `;
 
-const autoCompleteStyles = { width: 200, marginRight: 15 };
+const selectStyles = { minWidth: 200, maxWidth: 500 };
 
 interface EmailerFilterControlsProps {
   filters: EmailerFilters;
   setFilters: React.Dispatch<React.SetStateAction<EmailerFilters>>;
 }
 
-const MAX_COUNT = 10;
+const MAX_ACTIVITY_COUNT = 10;
 
 function activityCountRange(filters: EmailerFilters): [number, number] {
-  return [filters.activityCountMin, filters.activityCountMax || MAX_COUNT + 1];
+  return [
+    filters.activityCountMin,
+    filters.activityCountMax || MAX_ACTIVITY_COUNT + 1,
+  ];
 }
 
 function formatDates(
@@ -50,85 +46,63 @@ function disabledDate(current: moment.Moment): boolean {
 
 const activityCountLabels: SliderMarks = {
   0: '0',
-  [MAX_COUNT + 1]: `${MAX_COUNT}+`,
+  [MAX_ACTIVITY_COUNT + 1]: `${MAX_ACTIVITY_COUNT}+`,
 };
 
 const neighborhoodOptions = Object.values(Neighborhoods)
+  .sort()
   .map((value) => {
-    return { value };
-  })
-  .sort();
+    return { label: value, value };
+  });
 
 const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
   filters,
   setFilters,
 }) => {
-  const [neighborhoodSearch, setNeighborhoodSearch] = useState<string>('');
-  const [namesSearch, setNamesSearch] = useState<string>('');
-
   const [commonNameOptions, setCommonNameOptions] = useState<
-    { value: string }[]
+    { label: string; value: string }[]
   >([]);
 
   useEffect(() => {
-    async function getNames() {
-      const names = await apiClient.getAllCommonNames();
-      setCommonNameOptions(
-        names.map((name) => {
-          return { value: name };
-        }),
+    apiClient
+      .getAllCommonNames()
+      .then((res) =>
+        setCommonNameOptions(
+          res.names.map((name) => {
+            return { label: name, value: name };
+          }),
+        ),
+      )
+      .catch((err) =>
+        message.error(`Unable to fetch existing tree names: ${err.message}`),
       );
-    }
-    getNames();
   }, []);
 
-  const onAddFilter = useCallback(
-    (
-      key: 'neighborhoods' | 'commonNames',
-      options: { value: string }[],
-      searchValue: string,
-      warning: string,
-    ) => {
-      return () => {
-        if (options.map((option) => option.value).includes(searchValue)) {
-          if (!filters[key].includes(searchValue)) {
-            setFilters({ ...filters, [key]: [...filters[key], searchValue] });
-            key === 'neighborhoods'
-              ? setNeighborhoodSearch('')
-              : setNamesSearch('');
-          }
-        } else {
-          message.warn(warning);
-        }
-      };
-    },
-    [filters, setFilters],
-  );
-
   return (
-    <StyledCollapse ghost={true}>
+    <StyledCollapse ghost>
       <Collapse.Panel header="Activity Count" key="activityCount">
         <p>{`${filters.activityCountMin} - ${
-          filters.activityCountMax || MAX_COUNT + '+'
+          filters.activityCountMax || MAX_ACTIVITY_COUNT + '+'
         }`}</p>
         <Slider
           range={true}
           marks={activityCountLabels}
           tooltip={{ open: false }}
           min={0}
-          max={MAX_COUNT + 1}
+          max={MAX_ACTIVITY_COUNT + 1}
           value={activityCountRange(filters)}
           onChange={([min, max]) => {
             setFilters({
               ...filters,
               activityCountMin: min,
-              activityCountMax: max > MAX_COUNT ? undefined : max,
+              activityCountMax: max > MAX_ACTIVITY_COUNT ? undefined : max,
             });
           }}
         />
       </Collapse.Panel>
       <Collapse.Panel header="Adoption Date" key="adoptionDate">
         <StyledRangePicker
+          allowClear={false}
           value={formatDates(filters.adoptedStart, filters.adoptedEnd)}
           onChange={(_, dateStrings) =>
             setFilters({
@@ -154,6 +128,7 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
       </Collapse.Panel>
       <Collapse.Panel header="Last Activity Date" key="lastActivityDate">
         <StyledRangePicker
+          allowClear={false}
           value={formatDates(
             filters.lastActivityStart,
             filters.lastActivityEnd,
@@ -181,52 +156,28 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
         </Button>
       </Collapse.Panel>
       <Collapse.Panel header="Neighborhood" key="neighborhood">
-        <AutoComplete
-          style={autoCompleteStyles}
+        <Select
+          style={selectStyles}
+          mode="multiple"
+          allowClear
           placeholder="Enter a neighborhood"
-          options={neighborhoodOptions}
-          value={neighborhoodSearch}
-          onChange={(text: string) => setNeighborhoodSearch(text)}
-          onSelect={(value: string) => setNeighborhoodSearch(value)}
-          filterOption={(input: string, option) =>
-            !!option?.value.toLowerCase().includes(input.toLowerCase())
+          onChange={(value: string[]) =>
+            setFilters({ ...filters, neighborhoods: value })
           }
+          options={neighborhoodOptions}
         />
-        <Button
-          type="primary"
-          onClick={onAddFilter(
-            'neighborhoods',
-            neighborhoodOptions,
-            neighborhoodSearch,
-            'Must add a valid neighborhood',
-          )}
-        >
-          Add
-        </Button>
       </Collapse.Panel>
       <Collapse.Panel header="Common Name" key="commonName">
-        <AutoComplete
-          style={autoCompleteStyles}
+        <Select
+          style={selectStyles}
+          mode="multiple"
+          allowClear
           placeholder="Enter a tree name"
-          options={commonNameOptions}
-          value={namesSearch}
-          onChange={(text: string) => setNamesSearch(text)}
-          onSelect={(value: string) => setNamesSearch(value)}
-          filterOption={(input: string, option) =>
-            !!option?.value.toLowerCase().includes(input.toLowerCase())
+          onChange={(value: string[]) =>
+            setFilters({ ...filters, commonNames: value })
           }
+          options={commonNameOptions}
         />
-        <Button
-          type="primary"
-          onClick={onAddFilter(
-            'commonNames',
-            commonNameOptions,
-            namesSearch,
-            'Must add a valid tree name',
-          )}
-        >
-          Add
-        </Button>
       </Collapse.Panel>
     </StyledCollapse>
   );
