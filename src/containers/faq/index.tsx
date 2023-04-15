@@ -4,28 +4,13 @@ import PageLayout from '../../components/pageLayout';
 import PageHeader from '../../components/pageHeader';
 import { PaddedPageContainer } from '../../components/themedComponents';
 import { Collapse, Typography } from 'antd';
-import {
-  ANSWER_EIGHT,
-  ANSWER_FIVE,
-  ANSWER_FOUR,
-  ANSWER_ONE,
-  ANSWER_SEVEN,
-  ANSWER_SIX,
-  ANSWER_THREE,
-  ANSWER_TWO,
-  QUESTION_EIGHT,
-  QUESTION_FIVE,
-  QUESTION_FOUR,
-  QUESTION_ONE,
-  QUESTION_SEVEN,
-  QUESTION_SIX,
-  QUESTION_THREE,
-  QUESTION_TWO,
-} from './content';
 import OrderedList from '../../components/orderedList';
-import { Languages } from '../../App';
+import { site } from '../../constants';
 import styled from 'styled-components';
 import { WHITE } from '../../utils/colors';
+import { Trans, useTranslation } from 'react-i18next';
+import { n } from '../../utils/stringFormat';
+import { BOSTON_311_LINK } from '../../assets/links';
 
 const WhitePanel = styled(Collapse.Panel)`
   background: ${WHITE};
@@ -38,13 +23,38 @@ const WhitePanel = styled(Collapse.Panel)`
 `;
 
 const FAQ: React.FC = () => {
-  // todo: replace this with prop when implementing languages
-  const lang = Languages.ENGLISH;
+  const { t } = useTranslation(n(site, ['faq']), { nsMode: 'fallback' });
+
+  const answerTwo = [
+    <Trans
+      ns="faq"
+      i18nKey="answers.two.one"
+      components={{
+        homeLink: (
+          <a
+            href="https://map.treeboston.org/my-trees"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {' '}
+          </a>
+        ),
+      }}
+      key="answers.two.one"
+    />,
+    ...(t('answers.two.two', { returnObjects: true }) as string[]),
+  ];
+
+  const boston311Link = (
+    <a href={BOSTON_311_LINK} target="_blank" rel="noopener noreferrer">
+      {' '}
+    </a>
+  );
 
   return (
     <>
       <Helmet>
-        <title>FAQ</title>
+        <title>{t('faq')}</title>
         <meta
           name="description"
           content="Answers to frequently asked questions when using the Adopt-A-Tree site."
@@ -53,31 +63,59 @@ const FAQ: React.FC = () => {
 
       <PageLayout>
         <PaddedPageContainer>
-          <PageHeader pageTitle={'Frequently Asked Questions'} />
+          <PageHeader pageTitle={t('title')} />
           <Collapse defaultActiveKey={1}>
-            <WhitePanel key={1} header={QUESTION_ONE[lang]}>
-              <OrderedList items={ANSWER_ONE[lang]} />
+            <WhitePanel key={1} header={t('questions.one')}>
+              <OrderedList items={t('answers.one', { returnObjects: true })} />
             </WhitePanel>
-            <WhitePanel key={2} header={QUESTION_TWO[lang]}>
-              <OrderedList items={ANSWER_TWO[lang]} />
+            <WhitePanel key={2} header={t('questions.two')}>
+              <OrderedList items={answerTwo} />
             </WhitePanel>
-            <WhitePanel key={3} header={QUESTION_THREE[lang]}>
-              <Typography.Paragraph>{ANSWER_THREE[lang]}</Typography.Paragraph>
+            <WhitePanel key={3} header={t('questions.three')}>
+              <Typography.Paragraph>
+                {t('answers.three', { joinArrays: ' ' })}
+              </Typography.Paragraph>
             </WhitePanel>
-            <WhitePanel key={4} header={QUESTION_FOUR[lang]}>
-              {ANSWER_FOUR[lang]}
+            <WhitePanel key={4} header={t('questions.four')}>
+              <Trans
+                ns="faq"
+                i18nKey="answers.four"
+                components={{
+                  myTreesLink: (
+                    <a
+                      href="https://map.treeboston.org/my-trees"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {' '}
+                    </a>
+                  ),
+                }}
+              />
             </WhitePanel>
-            <WhitePanel key={5} header={QUESTION_FIVE[lang]}>
-              {ANSWER_FIVE[lang]}
+            <WhitePanel key={5} header={t('questions.five')}>
+              {t('answers.five')}
             </WhitePanel>
-            <WhitePanel key={6} header={QUESTION_SIX[lang]}>
-              {ANSWER_SIX[lang]}
+            <WhitePanel key={6} header={t('questions.six')}>
+              <Trans
+                ns="faq"
+                i18nKey="answers.six"
+                components={{
+                  boston311Link,
+                }}
+              />
             </WhitePanel>
-            <WhitePanel key={7} header={QUESTION_SEVEN[lang]}>
-              {ANSWER_SEVEN[lang]}
+            <WhitePanel key={7} header={t('questions.seven')}>
+              <Trans
+                ns="faq"
+                i18nKey="answers.seven"
+                components={{
+                  boston311Link,
+                }}
+              />
             </WhitePanel>
-            <WhitePanel key={8} header={QUESTION_EIGHT[lang]}>
-              {ANSWER_EIGHT[lang]}
+            <WhitePanel key={8} header={t('questions.eight')}>
+              {t('answers.eight')}
             </WhitePanel>
           </Collapse>
         </PaddedPageContainer>

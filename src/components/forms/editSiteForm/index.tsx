@@ -51,19 +51,19 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({
               <Input placeholder={'City'} />
             </Form.Item>
           </TitleStack>
+        </Flex>
+
+        <Flex>
           <TitleStack title={'Zip Code'} flexGrow={'1'}>
             <Form.Item name={'zip'} rules={zipCodeRules}>
               <Input placeholder={'Zip Code'} />
             </Form.Item>
           </TitleStack>
-        </Flex>
-
-        <Flex>
-          <TitleStack title={'Block Id'} flexGrow={'1'}>
+          {/* <TitleStack title={'Block Id'} flexGrow={'1'}>
             <Form.Item name={'blockId'}>
               <FullInputNumber placeholder={'Block ID'} />
             </Form.Item>
-          </TitleStack>
+          </TitleStack> */}
           <TitleStack title={'Neighborhood'} flexGrow={'1'}>
             <Form.Item
               name={'neighborhoodId'}
@@ -72,6 +72,9 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({
               <Select options={NEIGHBORHOOD_OPTS} />
             </Form.Item>
           </TitleStack>
+        </Flex>
+
+        <Flex>
           <TitleStack title={'Latitude'} flexGrow={'1'}>
             <Form.Item
               name={'lat'}

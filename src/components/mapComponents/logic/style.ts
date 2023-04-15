@@ -8,15 +8,19 @@ import {
   WHITE,
 } from '../../../utils/colors';
 import { YOUNG_TREE_DATE } from '../constants';
-import {
-  ADOPTED_ICONS,
-  OPEN_ICONS,
-  STANDARD_ICONS,
-  YOUNG_ICONS,
-} from '../../../assets/images/siteIcons';
+import adoptedIcon from '../../../assets/images/siteIcons/adoptedIcon.svg';
+import openIcon from '../../../assets/images/siteIcons/openIcon.svg';
+import standardIcon from '../../../assets/images/siteIcons/standardIcon.svg';
+import youngIcon from '../../../assets/images/siteIcons/youngIcon.svg';
+import satelliteAdoptedIcon from '../../../assets/images/siteIcons/satelliteAdoptedIcon.svg';
+import satelliteOpenIcon from '../../../assets/images/siteIcons/satelliteOpenIcon.svg';
+import satelliteStandardIcon from '../../../assets/images/siteIcons/satelliteStandardIcon.svg';
+import satelliteYoungIcon from '../../../assets/images/siteIcons/satelliteYoungIcon.svg';
 import { shortHand } from '../../../utils/stringFormat';
 import { SHORT_HAND_NAMES } from '../../../assets/content';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import { getImageSize } from './event';
+import { MapTypes } from '../../../context/types';
 
 // Logic to style data layers on map
 
@@ -86,11 +90,12 @@ export function setNeighborhoodsStyle(
   neighborhoodsLayer: google.maps.Data,
   markers: google.maps.Marker[],
   v: boolean,
+  mapTypeId: MapTypes,
 ): void {
   toggleMarkers(markers, v);
   neighborhoodsLayer.setStyle((feature) => {
     return {
-      fillColor: `${MAP_GREEN}`,
+      fillColor: mapTypeId === MapTypes.ROADMAP ? MAP_GREEN : WHITE,
       fillOpacity: feature.getProperty('canopyCoverage'),
       strokeWeight: 1,
       strokeColor: `${DARK_GREY}`,
@@ -108,12 +113,13 @@ export function setNeighborhoodsStyle(
 export function createNeighborhoodMarker(
   feature: google.maps.Data.Feature,
   map: google.maps.Map,
+  mapTypeId: MapTypes,
 ): google.maps.Marker {
   return new google.maps.Marker({
     map,
     draggable: false,
     label: {
-      color: `${WHITE}`,
+      color: mapTypeId === MapTypes.ROADMAP ? WHITE : BLACK,
       fontWeight: 'bold',
       text: shortHand(feature.getProperty('name'), SHORT_HAND_NAMES),
     },
@@ -145,45 +151,67 @@ function toggleMarkers(markersArray: google.maps.Marker[], v: boolean) {
  * Sets the style of the sites layer according to each tree's age and adoption status and the zoom level.
  * @param sitesLayer the layer
  * @param visibleSites which sites are visible
- * @param imageSize the image size, should be between [0, 2]
- * @param v true to make the layer visible, false to make it invisible
+ * @param zoomLevel the zoom level between 16 and 22 where zooming in increases zoom level
+ * @param visible true to make the layer visible, false to make it invisible
  */
 export function setSitesStyle(
   sitesLayer: google.maps.Data,
   visibleSites: CheckboxValueType[],
-  imageSize: number,
-  v: boolean,
+  zoomLevel: number,
+  visible: boolean,
+  mapTypeId: MapTypes,
 ): void {
-  if (v) {
+  if (visible) {
     let siteVisible: boolean;
+    const icons = getIcons(mapTypeId);
 
     sitesLayer.setStyle((feature) => {
-      let iconType: string[];
+      let iconType: string;
       const plantedDate = feature.getProperty('plantingDate');
       const adopted = !!feature.getProperty('adopterId');
       if (!feature.getProperty('treePresent')) {
         // If there is no tree present, use the openSiteIcon
-        iconType = OPEN_ICONS;
+        iconType = icons.openIcon;
         siteVisible = visibleSites.includes('Open');
       } else if (adopted) {
         // If the tree is adopted, use the adoptedTreeIcon
-        iconType = ADOPTED_ICONS;
+        iconType = icons.adoptedIcon;
         siteVisible = visibleSites.includes('Adopted');
       } else if (!!plantedDate && plantedDate > YOUNG_TREE_DATE) {
         // If the tree was planted within the past three years, use youngTreeIcon
-        iconType = YOUNG_ICONS;
+        iconType = icons.youngIcon;
         siteVisible = visibleSites.includes('Young');
       } else {
-        iconType = STANDARD_ICONS;
+        iconType = icons.standardIcon;
         siteVisible = visibleSites.includes('Standard');
       }
 
+      const iconSize = getImageSize(zoomLevel);
       return {
-        icon: iconType[imageSize],
+        icon: {
+          url: iconType,
+          scaledSize: new google.maps.Size(iconSize, iconSize),
+        },
         visible: siteVisible,
       };
     });
   } else {
     sitesLayer.setStyle({ visible: false });
   }
+}
+
+function getIcons(mapTypeId: MapTypes) {
+  return mapTypeId === MapTypes.ROADMAP
+    ? {
+        openIcon,
+        adoptedIcon,
+        youngIcon,
+        standardIcon,
+      }
+    : {
+        openIcon: satelliteOpenIcon,
+        adoptedIcon: satelliteAdoptedIcon,
+        youngIcon: satelliteYoungIcon,
+        standardIcon: satelliteStandardIcon,
+      };
 }

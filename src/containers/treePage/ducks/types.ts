@@ -60,6 +60,7 @@ export enum EditableSiteEntryFields {
   STUMP = 'stump',
   TREE_NOTES = 'treeNotes',
   SITE_NOTES = 'siteNotes',
+  PLANTING_DATE = 'plantingDate',
 }
 
 export type SiteEntryField =
@@ -113,6 +114,7 @@ export interface SiteEntry {
   siteNotes?: string;
   treeName?: string;
   adopter?: string;
+  plantingDate?: moment.Moment;
 }
 
 export enum SiteEntryStatus {
@@ -146,6 +148,7 @@ export const MainSiteEntryOrder: Record<string, number> = {
 };
 
 export const ExtraSiteEntryNames: Record<string, string> = {
+  // SFTT
   treePresent: 'Is there a tree present?',
   confidence: 'Confidence',
   circumference: 'Circumference (inches)',
@@ -179,9 +182,50 @@ export const ExtraSiteEntryNames: Record<string, string> = {
   stump: 'Is there a stump?',
   treeNotes: 'Tree Notes',
   siteNotes: 'Site Notes',
+  plantingDate: 'Date Planted',
+  // CAMBRIDGE
+  trunks: 'Trunks',
+  speciesShort: 'Species (Short)',
+  location: 'Location',
+  siteRetiredReason: 'Site Retired Reason',
+  inspectr: 'Inspectr',
+  abutsOpenArea: 'Abuts Open Area',
+  treeWellCover: 'Tree Well Cover',
+  treeGrateActionReq: 'Tree Grate Action Req',
+  globalId: 'Global ID',
+  pb: 'PB',
+  siteReplanted: 'Site Replanted',
+  overheadWires: 'Overhead Wires',
+  ownership: 'Ownership',
+  scheduledRemoval: 'Scheduled Removal',
+  structuralSoil: 'Structural Soil',
+  wateringResponsibility: 'Watering Responsibility',
+  cultivar: 'Cultivar',
+  solarRating: 'Solar Rating',
+  bareRoot: 'Bare Root',
+  adaCompliant: 'ADA Compliant',
+  cartegraphPlantDate: 'Cartegraph Plant Date',
+  locationRetired: 'Location Retired',
+  createdDate: 'Created Date',
+  order: 'Order',
+  plantingSeason: 'Planting Season',
+  exposedRootFlare: 'Exposed Root Flare',
+  stTreePruningZone: 'St Tree Pruning Zone',
+  memTree: 'Mem Tree',
+  cartegraphRetireDate: 'Cartegraph Retire Date',
+  removalReason: 'Removal Reason',
+  offStTreePruningZone: 'Off St Tree Pruning Zone',
+  plantingContract: 'Planting Contract',
+  treeWellDepth: 'Tree Well Depth',
+  removalDate: 'Removal Date',
+  scientificName: 'Scientific Name',
+  biocharAdded: 'Biochar Added',
+  lastEditedUser: 'Last Edited User',
 };
 
 export interface TreeCare {
+  activityId: number;
+  userId: number;
   month: string;
   year: number;
   day: string;

@@ -19,6 +19,8 @@ const StyledNavMenuItem = styled(Menu.Item)`
 const MenuLinkButton = styled(LinkButton)`
   padding-left: 0;
   margin-top: 0;
+  width: 100%;
+  text-align: left;
 `;
 
 interface NavMenuProps {

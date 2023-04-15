@@ -1,13 +1,17 @@
 import React, { createRef, useEffect, useState, useCallback } from 'react';
 import { Input, message } from 'antd';
 import { MapViews, ReturnMapData } from '../../ducks/types';
-import { BOSTON_BOUNDS, LOADER, STREET_ZOOM } from '../../constants';
+import { MAP_BOUNDS, LOADER, STREET_ZOOM } from '../../constants';
 import { addHandleSearch } from '../../logic/event';
 import TreePopup, { BasicTreeInfo } from '../../../treePopup';
 import styled from 'styled-components';
 import { goToPlace } from '../../logic/view';
 import { InitMapData } from '../../ducks/types';
-import { BREAKPOINT_TABLET } from '../../../windowDimensions';
+import useWindowDimensions, {
+  BREAKPOINT_TABLET,
+} from '../../../windowDimensions';
+import { MapTypes } from '../../../../context/types';
+import { isMobile } from '../../../../utils/isCheck';
 
 const StyledSearch = styled(Input.Search)`
   width: 20vw;
@@ -45,9 +49,8 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
   children,
 }) => {
   // BasicTreeInfo to display in tree popup
-  const [activeTreeInfo, setActiveTreeInfo] = useState<BasicTreeInfo>(
-    defaultActiveTree,
-  );
+  const [activeTreeInfo, setActiveTreeInfo] =
+    useState<BasicTreeInfo>(defaultActiveTree);
 
   const initMapCallback = useCallback(initMap, []);
 
@@ -60,6 +63,8 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
   );
 
   const [searchInput, setSearchInput] = useState('');
+
+  const { windowType } = useWindowDimensions();
 
   useEffect(() => {
     setMapElement(mapRef.current);
@@ -77,12 +82,23 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
             center: { lat, lng },
             zoom,
             fullscreenControl: false,
-            mapTypeControl: false,
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+              position: google.maps.ControlPosition.RIGHT_TOP,
+              mapTypeIds: ['roadmap', 'satellite'],
+            },
             restriction: {
-              latLngBounds: BOSTON_BOUNDS,
+              latLngBounds: MAP_BOUNDS,
               strictBounds: false,
             },
           });
+
+          if (isMobile(windowType)) {
+            // Move mapTypeControl down
+            const emptyDiv = document.createElement('div');
+            emptyDiv.setAttribute('style', 'height: 40px;');
+            map.controls[google.maps.ControlPosition.TOP_RIGHT].push(emptyDiv);
+          }
 
           // Declare everything that must be created within the loader
           // A class for the custom popup
@@ -139,6 +155,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
             markersArray,
             popPopup,
             setActiveTreeInfo,
+            mapTypeId: MapTypes.ROADMAP,
           };
 
           const setMapData = initMapCallback(thisMapData);
@@ -148,7 +165,7 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
             'pac-input',
           ) as HTMLInputElement;
           const autocomplete = new google.maps.places.Autocomplete(input, {
-            bounds: BOSTON_BOUNDS,
+            bounds: MAP_BOUNDS,
             strictBounds: true,
           });
           // Services provided by Google Maps
@@ -178,7 +195,16 @@ const MapWithPopup: React.FC<MapWithPopupProps> = ({
         })
         .catch((err) => message.error(err.message));
     }
-  }, [mapElement, treePopupElement, view, zoom, lat, lng, initMapCallback]);
+  }, [
+    mapElement,
+    treePopupElement,
+    view,
+    zoom,
+    lat,
+    lng,
+    initMapCallback,
+    windowType,
+  ]);
 
   return (
     <>

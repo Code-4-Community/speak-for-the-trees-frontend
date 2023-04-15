@@ -4,6 +4,7 @@ import { MapActions } from './actions';
 import { ApiExtraArgs } from '../../../api/apiClient';
 import { AsyncRequest } from '../../../utils/asyncRequest';
 import { BasicTreeInfo } from '../../treePopup';
+import { MapTypes } from '../../../context/types';
 
 // ---------------------------------Blocks----------------------------------------
 
@@ -72,6 +73,12 @@ export interface SiteFeaturePropertiesResponse {
   address?: string;
 }
 
+export interface SiteOption {
+  image: string;
+  label: string;
+  value: string;
+}
+
 // ---------------------------------Shared Types----------------------------------------
 // These types follow the GeoJSON format: https://tools.ietf.org/html/rfc7946
 
@@ -102,7 +109,7 @@ export type MapGeoDataThunkAction<R> = ThunkAction<
 // The different map views and zoom value the associated data layer appears at
 export enum MapViews {
   BLOCKS = 13,
-  TREES = 16,
+  TREES = 15,
 }
 
 export interface BasicMapData {
@@ -115,6 +122,7 @@ export interface BasicMapData {
 export interface InitMapData extends BasicMapData {
   readonly popPopup: (latLng: google.maps.LatLng) => void;
   readonly setActiveTreeInfo: (info: BasicTreeInfo) => void;
+  readonly mapTypeId: MapTypes;
 }
 
 // Map data layers and listeners
@@ -124,9 +132,12 @@ export interface MapLayersAndListeners {
   readonly blocksLayer?: google.maps.Data;
   readonly sitesLayer?: google.maps.Data;
   zoomListener: google.maps.MapsEventListener; // mutable to allow parent components to unload/assign new zoom event listeners
+  readonly mapTypeListener: google.maps.MapsEventListener;
 }
 
 // Data returned to the map after initMap functions are called
-export interface ReturnMapData extends BasicMapData, MapLayersAndListeners {
+export interface ReturnMapData
+  extends Omit<BasicMapData, 'mapTypeId'>,
+    MapLayersAndListeners {
   readonly searchMarker: google.maps.Marker;
 }

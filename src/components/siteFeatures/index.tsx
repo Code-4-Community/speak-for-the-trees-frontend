@@ -73,9 +73,9 @@ const SiteFeatures: React.FC<SiteFeaturesProps> = ({
             <TitleStack title={'Zip Code'}>
               <Content>{site.zip}</Content>
             </TitleStack>
-            <TitleStack title={'Block ID'}>
+            {/* <TitleStack title={'Block ID'}>
               <Content>{site.blockId || 'No Recorded Block ID'}</Content>
-            </TitleStack>
+            </TitleStack> */}
             <TitleStack title={'Neighborhood'}>
               <Content>
                 {getNeighborhoodName(site.neighborhoodId || -1)}

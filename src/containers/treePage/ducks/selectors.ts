@@ -3,12 +3,12 @@ import {
   AsyncRequest,
   asyncRequestIsComplete,
 } from '../../../utils/asyncRequest';
+import { generateTreeCareMessage } from '../../../utils/stringFormat';
 import {
   AdoptedSites,
   Entry,
   ExtraSiteEntryNames,
   MainSiteEntryNames,
-  SiteEntryField,
   SiteProps,
   SplitSiteEntries,
   MonthYearOption,
@@ -28,22 +28,20 @@ export const mapStewardshipToTreeCare = (
 ): TreeCare[] => {
   if (asyncRequestIsComplete(items)) {
     return items.result.stewardshipActivities.map((item) => {
+      const activityId = item.id;
+      const userId = item.userId;
       const year = new Date(item.date).getFullYear();
       const month = new Date(item.date).toLocaleString('default', {
         month: 'short',
       });
       const day = new Date(item.date).getDate();
-
-      const activityStrings = [];
-      if (item.cleaned) activityStrings.push('cleared of waste');
-      if (item.mulched) activityStrings.push('mulched');
-      if (item.watered) activityStrings.push('watered');
-      if (item.weeded) activityStrings.push('weeded');
       return {
+        activityId,
+        userId,
         day: formatDateSuffix(day),
         month,
         year,
-        message: `Was ${activityStrings.join(' and ')}.`,
+        message: generateTreeCareMessage(item),
       };
     });
   }
@@ -84,16 +82,6 @@ export const getLatestEntry = (
     }
   }
   return [];
-};
-
-/**
- * Returns the display name for the site entry field.
- * @param field the entry field name
- */
-export const getSEFieldDisplayName = (field: SiteEntryField): string => {
-  return (
-    MainSiteEntryNames[field] || ExtraSiteEntryNames[field] || 'Unknown Field'
-  );
 };
 
 export const isTreeAdoptedByUser = (
