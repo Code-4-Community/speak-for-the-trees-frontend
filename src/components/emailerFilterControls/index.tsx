@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import moment from 'moment';
 import { EmailerFilters } from '../../containers/email/types';
 import {
@@ -66,12 +66,21 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
   const [neighborhoodSearch, setNeighborhoodSearch] = useState<string>('');
   const [namesSearch, setNamesSearch] = useState<string>('');
 
-  let commonNameOptions: { value: string }[] = [];
-  apiClient.getAllCommonNames().then((res) => {
-    commonNameOptions = res.map((name) => {
-      return { value: name };
-    });
-  });
+  const [commonNameOptions, setCommonNameOptions] = useState<
+    { value: string }[]
+  >([]);
+
+  useEffect(() => {
+    async function getNames() {
+      const names = await apiClient.getAllCommonNames();
+      setCommonNameOptions(
+        names.map((name) => {
+          return { value: name };
+        }),
+      );
+    }
+    getNames();
+  }, []);
 
   const onAddFilter = useCallback(
     (

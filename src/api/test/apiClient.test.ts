@@ -318,7 +318,7 @@ describe('Api Client Tests', () => {
       const response = { names: ['tree1', 'tree2'] };
 
       nock(BASE_URL)
-        .get(ParameterizedApiRoutes.GET_ALL_COMMON_NAMES)
+        .get(ParameterizedApiRoutes.GET_ALL_COMMON_NAMES())
         .reply(200, response);
 
       const result = await ApiClient.getAllCommonNames();
