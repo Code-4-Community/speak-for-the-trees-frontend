@@ -49,6 +49,9 @@ interface TreeProps {
   readonly onClickEditTreeName: (values: NameSiteEntryRequest) => void;
 }
 
+export const getTreeSpecies = (siteData: SiteProps) =>
+  (siteData.entries[0]?.commonName ?? 'tree').toLowerCase();
+
 const TreeInfo: React.FC<TreeProps> = ({
   siteData,
   loggedIn,
@@ -65,6 +68,8 @@ const TreeInfo: React.FC<TreeProps> = ({
   const location = useLocation<RedirectStateProps>();
 
   const adopted = siteData.entries[0] && siteData.entries[0].adopter !== null;
+
+  const treeSpecies = getTreeSpecies(siteData);
 
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
     isAdmin(state.authenticationState.tokens),
@@ -89,10 +94,10 @@ const TreeInfo: React.FC<TreeProps> = ({
       size={mobile ? 'middle' : 'large'}
       defaultText={
         userOwnsTree
-          ? 'Check out this tree I adopted!'
+          ? `Check out this ${treeSpecies} I adopted!`
           : adopted
-          ? 'Check out this tree near you!'
-          : `This ${(siteData.entries[0].commonName ?? 'tree').toLowerCase()}${
+          ? `Check out this ${treeSpecies} near you!`
+          : `This ${treeSpecies}${
               siteData.address ? ' at ' + siteData.address : ''
             } needs someone to take care of it!`
       }
