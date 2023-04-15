@@ -10,6 +10,7 @@ import {
   getUserFirstName,
   getUserFullName,
   getUsername,
+  isAdmin,
   isLoggedIn,
 } from '../ducks/selectors';
 import {
@@ -69,6 +70,56 @@ describe('User Authentication Selectors', () => {
       const tokens: AsyncRequest<TokenPayload, any> = AsyncRequestNotStarted();
 
       expect(getPrivilegeLevel(tokens)).toEqual(PrivilegeLevel.NONE);
+    });
+  });
+
+  describe('isAdmin', () => {
+    it('returns false when user is not an admin', () => {
+      const payload: TokenPayload = {
+        accessToken:
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwcml2aWxlZ2VMZXZlbCI6InN0YW5kYXJkIiwiaXNzIjoiYzRjIiwiZXhwIjoxNjA1NDgwMzIzLCJ1c2VySWQiOjF9.FEjX15JppwId5PCMd0Rc97yEOXmxWIKwWF6yzWqSLjw',
+        refreshToken:
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwcml2aWxlZ2VMZXZlbCI6InN0YW5kYXJkIiwiaXNzIjoiYzRjIiwiZXhwIjoxNjA1NDgwMzIzLCJ1c2VySWQiOjF9.s1vVyOW1hENuPqBscnW49eupxoMyrlw3NmZ2S_UUbNo',
+      };
+      const tokens: AsyncRequest<TokenPayload, any> = AsyncRequestCompleted<
+        TokenPayload,
+        any
+      >(payload);
+      expect(isAdmin(tokens)).toEqual(false);
+    });
+
+    it('returns true when loaded token is an admin', () => {
+      const payload: TokenPayload = {
+        accessToken:
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwcml2aWxlZ2VMZXZlbCI6ImFkbWluIiwiaXNzIjoiYzRjIiwiZXhwIjoxNjA1NDgwMzIzLCJ1c2VySWQiOjF9.FEjX15JppwId5PCMd0Rc97yEOXmxWIKwWF6yzWqSLjw',
+        refreshToken:
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwcml2aWxlZ2VMZXZlbCI6ImFkbWluIiwiaXNzIjoiYzRjIiwiZXhwIjoxNjA1NDgwMzIzLCJ1c2VySWQiOjF9.s1vVyOW1hENuPqBscnW49eupxoMyrlw3NmZ2S_UUbNo',
+      };
+      const tokens: AsyncRequest<TokenPayload, any> = AsyncRequestCompleted<
+        TokenPayload,
+        any
+      >(payload);
+      expect(isAdmin(tokens)).toEqual(true);
+    });
+
+    it('returns true when loaded token is a super admin', () => {
+      const payload: TokenPayload = {
+        accessToken:
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwcml2aWxlZ2VMZXZlbCI6InN1cGVyQWRtaW4iLCJpc3MiOiJjNGMiLCJleHAiOjE2MDU0ODAzMjMsInVzZXJJZCI6MX0=.FEjX15JppwId5PCMd0Rc97yEOXmxWIKwWF6yzWqSLjw',
+        refreshToken:
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwcml2aWxlZ2VMZXZlbCI6InN1cGVyQWRtaW4iLCJpc3MiOiJjNGMiLCJleHAiOjE2MDU0ODAzMjMsInVzZXJJZCI6MX0=.s1vVyOW1hENuPqBscnW49eupxoMyrlw3NmZ2S_UUbNo',
+      };
+      const tokens: AsyncRequest<TokenPayload, any> = AsyncRequestCompleted<
+        TokenPayload,
+        any
+      >(payload);
+
+      expect(isAdmin(tokens)).toEqual(true);
+    });
+
+    it('returns false when no token has been loaded', () => {
+      const tokens: AsyncRequest<TokenPayload, any> = AsyncRequestNotStarted();
+      expect(isAdmin(tokens)).toEqual(false);
     });
   });
 

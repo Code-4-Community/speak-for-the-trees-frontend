@@ -1,0 +1,13 @@
+{
+  "report_columns": {
+    "site_id": "Site ID",
+    "address": "Address",
+    "adopter_name": "Adopter's Name",
+    "adopter_email": "Adopter's Email",
+    "date_adopted": "Date Adopted",
+    "date_performed": "Date Performed",
+    "activity_count": "Activity Count",
+    "neighborhood": "Neighborhood",
+    "activities_performed": "Activities Performed"
+  }
+}

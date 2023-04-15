@@ -19,11 +19,16 @@ import useWindowDimensions, {
 } from '../../components/windowDimensions';
 import {
   EditSiteRequest,
+  SiteEntriesRequest,
   UpdateSiteRequest,
 } from '../../components/forms/ducks/types';
 import SelectorMapDisplay from '../../components/mapComponents/mapDisplays/selectorMapDisplay';
 import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
 import { Block, Flex, MapContainer } from '../../components/themedComponents';
+import { round } from 'lodash';
+import { LAT_LNG_PRECISION } from '../../components/forms/constants';
+import { MapTypes } from '../../context/types';
+import { MapTypeContext } from '../../context/mapTypeContext';
 
 const SitePageContainer = styled.div`
   width: 90%;
@@ -58,6 +63,8 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
   const [editSiteForm] = Form.useForm();
   const [updateSiteForm] = Form.useForm();
 
+  const [mapTypeId, setMapTypeId] = useState<MapTypes>(MapTypes.ROADMAP);
+
   const getSite = () => {
     Client.getSite(id)
       .then((s) => setSite(s))
@@ -75,7 +82,11 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
   };
 
   const onSubmitUpdateSite = (request: UpdateSiteRequest) => {
-    ProtectedClient.updateSite(id, request)
+    const entries: SiteEntriesRequest = {
+      ...request,
+      plantingDate: request.plantingDate?.format('L') || null,
+    };
+    ProtectedClient.updateSite(id, entries)
       .then(() => {
         updateSiteForm.resetFields();
         message.success('Site updated!').then();
@@ -110,19 +121,21 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
                 onSubmit={onSubmitEditSite}
               />
             </Block>
-            <MapContainer>
-              <SelectorMapDisplay
-                neighborhoods={neighborhoods}
-                sites={sites}
-                onMove={(pos: google.maps.LatLng) => {
-                  editSiteForm.setFieldsValue({
-                    lat: pos.lat(),
-                    lng: pos.lng(),
-                  });
-                }}
-                site={site}
-              />
-            </MapContainer>
+            <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
+              <MapContainer>
+                <SelectorMapDisplay
+                  neighborhoods={neighborhoods}
+                  sites={sites}
+                  onMove={(pos: google.maps.LatLng) => {
+                    editSiteForm.setFieldsValue({
+                      lat: round(pos.lat(), LAT_LNG_PRECISION),
+                      lng: round(pos.lng(), LAT_LNG_PRECISION),
+                    });
+                  }}
+                  site={site}
+                />
+              </MapContainer>
+            </MapTypeContext.Provider>
           </Flex>
 
           <SectionHeader strong>Site Entries</SectionHeader>

@@ -1,0 +1,13 @@
+{
+  "title": "Sign Up",
+  "header": "Nice to meet you!",
+  "body": [
+    "Thanks for your interest in volunteering with us! Taking care of over 9,000 trees (and counting!) is much",
+    "harder than it seems, but with our dedicated volunteers, we're able to make Boston a cleaner, safer, and",
+    "more equitable community one tree at a time. Welcome to the team!"
+  ],
+  "have_account": {
+    "already_have_account": "ALREADY HAVE AN ACCOUNT?",
+    "login_here": "LOGIN <loginLink>HERE!</loginLink>"
+  }
+}

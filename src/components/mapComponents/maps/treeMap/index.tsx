@@ -8,7 +8,12 @@ import {
   SiteGeoData,
 } from '../../ducks/types';
 import { NO_SITE_SELECTED } from '../../../treePopup';
-import { BOSTON, LIGHT_MAP_STYLES } from '../../constants';
+import {
+  DEFAULT_CENTER,
+  LIGHT_MAP_STYLES,
+  SITE_OPTIONS_ROADMAP,
+  SITE_OPTIONS_SATELLITE,
+} from '../../constants';
 import { addHandleZoomChange } from '../../logic/event';
 import { initSiteView } from '../../logic/init';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
@@ -16,6 +21,8 @@ import { setSitesStyle } from '../../logic/style';
 import SiteLegend from '../../mapPageComponents/siteLegend';
 import { MapStateProps, Routes } from '../../../../App';
 import MapWithPopup from '../mapWithPopup';
+import { MapTypes } from '../../../../context/types';
+import { useMapTypeContext } from '../../../../context/mapTypeContext';
 
 interface TreeMapProps {
   readonly neighborhoods: NeighborhoodGeoData;
@@ -33,9 +40,10 @@ const TreeMap: React.FC<TreeMapProps> = ({
   const location = useLocation<MapStateProps>();
 
   const [loadedMapData, setLoadedMapData] = useState<ReturnMapData>();
+  const [mapTypeId, setMapTypeId] = useMapTypeContext();
 
   let defaultZoom = 12;
-  let defaultCenter = BOSTON;
+  let defaultCenter = DEFAULT_CENTER;
   if (location.state) {
     defaultZoom = location.state.zoom;
     defaultCenter = { lat: location.state.lat, lng: location.state.lng };
@@ -46,7 +54,12 @@ const TreeMap: React.FC<TreeMapProps> = ({
     const searchMarker = new google.maps.Marker({
       map: mapData.map,
     });
-    const mapLayersAndListeners = initSiteView(mapData, neighborhoods, sites);
+    const mapLayersAndListeners = initSiteView(
+      mapData,
+      neighborhoods,
+      sites,
+      setMapTypeId,
+    );
 
     const setMapData: ReturnMapData = {
       map: mapData.map,
@@ -56,9 +69,9 @@ const TreeMap: React.FC<TreeMapProps> = ({
       sitesLayer: mapLayersAndListeners.sitesLayer,
       searchMarker,
       zoomListener: mapLayersAndListeners.zoomListener,
+      mapTypeListener: mapLayersAndListeners.mapTypeListener,
       markersArray: mapData.markersArray,
     };
-
     setLoadedMapData(setMapData);
 
     mapData.map.setOptions({
@@ -85,10 +98,9 @@ const TreeMap: React.FC<TreeMapProps> = ({
         MapViews.TREES,
         loadedMapData.map,
       );
-
       const zoom = loadedMapData.map.getZoom();
       if (zoom >= MapViews.TREES) {
-        setSitesStyle(loadedMapData.sitesLayer, values, zoom, true);
+        setSitesStyle(loadedMapData.sitesLayer, values, zoom, true, mapTypeId);
       }
     }
   };
@@ -107,7 +119,16 @@ const TreeMap: React.FC<TreeMapProps> = ({
         treePresent: false,
       }}
     >
-      {!mobile && <SiteLegend onCheck={onCheck} />}
+      {!mobile && (
+        <SiteLegend
+          onCheck={onCheck}
+          siteOptions={
+            mapTypeId === MapTypes.ROADMAP
+              ? SITE_OPTIONS_ROADMAP
+              : SITE_OPTIONS_SATELLITE
+          }
+        />
+      )}
     </MapWithPopup>
   );
 };

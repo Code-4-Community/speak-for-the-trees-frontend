@@ -1,0 +1,28 @@
+{
+  "sidebar": {
+    "title": "Cambridge's Street Trees",
+    "body": {
+      "introduction": [
+        "We need your help to help maintain a healthy, vibrant urban forest! Become a Cambridge Urban Forest Friend!",
+        "Our trees make our neighborhoods more beautiful, shade our parks and walkways, and clean our air and water. The urban forest is also an essential resource when it comes to fighting climate change.",
+        "As a Forest Friend volunteer, you will contribute to the vitality of our urban forest, protect our planet, and make our city a better place to live."
+      ],
+      "learnMore": "Moving to the city can be challenging for a young tree. The primary goal of the Forest Friend program is to help new trees become established so they can provide benefits to our communities for generations. Choose a street tree near your home, business, or school and help keep it healthy by watering it and tending to the tree well."
+    },
+    "questionDirections": {
+      "questions": "Having issues with the map? Contact Kate Riley at Public Works - kriley@cambridgema.gov / 617-349-4825",
+      "directions": []
+    }
+  },
+  "adoptionDirections": {
+    "header": "How to Adopt a Tree",
+    "body": [
+      "Click \"Sign-Up\" at the top right corner to create an account.",
+      "Once you're logged in, enter your address in the search bar on the map to find adoptable trees near you.",
+      "Click on the icon of the tree you’d like to adopt, either the blue triangle for a newly planted tree or a green circle for an older tree.",
+      "Click on \"More Info\".",
+      "Click on the \"Adopt\" button on the next screen to adopt that tree. It will be added to the \"My Trees\" list so you can easily find your tree and record your tree care activities.",
+      "Record each activity by clicking on \"My Trees\", finding the tree you adopted, and submitting the tree care activity on that tree's page. It's easy!"
+    ]
+  }
+}

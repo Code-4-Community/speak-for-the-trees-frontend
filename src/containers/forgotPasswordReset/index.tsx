@@ -1,21 +1,32 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import authClient from '../../auth/authClient';
 import useWindowDimensions from '../../components/windowDimensions';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
+import { site } from '../../constants';
 import PageHeader from '../../components/pageHeader';
 import { ContentContainer } from '../../components/themedComponents';
 import { isMobile } from '../../utils/isCheck';
 import { confirmPasswordRules, newPasswordRules } from '../../utils/formRules';
+import { n } from '../../utils/stringFormat';
 
 export interface NewPasswords {
   readonly password: string;
   readonly confirmPassword: string;
 }
 
+interface ForgotPasswordResetParams {
+  key: string;
+}
+
 const ForgotPasswordReset: React.FC = () => {
-  const { key } = useParams();
+  const { t } = useTranslation(n(site, ['forgotPasswordReset', 'forms']), {
+    nsMode: 'fallback',
+  });
+
+  const { key } = useParams<ForgotPasswordResetParams>();
   const { windowType } = useWindowDimensions();
   const [resetPasswordForm] = Form.useForm();
 
@@ -23,10 +34,10 @@ const ForgotPasswordReset: React.FC = () => {
     authClient
       .forgotPasswordReset({ secretKey: key, newPassword: values.password })
       .then(() => {
-        alert('Successfully reset password!');
+        message.success(t('reset_success'));
       })
       .catch((err) => {
-        alert('Was not able to reset password.');
+        message.error(t('reset_error'));
       });
   };
 
@@ -40,25 +51,24 @@ const ForgotPasswordReset: React.FC = () => {
         />
       </Helmet>
       <ContentContainer>
-        <PageHeader
-          pageTitle="Forgot Password"
-          isMobile={isMobile(windowType)}
-        />
+        <PageHeader pageTitle={t('header')} isMobile={isMobile(windowType)} />
 
         <Form name="resetPassword" form={resetPasswordForm} onFinish={onFinish}>
           <Form.Item name="password" rules={newPasswordRules}>
-            <Input.Password placeholder="New Password" />
+            <Input.Password placeholder={t('reset_password.new_password')} />
           </Form.Item>
 
           <Form.Item
             name="confirmPassword"
             rules={confirmPasswordRules(resetPasswordForm, 'password')}
           >
-            <Input.Password placeholder="Confirm Password" />
+            <Input.Password
+              placeholder={t('reset_password.confirm_password')}
+            />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" size="large">
-              Submit
+              {t('submit')}
             </Button>
           </Form.Item>
         </Form>

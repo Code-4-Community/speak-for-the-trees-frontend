@@ -15,6 +15,7 @@ import ShareButton from '../../components/shareButton';
 import TreePageHeader from '../treePageHeader';
 import { C4CState } from '../../store';
 import { isAdmin } from '../../auth/ducks/selectors';
+import { isSFTT } from '../../utils/isCheck';
 
 const TreeHeader = styled.div`
   text-transform: capitalize;
@@ -34,6 +35,10 @@ const UnadoptButton = styled(Button)`
   }
 `;
 
+const ForceUnadoptButton = styled(Button)`
+  margin: 10px;
+`;
+
 interface TreeProps {
   readonly siteData: SiteProps;
   readonly loggedIn: boolean;
@@ -41,6 +46,7 @@ interface TreeProps {
   readonly mobile?: boolean;
   readonly onClickAdopt: () => void;
   readonly onClickUnadopt: () => void;
+  readonly onClickForceUnadopt: () => void;
   readonly onFinishRecordStewardship: (
     values: RecordStewardshipRequest,
   ) => void;
@@ -59,6 +65,7 @@ const TreeInfo: React.FC<TreeProps> = ({
   mobile,
   onClickAdopt,
   onClickUnadopt,
+  onClickForceUnadopt,
   onFinishRecordStewardship,
   stewardshipFormInstance,
   editTreeNameFormInstance,
@@ -67,7 +74,7 @@ const TreeInfo: React.FC<TreeProps> = ({
   const history = useHistory();
   const location = useLocation<RedirectStateProps>();
 
-  const adopted = siteData.entries[0] && siteData.entries[0].adopter !== null;
+  const isAdopted = !!siteData.entries?.[0]?.adopter;
 
   const treeSpecies = getTreeSpecies(siteData);
 
@@ -77,7 +84,7 @@ const TreeInfo: React.FC<TreeProps> = ({
 
   const getSiteLocation = (): string => {
     // TODO change to siteData.city and remove check for zip after data is cleaned
-    let baseLocation = `Boston`;
+    let baseLocation = isSFTT() ? 'Boston' : 'Cambridge';
     if (siteData.zip) {
       baseLocation += ` ${siteData.zip}`;
     }
@@ -95,7 +102,7 @@ const TreeInfo: React.FC<TreeProps> = ({
       defaultText={
         userOwnsTree
           ? `Check out this ${treeSpecies} I adopted!`
-          : adopted
+          : isAdopted
           ? `Check out this ${treeSpecies} near you!`
           : `This ${treeSpecies}${
               siteData.address ? ' at ' + siteData.address : ''
@@ -130,65 +137,68 @@ const TreeInfo: React.FC<TreeProps> = ({
         }
       </TreeHeader>
 
-      {(() => {
-        switch (loggedIn) {
-          case true:
-            return (
-              <>
-                {userOwnsTree ? (
-                  <>
-                    <UnadoptButton
-                      danger
-                      size={mobile ? 'middle' : 'large'}
-                      onClick={onClickUnadopt}
-                    >
-                      Unadopt
-                    </UnadoptButton>
-                    {shareButton}
-                    <StewardshipContainer>
-                      <Typography.Title level={3}>
-                        Record your tree care activity below.
-                      </Typography.Title>
-                      <StewardshipForm
-                        onFinish={onFinishRecordStewardship}
-                        form={stewardshipFormInstance}
-                      />
-                    </StewardshipContainer>
-                  </>
-                ) : (
-                  <>
-                    <Button
-                      type="primary"
-                      size={mobile ? 'middle' : 'large'}
-                      onClick={onClickAdopt}
-                      disabled={adopted}
-                    >
-                      {adopted ? 'Already Adopted' : 'Adopt'}
-                    </Button>
-                    {shareButton}
-                  </>
-                )}
-              </>
-            );
-          case false:
-            return (
-              <>
-                <ToggleTextButton
-                  type="link"
-                  size="large"
-                  onClick={() =>
-                    history.push(Routes.LOGIN, {
-                      destination: location.pathname,
-                    })
-                  }
-                >
-                  Log in to adopt this tree!
-                </ToggleTextButton>
-                {shareButton}
-              </>
-            );
-        }
-      })()}
+      {loggedIn ? (
+        <>
+          {userOwnsTree ? (
+            <UnadoptButton
+              danger
+              size={mobile ? 'middle' : 'large'}
+              onClick={onClickUnadopt}
+            >
+              Unadopt
+            </UnadoptButton>
+          ) : (
+            <Button
+              type="primary"
+              size={mobile ? 'middle' : 'large'}
+              onClick={onClickAdopt}
+              disabled={isAdopted}
+            >
+              {isAdopted ? 'Already Adopted' : 'Adopt'}
+            </Button>
+          )}
+
+          {userIsAdmin && (
+            <ForceUnadoptButton
+              danger
+              size={mobile ? 'middle' : 'large'}
+              onClick={onClickForceUnadopt}
+              disabled={!isAdopted}
+            >
+              Force Unadopt
+            </ForceUnadoptButton>
+          )}
+
+          {shareButton}
+
+          {userOwnsTree && (
+            <StewardshipContainer>
+              <Typography.Title level={3}>
+                Record your tree care activity below.
+              </Typography.Title>
+              <StewardshipForm
+                onFinish={onFinishRecordStewardship}
+                form={stewardshipFormInstance}
+              />
+            </StewardshipContainer>
+          )}
+        </>
+      ) : (
+        <>
+          <ToggleTextButton
+            type="link"
+            size="large"
+            onClick={() =>
+              history.push(Routes.LOGIN, {
+                destination: location.pathname,
+              })
+            }
+          >
+            Log in to adopt this tree!
+          </ToggleTextButton>
+          {shareButton}
+        </>
+      )}
     </>
   );
 };

@@ -8,6 +8,7 @@ import { login } from '../../auth/ducks/thunks';
 import { LoginRequest } from '../../auth/ducks/types';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import { RedirectStateProps, Routes } from '../../App';
+import { site } from '../../constants';
 import { Form, message, Typography } from 'antd';
 import styled from 'styled-components';
 import { BLACK, TEXT_GREY, WHITE } from '../../utils/colors';
@@ -22,12 +23,8 @@ import LoginForm from '../../components/forms/loginForm';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
-import {
-  LOGIN_BODY,
-  LOGIN_ERROR,
-  LOGIN_HEADER,
-  LOGIN_TITLE,
-} from '../../assets/content';
+import { Trans, useTranslation } from 'react-i18next';
+import { n } from '../../utils/stringFormat';
 
 const MobileLoginPageContainer = styled.div`
   padding: 30px;
@@ -53,6 +50,8 @@ const Title = styled(Typography.Paragraph)`
 `;
 
 const Login: React.FC = () => {
+  const { t } = useTranslation(n(site, ['login']), { nsMode: 'fallback' });
+
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
   const location = useLocation<RedirectStateProps>();
@@ -66,7 +65,7 @@ const Login: React.FC = () => {
     : Routes.HOME;
 
   const onFinish = (values: LoginRequest) => {
-    const onError = () => message.error(LOGIN_ERROR);
+    const onError = () => message.error(t('login_error'));
 
     dispatch(
       login({ email: values.email, password: values.password }, onError),
@@ -75,20 +74,27 @@ const Login: React.FC = () => {
 
   const ForgotPasswordFooter = (
     <div>
-      <Link to={Routes.FORGOT_PASSWORD_REQUEST}>FORGOT PASSWORD?</Link>
+      <Link to={Routes.FORGOT_PASSWORD_REQUEST}>
+        {t('forgot_password.header')}
+      </Link>
 
       <Footer>
-        NEW TO SPEAK FOR THE TREES?
+        {t('forgot_password.new_to_sftt')}
         <br />
-        SIGN UP{' '}
-        <Link
-          to={{
-            pathname: Routes.SIGNUP,
-            state: { destination },
+        <Trans
+          ns={'login'}
+          i18nKey="forgot_password.sign_up"
+          components={{
+            signUpLink: (
+              <Link
+                to={{
+                  pathname: Routes.SIGNUP,
+                  state: { destination },
+                }}
+              />
+            ),
           }}
-        >
-          HERE!
-        </Link>
+        />
       </Footer>
     </div>
   );
@@ -99,7 +105,7 @@ const Login: React.FC = () => {
     return (
       <>
         <Helmet>
-          <title>Login</title>
+          <title>{t('title')}</title>
           <meta
             name="description"
             content="Where the user can log into their account."
@@ -111,7 +117,7 @@ const Login: React.FC = () => {
             case WindowTypes.Mobile:
               return (
                 <MobileLoginPageContainer>
-                  <PageHeader pageTitle={LOGIN_TITLE} isMobile={true} />
+                  <PageHeader pageTitle={t('title')} isMobile={true} />
                   <LoginForm
                     formInstance={loginForm}
                     onFinish={onFinish}
@@ -127,7 +133,7 @@ const Login: React.FC = () => {
                 <PageLayout>
                   <InputGreetingContainer>
                     <InputContainer>
-                      <Title>{LOGIN_TITLE}</Title>
+                      <Title>{t('title')}</Title>
                       <Line />
                       <LoginForm
                         formInstance={loginForm}
@@ -138,8 +144,8 @@ const Login: React.FC = () => {
                     </InputContainer>
 
                     <GreetingContainer
-                      header={LOGIN_HEADER}
-                      body={LOGIN_BODY}
+                      header={t('welcome_back.header')}
+                      body={t('welcome_back.body', { joinArrays: ' ' })}
                     />
                   </InputGreetingContainer>
                 </PageLayout>

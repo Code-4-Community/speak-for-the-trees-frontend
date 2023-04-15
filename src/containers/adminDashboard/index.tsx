@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Button, Form, message, Row, Typography, Divider } from 'antd';
 import PageHeader from '../../components/pageHeader';
@@ -9,6 +9,7 @@ import { C4CState } from '../../store';
 import { getPrivilegeLevel } from '../../auth/ducks/selectors';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import ChangePrivilegeForm from '../../components/forms/changePrivilegeForm';
+import UploadSitesForm from '../../components/forms/uploadSitesForm';
 import { DARK_GREEN } from '../../utils/colors';
 import ProtectedClient from '../../api/protectedApiClient';
 import {
@@ -29,6 +30,10 @@ import { SignupFormValues } from '../../components/forms/ducks/types';
 import ProtectedApiClient from '../../api/protectedApiClient';
 import { AppError } from '../../auth/axios';
 import { getErrorMessage } from '../../utils/stringFormat';
+import { round } from 'lodash';
+import { LAT_LNG_PRECISION } from '../../components/forms/constants';
+import { MapTypes } from '../../context/types';
+import { MapTypeContext } from '../../context/mapTypeContext';
 
 const AdminContentContainer = styled.div`
   width: 80vw;
@@ -70,6 +75,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
 
+  const [mapTypeId, setMapTypeId] = useState<MapTypes>(MapTypes.ROADMAP);
+
   const onCreateChild = (values: SignupFormValues) => {
     ProtectedApiClient.createChild({
       email: values.email,
@@ -103,6 +110,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
       address: editSiteForm.getFieldValue('address'),
       neighborhoodId: editSiteForm.getFieldValue('neighborhoodId'),
       ...request,
+      plantingDate: updateSiteForm.getFieldValue('plantingDate')?.format('L'),
     };
     ProtectedClient.addSite(addSiteRequest)
       .then(() => {
@@ -145,6 +153,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 </Form.Item>
               </SignupForm>
             </DashboardContent>
+            <DashboardContent>
+              <Typography.Title level={4}>Add Sites</Typography.Title>
+              <UploadSitesForm />
+            </DashboardContent>
           </Flex>
           <AdminDivider />
           <SectionHeader>Add New Site</SectionHeader>
@@ -155,18 +167,20 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
               >
                 <EditSiteForm formInstance={editSiteForm} />
               </Block>
-              <MapContainer>
-                <SelectorMapDisplay
-                  neighborhoods={neighborhoods}
-                  sites={sites}
-                  onMove={(pos: google.maps.LatLng) => {
-                    editSiteForm.setFieldsValue({
-                      lat: pos.lat(),
-                      lng: pos.lng(),
-                    });
-                  }}
-                />
-              </MapContainer>
+              <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
+                <MapContainer>
+                  <SelectorMapDisplay
+                    neighborhoods={neighborhoods}
+                    sites={sites}
+                    onMove={(pos: google.maps.LatLng) => {
+                      editSiteForm.setFieldsValue({
+                        lat: round(pos.lat(), LAT_LNG_PRECISION),
+                        lng: round(pos.lng(), LAT_LNG_PRECISION),
+                      });
+                    }}
+                  />
+                </MapContainer>
+              </MapTypeContext.Provider>
             </Flex>
             <UpdateSiteForm
               formInstance={updateSiteForm}
