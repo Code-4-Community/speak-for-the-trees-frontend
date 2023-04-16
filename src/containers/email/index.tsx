@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { Select, Typography, Row, Col, message, Button } from 'antd';
+import { Select, Typography, Row, Col, message, Button, Spin } from 'antd';
 import { Routes } from '../../App';
 import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
@@ -10,12 +10,14 @@ import {
   EmailType,
   EmailerFilters,
   EmailerTableData,
+  FilterSitesData,
   FilterSitesRequest,
 } from './types';
 import EmailerFilterControls from '../../components/emailerFilterControls';
 import AdoptedSitesTable from '../../components/adoptedSitesTable';
 import protectedApiClient from '../../api/protectedApiClient';
 import { ExclamationCircleOutlined, LoadingOutlined } from '@ant-design/icons';
+import { NEIGHBORHOOD_OPTS, Neighborhoods } from '../../assets/content';
 
 const EmailPageContainer = styled.div`
   width: 90vw;
@@ -47,13 +49,19 @@ enum LoadingState {
   ERROR = 'error',
 }
 
+function neighborhoodToId(neighborhood: Neighborhoods): number {
+  return (
+    NEIGHBORHOOD_OPTS.find((opt) => opt.label === neighborhood)?.value ?? -1
+  );
+}
+
 //TODO: rename this please
-function generateContents(loadingState: LoadingState, data: EmailerTableData[]) {
+function generateContents(loadingState: LoadingState, data: FilterSitesData[]) {
   switch (loadingState) {
     case LoadingState.LOADING:
       return (
         <>
-          <LoadingOutlined />
+          <Spin size="large" />
           <Typography.Title level={4}>Retrieving data...</Typography.Title>
         </>
       );
@@ -74,9 +82,10 @@ function generateContents(loadingState: LoadingState, data: EmailerTableData[]) 
 const Email: React.FC = () => {
   const [emailType, setEmailType] = useState<EmailType>(EmailType.INACTIVE);
   const [filters, setFilters] = useState<EmailerFilters>(defaultFilters);
-  const [fetchData, setFetchData] = useState<EmailerTableData[]>([]);
-  const [fetchSitesState, setFetchSitesState] =
-    useState<LoadingState>('success');
+  const [fetchData, setFetchData] = useState<FilterSitesData[]>([]);
+  const [fetchSitesState, setFetchSitesState] = useState<LoadingState>(
+    LoadingState.SUCCESS,
+  );
 
   function onClickSearch() {
     setFetchSitesState(LoadingState.LOADING);
@@ -88,7 +97,9 @@ const Email: React.FC = () => {
       lastActivityStart: filters.lastActivityStart,
       lastActivityEnd: filters.lastActivityEnd,
       neighborhoodIds:
-        filters.neighborhoods.length > 0 ? filters.neighborhoods : undefined,
+        filters.neighborhoods.length > 0
+          ? filters.neighborhoods.map(neighborhoodToId)
+          : undefined,
     };
     protectedApiClient
       .getFilteredSites(req)

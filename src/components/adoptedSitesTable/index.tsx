@@ -1,12 +1,15 @@
 import React from 'react';
 import { Table, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { EmailerTableData } from '../../containers/email/types';
+import {
+  EmailerTableData,
+  FilterSitesData,
+} from '../../containers/email/types';
 import dummyResponse from './dummyData';
 import { NEIGHBORHOOD_IDS } from '../../assets/content';
 
 interface AdoptedSitesTableProps {
-  readonly fetchData: EmailerTableData[];
+  readonly fetchData: FilterSitesData[];
 }
 
 const columns: ColumnsType<EmailerTableData> = [

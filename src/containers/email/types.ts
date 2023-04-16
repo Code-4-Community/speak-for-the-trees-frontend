@@ -8,7 +8,7 @@ export enum EmailType {
 export interface EmailerFilters {
   activityCountMin: number;
   activityCountMax?: number;
-  neighborhoods: string[];
+  neighborhoods: Neighborhoods[];
   commonNames: string[];
   adoptedStart?: string;
   adoptedEnd?: string;

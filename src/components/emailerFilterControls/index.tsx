@@ -158,7 +158,7 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
           mode="multiple"
           allowClear
           placeholder="Enter a neighborhood"
-          onChange={(value: string[]) =>
+          onChange={(value: Neighborhoods[]) =>
             setFilters({ ...filters, neighborhoods: value })
           }
           options={neighborhoodOptions}
