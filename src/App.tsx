@@ -12,6 +12,7 @@ import {
   getUserFullName,
 } from './auth/ducks/selectors';
 import { C4CState } from './store';
+import { createGlobalStyle } from 'styled-components';
 
 import styled from 'styled-components';
 import Landing from './containers/landing';
@@ -85,6 +86,12 @@ export interface MapStateProps {
   readonly lng: number;
 }
 
+const GlobalStyle = createGlobalStyle`
+  .ant-picker-panels > *:last-child {
+    display: none;
+  }
+`;
+
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -116,6 +123,7 @@ const App: React.FC = () => {
       </Helmet>
       <Router history={history}>
         <AppLayout>
+          <GlobalStyle />
           <NavBar
             userName={
               privilegeLevel !== PrivilegeLevel.NONE ? userName : undefined
