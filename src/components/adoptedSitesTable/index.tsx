@@ -1,102 +1,88 @@
-// import React from 'react';
-// import { Space, Table, Tag } from 'antd';
-// import type { ColumnsType } from 'antd/es/table';
-// import { EmailerTableColumns } from '../../email/types';
+import React from 'react';
+import { Table, Typography } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+import { EmailerTableData } from '../../containers/email/types';
+import dummyResponse from './dummyData';
+import { NEIGHBORHOOD_IDS } from '../../assets/content';
 
-// interface AdoptedSitesTableProps {
-//   readonly rows: EmailerTableRow[];
+interface AdoptedSitesTableProps {
+  readonly fetchData: EmailerTableData[];
+}
+
+const columns: ColumnsType<EmailerTableData> = [
+  {
+    title: 'Site ID',
+    dataIndex: 'siteId',
+    key: 'siteId',
+  },
+  {
+    title: 'Address',
+    dataIndex: 'address',
+    key: 'address',
+  },
+  {
+    title: "Adopter's Name",
+    dataIndex: 'adopterName',
+    key: 'adopterName',
+  },
+  {
+    title: 'Date Adopted',
+    dataIndex: 'dateAdopted',
+    key: 'dateAdopted',
+  },
+  {
+    title: 'Activity Count',
+    dataIndex: 'adopterActivityCount',
+    key: 'adopterActivityCount',
+  },
+  {
+    title: 'Neighborhood',
+    dataIndex: 'neighborhood',
+    key: 'neighborhood',
+  },
+  {
+    title: 'Weeks Since Last Activity',
+    dataIndex: 'lastActivityWeeks',
+    key: 'lastActivityWeeks',
+  },
+];
+
+function coalesceEmptyString(s?: string) {
+  return s === undefined || s?.length === 0 ? 'N/A' : s;
+}
+
+const data: EmailerTableData[] = dummyResponse.map((res, i) => {
+  return {
+    key: i.toString(),
+    siteId: res.siteId,
+    address: coalesceEmptyString(res.address),
+    adopterName: res.adopterName,
+    adopterEmail: res.adopterEmail,
+    dateAdopted: coalesceEmptyString(res.dateAdopted),
+    adopterActivityCount: res.adopterActivityCount,
+    neighborhood: NEIGHBORHOOD_IDS[res.neighborhoodId],
+    lastActivityWeeks: res.lastActivityWeeks?.toString() ?? 'N/A',
+  };
+});
+
+// const rowSelection = {
+//   onChange: (selectedRowKeys: string[], selectedRows: EmailerTableData[]) => {}
 // }
 
-// const AdoptedSitesTableProps: React.FC<AdoptedSitesTableProps> = ({ rows }) => {
-//   return <>Hi</>;
-// };
+const AdoptedSitesTable: React.FC<AdoptedSitesTableProps> = ({ fetchData }) => {
+  return fetchData.length > 0 ? (
+    <Table
+      columns={columns}
+      dataSource={data}
+      size="middle"
+      rowSelection={{ type: 'checkbox' }}
+    />
+  ) : (
+    <Typography.Title level={3}>
+      No data present! Adjust the filters, then click then search button to
+      populate the table.
+    </Typography.Title>
+  );
+};
 
-// export default AdoptedSitesTable;
-
-// interface DataType {
-//   key: string;
-//   name: string;
-//   age: number;
-//   address: string;
-//   tags: string[];
-// }
-
-// const columns: ColumnsType<DataType> = [
-//   {
-//     title: 'Name',
-//     dataIndex: 'name',
-//     key: 'name',
-//     render: (text) => <a>{text}</a>,
-//   },
-//   {
-//     title: 'Age',
-//     dataIndex: 'age',
-//     key: 'age',
-//   },
-//   {
-//     title: 'Address',
-//     dataIndex: 'address',
-//     key: 'address',
-//   },
-//   {
-//     title: 'Tags',
-//     key: 'tags',
-//     dataIndex: 'tags',
-//     render: (_, { tags }) => (
-//       <>
-//         {tags.map((tag) => {
-//           let color = tag.length > 5 ? 'geekblue' : 'green';
-//           if (tag === 'loser') {
-//             color = 'volcano';
-//           }
-//           return (
-//             <Tag color={color} key={tag}>
-//               {tag.toUpperCase()}
-//             </Tag>
-//           );
-//         })}
-//       </>
-//     ),
-//   },
-//   {
-//     title: 'Action',
-//     key: 'action',
-//     render: (_, record) => (
-//       <Space size="middle">
-//         <a>Invite {record.name}</a>
-//         <a>Delete</a>
-//       </Space>
-//     ),
-//   },
-// ];
-
-// const data: DataType[] = [
-//   {
-//     key: '1',
-//     name: 'John Brown',
-//     age: 32,
-//     address: 'New York No. 1 Lake Park',
-//     tags: ['nice', 'developer'],
-//   },
-//   {
-//     key: '2',
-//     name: 'Jim Green',
-//     age: 42,
-//     address: 'London No. 1 Lake Park',
-//     tags: ['loser'],
-//   },
-//   {
-//     key: '3',
-//     name: 'Joe Black',
-//     age: 32,
-//     address: 'Sydney No. 1 Lake Park',
-//     tags: ['cool', 'teacher'],
-//   },
-// ];
-
-// const App: React.FC = () => <Table columns={columns} dataSource={data} />;
-
-// export default App;
-
-// empty export just so tsc passes w/o error
-export {};
+export default AdoptedSitesTable;

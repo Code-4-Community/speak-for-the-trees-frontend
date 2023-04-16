@@ -28,6 +28,7 @@ import {
   AdoptionReport,
   StewardshipReport,
 } from '../containers/reports/ducks/types';
+import { FilterSitesRequest, FilterSitesData } from '../containers/email/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -117,6 +118,9 @@ export interface ProtectedApiClient {
     request: NameSiteEntryRequest,
   ) => Promise<void>;
   readonly addSites: (request: AddSitesRequest) => Promise<void>;
+  readonly getFilteredSites: (
+    request: FilterSitesRequest,
+  ) => Promise<{ filteredSites: FilterSitesData[] }>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -146,6 +150,7 @@ export enum AdminApiClientRoutes {
   GET_STEWARDSHIP_REPORT = '/api/v1/protected/report/stewardship',
   GET_STEWARDSHIP_REPORT_CSV = '/api/v1/protected/report/csv/adoption',
   ADD_SITES = '/api/v1/protected/sites/add_sites',
+  GET_FILTERED_SITES = '/api/v1/protected/sites/filter_sites',
 }
 
 const baseTeamRoute = '/api/v1/protected/teams/';
@@ -506,6 +511,15 @@ const addSites = (request: AddSitesRequest): Promise<void> => {
   );
 };
 
+const getFilteredSites = (
+  request: FilterSitesRequest,
+): Promise<{ filteredSites: FilterSitesData[] }> => {
+  return AppAxiosInstance.post(
+    AdminApiClientRoutes.GET_FILTERED_SITES,
+    request,
+  ).then((res) => res.data);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -551,6 +565,7 @@ const Client: ProtectedApiClient = Object.freeze({
   addSite,
   nameSiteEntry,
   addSites,
+  getFilteredSites,
 });
 
 export default Client;

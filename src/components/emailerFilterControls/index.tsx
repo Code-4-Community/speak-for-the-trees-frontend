@@ -8,10 +8,6 @@ import { Neighborhoods } from '../../assets/content';
 import apiClient from '../../api/apiClient';
 import { CloseOutlined } from '@ant-design/icons';
 
-const StyledCollapse = styled(Collapse)`
-  max-width: 400px;
-`;
-
 const StyledRangePicker = styled(DatePicker.RangePicker)`
   margin-right: 15px;
 `;
@@ -79,7 +75,7 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
   }, []);
 
   return (
-    <StyledCollapse ghost>
+    <Collapse ghost>
       <Collapse.Panel header="Activity Count" key="activityCount">
         <p>{`${filters.activityCountMin} - ${
           filters.activityCountMax || MAX_ACTIVITY_COUNT + '+'
@@ -158,6 +154,7 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
       <Collapse.Panel header="Neighborhood" key="neighborhood">
         <Select
           style={selectStyles}
+          value={filters.neighborhoods}
           mode="multiple"
           allowClear
           placeholder="Enter a neighborhood"
@@ -170,6 +167,7 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
       <Collapse.Panel header="Common Name" key="commonName">
         <Select
           style={selectStyles}
+          value={filters.commonNames}
           mode="multiple"
           allowClear
           placeholder="Enter a tree name"
@@ -179,7 +177,7 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
           options={commonNameOptions}
         />
       </Collapse.Panel>
-    </StyledCollapse>
+    </Collapse>
   );
 };
 

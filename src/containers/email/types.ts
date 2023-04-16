@@ -16,13 +16,35 @@ export interface EmailerFilters {
   lastActivityEnd?: string;
 }
 
-export interface EmailerTableColumns {
-  isSelected: boolean;
+export interface FilterSitesRequest {
+  treeSpecies?: string[];
+  adoptedStart?: string;
+  adoptedEnd?: string;
+  lastActivityStart?: string;
+  lastActivityEnd?: string;
+  neighborhoodIds?: number[];
+}
+
+export interface FilterSitesData {
   siteId: number;
   address?: string;
+  adopterId: number;
   adopterName: string;
-  dateAdopted: Date;
-  activityCount: number;
-  neighborhood: Neighborhoods;
+  adopterEmail: string;
+  dateAdopted: string;
+  adopterActivityCount: number;
+  neighborhoodId: number;
   lastActivityWeeks?: number;
+}
+
+export interface EmailerTableData {
+  key: string;
+  siteId: number;
+  address: string;
+  adopterName: string;
+  adopterEmail: string;
+  dateAdopted: string;
+  adopterActivityCount: number;
+  neighborhood: Neighborhoods;
+  lastActivityWeeks: string;
 }
