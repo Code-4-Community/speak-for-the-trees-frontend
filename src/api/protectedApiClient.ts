@@ -15,7 +15,7 @@ import {
   ChangePrivilegeRequest,
   ChangeUsernameRequest,
   EditSiteRequest,
-  UpdateSiteRequest,
+  SiteEntriesRequest,
   AddSiteRequest,
   AddSitesRequest,
   NameSiteEntryRequest,
@@ -102,7 +102,7 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
   readonly updateSite: (
     siteId: number,
-    request: UpdateSiteRequest,
+    request: SiteEntriesRequest,
   ) => Promise<void>;
   readonly getAdoptionReport: () => Promise<AdoptionReport>;
   readonly getAdoptionReportCsv: (
@@ -445,7 +445,7 @@ const editSite = (siteId: number, request: EditSiteRequest): Promise<void> => {
 
 const updateSite = (
   siteId: number,
-  request: UpdateSiteRequest,
+  request: SiteEntriesRequest,
 ): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.UPDATE_SITE(siteId),
