@@ -17,12 +17,12 @@ export interface EmailerFilters {
 }
 
 export interface FilterSitesRequest {
-  treeSpecies?: string[];
-  adoptedStart?: string;
-  adoptedEnd?: string;
-  lastActivityStart?: string;
-  lastActivityEnd?: string;
-  neighborhoodIds?: number[];
+  treeSpecies: string[] | null;
+  adoptedStart: string | null;
+  adoptedEnd: string | null;
+  lastActivityStart: string | null;
+  lastActivityEnd: string | null;
+  neighborhoodIds: number[] | null;
 }
 
 export interface FilterSitesData {

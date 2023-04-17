@@ -514,7 +514,7 @@ const addSites = (request: AddSitesRequest): Promise<void> => {
 const getFilteredSites = (
   request: FilterSitesRequest,
 ): Promise<{ filteredSites: FilterSitesData[] }> => {
-  return AppAxiosInstance.post(
+  return AppAxiosInstance.get(
     AdminApiClientRoutes.GET_FILTERED_SITES,
     request,
   ).then((res) => res.data);

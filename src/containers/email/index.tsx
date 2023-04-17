@@ -18,6 +18,7 @@ import AdoptedSitesTable from '../../components/adoptedSitesTable';
 import protectedApiClient from '../../api/protectedApiClient';
 import { ExclamationCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import { NEIGHBORHOOD_OPTS, Neighborhoods } from '../../assets/content';
+import dummyResponse from '../../components/adoptedSitesTable/dummyData';
 
 const EmailPageContainer = styled.div`
   width: 90vw;
@@ -35,7 +36,16 @@ const FilterHeader = styled.div`
   }
 `;
 
-const selectStyles = { marginTop: 20, minWidth: 150 };
+// TODO: rename this please
+const ContentContainer = styled.div`
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  // align-items: center;
+  height: 500px;
+`;
+
+const selectStyles = { marginTop: 20, minWidth: 150, marginBottom: 20 };
 
 const defaultFilters: EmailerFilters = {
   activityCountMin: 0,
@@ -60,21 +70,21 @@ function generateContents(loadingState: LoadingState, data: FilterSitesData[]) {
   switch (loadingState) {
     case LoadingState.LOADING:
       return (
-        <>
+        <ContentContainer>
           <Spin size="large" />
-          <Typography.Title level={4}>Retrieving data...</Typography.Title>
-        </>
+        </ContentContainer>
       );
     case LoadingState.SUCCESS:
       return <AdoptedSitesTable fetchData={data} />;
     case LoadingState.ERROR:
       return (
-        <>
-          <ExclamationCircleOutlined color="red" />
+        <ContentContainer>
+          <ExclamationCircleOutlined style={{ color: 'red' }} />
+          <br />
           <Typography.Title level={4}>
             Error fetching data! Please try again
           </Typography.Title>
-        </>
+        </ContentContainer>
       );
   }
 }
@@ -87,30 +97,52 @@ const Email: React.FC = () => {
     LoadingState.SUCCESS,
   );
 
-  function onClickSearch() {
+  // function onClickSearch() {
+  //   setFetchSitesState(LoadingState.LOADING);
+  //   // const req: FilterSitesRequest = {
+  //   //   treeSpecies: filters.commonNames.length > 0 ? filters.commonNames : null,
+  //   //   adoptedStart: filters.adoptedStart ?? null,
+  //   //   adoptedEnd: filters.adoptedEnd ?? null,
+  //   //   lastActivityStart: filters.lastActivityStart ?? null,
+  //   //   lastActivityEnd: filters.lastActivityEnd ?? null,
+  //   //   neighborhoodIds:
+  //   //     filters.neighborhoods.length > 0
+  //   //       ? filters.neighborhoods.map(neighborhoodToId)
+  //   //       : null,
+  //   // };
+  //   const req: FilterSitesRequest = {
+  //     treeSpecies: null,
+  //     adoptedStart: null,
+  //     adoptedEnd: null,
+  //     lastActivityStart: null,
+  //     lastActivityEnd: null,
+  //     neighborhoodIds: null,
+  //   };
+  //   // if (filters.commonNames.length > 0) req.treeSpecies = filters.commonNames;
+  //   // if (filters.neighborhoods.length > 0)
+  //   //   req.neighborhoodIds = filters.neighborhoods.map(neighborhoodToId);
+
+  //   console.log(req);
+
+  //   protectedApiClient
+  //     .getFilteredSites(req)
+  //     .then((res) => {
+  //       setFetchSitesState(LoadingState.SUCCESS);
+  //       setFetchData(res.filteredSites);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       setFetchSitesState(LoadingState.ERROR);
+  //       message.error(`Unable to fetch adopted sites: ${err.message}`);
+  //     });
+  // }
+
+  function onClickSearchTest() {
     setFetchSitesState(LoadingState.LOADING);
-    const req: FilterSitesRequest = {
-      treeSpecies:
-        filters.commonNames.length > 0 ? filters.commonNames : undefined,
-      adoptedStart: filters.adoptedStart,
-      adoptedEnd: filters.adoptedEnd,
-      lastActivityStart: filters.lastActivityStart,
-      lastActivityEnd: filters.lastActivityEnd,
-      neighborhoodIds:
-        filters.neighborhoods.length > 0
-          ? filters.neighborhoods.map(neighborhoodToId)
-          : undefined,
-    };
-    protectedApiClient
-      .getFilteredSites(req)
-      .then((res) => {
-        setFetchSitesState(LoadingState.SUCCESS);
-        setFetchData(res.filteredSites);
-      })
-      .catch((err) => {
-        setFetchSitesState(LoadingState.ERROR);
-        message.error(`Unable to fetch adopted sites: ${err.message}`);
-      });
+    setTimeout(() => {
+      setFetchSitesState(LoadingState.SUCCESS);
+      setFetchData(dummyResponse);
+    }, 2000);
   }
 
   return (
@@ -133,6 +165,16 @@ const Email: React.FC = () => {
           </Typography.Title>
           <Row>
             <Col span={6}>
+              <Select
+                value={emailType}
+                style={selectStyles}
+                defaultValue={EmailType.INACTIVE}
+                options={Object.entries(EmailType).map(([key, value]) => ({
+                  value: key,
+                  label: value,
+                }))}
+                onChange={(value: EmailType) => setEmailType(value)}
+              />
               <FilterHeader>
                 <Typography.Title level={3}>Filter By</Typography.Title>
                 <a
@@ -145,21 +187,12 @@ const Email: React.FC = () => {
                   Clear All
                 </a>
               </FilterHeader>
-              <Select
-                value={emailType}
-                style={selectStyles}
-                defaultValue={EmailType.INACTIVE}
-                options={Object.entries(EmailType).map(([key, value]) => ({
-                  value: key,
-                  label: value,
-                }))}
-                onChange={(value: EmailType) => setEmailType(value)}
-              />
               <EmailerFilterControls
                 filters={filters}
                 setFilters={setFilters}
               />
-              <Button type="primary" onClick={onClickSearch}>
+              <br />
+              <Button type="primary" onClick={onClickSearchTest}>
                 Search
               </Button>
             </Col>

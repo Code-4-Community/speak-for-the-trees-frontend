@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Table, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {
   EmailerTableData,
   FilterSitesData,
 } from '../../containers/email/types';
-import dummyResponse from './dummyData';
 import { NEIGHBORHOOD_IDS } from '../../assets/content';
 
 interface AdoptedSitesTableProps {
@@ -54,31 +53,36 @@ function coalesceEmptyString(s?: string) {
   return s === undefined || s?.length === 0 ? 'N/A' : s;
 }
 
-const data: EmailerTableData[] = dummyResponse.map((res, i) => {
+function responseToTableData(data: FilterSitesData, index: number) {
   return {
-    key: i.toString(),
-    siteId: res.siteId,
-    address: coalesceEmptyString(res.address),
-    adopterName: res.adopterName,
-    adopterEmail: res.adopterEmail,
-    dateAdopted: coalesceEmptyString(res.dateAdopted),
-    adopterActivityCount: res.adopterActivityCount,
-    neighborhood: NEIGHBORHOOD_IDS[res.neighborhoodId],
-    lastActivityWeeks: res.lastActivityWeeks?.toString() ?? 'N/A',
+    key: index.toString(),
+    siteId: data.siteId,
+    address: coalesceEmptyString(data.address),
+    adopterName: data.adopterName,
+    adopterEmail: data.adopterEmail,
+    dateAdopted: coalesceEmptyString(data.dateAdopted),
+    adopterActivityCount: data.adopterActivityCount,
+    neighborhood: NEIGHBORHOOD_IDS[data.neighborhoodId],
+    lastActivityWeeks: data.lastActivityWeeks?.toString() ?? 'N/A',
   };
-});
-
-// const rowSelection = {
-//   onChange: (selectedRowKeys: string[], selectedRows: EmailerTableData[]) => {}
-// }
+}
 
 const AdoptedSitesTable: React.FC<AdoptedSitesTableProps> = ({ fetchData }) => {
+  const tableData = useMemo(
+    () =>
+      [].concat(
+        ...Array.from({ length: 10 }, () => fetchData.map(responseToTableData)),
+      ),
+    [fetchData],
+  );
+
   return fetchData.length > 0 ? (
     <Table
       columns={columns}
-      dataSource={data}
+      dataSource={tableData}
       size="middle"
       rowSelection={{ type: 'checkbox' }}
+      // pagination={{ style: { color: 'white' } }}
     />
   ) : (
     <Typography.Title level={3}>
