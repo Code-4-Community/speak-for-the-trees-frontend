@@ -37,6 +37,29 @@ export interface FilterSitesData {
   lastActivityWeeks?: number;
 }
 
+export interface FilterSitesParams {
+  treeCommonNames: string[] | null;
+  adoptedStart: string | null;
+  adoptedEnd: string | null;
+  lastActivityStart: string | null;
+  lastActivityEnd: string | null;
+  neighborhoodIds: number[] | null;
+}
+
+interface FilteredSite {
+  siteId: number;
+  address?: string;
+  adopterId: number;
+  adopterName: string;
+  dateAdopted: Date;
+  adopterActivityCount: number;
+  lastActivityWeeks?: number;
+}
+
+export interface FilterSitesResponse {
+  filteredSites: FilteredSite[];
+}
+
 export interface EmailerTableData {
   key: string;
   siteId: number;

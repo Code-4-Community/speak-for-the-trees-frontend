@@ -19,6 +19,8 @@ import protectedApiClient from '../../api/protectedApiClient';
 import { ExclamationCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import { NEIGHBORHOOD_OPTS, Neighborhoods } from '../../assets/content';
 import dummyResponse from '../../components/adoptedSitesTable/dummyData';
+import SendEmailForm from '../../components/forms/sendEmailForm';
+// import protectedApiClient from '../../api/protectedApiClient';
 
 const EmailPageContainer = styled.div`
   width: 90vw;
@@ -160,6 +162,7 @@ const Email: React.FC = () => {
             {`<`} Return to Tree Map
           </ReturnButton>
           <PageHeader pageTitle="Volunteer Emailer" />
+
           <Typography.Title level={4}>
             Select a type of email to send volunteers
           </Typography.Title>
@@ -187,7 +190,8 @@ const Email: React.FC = () => {
                   Clear All
                 </a>
               </FilterHeader>
-              <EmailerFilterControls
+    
+          <EmailerFilterControls
                 filters={filters}
                 setFilters={setFilters}
               />
@@ -199,6 +203,8 @@ const Email: React.FC = () => {
             <Col span={1}></Col>
             <Col span={17}>{generateContents(fetchSitesState, fetchData)}</Col>
           </Row>
+
+          <SendEmailForm emails={selectedEmails} />
         </EmailPageContainer>
       </PageLayout>
     </>
