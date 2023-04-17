@@ -74,7 +74,7 @@ const TreeInfo: React.FC<TreeProps> = ({
 
   const isAdopted = !!siteData.entries?.[0]?.adopter;
 
-  const treeSpecies = getCommonName(siteData);
+  const treeCommonName = getCommonName(siteData);
 
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
     isAdmin(state.authenticationState.tokens),
@@ -99,10 +99,10 @@ const TreeInfo: React.FC<TreeProps> = ({
       size={mobile ? 'middle' : 'large'}
       defaultText={
         userOwnsTree
-          ? `Check out this ${treeSpecies} I adopted!`
+          ? `Check out this ${treeCommonName} I adopted!`
           : isAdopted
-          ? `Check out this ${treeSpecies} near you!`
-          : `This ${treeSpecies}${
+          ? `Check out this ${treeCommonName} near you!`
+          : `This ${treeCommonName}${
               siteData.address ? ' at ' + siteData.address : ''
             } needs someone to take care of it!`
       }
