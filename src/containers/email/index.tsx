@@ -6,10 +6,10 @@ import { Routes } from '../../App';
 import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
 import PageHeader from '../../components/pageHeader';
-import { EmailType, EmailerFilters, FilterSitesResponse } from './types';
+import { EmailType, EmailerFilters } from './types';
 import EmailerFilterControls from '../../components/emailerFilterControls';
 import SendEmailForm from '../../components/forms/sendEmailForm';
-import protectedApiClient from '../../api/protectedApiClient';
+// import protectedApiClient from '../../api/protectedApiClient';
 
 const EmailPageContainer = styled.div`
   width: 90vw;
