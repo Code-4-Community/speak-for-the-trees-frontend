@@ -16,13 +16,11 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails }) => {
   const [sendEmailForm] = Form.useForm();
 
   const onFinishSendEmail = (values: SendEmailFormValues) => {
-    console.log(values);
     const sendEmailRequest: SendEmailRequest = {
       ...values,
       emails,
     };
 
-    console.log(sendEmailRequest);
     ProtectedApiClient.sendEmail(sendEmailRequest)
       .then(() => {
         message.success('Email sent!');
