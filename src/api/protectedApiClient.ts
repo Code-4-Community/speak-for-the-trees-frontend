@@ -29,7 +29,7 @@ import {
   AdoptionReport,
   StewardshipReport,
 } from '../containers/reports/ducks/types';
-import { FilterSitesResponse } from '../containers/email/types';
+import { FilterSitesParams } from '../containers/email/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -121,13 +121,8 @@ export interface ProtectedApiClient {
   readonly addSites: (request: AddSitesRequest) => Promise<void>;
   readonly sendEmail: (request: SendEmailRequest) => Promise<void>;
   readonly filterSites: (
-    treeCommonNames: string[] | null,
-    adoptedStart: Date | null,
-    adoptedEnd: Date | null,
-    lastActivityStart: Date | null,
-    lastActivityEnd: Date | null,
-    neighborhoodIds: number[] | null,
-  ) => Promise<FilterSitesResponse>;
+    params: FilterSitesParams,
+  ) => Promise<FilterSitesParams>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -203,21 +198,20 @@ export const ParameterizedAdminApiRoutes = {
     `/api/v1/protected/report/csv/adoption?previousDays=${previousDays}`,
   GET_STEWARDSHIP_REPORT_CSV: (previousDays: number): string =>
     `/api/v1/protected/report/csv/stewardship?previousDays=${previousDays}`,
-  FILTER_SITES: (
-    treeCommonNames: string[] | null,
-    adoptedStart: Date | null,
-    adoptedEnd: Date | null,
-    lastActivityStart: Date | null,
-    lastActivityEnd: Date | null,
-    neighborhoodIds: number[] | null,
-  ): string =>
+  FILTER_SITES: (params: FilterSitesParams): string =>
     `${baseSiteRoute}filter_sites?${
-      treeCommonNames ? `treeCommonNames=${treeCommonNames}` : ''
-    }${adoptedStart ? `&adoptedStart=${adoptedStart}` : ''}${
-      adoptedEnd ? `&adoptedEnd=${adoptedEnd}` : ''
-    }${lastActivityStart ? `&lastActivityStart=${lastActivityStart}` : ''}${
-      lastActivityEnd ? `&lastActivityEnd=${lastActivityEnd}` : ''
-    }${neighborhoodIds ? `&neighborhoodIds=${neighborhoodIds}` : ''}`,
+      params.treeCommonNames ? `treeCommonNames=${params.treeCommonNames}` : ''
+    }${params.adoptedStart ? `&adoptedStart=${params.adoptedStart}` : ''}${
+      params.adoptedEnd ? `&adoptedEnd=${params.adoptedEnd}` : ''
+    }${
+      params.lastActivityStart
+        ? `&lastActivityStart=${params.lastActivityStart}`
+        : ''
+    }${
+      params.lastActivityEnd ? `&lastActivityEnd=${params.lastActivityEnd}` : ''
+    }${
+      params.neighborhoodIds ? `&neighborhoodIds=${params.neighborhoodIds}` : ''
+    }`,
 };
 
 const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
@@ -539,23 +533,9 @@ const sendEmail = (request: SendEmailRequest): Promise<void> => {
   );
 };
 
-const filterSites = (
-  treeCommonNames: string[] | null,
-  adoptedStart: Date | null,
-  adoptedEnd: Date | null,
-  lastActivityStart: Date | null,
-  lastActivityEnd: Date | null,
-  neighborhoodIds: number[] | null,
-): Promise<FilterSitesResponse> => {
+const filterSites = (params: FilterSitesParams): Promise<FilterSitesParams> => {
   return AppAxiosInstance.get(
-    ParameterizedAdminApiRoutes.FILTER_SITES(
-      treeCommonNames,
-      adoptedStart,
-      adoptedEnd,
-      lastActivityStart,
-      lastActivityEnd,
-      neighborhoodIds,
-    ),
+    ParameterizedAdminApiRoutes.FILTER_SITES(params),
   ).then((res) => res.data);
 };
 
