@@ -75,6 +75,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
 
+  const [mapSearchMarker, setMapSearchMarker] = useState<google.maps.Marker>();
+
   const [mapTypeId, setMapTypeId] = useState<MapTypes>(MapTypes.ROADMAP);
 
   const onCreateChild = (values: SignupFormValues) => {
@@ -165,7 +167,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <Block
                 maxWidth={windowType === WindowTypes.Mobile ? '100%' : '45%'}
               >
-                <EditSiteForm formInstance={editSiteForm} />
+                <EditSiteForm
+                  formInstance={editSiteForm}
+                  onEdit={(latLng: google.maps.LatLng) =>
+                    mapSearchMarker?.setPosition(latLng)
+                  }
+                />
               </Block>
               <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
                 <MapContainer>
@@ -178,6 +185,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         lng: round(pos.lng(), LAT_LNG_PRECISION),
                       });
                     }}
+                    setMarker={setMapSearchMarker}
                   />
                 </MapContainer>
               </MapTypeContext.Provider>

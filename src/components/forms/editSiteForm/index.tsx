@@ -10,16 +10,30 @@ import styled from 'styled-components';
 
 interface EditSiteFormProps {
   readonly formInstance: FormInstance<EditSiteRequest>;
+  readonly onEdit: (latLng: google.maps.LatLng) => void;
 }
 
 const EditForm = styled(Form)`
   width: 100%;
 `;
 
-const EditSiteForm: React.FC<EditSiteFormProps> = ({ formInstance }) => {
+const EditSiteForm: React.FC<EditSiteFormProps> = ({
+  formInstance,
+  onEdit,
+}) => {
+  const onValuesChange = (changedValues: any, allValues: any) => {
+    if (changedValues.lat || changedValues.lng) {
+      const values = allValues as EditSiteRequest;
+      onEdit(new google.maps.LatLng(values.lat, values.lng));
+    }
+  };
   return (
     <>
-      <EditForm name="basic" form={formInstance}>
+      <EditForm
+        name="basic"
+        form={formInstance}
+        onValuesChange={onValuesChange}
+      >
         <Flex>
           <TitleStack title={'Address'} flexGrow={'1'}>
             <Form.Item
