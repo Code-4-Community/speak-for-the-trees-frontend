@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { Button, Select, Typography } from 'antd';
+import { Select, Typography } from 'antd';
 import { Routes } from '../../App';
 import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
@@ -28,14 +28,14 @@ const Email: React.FC = () => {
 
   const selectedEmails = [''];
 
-  const treeCommonNames = ['Northern red oak', 'Zelkova'];
+  // const treeCommonNames = ['Northern red oak', 'Zelkova'];
   const neighborhoodIds = [34];
 
-  const handleFilterSites = () => {
-    return protectedApiClient
-      .filterSites(null, null, null, null, null, neighborhoodIds)
-      .then((res: FilterSitesResponse) => console.log(res.filteredSites));
-  };
+  // const handleFilterSites = () => {
+  //   return protectedApiClient
+  //     .filterSites(null, null, null, null, null, neighborhoodIds)
+  //     .then((res: FilterSitesResponse) => console.log(res.filteredSites));
+  // };
 
   return (
     <>
