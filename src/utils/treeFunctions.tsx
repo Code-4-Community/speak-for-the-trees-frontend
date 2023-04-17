@@ -1,4 +1,4 @@
-import { TreeCare } from '../containers/treePage/ducks/types';
+import { SiteProps, TreeCare } from '../containers/treePage/ducks/types';
 import moment from 'moment';
 
 export function treeCareToMoment(activity: TreeCare): moment.Moment {
@@ -7,3 +7,6 @@ export function treeCareToMoment(activity: TreeCare): moment.Moment {
     'MMM Do YYYY',
   );
 }
+
+export const getCommonName = (siteData: SiteProps): string =>
+  (siteData.entries[0]?.commonName ?? 'tree').toLowerCase();

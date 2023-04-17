@@ -16,6 +16,7 @@ import TreePageHeader from '../treePageHeader';
 import { C4CState } from '../../store';
 import { isAdmin } from '../../auth/ducks/selectors';
 import { isSFTT } from '../../utils/isCheck';
+import { getCommonName } from '../../utils/treeFunctions';
 
 const TreeHeader = styled.div`
   text-transform: capitalize;
@@ -55,9 +56,6 @@ interface TreeProps {
   readonly onClickEditTreeName: (values: NameSiteEntryRequest) => void;
 }
 
-export const getTreeSpecies = (siteData: SiteProps) =>
-  (siteData.entries[0]?.commonName ?? 'tree').toLowerCase();
-
 const TreeInfo: React.FC<TreeProps> = ({
   siteData,
   loggedIn,
@@ -76,7 +74,7 @@ const TreeInfo: React.FC<TreeProps> = ({
 
   const isAdopted = !!siteData.entries?.[0]?.adopter;
 
-  const treeSpecies = getTreeSpecies(siteData);
+  const treeSpecies = getCommonName(siteData);
 
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
     isAdmin(state.authenticationState.tokens),
