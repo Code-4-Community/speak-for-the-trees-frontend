@@ -8,6 +8,8 @@ import { ReturnButton } from '../../components/themedComponents';
 import PageHeader from '../../components/pageHeader';
 import { EmailType, EmailerFilters } from './types';
 import EmailerFilterControls from '../../components/emailerFilterControls';
+import SendEmailForm from '../../components/forms/sendEmailForm';
+// import protectedApiClient from '../../api/protectedApiClient';
 
 const EmailPageContainer = styled.div`
   width: 90vw;
@@ -24,6 +26,17 @@ const Email: React.FC = () => {
     commonNames: [],
   });
 
+  const selectedEmails = [''];
+
+  // const treeCommonNames = ['Northern red oak', 'Zelkova'];
+  // const neighborhoodIds = [34];
+
+  // const handleFilterSites = () => {
+  //   return protectedApiClient
+  //     .filterSites(null, null, null, null, null, neighborhoodIds)
+  //     .then((res: FilterSitesResponse) => console.log(res.filteredSites));
+  // };
+
   return (
     <>
       <Helmet>
@@ -39,6 +52,7 @@ const Email: React.FC = () => {
             {`<`} Return to Tree Map
           </ReturnButton>
           <PageHeader pageTitle="Volunteer Emailer" />
+
           <Typography.Title level={4}>
             Select a type of email to send volunteers
           </Typography.Title>
@@ -52,7 +66,10 @@ const Email: React.FC = () => {
             }))}
             onChange={(value: EmailType) => setEmailType(value)}
           />
+
           <EmailerFilterControls filters={filters} setFilters={setFilters} />
+
+          <SendEmailForm emails={selectedEmails} />
         </EmailPageContainer>
       </PageLayout>
     </>

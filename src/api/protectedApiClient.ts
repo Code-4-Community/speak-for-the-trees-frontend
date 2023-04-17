@@ -19,6 +19,7 @@ import {
   AddSiteRequest,
   AddSitesRequest,
   NameSiteEntryRequest,
+  SendEmailRequest,
 } from '../components/forms/ducks/types';
 import {
   ActivityRequest,
@@ -28,6 +29,7 @@ import {
   AdoptionReport,
   StewardshipReport,
 } from '../containers/reports/ducks/types';
+import { FilterSitesParams } from '../containers/email/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -117,6 +119,10 @@ export interface ProtectedApiClient {
     request: NameSiteEntryRequest,
   ) => Promise<void>;
   readonly addSites: (request: AddSitesRequest) => Promise<void>;
+  readonly sendEmail: (request: SendEmailRequest) => Promise<void>;
+  readonly filterSites: (
+    params: FilterSitesParams,
+  ) => Promise<FilterSitesParams>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -146,6 +152,7 @@ export enum AdminApiClientRoutes {
   GET_STEWARDSHIP_REPORT = '/api/v1/protected/report/stewardship',
   GET_STEWARDSHIP_REPORT_CSV = '/api/v1/protected/report/csv/adoption',
   ADD_SITES = '/api/v1/protected/sites/add_sites',
+  SEND_EMAIL = '/api/v1/protected/neighborhoods/send_email',
 }
 
 const baseTeamRoute = '/api/v1/protected/teams/';
@@ -191,6 +198,20 @@ export const ParameterizedAdminApiRoutes = {
     `/api/v1/protected/report/csv/adoption?previousDays=${previousDays}`,
   GET_STEWARDSHIP_REPORT_CSV: (previousDays: number): string =>
     `/api/v1/protected/report/csv/stewardship?previousDays=${previousDays}`,
+  FILTER_SITES: (params: FilterSitesParams): string =>
+    `${baseSiteRoute}filter_sites?${
+      params.treeCommonNames ? `treeCommonNames=${params.treeCommonNames}` : ''
+    }${params.adoptedStart ? `&adoptedStart=${params.adoptedStart}` : ''}${
+      params.adoptedEnd ? `&adoptedEnd=${params.adoptedEnd}` : ''
+    }${
+      params.lastActivityStart
+        ? `&lastActivityStart=${params.lastActivityStart}`
+        : ''
+    }${
+      params.lastActivityEnd ? `&lastActivityEnd=${params.lastActivityEnd}` : ''
+    }${
+      params.neighborhoodIds ? `&neighborhoodIds=${params.neighborhoodIds}` : ''
+    }`,
 };
 
 const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
@@ -506,6 +527,18 @@ const addSites = (request: AddSitesRequest): Promise<void> => {
   );
 };
 
+const sendEmail = (request: SendEmailRequest): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.SEND_EMAIL, request).then(
+    (res) => res.data,
+  );
+};
+
+const filterSites = (params: FilterSitesParams): Promise<FilterSitesParams> => {
+  return AppAxiosInstance.get(
+    ParameterizedAdminApiRoutes.FILTER_SITES(params),
+  ).then((res) => res.data);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -551,6 +584,8 @@ const Client: ProtectedApiClient = Object.freeze({
   addSite,
   nameSiteEntry,
   addSites,
+  sendEmail,
+  filterSites,
 });
 
 export default Client;
