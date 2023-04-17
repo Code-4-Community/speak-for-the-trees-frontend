@@ -29,7 +29,7 @@ const Email: React.FC = () => {
   const selectedEmails = [''];
 
   // const treeCommonNames = ['Northern red oak', 'Zelkova'];
-  const neighborhoodIds = [34];
+  // const neighborhoodIds = [34];
 
   // const handleFilterSites = () => {
   //   return protectedApiClient
