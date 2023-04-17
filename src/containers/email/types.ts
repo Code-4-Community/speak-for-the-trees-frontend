@@ -26,3 +26,17 @@ export interface EmailerTableColumns {
   neighborhood: Neighborhoods;
   lastActivityWeeks?: number;
 }
+
+export interface FilteredSite {
+  siteId: number;
+  address?: string;
+  adopterId: number;
+  adopterName: string;
+  dateAdopted: Date;
+  adopterActivityCount: number;
+  lastActivityWeeks?: number;
+}
+
+export interface FilterSitesResponse {
+  filteredSites: FilteredSite[];
+}

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { Select, Typography } from 'antd';
+import { Button, Select, Typography } from 'antd';
 import { Routes } from '../../App';
 import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
 import PageHeader from '../../components/pageHeader';
-import { EmailType, EmailerFilters } from './types';
+import { EmailType, EmailerFilters, FilterSitesResponse } from './types';
 import EmailerFilterControls from '../../components/emailerFilterControls';
 import SendEmailForm from '../../components/forms/sendEmailForm';
+import protectedApiClient from '../../api/protectedApiClient';
 
 const EmailPageContainer = styled.div`
   width: 90vw;
@@ -25,7 +26,16 @@ const Email: React.FC = () => {
     commonNames: [],
   });
 
-  const selectedEmails = ['jung.du@northeastern.edu'];
+  const selectedEmails = [''];
+
+  const treeCommonNames = ['Northern red oak', 'Zelkova'];
+  const neighborhoodIds = [34];
+
+  const handleFilterSites = () => {
+    return protectedApiClient
+      .filterSites(null, null, null, null, null, neighborhoodIds)
+      .then((res: FilterSitesResponse) => console.log(res.filteredSites));
+  };
 
   return (
     <>
