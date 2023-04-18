@@ -48,7 +48,7 @@ const columns: ColumnsType<EmailerTableData> = [
 ];
 
 function coalesceEmptyString(s?: string) {
-  return s === undefined || s?.length === 0 ? 'N/A' : s;
+  return s === undefined || s === '' ? 'N/A' : s;
 }
 
 function responseToTableData(
