@@ -27,11 +27,6 @@ const FilterHeader = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 15px;
-
-  a {
-    font-size: 1.1em;
-    text-decoration: underline;
-  }
 `;
 
 const FetchInfoContainer = styled.div`
@@ -125,15 +120,15 @@ const Email: React.FC = () => {
             <Col span={6}>
               <FilterHeader>
                 <Typography.Title level={3}>Filter By</Typography.Title>
-                <a
-                  href="#"
+                <Button
+                  type="link"
                   onClick={(e) => {
                     e.preventDefault();
                     setFilters(defaultFilters);
                   }}
                 >
                   Clear Filters
-                </a>
+                </Button>
               </FilterHeader>
               <EmailerFilterControls
                 filters={filters}
