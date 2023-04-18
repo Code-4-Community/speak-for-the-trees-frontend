@@ -31,8 +31,8 @@ function activityCountRange(filters: EmailerFilters): [number, number] {
 function formatDates(
   start?: string,
   end?: string,
-): [moment.Moment | null, moment.Moment | null] | undefined {
-  if (start && end) return [moment(start), moment(end)];
+): [moment.Moment | null, moment.Moment | null] {
+  return [start ? moment(start) : null, end ? moment(end) : null];
 }
 
 function disabledDate(current: moment.Moment): boolean {
@@ -99,12 +99,13 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
       <Collapse.Panel header="Adoption Date" key="adoptionDate">
         <StyledRangePicker
           allowClear={false}
+          allowEmpty={[true, true]}
           value={formatDates(filters.adoptedStart, filters.adoptedEnd)}
           onChange={(_, dateStrings) =>
             setFilters({
               ...filters,
-              adoptedStart: dateStrings[0],
-              adoptedEnd: dateStrings[1],
+              adoptedStart: dateStrings[0] || undefined,
+              adoptedEnd: dateStrings[1] || undefined,
             })
           }
           disabledDate={disabledDate}
@@ -125,6 +126,7 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
       <Collapse.Panel header="Last Activity Date" key="lastActivityDate">
         <StyledRangePicker
           allowClear={false}
+          allowEmpty={[true, true]}
           value={formatDates(
             filters.lastActivityStart,
             filters.lastActivityEnd,
@@ -132,8 +134,8 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
           onChange={(_, dateStrings) =>
             setFilters({
               ...filters,
-              lastActivityStart: dateStrings[0],
-              lastActivityEnd: dateStrings[1],
+              lastActivityStart: dateStrings[0] || undefined,
+              lastActivityEnd: dateStrings[1] || undefined,
             })
           }
           disabledDate={disabledDate}

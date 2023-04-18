@@ -34,8 +34,7 @@ const FilterHeader = styled.div`
   }
 `;
 
-// TODO: rename this please
-const ContentContainer = styled.div`
+const FetchInfoContainer = styled.div`
   text-align: center;
   padding: 30px;
 `;
@@ -151,9 +150,9 @@ const Email: React.FC = () => {
                 switch (fetchSitesState) {
                   case LoadingState.LOADING:
                     return (
-                      <ContentContainer>
+                      <FetchInfoContainer>
                         <Spin size="large" />
-                      </ContentContainer>
+                      </FetchInfoContainer>
                     );
                   case LoadingState.SUCCESS:
                     return (
@@ -164,14 +163,14 @@ const Email: React.FC = () => {
                     );
                   case LoadingState.ERROR:
                     return (
-                      <ContentContainer>
+                      <FetchInfoContainer>
                         <Alert
                           message="Error"
                           description="Failed to fetch site data!"
                           type="error"
                           showIcon
                         />
-                      </ContentContainer>
+                      </FetchInfoContainer>
                     );
                 }
               })()}
