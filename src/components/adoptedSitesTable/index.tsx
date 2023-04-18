@@ -1,14 +1,12 @@
-import React, { useMemo } from 'react';
+import React, { SetStateAction, useMemo, useState } from 'react';
 import { Table, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import {
-  EmailerTableData,
-  FilterSitesData,
-} from '../../containers/email/types';
+import { EmailerTableData, FilteredSite } from '../../containers/email/types';
 import { NEIGHBORHOOD_IDS } from '../../assets/content';
 
 interface AdoptedSitesTableProps {
-  readonly fetchData: FilterSitesData[];
+  readonly fetchData: FilteredSite[];
+  readonly setSelectedEmails: React.Dispatch<SetStateAction<string[]>>;
 }
 
 const columns: ColumnsType<EmailerTableData> = [
@@ -53,9 +51,12 @@ function coalesceEmptyString(s?: string) {
   return s === undefined || s?.length === 0 ? 'N/A' : s;
 }
 
-function responseToTableData(data: FilterSitesData, index: number) {
+function responseToTableData(
+  data: FilteredSite,
+  index: number,
+): EmailerTableData {
   return {
-    key: index.toString(),
+    key: index,
     siteId: data.siteId,
     address: coalesceEmptyString(data.address),
     adopterName: data.adopterName,
@@ -67,28 +68,32 @@ function responseToTableData(data: FilterSitesData, index: number) {
   };
 }
 
-const AdoptedSitesTable: React.FC<AdoptedSitesTableProps> = ({ fetchData }) => {
+const AdoptedSitesTable: React.FC<AdoptedSitesTableProps> = ({
+  fetchData,
+  setSelectedEmails,
+}) => {
   const tableData = useMemo(
-    () =>
-      [].concat(
-        ...Array.from({ length: 10 }, () => fetchData.map(responseToTableData)),
-      ),
+    () => fetchData.map(responseToTableData),
     [fetchData],
   );
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState<number[]>([]);
 
   return fetchData.length > 0 ? (
     <Table
       columns={columns}
       dataSource={tableData}
       size="middle"
-      rowSelection={{ type: 'checkbox' }}
-      // pagination={{ style: { color: 'white' } }}
+      rowSelection={{
+        selectedRowKeys: selectedRowKeys,
+        onChange: (_, selectedRows) => {
+          setSelectedEmails(selectedRows.map((row) => row.adopterEmail));
+          setSelectedRowKeys(selectedRows.map((row) => row.key));
+        },
+      }}
     />
   ) : (
-    <Typography.Title level={3}>
-      No data present! Adjust the filters, then click then search button to
-      populate the table.
-    </Typography.Title>
+    <></>
   );
 };
 

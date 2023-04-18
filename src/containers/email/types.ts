@@ -16,8 +16,8 @@ export interface EmailerFilters {
   lastActivityEnd?: string;
 }
 
-export interface FilterSitesRequest {
-  treeSpecies: string[] | null;
+export interface FilterSitesParams {
+  treeCommonNames: string[] | null;
   adoptedStart: string | null;
   adoptedEnd: string | null;
   lastActivityStart: string | null;
@@ -25,7 +25,7 @@ export interface FilterSitesRequest {
   neighborhoodIds: number[] | null;
 }
 
-export interface FilterSitesData {
+export interface FilteredSite {
   siteId: number;
   address?: string;
   adopterId: number;
@@ -37,35 +37,19 @@ export interface FilterSitesData {
   lastActivityWeeks?: number;
 }
 
-export interface FilterSitesParams {
-  treeCommonNames: string[] | null;
-  adoptedStart: string | null;
-  adoptedEnd: string | null;
-  lastActivityStart: string | null;
-  lastActivityEnd: string | null;
-  neighborhoodIds: number[] | null;
-}
-
-interface FilteredSite {
-  siteId: number;
-  address?: string;
-  adopterId: number;
-  adopterName: string;
-  dateAdopted: Date;
-  adopterActivityCount: number;
-  lastActivityWeeks?: number;
-}
-
 export interface FilterSitesResponse {
   filteredSites: FilteredSite[];
 }
 
-export interface EmailerTableData {
-  key: string;
+export interface SelectedEmailInfo {
+  key: number;
+  adopterEmail: string;
+}
+
+export interface EmailerTableData extends SelectedEmailInfo {
   siteId: number;
   address: string;
   adopterName: string;
-  adopterEmail: string;
   dateAdopted: string;
   adopterActivityCount: number;
   neighborhood: Neighborhoods;

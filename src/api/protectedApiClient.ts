@@ -29,7 +29,10 @@ import {
   AdoptionReport,
   StewardshipReport,
 } from '../containers/reports/ducks/types';
-import { FilterSitesParams } from '../containers/email/types';
+import {
+  FilterSitesParams,
+  FilterSitesResponse,
+} from '../containers/email/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -122,7 +125,7 @@ export interface ProtectedApiClient {
   readonly sendEmail: (request: SendEmailRequest) => Promise<void>;
   readonly filterSites: (
     params: FilterSitesParams,
-  ) => Promise<FilterSitesParams>;
+  ) => Promise<FilterSitesResponse>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -533,7 +536,9 @@ const sendEmail = (request: SendEmailRequest): Promise<void> => {
   );
 };
 
-const filterSites = (params: FilterSitesParams): Promise<FilterSitesParams> => {
+const filterSites = (
+  params: FilterSitesParams,
+): Promise<FilterSitesResponse> => {
   return AppAxiosInstance.get(
     ParameterizedAdminApiRoutes.FILTER_SITES(params),
   ).then((res) => res.data);
