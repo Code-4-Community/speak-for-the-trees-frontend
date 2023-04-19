@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { Select, Typography, Row, Col, Button, Spin, Alert } from 'antd';
+import {
+  Select,
+  Typography,
+  Row,
+  Col,
+  Button,
+  Spin,
+  Alert,
+  Divider,
+} from 'antd';
 import { Routes } from '../../App';
 import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
@@ -112,10 +121,6 @@ const Email: React.FC = () => {
             {`<`} Return to Tree Map
           </ReturnButton>
           <PageHeader pageTitle="Volunteer Emailer" />
-
-          <Typography.Title level={4}>
-            Select a type of email to send volunteers
-          </Typography.Title>
           <Row>
             <Col span={6}>
               <FilterHeader>
@@ -171,7 +176,10 @@ const Email: React.FC = () => {
               })()}
             </Col>
           </Row>
-          <br />
+          <Divider />
+          <Typography.Title level={4}>
+            Select a type of email to send volunteers
+          </Typography.Title>
           <Select
             value={emailType}
             style={selectStyles}

@@ -79,7 +79,7 @@ const AdoptedSitesTable: React.FC<AdoptedSitesTableProps> = ({
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<number[]>([]);
 
-  return fetchData.length > 0 ? (
+  return (
     <Table
       columns={columns}
       dataSource={tableData}
@@ -92,8 +92,6 @@ const AdoptedSitesTable: React.FC<AdoptedSitesTableProps> = ({
         },
       }}
     />
-  ) : (
-    <></>
   );
 };
 
