@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { WindowTypes } from '../../windowDimensions';
 import { FormInstance } from 'antd/es/form';
 import { enterEmailRules, loginPasswordRules } from '../../../utils/formRules';
-import { GreenButton } from '../../themedComponents';
+import { SubmitButton } from '../../themedComponents';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
 import { site } from '../../../constants';
@@ -16,7 +16,7 @@ interface LoginFormProps {
   readonly windowType: WindowTypes;
 }
 
-const LoginButton = styled(GreenButton)`
+const LoginButton = styled(SubmitButton)`
   width: 96px;
   margin-top: 1.5vh;
 `;
