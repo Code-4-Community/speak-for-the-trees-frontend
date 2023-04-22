@@ -19,7 +19,8 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import PageLayout from '../../components/pageLayout';
-import { RedirectStateProps, Routes, site } from '../../App';
+import { RedirectStateProps, Routes } from '../../App';
+import { site } from '../../constants';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import { SignupFormValues } from '../../components/forms/ducks/types';
 import { Trans, useTranslation } from 'react-i18next';

@@ -7,7 +7,7 @@ import { FormInstance } from 'antd/es/form';
 import { enterEmailRules, loginPasswordRules } from '../../../utils/formRules';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
-import { site } from '../../../App';
+import { site } from '../../../constants';
 
 interface LoginFormProps {
   readonly formInstance: FormInstance;

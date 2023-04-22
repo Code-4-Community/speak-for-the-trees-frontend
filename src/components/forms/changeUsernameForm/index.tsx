@@ -6,7 +6,7 @@ import { ChangeUsernameRequest } from '../ducks/types';
 import { SubmitButton } from '../../themedComponents';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
-import { site } from '../../../App';
+import { site } from '../../../constants';
 
 interface ChangeUsernameFormProps {
   readonly formLayout: { wrapperCol: { span: number } };

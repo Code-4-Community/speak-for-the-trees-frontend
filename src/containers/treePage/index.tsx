@@ -160,6 +160,7 @@ const TreePage: React.FC<TreeProps> = ({
       .adoptSite(id)
       .then(() => {
         message.success('Adopted site!');
+        dispatch(getSiteData(id));
         dispatch(getAdoptedSites());
       })
       .catch((err) => {
@@ -177,6 +178,19 @@ const TreePage: React.FC<TreeProps> = ({
       })
       .catch((err) => {
         message.error(`Failed to unadopt site: ${err.response.data}`);
+      });
+  };
+
+  const onClickForceUnadopt = () => {
+    protectedApiClient
+      .forceUnadoptSite(id)
+      .then(() => {
+        message.success('Force unadopted site!');
+        dispatch(getSiteData(id));
+        dispatch(getAdoptedSites());
+      })
+      .catch((err) => {
+        message.error(`Failed to force unadopt site: ${err.response.data}`);
       });
   };
 
@@ -281,6 +295,7 @@ const TreePage: React.FC<TreeProps> = ({
                                 userOwnsTree={doesUserOwnTree}
                                 onClickAdopt={onClickAdopt}
                                 onClickUnadopt={onClickUnadopt}
+                                onClickForceUnadopt={onClickForceUnadopt}
                                 onFinishRecordStewardship={
                                   onFinishRecordStewardship
                                 }
@@ -316,6 +331,7 @@ const TreePage: React.FC<TreeProps> = ({
                             userOwnsTree={doesUserOwnTree}
                             onClickAdopt={onClickAdopt}
                             onClickUnadopt={onClickUnadopt}
+                            onClickForceUnadopt={onClickForceUnadopt}
                             onFinishRecordStewardship={
                               onFinishRecordStewardship
                             }
@@ -342,6 +358,7 @@ const TreePage: React.FC<TreeProps> = ({
                           mobile={true}
                           onClickAdopt={onClickAdopt}
                           onClickUnadopt={onClickUnadopt}
+                          onClickForceUnadopt={onClickForceUnadopt}
                           onFinishRecordStewardship={onFinishRecordStewardship}
                           stewardshipFormInstance={stewardshipFormInstance}
                           editTreeNameFormInstance={editTreeNameFormInstance}

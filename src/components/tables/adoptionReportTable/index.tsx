@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { AdoptionReportEntry } from '../../../containers/reports/ducks/types';
 import { Table } from 'antd';
-import { site } from '../../../App';
+import { site } from '../../../constants';
 import SiteLink from '../siteLink';
 import { dateSorter, DESCEND_ORDER } from '../utils';
 import CopyText from '../../copyText';

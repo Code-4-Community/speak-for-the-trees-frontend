@@ -16,12 +16,14 @@ interface SiteFeaturesProps {
   readonly site: SiteProps;
   readonly editSiteForm: FormInstance<EditSiteRequest>;
   readonly onSubmit: (request: EditSiteRequest) => void;
+  readonly onEdit: (latLng: google.maps.LatLng) => void;
 }
 
 const SiteFeatures: React.FC<SiteFeaturesProps> = ({
   site,
   editSiteForm,
   onSubmit,
+  onEdit,
 }) => {
   const [editingFeatures, setEditingFeatures] = useState(false);
 
@@ -41,7 +43,7 @@ const SiteFeatures: React.FC<SiteFeaturesProps> = ({
     case true:
       return (
         <>
-          <EditSiteForm formInstance={editSiteForm} />
+          <EditSiteForm formInstance={editSiteForm} onEdit={onEdit} />
 
           <Flex justifyContent={'flex-end'}>
             <WhiteButton onClick={() => setEditingFeatures(false)}>
@@ -71,9 +73,9 @@ const SiteFeatures: React.FC<SiteFeaturesProps> = ({
             <TitleStack title={'Zip Code'}>
               <Content>{site.zip}</Content>
             </TitleStack>
-            <TitleStack title={'Block ID'}>
+            {/* <TitleStack title={'Block ID'}>
               <Content>{site.blockId || 'No Recorded Block ID'}</Content>
-            </TitleStack>
+            </TitleStack> */}
             <TitleStack title={'Neighborhood'}>
               <Content>
                 {getNeighborhoodName(site.neighborhoodId || -1)}

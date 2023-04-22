@@ -1,3 +1,4 @@
+import { Websites, site } from '../constants';
 import { WindowTypes } from '../components/windowDimensions';
 
 /**
@@ -15,3 +16,10 @@ export function isMobile(windowType: WindowTypes): boolean {
 export function isEmptyString(str: string): boolean {
   return str === '';
 }
+
+/**
+ * Checks if the current site is a Speak for the Trees or Cambridge website
+ */
+export const isSFTT = (): boolean => {
+  return site !== Websites.CAMBRIDGE;
+};

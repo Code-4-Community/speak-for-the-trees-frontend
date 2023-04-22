@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +17,8 @@ import {
   MapViews,
 } from '../../components/mapComponents/ducks/types';
 import MapLegend from '../../components/mapComponents/mapLegend';
-import { Routes, site } from '../../App';
+import { Routes } from '../../App';
+import { site } from '../../constants';
 import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
 import SlideDown from '../../components/slideDown';
 import { MOBILE_SLIDE_HEIGHT } from '../../components/mapComponents/constants';
@@ -26,6 +27,9 @@ import { DARK_GREEN } from '../../utils/colors';
 import { SFTT_PARTNER_LOGOS } from '../../assets/links';
 import LandingContent from '../../components/landingContent';
 import { n } from '../../utils/stringFormat';
+import { MapTypes } from '../../context/types';
+import { MapTypeContext } from '../../context/mapTypeContext';
+import { isSFTT } from '../../utils/isCheck';
 
 const ModalTitle = styled(Typography.Text)`
   font-size: 20px;
@@ -38,7 +42,7 @@ const ModalParagraph = styled(Typography.Paragraph)`
 `;
 
 const ModalImage = styled.img`
-  width: 100%;
+  width: ${isSFTT() ? '100%' : '400px'};
   margin-top: 30px;
 `;
 
@@ -61,6 +65,8 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
     isLoggedIn(state.authenticationState.tokens),
   );
 
+  const [mapTypeId, setMapTypeId] = useState<MapTypes>(MapTypes.ROADMAP);
+
   useEffect(() => {
     dispatch(getMapGeoData());
   }, [dispatch]);
@@ -74,6 +80,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
         content: (
           <ModalParagraph>
             {t('welcomeModal.paragraph')}
+            <br />
             <ModalImage src={SFTT_PARTNER_LOGOS} alt={'SFTT Logo'} />
           </ModalParagraph>
         ),
@@ -100,53 +107,55 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
           content="The first page someone sees if they are not logged in, contains a read only map of Boston neighborhoods and some information about the tree counts of Speak for the Trees"
         />
       </Helmet>
-      {(() => {
-        switch (windowType) {
-          case WindowTypes.Mobile:
-          case WindowTypes.Tablet:
-            return (
-              <MobileMapPage
-                mapContent={
-                  <TreeMapDisplay
-                    neighborhoods={neighborhoods}
-                    sites={sites}
-                    mobile={true}
-                  />
-                }
-                returnTo={Routes.LANDING}
-              >
-                <SlideDown slideHeight={MOBILE_SLIDE_HEIGHT}>
-                  <PaddedContent>
-                    <MobileLandingBar
-                      barHeader={t('sidebar.title')}
-                      barDescription={<LandingContent />}
-                      isLoggedIn={loggedIn}
-                    >
-                      <MapLegend view={landingMapView} canHide={false} />
-                    </MobileLandingBar>
-                  </PaddedContent>
-                </SlideDown>
-              </MobileMapPage>
-            );
-          case WindowTypes.NarrowDesktop:
-          case WindowTypes.Desktop:
-            return (
-              <MapPage
-                mapContent={
-                  <TreeMapDisplay
-                    neighborhoods={neighborhoods}
-                    sites={sites}
-                    mobile={false}
-                  />
-                }
-                sidebarHeader={t('sidebar.title')}
-                sidebarDescription={<LandingContent />}
-                view={landingMapView}
-                windowType={windowType}
-              />
-            );
-        }
-      })()}
+      <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
+        {(() => {
+          switch (windowType) {
+            case WindowTypes.Mobile:
+            case WindowTypes.Tablet:
+              return (
+                <MobileMapPage
+                  mapContent={
+                    <TreeMapDisplay
+                      neighborhoods={neighborhoods}
+                      sites={sites}
+                      mobile={true}
+                    />
+                  }
+                  returnTo={Routes.LANDING}
+                >
+                  <SlideDown slideHeight={MOBILE_SLIDE_HEIGHT}>
+                    <PaddedContent>
+                      <MobileLandingBar
+                        barHeader={t('sidebar.title')}
+                        barDescription={<LandingContent />}
+                        isLoggedIn={loggedIn}
+                      >
+                        <MapLegend view={landingMapView} canHide={false} />
+                      </MobileLandingBar>
+                    </PaddedContent>
+                  </SlideDown>
+                </MobileMapPage>
+              );
+            case WindowTypes.NarrowDesktop:
+            case WindowTypes.Desktop:
+              return (
+                <MapPage
+                  mapContent={
+                    <TreeMapDisplay
+                      neighborhoods={neighborhoods}
+                      sites={sites}
+                      mobile={false}
+                    />
+                  }
+                  sidebarHeader={t('sidebar.title')}
+                  sidebarDescription={<LandingContent />}
+                  view={landingMapView}
+                  windowType={windowType}
+                />
+              );
+          }
+        })()}
+      </MapTypeContext.Provider>
     </>
   );
 };

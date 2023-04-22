@@ -12,6 +12,7 @@ import {
   getUserFullName,
 } from './auth/ducks/selectors';
 import { C4CState } from './store';
+import { createGlobalStyle } from 'styled-components';
 
 import styled from 'styled-components';
 import Landing from './containers/landing';
@@ -43,11 +44,6 @@ type AppProps = UserAuthenticationReducerState;
 
 export enum Languages {
   ENGLISH = 'ENG',
-}
-
-export enum Websites {
-  SFTT = 'SFTT',
-  CAMBRiDGE = 'CAMBRIDGE',
 }
 
 export enum ParameterizedRouteBases {
@@ -90,8 +86,11 @@ export interface MapStateProps {
   readonly lng: number;
 }
 
-export const site =
-  (process.env.REACT_APP_WEBSITE as Websites) || Websites.SFTT;
+const GlobalStyle = createGlobalStyle`
+  .ant-picker-panels > *:last-child {
+    display: none;
+  }
+`;
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -124,6 +123,7 @@ const App: React.FC = () => {
       </Helmet>
       <Router history={history}>
         <AppLayout>
+          <GlobalStyle />
           <NavBar
             userName={
               privilegeLevel !== PrivilegeLevel.NONE ? userName : undefined
