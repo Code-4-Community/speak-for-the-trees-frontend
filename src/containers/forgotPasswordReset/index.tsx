@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import authClient from '../../auth/authClient';
 import useWindowDimensions from '../../components/windowDimensions';
 import { Button, Form, Input, message } from 'antd';
-import { site } from '../../App';
+import { site } from '../../constants';
 import PageHeader from '../../components/pageHeader';
 import { ContentContainer } from '../../components/themedComponents';
 import { isMobile } from '../../utils/isCheck';

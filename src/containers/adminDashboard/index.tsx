@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Form, message, Row, Typography, Divider } from 'antd';
 import PageHeader from '../../components/pageHeader';
@@ -33,6 +33,8 @@ import { getErrorMessage } from '../../utils/stringFormat';
 import { SubmitButton } from '../../components/themedComponents';
 import { round } from 'lodash';
 import { LAT_LNG_PRECISION } from '../../components/forms/constants';
+import { MapTypes } from '../../context/types';
+import { MapTypeContext } from '../../context/mapTypeContext';
 
 const AdminContentContainer = styled.div`
   width: 80vw;
@@ -74,6 +76,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
 
+  const [mapSearchMarker, setMapSearchMarker] = useState<google.maps.Marker>();
+
+  const [mapTypeId, setMapTypeId] = useState<MapTypes>(MapTypes.ROADMAP);
+
   const onCreateChild = (values: SignupFormValues) => {
     ProtectedApiClient.createChild({
       email: values.email,
@@ -107,6 +113,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
       address: editSiteForm.getFieldValue('address'),
       neighborhoodId: editSiteForm.getFieldValue('neighborhoodId'),
       ...request,
+      plantingDate: updateSiteForm.getFieldValue('plantingDate')?.format('L'),
     };
     ProtectedClient.addSite(addSiteRequest)
       .then(() => {
@@ -161,20 +168,28 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <Block
                 maxWidth={windowType === WindowTypes.Mobile ? '100%' : '45%'}
               >
-                <EditSiteForm formInstance={editSiteForm} />
-              </Block>
-              <MapContainer>
-                <SelectorMapDisplay
-                  neighborhoods={neighborhoods}
-                  sites={sites}
-                  onMove={(pos: google.maps.LatLng) => {
-                    editSiteForm.setFieldsValue({
-                      lat: round(pos.lat(), LAT_LNG_PRECISION),
-                      lng: round(pos.lng(), LAT_LNG_PRECISION),
-                    });
-                  }}
+                <EditSiteForm
+                  formInstance={editSiteForm}
+                  onEdit={(latLng: google.maps.LatLng) =>
+                    mapSearchMarker?.setPosition(latLng)
+                  }
                 />
-              </MapContainer>
+              </Block>
+              <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
+                <MapContainer>
+                  <SelectorMapDisplay
+                    neighborhoods={neighborhoods}
+                    sites={sites}
+                    onMove={(pos: google.maps.LatLng) => {
+                      editSiteForm.setFieldsValue({
+                        lat: round(pos.lat(), LAT_LNG_PRECISION),
+                        lng: round(pos.lng(), LAT_LNG_PRECISION),
+                      });
+                    }}
+                    setMarker={setMapSearchMarker}
+                  />
+                </MapContainer>
+              </MapTypeContext.Provider>
             </Flex>
             <UpdateSiteForm
               formInstance={updateSiteForm}

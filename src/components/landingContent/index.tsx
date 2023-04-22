@@ -4,7 +4,7 @@ import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { CONTACT_EMAIL } from '../../assets/links';
 import { n } from '../../utils/stringFormat';
-import { site } from '../../App';
+import { site } from '../../constants';
 
 export const LandingContent: React.FC = () => {
   const { t } = useTranslation(n(site, 'landing'), { nsMode: 'fallback' });
@@ -51,7 +51,7 @@ export const LandingContent: React.FC = () => {
       <br />
       <br />
       <Trans
-        ns={'landing'}
+        ns={n(site, 'landing')}
         i18nKey="sidebar.body.learnMore"
         components={{
           adoptLink: (

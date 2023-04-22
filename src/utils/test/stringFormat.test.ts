@@ -10,13 +10,14 @@ import {
   getSEFieldDisplayName,
   n,
   parseLatLng,
+  generateTreeCareMessage,
 } from '../stringFormat';
 import { getDateString } from '../stringFormat';
 import { shortHand } from '../stringFormat';
 import { SHORT_HAND_NAMES } from '../../assets/content';
 import { Entry, SiteEntryFields } from '../../containers/treePage/ducks/types';
 import { AppError } from '../../auth/axios';
-import { Websites } from '../../App';
+import { Websites } from '../../constants';
 
 test('getMoneyString tests', () => {
   expect(getMoneyString(100000)).toBe('$100,000');
@@ -184,15 +185,66 @@ test('parseLatLng tests', () => {
   expect(parseLatLng('0, -.3')).toEqual([0, -0.3]);
 });
 
+test('generateTreeCareMessage tests', () => {
+  expect(
+    generateTreeCareMessage({
+      cleaned: true,
+      mulched: true,
+      watered: true,
+      weeded: true,
+    }),
+  ).toBe('Was cleared of waste, mulched, watered, and weeded.');
+  expect(
+    generateTreeCareMessage({
+      cleaned: false,
+      mulched: true,
+      watered: true,
+      weeded: true,
+    }),
+  ).toBe('Was mulched, watered, and weeded.');
+  expect(
+    generateTreeCareMessage({
+      cleaned: true,
+      mulched: false,
+      watered: false,
+      weeded: true,
+    }),
+  ).toBe('Was cleared of waste and weeded.');
+  expect(
+    generateTreeCareMessage({
+      cleaned: false,
+      mulched: true,
+      watered: true,
+      weeded: false,
+    }),
+  ).toBe('Was mulched and watered.');
+  expect(
+    generateTreeCareMessage({
+      cleaned: true,
+      mulched: false,
+      watered: false,
+      weeded: false,
+    }),
+  ).toBe('Was cleared of waste.');
+  expect(() => {
+    generateTreeCareMessage({
+      cleaned: false,
+      mulched: false,
+      watered: false,
+      weeded: false,
+    });
+  }).toThrowError(new Error('At least one activity must be true'));
+});
+
 test('n tests', () => {
   expect(n(Websites.SFTT, 'landing')).toBe('landing');
   expect(n(Websites.SFTT, ['notFound', 'landing'])).toEqual([
     'notFound',
     'landing',
   ]);
-  expect(n(Websites.CAMBRiDGE, 'login')).toEqual(['cambridgeLogin', 'login']);
+  expect(n(Websites.CAMBRIDGE, 'login')).toEqual(['cambridgeLogin', 'login']);
   expect(
-    n(Websites.CAMBRiDGE, ['signUp', 'forgotPasswordReset', 'fallback']),
+    n(Websites.CAMBRIDGE, ['signUp', 'forgotPasswordReset', 'fallback']),
   ).toEqual([
     'cambridgeSignUp',
     'cambridgeForgotPasswordReset',

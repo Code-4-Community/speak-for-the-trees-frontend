@@ -1,0 +1,15 @@
+{
+  "settings": "Settings",
+  "title": "Account Settings",
+  "header": {
+    "profile": "Profile",
+    "change_username": "Change Username",
+    "delete_account": "Deactivate or Delete Account",
+    "change_email": "Change Email",
+    "change_password": "Change Password"
+  },
+  "delete_account_modal": {
+    "title": "Delete Account",
+    "confirmation": "Enter your password to confirm you'd like to permanently delete your account!"
+  }
+}

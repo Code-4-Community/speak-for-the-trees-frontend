@@ -19,11 +19,13 @@ interface StewardshipFormProps {
     stewardshipActivities: string[];
   }) => void;
   form: FormInstance;
+  initialDate?: moment.Moment;
 }
 
 const StewardshipForm: React.FC<StewardshipFormProps> = ({
   onFinish,
   form,
+  initialDate,
 }) => {
   const stewardshipOptions = [
     'Watered',
@@ -33,10 +35,8 @@ const StewardshipForm: React.FC<StewardshipFormProps> = ({
   ];
 
   const disabledDate = (current: moment.Moment): boolean => {
-    // Can not select future days or days more than two weeks ago
-    return (
-      current > moment().endOf('day') || current < moment().subtract(2, 'weeks')
-    );
+    // Can not select future days
+    return current > moment().endOf('day');
   };
 
   return (
@@ -45,7 +45,7 @@ const StewardshipForm: React.FC<StewardshipFormProps> = ({
         name="recordStewardship"
         onFinish={onFinish}
         form={form}
-        initialValues={{ activityDate: moment() }}
+        initialValues={{ activityDate: initialDate }}
       >
         <ItemLabel>Activity Date</ItemLabel>
         <Form.Item name="activityDate" rules={activitiesDateRules}>
@@ -61,6 +61,10 @@ const StewardshipForm: React.FC<StewardshipFormProps> = ({
       </Form>
     </>
   );
+};
+
+StewardshipForm.defaultProps = {
+  initialDate: moment(),
 };
 
 export default StewardshipForm;

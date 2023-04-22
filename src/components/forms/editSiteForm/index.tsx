@@ -10,16 +10,30 @@ import styled from 'styled-components';
 
 interface EditSiteFormProps {
   readonly formInstance: FormInstance<EditSiteRequest>;
+  readonly onEdit: (latLng: google.maps.LatLng) => void;
 }
 
 const EditForm = styled(Form)`
   width: 100%;
 `;
 
-const EditSiteForm: React.FC<EditSiteFormProps> = ({ formInstance }) => {
+const EditSiteForm: React.FC<EditSiteFormProps> = ({
+  formInstance,
+  onEdit,
+}) => {
+  const onValuesChange = (changedValues: any, allValues: any) => {
+    if (changedValues.lat || changedValues.lng) {
+      const values = allValues as EditSiteRequest;
+      onEdit(new google.maps.LatLng(values.lat, values.lng));
+    }
+  };
   return (
     <>
-      <EditForm name="basic" form={formInstance}>
+      <EditForm
+        name="basic"
+        form={formInstance}
+        onValuesChange={onValuesChange}
+      >
         <Flex>
           <TitleStack title={'Address'} flexGrow={'1'}>
             <Form.Item
@@ -37,19 +51,19 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({ formInstance }) => {
               <Input placeholder={'City'} />
             </Form.Item>
           </TitleStack>
+        </Flex>
+
+        <Flex>
           <TitleStack title={'Zip Code'} flexGrow={'1'}>
             <Form.Item name={'zip'} rules={zipCodeRules}>
               <Input placeholder={'Zip Code'} />
             </Form.Item>
           </TitleStack>
-        </Flex>
-
-        <Flex>
-          <TitleStack title={'Block Id'} flexGrow={'1'}>
+          {/* <TitleStack title={'Block Id'} flexGrow={'1'}>
             <Form.Item name={'blockId'}>
               <FullInputNumber placeholder={'Block ID'} />
             </Form.Item>
-          </TitleStack>
+          </TitleStack> */}
           <TitleStack title={'Neighborhood'} flexGrow={'1'}>
             <Form.Item
               name={'neighborhoodId'}
@@ -58,6 +72,9 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({ formInstance }) => {
               <Select options={NEIGHBORHOOD_OPTS} />
             </Form.Item>
           </TitleStack>
+        </Flex>
+
+        <Flex>
           <TitleStack title={'Latitude'} flexGrow={'1'}>
             <Form.Item
               name={'lat'}

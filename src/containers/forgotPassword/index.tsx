@@ -5,7 +5,7 @@ import authClient from '../../auth/authClient';
 import { ForgotPasswordRequest } from '../../auth/ducks/types';
 import useWindowDimensions from '../../components/windowDimensions';
 import { Button, Form, Input, Typography } from 'antd';
-import { site } from '../../App';
+import { site } from '../../constants';
 import PageHeader from '../../components/pageHeader';
 import { ContentContainer } from '../../components/themedComponents';
 import { isMobile } from '../../utils/isCheck';

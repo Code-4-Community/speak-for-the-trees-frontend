@@ -20,6 +20,7 @@ interface SelectorMapDisplayProps {
   readonly sites: MapGeoDataReducerState['siteGeoData'];
   readonly onMove: (pos: google.maps.LatLng) => void;
   readonly site?: SiteProps;
+  readonly setMarker: (marker: google.maps.Marker) => void;
 }
 
 const SelectorMapDisplay: React.FC<SelectorMapDisplayProps> = ({
@@ -27,6 +28,7 @@ const SelectorMapDisplay: React.FC<SelectorMapDisplayProps> = ({
   sites,
   onMove,
   site,
+  setMarker,
 }) => (
   <>
     {asyncRequestIsComplete(neighborhoods) && asyncRequestIsComplete(sites) && (
@@ -35,6 +37,7 @@ const SelectorMapDisplay: React.FC<SelectorMapDisplayProps> = ({
         sites={sites.result}
         onMove={onMove}
         site={site}
+        setMarker={setMarker}
       />
     )}
     {(asyncRequestIsFailed(neighborhoods) || asyncRequestIsFailed(sites)) && (

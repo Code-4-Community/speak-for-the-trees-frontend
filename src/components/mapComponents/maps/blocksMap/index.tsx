@@ -8,10 +8,11 @@ import {
   ReturnMapData,
 } from '../../ducks/types';
 import { NO_SITE_SELECTED } from '../../../treePopup';
-import { BOSTON } from '../../constants';
+import { DEFAULT_CENTER } from '../../constants';
 import { initBlockView } from '../../logic/init';
 import { MapStateProps, Routes } from '../../../../App';
 import MapWithPopup from '../mapWithPopup';
+import { useMapTypeContext } from '../../../../context/mapTypeContext';
 
 interface BlocksMapProps {
   readonly neighborhoods: NeighborhoodGeoData;
@@ -24,10 +25,12 @@ const BlocksMap: React.FC<BlocksMapProps> = ({
   blocks,
   returnTo,
 }) => {
+  const [, setMapTypeId] = useMapTypeContext();
+
   const location = useLocation<MapStateProps>();
 
   let defaultZoom = 12;
-  let defaultCenter = BOSTON;
+  let defaultCenter = DEFAULT_CENTER;
   if (location.state) {
     defaultZoom = location.state.zoom;
     defaultCenter = { lat: location.state.lat, lng: location.state.lng };
@@ -38,7 +41,12 @@ const BlocksMap: React.FC<BlocksMapProps> = ({
     const searchMarker = new google.maps.Marker({
       map: mapData.map,
     });
-    const mapLayersAndListeners = initBlockView(mapData, neighborhoods, blocks);
+    const mapLayersAndListeners = initBlockView(
+      mapData,
+      neighborhoods,
+      blocks,
+      setMapTypeId,
+    );
 
     return {
       map: mapData.map,
@@ -48,6 +56,7 @@ const BlocksMap: React.FC<BlocksMapProps> = ({
       sitesLayer: mapLayersAndListeners.sitesLayer,
       searchMarker,
       zoomListener: mapLayersAndListeners.zoomListener,
+      mapTypeListener: mapLayersAndListeners.mapTypeListener,
       markersArray: mapData.markersArray,
     };
   };

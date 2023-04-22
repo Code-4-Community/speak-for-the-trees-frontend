@@ -1,6 +1,16 @@
 {
   "email": "Email",
+  "password": "Password",
+  "current_password": "Current Password",
+  "first_name": "First Name",
+  "last_name": "Last Name",
+  "name": "Name",
+  "username": "Username",
   "submit": "Submit",
+  "log_in": "Log In",
+  "sign_up": "Sign Up",
+  "continue": "Continue",
+  "save": "Save",
   "reset_password": {
     "new_password": "New Password",
     "confirm_password": "Confirm Password"
@@ -13,5 +23,34 @@
       "days (leave empty to export all data)."
     ],
     "load_report": "Load Report"
+  },
+  "change_username": {
+    "success": "Username changed!",
+    "error": "Username could not be changed: {{error}}"
+  },
+  "delete_account": {
+    "error": "Could not delete user: {{error}}",
+    "submit": "Delete Account"
+  },
+  "change_email": {
+    "success": "Email changed!",
+    "error": "Email could not be changed: {{error}}",
+    "new_email": "New Email Address"
+  },
+  "change_password": {
+    "success": "Password changed!",
+    "error": "Password could not be changed: {{error}}"
+  },
+  "validation": {
+    "email_required": "Please input your email!",
+    "email_invalid": "Not a valid email address",
+    "password_required": "Please input your password!",
+    "password_new_required": "Please enter a new password!",
+    "password_new_min_length": "Your new password must be at least 8 characters long.",
+    "confirm_password_new_required": "Please confirm your new password!",
+    "confirm_password_match": "Passwords do not match",
+    "first_name_required": "Please input your first name!",
+    "last_name_required": "Please input your last name!",
+    "username_required": "Please enter a username!"
   }
 }
