@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Button, Form, message, Row, Typography, Divider } from 'antd';
+import { Form, message, Row, Typography, Divider } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
@@ -30,6 +30,7 @@ import { SignupFormValues } from '../../components/forms/ducks/types';
 import ProtectedApiClient from '../../api/protectedApiClient';
 import { AppError } from '../../auth/axios';
 import { getErrorMessage } from '../../utils/stringFormat';
+import { SubmitButton } from '../../components/themedComponents';
 import { round } from 'lodash';
 import { LAT_LNG_PRECISION } from '../../components/forms/constants';
 import { MapTypes } from '../../context/types';
@@ -149,9 +150,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 onFinish={onCreateChild}
               >
                 <Form.Item>
-                  <Button type="primary" htmlType="submit" size="large">
+                  <SubmitButton htmlType="submit">
                     Create Child Account
-                  </Button>
+                  </SubmitButton>
                 </Form.Item>
               </SignupForm>
             </DashboardContent>

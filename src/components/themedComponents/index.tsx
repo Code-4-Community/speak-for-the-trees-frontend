@@ -93,12 +93,6 @@ export const FullWidthSpace = styled(Space)`
   width: 100%;
 `;
 
-export const SubmitButton = styled(Button)`
-  min-width: 96px;
-  height: 40px;
-  font-size: 16px;
-`;
-
 export const GreenButton = styled(Button)`
   margin-top: 10px;
   background: ${LIGHT_GREEN};
@@ -106,6 +100,11 @@ export const GreenButton = styled(Button)`
   color: ${WHITE};
   font-size: 16px;
   height: 36px;
+`;
+
+export const SubmitButton = styled(GreenButton)`
+  min-width: 96px;
+  height: 40px;
 `;
 
 export const WhiteButton = styled(Button)`
@@ -127,6 +126,13 @@ export const GreenLinkButton = styled(LinkButton)`
   background-color: ${LIGHT_GREEN};
   border-color: ${LIGHT_GREEN};
   color: ${WHITE};
+`;
+
+export const MenuLinkButton = styled(LinkButton)`
+  padding-left: 0;
+  margin-top: 0;
+  width: 100%;
+  text-align: left;
 `;
 
 export const MainContent = styled.div`
