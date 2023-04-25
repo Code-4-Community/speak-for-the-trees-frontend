@@ -47,10 +47,6 @@ const columns: ColumnsType<EmailerTableData> = [
   },
 ];
 
-function coalesceEmptyString(s?: string) {
-  return s === undefined || s === '' ? 'N/A' : s;
-}
-
 function responseToTableData(
   data: FilteredSite,
   index: number,
@@ -58,10 +54,10 @@ function responseToTableData(
   return {
     key: index,
     siteId: data.siteId,
-    address: coalesceEmptyString(data.address),
+    address: data.address || 'N/A',
     adopterName: data.adopterName,
     adopterEmail: data.adopterEmail,
-    dateAdopted: coalesceEmptyString(data.dateAdopted),
+    dateAdopted: data.dateAdopted || 'N/A',
     adopterActivityCount: data.adopterActivityCount,
     neighborhood: NEIGHBORHOOD_IDS[data.neighborhoodId],
     lastActivityWeeks: data.lastActivityWeeks?.toString() ?? 'N/A',

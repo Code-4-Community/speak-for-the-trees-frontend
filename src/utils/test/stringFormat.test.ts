@@ -11,6 +11,7 @@ import {
   n,
   parseLatLng,
   generateTreeCareMessage,
+  formatActivityCountRange,
 } from '../stringFormat';
 import { getDateString } from '../stringFormat';
 import { shortHand } from '../stringFormat';
@@ -234,6 +235,14 @@ test('generateTreeCareMessage tests', () => {
       weeded: false,
     });
   }).toThrowError(new Error('At least one activity must be true'));
+});
+
+test('activity date format tests', () => {
+  expect(formatActivityCountRange(1, 5, 10)).toBe('1 - 5');
+  expect(formatActivityCountRange(3, 3, 10)).toBe('3');
+  expect(formatActivityCountRange(3, null, 10)).toBe('3 - 10+');
+  expect(formatActivityCountRange(null, null, 10)).toBe('10+');
+  expect(formatActivityCountRange(0, 0, 10)).toBe('0');
 });
 
 test('n tests', () => {

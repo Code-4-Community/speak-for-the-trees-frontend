@@ -200,6 +200,20 @@ export function generateTreeCareMessage(item: Activity): string {
   }
 }
 
+export function formatActivityCountRange(
+  min: number | null,
+  max: number | null,
+  maxCount: number,
+): string {
+  if (min === null && max === null) {
+    return `${maxCount}+`;
+  } else if (min === max) {
+    return `${min}`;
+  } else {
+    return `${min ?? maxCount + '+'} - ${max ?? maxCount + '+'}`;
+  }
+}
+
 /**
  * Generate i18n namespaces to use based for the given website and base namespace(s)
  * @param site the website to generate the namespaces for

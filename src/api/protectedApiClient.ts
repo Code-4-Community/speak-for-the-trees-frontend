@@ -214,6 +214,14 @@ export const ParameterizedAdminApiRoutes = {
       params.lastActivityEnd ? `&lastActivityEnd=${params.lastActivityEnd}` : ''
     }${
       params.neighborhoodIds ? `&neighborhoodIds=${params.neighborhoodIds}` : ''
+    }${
+      params.activityCountMin !== null
+        ? `&activityCountMin=${params.activityCountMin}`
+        : ''
+    }${
+      params.activityCountMax !== null
+        ? `&activityCountMax=${params.activityCountMax}`
+        : ''
     }`,
 };
 

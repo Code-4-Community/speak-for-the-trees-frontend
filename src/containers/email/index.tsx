@@ -47,8 +47,13 @@ const selectStyles = { marginTop: 20, minWidth: 150, marginBottom: 20 };
 
 const defaultFilters: EmailerFilters = {
   activityCountMin: 0,
+  activityCountMax: null,
   neighborhoods: [],
   commonNames: [],
+  adoptedStart: null,
+  adoptedEnd: null,
+  lastActivityStart: null,
+  lastActivityEnd: null,
 };
 
 enum LoadingState {
@@ -77,29 +82,23 @@ const Email: React.FC = () => {
     const req: FilterSitesParams = {
       treeCommonNames:
         filters.commonNames.length > 0 ? filters.commonNames : null,
-      adoptedStart: filters.adoptedStart ?? null,
-      adoptedEnd: filters.adoptedEnd ?? null,
-      lastActivityStart: filters.lastActivityStart ?? null,
-      lastActivityEnd: filters.lastActivityEnd ?? null,
+      adoptedStart: filters.adoptedStart,
+      adoptedEnd: filters.adoptedEnd,
+      lastActivityStart: filters.lastActivityStart,
+      lastActivityEnd: filters.lastActivityEnd,
       neighborhoodIds:
         filters.neighborhoods.length > 0
           ? filters.neighborhoods.map(neighborhoodToId)
           : null,
+      activityCountMin: filters.activityCountMin,
+      activityCountMax: filters.activityCountMax,
     };
 
     protectedApiClient
       .filterSites(req)
       .then((res) => {
         setFetchSitesState(LoadingState.SUCCESS);
-        setFetchData(
-          res.filteredSites.filter(
-            (data) =>
-              data.adopterActivityCount >= filters.activityCountMin &&
-              (filters.activityCountMax
-                ? data.adopterActivityCount <= filters.activityCountMax
-                : true),
-          ),
-        );
+        setFetchData(res.filteredSites);
       })
       .catch((err) => {
         setFetchSitesState(LoadingState.ERROR);
