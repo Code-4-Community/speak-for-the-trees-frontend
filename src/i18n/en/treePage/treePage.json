@@ -20,6 +20,8 @@
     "unadopt_success": "Unadopted site!",
     "unadopt_failure": "Failed to unadopt site: {{error}}",
     "edit_name_success": "Tree name changed!",
-    "edit_name_failure": "Failed to name site: {{error}}"
+    "edit_name_failure": "Failed to name site: {{error}}",
+    "force_unadopt_success": "Force unadopted site!",
+    "force_unadopt_failure": "Failed to force unadopt site: {{error}}"
   }
 }

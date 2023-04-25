@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Button, Form, message, Row, Typography, Divider } from 'antd';
+import { Form, message, Row, Typography, Divider } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
@@ -30,6 +30,7 @@ import { SignupFormValues } from '../../components/forms/ducks/types';
 import ProtectedApiClient from '../../api/protectedApiClient';
 import { AppError } from '../../auth/axios';
 import { getErrorMessage } from '../../utils/stringFormat';
+import { SubmitButton } from '../../components/themedComponents';
 import { round } from 'lodash';
 import { LAT_LNG_PRECISION } from '../../components/forms/constants';
 import { MapTypes } from '../../context/types';
@@ -75,6 +76,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const { windowType } = useWindowDimensions();
   const dispatch = useDispatch();
 
+  const [mapSearchMarker, setMapSearchMarker] = useState<google.maps.Marker>();
+
   const [mapTypeId, setMapTypeId] = useState<MapTypes>(MapTypes.ROADMAP);
 
   const onCreateChild = (values: SignupFormValues) => {
@@ -110,6 +113,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
       address: editSiteForm.getFieldValue('address'),
       neighborhoodId: editSiteForm.getFieldValue('neighborhoodId'),
       ...request,
+      plantingDate: updateSiteForm.getFieldValue('plantingDate')?.format('L'),
     };
     ProtectedClient.addSite(addSiteRequest)
       .then(() => {
@@ -146,9 +150,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 onFinish={onCreateChild}
               >
                 <Form.Item>
-                  <Button type="primary" htmlType="submit" size="large">
+                  <SubmitButton htmlType="submit">
                     Create Child Account
-                  </Button>
+                  </SubmitButton>
                 </Form.Item>
               </SignupForm>
             </DashboardContent>
@@ -164,7 +168,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <Block
                 maxWidth={windowType === WindowTypes.Mobile ? '100%' : '45%'}
               >
-                <EditSiteForm formInstance={editSiteForm} />
+                <EditSiteForm
+                  formInstance={editSiteForm}
+                  onEdit={(latLng: google.maps.LatLng) =>
+                    mapSearchMarker?.setPosition(latLng)
+                  }
+                />
               </Block>
               <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
                 <MapContainer>
@@ -177,6 +186,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         lng: round(pos.lng(), LAT_LNG_PRECISION),
                       });
                     }}
+                    setMarker={setMapSearchMarker}
                   />
                 </MapContainer>
               </MapTypeContext.Provider>

@@ -1,15 +1,9 @@
 import React from 'react';
 import moment from 'moment';
-import {
-  Button,
-  Form,
-  Checkbox,
-  Typography,
-  DatePicker,
-  FormInstance,
-} from 'antd';
+import { Form, Checkbox, Typography, DatePicker, FormInstance } from 'antd';
 import styled from 'styled-components';
 import { activitiesDateRules, activitiesRules } from '../../../utils/formRules';
+import { SubmitButton } from '../../themedComponents';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../../constants';
 import { n } from '../../../utils/stringFormat';
@@ -69,9 +63,7 @@ const StewardshipForm: React.FC<StewardshipFormProps> = ({
           <Checkbox.Group options={stewardshipOptions} />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            {t('submit')}
-          </Button>
+          <SubmitButton htmlType="submit">{t('submit')}</SubmitButton>
         </Form.Item>
       </Form>
     </>

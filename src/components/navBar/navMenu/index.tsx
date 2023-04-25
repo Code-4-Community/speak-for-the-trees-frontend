@@ -2,8 +2,8 @@ import React from 'react';
 import { Routes } from '../../../App';
 import styled from 'styled-components';
 import { Menu } from 'antd';
-import { LinkButton } from '../../linkButton';
 import { BLACK, LIGHT_GREEN, LIGHT_GREY } from '../../../utils/colors';
+import { MenuLinkButton } from '../../themedComponents';
 
 const StyledNavMenu = styled(Menu)`
   border: 1px solid ${LIGHT_GREY};
@@ -14,13 +14,6 @@ const StyledNavMenuItem = styled(Menu.Item)`
     background: ${LIGHT_GREEN};
     color: ${BLACK};
   }
-`;
-
-const MenuLinkButton = styled(LinkButton)`
-  padding-left: 0;
-  margin-top: 0;
-  width: 100%;
-  text-align: left;
 `;
 
 interface NavMenuProps {

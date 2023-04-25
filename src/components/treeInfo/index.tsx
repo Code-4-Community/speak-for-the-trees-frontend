@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 import { isSFTT } from '../../utils/isCheck';
+import { getCommonName } from '../../utils/treeFunctions';
 
 const TreeHeader = styled.div`
   text-transform: capitalize;
@@ -38,6 +39,10 @@ const UnadoptButton = styled(Button)`
   }
 `;
 
+const ForceUnadoptButton = styled(Button)`
+  margin: 10px;
+`;
+
 interface TreeProps {
   readonly siteData: SiteProps;
   readonly loggedIn: boolean;
@@ -45,6 +50,7 @@ interface TreeProps {
   readonly mobile?: boolean;
   readonly onClickAdopt: () => void;
   readonly onClickUnadopt: () => void;
+  readonly onClickForceUnadopt: () => void;
   readonly onFinishRecordStewardship: (
     values: RecordStewardshipRequest,
   ) => void;
@@ -60,6 +66,7 @@ const TreeInfo: React.FC<TreeProps> = ({
   mobile,
   onClickAdopt,
   onClickUnadopt,
+  onClickForceUnadopt,
   onFinishRecordStewardship,
   stewardshipFormInstance,
   editTreeNameFormInstance,
@@ -70,7 +77,9 @@ const TreeInfo: React.FC<TreeProps> = ({
   const history = useHistory();
   const location = useLocation<RedirectStateProps>();
 
-  const adopted = siteData.entries[0] && siteData.entries[0].adopter !== null;
+  const isAdopted = !!siteData.entries?.[0]?.adopter;
+
+  const treeCommonName = getCommonName(siteData);
 
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
     isAdmin(state.authenticationState.tokens),
@@ -95,10 +104,11 @@ const TreeInfo: React.FC<TreeProps> = ({
       size={mobile ? 'middle' : 'large'}
       defaultText={
         userOwnsTree
-          ? t('share_messages.user_owns')
-          : adopted
-          ? t('share_messages.adopted')
+          ? t('share_messages.user_owns', { treeCommonName })
+          : isAdopted
+          ? t('share_messages.adopted', { treeCommonName })
           : t('share_messages.open', {
+              treeCommonName,
               location: siteData.address ? `at ${siteData.address}` : '',
             })
       }
@@ -131,64 +141,68 @@ const TreeInfo: React.FC<TreeProps> = ({
         }
       </TreeHeader>
 
-      {(() => {
-        if (loggedIn) {
-          return (
-            <>
-              {userOwnsTree ? (
-                <>
-                  <UnadoptButton
-                    danger
-                    size={mobile ? 'middle' : 'large'}
-                    onClick={onClickUnadopt}
-                  >
-                    {t('actions.unadopt')}
-                  </UnadoptButton>
-                  {shareButton}
-                  <StewardshipContainer>
-                    <Typography.Title level={3}>
-                      {t('actions.record_activity')}
-                    </Typography.Title>
-                    <StewardshipForm
-                      onFinish={onFinishRecordStewardship}
-                      form={stewardshipFormInstance}
-                    />
-                  </StewardshipContainer>
-                </>
-              ) : (
-                <>
-                  <Button
-                    type="primary"
-                    size={mobile ? 'middle' : 'large'}
-                    onClick={onClickAdopt}
-                    disabled={adopted}
-                  >
-                    {adopted ? t('actions.adopted') : t('actions.adopt')}
-                  </Button>
-                  {shareButton}
-                </>
-              )}
-            </>
-          );
-        } else {
-          return (
-            <>
-              <ToggleTextButton
-                type="link"
-                size="large"
-                onClick={() =>
-                  history.push(Routes.LOGIN, {
-                    destination: location.pathname,
-                  })
-                }
-              >
-                {t('log_in')}
-              </ToggleTextButton>
-              {shareButton}
-            </>
-          );
-        }
-      })()}
+      {loggedIn ? (
+        <>
+          {userOwnsTree ? (
+            <UnadoptButton
+              danger
+              size={mobile ? 'middle' : 'large'}
+              onClick={onClickUnadopt}
+            >
+              {t('actions.unadopt')}
+            </UnadoptButton>
+          ) : (
+            <Button
+              type="primary"
+              size={mobile ? 'middle' : 'large'}
+              onClick={onClickAdopt}
+              disabled={isAdopted}
+            >
+              {isAdopted ? t('actions.adopted') : t('actions.adopt')}
+            </Button>
+          )}
+
+          {userIsAdmin && (
+            <ForceUnadoptButton
+              danger
+              size={mobile ? 'middle' : 'large'}
+              onClick={onClickForceUnadopt}
+              disabled={!isAdopted}
+            >
+              {t('actions.force_unadopt')}
+            </ForceUnadoptButton>
+          )}
+
+          {shareButton}
+
+          {userOwnsTree && (
+            <StewardshipContainer>
+              <Typography.Title level={3}>
+                {t('actions.record_activity')}
+              </Typography.Title>
+              <StewardshipForm
+                onFinish={onFinishRecordStewardship}
+                form={stewardshipFormInstance}
+              />
+            </StewardshipContainer>
+          )}
+        </>
+      ) : (
+        <>
+          <ToggleTextButton
+            type="link"
+            size="large"
+            onClick={() =>
+              history.push(Routes.LOGIN, {
+                destination: location.pathname,
+              })
+            }
+          >
+            {t('log_in')}
+          </ToggleTextButton>
+          {shareButton}
+        </>
+      )}
     </>
   );
 };

@@ -312,4 +312,18 @@ describe('Api Client Tests', () => {
       expect(result).toEqual(response);
     });
   });
+
+  describe('Get all common names', () => {
+    it('makes the right response', async () => {
+      const response = { names: ['tree1', 'tree2'] };
+
+      nock(BASE_URL)
+        .get(ApiClientRoutes.GET_ALL_COMMON_NAMES)
+        .reply(200, response);
+
+      const result = await ApiClient.getAllCommonNames();
+
+      expect(result).toEqual(response);
+    });
+  });
 });

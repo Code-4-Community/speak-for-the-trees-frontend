@@ -2,6 +2,7 @@ import { isSFTT } from './isCheck';
 
 export const BLACK = '#000000';
 export const TEXT_GREY = '#AFAEAE';
+export const PALE_GREY = '#D9D9D9';
 export const LIGHT_GREY = '#E5E5E5';
 export const BACKGROUND_GREY = '#F3F3F3';
 export const DARK_GREY = '#444444';
