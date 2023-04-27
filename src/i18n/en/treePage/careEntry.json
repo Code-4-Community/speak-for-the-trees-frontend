@@ -1,0 +1,21 @@
+{
+  "messages": {
+    "edit_success": "Stewardship Modified",
+    "edit_failure": "Failed to record stewardship: {{error}}",
+    "delete_success": "Stewardship Activity Deleted",
+    "delete_failure": "Failed to delete stewardship activity: {{error}}"
+  },
+  "edit_title": "Edit stewardship",
+  "delete_title": "Confirm Stewardship Deletion",
+  "delete_message": "Are you sure you want to delete this stewardship activity?",
+  "delete": "Delete",
+  "activity_message": {
+    "cleaned": "cleared of waste",
+    "mulched": "mulched",
+    "watered": "watered",
+    "weeded": "weeded",
+    "prefix": "Was",
+    "join": "and",
+    "error": "At least one activity must be true"
+  }
+}

@@ -4,6 +4,9 @@ import { Form, Checkbox, Typography, DatePicker, FormInstance } from 'antd';
 import styled from 'styled-components';
 import { activitiesDateRules, activitiesRules } from '../../../utils/formRules';
 import { SubmitButton } from '../../themedComponents';
+import { useTranslation } from 'react-i18next';
+import { site } from '../../../constants';
+import { n } from '../../../utils/stringFormat';
 
 const ItemLabel = styled(Typography.Paragraph)`
   line-height: 0px;
@@ -27,11 +30,15 @@ const StewardshipForm: React.FC<StewardshipFormProps> = ({
   form,
   initialDate,
 }) => {
+  const { t } = useTranslation(n(site, ['forms']), {
+    nsMode: 'fallback',
+  });
+
   const stewardshipOptions = [
-    'Watered',
-    'Mulched',
-    'Weeded',
-    'Cleared Waste & Litter',
+    t('stewardship.activities.watered'),
+    t('stewardship.activities.mulched'),
+    t('stewardship.activities.weeded'),
+    t('stewardship.activities.cleaned'),
   ];
 
   const disabledDate = (current: moment.Moment): boolean => {
@@ -47,16 +54,16 @@ const StewardshipForm: React.FC<StewardshipFormProps> = ({
         form={form}
         initialValues={{ activityDate: initialDate }}
       >
-        <ItemLabel>Activity Date</ItemLabel>
+        <ItemLabel>{t('stewardship.date_label')}</ItemLabel>
         <Form.Item name="activityDate" rules={activitiesDateRules}>
           <TreeDatePicker format={'MM/DD/YYYY'} disabledDate={disabledDate} />
         </Form.Item>
-        <ItemLabel>Stewardship Activities</ItemLabel>
+        <ItemLabel>{t('stewardship.activity_label')}</ItemLabel>
         <Form.Item name="stewardshipActivities" rules={activitiesRules}>
           <Checkbox.Group options={stewardshipOptions} />
         </Form.Item>
         <Form.Item>
-          <SubmitButton htmlType="submit">Submit</SubmitButton>
+          <SubmitButton htmlType="submit">{t('submit')}</SubmitButton>
         </Form.Item>
       </Form>
     </>
