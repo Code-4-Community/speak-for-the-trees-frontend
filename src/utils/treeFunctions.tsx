@@ -1,5 +1,6 @@
 import { SiteProps, TreeCare } from '../containers/treePage/ducks/types';
 import moment from 'moment';
+import { startCase } from 'lodash';
 
 export function treeCareToMoment(activity: TreeCare): moment.Moment {
   return moment(
@@ -9,4 +10,4 @@ export function treeCareToMoment(activity: TreeCare): moment.Moment {
 }
 
 export const getCommonName = (siteData: SiteProps): string =>
-  (siteData.entries[0]?.commonName ?? 'tree').toLowerCase();
+  startCase(siteData.entries[0]?.commonName) || 'tree';

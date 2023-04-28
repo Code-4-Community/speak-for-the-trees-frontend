@@ -15,6 +15,9 @@ import ShareButton from '../../components/shareButton';
 import TreePageHeader from '../treePageHeader';
 import { C4CState } from '../../store';
 import { isAdmin } from '../../auth/ducks/selectors';
+import { useTranslation } from 'react-i18next';
+import { site } from '../../constants';
+import { n } from '../../utils/stringFormat';
 import { isSFTT } from '../../utils/isCheck';
 import { getCommonName } from '../../utils/treeFunctions';
 
@@ -69,6 +72,8 @@ const TreeInfo: React.FC<TreeProps> = ({
   editTreeNameFormInstance,
   onClickEditTreeName,
 }) => {
+  const { t } = useTranslation(n(site, ['treeInfo']), { nsMode: 'fallback' });
+
   const history = useHistory();
   const location = useLocation<RedirectStateProps>();
 
@@ -99,12 +104,13 @@ const TreeInfo: React.FC<TreeProps> = ({
       size={mobile ? 'middle' : 'large'}
       defaultText={
         userOwnsTree
-          ? `Check out this ${treeCommonName} I adopted!`
+          ? t('share_messages.user_owns', { treeCommonName })
           : isAdopted
-          ? `Check out this ${treeCommonName} near you!`
-          : `This ${treeCommonName}${
-              siteData.address ? ' at ' + siteData.address : ''
-            } needs someone to take care of it!`
+          ? t('share_messages.adopted', { treeCommonName })
+          : t('share_messages.open', {
+              treeCommonName,
+              location: siteData.address ? `at ${siteData.address}` : '',
+            })
       }
       link={`map.treeboston.org/tree/${siteData.siteId}`}
     />
@@ -121,8 +127,8 @@ const TreeInfo: React.FC<TreeProps> = ({
               siteData.entries[0]?.treePresent
                 ? siteData.entries[0].commonName
                   ? siteData.entries[0].commonName
-                  : 'Unknown Species'
-                : 'Open Planting Site'
+                  : t('species_title.unknown')
+                : t('species_title.open')
             }
             pageSubtitle={getSiteLocation()}
             isMobile={mobile}
@@ -143,7 +149,7 @@ const TreeInfo: React.FC<TreeProps> = ({
               size={mobile ? 'middle' : 'large'}
               onClick={onClickUnadopt}
             >
-              Unadopt
+              {t('actions.unadopt')}
             </UnadoptButton>
           ) : (
             <Button
@@ -152,7 +158,7 @@ const TreeInfo: React.FC<TreeProps> = ({
               onClick={onClickAdopt}
               disabled={isAdopted}
             >
-              {isAdopted ? 'Already Adopted' : 'Adopt'}
+              {isAdopted ? t('actions.adopted') : t('actions.adopt')}
             </Button>
           )}
 
@@ -163,7 +169,7 @@ const TreeInfo: React.FC<TreeProps> = ({
               onClick={onClickForceUnadopt}
               disabled={!isAdopted}
             >
-              Force Unadopt
+              {t('actions.force_unadopt')}
             </ForceUnadoptButton>
           )}
 
@@ -172,7 +178,7 @@ const TreeInfo: React.FC<TreeProps> = ({
           {userOwnsTree && (
             <StewardshipContainer>
               <Typography.Title level={3}>
-                Record your tree care activity below.
+                {t('actions.record_activity')}
               </Typography.Title>
               <StewardshipForm
                 onFinish={onFinishRecordStewardship}
@@ -192,7 +198,7 @@ const TreeInfo: React.FC<TreeProps> = ({
               })
             }
           >
-            Log in to adopt this tree!
+            {t('log_in')}
           </ToggleTextButton>
           {shareButton}
         </>

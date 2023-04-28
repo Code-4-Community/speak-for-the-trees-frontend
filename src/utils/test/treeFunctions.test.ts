@@ -42,7 +42,7 @@ const testProps1: SiteProps = {
     {
       id: 234234,
       updatedAt: 234234,
-      commonName: 'Oak',
+      commonName: 'White Oak',
     },
   ],
 };
@@ -93,8 +93,8 @@ const testProps4: SiteProps = {
 
 describe('tests for the getTreeSpecies function', () => {
   it('correctly returns the species for a tree', () => {
-    expect(getCommonName(testProps1)).toBe('oak');
-    expect(getCommonName(testProps2)).toBe('pine');
+    expect(getCommonName(testProps1)).toBe('White Oak');
+    expect(getCommonName(testProps2)).toBe('Pine');
   });
   it("correctly returns 'tree' when the species name is missing", () => {
     expect(getCommonName(testProps3)).toBe('tree');

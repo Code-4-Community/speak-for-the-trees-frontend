@@ -417,9 +417,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
       </Flex>
 
       <Row justify={'end'}>
-        <SubmitButton type="primary" htmlType="submit" size="large">
-          Submit
-        </SubmitButton>
+        <SubmitButton htmlType="submit">Submit</SubmitButton>
       </Row>
     </Form>
   );
