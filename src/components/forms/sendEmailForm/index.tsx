@@ -31,7 +31,12 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails }) => {
   };
 
   return (
-    <Form name="sendEmail" form={sendEmailForm} onFinish={onFinishSendEmail}>
+    <Form
+      name="sendEmail"
+      form={sendEmailForm}
+      onFinish={onFinishSendEmail}
+      disabled // TODO remove when ready
+    >
       <Form.Item
         name="emailSubject"
         rules={requiredRule('The email subject is required')}
