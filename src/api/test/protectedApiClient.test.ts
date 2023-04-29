@@ -1950,4 +1950,123 @@ describe('Admin Protected Client Routes', () => {
       expect(result).toEqual(response);
     });
   });
+
+  describe('sendEmail', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL).post(AdminApiClientRoutes.SEND_EMAIL).reply(200, response);
+
+      const result = await ProtectedApiClient.sendEmail({
+        emails: ['email@email.com'],
+        emailSubject: 'Some subject',
+        emailBody: 'Some body',
+      });
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'Invalid email given!';
+
+      nock(BASE_URL).post(AdminApiClientRoutes.SEND_EMAIL).reply(400, response);
+
+      const result = await ProtectedApiClient.sendEmail({
+        emails: ['notAnEmail'],
+        emailSubject: 'Some subject',
+        emailBody: 'Some body',
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request ', async () => {
+      const response = 'Must be an admin';
+
+      nock(BASE_URL).post(AdminApiClientRoutes.SEND_EMAIL).reply(401, response);
+
+      const result = await ProtectedApiClient.sendEmail({
+        emails: [],
+        emailSubject: 'Subject',
+        emailBody: 'Body',
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('filterSites', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      const params = {
+        treeCommonNames: null,
+        adoptedStart: null,
+        adoptedEnd: null,
+        lastActivityStart: null,
+        lastActivityEnd: null,
+        neighborhoodIds: null,
+        activityCountMin: 0,
+        activityCountMax: null,
+      };
+
+      nock(BASE_URL)
+        .get(ParameterizedAdminApiRoutes.FILTER_SITES(params))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.filterSites(params);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'Invalid dates given!';
+
+      const params = {
+        treeCommonNames: null,
+        adoptedStart: 'wrongDate',
+        adoptedEnd: 'weirdDate',
+        lastActivityStart: null,
+        lastActivityEnd: null,
+        neighborhoodIds: null,
+        activityCountMin: 0,
+        activityCountMax: null,
+      };
+
+      nock(BASE_URL)
+        .get(ParameterizedAdminApiRoutes.FILTER_SITES(params))
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.filterSites(params).catch(
+        (err) => err.response.data,
+      );
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request ', async () => {
+      const response = 'Must be an admin';
+
+      const params = {
+        treeCommonNames: null,
+        adoptedStart: null,
+        adoptedEnd: null,
+        lastActivityStart: null,
+        lastActivityEnd: null,
+        neighborhoodIds: null,
+        activityCountMin: 0,
+        activityCountMax: null,
+      };
+
+      nock(BASE_URL)
+        .get(ParameterizedAdminApiRoutes.FILTER_SITES(params))
+        .reply(401, response);
+
+      const result = await ProtectedApiClient.filterSites(params).catch(
+        (err) => err.response.data,
+      );
+
+      expect(result).toEqual(response);
+    });
+  });
 });
