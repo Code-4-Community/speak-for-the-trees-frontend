@@ -29,7 +29,10 @@ import {
   AdoptionReport,
   StewardshipReport,
 } from '../containers/reports/ducks/types';
-import { FilterSitesParams } from '../containers/email/types';
+import {
+  FilterSitesParams,
+  FilterSitesResponse,
+} from '../containers/email/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -122,7 +125,7 @@ export interface ProtectedApiClient {
   readonly sendEmail: (request: SendEmailRequest) => Promise<void>;
   readonly filterSites: (
     params: FilterSitesParams,
-  ) => Promise<FilterSitesParams>;
+  ) => Promise<FilterSitesResponse>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -199,7 +202,7 @@ export const ParameterizedAdminApiRoutes = {
   GET_STEWARDSHIP_REPORT_CSV: (previousDays: number): string =>
     `/api/v1/protected/report/csv/stewardship?previousDays=${previousDays}`,
   FILTER_SITES: (params: FilterSitesParams): string =>
-    `${baseSiteRoute}filter_sites?${
+    `${baseSiteRoute}filter_sites?activityCountMin=${params.activityCountMin}${
       params.treeCommonNames ? `treeCommonNames=${params.treeCommonNames}` : ''
     }${params.adoptedStart ? `&adoptedStart=${params.adoptedStart}` : ''}${
       params.adoptedEnd ? `&adoptedEnd=${params.adoptedEnd}` : ''
@@ -211,6 +214,10 @@ export const ParameterizedAdminApiRoutes = {
       params.lastActivityEnd ? `&lastActivityEnd=${params.lastActivityEnd}` : ''
     }${
       params.neighborhoodIds ? `&neighborhoodIds=${params.neighborhoodIds}` : ''
+    }${
+      params.activityCountMax !== null
+        ? `&activityCountMax=${params.activityCountMax}`
+        : ''
     }`,
 };
 
@@ -533,7 +540,9 @@ const sendEmail = (request: SendEmailRequest): Promise<void> => {
   );
 };
 
-const filterSites = (params: FilterSitesParams): Promise<FilterSitesParams> => {
+const filterSites = (
+  params: FilterSitesParams,
+): Promise<FilterSitesResponse> => {
   return AppAxiosInstance.get(
     ParameterizedAdminApiRoutes.FILTER_SITES(params),
   ).then((res) => res.data);

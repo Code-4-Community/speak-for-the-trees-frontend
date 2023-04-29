@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { EmailerFilters } from '../../containers/email/types';
-import { Collapse, Slider, DatePicker, Button, Select, message } from 'antd';
+import {
+  Collapse,
+  Slider,
+  DatePicker,
+  Select,
+  message,
+  SelectProps,
+} from 'antd';
 import { SliderMarks } from 'antd/lib/slider';
-import styled from 'styled-components';
 import { Neighborhoods } from '../../assets/content';
 import apiClient from '../../api/apiClient';
-import { CloseOutlined } from '@ant-design/icons';
+import { formatActivityCountRange } from '../../utils/stringFormat';
+import styled from 'styled-components';
 
-const StyledCollapse = styled(Collapse)`
-  max-width: 400px;
+const AutoCompleteSelect = styled((props: SelectProps) => (
+  <Select {...props} />
+))`
+  min-width: 200px;
+  max-width: 500px;
 `;
-
-const StyledRangePicker = styled(DatePicker.RangePicker)`
-  margin-right: 15px;
-`;
-
-const selectStyles = { minWidth: 200, maxWidth: 500 };
 
 interface EmailerFilterControlsProps {
   filters: EmailerFilters;
@@ -25,18 +29,19 @@ interface EmailerFilterControlsProps {
 
 const MAX_ACTIVITY_COUNT = 10;
 
+// convert emailer filter values to the slider's internal values
 function activityCountRange(filters: EmailerFilters): [number, number] {
   return [
     filters.activityCountMin,
-    filters.activityCountMax || MAX_ACTIVITY_COUNT + 1,
+    filters.activityCountMax ?? MAX_ACTIVITY_COUNT + 1,
   ];
 }
 
 function formatDates(
-  start?: string,
-  end?: string,
-): [moment.Moment | null, moment.Moment | null] | undefined {
-  if (start && end) return [moment(start), moment(end)];
+  start: string | null,
+  end: string | null,
+): [moment.Moment | null, moment.Moment | null] {
+  return [start ? moment(start) : null, end ? moment(end) : null];
 }
 
 function disabledDate(current: moment.Moment): boolean {
@@ -79,11 +84,15 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
   }, []);
 
   return (
-    <StyledCollapse ghost>
+    <Collapse ghost>
       <Collapse.Panel header="Activity Count" key="activityCount">
-        <p>{`${filters.activityCountMin} - ${
-          filters.activityCountMax || MAX_ACTIVITY_COUNT + '+'
-        }`}</p>
+        <p>
+          {formatActivityCountRange(
+            filters.activityCountMin,
+            filters.activityCountMax,
+            MAX_ACTIVITY_COUNT,
+          )}
+        </p>
         <Slider
           range={true}
           marks={activityCountLabels}
@@ -94,41 +103,30 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
           onChange={([min, max]) => {
             setFilters({
               ...filters,
-              activityCountMin: min,
-              activityCountMax: max > MAX_ACTIVITY_COUNT ? undefined : max,
+              activityCountMin:
+                min > MAX_ACTIVITY_COUNT ? MAX_ACTIVITY_COUNT : min,
+              activityCountMax: max > MAX_ACTIVITY_COUNT ? null : max,
             });
           }}
         />
       </Collapse.Panel>
       <Collapse.Panel header="Adoption Date" key="adoptionDate">
-        <StyledRangePicker
-          allowClear={false}
+        <DatePicker.RangePicker
+          allowEmpty={[true, true]}
           value={formatDates(filters.adoptedStart, filters.adoptedEnd)}
           onChange={(_, dateStrings) =>
             setFilters({
               ...filters,
-              adoptedStart: dateStrings[0],
-              adoptedEnd: dateStrings[1],
+              adoptedStart: dateStrings[0] || null,
+              adoptedEnd: dateStrings[1] || null,
             })
           }
           disabledDate={disabledDate}
         />
-        <Button
-          type="primary"
-          onClick={() =>
-            setFilters({
-              ...filters,
-              adoptedStart: undefined,
-              adoptedEnd: undefined,
-            })
-          }
-        >
-          <CloseOutlined />
-        </Button>
       </Collapse.Panel>
       <Collapse.Panel header="Last Activity Date" key="lastActivityDate">
-        <StyledRangePicker
-          allowClear={false}
+        <DatePicker.RangePicker
+          allowEmpty={[true, true]}
           value={formatDates(
             filters.lastActivityStart,
             filters.lastActivityEnd,
@@ -136,40 +134,28 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
           onChange={(_, dateStrings) =>
             setFilters({
               ...filters,
-              lastActivityStart: dateStrings[0],
-              lastActivityEnd: dateStrings[1],
+              lastActivityStart: dateStrings[0] || null,
+              lastActivityEnd: dateStrings[1] || null,
             })
           }
           disabledDate={disabledDate}
         />
-        <Button
-          type="primary"
-          onClick={() =>
-            setFilters({
-              ...filters,
-              lastActivityStart: undefined,
-              lastActivityEnd: undefined,
-            })
-          }
-        >
-          <CloseOutlined />
-        </Button>
       </Collapse.Panel>
       <Collapse.Panel header="Neighborhood" key="neighborhood">
-        <Select
-          style={selectStyles}
+        <AutoCompleteSelect
+          value={filters.neighborhoods}
           mode="multiple"
           allowClear
           placeholder="Enter a neighborhood"
-          onChange={(value: string[]) =>
+          onChange={(value: Neighborhoods[]) =>
             setFilters({ ...filters, neighborhoods: value })
           }
           options={neighborhoodOptions}
         />
       </Collapse.Panel>
       <Collapse.Panel header="Common Name" key="commonName">
-        <Select
-          style={selectStyles}
+        <AutoCompleteSelect
+          value={filters.commonNames}
           mode="multiple"
           allowClear
           placeholder="Enter a tree name"
@@ -179,7 +165,7 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
           options={commonNameOptions}
         />
       </Collapse.Panel>
-    </StyledCollapse>
+    </Collapse>
   );
 };
 

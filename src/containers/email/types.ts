@@ -7,24 +7,25 @@ export enum EmailType {
 
 export interface EmailerFilters {
   activityCountMin: number;
-  activityCountMax?: number;
-  neighborhoods: string[];
+  activityCountMax: number | null;
+  neighborhoods: Neighborhoods[];
   commonNames: string[];
-  adoptedStart?: string;
-  adoptedEnd?: string;
-  lastActivityStart?: string;
-  lastActivityEnd?: string;
+  adoptedStart: string | null;
+  adoptedEnd: string | null;
+  lastActivityStart: string | null;
+  lastActivityEnd: string | null;
 }
 
-export interface EmailerTableColumns {
-  isSelected: boolean;
+export interface EmailerTableData {
+  key: number;
   siteId: number;
-  address?: string;
+  address: string;
   adopterName: string;
-  dateAdopted: Date;
-  activityCount: number;
+  dateAdopted: string;
+  adopterEmail: string;
+  adopterActivityCount: number;
   neighborhood: Neighborhoods;
-  lastActivityWeeks?: number;
+  lastActivityWeeks: string;
 }
 
 export interface FilterSitesParams {
@@ -34,15 +35,19 @@ export interface FilterSitesParams {
   lastActivityStart: string | null;
   lastActivityEnd: string | null;
   neighborhoodIds: number[] | null;
+  activityCountMin: number;
+  activityCountMax: number | null;
 }
 
-interface FilteredSite {
+export interface FilteredSite {
   siteId: number;
   address?: string;
   adopterId: number;
   adopterName: string;
-  dateAdopted: Date;
+  adopterEmail: string;
+  dateAdopted: string;
   adopterActivityCount: number;
+  neighborhoodId: number;
   lastActivityWeeks?: number;
 }
 

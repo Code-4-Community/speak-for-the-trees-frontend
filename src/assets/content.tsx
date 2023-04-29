@@ -102,7 +102,7 @@ export enum Neighborhoods {
   FENWAY = 'Fenway',
 }
 
-export const NEIGHBORHOOD_IDS: { [id: number]: string } = {
+export const NEIGHBORHOOD_IDS: { [id: number]: Neighborhoods } = {
   2: Neighborhoods.BACK_BAY,
   4: Neighborhoods.CHARLESTOWN,
   6: Neighborhoods.DORCHESTER,

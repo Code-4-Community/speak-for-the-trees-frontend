@@ -213,6 +213,19 @@ export function generateTreeCareMessage(item: Activity): string {
   }
 }
 
+// convert emailer filter values to a text representation of the range
+export function formatActivityCountRange(
+  min: number,
+  max: number | null,
+  maxCount: number,
+): string {
+  if (min === max) {
+    return `${min}`;
+  } else {
+    return `${min} - ${max ?? maxCount + '+'}`;
+  }
+}
+
 /**
  * Generate i18n namespaces to use based for the given website and base namespace(s)
  * @param site the website to generate the namespaces for
