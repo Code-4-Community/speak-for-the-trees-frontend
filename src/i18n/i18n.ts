@@ -13,7 +13,14 @@ import {
   faq,
   forms,
   tables,
+  content,
   cambridgeLanding,
+  treePage,
+  treeInfo,
+  shareMenu,
+  treeActivity,
+  careEntry,
+  treeInfoTypes,
 } from './en';
 import { landingEs } from './es';
 
@@ -34,7 +41,14 @@ const resources = {
     faq,
     forms,
     tables,
+    content,
     cambridgeLanding,
+    treePage,
+    treeInfo,
+    shareMenu,
+    treeActivity,
+    careEntry,
+    treeInfoTypes,
   },
   es: {
     landing: landingEs,

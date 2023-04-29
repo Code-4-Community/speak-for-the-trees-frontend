@@ -52,5 +52,20 @@
     "first_name_required": "Please input your first name!",
     "last_name_required": "Please input your last name!",
     "username_required": "Please enter a username!"
+  },
+  "name_form": {
+    "placeholder": "Enter tree name",
+    "submit": "Change Name",
+    "cancel": "Cancel"
+  },
+  "stewardship": {
+    "activities": {
+      "watered": "Watered",
+      "mulched": "Mulched",
+      "weeded": "Weeded",
+      "cleaned": "Cleared Waste & Litter"
+    },
+    "date_label": "Activity Date",
+    "activity_label": "Stewardship Activities"
   }
 }
