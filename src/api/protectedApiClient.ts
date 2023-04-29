@@ -108,6 +108,10 @@ export interface ProtectedApiClient {
     siteId: number,
     request: SiteEntriesRequest,
   ) => Promise<void>;
+  readonly editSiteEntry: (
+    entryId: number,
+    request: SiteEntriesRequest,
+  ) => Promise<void>;
   readonly getAdoptionReport: () => Promise<AdoptionReport>;
   readonly getAdoptionReportCsv: (
     previousDays: number | null,
@@ -201,6 +205,8 @@ export const ParameterizedAdminApiRoutes = {
     `/api/v1/protected/report/csv/adoption?previousDays=${previousDays}`,
   GET_STEWARDSHIP_REPORT_CSV: (previousDays: number): string =>
     `/api/v1/protected/report/csv/stewardship?previousDays=${previousDays}`,
+  EDIT_SITE_ENTRY: (entryId: number): string =>
+    `${baseSiteRoute}edit_entry/${entryId}`,
   FILTER_SITES: (params: FilterSitesParams): string =>
     `${baseSiteRoute}filter_sites?activityCountMin=${params.activityCountMin}${
       params.treeCommonNames ? `&treeCommonNames=${params.treeCommonNames}` : ''
@@ -478,6 +484,16 @@ const updateSite = (
   ).then((res) => res.data);
 };
 
+const editSiteEntry = (
+  entryId: number,
+  request: SiteEntriesRequest,
+): Promise<void> => {
+  return AppAxiosInstance.post(
+    ParameterizedAdminApiRoutes.EDIT_SITE_ENTRY(entryId),
+    request,
+  ).then((res) => res.data);
+};
+
 const getAdoptionReport = (): Promise<AdoptionReport> => {
   return AppAxiosInstance.get(AdminApiClientRoutes.GET_ADOPTION_REPORT).then(
     (res) => res.data,
@@ -586,6 +602,7 @@ const Client: ProtectedApiClient = Object.freeze({
   getAdoptedSites,
   editSite,
   updateSite,
+  editSiteEntry,
   getAdoptionReport,
   getAdoptionReportCsv,
   getStewardshipReport,

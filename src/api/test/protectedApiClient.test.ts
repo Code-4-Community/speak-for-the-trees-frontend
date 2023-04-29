@@ -1538,6 +1538,7 @@ describe('Protected API Client Tests', () => {
 
       expect(result).toEqual(response);
     });
+
     it('makes a bad request', async () => {
       const response = 'Bad request!';
 
@@ -1546,6 +1547,112 @@ describe('Protected API Client Tests', () => {
         .reply(400, response);
 
       const result = await ProtectedApiClient.updateSite(-1, {
+        treePresent: null,
+        status: null,
+        genus: null,
+        species: null,
+        commonName: null,
+        confidence: null,
+        diameter: null,
+        circumference: null,
+        multistem: null,
+        coverage: null,
+        pruning: null,
+        condition: null,
+        discoloring: null,
+        leaning: null,
+        constrictingGrate: null,
+        wounds: null,
+        pooling: null,
+        stakesWithWires: null,
+        stakesWithoutWires: null,
+        light: null,
+        bicycle: null,
+        bagEmpty: null,
+        bagFilled: null,
+        tape: null,
+        suckerGrowth: null,
+        siteType: null,
+        sidewalkWidth: null,
+        siteWidth: null,
+        siteLength: null,
+        material: null,
+        raisedBed: null,
+        fence: null,
+        trash: null,
+        wires: null,
+        grate: null,
+        stump: null,
+        treeNotes: null,
+        siteNotes: null,
+        plantingDate: null,
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('editSiteEntry', () => {
+    it('makes the right request', async () => {
+      const response = {};
+
+      nock(BASE_URL)
+        .post(ParameterizedAdminApiRoutes.EDIT_SITE_ENTRY(-1))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.editSiteEntry(-1, {
+        treePresent: null,
+        status: null,
+        genus: null,
+        species: null,
+        commonName: null,
+        confidence: null,
+        diameter: null,
+        circumference: null,
+        multistem: null,
+        coverage: null,
+        pruning: null,
+        condition: null,
+        discoloring: null,
+        leaning: null,
+        constrictingGrate: null,
+        wounds: null,
+        pooling: null,
+        stakesWithWires: null,
+        stakesWithoutWires: null,
+        light: null,
+        bicycle: null,
+        bagEmpty: null,
+        bagFilled: null,
+        tape: null,
+        suckerGrowth: null,
+        siteType: null,
+        sidewalkWidth: null,
+        siteWidth: null,
+        siteLength: null,
+        material: null,
+        raisedBed: null,
+        fence: null,
+        trash: null,
+        wires: null,
+        grate: null,
+        stump: null,
+        treeNotes: null,
+        siteNotes: null,
+        plantingDate: null,
+      });
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'Bad request!';
+
+      nock(BASE_URL)
+        .post(ParameterizedAdminApiRoutes.EDIT_SITE_ENTRY(-1))
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.editSiteEntry(-1, {
         treePresent: null,
         status: null,
         genus: null,
