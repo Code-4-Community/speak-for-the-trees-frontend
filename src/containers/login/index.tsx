@@ -11,7 +11,7 @@ import { RedirectStateProps, Routes } from '../../App';
 import { site } from '../../constants';
 import { Form, message, Typography } from 'antd';
 import styled from 'styled-components';
-import {BLACK, DARK_TEXT_GREY, WHITE} from '../../utils/colors';
+import { BLACK, DARK_TEXT_GREY, WHITE } from '../../utils/colors';
 import {
   InputContainer,
   InputGreetingContainer,

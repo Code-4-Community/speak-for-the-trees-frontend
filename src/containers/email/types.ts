@@ -6,7 +6,7 @@ export enum EmailType {
 }
 
 export interface EmailerFilters {
-  activityCountMin: number | null;
+  activityCountMin: number;
   activityCountMax: number | null;
   neighborhoods: Neighborhoods[];
   commonNames: string[];
@@ -35,7 +35,7 @@ export interface FilterSitesParams {
   lastActivityStart: string | null;
   lastActivityEnd: string | null;
   neighborhoodIds: number[] | null;
-  activityCountMin: number | null;
+  activityCountMin: number;
   activityCountMax: number | null;
 }
 

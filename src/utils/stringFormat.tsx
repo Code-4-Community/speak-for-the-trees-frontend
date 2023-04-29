@@ -213,6 +213,7 @@ export function generateTreeCareMessage(item: Activity): string {
   }
 }
 
+// convert emailer filter values to a text representation of the range
 export function formatActivityCountRange(
   min: number | null,
   max: number | null,

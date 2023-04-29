@@ -202,7 +202,7 @@ export const ParameterizedAdminApiRoutes = {
   GET_STEWARDSHIP_REPORT_CSV: (previousDays: number): string =>
     `/api/v1/protected/report/csv/stewardship?previousDays=${previousDays}`,
   FILTER_SITES: (params: FilterSitesParams): string =>
-    `${baseSiteRoute}filter_sites?${
+    `${baseSiteRoute}filter_sites?&activityCountMin=${params.activityCountMin}${
       params.treeCommonNames ? `treeCommonNames=${params.treeCommonNames}` : ''
     }${params.adoptedStart ? `&adoptedStart=${params.adoptedStart}` : ''}${
       params.adoptedEnd ? `&adoptedEnd=${params.adoptedEnd}` : ''
@@ -214,10 +214,6 @@ export const ParameterizedAdminApiRoutes = {
       params.lastActivityEnd ? `&lastActivityEnd=${params.lastActivityEnd}` : ''
     }${
       params.neighborhoodIds ? `&neighborhoodIds=${params.neighborhoodIds}` : ''
-    }${
-      params.activityCountMin !== null
-        ? `&activityCountMin=${params.activityCountMin}`
-        : ''
     }${
       params.activityCountMax !== null
         ? `&activityCountMax=${params.activityCountMax}`

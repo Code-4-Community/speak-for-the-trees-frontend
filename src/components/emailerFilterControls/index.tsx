@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { EmailerFilters } from '../../containers/email/types';
-import { Collapse, Slider, DatePicker, Select, message } from 'antd';
+import {
+  Collapse,
+  Slider,
+  DatePicker,
+  Select,
+  message,
+  SelectProps,
+} from 'antd';
 import { SliderMarks } from 'antd/lib/slider';
 import { Neighborhoods } from '../../assets/content';
 import apiClient from '../../api/apiClient';
 import { formatActivityCountRange } from '../../utils/stringFormat';
+import styled from 'styled-components';
 
-const selectStyles = { minWidth: 200, maxWidth: 500 };
+const AutoCompleteSelect = styled((props: SelectProps) => (
+  <Select {...props} />
+))`
+  min-width: 200px;
+  max-width: 500px;
+`;
 
 interface EmailerFilterControlsProps {
   filters: EmailerFilters;
@@ -16,9 +29,10 @@ interface EmailerFilterControlsProps {
 
 const MAX_ACTIVITY_COUNT = 10;
 
+// convert emailer filter values to the slider's internal values
 function activityCountRange(filters: EmailerFilters): [number, number] {
   return [
-    filters.activityCountMin ?? MAX_ACTIVITY_COUNT + 1,
+    filters.activityCountMin,
     filters.activityCountMax ?? MAX_ACTIVITY_COUNT + 1,
   ];
 }
@@ -89,7 +103,8 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
           onChange={([min, max]) => {
             setFilters({
               ...filters,
-              activityCountMin: min > MAX_ACTIVITY_COUNT ? null : min,
+              activityCountMin:
+                min > MAX_ACTIVITY_COUNT ? MAX_ACTIVITY_COUNT : min,
               activityCountMax: max > MAX_ACTIVITY_COUNT ? null : max,
             });
           }}
@@ -127,8 +142,7 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
         />
       </Collapse.Panel>
       <Collapse.Panel header="Neighborhood" key="neighborhood">
-        <Select
-          style={selectStyles}
+        <AutoCompleteSelect
           value={filters.neighborhoods}
           mode="multiple"
           allowClear
@@ -140,8 +154,7 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
         />
       </Collapse.Panel>
       <Collapse.Panel header="Common Name" key="commonName">
-        <Select
-          style={selectStyles}
+        <AutoCompleteSelect
           value={filters.commonNames}
           mode="multiple"
           allowClear

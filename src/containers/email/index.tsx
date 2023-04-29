@@ -10,6 +10,7 @@ import {
   Spin,
   Alert,
   Divider,
+  SelectProps,
 } from 'antd';
 import { Routes } from '../../App';
 import PageLayout from '../../components/pageLayout';
@@ -43,7 +44,10 @@ const FetchInfoContainer = styled.div`
   padding: 30px;
 `;
 
-const selectStyles = { marginTop: 20, minWidth: 150, marginBottom: 20 };
+const EmailTypeSelect = styled((props: SelectProps) => <Select {...props} />)`
+  margin: 20px 0px;
+  min-width: 150px;
+`;
 
 const defaultFilters: EmailerFilters = {
   activityCountMin: 0,
@@ -179,9 +183,8 @@ const Email: React.FC = () => {
           <Typography.Title level={4}>
             Select a type of email to send volunteers
           </Typography.Title>
-          <Select
+          <EmailTypeSelect
             value={emailType}
-            style={selectStyles}
             defaultValue={EmailType.INACTIVE}
             options={Object.entries(EmailType).map(([key, value]) => ({
               value: key,
