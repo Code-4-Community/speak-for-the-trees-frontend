@@ -215,16 +215,14 @@ export function generateTreeCareMessage(item: Activity): string {
 
 // convert emailer filter values to a text representation of the range
 export function formatActivityCountRange(
-  min: number | null,
+  min: number,
   max: number | null,
   maxCount: number,
 ): string {
-  if (min === null && max === null) {
-    return `${maxCount}+`;
-  } else if (min === max) {
+  if (min === max) {
     return `${min}`;
   } else {
-    return `${min ?? maxCount + '+'} - ${max ?? maxCount + '+'}`;
+    return `${min} - ${max ?? maxCount + '+'}`;
   }
 }
 

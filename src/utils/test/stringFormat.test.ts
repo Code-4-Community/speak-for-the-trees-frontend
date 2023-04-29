@@ -241,7 +241,6 @@ test('activity date format tests', () => {
   expect(formatActivityCountRange(1, 5, 10)).toBe('1 - 5');
   expect(formatActivityCountRange(3, 3, 10)).toBe('3');
   expect(formatActivityCountRange(3, null, 10)).toBe('3 - 10+');
-  expect(formatActivityCountRange(null, null, 10)).toBe('10+');
   expect(formatActivityCountRange(0, 0, 10)).toBe('0');
 });
 
