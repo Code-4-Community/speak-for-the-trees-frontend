@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ReactNode } from 'react';
 import styled from 'styled-components';
-import { Checkbox, CheckboxOptionType, Typography } from 'antd';
+import { Button, Checkbox, CheckboxOptionType, Typography } from 'antd';
 import { WHITE } from '../../../../utils/colors';
 import { MapViews, SiteOption } from '../../ducks/types';
 import { FullWidthSpace, InlineImage } from '../../../themedComponents';
@@ -28,6 +28,10 @@ const StyledCheckbox = styled(Checkbox.Group)`
   background: ${WHITE};
 `;
 
+const ToggleTextButton = styled(Button)`
+  padding: 0px;
+`;
+
 const treeSpan = (treeIcon: string, labelString: string): ReactNode => {
   return (
     <FullWidthSpace direction={'horizontal'} size={'small'}>
@@ -49,12 +53,15 @@ const SiteLegend: React.FC<SiteLegendProps> = ({ onCheck, siteOptions }) => {
   const [ownerOptions, setOwnerOptions] = useState<CheckboxValueType[]>(
     ALL_SITES_VISIBLE_OWNER,
   );
+  const [showOwnerOptions, setShowOwnerOptions] = useState<boolean>(false);
 
   const options: CheckboxOptionType[] = siteOptions.map((option) => {
     return { label: treeSpan(option.image, option.label), value: option.value };
   });
 
   const icons: string[] = siteOptions.map((option) => option.image);
+
+  const toggleShowOwnerOptions = () => setShowOwnerOptions(!showOwnerOptions);
 
   return (
     <LegendContainer>
@@ -69,15 +76,23 @@ const SiteLegend: React.FC<SiteLegendProps> = ({ onCheck, siteOptions }) => {
             onCheck([...ownerOptions, ...values]);
           }}
         />
-        <Typography.Text strong>Show based on Owner</Typography.Text>
-        <StyledCheckbox
-          options={SITE_OPTIONS_OWNER}
-          value={ownerOptions}
-          onChange={(values: CheckboxValueType[]) => {
-            setOwnerOptions(values);
-            onCheck([...statusOptions, ...values]);
-          }}
-        />
+        <ToggleTextButton type={'link'} onClick={toggleShowOwnerOptions}>
+          {showOwnerOptions ? 'Hide Owner Filter' : 'Show Owner Filter'}
+        </ToggleTextButton>
+        <br />
+        {showOwnerOptions && (
+          <>
+            <Typography.Text strong>Show based on Owner</Typography.Text>
+            <StyledCheckbox
+              options={SITE_OPTIONS_OWNER}
+              value={ownerOptions}
+              onChange={(values: CheckboxValueType[]) => {
+                setOwnerOptions(values);
+                onCheck([...statusOptions, ...values]);
+              }}
+            />
+          </>
+        )}
       </SlideDown>
     </LegendContainer>
   );

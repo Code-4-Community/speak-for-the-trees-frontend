@@ -58,19 +58,13 @@ export const ALL_SITES_VISIBLE_STATUS: LegendStatusOption[] = [
 ];
 
 export type LegendOwnerOption =
-  | 'Street'
+  | 'ROW'
   | 'Park'
   | 'State'
   | 'Federal'
   | 'Private';
 
-export const ALL_SITES_VISIBLE_OWNER: LegendOwnerOption[] = [
-  'Street',
-  'Park',
-  'State',
-  'Federal',
-  'Private',
-];
+export const ALL_SITES_VISIBLE_OWNER: LegendOwnerOption[] = ['ROW'];
 
 export const ALL_SITES_VISIBLE_COMBINED: (
   | LegendStatusOption
@@ -124,7 +118,7 @@ export const SITE_OPTIONS_SATELLITE: SiteOption[] = [
 ];
 
 export const SITE_OPTIONS_OWNER: OwnerOption[] = [
-  { label: 'Street (ROW) Trees', value: 'Street' },
+  { label: 'ROW (Street) Trees', value: 'ROW' },
   { label: 'Park Trees', value: 'Park' },
   { label: 'State Trees', value: 'State' },
   { label: 'Federal Trees', value: 'Federal' },
