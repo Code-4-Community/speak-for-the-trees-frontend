@@ -48,14 +48,14 @@ const EntryMessage = styled(Typography.Paragraph)`
   color: ${TEXT_GREY};
 `;
 
-const EditButton = styled(Button)`
+export const EditButton = styled(Button)`
   color: ${WHITE};
   font-size: 20px;
   padding: 0px 10px;
   line-height: 0px;
 `;
 
-const StyledClose = styled(CloseOutlined)`
+export const StyledClose = styled(CloseOutlined)`
   color: ${RED};
   padding: 5px;
   border-radius: 3px;

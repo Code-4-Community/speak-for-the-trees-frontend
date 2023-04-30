@@ -68,12 +68,19 @@ export enum EditableSiteEntryFields {
   PLANTING_DATE = 'plantingDate',
 }
 
+enum EditEntryField {
+  EDIT_ENTRY = 'editEntry',
+}
+
 export type SiteEntryField =
   | UneditableSiteEntryFields
-  | EditableSiteEntryFields;
+  | EditableSiteEntryFields
+  | EditEntryField;
+
 export const SiteEntryFields = {
   ...UneditableSiteEntryFields,
   ...EditableSiteEntryFields,
+  ...EditEntryField,
 };
 
 export interface SiteEntry {
@@ -188,6 +195,7 @@ export const ExtraSiteEntryNames: Record<string, string> = {
   treeNotes: t('sftt.treeNotes', { ns: 'treeInfoTypes' }),
   siteNotes: t('sftt.siteNotes', { ns: 'treeInfoTypes' }),
   plantingDate: t('sftt.plantingDate', { ns: 'treeInfoTypes' }),
+  editEntry: 'Edit Entry',
   // CAMBRIDGE
   trunks: t('cambridge.trunks', { ns: 'treeInfoTypes' }),
   speciesShort: t('cambridge.speciesShort', { ns: 'treeInfoTypes' }),
