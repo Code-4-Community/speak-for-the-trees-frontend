@@ -31,6 +31,7 @@ import SendEmailForm from '../../components/forms/sendEmailForm';
 const EmailPageContainer = styled.div`
   width: 90vw;
   margin: 30px auto auto;
+  padding-bottom: 50px;
 `;
 
 const FilterHeader = styled.div`
@@ -180,8 +181,9 @@ const Email: React.FC = () => {
             </Col>
           </Row>
           <Divider />
-          <Typography.Title level={4}>
-            Select a type of email to send volunteers
+          {/* TODO uncomment and remove Typography.Title on line 197 when ready */}
+          {/* <Typography.Title level={3}>
+            Select a type of email to send volunteers or write an email below
           </Typography.Title>
           <EmailTypeSelect
             value={emailType}
@@ -191,7 +193,8 @@ const Email: React.FC = () => {
               label: value,
             }))}
             onChange={(value: EmailType) => setEmailType(value)}
-          />
+          /> */}
+          <Typography.Title level={3}>Email</Typography.Title>
           <SendEmailForm emails={selectedEmails} />
         </EmailPageContainer>
       </PageLayout>
