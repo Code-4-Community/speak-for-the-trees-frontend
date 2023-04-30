@@ -181,8 +181,7 @@ const Email: React.FC = () => {
             </Col>
           </Row>
           <Divider />
-          {/* TODO uncomment and remove Typography.Title on line 197 when ready */}
-          {/* <Typography.Title level={3}>
+          <Typography.Title level={3}>
             Select a type of email to send volunteers or write an email below
           </Typography.Title>
           <EmailTypeSelect
@@ -193,7 +192,8 @@ const Email: React.FC = () => {
               label: value,
             }))}
             onChange={(value: EmailType) => setEmailType(value)}
-          /> */}
+            disabled // TODO uncomment when ready
+          />
           <Typography.Title level={3}>Email</Typography.Title>
           <SendEmailForm emails={selectedEmails} />
         </EmailPageContainer>
