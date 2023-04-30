@@ -61,7 +61,7 @@ describe('Reports Selectors', () => {
             address: '',
             name: '',
             email: '',
-            dateAdopted: new Date(2023, 3, 23),
+            dateAdopted: new Date(2023, 3, 24),
             activityCount: 0,
             neighborhood: '',
           },
