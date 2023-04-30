@@ -203,7 +203,7 @@ export const ParameterizedAdminApiRoutes = {
     `/api/v1/protected/report/csv/stewardship?previousDays=${previousDays}`,
   FILTER_SITES: (params: FilterSitesParams): string =>
     `${baseSiteRoute}filter_sites?activityCountMin=${params.activityCountMin}${
-      params.treeCommonNames ? `treeCommonNames=${params.treeCommonNames}` : ''
+      params.treeCommonNames ? `&treeCommonNames=${params.treeCommonNames}` : ''
     }${params.adoptedStart ? `&adoptedStart=${params.adoptedStart}` : ''}${
       params.adoptedEnd ? `&adoptedEnd=${params.adoptedEnd}` : ''
     }${
