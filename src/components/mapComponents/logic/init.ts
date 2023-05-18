@@ -23,7 +23,7 @@ import { BasicTreeInfo } from '../../treePopup';
 import { message } from 'antd';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { InitMapData } from '../ducks/types';
-import { ALL_SITES_VISIBLE } from '../constants';
+import { ALL_SITES_VISIBLE_COMBINED } from '../constants';
 import { MapTypes, SetStateType } from '../../../context/types';
 
 // Logic for creating and setting up data layers/markers
@@ -193,7 +193,7 @@ export function initSiteView(
   );
   const sitesLayer = initSites(
     sites,
-    ALL_SITES_VISIBLE,
+    ALL_SITES_VISIBLE_COMBINED,
     mapData.setActiveTreeInfo,
     mapData.popPopup,
     mapData.map,
@@ -210,7 +210,7 @@ export function initSiteView(
     privateStreetsLayer,
     sitesLayer,
     sitesLayer,
-    ALL_SITES_VISIBLE,
+    ALL_SITES_VISIBLE_COMBINED,
     MapViews.TREES,
     mapData.map,
   );
@@ -219,7 +219,7 @@ export function initSiteView(
     neighborhoodsLayer,
     mapData.markersArray,
     sitesLayer,
-    ALL_SITES_VISIBLE,
+    ALL_SITES_VISIBLE_COMBINED,
     MapViews.TREES,
     mapData.map,
     setMapTypeId,
@@ -267,7 +267,7 @@ export function initBlockView(
     privateStreetsLayer,
     blocksLayer,
     blocksLayer,
-    ALL_SITES_VISIBLE,
+    ALL_SITES_VISIBLE_COMBINED,
     MapViews.BLOCKS,
     mapData.map,
   );
@@ -276,7 +276,7 @@ export function initBlockView(
     neighborhoodsLayer,
     mapData.markersArray,
     blocksLayer,
-    ALL_SITES_VISIBLE,
+    ALL_SITES_VISIBLE_COMBINED,
     MapViews.TREES,
     mapData.map,
     setMapTypeId,

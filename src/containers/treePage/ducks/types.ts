@@ -5,6 +5,7 @@ import { ApiExtraArgs } from '../../../api/apiClient';
 import { ProtectedApiExtraArgs } from '../../../api/protectedApiClient';
 import { AsyncRequest } from '../../../utils/asyncRequest';
 import i18n from '../../../i18n/i18n';
+import { SiteOwner } from '../../../components/mapComponents/constants';
 
 const t = i18n.t;
 
@@ -17,6 +18,7 @@ export interface SiteProps {
   zip: string;
   address?: string;
   neighborhoodId: number;
+  owner: SiteOwner;
   entries: SiteEntry[];
 }
 

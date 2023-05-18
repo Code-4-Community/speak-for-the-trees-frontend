@@ -1,5 +1,4 @@
 import { Loader } from '@googlemaps/js-api-loader';
-import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import youngTreeIcon from '../../assets/images/siteIcons/youngIcon.svg';
 import standardTreeIcon from '../../assets/images/siteIcons/standardIcon.svg';
 import adoptedTreeIcon from '../../assets/images/siteIcons/adoptedIcon.svg';
@@ -8,7 +7,7 @@ import satelliteYoungIcon from '../../assets/images/siteIcons/satelliteYoungIcon
 import satelliteStandardIcon from '../../assets/images/siteIcons/satelliteStandardIcon.svg';
 import satelliteAdoptedIcon from '../../assets/images/siteIcons/satelliteAdoptedIcon.svg';
 import satelliteOpenIcon from '../../assets/images/siteIcons/satelliteOpenIcon.svg';
-import { SiteOption } from './ducks/types';
+import { OwnerOption, SiteOption } from './ducks/types';
 import { isSFTT } from '../../utils/isCheck';
 
 const MAP_ID = '76c08a2450c223d9';
@@ -48,11 +47,22 @@ export const YOUNG_TREE_DATE = new Date().setFullYear(
   new Date().getFullYear() - 3,
 );
 
-export const ALL_SITES_VISIBLE: CheckboxValueType[] = [
+export type SiteStatus = 'Young' | 'Adopted' | 'Standard' | 'Open';
+
+export const ALL_SITES_VISIBLE_STATUS: SiteStatus[] = [
   'Young',
   'Adopted',
   'Standard',
   'Open',
+];
+
+export type SiteOwner = 'ROW' | 'Park' | 'State' | 'Federal' | 'Private';
+
+export const ALL_SITES_VISIBLE_OWNER: SiteOwner[] = ['ROW'];
+
+export const ALL_SITES_VISIBLE_COMBINED: (SiteStatus | SiteOwner)[] = [
+  ...ALL_SITES_VISIBLE_STATUS,
+  ...ALL_SITES_VISIBLE_OWNER,
 ];
 
 export const SITE_OPTIONS_ROADMAP: SiteOption[] = [
@@ -99,6 +109,14 @@ export const SITE_OPTIONS_SATELLITE: SiteOption[] = [
     label: 'Planting Sites',
     value: 'Open',
   },
+];
+
+export const SITE_OPTIONS_OWNER: OwnerOption[] = [
+  { label: 'ROW (Street) Trees', value: 'ROW' },
+  { label: 'Park Trees', value: 'Park' },
+  { label: 'State Trees', value: 'State' },
+  { label: 'Federal Trees', value: 'Federal' },
+  { label: 'Private Trees', value: 'Private' },
 ];
 
 // Relevant documentation: https://developers.google.com/maps/documentation/javascript/style-reference

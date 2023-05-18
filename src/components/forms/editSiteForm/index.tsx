@@ -7,6 +7,7 @@ import { NEIGHBORHOOD_OPTS } from '../../../assets/content';
 import { Flex, FullInputNumber } from '../../themedComponents';
 import TitleStack from '../../titleStack';
 import styled from 'styled-components';
+import { SITE_OPTIONS_OWNER } from '../../mapComponents/constants';
 
 interface EditSiteFormProps {
   readonly formInstance: FormInstance<EditSiteRequest>;
@@ -89,6 +90,17 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({
               rules={requiredRule('Please enter a longitude!')}
             >
               <FullInputNumber placeholder={'Longitude'} />
+            </Form.Item>
+          </TitleStack>
+        </Flex>
+
+        <Flex>
+          <TitleStack title={'Owner'} flexGrow={'1'}>
+            <Form.Item
+              name={'owner'}
+              rules={requiredRule('Please select an owner!')}
+            >
+              <Select options={SITE_OPTIONS_OWNER} />
             </Form.Item>
           </TitleStack>
         </Flex>

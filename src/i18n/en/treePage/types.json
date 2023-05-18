@@ -42,7 +42,8 @@
     "stump": "Is there a stump?",
     "treeNotes": "Tree Notes",
     "siteNotes": "Site Notes",
-    "plantingDate": "Date Planted"
+    "plantingDate": "Date Planted",
+    "owner": "Owner"
   },
   "cambridge": {
     "trunks": "Trunks",

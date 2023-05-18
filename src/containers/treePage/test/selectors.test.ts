@@ -103,6 +103,7 @@ describe('Tree Page Selectors', () => {
     city: 'beantown',
     zip: '11111',
     address: '1800 place',
+    owner: 'ROW',
     entries: [
       {
         id: 0,

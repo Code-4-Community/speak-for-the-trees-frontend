@@ -7,6 +7,7 @@ import ProtectedApiClient, {
 import { TeamResponse, TeamRole } from '../../containers/teamPage/ducks/types';
 import nock from 'nock';
 import { PrivilegeLevel, UserData } from '../../auth/ducks/types';
+import { SiteOwner } from '../../components/mapComponents/constants';
 
 const BASE_URL = 'http://localhost';
 
@@ -1098,6 +1099,7 @@ describe('Protected API Client Tests', () => {
           lat: 0,
           lng: 0,
           neighborhoodId: 1,
+          owner: 'ROW' as SiteOwner,
           treePresent: null,
           status: null,
           genus: null,
@@ -1158,6 +1160,7 @@ describe('Protected API Client Tests', () => {
           lat: 999999,
           lng: 999999,
           neighborhoodId: 1,
+          owner: 'Private' as SiteOwner,
           treePresent: null,
           status: null,
           genus: null,
@@ -1711,6 +1714,7 @@ describe('Admin Protected Client Routes', () => {
         lat: 0,
         lng: 0,
         neighborhoodId: 1,
+        owner: 'ROW',
       });
 
       expect(result).toEqual(response);
@@ -1730,6 +1734,7 @@ describe('Admin Protected Client Routes', () => {
         lat: 0,
         lng: 0,
         neighborhoodId: -1,
+        owner: 'Federal',
       }).catch((err) => err.response.data);
 
       expect(result).toEqual(response);
