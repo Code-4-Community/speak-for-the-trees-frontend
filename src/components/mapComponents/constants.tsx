@@ -1,5 +1,4 @@
 import { Loader } from '@googlemaps/js-api-loader';
-import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import youngTreeIcon from '../../assets/images/siteIcons/youngIcon.svg';
 import standardTreeIcon from '../../assets/images/siteIcons/standardIcon.svg';
 import adoptedTreeIcon from '../../assets/images/siteIcons/adoptedIcon.svg';
