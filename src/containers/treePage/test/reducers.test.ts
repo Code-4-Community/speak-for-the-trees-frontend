@@ -27,6 +27,7 @@ describe('Tree Page Reducer', () => {
         lng: 10,
         city: 'Beantown',
         zip: '11111',
+        owner: 'ROW',
         entries: [
           {
             id: 0,

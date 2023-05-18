@@ -38,6 +38,7 @@ const testProps1: SiteProps = {
   zip: '02115',
   address: '21 Forsyth St.',
   neighborhoodId: 241142,
+  owner: 'ROW',
   entries: [
     {
       id: 234234,
@@ -55,6 +56,7 @@ const testProps2: SiteProps = {
   zip: '02115',
   address: '21 Forsyth St.',
   neighborhoodId: 241142,
+  owner: 'Federal',
   entries: [
     {
       id: 243234,
@@ -72,6 +74,7 @@ const testProps3: SiteProps = {
   zip: '02115',
   address: '21 Forsyth St.',
   neighborhoodId: 241142,
+  owner: 'Park',
   entries: [
     {
       id: 857435,
@@ -88,6 +91,7 @@ const testProps4: SiteProps = {
   zip: '02115',
   address: '21 Forsyth St.',
   neighborhoodId: 241142,
+  owner: 'State',
   entries: [],
 };
 
