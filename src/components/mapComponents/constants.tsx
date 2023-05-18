@@ -48,28 +48,23 @@ export const YOUNG_TREE_DATE = new Date().setFullYear(
   new Date().getFullYear() - 3,
 );
 
-export type LegendStatusOption = 'Young' | 'Adopted' | 'Standard' | 'Open';
+export type SiteStatus = 'Young' | 'Adopted' | 'Standard' | 'Open';
 
-export const ALL_SITES_VISIBLE_STATUS: LegendStatusOption[] = [
+export const ALL_SITES_VISIBLE_STATUS: SiteStatus[] = [
   'Young',
   'Adopted',
   'Standard',
   'Open',
 ];
 
-export type LegendOwnerOption =
-  | 'ROW'
-  | 'Park'
-  | 'State'
-  | 'Federal'
-  | 'Private';
+export type SiteOwner = 'ROW' | 'Park' | 'State' | 'Federal' | 'Private';
 
-export const ALL_SITES_VISIBLE_OWNER: LegendOwnerOption[] = ['ROW'];
+export const ALL_SITES_VISIBLE_OWNER: SiteOwner[] = ['ROW'];
 
-export const ALL_SITES_VISIBLE_COMBINED: (
-  | LegendStatusOption
-  | LegendOwnerOption
-)[] = [...ALL_SITES_VISIBLE_STATUS, ...ALL_SITES_VISIBLE_OWNER];
+export const ALL_SITES_VISIBLE_COMBINED: (SiteStatus | SiteOwner)[] = [
+  ...ALL_SITES_VISIBLE_STATUS,
+  ...ALL_SITES_VISIBLE_OWNER,
+];
 
 export const SITE_OPTIONS_ROADMAP: SiteOption[] = [
   {

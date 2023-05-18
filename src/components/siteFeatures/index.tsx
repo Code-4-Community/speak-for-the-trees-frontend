@@ -36,6 +36,7 @@ const SiteFeatures: React.FC<SiteFeaturesProps> = ({
       neighborhoodId: site.neighborhoodId,
       lat: site.lat,
       lng: site.lng,
+      owner: site.owner,
     });
   });
 
@@ -86,6 +87,9 @@ const SiteFeatures: React.FC<SiteFeaturesProps> = ({
             </TitleStack>
             <TitleStack title={'Longitude'}>
               <Content>{site.lng}</Content>
+            </TitleStack>
+            <TitleStack title={'Owner'}>
+              <Content>{site.owner}</Content>
             </TitleStack>
           </Flex>
 

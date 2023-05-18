@@ -2,6 +2,7 @@ import { CheckboxOptionType } from 'antd/lib/checkbox/Group';
 import moment from 'moment';
 import { PrivilegeLevel, SignupRequest } from '../../../auth/ducks/types';
 import { SiteEntryStatus } from '../../../containers/treePage/ducks/types';
+import { SiteOwner } from '../../mapComponents/constants';
 
 export const BOOL_RADIO_OPTS: CheckboxOptionType[] = [
   { label: 'Yes', value: true },
@@ -61,6 +62,7 @@ export interface EditSiteRequest {
   readonly lat: number;
   readonly lng: number;
   readonly neighborhoodId: number;
+  readonly owner: SiteOwner;
 }
 
 export interface UpdateSiteRequest {
