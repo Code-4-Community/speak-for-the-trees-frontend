@@ -1,63 +1,81 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Form, message, Row, Typography, Divider } from 'antd';
+import { Form, message, Typography, Divider, Modal, Button } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
-import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import {
+  getPrivilegeLevel,
+  getUserFirstName,
+} from '../../auth/ducks/selectors';
+import { LIGHT_GREEN, MID_GREEN } from '../../utils/colors';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import ChangePrivilegeForm from '../../components/forms/changePrivilegeForm';
-import UploadSitesForm from '../../components/forms/uploadSitesForm';
-import { DARK_GREEN } from '../../utils/colors';
-import ProtectedClient from '../../api/protectedApiClient';
-import {
-  AddSiteRequest,
-  UpdateSiteRequest,
-} from '../../components/forms/ducks/types';
-import UpdateSiteForm from '../../components/forms/updateSiteForm';
-import EditSiteForm from '../../components/forms/editSiteForm';
-import SelectorMapDisplay from '../../components/mapComponents/mapDisplays/selectorMapDisplay';
 import { MapGeoDataReducerState } from '../../components/mapComponents/ducks/types';
-import { MapContainer, Block, Flex } from '../../components/themedComponents';
-import useWindowDimensions, {
-  WindowTypes,
-} from '../../components/windowDimensions';
-import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
+import { Flex } from '../../components/themedComponents';
 import SignupForm from '../../components/forms/signupForm';
 import { SignupFormValues } from '../../components/forms/ducks/types';
 import ProtectedApiClient from '../../api/protectedApiClient';
 import { AppError } from '../../auth/axios';
 import { getErrorMessage } from '../../utils/stringFormat';
 import { SubmitButton } from '../../components/themedComponents';
-import { round } from 'lodash';
-import { LAT_LNG_PRECISION } from '../../components/forms/constants';
-import { MapTypes } from '../../context/types';
-import { MapTypeContext } from '../../context/mapTypeContext';
+import {
+  BarChartOutlined,
+  FileAddOutlined,
+  MailOutlined,
+  PlusOutlined,
+  RocketFilled,
+  SettingFilled,
+} from '@ant-design/icons';
+import Image2 from '../../assets/images/bkg2.png';
+import Image3 from '../../assets/images/bkg3.png';
+import Image4 from '../../assets/images/bkg4.png';
+import { Routes } from '../../App';
+import Icon, {
+  IconComponentProps,
+} from '@ant-design/icons/lib/components/Icon';
 
 const AdminContentContainer = styled.div`
   width: 80vw;
   margin: 8vh auto auto;
 `;
 
-const DashboardContent = styled.div`
-  width: 450px;
+const ImageCard = styled.div`
+  background: rgba(0, 0, 0, 0.25) url(${(props) => props.background});
+  background-blend-mode: darken;
+  border-radius: 10px;
+  width: 230px;
+  height: 230px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 16pt;
+  font-weight: bold;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
 `;
+
+const LargeIcon = styled((props: IconComponentProps) => <Icon {...props} />)`
+  font-size: 40px;
+`;
+
+// const AutoCompleteSelect = styled((props: SelectProps) => (
+//   <Select {...props} />
+// ))`
+//   min-width: 200px;
+//   max-width: 500px;
+// `;
 
 const AdminDivider = styled(Divider)`
   margin-top: 10px;
   margin-bottom: 20px;
-`;
-
-const SectionHeader = styled(Typography.Text)`
-  font-weight: bold;
-  font-size: 20px;
-  color: ${DARK_GREEN};
-`;
-
-const MarginBottomRow = styled(Row)`
-  margin-bottom: 30px;
 `;
 
 interface AdminDashboardProps {
@@ -65,20 +83,20 @@ interface AdminDashboardProps {
   readonly sites: MapGeoDataReducerState['siteGeoData'];
 }
 
-const AdminDashboard: React.FC<AdminDashboardProps> = ({
-  neighborhoods,
-  sites,
-}) => {
+const AdminDashboard: React.FC = () => {
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
+
+  const userFirstName: string = useSelector((state: C4CState) => {
+    return getUserFirstName(state.authenticationState.userData);
+  });
+
   const [createChildForm] = Form.useForm();
-  const { windowType } = useWindowDimensions();
-  const dispatch = useDispatch();
 
-  const [mapSearchMarker, setMapSearchMarker] = useState<google.maps.Marker>();
-
-  const [mapTypeId, setMapTypeId] = useState<MapTypes>(MapTypes.ROADMAP);
+  const [showAddChildModal, setShowAddChildModal] = useState<boolean>(false);
+  const [showPromoteUserModal, setShowPromoteUserModal] =
+    useState<boolean>(false);
 
   const onCreateChild = (values: SignupFormValues) => {
     ProtectedApiClient.createChild({
@@ -95,35 +113,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
       .catch((error: AppError) => message.error(getErrorMessage(error)));
   };
 
-  const [editSiteForm] = Form.useForm();
-  const [updateSiteForm] = Form.useForm();
-
-  useEffect(() => {
-    dispatch(getMapGeoData());
-  }, [dispatch]);
-
-  const onSubmitAddSite = (request: UpdateSiteRequest) => {
-    editSiteForm.validateFields().then();
-    const addSiteRequest: AddSiteRequest = {
-      blockId: editSiteForm.getFieldValue('blockId'),
-      lat: editSiteForm.getFieldValue('lat'),
-      lng: editSiteForm.getFieldValue('lng'),
-      city: editSiteForm.getFieldValue('city'),
-      zip: editSiteForm.getFieldValue('zip'),
-      address: editSiteForm.getFieldValue('address'),
-      neighborhoodId: editSiteForm.getFieldValue('neighborhoodId'),
-      ...request,
-      plantingDate: updateSiteForm.getFieldValue('plantingDate')?.format('L'),
-    };
-    ProtectedClient.addSite(addSiteRequest)
-      .then(() => {
-        editSiteForm.resetFields();
-        updateSiteForm.resetFields();
-        message.success('Site added!').then();
-      })
-      .catch((err) => message.error(err.response.data));
-  };
-
   return (
     <>
       <Helmet>
@@ -135,78 +124,77 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
       </Helmet>
       <PageLayout>
         <AdminContentContainer>
-          <PageHeader pageTitle="Admin Dashboard" />
-          <Flex margin={'60px 0 0 0'} gap={'50px 100px'}>
-            <DashboardContent>
-              <Typography.Title level={4}>Edit Admins</Typography.Title>
-              <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
-            </DashboardContent>
-            <DashboardContent>
-              <Typography.Title level={4}>
-                Create Child Accounts
-              </Typography.Title>
-              <SignupForm
-                formInstance={createChildForm}
-                onFinish={onCreateChild}
-              >
-                <Form.Item>
-                  <SubmitButton htmlType="submit">
-                    Create Child Account
-                  </SubmitButton>
-                </Form.Item>
-              </SignupForm>
-            </DashboardContent>
-            <DashboardContent>
-              <Typography.Title level={4}>Add Sites</Typography.Title>
-              <UploadSitesForm />
-            </DashboardContent>
+          <PageHeader
+            pageTitle="Admin Dashboard"
+            pageSubtitle={`Welcome back, ${userFirstName}!`}
+            subtitlecolor={MID_GREEN}
+          />
+          <Typography.Title level={3}>Manage Accounts</Typography.Title>
+          <Flex margin={'30px 0'} gap={'50px 20px'}>
+            <Button type="primary" href="/settings">
+              <SettingFilled />
+              My settings
+            </Button>
+            <Button
+              onClick={() => setShowPromoteUserModal(true)}
+              color={LIGHT_GREEN}
+            >
+              <RocketFilled />
+              Promote user
+            </Button>
+            <Button onClick={() => setShowAddChildModal(true)}>
+              <PlusOutlined />
+              Add Child Account
+            </Button>
           </Flex>
           <AdminDivider />
-          <SectionHeader>Add New Site</SectionHeader>
-          <MarginBottomRow>
-            <Flex margin={'0 0 40px 0'}>
-              <Block
-                maxWidth={windowType === WindowTypes.Mobile ? '100%' : '45%'}
-              >
-                <EditSiteForm
-                  formInstance={editSiteForm}
-                  onEdit={(latLng: google.maps.LatLng) =>
-                    mapSearchMarker?.setPosition(latLng)
-                  }
-                />
-              </Block>
-              <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
-                <MapContainer>
-                  <SelectorMapDisplay
-                    neighborhoods={neighborhoods}
-                    sites={sites}
-                    onMove={(pos: google.maps.LatLng) => {
-                      editSiteForm.setFieldsValue({
-                        lat: round(pos.lat(), LAT_LNG_PRECISION),
-                        lng: round(pos.lng(), LAT_LNG_PRECISION),
-                      });
-                    }}
-                    setMarker={setMapSearchMarker}
-                  />
-                </MapContainer>
-              </MapTypeContext.Provider>
-            </Flex>
-            <UpdateSiteForm
-              formInstance={updateSiteForm}
-              onFinish={onSubmitAddSite}
-            />
-          </MarginBottomRow>
+          <Typography.Title level={3}>Admin Functions</Typography.Title>
+          <Flex gap={'40px 40px'} margin={'30px 0'}>
+            <a href={Routes.ADD_SITES}>
+              <ImageCard background={Image2}>
+                <LargeIcon component={FileAddOutlined} />
+                Add Sites
+              </ImageCard>
+            </a>
+            <a href={Routes.REPORTS}>
+              <ImageCard background={Image3}>
+                <LargeIcon component={BarChartOutlined} />
+                View Reports
+              </ImageCard>
+            </a>
+            <a href={Routes.EMAIL}>
+              <ImageCard background={Image4}>
+                <LargeIcon component={MailOutlined} />
+                Email Volunteers
+              </ImageCard>
+            </a>
+          </Flex>
         </AdminContentContainer>
+        <Modal
+          title="Promote a User to an Admin"
+          open={showPromoteUserModal}
+          onCancel={() => setShowPromoteUserModal(false)}
+          footer={null}
+        >
+          <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
+        </Modal>
+        <Modal
+          title="Add a New Child Account"
+          open={showAddChildModal}
+          onCancel={() => setShowAddChildModal(false)}
+          footer={null}
+        >
+          <SignupForm formInstance={createChildForm} onFinish={onCreateChild}>
+            <Form.Item>
+              <SubmitButton htmlType="submit">
+                Create Child Account
+              </SubmitButton>
+            </Form.Item>
+          </SignupForm>
+        </Modal>
       </PageLayout>
     </>
   );
 };
 
-const mapStateToProps = (state: C4CState): AdminDashboardProps => {
-  return {
-    neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
-    sites: state.mapGeoDataState.siteGeoData,
-  };
-};
-
-export default connect(mapStateToProps)(AdminDashboard);
+export default AdminDashboard;
