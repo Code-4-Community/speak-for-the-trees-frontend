@@ -29,13 +29,10 @@ import {
   RocketFilled,
   SettingFilled,
 } from '@ant-design/icons';
+import Image1 from '../../assets/images/bkg1.png';
 import Image2 from '../../assets/images/bkg2.png';
-import Image3 from '../../assets/images/bkg3.png';
 import Image4 from '../../assets/images/bkg4.png';
 import { Routes } from '../../App';
-import Icon, {
-  IconComponentProps,
-} from '@ant-design/icons/lib/components/Icon';
 
 const AdminContentContainer = styled.div`
   width: 80vw;
@@ -43,7 +40,6 @@ const AdminContentContainer = styled.div`
 `;
 
 const ImageCard = styled.div`
-  background: rgba(0, 0, 0, 0.25) url(${(props) => props.background});
   background-blend-mode: darken;
   border-radius: 10px;
   width: 230px;
@@ -62,21 +58,29 @@ const ImageCard = styled.div`
   }
 `;
 
-const LargeIcon = styled((props: IconComponentProps) => <Icon {...props} />)`
-  font-size: 40px;
-`;
-
-// const AutoCompleteSelect = styled((props: SelectProps) => (
-//   <Select {...props} />
-// ))`
-//   min-width: 200px;
-//   max-width: 500px;
-// `;
-
 const AdminDivider = styled(Divider)`
   margin-top: 10px;
   margin-bottom: 20px;
 `;
+
+interface ImageLinkCardProps {
+  href: string;
+  image: string;
+}
+
+const ImageLinkCard: React.FC<ImageLinkCardProps> = ({
+  href,
+  image,
+  children,
+}) => (
+  <a href={href}>
+    <ImageCard style={{ backgroundImage: `url(${image})` }}>
+      {children}
+    </ImageCard>
+  </a>
+);
+
+const ICON_SIZE = 40;
 
 interface AdminDashboardProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
@@ -150,24 +154,19 @@ const AdminDashboard: React.FC = () => {
           <AdminDivider />
           <Typography.Title level={3}>Admin Functions</Typography.Title>
           <Flex gap={'40px 40px'} margin={'30px 0'}>
-            <a href={Routes.ADD_SITES}>
-              <ImageCard background={Image2}>
-                <LargeIcon component={FileAddOutlined} />
-                Add Sites
-              </ImageCard>
-            </a>
-            <a href={Routes.REPORTS}>
-              <ImageCard background={Image3}>
-                <LargeIcon component={BarChartOutlined} />
-                View Reports
-              </ImageCard>
-            </a>
-            <a href={Routes.EMAIL}>
-              <ImageCard background={Image4}>
-                <LargeIcon component={MailOutlined} />
-                Email Volunteers
-              </ImageCard>
-            </a>
+            <ImageLinkCard href={Routes.ADD_SITES} image={Image1}>
+              {/* <LargeIcon component={FileAddOutlined React.ForwardRefExoticComponent<any></any>} /> */}
+              <FileAddOutlined style={{ fontSize: ICON_SIZE }} />
+              Add Sites
+            </ImageLinkCard>
+            <ImageLinkCard href={Routes.REPORTS} image={Image2}>
+              <BarChartOutlined style={{ fontSize: ICON_SIZE }} />
+              View Reports
+            </ImageLinkCard>
+            <ImageLinkCard href={Routes.EMAIL} image={Image4}>
+              <MailOutlined style={{ fontSize: ICON_SIZE }} />
+              Email Volunteers
+            </ImageLinkCard>
           </Flex>
         </AdminContentContainer>
         <Modal

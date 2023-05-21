@@ -105,7 +105,7 @@ const AddSites: React.FC<AddSitesProps> = ({ neighborhoods, sites }) => {
         <ContentContainer>
           <PageHeader pageTitle="Add Sites" />
           <DashboardContent>
-            <Typography.Title level={4}>Add Sites</Typography.Title>
+            <Typography.Title level={4}>Bulk Add Sites</Typography.Title>
             <UploadSitesForm />
           </DashboardContent>
           <MarginDivider />
