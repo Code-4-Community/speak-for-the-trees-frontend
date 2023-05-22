@@ -16,10 +16,14 @@ import {
   getCountAdoptedInPastWeek,
   getStewardshipTableReport,
 } from './ducks/selectors';
-import { PaddedPageContainer } from '../../components/themedComponents';
+import {
+  PaddedPageContainer,
+  ReturnButton,
+} from '../../components/themedComponents';
 import { CSVLink } from 'react-csv';
 import { AppError } from '../../auth/axios';
 import ExportDataForm from '../../components/forms/exportDataForm';
+import { Routes } from '../../App';
 
 const FeaturedStatsSection = styled.div`
   margin-bottom: 20px;
@@ -119,6 +123,7 @@ const Reports: React.FC = () => {
       </Helmet>
       <PageLayout>
         <PaddedPageContainer>
+          <ReturnButton to={Routes.ADMIN}>{'<'} Back to Dashboard</ReturnButton>
           <PageHeader pageTitle={t('site_report')} />
           <FeaturedStatsSection>
             <FeaturedStats

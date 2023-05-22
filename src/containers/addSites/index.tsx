@@ -16,7 +16,13 @@ import {
 import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
 import { MapGeoDataReducerState } from '../../components/mapComponents/ducks/types';
 import { Typography, Row, Form, Divider, message } from 'antd';
-import { MapContainer, Block, Flex } from '../../components/themedComponents';
+import {
+  MapContainer,
+  Block,
+  Flex,
+  ReturnButton,
+  PaddedPageContainer,
+} from '../../components/themedComponents';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
@@ -26,11 +32,7 @@ import { MapTypes } from '../../context/types';
 import { MapTypeContext } from '../../context/mapTypeContext';
 import PageLayout from '../../components/pageLayout';
 import PageHeader from '../../components/pageHeader';
-
-const ContentContainer = styled.div`
-  width: 80vw;
-  margin: 8vh auto auto;
-`;
+import { Routes } from '../../App';
 
 const SectionHeader = styled(Typography.Text)`
   font-weight: bold;
@@ -102,7 +104,8 @@ const AddSites: React.FC<AddSitesProps> = ({ neighborhoods, sites }) => {
         />
       </Helmet>
       <PageLayout>
-        <ContentContainer>
+        <PaddedPageContainer>
+          <ReturnButton to={Routes.ADMIN}>{'<'} Back to Dashboard</ReturnButton>
           <PageHeader pageTitle="Add Sites" />
           <DashboardContent>
             <Typography.Title level={4}>Bulk Add Sites</Typography.Title>
@@ -143,7 +146,7 @@ const AddSites: React.FC<AddSitesProps> = ({ neighborhoods, sites }) => {
               onFinish={onSubmitAddSite}
             />
           </MarginBottomRow>
-        </ContentContainer>
+        </PaddedPageContainer>
       </PageLayout>
     </>
   );

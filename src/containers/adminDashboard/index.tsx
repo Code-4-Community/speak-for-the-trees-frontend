@@ -40,6 +40,7 @@ const AdminContentContainer = styled.div`
 `;
 
 const ImageCard = styled.div`
+  background-color: rgba(0, 0, 0, 0.25);
   background-blend-mode: darken;
   border-radius: 10px;
   width: 230px;
