@@ -169,21 +169,26 @@ export function setSitesStyle(
       let iconType: string;
       const plantedDate = feature.getProperty('plantingDate');
       const adopted = !!feature.getProperty('adopterId');
+      const owner = feature.getProperty('owner');
       if (!feature.getProperty('treePresent')) {
         // If there is no tree present, use the openSiteIcon
         iconType = icons.openIcon;
-        siteVisible = visibleSites.includes('Open');
+        siteVisible =
+          visibleSites.includes('Open') && visibleSites.includes(owner);
       } else if (adopted) {
         // If the tree is adopted, use the adoptedTreeIcon
         iconType = icons.adoptedIcon;
-        siteVisible = visibleSites.includes('Adopted');
+        siteVisible =
+          visibleSites.includes('Adopted') && visibleSites.includes(owner);
       } else if (!!plantedDate && plantedDate > YOUNG_TREE_DATE) {
         // If the tree was planted within the past three years, use youngTreeIcon
         iconType = icons.youngIcon;
-        siteVisible = visibleSites.includes('Young');
+        siteVisible =
+          visibleSites.includes('Young') && visibleSites.includes(owner);
       } else {
         iconType = icons.standardIcon;
-        siteVisible = visibleSites.includes('Standard');
+        siteVisible =
+          visibleSites.includes('Standard') && visibleSites.includes(owner);
       }
 
       const iconSize = getImageSize(zoomLevel);

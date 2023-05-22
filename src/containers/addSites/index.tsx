@@ -82,6 +82,7 @@ const AddSites: React.FC<AddSitesProps> = ({ neighborhoods, sites }) => {
       zip: editSiteForm.getFieldValue('zip'),
       address: editSiteForm.getFieldValue('address'),
       neighborhoodId: editSiteForm.getFieldValue('neighborhoodId'),
+      owner: editSiteForm.getFieldValue('owner'),
       ...request,
       plantingDate: updateSiteForm.getFieldValue('plantingDate')?.format('L'),
     };
