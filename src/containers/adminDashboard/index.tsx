@@ -156,7 +156,6 @@ const AdminDashboard: React.FC = () => {
           <Typography.Title level={3}>Admin Functions</Typography.Title>
           <Flex gap={'40px 40px'} margin={'30px 0'}>
             <ImageLinkCard href={Routes.ADD_SITES} image={Image1}>
-              {/* <LargeIcon component={FileAddOutlined React.ForwardRefExoticComponent<any></any>} /> */}
               <FileAddOutlined style={{ fontSize: ICON_SIZE }} />
               Add Sites
             </ImageLinkCard>
