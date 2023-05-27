@@ -13,7 +13,6 @@ import {
 import { LIGHT_GREEN, MID_GREEN } from '../../utils/colors';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import ChangePrivilegeForm from '../../components/forms/changePrivilegeForm';
-import { MapGeoDataReducerState } from '../../components/mapComponents/ducks/types';
 import { Flex } from '../../components/themedComponents';
 import SignupForm from '../../components/forms/signupForm';
 import { SignupFormValues } from '../../components/forms/ducks/types';
