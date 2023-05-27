@@ -83,11 +83,6 @@ const ImageLinkCard: React.FC<ImageLinkCardProps> = ({
 
 const ICON_SIZE = 40;
 
-interface AdminDashboardProps {
-  readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
-  readonly sites: MapGeoDataReducerState['siteGeoData'];
-}
-
 const AdminDashboard: React.FC = () => {
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
