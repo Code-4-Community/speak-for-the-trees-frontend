@@ -10,6 +10,9 @@ import { ChangePrivilegeRequest } from '../ducks/types';
 import { SubmitButton } from '../../themedComponents';
 import styled from 'styled-components';
 import { PrivilegeLevel } from '../../../auth/ducks/types';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../../utils/stringFormat';
+import { site } from '../../../constants';
 
 const RoleDropdown = styled(Select)`
   width: 100%;
@@ -23,6 +26,10 @@ interface ChangePrivilegeFormProps {
 const ChangePrivilegeForm: React.FC<ChangePrivilegeFormProps> = ({
   privilegeLevel,
 }) => {
+  const { t } = useTranslation(n(site, ['admin', 'forms']), {
+    nsMode: 'fallback',
+  });
+
   const [changePrivilegeForm] = Form.useForm();
 
   const onRoleChange = (role: unknown) => {
@@ -32,12 +39,12 @@ const ChangePrivilegeForm: React.FC<ChangePrivilegeFormProps> = ({
   const onFinishChangePrivilege = (values: ChangePrivilegeRequest) => {
     ProtectedApiClient.changePrivilegeLevel(values)
       .then(() => {
-        message.success('Privilege level changed!');
+        message.success(t('change_privilege.success'));
         changePrivilegeForm.resetFields();
       })
       .catch((err) =>
         message.error(
-          `Privilege level could not be changed: ${err.response.data}`,
+          t('change_privilege.error', { error: err.response.data }),
         ),
       );
   };
@@ -49,26 +56,33 @@ const ChangePrivilegeForm: React.FC<ChangePrivilegeFormProps> = ({
       onFinish={onFinishChangePrivilege}
     >
       <Form.Item name="targetUserEmail" rules={targetUserEmailRules}>
-        <Input placeholder="User Email" />
+        <Input placeholder={t('change_privilege.user_email')} />
       </Form.Item>
 
       <Form.Item name="newLevel" rules={newLevelRules}>
-        <RoleDropdown placeholder="New Role" onChange={onRoleChange}>
-          <Select.Option value={'ADMIN'}>Admin</Select.Option>
+        <RoleDropdown
+          placeholder={t('change_privilege.new_role')}
+          onChange={onRoleChange}
+        >
+          <Select.Option value={'ADMIN'}>{t('roles.admin')}</Select.Option>
           {privilegeLevel === PrivilegeLevel.SUPER_ADMIN && (
             <>
-              <Select.Option value={'STANDARD'}>Standard</Select.Option>
-              <Select.Option value={'SUPER_ADMIN'}>Super Admin</Select.Option>
+              <Select.Option value={'STANDARD'}>
+                {t('roles.standard')}
+              </Select.Option>
+              <Select.Option value={'SUPER_ADMIN'}>
+                {t('roles.super_admin')}
+              </Select.Option>
             </>
           )}
         </RoleDropdown>
       </Form.Item>
 
       <Form.Item name="password" rules={loginPasswordRules}>
-        <Input.Password placeholder="Password" />
+        <Input.Password placeholder={t('password')} />
       </Form.Item>
 
-      <SubmitButton htmlType="submit">Confirm</SubmitButton>
+      <SubmitButton htmlType="submit">{t('confirm')}</SubmitButton>
     </Form>
   );
 };

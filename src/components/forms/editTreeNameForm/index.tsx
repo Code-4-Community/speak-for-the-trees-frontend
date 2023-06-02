@@ -24,6 +24,7 @@ const StyledForm = styled(Form)`
   margin-top: ${(props: StyledButtonProps) =>
     props.isMobile ? '-20px' : '-30px'};
   margin-bottom: 20px;
+  text-transform: none;
 `;
 
 const SubmitButton = styled(GreenButton)`

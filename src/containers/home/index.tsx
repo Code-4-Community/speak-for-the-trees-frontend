@@ -44,7 +44,7 @@ const Home: React.FC = () => {
   const userName = useSelector((state: C4CState) =>
     getUserFirstName(state.authenticationState.userData),
   );
-  const greeting = `${t('title')}${userName}!`;
+  const greeting = t('title', { name: userName });
 
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
     isAdmin(state.authenticationState.tokens),

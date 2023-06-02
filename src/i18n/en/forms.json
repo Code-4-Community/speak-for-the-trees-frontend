@@ -11,6 +11,7 @@
   "sign_up": "Sign Up",
   "continue": "Continue",
   "save": "Save",
+  "confirm": "Confirm",
   "cancel": "Cancel",
   "reset_password": {
     "new_password": "New Password",
@@ -64,9 +65,20 @@
       "material": "Material"
     }
   },
+  "create_child": {
+    "success": "{{email}} successfully added!",
+    "submit": "Create Child Account"
+  },
+  "change_privilege": {
+    "success": "Privilege level changed!",
+    "error": "Privilege level could not be changed: {{error}}",
+    "user_email": "User Email",
+    "new_role": "New Role"
+  },
   "validation": {
     "email_required": "Please input your email!",
     "email_invalid": "Not a valid email address",
+    "target_email_required": "Please input the email of the user whose privilege level you wish to change!",
     "password_required": "Please input your password!",
     "password_new_required": "Please enter a new password!",
     "password_new_min_length": "Your new password must be at least 8 characters long.",
@@ -76,11 +88,20 @@
     "last_name_required": "Please input your last name!",
     "username_required": "Please enter a username!",
     "address_required": "Please enter an address!",
+    "zip_required": "Please enter a valid zip code!",
+    "zip_numeric": "Zip code must only consist of numbers",
+    "zip_length": "Zip code must be 5 digits long",
     "city_required": "Please enter a city!",
     "neighborhood_required": "Please enter a neighborhood!",
     "latitude_required": "Please enter a latitude!",
     "longitude_required": "Please enter a longitude!",
-    "owner_required": "Please select an owner!"
+    "owner_required": "Please select an owner!",
+    "activity_required": "Please select at least one activity",
+    "activity_date_required": "Please input the date of the activity!",
+    "new_privilege_required": "Please pick a privilege level for this user!",
+    "numeric": "Must be a number",
+    "numeric_positive": "Number must be positive!",
+    "tree_name_length": "Tree name must be at most 60 characters long"
   },
   "name_form": {
     "placeholder": "Enter tree name",

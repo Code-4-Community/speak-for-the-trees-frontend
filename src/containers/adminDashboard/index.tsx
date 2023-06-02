@@ -18,7 +18,7 @@ import SignupForm from '../../components/forms/signupForm';
 import { SignupFormValues } from '../../components/forms/ducks/types';
 import ProtectedApiClient from '../../api/protectedApiClient';
 import { AppError } from '../../auth/axios';
-import { getErrorMessage } from '../../utils/stringFormat';
+import { getErrorMessage, n } from '../../utils/stringFormat';
 import { SubmitButton } from '../../components/themedComponents';
 import {
   BarChartOutlined,
@@ -32,6 +32,8 @@ import Image1 from '../../assets/images/bkg1.png';
 import Image2 from '../../assets/images/bkg2.png';
 import Image4 from '../../assets/images/bkg4.png';
 import { Routes } from '../../App';
+import { useTranslation } from 'react-i18next';
+import { site } from '../../constants';
 
 const AdminContentContainer = styled.div`
   width: 80vw;
@@ -83,6 +85,10 @@ const ImageLinkCard: React.FC<ImageLinkCardProps> = ({
 const ICON_SIZE = 40;
 
 const AdminDashboard: React.FC = () => {
+  const { t } = useTranslation(n(site, ['admin', 'forms', 'home']), {
+    nsMode: 'fallback',
+  });
+
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
@@ -106,7 +112,7 @@ const AdminDashboard: React.FC = () => {
       lastName: values.lastName,
     })
       .then(() => {
-        message.success(`${values.email} successfully added!`);
+        message.success(t('create_child.success', { email: values.email }));
         createChildForm.resetFields();
       })
       .catch((error: AppError) => message.error(getErrorMessage(error)));
@@ -115,7 +121,7 @@ const AdminDashboard: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Admin Dashboard</title>
+        <title>{t('admin_title')}</title>
         <meta
           name="description"
           content="The page for admin users to modify accounts and download team data."
@@ -124,47 +130,51 @@ const AdminDashboard: React.FC = () => {
       <PageLayout>
         <AdminContentContainer>
           <PageHeader
-            pageTitle="Admin Dashboard"
-            pageSubtitle={`Welcome back, ${userFirstName}!`}
+            pageTitle={t('admin_title')}
+            pageSubtitle={t('title', { name: userFirstName })}
             subtitlecolor={MID_GREEN}
           />
-          <Typography.Title level={3}>Manage Accounts</Typography.Title>
+          <Typography.Title level={3}>
+            {t('manage_accounts.header')}
+          </Typography.Title>
           <Flex margin={'30px 0'} gap={'50px 20px'}>
             <Button type="primary" href="/settings">
               <SettingFilled />
-              My settings
+              {t('manage_accounts.my_settings.button')}
             </Button>
             <Button
               onClick={() => setShowPromoteUserModal(true)}
               color={LIGHT_GREEN}
             >
               <RocketFilled />
-              Promote user
+              {t('manage_accounts.promote_user.button')}
             </Button>
             <Button onClick={() => setShowAddChildModal(true)}>
               <PlusOutlined />
-              Add Child Account
+              {t('manage_accounts.create_child.button')}
             </Button>
           </Flex>
           <AdminDivider />
-          <Typography.Title level={3}>Admin Functions</Typography.Title>
+          <Typography.Title level={3}>
+            {t('admin_functions.header')}
+          </Typography.Title>
           <Flex gap={'40px 40px'} margin={'30px 0'}>
             <ImageLinkCard href={Routes.ADD_SITES} image={Image1}>
               <FileAddOutlined style={{ fontSize: ICON_SIZE }} />
-              Add Sites
+              {t('admin_functions.add_sites')}
             </ImageLinkCard>
             <ImageLinkCard href={Routes.REPORTS} image={Image2}>
               <BarChartOutlined style={{ fontSize: ICON_SIZE }} />
-              View Reports
+              {t('admin_functions.view_reports')}
             </ImageLinkCard>
             <ImageLinkCard href={Routes.EMAIL} image={Image4}>
               <MailOutlined style={{ fontSize: ICON_SIZE }} />
-              Email Volunteers
+              {t('admin_functions.email_volunteers')}
             </ImageLinkCard>
           </Flex>
         </AdminContentContainer>
         <Modal
-          title="Promote a User to an Admin"
+          title={t('manage_accounts.promote_user.modal')}
           open={showPromoteUserModal}
           onCancel={() => setShowPromoteUserModal(false)}
           footer={null}
@@ -172,7 +182,7 @@ const AdminDashboard: React.FC = () => {
           <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
         </Modal>
         <Modal
-          title="Add a New Child Account"
+          title={t('manage_accounts.create_child.modal')}
           open={showAddChildModal}
           onCancel={() => setShowAddChildModal(false)}
           footer={null}
@@ -180,7 +190,7 @@ const AdminDashboard: React.FC = () => {
           <SignupForm formInstance={createChildForm} onFinish={onCreateChild}>
             <Form.Item>
               <SubmitButton htmlType="submit">
-                Create Child Account
+                {t('create_child.submit')}
               </SubmitButton>
             </Form.Item>
           </SignupForm>
