@@ -34,6 +34,7 @@ import { logout } from './auth/ducks/thunks';
 import history from './history';
 import FAQ from './containers/faq';
 import Email from './containers/email';
+import AddSites from './containers/addSites';
 
 const AppLayout = styled(Layout)`
   min-height: 100vh;
@@ -72,6 +73,7 @@ export enum Routes {
   FORGOT_PASSWORD_REQUEST = '/forgot-password',
   FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
   EMAIL = '/email',
+  ADD_SITES = '/add-sites',
   NOT_FOUND = '*',
 }
 
@@ -269,6 +271,11 @@ const App: React.FC = () => {
                       />
                       <Route path={Routes.REPORTS} exact component={Reports} />
                       <Route path={Routes.EMAIL} exact component={Email} />
+                      <Route
+                        path={Routes.ADD_SITES}
+                        exact
+                        component={AddSites}
+                      />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact

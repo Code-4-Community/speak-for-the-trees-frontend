@@ -121,9 +121,7 @@ const Email: React.FC = () => {
       </Helmet>
       <PageLayout>
         <EmailPageContainer>
-          <ReturnButton to={Routes.LANDING}>
-            {`<`} Return to Tree Map
-          </ReturnButton>
+          <ReturnButton to={Routes.ADMIN}>{`<`} Back to Dashboard</ReturnButton>
           <PageHeader pageTitle="Volunteer Emailer" />
           <Row>
             <Col span={6}>
