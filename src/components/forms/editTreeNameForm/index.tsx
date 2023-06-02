@@ -24,6 +24,7 @@ const StyledForm = styled(Form)`
   margin-top: ${(props: StyledButtonProps) =>
     props.isMobile ? '-20px' : '-30px'};
   margin-bottom: 20px;
+  text-transform: none;
 `;
 
 const SubmitButton = styled(GreenButton)`
@@ -68,7 +69,7 @@ const EditTreeNameForm: React.FC<EditTreeNameFormProps> = ({
           {t('name_form.submit')}
         </SubmitButton>
         <CancelButton isMobile={isMobile} onClick={onCancelNameChange}>
-          {t('name_form.cancel')}
+          {t('cancel')}
         </CancelButton>
       </Form.Item>
     </StyledForm>

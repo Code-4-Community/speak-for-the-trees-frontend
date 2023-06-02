@@ -1,0 +1,28 @@
+{
+  "admin_title": "Admin Dashboard",
+  "manage_accounts": {
+    "header": "Manage Accounts",
+    "my_settings": {
+      "button": "My settings"
+    },
+    "promote_user": {
+      "button": "Promote user",
+      "modal": "Promote a User to an Admin"
+    },
+    "create_child": {
+      "button": "Add Child Account",
+      "modal": "Add a New Child Account"
+    }
+  },
+  "admin_functions": {
+    "header": "Admin Functions",
+    "add_sites": "Add Sites",
+    "view_reports": "View Reports",
+    "email_volunteers": "Email Volunteers"
+  },
+  "roles": {
+    "admin": "Admin",
+    "standard": "Standard",
+    "super_admin": "Super Admin"
+  }
+}

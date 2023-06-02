@@ -29,6 +29,9 @@ import { round } from 'lodash';
 import { LAT_LNG_PRECISION } from '../../components/forms/constants';
 import { MapTypes } from '../../context/types';
 import { MapTypeContext } from '../../context/mapTypeContext';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../utils/stringFormat';
+import { site as website } from '../../constants';
 
 const SitePageContainer = styled.div`
   width: 90%;
@@ -55,6 +58,10 @@ interface SitePageProps {
 }
 
 const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
+  const { t } = useTranslation(n(website, ['site', 'forms']), {
+    nsMode: 'fallback',
+  });
+
   const [site, setSite] = useState<SiteProps>();
   const [mapSearchMarker, setMapSearchMarker] = useState<google.maps.Marker>();
   const id = Number(useParams<SiteParams>().id);
@@ -76,7 +83,7 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
     ProtectedClient.editSite(id, request)
       .then(() => {
         editSiteForm.resetFields();
-        message.success('Site edited!').then();
+        message.success(t('edit_site.success')).then();
         getSite();
       })
       .catch((err) => message.error(err.response.data));
@@ -90,7 +97,7 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
     ProtectedClient.updateSite(id, entries)
       .then(() => {
         updateSiteForm.resetFields();
-        message.success('Site updated!').then();
+        message.success(t('update_site.success')).then();
         getSite();
       })
       .catch((err) => message.error(err.response.data));
@@ -114,8 +121,8 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
             <Block
               maxWidth={windowType === WindowTypes.Mobile ? '100%' : '45%'}
             >
-              <PageHeader pageTitle={`Site #${site?.siteId}`} />
-              <SectionHeader>Site Features</SectionHeader>
+              <PageHeader pageTitle={`${t('title')} #${site?.siteId}`} />
+              <SectionHeader>{t('header.site_features')}</SectionHeader>
               <SiteFeatures
                 site={site}
                 editSiteForm={editSiteForm}
@@ -143,10 +150,10 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
             </MapTypeContext.Provider>
           </Flex>
 
-          <SectionHeader strong>Site Entries</SectionHeader>
+          <SectionHeader strong>{t('header.site_entries')}</SectionHeader>
           <SiteEntryTable siteEntries={site.entries} />
 
-          <SectionHeader>Add Entry</SectionHeader>
+          <SectionHeader>{t('header.add_entry')}</SectionHeader>
           <MarginBottomRow>
             <UpdateSiteForm
               formInstance={updateSiteForm}

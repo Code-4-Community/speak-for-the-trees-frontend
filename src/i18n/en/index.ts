@@ -9,6 +9,9 @@ export { default as signup } from './signup.json';
 export { default as home } from './home.json';
 export { default as settings } from './settings.json';
 export { default as faq } from './faq.json';
+export { default as myTrees } from './myTrees.json';
+export { default as site } from './site.json';
+export { default as admin } from './admin.json';
 
 export { default as treePage } from './treePage/treePage.json';
 export { default as treeInfo } from './treePage/treeInfo.json';

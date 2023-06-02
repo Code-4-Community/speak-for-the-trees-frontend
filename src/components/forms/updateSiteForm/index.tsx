@@ -16,6 +16,9 @@ import {
 import { stringNumberRules } from '../../../utils/formRules';
 import { CheckboxOptionType } from 'antd/es/checkbox/Group';
 import { getSEFieldDisplayName } from '../../../utils/stringFormat';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../../utils/stringFormat';
+import { site } from '../../../constants';
 
 interface RadioInputProps {
   readonly name: string;
@@ -42,6 +45,10 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
   onFinish,
   latestSiteEntry,
 }) => {
+  const { t } = useTranslation(n(site, ['treeInfoTypes', 'forms']), {
+    nsMode: 'fallback',
+  });
+
   const RadioInput: React.FC<RadioInputProps> = ({ name, options }) => {
     const radioOptions = options ?? BOOL_RADIO_OPTS;
     return (
@@ -263,14 +270,20 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           minWidth={'20%'}
           flexGrow={'1'}
         >
-          <StringInput placeholder={'Genus'} name={SiteEntryFields.GENUS} />
+          <StringInput
+            placeholder={t('main.genus')}
+            name={SiteEntryFields.GENUS}
+          />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.SPECIES)}
           minWidth={'20%'}
           flexGrow={'1'}
         >
-          <StringInput placeholder={'Species'} name={SiteEntryFields.SPECIES} />
+          <StringInput
+            placeholder={t('main.species')}
+            name={SiteEntryFields.SPECIES}
+          />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.COMMON_NAME)}
@@ -278,7 +291,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Common Name'}
+            placeholder={t('main.commonName')}
             name={SiteEntryFields.COMMON_NAME}
           />
         </TitleStack>
@@ -288,7 +301,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Confidence'}
+            placeholder={t('sftt.confidence')}
             name={SiteEntryFields.CONFIDENCE}
           />
         </TitleStack>
@@ -298,7 +311,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Coverage'}
+            placeholder={t('sftt.coverage')}
             name={SiteEntryFields.COVERAGE}
           />
         </TitleStack>
@@ -307,7 +320,10 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           minWidth={'20%'}
           flexGrow={'1'}
         >
-          <StringInput placeholder={'Pruning'} name={SiteEntryFields.PRUNING} />
+          <StringInput
+            placeholder={t('update_site.placeholder.pruning')}
+            name={SiteEntryFields.PRUNING}
+          />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.CONDITION)}
@@ -315,7 +331,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Condition'}
+            placeholder={t('sftt.condition')}
             name={SiteEntryFields.CONDITION}
           />
         </TitleStack>
@@ -325,7 +341,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Site Type'}
+            placeholder={t('sftt.siteType')}
             name={SiteEntryFields.SITE_TYPE}
           />
         </TitleStack>
@@ -335,7 +351,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Sidewalk Width'}
+            placeholder={t('sftt.sidewalkWidth')}
             name={SiteEntryFields.SIDEWALK_WIDTH}
             rules={stringNumberRules}
           />
@@ -346,7 +362,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Diameter'}
+            placeholder={t('update_site.placeholder.diameter')}
             name={SiteEntryFields.DIAMETER}
             rules={stringNumberRules}
           />
@@ -357,7 +373,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Circumference'}
+            placeholder={t('update_site.placeholder.circumference')}
             name={SiteEntryFields.CIRCUMFERENCE}
             rules={stringNumberRules}
           />
@@ -368,7 +384,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Site Width'}
+            placeholder={t('update_site.placeholder.site_width')}
             name={SiteEntryFields.SITE_WIDTH}
             rules={stringNumberRules}
           />
@@ -379,7 +395,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Site Length'}
+            placeholder={t('update_site.placeholder.site_length')}
             name={SiteEntryFields.SITE_LENGTH}
             rules={stringNumberRules}
           />
@@ -390,7 +406,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Material'}
+            placeholder={t('update_site.placeholder.material')}
             name={SiteEntryFields.MATERIAL}
           />
         </TitleStack>
@@ -400,7 +416,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Tree Notes'}
+            placeholder={t('sftt.treeNotes')}
             name={SiteEntryFields.TREE_NOTES}
           />
         </TitleStack>
@@ -410,14 +426,14 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Site Notes'}
+            placeholder={t('sftt.siteNotes')}
             name={SiteEntryFields.SITE_NOTES}
           />
         </TitleStack>
       </Flex>
 
       <Row justify={'end'}>
-        <SubmitButton htmlType="submit">Submit</SubmitButton>
+        <SubmitButton htmlType="submit">{t('submit')}</SubmitButton>
       </Row>
     </Form>
   );
