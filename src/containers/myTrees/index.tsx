@@ -12,7 +12,6 @@ import MobileMapPage from '../../components/mapComponents/mapPageComponents/mobi
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
 import { getAdoptedSites } from '../treePage/ducks/thunks';
-import { MY_TREES_BODY, MY_TREES_TITLE } from '../../assets/content';
 import SlideDown from '../../components/slideDown';
 import {
   asyncRequestIsComplete,
@@ -29,6 +28,9 @@ import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDi
 import { MOBILE_SLIDE_HEIGHT } from '../../components/mapComponents/constants';
 import { MapTypes } from '../../context/types';
 import { MapTypeContext } from '../../context/mapTypeContext';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../utils/stringFormat';
+import { site } from '../../constants';
 
 interface MyTreesStateProps {
   readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
@@ -41,6 +43,8 @@ const EmptyTreesContainer = styled.div`
 `;
 
 const MyTrees: React.FC<MyTreesStateProps> = ({ neighborhoods, sites }) => {
+  const { t } = useTranslation(n(site, ['myTrees']), { nsMode: 'fallback' });
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -106,8 +110,8 @@ const MyTrees: React.FC<MyTreesStateProps> = ({ neighborhoods, sites }) => {
                     />
                   }
                   view={treeMapView}
-                  sidebarHeader={MY_TREES_TITLE}
-                  sidebarDescription={MY_TREES_BODY}
+                  sidebarHeader={t('title')}
+                  sidebarDescription={t('body')}
                   windowType={windowType}
                 >
                   {asyncRequestIsComplete(sites) && (

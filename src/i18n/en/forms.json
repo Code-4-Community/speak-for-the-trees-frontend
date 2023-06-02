@@ -11,6 +11,7 @@
   "sign_up": "Sign Up",
   "continue": "Continue",
   "save": "Save",
+  "cancel": "Cancel",
   "reset_password": {
     "new_password": "New Password",
     "confirm_password": "Confirm Password"
@@ -41,6 +42,28 @@
     "success": "Password changed!",
     "error": "Password could not be changed: {{error}}"
   },
+  "edit_site": {
+    "success": "Site edited!",
+    "address": "Address",
+    "city": "City",
+    "zip": "Zip Code",
+    "neighborhood": "Neighborhood",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "owner": "Owner",
+    "submit": "Edit Site Features"
+  },
+  "update_site": {
+    "success": "Site updated!",
+    "placeholder": {
+      "pruning": "Pruning",
+      "diameter": "Diameter",
+      "circumference": "Circumference",
+      "site_width": "Site Width",
+      "site_length": "Site Length",
+      "material": "Material"
+    }
+  },
   "validation": {
     "email_required": "Please input your email!",
     "email_invalid": "Not a valid email address",
@@ -51,12 +74,17 @@
     "confirm_password_match": "Passwords do not match",
     "first_name_required": "Please input your first name!",
     "last_name_required": "Please input your last name!",
-    "username_required": "Please enter a username!"
+    "username_required": "Please enter a username!",
+    "address_required": "Please enter an address!",
+    "city_required": "Please enter a city!",
+    "neighborhood_required": "Please enter a neighborhood!",
+    "latitude_required": "Please enter a latitude!",
+    "longitude_required": "Please enter a longitude!",
+    "owner_required": "Please select an owner!"
   },
   "name_form": {
     "placeholder": "Enter tree name",
-    "submit": "Change Name",
-    "cancel": "Cancel"
+    "submit": "Change Name"
   },
   "stewardship": {
     "activities": {

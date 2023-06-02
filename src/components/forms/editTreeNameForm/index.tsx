@@ -68,7 +68,7 @@ const EditTreeNameForm: React.FC<EditTreeNameFormProps> = ({
           {t('name_form.submit')}
         </SubmitButton>
         <CancelButton isMobile={isMobile} onClick={onCancelNameChange}>
-          {t('name_form.cancel')}
+          {t('cancel')}
         </CancelButton>
       </Form.Item>
     </StyledForm>
