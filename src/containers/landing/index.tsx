@@ -11,17 +11,13 @@ import { C4CState } from '../../store';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
 import MobileMapPage from '../../components/mapComponents/mapPageComponents/mobileMapPage';
-import MobileLandingBar from '../../components/mapComponents/mapPageComponents/mobileLandingBar';
 import {
   MapGeoDataReducerState,
   MapViews,
 } from '../../components/mapComponents/ducks/types';
-import MapLegend from '../../components/mapComponents/mapLegend';
 import { Routes } from '../../App';
 import { site } from '../../constants';
 import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
-import SlideDown from '../../components/slideDown';
-import { MOBILE_SLIDE_HEIGHT } from '../../components/mapComponents/constants';
 import { Modal, Typography } from 'antd';
 import { DARK_GREEN } from '../../utils/colors';
 import { SFTT_PARTNER_LOGOS } from '../../assets/links';
@@ -44,12 +40,6 @@ const ModalParagraph = styled(Typography.Paragraph)`
 const ModalImage = styled.img`
   width: ${isSFTT() ? '100%' : '400px'};
   margin-top: 30px;
-`;
-
-const PaddedContent = styled.div`
-  padding: 15px 0px;
-  width: 90%;
-  margin: auto;
 `;
 
 interface LandingProps {
@@ -122,19 +112,7 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
                     />
                   }
                   returnTo={Routes.LANDING}
-                >
-                  <SlideDown slideHeight={MOBILE_SLIDE_HEIGHT}>
-                    <PaddedContent>
-                      <MobileLandingBar
-                        barHeader={t('sidebar.title')}
-                        barDescription={<LandingContent />}
-                        isLoggedIn={loggedIn}
-                      >
-                        <MapLegend view={landingMapView} canHide={false} />
-                      </MobileLandingBar>
-                    </PaddedContent>
-                  </SlideDown>
-                </MobileMapPage>
+                ></MobileMapPage>
               );
             case WindowTypes.NarrowDesktop:
             case WindowTypes.Desktop:
