@@ -119,16 +119,15 @@ const TreeMap: React.FC<TreeMapProps> = ({
         treePresent: false,
       }}
     >
-      {!mobile && (
-        <SiteLegend
-          onCheck={onCheck}
-          siteOptions={
-            mapTypeId === MapTypes.ROADMAP
-              ? SITE_OPTIONS_ROADMAP
-              : SITE_OPTIONS_SATELLITE
-          }
-        />
-      )}
+      <SiteLegend
+        onCheck={onCheck}
+        siteOptions={
+          mapTypeId === MapTypes.ROADMAP
+            ? SITE_OPTIONS_ROADMAP
+            : SITE_OPTIONS_SATELLITE
+        }
+        mobile={mobile}
+      />
     </MapWithPopup>
   );
 };

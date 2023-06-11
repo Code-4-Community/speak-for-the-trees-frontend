@@ -161,14 +161,21 @@ export interface FlexProps {
   margin?: string;
   gap?: string;
   justifyContent?: string;
+  padding?: string;
+  flexDirection?: string;
+  alignItems?: string;
+  width?: string;
 }
 
 export const Flex = styled.div`
   margin: ${({ margin }: FlexProps) => (margin ? margin : '0')};
-  width: 100%;
+  padding: ${({ padding }: FlexProps) => padding ?? ''};
+  flex-direction: ${({ flexDirection }: FlexProps) => flexDirection ?? 'row'};
+  width: ${({ width }: FlexProps) => width ?? '100%'};
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
+  align-items: ${({ alignItems }: FlexProps) => alignItems ?? 'normal'};
   gap: ${({ gap }: FlexProps) => (gap ? gap : '50px')};
   justify-content: ${({ justifyContent }: FlexProps) =>
     justifyContent ? justifyContent : 'flex-start'};
