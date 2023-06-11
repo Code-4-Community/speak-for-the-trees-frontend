@@ -120,14 +120,13 @@ const SiteLegend: React.FC<SiteLegendProps> = ({
 
   return (
     <LegendContainer $mobile={mobile}>
-      <div></div>
       <SlideDown
         // default open if on desktop, else closed on mobile
         defaultOpen={!mobile}
         slideHeight={mobile ? DESKTOP_SLIDE_HEIGHT : MOBILE_SLIDE_HEIGHT}
       >
         <Flex
-          gap={'5px'}
+          gap="5px"
           flexDirection="column"
           alignItems="start"
           width={mobile ? '90%' : '100%'}
@@ -170,7 +169,7 @@ const SiteLegend: React.FC<SiteLegendProps> = ({
             </>
           )}
           {mobile && !loggedIn && (
-            <Flex margin="15px 0px" justifyContent={'center'}>
+            <Flex margin="15px 0px" justifyContent="center">
               <div>
                 <LoginButton
                   type="primary"

@@ -169,7 +169,7 @@ export interface FlexProps {
 
 export const Flex = styled.div`
   margin: ${({ margin }: FlexProps) => (margin ? margin : '0')};
-  padding: ${({ padding }: FlexProps) => padding ?? ''};
+  padding: ${({ padding }: FlexProps) => padding ?? '0'};
   flex-direction: ${({ flexDirection }: FlexProps) => flexDirection ?? 'row'};
   width: ${({ width }: FlexProps) => width ?? '100%'};
   display: flex;
