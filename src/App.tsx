@@ -92,7 +92,6 @@ const App: React.FC = () => {
 
   const onLogout = () => {
     dispatch(logout());
-    history.go(0);
   };
 
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
@@ -168,6 +167,11 @@ const App: React.FC = () => {
                         path={Routes.FORGOT_PASSWORD_RESET}
                         exact
                         component={ForgotPasswordReset}
+                      />
+                      <Route
+                        path={Routes.ADD_SITES}
+                        exact
+                        component={AddSites}
                       />
                       <Route
                         path={Routes.NOT_FOUND}
