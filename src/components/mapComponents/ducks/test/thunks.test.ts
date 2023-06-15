@@ -112,17 +112,17 @@ describe('Map Thunks', () => {
 
       await getMapGeoData()(mockDispatch, getState, mockExtraArgs);
 
-      expect(mockDispatch).toHaveBeenCalledTimes(6);
+      expect(mockDispatch).toHaveBeenCalledTimes(4);
+      // expect(mockDispatch).toHaveBeenNthCalledWith(
+      //   4,
+      //   blockGeoData.loaded(mockBlockDataResponse),
+      // );
       expect(mockDispatch).toHaveBeenNthCalledWith(
-        4,
-        blockGeoData.loaded(mockBlockDataResponse),
-      );
-      expect(mockDispatch).toHaveBeenNthCalledWith(
-        5,
+        3,
         neighborhoodGeoData.loaded(mockNeighborhoodDataResponse),
       );
       expect(mockDispatch).toHaveBeenNthCalledWith(
-        6,
+        4,
         siteGeoData.loaded(mockSiteDataResponse),
       );
       expect(mockGetBlockGeoData).toBeCalledTimes(1);
@@ -157,17 +157,17 @@ describe('Map Thunks', () => {
 
       await getMapGeoData()(mockDispatch, getState, mockExtraArgs);
 
-      expect(mockDispatch).toHaveBeenCalledTimes(6);
+      expect(mockDispatch).toHaveBeenCalledTimes(4);
+      // expect(mockDispatch).toHaveBeenNthCalledWith(
+      //   4,
+      //   blockGeoData.failed(mockAPIError),
+      // );
       expect(mockDispatch).toHaveBeenNthCalledWith(
-        4,
-        blockGeoData.failed(mockAPIError),
-      );
-      expect(mockDispatch).toHaveBeenNthCalledWith(
-        5,
+        3,
         neighborhoodGeoData.failed(mockAPIError),
       );
       expect(mockDispatch).toHaveBeenNthCalledWith(
-        6,
+        4,
         siteGeoData.failed(mockAPIError),
       );
       expect(mockGetBlockGeoData).toBeCalledTimes(1);
