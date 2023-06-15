@@ -169,11 +169,6 @@ const App: React.FC = () => {
                         component={ForgotPasswordReset}
                       />
                       <Route
-                        path={Routes.ADD_SITES}
-                        exact
-                        component={AddSites}
-                      />
-                      <Route
                         path={Routes.NOT_FOUND}
                         exact
                         component={NotFound}
