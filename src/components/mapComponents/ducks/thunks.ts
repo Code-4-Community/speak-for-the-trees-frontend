@@ -1,5 +1,4 @@
 import {
-  BlockGeoData,
   NeighborhoodGeoData,
   MapGeoDataThunkAction,
   SiteGeoData,

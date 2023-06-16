@@ -1,6 +1,6 @@
 import { BlockGeoData, NeighborhoodGeoData, SiteGeoData } from '../types';
 import { getMapGeoData } from '../thunks';
-import { blockGeoData, neighborhoodGeoData, siteGeoData } from '../actions';
+import { neighborhoodGeoData, siteGeoData } from '../actions';
 import { C4CState, initialStoreState, ThunkExtraArgs } from '../../../../store';
 import authClient from '../../../../auth/authClient';
 import apiClient from '../../../../api/apiClient';
