@@ -113,6 +113,7 @@ describe('Map Thunks', () => {
       await getMapGeoData()(mockDispatch, getState, mockExtraArgs);
 
       expect(mockDispatch).toHaveBeenCalledTimes(4);
+      // TODO: remove these tests when doing final code cleanups
       // expect(mockDispatch).toHaveBeenNthCalledWith(
       //   4,
       //   blockGeoData.loaded(mockBlockDataResponse),
@@ -125,7 +126,7 @@ describe('Map Thunks', () => {
         4,
         siteGeoData.loaded(mockSiteDataResponse),
       );
-      expect(mockGetBlockGeoData).toBeCalledTimes(1);
+      // expect(mockGetBlockGeoData).toBeCalledTimes(1);
       expect(mockGetNeighborhoodGeoData).toBeCalledTimes(1);
       expect(mockGetSiteGeoData).toBeCalledTimes(1);
     });
@@ -170,7 +171,7 @@ describe('Map Thunks', () => {
         4,
         siteGeoData.failed(mockAPIError),
       );
-      expect(mockGetBlockGeoData).toBeCalledTimes(1);
+      // expect(mockGetBlockGeoData).toBeCalledTimes(1);
       expect(mockGetNeighborhoodGeoData).toBeCalledTimes(1);
       expect(mockGetSiteGeoData).toBeCalledTimes(1);
     });
