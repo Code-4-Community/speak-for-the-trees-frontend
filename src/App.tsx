@@ -92,7 +92,6 @@ const App: React.FC = () => {
 
   const onLogout = () => {
     dispatch(logout());
-    history.go(0);
   };
 
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
