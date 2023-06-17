@@ -17,6 +17,7 @@ import UpdateSiteForm from '../forms/updateSiteForm';
 import { SiteEntriesRequest, UpdateSiteRequest } from '../forms/ducks/types';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
+import moment from 'moment';
 
 interface SiteEntryTableProps {
   readonly siteEntries: SiteEntry[];
@@ -37,7 +38,12 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
   const [editSiteEntryForm] = Form.useForm();
 
   useEffect(() => {
-    editSiteEntryForm.setFieldsValue(editEntryModalData);
+    editSiteEntryForm.setFieldsValue({
+      ...editEntryModalData,
+      plantingDate: editEntryModalData?.plantingDate
+        ? moment(editEntryModalData?.plantingDate)
+        : null,
+    });
   }, [editSiteEntryForm, editEntryModalData]);
 
   const siteEntryTableColumns = Object.values(SiteEntryFields).map(
