@@ -11,7 +11,6 @@ import TitleStack from '../../titleStack';
 import {
   SiteEntry,
   SiteEntryFields,
-  SiteEntryStatus,
 } from '../../../containers/treePage/ducks/types';
 import { stringNumberRules } from '../../../utils/formRules';
 import { CheckboxOptionType } from 'antd/es/checkbox/Group';
@@ -19,6 +18,7 @@ import { getSEFieldDisplayName } from '../../../utils/stringFormat';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
 import { site } from '../../../constants';
+import moment from 'moment';
 
 interface RadioInputProps {
   readonly name: string;
@@ -37,13 +37,13 @@ interface DateSelectorProps {
 interface UpdateSiteFormProps {
   readonly formInstance: FormInstance;
   readonly onFinish: (request: UpdateSiteRequest) => void;
-  readonly latestSiteEntry?: SiteEntry;
+  readonly initialSiteEntry?: SiteEntry;
 }
 
 const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
   formInstance,
   onFinish,
-  latestSiteEntry,
+  initialSiteEntry,
 }) => {
   const { t } = useTranslation(n(site, ['treeInfoTypes', 'forms']), {
     nsMode: 'fallback',
@@ -86,39 +86,18 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
     );
   };
 
-  const formInitialValues = {
-    treePresent: latestSiteEntry?.treePresent ?? false,
-    multistem: latestSiteEntry?.multistem ?? false,
-    discoloring: latestSiteEntry?.discoloring ?? false,
-    leaning: latestSiteEntry?.leaning ?? false,
-    constrictingGrate: latestSiteEntry?.constrictingGrate ?? false,
-    wounds: latestSiteEntry?.wounds ?? false,
-    pooling: latestSiteEntry?.pooling ?? false,
-    stakesWithWires: latestSiteEntry?.stakesWithWires ?? false,
-    stakesWithoutWires: latestSiteEntry?.stakesWithoutWires ?? false,
-    light: latestSiteEntry?.light ?? false,
-    bicycle: latestSiteEntry?.bicycle ?? false,
-    bagEmpty: latestSiteEntry?.bagEmpty ?? false,
-    bagFilled: latestSiteEntry?.bagFilled ?? false,
-    tape: latestSiteEntry?.tape ?? false,
-    suckerGrowth: latestSiteEntry?.suckerGrowth ?? false,
-    raisedBed: latestSiteEntry?.raisedBed ?? false,
-    fence: latestSiteEntry?.fence ?? false,
-    trash: latestSiteEntry?.trash ?? false,
-    wires: latestSiteEntry?.wires ?? false,
-    grate: latestSiteEntry?.grate ?? false,
-    stump: latestSiteEntry?.stump ?? false,
-    status: latestSiteEntry?.status ?? SiteEntryStatus.ALIVE,
-    plantingDate: null,
-  };
-
   return (
     <Form
       name="basic"
       form={formInstance}
       onFinish={onFinish}
       style={{ width: '100%' }}
-      initialValues={formInitialValues}
+      initialValues={{
+        ...initialSiteEntry,
+        plantingDate: initialSiteEntry?.plantingDate
+          ? moment(initialSiteEntry?.plantingDate)
+          : null,
+      }}
     >
       <Flex>
         <TitleStack

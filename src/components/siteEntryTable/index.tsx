@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SiteEntry,
   SiteEntryField,
@@ -10,10 +10,13 @@ import ProtectedClient from '../../api/protectedApiClient';
 import {
   booleanToString,
   getSEFieldDisplayName,
+  n,
 } from '../../utils/stringFormat';
 import { EditButton, StyledClose } from '../careEntry';
 import UpdateSiteForm from '../forms/updateSiteForm';
 import { SiteEntriesRequest, UpdateSiteRequest } from '../forms/ducks/types';
+import { useTranslation } from 'react-i18next';
+import { site } from '../../constants';
 
 interface SiteEntryTableProps {
   readonly siteEntries: SiteEntry[];
@@ -24,10 +27,18 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
   siteEntries,
   getSite,
 }) => {
+  const { t } = useTranslation(n(site, ['site', 'forms']), {
+    nsMode: 'fallback',
+  });
+
   const [showEditEntryModal, setShowEditEntryModal] = useState<boolean>(false);
-  const [selectedEntryId, setSelectedEntryId] = useState<number>();
+  const [editEntryModalData, setEditEntryModalData] = useState<SiteEntry>();
 
   const [editSiteEntryForm] = Form.useForm();
+
+  useEffect(() => {
+    editSiteEntryForm.setFieldsValue(editEntryModalData);
+  }, [editSiteEntryForm, editEntryModalData]);
 
   const siteEntryTableColumns = Object.values(SiteEntryFields).map(
     (field: SiteEntryField) => {
@@ -48,7 +59,7 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
               type="primary"
               onClick={() => {
                 setShowEditEntryModal(true);
-                setSelectedEntryId(record.id);
+                setEditEntryModalData(record);
               }}
             >
               <EditOutlined />
@@ -60,7 +71,7 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
   );
 
   const onSubmitEditSiteEntry = (request: UpdateSiteRequest) => {
-    if (!selectedEntryId) {
+    if (!editEntryModalData) {
       return;
     }
 
@@ -69,13 +80,15 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
       plantingDate: request.plantingDate?.format('L') || null,
     };
 
-    ProtectedClient.editSiteEntry(selectedEntryId, entries)
+    ProtectedClient.editSiteEntry(editEntryModalData.id, entries)
       .then(() => {
-        message.success('Site entry updated!').then();
+        message.success(t('edit_site_entry.success'));
         setShowEditEntryModal(false);
         getSite();
       })
-      .catch((err) => message.error(err.response.data));
+      .catch((err) =>
+        message.error(t('edit_site_entry.error', { error: err.response.data })),
+      );
   };
 
   return (
@@ -88,19 +101,20 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
       />
 
       <Modal
-        bodyStyle={{ paddingBottom: '5px' }}
-        title={'Edit site entry'}
+        title={t('edit_site_entry')}
         open={showEditEntryModal}
-        onCancel={() => setShowEditEntryModal(false)}
+        onCancel={() => {
+          setShowEditEntryModal(false);
+          editSiteEntryForm.resetFields();
+        }}
         closeIcon={<StyledClose />}
         footer={null}
+        width="80vw"
       >
         <UpdateSiteForm
-          form={editSiteEntryForm}
+          formInstance={editSiteEntryForm}
           onFinish={onSubmitEditSiteEntry}
-          latestSiteEntry={
-            selectedEntryId ? siteEntries[selectedEntryId] : undefined
-          }
+          initialSiteEntry={editEntryModalData}
         />
       </Modal>
     </>
@@ -108,8 +122,3 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
 };
 
 export default SiteEntryTable;
-
-// TODO
-// Fix typescript error
-// Test that form works correctly
-// Provide deafult values for non-radio buttons (e.g. planting date, material in pit)

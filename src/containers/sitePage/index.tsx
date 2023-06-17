@@ -158,7 +158,7 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
             <UpdateSiteForm
               formInstance={updateSiteForm}
               onFinish={onSubmitUpdateSite}
-              latestSiteEntry={
+              initialSiteEntry={
                 site.entries.length ? site.entries[0] : undefined
               }
             />

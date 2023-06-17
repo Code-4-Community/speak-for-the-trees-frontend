@@ -1,6 +1,6 @@
 {
   "main": {
-    "updatedAt": "Updated At",
+    "createdAt": "Created At",
     "status": "Status",
     "genus": "Genus",
     "species": "Species",
@@ -9,7 +9,9 @@
     "diameter": "Diameter at Breast Height (inches)"
   },
   "sftt": {
+    "owner": "Owner",
     "treePresent": "Is there a tree present?",
+    "updatedAt": "Updated At",
     "confidence": "Confidence",
     "circumference": "Circumference (inches)",
     "multistem": "Multistem?",
@@ -43,7 +45,7 @@
     "treeNotes": "Tree Notes",
     "siteNotes": "Site Notes",
     "plantingDate": "Date Planted",
-    "owner": "Owner"
+    "editEntry": "Edit Entry"
   },
   "cambridge": {
     "trunks": "Trunks",
