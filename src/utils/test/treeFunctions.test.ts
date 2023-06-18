@@ -42,6 +42,7 @@ const testProps1: SiteProps = {
   entries: [
     {
       id: 234234,
+      createdAt: 234234,
       updatedAt: 234234,
       commonName: 'White Oak',
     },
@@ -60,6 +61,7 @@ const testProps2: SiteProps = {
   entries: [
     {
       id: 243234,
+      createdAt: 546456,
       updatedAt: 546456,
       commonName: 'Pine',
     },
@@ -78,6 +80,7 @@ const testProps3: SiteProps = {
   entries: [
     {
       id: 857435,
+      createdAt: 536436,
       updatedAt: 536436,
     },
   ],

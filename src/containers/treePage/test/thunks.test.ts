@@ -67,6 +67,7 @@ describe('Tree Page Thunks', () => {
         entries: [
           {
             id: 1,
+            createdAt: 200,
             updatedAt: 200,
             status: SiteEntryStatus.ALIVE,
             species: 'tree',
@@ -76,6 +77,7 @@ describe('Tree Page Thunks', () => {
           },
           {
             id: 2,
+            createdAt: 100,
             updatedAt: 100,
             status: SiteEntryStatus.DEAD_BUT_STANDING,
             species: 'not a tree',
@@ -188,6 +190,7 @@ describe('Tree Page Thunks', () => {
         entries: [
           {
             id: 1,
+            createdAt: 200,
             updatedAt: 200,
             status: SiteEntryStatus.ALIVE,
             species: 'tree',
@@ -197,6 +200,7 @@ describe('Tree Page Thunks', () => {
           },
           {
             id: 2,
+            createdAt: 100,
             updatedAt: 100,
             status: SiteEntryStatus.DEAD,
             species: 'not a tree',

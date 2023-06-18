@@ -107,6 +107,7 @@ describe('Tree Page Selectors', () => {
     entries: [
       {
         id: 0,
+        createdAt: 200,
         updatedAt: 200,
         status: SiteEntryStatus.ALIVE,
         species: 'tree',
@@ -116,6 +117,7 @@ describe('Tree Page Selectors', () => {
       },
       {
         id: 1,
+        createdAt: 100,
         updatedAt: 100,
         status: SiteEntryStatus.DEAD,
         species: 'not a tree',
@@ -130,7 +132,7 @@ describe('Tree Page Selectors', () => {
       const expectedResponse: SplitSiteEntries = {
         main: [
           {
-            title: 'Updated At',
+            title: 'Created At',
             value: '200',
           },
           {
@@ -143,6 +145,10 @@ describe('Tree Page Selectors', () => {
           },
         ],
         extra: [
+          {
+            title: 'Updated At',
+            value: '200',
+          },
           {
             title: 'Circumference (inches)',
             value: '4',
@@ -177,7 +183,7 @@ describe('Tree Page Selectors', () => {
     it('returns main entries when request is completed', () => {
       const expectedMainResponse: Entry[] = [
         {
-          title: 'Updated At',
+          title: 'Created At',
           value: '200',
         },
         {
@@ -206,6 +212,10 @@ describe('Tree Page Selectors', () => {
 
     it('returns extra entries when request is completed', () => {
       const expectedExtraResponse: Entry[] = [
+        {
+          title: 'Updated At',
+          value: '200',
+        },
         {
           title: 'Circumference (inches)',
           value: '4',

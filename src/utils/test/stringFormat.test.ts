@@ -75,14 +75,14 @@ test('booleanToString tests', () => {
 test('compareMainEntries tests', () => {
   expect(
     compareMainEntries(
-      { title: 'Updated At', value: 'test' },
+      { title: 'Created At', value: 'test' },
       { title: 'Common Name', value: 'test' },
     ),
   ).toBe(-1);
   expect(
     compareMainEntries(
       { title: 'Common Name', value: 'test' },
-      { title: 'Updated At', value: 'test' },
+      { title: 'Created At', value: 'test' },
     ),
   ).toBe(1);
   expect(
@@ -112,7 +112,7 @@ test('compareMainEntries tests', () => {
   expect(
     compareMainEntries(
       { title: 'Fake Title', value: 'test' },
-      { title: 'Updated At', value: 'test' },
+      { title: 'Created At', value: 'test' },
     ),
   ).toBe(1);
 });
