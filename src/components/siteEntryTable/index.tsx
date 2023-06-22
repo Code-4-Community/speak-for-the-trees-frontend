@@ -12,7 +12,7 @@ import {
   getSEFieldDisplayName,
   n,
 } from '../../utils/stringFormat';
-import { EditButton, StyledClose } from '../careEntry';
+import { EditButton, StyledClose } from '../themedComponents';
 import UpdateSiteForm from '../forms/updateSiteForm';
 import { SiteEntriesRequest, UpdateSiteRequest } from '../forms/ducks/types';
 import { useTranslation } from 'react-i18next';
