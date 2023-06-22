@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   SiteEntry,
   SiteEntryField,
@@ -37,15 +37,6 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
 
   const [editSiteEntryForm] = Form.useForm();
 
-  useEffect(() => {
-    editSiteEntryForm.setFieldsValue({
-      ...editEntryModalData,
-      plantingDate: editEntryModalData?.plantingDate
-        ? moment(editEntryModalData?.plantingDate)
-        : null,
-    });
-  }, [editSiteEntryForm, editEntryModalData]);
-
   const siteEntryTableColumns = Object.values(SiteEntryFields).map(
     (field: SiteEntryField) => {
       return {
@@ -66,6 +57,13 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
               onClick={() => {
                 setShowEditEntryModal(true);
                 setEditEntryModalData(record);
+
+                editSiteEntryForm.setFieldsValue({
+                  ...record,
+                  plantingDate: record?.plantingDate
+                    ? moment(record?.plantingDate)
+                    : null,
+                });
               }}
             >
               <EditOutlined />
