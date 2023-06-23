@@ -67,6 +67,6 @@ All our pages and components are first designed by our amazing designers in Figm
 
 ## Contributing :handshake:
 
-Pull requests from any C4C member are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Pull requests from any C4C members are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
