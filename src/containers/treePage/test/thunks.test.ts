@@ -42,6 +42,7 @@ describe('Tree Page Thunks', () => {
             mulched: true,
             cleaned: false,
             weeded: true,
+            installedWateringBag: false,
           },
           {
             id: 1,
@@ -51,6 +52,7 @@ describe('Tree Page Thunks', () => {
             mulched: false,
             cleaned: true,
             weeded: false,
+            installedWateringBag: false,
           },
         ],
       };
@@ -126,6 +128,7 @@ describe('Tree Page Thunks', () => {
             mulched: true,
             cleaned: false,
             weeded: true,
+            installedWateringBag: false,
           },
           {
             id: 1,
@@ -135,6 +138,7 @@ describe('Tree Page Thunks', () => {
             mulched: false,
             cleaned: true,
             weeded: false,
+            installedWateringBag: false,
           },
         ],
       };

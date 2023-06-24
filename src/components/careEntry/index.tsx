@@ -118,6 +118,9 @@ const CareEntry: React.FC<CareEntryProps> = ({ activity }) => {
       weeded: values.stewardshipActivities.includes(
         t('stewardship.activities.weeded'),
       ),
+      installedWateringBag: values.stewardshipActivities.includes(
+        t('stewardship.activities.installedWateringBag'),
+      ),
     };
     protectedApiClient
       .editStewardship(activity.activityId, activities)

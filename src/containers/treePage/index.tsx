@@ -157,6 +157,9 @@ const TreePage: React.FC<TreeProps> = ({
       weeded: values.stewardshipActivities.includes(
         t('stewardship.activities.weeded'),
       ),
+      installedWateringBag: values.stewardshipActivities.includes(
+        t('stewardship.activities.installedWateringBag'),
+      ),
     };
     protectedApiClient
       .recordStewardship(id, activities)

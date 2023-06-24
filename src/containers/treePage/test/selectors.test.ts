@@ -36,6 +36,7 @@ describe('Tree Page Selectors', () => {
           mulched: true,
           cleaned: false,
           weeded: true,
+          installedWateringBag: false,
         },
         {
           id: 1,
@@ -45,6 +46,7 @@ describe('Tree Page Selectors', () => {
           mulched: false,
           cleaned: true,
           weeded: false,
+          installedWateringBag: true,
         },
       ],
     };
@@ -65,7 +67,7 @@ describe('Tree Page Selectors', () => {
           day: '23rd',
           month: 'Feb',
           year: 2021,
-          message: 'Was cleared of waste.',
+          message: 'Was cleared of waste and provided a watering bag.',
         },
       ];
 
@@ -307,6 +309,7 @@ describe('Tree Page Selectors', () => {
             mulched: true,
             cleaned: false,
             weeded: true,
+            installedWateringBag: false,
           },
           {
             id: 1,
@@ -316,6 +319,7 @@ describe('Tree Page Selectors', () => {
             mulched: false,
             cleaned: false,
             weeded: false,
+            installedWateringBag: false,
           },
           {
             id: 2,
@@ -325,6 +329,7 @@ describe('Tree Page Selectors', () => {
             mulched: true,
             cleaned: false,
             weeded: true,
+            installedWateringBag: false,
           },
         ],
       };
@@ -367,6 +372,7 @@ describe('Tree Page Selectors', () => {
             mulched: true,
             cleaned: false,
             weeded: true,
+            installedWateringBag: false,
           },
           {
             id: 1,
@@ -376,6 +382,7 @@ describe('Tree Page Selectors', () => {
             mulched: false,
             cleaned: false,
             weeded: false,
+            installedWateringBag: false,
           },
           {
             id: 2,
@@ -385,6 +392,7 @@ describe('Tree Page Selectors', () => {
             mulched: true,
             cleaned: false,
             weeded: true,
+            installedWateringBag: false,
           },
           {
             id: 3,
@@ -394,6 +402,7 @@ describe('Tree Page Selectors', () => {
             mulched: true,
             cleaned: false,
             weeded: false,
+            installedWateringBag: false,
           },
         ],
       };

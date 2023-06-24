@@ -46,6 +46,7 @@ describe('Tree Page Reducer', () => {
             mulched: false,
             cleaned: false,
             weeded: true,
+            installedWateringBag: false,
           },
           {
             id: 1,
@@ -55,6 +56,7 @@ describe('Tree Page Reducer', () => {
             mulched: true,
             cleaned: true,
             weeded: false,
+            installedWateringBag: false,
           },
         ],
       };

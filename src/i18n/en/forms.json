@@ -112,7 +112,8 @@
       "watered": "Watered",
       "mulched": "Mulched",
       "weeded": "Weeded",
-      "cleaned": "Cleared Waste & Litter"
+      "cleaned": "Cleared Waste & Litter",
+      "installedWateringBag": "Installed Watering Bag"
     },
     "date_label": "Activity Date",
     "activity_label": "Stewardship Activities"

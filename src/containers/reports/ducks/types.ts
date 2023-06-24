@@ -26,6 +26,7 @@ export interface StewardshipReportEntry {
   readonly mulched: boolean;
   readonly cleaned: boolean;
   readonly weeded: boolean;
+  readonly installedWateringBag: boolean;
   readonly neighborhood: string;
 }
 
@@ -46,4 +47,5 @@ export const STEWARDSHIP_REPORT_ACTIVITY_KEYS: StewardshipReportKey[] = [
   'mulched',
   'cleaned',
   'weeded',
+  'installedWateringBag',
 ];

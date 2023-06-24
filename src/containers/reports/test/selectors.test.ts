@@ -88,6 +88,7 @@ describe('Reports Selectors', () => {
             mulched: false,
             cleaned: false,
             weeded: false,
+            installedWateringBag: false,
             neighborhood: '',
           },
           {
@@ -100,6 +101,7 @@ describe('Reports Selectors', () => {
             mulched: false,
             cleaned: false,
             weeded: false,
+            installedWateringBag: false,
             neighborhood: '',
           },
           {
@@ -112,6 +114,7 @@ describe('Reports Selectors', () => {
             mulched: false,
             cleaned: true,
             weeded: false,
+            installedWateringBag: true,
             neighborhood: '',
           },
           {
@@ -124,6 +127,7 @@ describe('Reports Selectors', () => {
             mulched: true,
             cleaned: true,
             weeded: true,
+            installedWateringBag: false,
             neighborhood: '',
           },
         ],
@@ -157,7 +161,7 @@ describe('Reports Selectors', () => {
           name: '',
           email: '',
           datePerformed: new Date(2023, 3, 29),
-          activitiesPerformed: ['cleaned'],
+          activitiesPerformed: ['cleaned', 'installedWateringBag'],
           neighborhood: '',
         },
         {
