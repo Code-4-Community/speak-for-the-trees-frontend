@@ -194,6 +194,10 @@ export function generateTreeCareMessage(item: Activity): string {
     activityStrings.push(t('activity_message.watered', { ns: 'careEntry' }));
   if (item.weeded)
     activityStrings.push(t('activity_message.weeded', { ns: 'careEntry' }));
+  if (item.installedWateringBag)
+    activityStrings.push(
+      t('activity_message.installedWateringBag', { ns: 'careEntry' }),
+    );
 
   const numberOfActivities = activityStrings.length;
   const prefix = t('activity_message.prefix', { ns: 'careEntry' });

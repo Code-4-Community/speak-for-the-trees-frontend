@@ -39,6 +39,7 @@ const StewardshipForm: React.FC<StewardshipFormProps> = ({
     t('stewardship.activities.mulched'),
     t('stewardship.activities.weeded'),
     t('stewardship.activities.cleaned'),
+    t('stewardship.activities.installedWateringBag'),
   ];
 
   const disabledDate = (current: moment.Moment): boolean => {

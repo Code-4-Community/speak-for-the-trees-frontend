@@ -262,6 +262,7 @@ export interface Activity {
   mulched: boolean;
   cleaned: boolean;
   weeded: boolean;
+  installedWateringBag: boolean;
 }
 
 export interface ActivityRequest extends Activity {

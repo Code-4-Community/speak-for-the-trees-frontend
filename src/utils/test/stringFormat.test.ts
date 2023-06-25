@@ -193,14 +193,18 @@ test('generateTreeCareMessage tests', () => {
       mulched: true,
       watered: true,
       weeded: true,
+      installedWateringBag: true,
     }),
-  ).toBe('Was cleared of waste, mulched, watered, and weeded.');
+  ).toBe(
+    'Was cleared of waste, mulched, watered, weeded, and provided a watering bag.',
+  );
   expect(
     generateTreeCareMessage({
       cleaned: false,
       mulched: true,
       watered: true,
       weeded: true,
+      installedWateringBag: false,
     }),
   ).toBe('Was mulched, watered, and weeded.');
   expect(
@@ -209,6 +213,7 @@ test('generateTreeCareMessage tests', () => {
       mulched: false,
       watered: false,
       weeded: true,
+      installedWateringBag: false,
     }),
   ).toBe('Was cleared of waste and weeded.');
   expect(
@@ -217,6 +222,7 @@ test('generateTreeCareMessage tests', () => {
       mulched: true,
       watered: true,
       weeded: false,
+      installedWateringBag: false,
     }),
   ).toBe('Was mulched and watered.');
   expect(
@@ -225,6 +231,7 @@ test('generateTreeCareMessage tests', () => {
       mulched: false,
       watered: false,
       weeded: false,
+      installedWateringBag: false,
     }),
   ).toBe('Was cleared of waste.');
   expect(() => {
@@ -233,6 +240,7 @@ test('generateTreeCareMessage tests', () => {
       mulched: false,
       watered: false,
       weeded: false,
+      installedWateringBag: false,
     });
   }).toThrowError(new Error('At least one activity must be true'));
 });

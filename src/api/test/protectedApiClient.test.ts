@@ -1347,6 +1347,7 @@ describe('Protected API Client Tests', () => {
           mulched: false,
           cleaned: true,
           weeded: false,
+          installedWateringBag: false,
         });
 
         expect(result).toEqual(response);
@@ -1365,6 +1366,7 @@ describe('Protected API Client Tests', () => {
           mulched: false,
           cleaned: false,
           weeded: false,
+          installedWateringBag: false,
         }).catch((err) => err.response.data);
 
         expect(result).toEqual(response);
@@ -1385,6 +1387,7 @@ describe('Protected API Client Tests', () => {
           mulched: false,
           cleaned: true,
           weeded: false,
+          installedWateringBag: false,
         });
 
         expect(result).toEqual(response);
@@ -1403,6 +1406,7 @@ describe('Protected API Client Tests', () => {
           mulched: false,
           cleaned: false,
           weeded: false,
+          installedWateringBag: false,
         }).catch((err) => err.response.data);
 
         expect(result).toEqual(response);
@@ -1421,6 +1425,7 @@ describe('Protected API Client Tests', () => {
           mulched: false,
           cleaned: true,
           weeded: false,
+          installedWateringBag: false,
         }).catch((err) => err.response.data);
 
         expect(result).toEqual(response);
