@@ -9,6 +9,7 @@ import {
   Typography,
 } from 'antd';
 import { FormItemProps } from 'antd/es/form';
+import { CloseOutlined } from '@ant-design/icons';
 import {
   BLACK,
   LIGHT_GREY,
@@ -17,6 +18,8 @@ import {
   LIGHT_GREEN,
   DARK_GREEN,
   DARK_GREY,
+  RED,
+  PINK,
 } from '../../utils/colors';
 import { LinkButton } from '../linkButton';
 import { BREAKPOINT_TABLET } from '../windowDimensions';
@@ -241,4 +244,21 @@ export const StyledSubtitle = styled(Typography.Paragraph)`
     props.isMobile ? '-20px' : '-40px'};
   color: ${(props: StyledSubtitleProps) =>
     props.subtitlecolor || { DARK_GREY }};
+`;
+
+export const EditButton = styled(Button)`
+  color: ${WHITE};
+  font-size: 20px;
+  padding: 0px 10px;
+  line-height: 0px;
+`;
+
+export const StyledClose = styled(CloseOutlined)`
+  color: ${RED};
+  padding: 5px;
+  border-radius: 3px;
+
+  & :hover {
+    background-color: ${PINK};
+  }
 `;

@@ -151,14 +151,14 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
           </Flex>
 
           <SectionHeader strong>{t('header.site_entries')}</SectionHeader>
-          <SiteEntryTable siteEntries={site.entries} />
+          <SiteEntryTable siteEntries={site.entries} getSite={getSite} />
 
           <SectionHeader>{t('header.add_entry')}</SectionHeader>
           <MarginBottomRow>
             <UpdateSiteForm
               formInstance={updateSiteForm}
               onFinish={onSubmitUpdateSite}
-              latestSiteEntry={
+              initialSiteEntry={
                 site.entries.length ? site.entries[0] : undefined
               }
             />

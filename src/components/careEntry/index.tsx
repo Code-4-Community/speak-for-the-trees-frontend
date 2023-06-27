@@ -7,14 +7,13 @@ import {
   LIGHT_RED,
   LIGHT_GREY,
   WHITE,
-  RED,
-  PINK,
 } from '../../utils/colors';
 import { treeCareToMoment } from '../../utils/treeFunctions';
-import { EditOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdmin, getUserID } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
+import { EditButton, StyledClose } from '../themedComponents';
 import StewardshipForm from '../forms/stewardshipForm';
 import { LinkButton } from '../linkButton';
 import { useParams } from 'react-router-dom';
@@ -46,23 +45,6 @@ const EntryMessage = styled(Typography.Paragraph)`
   text-align: center;
   line-height: 0px;
   color: ${TEXT_GREY};
-`;
-
-const EditButton = styled(Button)`
-  color: ${WHITE};
-  font-size: 20px;
-  padding: 0px 10px;
-  line-height: 0px;
-`;
-
-const StyledClose = styled(CloseOutlined)`
-  color: ${RED};
-  padding: 5px;
-  border-radius: 3px;
-
-  & :hover {
-    background-color: ${PINK};
-  }
 `;
 
 const DeleteActivityButton = styled(LinkButton)`

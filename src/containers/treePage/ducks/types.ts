@@ -23,6 +23,7 @@ export interface SiteProps {
 }
 
 export enum UneditableSiteEntryFields {
+  CREATED_AT = 'createdAt',
   UPDATED_AT = 'updatedAt',
 }
 
@@ -68,16 +69,24 @@ export enum EditableSiteEntryFields {
   PLANTING_DATE = 'plantingDate',
 }
 
+enum EditEntryField {
+  EDIT_ENTRY = 'editEntry',
+}
+
 export type SiteEntryField =
   | UneditableSiteEntryFields
-  | EditableSiteEntryFields;
+  | EditableSiteEntryFields
+  | EditEntryField;
+
 export const SiteEntryFields = {
+  ...EditEntryField,
   ...UneditableSiteEntryFields,
   ...EditableSiteEntryFields,
 };
 
 export interface SiteEntry {
   id: number;
+  createdAt: number;
   updatedAt: number;
   status?: SiteEntryStatus;
   genus?: string;
@@ -134,7 +143,7 @@ export interface SplitSiteEntries {
 }
 
 export const MainSiteEntryNames: Record<string, string> = {
-  updatedAt: t('main.updatedAt', { ns: 'treeInfoTypes' }),
+  createdAt: t('main.createdAt', { ns: 'treeInfoTypes' }),
   status: t('main.status', { ns: 'treeInfoTypes' }),
   genus: t('main.genus', { ns: 'treeInfoTypes' }),
   species: t('main.species', { ns: 'treeInfoTypes' }),
@@ -143,7 +152,7 @@ export const MainSiteEntryNames: Record<string, string> = {
 };
 
 export const MainSiteEntryOrder: Record<string, number> = {
-  [t('main.updatedAt', { ns: 'treeInfoTypes' })]: 1,
+  [t('main.createdAt', { ns: 'treeInfoTypes' })]: 1,
   [t('main.commonName', { ns: 'treeInfoTypes' })]: 2,
   [t('main.genus', { ns: 'treeInfoTypes' })]: 3,
   [t('main.species', { ns: 'treeInfoTypes' })]: 4,
@@ -155,6 +164,7 @@ export const MainSiteEntryOrder: Record<string, number> = {
 export const ExtraSiteEntryNames: Record<string, string> = {
   // SFTT
   treePresent: t('sftt.treePresent', { ns: 'treeInfoTypes' }),
+  updatedAt: t('sftt.updatedAt', { ns: 'treeInfoTypes' }),
   confidence: t('sftt.confidence', { ns: 'treeInfoTypes' }),
   circumference: t('sftt.circumference', { ns: 'treeInfoTypes' }),
   multistem: t('sftt.multistem', { ns: 'treeInfoTypes' }),
@@ -188,6 +198,7 @@ export const ExtraSiteEntryNames: Record<string, string> = {
   treeNotes: t('sftt.treeNotes', { ns: 'treeInfoTypes' }),
   siteNotes: t('sftt.siteNotes', { ns: 'treeInfoTypes' }),
   plantingDate: t('sftt.plantingDate', { ns: 'treeInfoTypes' }),
+  editEntry: t('sftt.editEntry', { ns: 'treeInfoTypes' }),
   // CAMBRIDGE
   trunks: t('cambridge.trunks', { ns: 'treeInfoTypes' }),
   speciesShort: t('cambridge.speciesShort', { ns: 'treeInfoTypes' }),

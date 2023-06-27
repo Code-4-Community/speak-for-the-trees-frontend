@@ -31,6 +31,7 @@ describe('Tree Page Reducer', () => {
         entries: [
           {
             id: 0,
+            createdAt: 100000,
             updatedAt: 100000,
           },
         ],

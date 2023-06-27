@@ -75,6 +75,10 @@
     "user_email": "User Email",
     "new_role": "New Role"
   },
+  "edit_site_entry": {
+    "success": "Site entry updated!",
+    "error": "Could not update site entry: {{error}}"
+  },
   "validation": {
     "email_required": "Please input your email!",
     "email_invalid": "Not a valid email address",
