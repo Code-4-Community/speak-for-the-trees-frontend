@@ -5,6 +5,9 @@ import { treeNameRules } from '../../../utils/formRules';
 import { NameSiteEntryRequest } from '../ducks/types';
 import { GreenButton, WhiteButton } from '../../themedComponents';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+import { site } from '../../../constants';
+import { n } from '../../../utils/stringFormat';
 
 interface StyledButtonProps {
   readonly isMobile?: boolean;
@@ -21,6 +24,7 @@ const StyledForm = styled(Form)`
   margin-top: ${(props: StyledButtonProps) =>
     props.isMobile ? '-20px' : '-30px'};
   margin-bottom: 20px;
+  text-transform: none;
 `;
 
 const SubmitButton = styled(GreenButton)`
@@ -43,6 +47,10 @@ const EditTreeNameForm: React.FC<EditTreeNameFormProps> = ({
   onSubmitNameChange,
   onCancelNameChange,
 }) => {
+  const { t } = useTranslation(n(site, ['forms']), {
+    nsMode: 'fallback',
+  });
+
   return (
     <StyledForm
       name="edit-tree-name"
@@ -51,14 +59,17 @@ const EditTreeNameForm: React.FC<EditTreeNameFormProps> = ({
       size={isMobile ? 'small' : 'middle'}
     >
       <Form.Item name="name" rules={treeNameRules}>
-        <Input placeholder="Enter tree name" defaultValue={treeName} />
+        <Input
+          placeholder={t('name_form.placeholder')}
+          defaultValue={treeName}
+        />
       </Form.Item>
       <Form.Item>
         <SubmitButton isMobile={isMobile} onClick={onSubmitNameChange}>
-          Change Name
+          {t('name_form.submit')}
         </SubmitButton>
         <CancelButton isMobile={isMobile} onClick={onCancelNameChange}>
-          Cancel
+          {t('cancel')}
         </CancelButton>
       </Form.Item>
     </StyledForm>

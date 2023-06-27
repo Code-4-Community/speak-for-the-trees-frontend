@@ -11,7 +11,8 @@ import LinkCard, {
 } from '../../components/linkCard';
 import LinkCarousel from '../../components/linkCarousel';
 import HomeBackground from '../../assets/images/grey-logo.png';
-import { Routes, site } from '../../App';
+import { Routes } from '../../App';
+import { site } from '../../constants';
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
@@ -43,7 +44,7 @@ const Home: React.FC = () => {
   const userName = useSelector((state: C4CState) =>
     getUserFirstName(state.authenticationState.userData),
   );
-  const greeting = `${t('title')}${userName}!`;
+  const greeting = t('title', { name: userName });
 
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
     isAdmin(state.authenticationState.tokens),

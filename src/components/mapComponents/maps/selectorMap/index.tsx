@@ -5,7 +5,7 @@ import {
   ReturnMapData,
   SiteGeoData,
 } from '../../ducks/types';
-import { BOSTON, STREET_ZOOM } from '../../constants';
+import { DEFAULT_CENTER, STREET_ZOOM } from '../../constants';
 
 import { BasicTreeInfo, NO_SITE_SELECTED } from '../../../treePopup';
 import MapWithPopup from '../mapWithPopup';
@@ -19,6 +19,7 @@ interface SelectorMapProps {
   readonly sites: SiteGeoData;
   readonly onMove: (pos: google.maps.LatLng) => void;
   readonly site?: SiteProps;
+  readonly setMarker: (marker: google.maps.Marker) => void;
 }
 
 const SelectorMap: React.FC<SelectorMapProps> = ({
@@ -26,6 +27,7 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
   sites,
   onMove,
   site,
+  setMarker,
 }) => {
   const defaultZoom = STREET_ZOOM;
 
@@ -33,7 +35,7 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
 
   const defaultCenter: google.maps.LatLngLiteral = site
     ? { lat: site.lat, lng: site.lng }
-    : BOSTON;
+    : DEFAULT_CENTER;
 
   // BasicTreeInfo to display in tree popup
   const basicSite: BasicTreeInfo = {
@@ -51,6 +53,8 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
       draggable: true,
       position: new google.maps.LatLng(defaultCenter.lat, defaultCenter.lng),
     });
+
+    setMarker(searchMarker);
 
     google.maps.event.addListener(searchMarker, 'dragend', () => {
       const latLng = searchMarker.getPosition();

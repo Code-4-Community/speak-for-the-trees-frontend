@@ -2,6 +2,7 @@ import { CheckboxOptionType } from 'antd/lib/checkbox/Group';
 import moment from 'moment';
 import { PrivilegeLevel, SignupRequest } from '../../../auth/ducks/types';
 import { SiteEntryStatus } from '../../../containers/treePage/ducks/types';
+import { SiteOwner } from '../../mapComponents/constants';
 
 export const BOOL_RADIO_OPTS: CheckboxOptionType[] = [
   { label: 'Yes', value: true },
@@ -61,6 +62,7 @@ export interface EditSiteRequest {
   readonly lat: number;
   readonly lng: number;
   readonly neighborhoodId: number;
+  readonly owner: SiteOwner;
 }
 
 export interface UpdateSiteRequest {
@@ -102,6 +104,12 @@ export interface UpdateSiteRequest {
   readonly stump: boolean | null;
   readonly treeNotes: string | null;
   readonly siteNotes: string | null;
+  readonly plantingDate: moment.Moment | null;
+}
+
+export interface SiteEntriesRequest
+  extends Omit<UpdateSiteRequest, 'plantingDate'> {
+  readonly plantingDate: string | null;
 }
 
 export interface AddSiteRequest extends UpdateSiteRequest, EditSiteRequest {}
@@ -112,4 +120,13 @@ export interface AddSitesRequest {
 
 export interface NameSiteEntryRequest {
   readonly name: string;
+}
+
+export interface SendEmailFormValues {
+  readonly emailSubject: string;
+  readonly emailBody: string;
+}
+
+export interface SendEmailRequest extends SendEmailFormValues {
+  readonly emails: string[];
 }

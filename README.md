@@ -1,4 +1,4 @@
-# Speak for the Trees Frontend 
+# Speak for the Trees Frontend
 
 [![Coverage Status](https://coveralls.io/repos/github/Code-4-Community/speak-for-the-trees-frontend/badge.svg?branch=master)](https://coveralls.io/github/Code-4-Community/speak-for-the-trees-frontend?branch=master)
 
@@ -34,7 +34,7 @@ This command is useful to check that your branch will pass all the CI checks and
 ### `npm run lint-fix`
 
 To lint and fix your files. \
-This is an easy fix for any lint errors you might encounter. 
+This is an easy fix for any lint errors you might encounter.
 
 ### `npm run prettier-fix`
 
@@ -52,6 +52,7 @@ Runs all unit tests. \
 Also run with `npm run check`, but useful if you only want to run the unit tests.
 
 ## Code Walkthrough :computer:
+
 Inside the source folder, you'll find components, containers (pages), and utilities.
 
 Each page has its own container, and each container is comprised of components.
@@ -61,9 +62,11 @@ Each page has its own container, and each container is comprised of components.
 We use styled-components as our CSS-in-JS solution in combination with Ant.D components.
 
 ## Designs :pencil2:
+
 All our pages and components are first designed by our amazing designers in Figma. To see the designs for the Speak for the Trees frontend please go [here](https://www.figma.com/file/vHbwUbyS0AZIuUBUNeJ6Pi/SFTT-2020-2021). You need permission to view this file, which you can request in the SFTT Slack channel.
 
 ## Contributing :handshake:
-Pull requests from any C4C member are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Pull requests from any C4C members are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.

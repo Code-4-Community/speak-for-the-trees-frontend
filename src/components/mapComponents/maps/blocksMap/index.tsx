@@ -8,7 +8,7 @@ import {
   ReturnMapData,
 } from '../../ducks/types';
 import { NO_SITE_SELECTED } from '../../../treePopup';
-import { BOSTON } from '../../constants';
+import { DEFAULT_CENTER } from '../../constants';
 import { initBlockView } from '../../logic/init';
 import { MapStateProps, Routes } from '../../../../App';
 import MapWithPopup from '../mapWithPopup';
@@ -30,7 +30,7 @@ const BlocksMap: React.FC<BlocksMapProps> = ({
   const location = useLocation<MapStateProps>();
 
   let defaultZoom = 12;
-  let defaultCenter = BOSTON;
+  let defaultCenter = DEFAULT_CENTER;
   if (location.state) {
     defaultZoom = location.state.zoom;
     defaultCenter = { lat: location.state.lat, lng: location.state.lng };

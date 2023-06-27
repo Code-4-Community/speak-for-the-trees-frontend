@@ -1,6 +1,6 @@
 import { BlockGeoData, NeighborhoodGeoData, SiteGeoData } from '../types';
 import { getMapGeoData } from '../thunks';
-import { blockGeoData, neighborhoodGeoData, siteGeoData } from '../actions';
+import { neighborhoodGeoData, siteGeoData } from '../actions';
 import { C4CState, initialStoreState, ThunkExtraArgs } from '../../../../store';
 import authClient from '../../../../auth/authClient';
 import apiClient from '../../../../api/apiClient';
@@ -112,20 +112,21 @@ describe('Map Thunks', () => {
 
       await getMapGeoData()(mockDispatch, getState, mockExtraArgs);
 
-      expect(mockDispatch).toHaveBeenCalledTimes(6);
+      expect(mockDispatch).toHaveBeenCalledTimes(4);
+      // TODO: remove these tests when doing final code cleanups
+      // expect(mockDispatch).toHaveBeenNthCalledWith(
+      //   4,
+      //   blockGeoData.loaded(mockBlockDataResponse),
+      // );
       expect(mockDispatch).toHaveBeenNthCalledWith(
-        4,
-        blockGeoData.loaded(mockBlockDataResponse),
-      );
-      expect(mockDispatch).toHaveBeenNthCalledWith(
-        5,
+        3,
         neighborhoodGeoData.loaded(mockNeighborhoodDataResponse),
       );
       expect(mockDispatch).toHaveBeenNthCalledWith(
-        6,
+        4,
         siteGeoData.loaded(mockSiteDataResponse),
       );
-      expect(mockGetBlockGeoData).toBeCalledTimes(1);
+      // expect(mockGetBlockGeoData).toBeCalledTimes(1);
       expect(mockGetNeighborhoodGeoData).toBeCalledTimes(1);
       expect(mockGetSiteGeoData).toBeCalledTimes(1);
     });
@@ -157,20 +158,20 @@ describe('Map Thunks', () => {
 
       await getMapGeoData()(mockDispatch, getState, mockExtraArgs);
 
-      expect(mockDispatch).toHaveBeenCalledTimes(6);
+      expect(mockDispatch).toHaveBeenCalledTimes(4);
+      // expect(mockDispatch).toHaveBeenNthCalledWith(
+      //   4,
+      //   blockGeoData.failed(mockAPIError),
+      // );
       expect(mockDispatch).toHaveBeenNthCalledWith(
-        4,
-        blockGeoData.failed(mockAPIError),
-      );
-      expect(mockDispatch).toHaveBeenNthCalledWith(
-        5,
+        3,
         neighborhoodGeoData.failed(mockAPIError),
       );
       expect(mockDispatch).toHaveBeenNthCalledWith(
-        6,
+        4,
         siteGeoData.failed(mockAPIError),
       );
-      expect(mockGetBlockGeoData).toBeCalledTimes(1);
+      // expect(mockGetBlockGeoData).toBeCalledTimes(1);
       expect(mockGetNeighborhoodGeoData).toBeCalledTimes(1);
       expect(mockGetSiteGeoData).toBeCalledTimes(1);
     });

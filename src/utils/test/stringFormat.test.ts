@@ -11,13 +11,14 @@ import {
   n,
   parseLatLng,
   generateTreeCareMessage,
+  formatActivityCountRange,
 } from '../stringFormat';
 import { getDateString } from '../stringFormat';
 import { shortHand } from '../stringFormat';
 import { SHORT_HAND_NAMES } from '../../assets/content';
 import { Entry, SiteEntryFields } from '../../containers/treePage/ducks/types';
 import { AppError } from '../../auth/axios';
-import { Websites } from '../../App';
+import { Websites } from '../../constants';
 
 test('getMoneyString tests', () => {
   expect(getMoneyString(100000)).toBe('$100,000');
@@ -74,14 +75,14 @@ test('booleanToString tests', () => {
 test('compareMainEntries tests', () => {
   expect(
     compareMainEntries(
-      { title: 'Updated At', value: 'test' },
+      { title: 'Created At', value: 'test' },
       { title: 'Common Name', value: 'test' },
     ),
   ).toBe(-1);
   expect(
     compareMainEntries(
       { title: 'Common Name', value: 'test' },
-      { title: 'Updated At', value: 'test' },
+      { title: 'Created At', value: 'test' },
     ),
   ).toBe(1);
   expect(
@@ -111,7 +112,7 @@ test('compareMainEntries tests', () => {
   expect(
     compareMainEntries(
       { title: 'Fake Title', value: 'test' },
-      { title: 'Updated At', value: 'test' },
+      { title: 'Created At', value: 'test' },
     ),
   ).toBe(1);
 });
@@ -192,14 +193,18 @@ test('generateTreeCareMessage tests', () => {
       mulched: true,
       watered: true,
       weeded: true,
+      installedWateringBag: true,
     }),
-  ).toBe('Was cleared of waste, mulched, watered, and weeded.');
+  ).toBe(
+    'Was cleared of waste, mulched, watered, weeded, and provided a watering bag.',
+  );
   expect(
     generateTreeCareMessage({
       cleaned: false,
       mulched: true,
       watered: true,
       weeded: true,
+      installedWateringBag: false,
     }),
   ).toBe('Was mulched, watered, and weeded.');
   expect(
@@ -208,6 +213,7 @@ test('generateTreeCareMessage tests', () => {
       mulched: false,
       watered: false,
       weeded: true,
+      installedWateringBag: false,
     }),
   ).toBe('Was cleared of waste and weeded.');
   expect(
@@ -216,6 +222,7 @@ test('generateTreeCareMessage tests', () => {
       mulched: true,
       watered: true,
       weeded: false,
+      installedWateringBag: false,
     }),
   ).toBe('Was mulched and watered.');
   expect(
@@ -224,6 +231,7 @@ test('generateTreeCareMessage tests', () => {
       mulched: false,
       watered: false,
       weeded: false,
+      installedWateringBag: false,
     }),
   ).toBe('Was cleared of waste.');
   expect(() => {
@@ -232,8 +240,16 @@ test('generateTreeCareMessage tests', () => {
       mulched: false,
       watered: false,
       weeded: false,
+      installedWateringBag: false,
     });
   }).toThrowError(new Error('At least one activity must be true'));
+});
+
+test('activity date format tests', () => {
+  expect(formatActivityCountRange(1, 5, 10)).toBe('1 - 5');
+  expect(formatActivityCountRange(3, 3, 10)).toBe('3');
+  expect(formatActivityCountRange(3, null, 10)).toBe('3 - 10+');
+  expect(formatActivityCountRange(0, 0, 10)).toBe('0');
 });
 
 test('n tests', () => {
@@ -242,9 +258,9 @@ test('n tests', () => {
     'notFound',
     'landing',
   ]);
-  expect(n(Websites.CAMBRiDGE, 'login')).toEqual(['cambridgeLogin', 'login']);
+  expect(n(Websites.CAMBRIDGE, 'login')).toEqual(['cambridgeLogin', 'login']);
   expect(
-    n(Websites.CAMBRiDGE, ['signUp', 'forgotPasswordReset', 'fallback']),
+    n(Websites.CAMBRIDGE, ['signUp', 'forgotPasswordReset', 'fallback']),
   ).toEqual([
     'cambridgeSignUp',
     'cambridgeForgotPasswordReset',

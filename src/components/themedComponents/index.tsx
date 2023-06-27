@@ -9,6 +9,7 @@ import {
   Typography,
 } from 'antd';
 import { FormItemProps } from 'antd/es/form';
+import { CloseOutlined } from '@ant-design/icons';
 import {
   BLACK,
   LIGHT_GREY,
@@ -17,6 +18,8 @@ import {
   LIGHT_GREEN,
   DARK_GREEN,
   DARK_GREY,
+  RED,
+  PINK,
 } from '../../utils/colors';
 import { LinkButton } from '../linkButton';
 import { BREAKPOINT_TABLET } from '../windowDimensions';
@@ -93,12 +96,6 @@ export const FullWidthSpace = styled(Space)`
   width: 100%;
 `;
 
-export const SubmitButton = styled(Button)`
-  min-width: 96px;
-  height: 40px;
-  font-size: 16px;
-`;
-
 export const GreenButton = styled(Button)`
   margin-top: 10px;
   background: ${LIGHT_GREEN};
@@ -106,6 +103,11 @@ export const GreenButton = styled(Button)`
   color: ${WHITE};
   font-size: 16px;
   height: 36px;
+`;
+
+export const SubmitButton = styled(GreenButton)`
+  min-width: 96px;
+  height: 40px;
 `;
 
 export const WhiteButton = styled(Button)`
@@ -129,6 +131,13 @@ export const GreenLinkButton = styled(LinkButton)`
   background-color: ${LIGHT_GREEN};
   border-color: ${LIGHT_GREEN};
   color: ${WHITE};
+`;
+
+export const MenuLinkButton = styled(LinkButton)`
+  padding-left: 0;
+  margin-top: 0;
+  width: 100%;
+  text-align: left;
 `;
 
 export const MainContent = styled.div`
@@ -157,14 +166,21 @@ export interface FlexProps {
   margin?: string;
   gap?: string;
   justifyContent?: string;
+  padding?: string;
+  flexDirection?: string;
+  alignItems?: string;
+  width?: string;
 }
 
 export const Flex = styled.div`
   margin: ${({ margin }: FlexProps) => (margin ? margin : '0')};
-  width: 100%;
+  padding: ${({ padding }: FlexProps) => padding ?? '0'};
+  flex-direction: ${({ flexDirection }: FlexProps) => flexDirection ?? 'row'};
+  width: ${({ width }: FlexProps) => width ?? '100%'};
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
+  align-items: ${({ alignItems }: FlexProps) => alignItems ?? 'normal'};
   gap: ${({ gap }: FlexProps) => (gap ? gap : '50px')};
   justify-content: ${({ justifyContent }: FlexProps) =>
     justifyContent ? justifyContent : 'flex-start'};
@@ -230,4 +246,21 @@ export const StyledSubtitle = styled(Typography.Paragraph)`
     props.isMobile ? '-20px' : '-40px'};
   color: ${(props: StyledSubtitleProps) =>
     props.subtitlecolor || { DARK_GREY }};
+`;
+
+export const EditButton = styled(Button)`
+  color: ${WHITE};
+  font-size: 20px;
+  padding: 0px 10px;
+  line-height: 0px;
+`;
+
+export const StyledClose = styled(CloseOutlined)`
+  color: ${RED};
+  padding: 5px;
+  border-radius: 3px;
+
+  & :hover {
+    background-color: ${PINK};
+  }
 `;

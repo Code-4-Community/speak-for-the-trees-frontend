@@ -7,14 +7,13 @@ import {
   LIGHT_RED,
   LIGHT_GREY,
   WHITE,
-  RED,
-  PINK,
 } from '../../utils/colors';
 import { treeCareToMoment } from '../../utils/treeFunctions';
-import { EditOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdmin, getUserID } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
+import { EditButton, StyledClose } from '../themedComponents';
 import StewardshipForm from '../forms/stewardshipForm';
 import { LinkButton } from '../linkButton';
 import { useParams } from 'react-router-dom';
@@ -24,6 +23,9 @@ import protectedApiClient from '../../api/protectedApiClient';
 import { TreeParams } from '../../containers/treePage';
 import { ActivityRequest } from '../../containers/treePage/ducks/types';
 import { C4CState } from '../../store';
+import { useTranslation } from 'react-i18next';
+import { site } from '../../constants';
+import { n } from '../../utils/stringFormat';
 
 const Entry = styled.div`
   margin: 15px;
@@ -43,23 +45,6 @@ const EntryMessage = styled(Typography.Paragraph)`
   text-align: center;
   line-height: 0px;
   color: ${TEXT_GREY};
-`;
-
-const EditButton = styled(Button)`
-  color: ${WHITE};
-  font-size: 20px;
-  padding: 0px 10px;
-  line-height: 0px;
-`;
-
-const StyledClose = styled(CloseOutlined)`
-  color: ${RED};
-  padding: 5px;
-  border-radius: 3px;
-
-  & :hover {
-    background-color: ${PINK};
-  }
 `;
 
 const DeleteActivityButton = styled(LinkButton)`
@@ -89,6 +74,10 @@ interface CareEntryProps {
 }
 
 const CareEntry: React.FC<CareEntryProps> = ({ activity }) => {
+  const { t } = useTranslation(n(site, ['careEntry', 'forms']), {
+    nsMode: 'fallback',
+  });
+
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
   const [showDeleteForm, setShowDeleteForm] = useState<boolean>(false);
   const [stewardshipFormInstance] = Form.useForm();
@@ -99,20 +88,31 @@ const CareEntry: React.FC<CareEntryProps> = ({ activity }) => {
   function onFinishEditStewardship(values: RecordStewardshipRequest) {
     const activities: ActivityRequest = {
       date: values.activityDate.format('L'),
-      watered: values.stewardshipActivities.includes('Watered'),
-      mulched: values.stewardshipActivities.includes('Mulched'),
-      cleaned: values.stewardshipActivities.includes('Cleared Waste & Litter'),
-      weeded: values.stewardshipActivities.includes('Weeded'),
+      watered: values.stewardshipActivities.includes(
+        t('stewardship.activities.watered'),
+      ),
+      mulched: values.stewardshipActivities.includes(
+        t('stewardship.activities.mulched'),
+      ),
+      cleaned: values.stewardshipActivities.includes(
+        t('stewardship.activities.cleaned'),
+      ),
+      weeded: values.stewardshipActivities.includes(
+        t('stewardship.activities.weeded'),
+      ),
+      installedWateringBag: values.stewardshipActivities.includes(
+        t('stewardship.activities.installedWateringBag'),
+      ),
     };
     protectedApiClient
       .editStewardship(activity.activityId, activities)
       .then(() => {
-        message.success('Stewardship modified');
+        message.success(t('messages.edit_success'));
         stewardshipFormInstance.resetFields();
         dispatch(getSiteData(id));
       })
       .catch((err) =>
-        message.error(`Failed to record stewardship: ${err.response.data}`),
+        message.error(t('messages.edit_failure', { error: err.response.data })),
       );
   }
 
@@ -120,12 +120,12 @@ const CareEntry: React.FC<CareEntryProps> = ({ activity }) => {
     protectedApiClient
       .deleteStewardship(activity.activityId)
       .then(() => {
-        message.success('Stewardship Activity Deleted');
+        message.success(t('messages.delete_success'));
         dispatch(getSiteData(id));
       })
       .catch((err) => {
         message.error(
-          `Failed to delete stewardship activity: ${err.response.data}`,
+          t('messages.delete_failure', { error: err.response.data }),
         );
       });
   }
@@ -172,7 +172,7 @@ const CareEntry: React.FC<CareEntryProps> = ({ activity }) => {
       </Entry>
       <Modal
         bodyStyle={{ paddingBottom: '5px' }}
-        title="Edit stewardship"
+        title={t('edit_title')}
         visible={showEditForm}
         onCancel={() => setShowEditForm(false)}
         footer={null}
@@ -185,15 +185,17 @@ const CareEntry: React.FC<CareEntryProps> = ({ activity }) => {
         />
       </Modal>
       <Modal
-        title="Confirm Stewardship Deletion"
+        title={t('delete_title')}
         visible={showDeleteForm}
         onOk={() => setShowDeleteForm(false)}
         onCancel={() => setShowDeleteForm(false)}
         footer={null}
         closeIcon={<StyledClose />}
       >
-        <p>Are you sure you want to delete this stewardship activity? </p>
-        <ConfirmDelete onClick={onClickDeleteActivity}>Delete</ConfirmDelete>
+        <p>{t('delete_message')}</p>
+        <ConfirmDelete onClick={onClickDeleteActivity}>
+          {t('delete')}
+        </ConfirmDelete>
       </Modal>
     </>
   );

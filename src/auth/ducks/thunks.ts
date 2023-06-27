@@ -11,6 +11,7 @@ import { C4CState, LOCALSTORAGE_STATE_KEY } from '../../store';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
 import AppAxiosInstance from '../axios';
 import Client from '../../api/protectedApiClient';
+import history from '../../history';
 
 export const login = (
   loginRequest: LoginRequest,
@@ -93,8 +94,6 @@ export const signup = (
 
 export const logout = (): UserAuthenticationThunkAction<void> => {
   return (dispatch, getState, { authClient }): Promise<void> => {
-    localStorage.removeItem(LOCALSTORAGE_STATE_KEY);
-
     const state: C4CState = getState();
 
     if (asyncRequestIsComplete(state.authenticationState.tokens)) {
@@ -104,6 +103,11 @@ export const logout = (): UserAuthenticationThunkAction<void> => {
         .logout(refreshToken)
         .then(() => {
           dispatch(logoutUser.loaded());
+        })
+        .then(() => {
+          // clear user information and refresh after successfully logging out
+          localStorage.removeItem(LOCALSTORAGE_STATE_KEY);
+          history.go(0);
         })
         .catch(() => {
           dispatch(logoutUser.failed());

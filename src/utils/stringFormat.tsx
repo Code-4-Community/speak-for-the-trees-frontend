@@ -9,7 +9,10 @@ import {
 import { NEIGHBORHOOD_IDS } from '../assets/content';
 import { AppError } from '../auth/axios';
 import { Coordinate } from '../components/mapComponents/ducks/types';
-import { Websites } from '../App';
+import { Websites } from '../constants';
+import i18n from '../i18n/i18n';
+
+const t = i18n.t;
 
 /**
  * Converts the given dollar amount to a formatted string
@@ -114,15 +117,19 @@ export function getSEFieldDisplayName(field: SiteEntryField): string {
  * @param entries the list of entries
  */
 export function combineScientificName(entries: Entry[]): Entry[] {
+  const titleSpecies = t('main.species', { ns: 'treeInfoTypes' });
+  const titleGenus = t('main.genus', { ns: 'treeInfoTypes' });
+  const titleSciName = t('main.scientificName', { ns: 'treeInfoTypes' });
+
   const newEntries: Entry[] = [];
   let species;
   let genus;
   entries.forEach((entry: Entry) => {
     switch (entry.title) {
-      case 'Species':
+      case titleSpecies:
         species = entry.value;
         break;
-      case 'Genus':
+      case titleGenus:
         genus = entry.value;
         break;
       default:
@@ -131,11 +138,11 @@ export function combineScientificName(entries: Entry[]): Entry[] {
     }
   });
   if (species && genus) {
-    newEntries.push({ title: 'Scientific Name', value: `${genus} ${species}` });
+    newEntries.push({ title: titleSciName, value: `${genus} ${species}` });
   } else if (species) {
-    newEntries.push({ title: 'Species', value: species });
+    newEntries.push({ title: titleSpecies, value: species });
   } else if (genus) {
-    newEntries.push({ title: 'Genus', value: genus });
+    newEntries.push({ title: titleGenus, value: genus });
   }
 
   return newEntries;
@@ -179,24 +186,47 @@ export function parseLatLng(str: string): Coordinate | null {
 
 export function generateTreeCareMessage(item: Activity): string {
   const activityStrings = [] as string[];
-  if (item.cleaned) activityStrings.push('cleared of waste');
-  if (item.mulched) activityStrings.push('mulched');
-  if (item.watered) activityStrings.push('watered');
-  if (item.weeded) activityStrings.push('weeded');
+  if (item.cleaned)
+    activityStrings.push(t('activity_message.cleaned', { ns: 'careEntry' }));
+  if (item.mulched)
+    activityStrings.push(t('activity_message.mulched', { ns: 'careEntry' }));
+  if (item.watered)
+    activityStrings.push(t('activity_message.watered', { ns: 'careEntry' }));
+  if (item.weeded)
+    activityStrings.push(t('activity_message.weeded', { ns: 'careEntry' }));
+  if (item.installedWateringBag)
+    activityStrings.push(
+      t('activity_message.installedWateringBag', { ns: 'careEntry' }),
+    );
 
   const numberOfActivities = activityStrings.length;
+  const prefix = t('activity_message.prefix', { ns: 'careEntry' });
+  const join = t('activity_message.join', { ns: 'careEntry' });
 
   // invariant: at least one activity will be present
   if (numberOfActivities === 0) {
-    throw new Error('At least one activity must be true');
+    throw new Error(t('activity_message.error', { ns: 'careEntry' }));
   } else if (numberOfActivities === 1) {
-    return `Was ${activityStrings[0]}.`;
+    return `${prefix} ${activityStrings[0]}.`;
   } else if (numberOfActivities === 2) {
-    return `Was ${activityStrings[0]} and ${activityStrings[1]}.`;
+    return `${prefix} ${activityStrings[0]} ${join} ${activityStrings[1]}.`;
   } else {
-    return `Was ${activityStrings
+    return `${prefix} ${activityStrings
       .slice(0, numberOfActivities - 1)
-      .join(', ')}, and ${activityStrings[numberOfActivities - 1]}.`;
+      .join(', ')}, ${join} ${activityStrings[numberOfActivities - 1]}.`;
+  }
+}
+
+// convert emailer filter values to a text representation of the range
+export function formatActivityCountRange(
+  min: number,
+  max: number | null,
+  maxCount: number,
+): string {
+  if (min === max) {
+    return `${min}`;
+  } else {
+    return `${min} - ${max ?? maxCount + '+'}`;
   }
 }
 

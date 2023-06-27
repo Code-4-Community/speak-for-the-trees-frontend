@@ -1,47 +1,63 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Button, Form, message, Row, Typography, Divider } from 'antd';
+import { Form, message, Typography, Divider, Modal, Button } from 'antd';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
-import { getPrivilegeLevel } from '../../auth/ducks/selectors';
+import {
+  getPrivilegeLevel,
+  getUserFirstName,
+} from '../../auth/ducks/selectors';
+import { LIGHT_GREEN, MID_GREEN } from '../../utils/colors';
 import { PrivilegeLevel } from '../../auth/ducks/types';
 import ChangePrivilegeForm from '../../components/forms/changePrivilegeForm';
-import UploadSitesForm from '../../components/forms/uploadSitesForm';
-import { DARK_GREEN } from '../../utils/colors';
-import ProtectedClient from '../../api/protectedApiClient';
-import {
-  AddSiteRequest,
-  UpdateSiteRequest,
-} from '../../components/forms/ducks/types';
-import UpdateSiteForm from '../../components/forms/updateSiteForm';
-import EditSiteForm from '../../components/forms/editSiteForm';
-import SelectorMapDisplay from '../../components/mapComponents/mapDisplays/selectorMapDisplay';
-import { MapGeoDataReducerState } from '../../components/mapComponents/ducks/types';
-import { MapContainer, Block, Flex } from '../../components/themedComponents';
-import useWindowDimensions, {
-  WindowTypes,
-} from '../../components/windowDimensions';
-import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
+import { Flex } from '../../components/themedComponents';
 import SignupForm from '../../components/forms/signupForm';
 import { SignupFormValues } from '../../components/forms/ducks/types';
 import ProtectedApiClient from '../../api/protectedApiClient';
 import { AppError } from '../../auth/axios';
-import { getErrorMessage } from '../../utils/stringFormat';
-import { round } from 'lodash';
-import { LAT_LNG_PRECISION } from '../../components/forms/constants';
-import { MapTypes } from '../../context/types';
-import { MapTypeContext } from '../../context/mapTypeContext';
+import { getErrorMessage, n } from '../../utils/stringFormat';
+import { SubmitButton } from '../../components/themedComponents';
+import {
+  BarChartOutlined,
+  FileAddOutlined,
+  MailOutlined,
+  PlusOutlined,
+  RocketFilled,
+  SettingFilled,
+} from '@ant-design/icons';
+import Image1 from '../../assets/images/bkg1.png';
+import Image2 from '../../assets/images/bkg2.png';
+import Image4 from '../../assets/images/bkg4.png';
+import { Routes } from '../../App';
+import { useTranslation } from 'react-i18next';
+import { site } from '../../constants';
 
 const AdminContentContainer = styled.div`
   width: 80vw;
   margin: 8vh auto auto;
 `;
 
-const DashboardContent = styled.div`
-  width: 450px;
+const ImageCard = styled.div`
+  background-color: rgba(0, 0, 0, 0.25);
+  background-blend-mode: darken;
+  border-radius: 10px;
+  width: 230px;
+  height: 230px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 16pt;
+  font-weight: bold;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
 `;
 
 const AdminDivider = styled(Divider)`
@@ -49,33 +65,43 @@ const AdminDivider = styled(Divider)`
   margin-bottom: 20px;
 `;
 
-const SectionHeader = styled(Typography.Text)`
-  font-weight: bold;
-  font-size: 20px;
-  color: ${DARK_GREEN};
-`;
-
-const MarginBottomRow = styled(Row)`
-  margin-bottom: 30px;
-`;
-
-interface AdminDashboardProps {
-  readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
-  readonly sites: MapGeoDataReducerState['siteGeoData'];
+interface ImageLinkCardProps {
+  href: string;
+  image: string;
 }
 
-const AdminDashboard: React.FC<AdminDashboardProps> = ({
-  neighborhoods,
-  sites,
-}) => {
+const ImageLinkCard: React.FC<ImageLinkCardProps> = ({
+  href,
+  image,
+  children,
+}) => (
+  <a href={href}>
+    <ImageCard style={{ backgroundImage: `url(${image})` }}>
+      {children}
+    </ImageCard>
+  </a>
+);
+
+const ICON_SIZE = 40;
+
+const AdminDashboard: React.FC = () => {
+  const { t } = useTranslation(n(site, ['admin', 'forms', 'home']), {
+    nsMode: 'fallback',
+  });
+
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) =>
     getPrivilegeLevel(state.authenticationState.tokens),
   );
-  const [createChildForm] = Form.useForm();
-  const { windowType } = useWindowDimensions();
-  const dispatch = useDispatch();
 
-  const [mapTypeId, setMapTypeId] = useState<MapTypes>(MapTypes.ROADMAP);
+  const userFirstName: string = useSelector((state: C4CState) => {
+    return getUserFirstName(state.authenticationState.userData);
+  });
+
+  const [createChildForm] = Form.useForm();
+
+  const [showAddChildModal, setShowAddChildModal] = useState<boolean>(false);
+  const [showPromoteUserModal, setShowPromoteUserModal] =
+    useState<boolean>(false);
 
   const onCreateChild = (values: SignupFormValues) => {
     ProtectedApiClient.createChild({
@@ -86,44 +112,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
       lastName: values.lastName,
     })
       .then(() => {
-        message.success(`${values.email} successfully added!`);
+        message.success(t('create_child.success', { email: values.email }));
         createChildForm.resetFields();
       })
       .catch((error: AppError) => message.error(getErrorMessage(error)));
   };
 
-  const [editSiteForm] = Form.useForm();
-  const [updateSiteForm] = Form.useForm();
-
-  useEffect(() => {
-    dispatch(getMapGeoData());
-  }, [dispatch]);
-
-  const onSubmitAddSite = (request: UpdateSiteRequest) => {
-    editSiteForm.validateFields().then();
-    const addSiteRequest: AddSiteRequest = {
-      blockId: editSiteForm.getFieldValue('blockId'),
-      lat: editSiteForm.getFieldValue('lat'),
-      lng: editSiteForm.getFieldValue('lng'),
-      city: editSiteForm.getFieldValue('city'),
-      zip: editSiteForm.getFieldValue('zip'),
-      address: editSiteForm.getFieldValue('address'),
-      neighborhoodId: editSiteForm.getFieldValue('neighborhoodId'),
-      ...request,
-    };
-    ProtectedClient.addSite(addSiteRequest)
-      .then(() => {
-        editSiteForm.resetFields();
-        updateSiteForm.resetFields();
-        message.success('Site added!').then();
-      })
-      .catch((err) => message.error(err.response.data));
-  };
-
   return (
     <>
       <Helmet>
-        <title>Admin Dashboard</title>
+        <title>{t('admin_title')}</title>
         <meta
           name="description"
           content="The page for admin users to modify accounts and download team data."
@@ -131,72 +129,75 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
       </Helmet>
       <PageLayout>
         <AdminContentContainer>
-          <PageHeader pageTitle="Admin Dashboard" />
-          <Flex margin={'60px 0 0 0'} gap={'50px 100px'}>
-            <DashboardContent>
-              <Typography.Title level={4}>Edit Admins</Typography.Title>
-              <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
-            </DashboardContent>
-            <DashboardContent>
-              <Typography.Title level={4}>
-                Create Child Accounts
-              </Typography.Title>
-              <SignupForm
-                formInstance={createChildForm}
-                onFinish={onCreateChild}
-              >
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" size="large">
-                    Create Child Account
-                  </Button>
-                </Form.Item>
-              </SignupForm>
-            </DashboardContent>
-            <DashboardContent>
-              <Typography.Title level={4}>Add Sites</Typography.Title>
-              <UploadSitesForm />
-            </DashboardContent>
+          <PageHeader
+            pageTitle={t('admin_title')}
+            pageSubtitle={t('title', { name: userFirstName })}
+            subtitlecolor={MID_GREEN}
+          />
+          <Typography.Title level={3}>
+            {t('manage_accounts.header')}
+          </Typography.Title>
+          <Flex margin={'30px 0'} gap={'50px 20px'}>
+            <Button type="primary" href="/settings">
+              <SettingFilled />
+              {t('manage_accounts.my_settings.button')}
+            </Button>
+            <Button
+              onClick={() => setShowPromoteUserModal(true)}
+              color={LIGHT_GREEN}
+            >
+              <RocketFilled />
+              {t('manage_accounts.promote_user.button')}
+            </Button>
+            <Button onClick={() => setShowAddChildModal(true)}>
+              <PlusOutlined />
+              {t('manage_accounts.create_child.button')}
+            </Button>
           </Flex>
           <AdminDivider />
-          <SectionHeader>Add New Site</SectionHeader>
-          <MarginBottomRow>
-            <Flex margin={'0 0 40px 0'}>
-              <Block
-                maxWidth={windowType === WindowTypes.Mobile ? '100%' : '45%'}
-              >
-                <EditSiteForm formInstance={editSiteForm} />
-              </Block>
-              <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
-                <MapContainer>
-                  <SelectorMapDisplay
-                    neighborhoods={neighborhoods}
-                    sites={sites}
-                    onMove={(pos: google.maps.LatLng) => {
-                      editSiteForm.setFieldsValue({
-                        lat: round(pos.lat(), LAT_LNG_PRECISION),
-                        lng: round(pos.lng(), LAT_LNG_PRECISION),
-                      });
-                    }}
-                  />
-                </MapContainer>
-              </MapTypeContext.Provider>
-            </Flex>
-            <UpdateSiteForm
-              formInstance={updateSiteForm}
-              onFinish={onSubmitAddSite}
-            />
-          </MarginBottomRow>
+          <Typography.Title level={3}>
+            {t('admin_functions.header')}
+          </Typography.Title>
+          <Flex gap={'40px 40px'} margin={'30px 0'}>
+            <ImageLinkCard href={Routes.ADD_SITES} image={Image1}>
+              <FileAddOutlined style={{ fontSize: ICON_SIZE }} />
+              {t('admin_functions.add_sites')}
+            </ImageLinkCard>
+            <ImageLinkCard href={Routes.REPORTS} image={Image2}>
+              <BarChartOutlined style={{ fontSize: ICON_SIZE }} />
+              {t('admin_functions.view_reports')}
+            </ImageLinkCard>
+            <ImageLinkCard href={Routes.EMAIL} image={Image4}>
+              <MailOutlined style={{ fontSize: ICON_SIZE }} />
+              {t('admin_functions.email_volunteers')}
+            </ImageLinkCard>
+          </Flex>
         </AdminContentContainer>
+        <Modal
+          title={t('manage_accounts.promote_user.modal')}
+          open={showPromoteUserModal}
+          onCancel={() => setShowPromoteUserModal(false)}
+          footer={null}
+        >
+          <ChangePrivilegeForm privilegeLevel={privilegeLevel} />
+        </Modal>
+        <Modal
+          title={t('manage_accounts.create_child.modal')}
+          open={showAddChildModal}
+          onCancel={() => setShowAddChildModal(false)}
+          footer={null}
+        >
+          <SignupForm formInstance={createChildForm} onFinish={onCreateChild}>
+            <Form.Item>
+              <SubmitButton htmlType="submit">
+                {t('create_child.submit')}
+              </SubmitButton>
+            </Form.Item>
+          </SignupForm>
+        </Modal>
       </PageLayout>
     </>
   );
 };
 
-const mapStateToProps = (state: C4CState): AdminDashboardProps => {
-  return {
-    neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
-    sites: state.mapGeoDataState.siteGeoData,
-  };
-};
-
-export default connect(mapStateToProps)(AdminDashboard);
+export default AdminDashboard;

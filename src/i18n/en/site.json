@@ -1,0 +1,12 @@
+{
+  "title": "Site",
+  "header": {
+    "site_features": "Site Features",
+    "site_entries": "Site Entries",
+    "add_entry": "Add Entry"
+  },
+  "site_features": {
+    "no_address": "No Recorded Address"
+  },
+  "edit_site_entry": "Edit site entry"
+}

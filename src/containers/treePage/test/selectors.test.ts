@@ -36,6 +36,7 @@ describe('Tree Page Selectors', () => {
           mulched: true,
           cleaned: false,
           weeded: true,
+          installedWateringBag: false,
         },
         {
           id: 1,
@@ -45,6 +46,7 @@ describe('Tree Page Selectors', () => {
           mulched: false,
           cleaned: true,
           weeded: false,
+          installedWateringBag: true,
         },
       ],
     };
@@ -65,7 +67,7 @@ describe('Tree Page Selectors', () => {
           day: '23rd',
           month: 'Feb',
           year: 2021,
-          message: 'Was cleared of waste.',
+          message: 'Was cleared of waste and provided a watering bag.',
         },
       ];
 
@@ -103,9 +105,11 @@ describe('Tree Page Selectors', () => {
     city: 'beantown',
     zip: '11111',
     address: '1800 place',
+    owner: 'ROW',
     entries: [
       {
         id: 0,
+        createdAt: 200,
         updatedAt: 200,
         status: SiteEntryStatus.ALIVE,
         species: 'tree',
@@ -115,6 +119,7 @@ describe('Tree Page Selectors', () => {
       },
       {
         id: 1,
+        createdAt: 100,
         updatedAt: 100,
         status: SiteEntryStatus.DEAD,
         species: 'not a tree',
@@ -129,7 +134,7 @@ describe('Tree Page Selectors', () => {
       const expectedResponse: SplitSiteEntries = {
         main: [
           {
-            title: 'Updated At',
+            title: 'Created At',
             value: '200',
           },
           {
@@ -142,6 +147,10 @@ describe('Tree Page Selectors', () => {
           },
         ],
         extra: [
+          {
+            title: 'Updated At',
+            value: '200',
+          },
           {
             title: 'Circumference (inches)',
             value: '4',
@@ -176,7 +185,7 @@ describe('Tree Page Selectors', () => {
     it('returns main entries when request is completed', () => {
       const expectedMainResponse: Entry[] = [
         {
-          title: 'Updated At',
+          title: 'Created At',
           value: '200',
         },
         {
@@ -205,6 +214,10 @@ describe('Tree Page Selectors', () => {
 
     it('returns extra entries when request is completed', () => {
       const expectedExtraResponse: Entry[] = [
+        {
+          title: 'Updated At',
+          value: '200',
+        },
         {
           title: 'Circumference (inches)',
           value: '4',
@@ -306,6 +319,7 @@ describe('Tree Page Selectors', () => {
             mulched: true,
             cleaned: false,
             weeded: true,
+            installedWateringBag: false,
           },
           {
             id: 1,
@@ -315,6 +329,7 @@ describe('Tree Page Selectors', () => {
             mulched: false,
             cleaned: false,
             weeded: false,
+            installedWateringBag: false,
           },
           {
             id: 2,
@@ -324,6 +339,7 @@ describe('Tree Page Selectors', () => {
             mulched: true,
             cleaned: false,
             weeded: true,
+            installedWateringBag: false,
           },
         ],
       };
@@ -366,6 +382,7 @@ describe('Tree Page Selectors', () => {
             mulched: true,
             cleaned: false,
             weeded: true,
+            installedWateringBag: false,
           },
           {
             id: 1,
@@ -375,6 +392,7 @@ describe('Tree Page Selectors', () => {
             mulched: false,
             cleaned: false,
             weeded: false,
+            installedWateringBag: false,
           },
           {
             id: 2,
@@ -384,6 +402,7 @@ describe('Tree Page Selectors', () => {
             mulched: true,
             cleaned: false,
             weeded: true,
+            installedWateringBag: false,
           },
           {
             id: 3,
@@ -393,6 +412,7 @@ describe('Tree Page Selectors', () => {
             mulched: true,
             cleaned: false,
             weeded: false,
+            installedWateringBag: false,
           },
         ],
       };

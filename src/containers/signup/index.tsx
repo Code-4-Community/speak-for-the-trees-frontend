@@ -7,7 +7,7 @@ import GreetingContainer from '../../components/greetingContainer';
 import { signup } from '../../auth/ducks/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { C4CState } from '../../store';
-import { BLACK, TEXT_GREY, WHITE } from '../../utils/colors';
+import { BLACK, DARK_TEXT_GREY, WHITE } from '../../utils/colors';
 import styled from 'styled-components';
 import {
   InputContainer,
@@ -19,7 +19,8 @@ import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
 import PageLayout from '../../components/pageLayout';
-import { RedirectStateProps, Routes, site } from '../../App';
+import { RedirectStateProps, Routes } from '../../App';
+import { site } from '../../constants';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import { SignupFormValues } from '../../components/forms/ducks/types';
 import { Trans, useTranslation } from 'react-i18next';
@@ -42,7 +43,7 @@ const Title = styled(Typography.Paragraph)`
 `;
 
 const Footer = styled(Typography.Paragraph)`
-  color: ${TEXT_GREY};
+  color: ${DARK_TEXT_GREY};
   line-height: 1.5;
 `;
 

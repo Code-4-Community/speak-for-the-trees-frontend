@@ -27,9 +27,11 @@ describe('Tree Page Reducer', () => {
         lng: 10,
         city: 'Beantown',
         zip: '11111',
+        owner: 'ROW',
         entries: [
           {
             id: 0,
+            createdAt: 100000,
             updatedAt: 100000,
           },
         ],
@@ -45,6 +47,7 @@ describe('Tree Page Reducer', () => {
             mulched: false,
             cleaned: false,
             weeded: true,
+            installedWateringBag: false,
           },
           {
             id: 1,
@@ -54,6 +57,7 @@ describe('Tree Page Reducer', () => {
             mulched: true,
             cleaned: true,
             weeded: false,
+            installedWateringBag: false,
           },
         ],
       };

@@ -9,7 +9,7 @@ import {
 } from '../../ducks/types';
 import { NO_SITE_SELECTED } from '../../../treePopup';
 import {
-  BOSTON,
+  DEFAULT_CENTER,
   LIGHT_MAP_STYLES,
   SITE_OPTIONS_ROADMAP,
   SITE_OPTIONS_SATELLITE,
@@ -43,7 +43,7 @@ const TreeMap: React.FC<TreeMapProps> = ({
   const [mapTypeId, setMapTypeId] = useMapTypeContext();
 
   let defaultZoom = 12;
-  let defaultCenter = BOSTON;
+  let defaultCenter = DEFAULT_CENTER;
   if (location.state) {
     defaultZoom = location.state.zoom;
     defaultCenter = { lat: location.state.lat, lng: location.state.lng };
@@ -119,16 +119,15 @@ const TreeMap: React.FC<TreeMapProps> = ({
         treePresent: false,
       }}
     >
-      {!mobile && (
-        <SiteLegend
-          onCheck={onCheck}
-          siteOptions={
-            mapTypeId === MapTypes.ROADMAP
-              ? SITE_OPTIONS_ROADMAP
-              : SITE_OPTIONS_SATELLITE
-          }
-        />
-      )}
+      <SiteLegend
+        onCheck={onCheck}
+        siteOptions={
+          mapTypeId === MapTypes.ROADMAP
+            ? SITE_OPTIONS_ROADMAP
+            : SITE_OPTIONS_SATELLITE
+        }
+        mobile={mobile}
+      />
     </MapWithPopup>
   );
 };

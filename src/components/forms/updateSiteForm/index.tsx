@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Radio, Row, Space } from 'antd';
+import { Form, Input, Radio, Row, Space, DatePicker } from 'antd';
 import { FormInstance, Rule } from 'antd/es/form';
 import {
   BOOL_RADIO_OPTS,
@@ -15,6 +15,10 @@ import {
 import { stringNumberRules } from '../../../utils/formRules';
 import { CheckboxOptionType } from 'antd/es/checkbox/Group';
 import { getSEFieldDisplayName } from '../../../utils/stringFormat';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../../utils/stringFormat';
+import { site } from '../../../constants';
+import moment from 'moment';
 
 interface RadioInputProps {
   readonly name: string;
@@ -26,17 +30,25 @@ interface StringInputProps extends RadioInputProps {
   readonly rules?: Rule[];
 }
 
+interface DateSelectorProps {
+  readonly name: string;
+}
+
 interface UpdateSiteFormProps {
   readonly formInstance: FormInstance;
   readonly onFinish: (request: UpdateSiteRequest) => void;
-  readonly latestSiteEntry?: SiteEntry;
+  readonly initialSiteEntry?: SiteEntry;
 }
 
 const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
   formInstance,
   onFinish,
-  latestSiteEntry,
+  initialSiteEntry,
 }) => {
+  const { t } = useTranslation(n(site, ['treeInfoTypes', 'forms']), {
+    nsMode: 'fallback',
+  });
+
   const RadioInput: React.FC<RadioInputProps> = ({ name, options }) => {
     const radioOptions = options ?? BOOL_RADIO_OPTS;
     return (
@@ -66,29 +78,12 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
     );
   };
 
-  const formInitialValues = {
-    treePresent: latestSiteEntry?.treePresent ?? false,
-    multistem: latestSiteEntry?.multistem ?? false,
-    discoloring: latestSiteEntry?.discoloring ?? false,
-    leaning: latestSiteEntry?.leaning ?? false,
-    constrictingGrate: latestSiteEntry?.constrictingGrate ?? false,
-    wounds: latestSiteEntry?.wounds ?? false,
-    pooling: latestSiteEntry?.pooling ?? false,
-    stakesWithWires: latestSiteEntry?.stakesWithWires ?? false,
-    stakesWithoutWires: latestSiteEntry?.stakesWithoutWires ?? false,
-    light: latestSiteEntry?.light ?? false,
-    bicycle: latestSiteEntry?.bicycle ?? false,
-    bagEmpty: latestSiteEntry?.bagEmpty ?? false,
-    bagFilled: latestSiteEntry?.bagFilled ?? false,
-    tape: latestSiteEntry?.tape ?? false,
-    suckerGrowth: latestSiteEntry?.suckerGrowth ?? false,
-    raisedBed: latestSiteEntry?.raisedBed ?? false,
-    fence: latestSiteEntry?.fence ?? false,
-    trash: latestSiteEntry?.trash ?? false,
-    wires: latestSiteEntry?.wires ?? false,
-    grate: latestSiteEntry?.grate ?? false,
-    stump: latestSiteEntry?.stump ?? false,
-    status: latestSiteEntry?.status ?? null,
+  const DateSelector: React.FC<DateSelectorProps> = ({ name }) => {
+    return (
+      <Form.Item name={name}>
+        <DatePicker format={'MM/DD/YYYY'} />
+      </Form.Item>
+    );
   };
 
   return (
@@ -97,7 +92,12 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
       form={formInstance}
       onFinish={onFinish}
       style={{ width: '100%' }}
-      initialValues={formInitialValues}
+      initialValues={{
+        ...initialSiteEntry,
+        plantingDate: initialSiteEntry?.plantingDate
+          ? moment(initialSiteEntry?.plantingDate)
+          : null,
+      }}
     >
       <Flex>
         <TitleStack
@@ -235,6 +235,12 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
         >
           <RadioInput name={SiteEntryFields.GRATE} />
         </TitleStack>
+        <TitleStack
+          title={getSEFieldDisplayName(SiteEntryFields.PLANTING_DATE)}
+          minWidth={'150px'}
+        >
+          <DateSelector name={SiteEntryFields.PLANTING_DATE} />
+        </TitleStack>
       </Flex>
 
       <Flex>
@@ -243,14 +249,20 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           minWidth={'20%'}
           flexGrow={'1'}
         >
-          <StringInput placeholder={'Genus'} name={SiteEntryFields.GENUS} />
+          <StringInput
+            placeholder={t('main.genus')}
+            name={SiteEntryFields.GENUS}
+          />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.SPECIES)}
           minWidth={'20%'}
           flexGrow={'1'}
         >
-          <StringInput placeholder={'Species'} name={SiteEntryFields.SPECIES} />
+          <StringInput
+            placeholder={t('main.species')}
+            name={SiteEntryFields.SPECIES}
+          />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.COMMON_NAME)}
@@ -258,7 +270,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Common Name'}
+            placeholder={t('main.commonName')}
             name={SiteEntryFields.COMMON_NAME}
           />
         </TitleStack>
@@ -268,7 +280,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Confidence'}
+            placeholder={t('sftt.confidence')}
             name={SiteEntryFields.CONFIDENCE}
           />
         </TitleStack>
@@ -278,7 +290,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Coverage'}
+            placeholder={t('sftt.coverage')}
             name={SiteEntryFields.COVERAGE}
           />
         </TitleStack>
@@ -287,7 +299,10 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           minWidth={'20%'}
           flexGrow={'1'}
         >
-          <StringInput placeholder={'Pruning'} name={SiteEntryFields.PRUNING} />
+          <StringInput
+            placeholder={t('update_site.placeholder.pruning')}
+            name={SiteEntryFields.PRUNING}
+          />
         </TitleStack>
         <TitleStack
           title={getSEFieldDisplayName(SiteEntryFields.CONDITION)}
@@ -295,7 +310,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Condition'}
+            placeholder={t('sftt.condition')}
             name={SiteEntryFields.CONDITION}
           />
         </TitleStack>
@@ -305,7 +320,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Site Type'}
+            placeholder={t('sftt.siteType')}
             name={SiteEntryFields.SITE_TYPE}
           />
         </TitleStack>
@@ -315,7 +330,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Sidewalk Width'}
+            placeholder={t('sftt.sidewalkWidth')}
             name={SiteEntryFields.SIDEWALK_WIDTH}
             rules={stringNumberRules}
           />
@@ -326,7 +341,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Diameter'}
+            placeholder={t('update_site.placeholder.diameter')}
             name={SiteEntryFields.DIAMETER}
             rules={stringNumberRules}
           />
@@ -337,7 +352,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Circumference'}
+            placeholder={t('update_site.placeholder.circumference')}
             name={SiteEntryFields.CIRCUMFERENCE}
             rules={stringNumberRules}
           />
@@ -348,7 +363,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Site Width'}
+            placeholder={t('update_site.placeholder.site_width')}
             name={SiteEntryFields.SITE_WIDTH}
             rules={stringNumberRules}
           />
@@ -359,7 +374,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Site Length'}
+            placeholder={t('update_site.placeholder.site_length')}
             name={SiteEntryFields.SITE_LENGTH}
             rules={stringNumberRules}
           />
@@ -370,7 +385,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Material'}
+            placeholder={t('update_site.placeholder.material')}
             name={SiteEntryFields.MATERIAL}
           />
         </TitleStack>
@@ -380,7 +395,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Tree Notes'}
+            placeholder={t('sftt.treeNotes')}
             name={SiteEntryFields.TREE_NOTES}
           />
         </TitleStack>
@@ -390,16 +405,14 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
           flexGrow={'1'}
         >
           <StringInput
-            placeholder={'Site Notes'}
+            placeholder={t('sftt.siteNotes')}
             name={SiteEntryFields.SITE_NOTES}
           />
         </TitleStack>
       </Flex>
 
       <Row justify={'end'}>
-        <SubmitButton type="primary" htmlType="submit" size="large">
-          Submit
-        </SubmitButton>
+        <SubmitButton htmlType="submit">{t('submit')}</SubmitButton>
       </Row>
     </Form>
   );

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import StewardshipReportTable from '../../components/tables/stewardshipReportTable';
 import ProtectedApiClient from '../../api/protectedApiClient';
 import { Form, message, Skeleton, Tabs, Typography } from 'antd';
-import { site } from '../../App';
+import { site } from '../../constants';
 import { AdoptionReport, StewardshipReport } from './ducks/types';
 import { Helmet } from 'react-helmet';
 import PageLayout from '../../components/pageLayout';
@@ -16,10 +16,14 @@ import {
   getCountAdoptedInPastWeek,
   getStewardshipTableReport,
 } from './ducks/selectors';
-import { PaddedPageContainer } from '../../components/themedComponents';
+import {
+  PaddedPageContainer,
+  ReturnButton,
+} from '../../components/themedComponents';
 import { CSVLink } from 'react-csv';
 import { AppError } from '../../auth/axios';
 import ExportDataForm from '../../components/forms/exportDataForm';
+import { Routes } from '../../App';
 
 const FeaturedStatsSection = styled.div`
   margin-bottom: 20px;
@@ -119,6 +123,7 @@ const Reports: React.FC = () => {
       </Helmet>
       <PageLayout>
         <PaddedPageContainer>
+          <ReturnButton to={Routes.ADMIN}>{'<'} Back to Dashboard</ReturnButton>
           <PageHeader pageTitle={t('site_report')} />
           <FeaturedStatsSection>
             <FeaturedStats

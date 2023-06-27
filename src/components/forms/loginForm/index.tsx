@@ -1,13 +1,14 @@
 import React from 'react';
 import { LoginRequest } from '../../../auth/ducks/types';
-import { Button, Form, Input } from 'antd';
+import { Form, Input } from 'antd';
 import styled from 'styled-components';
 import { WindowTypes } from '../../windowDimensions';
 import { FormInstance } from 'antd/es/form';
 import { enterEmailRules, loginPasswordRules } from '../../../utils/formRules';
+import { SubmitButton } from '../../themedComponents';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
-import { site } from '../../../App';
+import { site } from '../../../constants';
 
 interface LoginFormProps {
   readonly formInstance: FormInstance;
@@ -15,7 +16,7 @@ interface LoginFormProps {
   readonly windowType: WindowTypes;
 }
 
-const LoginButton = styled(Button)`
+const LoginButton = styled(SubmitButton)`
   width: 96px;
   margin-top: 1.5vh;
 `;

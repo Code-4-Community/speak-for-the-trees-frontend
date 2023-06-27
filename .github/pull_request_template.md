@@ -2,12 +2,11 @@
 
 - [ ] 1. Run `npm run check`
 - [ ] 2. Run `npm run test`
-- [ ] 3. Change ClickUp ticket status to "In Review"
-- [ ] 4. After making the PR, add PR link to ClickUp ticket
+- [ ] 3. Run `npm build --if-present`  
 
 ## Why
 
-[ClickUp Ticket](https://app.clickup.com/t/xxxxxxx)
+Resolves #<Add your ticket number here>
 
 <!-- What benefit does this bring to the end user? Or, what benefit does this bring to developers working in the codebase? -->
 

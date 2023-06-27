@@ -16,6 +16,9 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { TreeParams } from '../../containers/treePage';
 import { DARK_TEXT_GREY } from '../../utils/colors';
+import { useTranslation } from 'react-i18next';
+import { site } from '../../constants';
+import { n } from '../../utils/stringFormat';
 
 interface TreePageHeaderProps extends StyledSubtitleProps {
   readonly pageTitle: string;
@@ -57,6 +60,9 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
   isMobile,
   subtitlecolor,
 }) => {
+  const { t } = useTranslation(n(site, ['treeInfo']), {
+    nsMode: 'fallback',
+  });
   const [editingTreeName, setEditingTreeName] = useState<boolean>(false);
   const siteId = Number(useParams<TreeParams>().id);
   const dispatch = useDispatch();
@@ -64,7 +70,7 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
   const treeDisplayName = !isEmptyString(unescape(treeName))
     ? unescape(treeName)
     : canEditTreeName
-    ? 'Name this tree!'
+    ? t('name_prompt')
     : '';
 
   const onTreeNameChange = () => {

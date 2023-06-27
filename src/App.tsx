@@ -34,6 +34,7 @@ import { logout } from './auth/ducks/thunks';
 import history from './history';
 import FAQ from './containers/faq';
 import Email from './containers/email';
+import AddSites from './containers/addSites';
 
 const AppLayout = styled(Layout)`
   min-height: 100vh;
@@ -43,11 +44,6 @@ type AppProps = UserAuthenticationReducerState;
 
 export enum Languages {
   ENGLISH = 'ENG',
-}
-
-export enum Websites {
-  SFTT = 'SFTT',
-  CAMBRiDGE = 'CAMBRIDGE',
 }
 
 export enum ParameterizedRouteBases {
@@ -77,6 +73,7 @@ export enum Routes {
   FORGOT_PASSWORD_REQUEST = '/forgot-password',
   FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
   EMAIL = '/email',
+  ADD_SITES = '/add-sites',
   NOT_FOUND = '*',
 }
 
@@ -90,15 +87,11 @@ export interface MapStateProps {
   readonly lng: number;
 }
 
-export const site =
-  (process.env.REACT_APP_WEBSITE as Websites) || Websites.SFTT;
-
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
   const onLogout = () => {
     dispatch(logout());
-    history.go(0);
   };
 
   const privilegeLevel: PrivilegeLevel = useSelector((state: C4CState) => {
@@ -277,6 +270,11 @@ const App: React.FC = () => {
                       />
                       <Route path={Routes.REPORTS} exact component={Reports} />
                       <Route path={Routes.EMAIL} exact component={Email} />
+                      <Route
+                        path={Routes.ADD_SITES}
+                        exact
+                        component={AddSites}
+                      />
                       <Route
                         path={Routes.NOT_FOUND}
                         exact

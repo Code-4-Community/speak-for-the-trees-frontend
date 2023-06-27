@@ -5,6 +5,7 @@ import { ApiExtraArgs } from '../../../api/apiClient';
 import { AsyncRequest } from '../../../utils/asyncRequest';
 import { BasicTreeInfo } from '../../treePopup';
 import { MapTypes } from '../../../context/types';
+import { SiteOwner, SiteStatus } from '../constants';
 
 // ---------------------------------Blocks----------------------------------------
 
@@ -71,12 +72,18 @@ export interface SiteFeaturePropertiesResponse {
   adopterId?: string;
   commonName?: string;
   address?: string;
+  owner?: SiteOwner;
 }
 
 export interface SiteOption {
   image: string;
   label: string;
-  value: string;
+  value: SiteStatus;
+}
+
+export interface OwnerOption {
+  label: string;
+  value: SiteOwner;
 }
 
 // ---------------------------------Shared Types----------------------------------------

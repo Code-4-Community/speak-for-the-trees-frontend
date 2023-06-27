@@ -7,6 +7,7 @@ import ProtectedApiClient, {
 import { TeamResponse, TeamRole } from '../../containers/teamPage/ducks/types';
 import nock from 'nock';
 import { PrivilegeLevel, UserData } from '../../auth/ducks/types';
+import { SiteOwner } from '../../components/mapComponents/constants';
 
 const BASE_URL = 'http://localhost';
 
@@ -1082,7 +1083,7 @@ describe('Protected API Client Tests', () => {
 
   // Site tests
   describe('Protected Site Tests', () => {
-    describe('Add a site', () => {
+    describe('addSite', () => {
       it('makes the right request', async () => {
         const response = '';
 
@@ -1098,6 +1099,7 @@ describe('Protected API Client Tests', () => {
           lat: 0,
           lng: 0,
           neighborhoodId: 1,
+          owner: 'ROW' as SiteOwner,
           treePresent: null,
           status: null,
           genus: null,
@@ -1136,6 +1138,7 @@ describe('Protected API Client Tests', () => {
           stump: null,
           treeNotes: null,
           siteNotes: null,
+          plantingDate: null,
         };
         const result = await ProtectedApiClient.addSite(testGoodAddSiteRequest);
 
@@ -1157,6 +1160,7 @@ describe('Protected API Client Tests', () => {
           lat: 999999,
           lng: 999999,
           neighborhoodId: 1,
+          owner: 'Private' as SiteOwner,
           treePresent: null,
           status: null,
           genus: null,
@@ -1195,6 +1199,7 @@ describe('Protected API Client Tests', () => {
           stump: null,
           treeNotes: null,
           siteNotes: null,
+          plantingDate: null,
         };
         const result = await ProtectedApiClient.addSite(
           testBadAddSiteRequest,
@@ -1204,7 +1209,47 @@ describe('Protected API Client Tests', () => {
       });
     });
 
-    describe('Adopt a site', () => {
+    describe('addSites', () => {
+      it('makes the right request', async () => {
+        const response = '';
+
+        nock(BASE_URL)
+          .post(AdminApiClientRoutes.ADD_SITES)
+          .reply(200, response);
+
+        const testGoodAddSitesRequest = {
+          csvText:
+            'lat,lng,city,zip,address,neighborhood,treePresent,status,genus,species,commonName,confidence,diameter,circumference,multistem,coverage,pruning,condition,discoloring,leaning,constrictingGrate,wounds,pooling,stakesWithWires,stakesWithoutWires,light,bicycle,bagEmpty,bagFilled,tape,suckerGrowth,siteType,sidewalkWidth,siteWidth,siteLength,material,raisedBed,fence,trash,wires,grate,stump,treeNotes,siteNotes\n' +
+            '48.58903249,-75.2434242,Boston,12345,Columbus Ave,Back Bay,TRUE,Alive,Genus,Species,Common Name,Confidence,10.2,92,TRUE,coverage,pruning,very good condition,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Site type,sidewalk width,193.233,1023,material,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Notes on trees,Notes on sites',
+        };
+        const result = await ProtectedApiClient.addSites(
+          testGoodAddSitesRequest,
+        );
+
+        expect(result).toEqual(response);
+      });
+
+      it('makes a bad request', async () => {
+        const response = 'No such site';
+
+        nock(BASE_URL)
+          .post(AdminApiClientRoutes.ADD_SITES)
+          .reply(400, response);
+
+        const testBadAddSitesRequest = {
+          csvText:
+            'lat,lng,city,zip,address,neighborhood,treePresent,status,genus,species,commonName,confidence,diameter,circumference,multistem,coverage,pruning,condition,discoloring,leaning,constrictingGrate,wounds,pooling,stakesWithWires,stakesWithoutWires,light,bicycle,bagEmpty,bagFilled,tape,suckerGrowth,siteType,sidewalkWidth,siteWidth,siteLength,material\n' +
+            '48.58903249,-75.2434242,Boston,12345,Columbus Ave,Back Bay,TRUE,Alive,Genus,Species,Common Name,Confidence,10.2,92,TRUE,TRUE,Site type,sidewalk width,193.233,1023,material,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,Notes on trees,Notes on sites',
+        };
+        const result = await ProtectedApiClient.addSites(
+          testBadAddSitesRequest,
+        ).catch((err) => err.response.data);
+
+        expect(result).toEqual(response);
+      });
+    });
+
+    describe('adoptSite', () => {
       it('makes the right request', async () => {
         const response = '';
 
@@ -1232,7 +1277,7 @@ describe('Protected API Client Tests', () => {
       });
     });
 
-    describe('Unadopt a site', () => {
+    describe('unadoptSite', () => {
       it('makes the right request', async () => {
         const response = '';
 
@@ -1260,7 +1305,35 @@ describe('Protected API Client Tests', () => {
       });
     });
 
-    describe('Record stewardship', () => {
+    describe('forceUnadoptSite', () => {
+      it('makes the right request', async () => {
+        const response = '';
+
+        nock(BASE_URL)
+          .post(ParameterizedApiRoutes.FORCE_UNADOPT_SITE(1))
+          .reply(200, response);
+
+        const result = await ProtectedApiClient.forceUnadoptSite(1);
+
+        expect(result).toEqual(response);
+      });
+
+      it('makes a bad request', async () => {
+        const response = 'Was not adopted';
+
+        nock(BASE_URL)
+          .post(ParameterizedApiRoutes.FORCE_UNADOPT_SITE(1))
+          .reply(400, response);
+
+        const result = await ProtectedApiClient.forceUnadoptSite(1).catch(
+          (err) => err.response.data,
+        );
+
+        expect(result).toEqual(response);
+      });
+    });
+
+    describe('recordStewardship', () => {
       it('makes the right request', async () => {
         const response = '';
 
@@ -1274,6 +1347,7 @@ describe('Protected API Client Tests', () => {
           mulched: false,
           cleaned: true,
           weeded: false,
+          installedWateringBag: false,
         });
 
         expect(result).toEqual(response);
@@ -1292,13 +1366,73 @@ describe('Protected API Client Tests', () => {
           mulched: false,
           cleaned: false,
           weeded: false,
+          installedWateringBag: false,
         }).catch((err) => err.response.data);
 
         expect(result).toEqual(response);
       });
     });
 
-    describe('Delete stewardship', () => {
+    describe('editStewardship', () => {
+      it('makes the right request', async () => {
+        const response = '';
+
+        nock(BASE_URL)
+          .post(ParameterizedApiRoutes.EDIT_STEWARDSHIP(1))
+          .reply(200, response);
+
+        const result = await ProtectedApiClient.editStewardship(1, {
+          date: '10/12/2020',
+          watered: true,
+          mulched: false,
+          cleaned: true,
+          weeded: false,
+          installedWateringBag: false,
+        });
+
+        expect(result).toEqual(response);
+      });
+
+      it('makes a bad request', async () => {
+        const response = 'all false';
+
+        nock(BASE_URL)
+          .post(ParameterizedApiRoutes.EDIT_STEWARDSHIP(1))
+          .reply(400, response);
+
+        const result = await ProtectedApiClient.editStewardship(1, {
+          date: '10/12/2020',
+          watered: false,
+          mulched: false,
+          cleaned: false,
+          weeded: false,
+          installedWateringBag: false,
+        }).catch((err) => err.response.data);
+
+        expect(result).toEqual(response);
+      });
+
+      it('makes an unauthorized request', async () => {
+        const response = 'Must be admin or author';
+
+        nock(BASE_URL)
+          .post(ParameterizedApiRoutes.EDIT_STEWARDSHIP(1))
+          .reply(401, response);
+
+        const result = await ProtectedApiClient.editStewardship(1, {
+          date: '10/12/2020',
+          watered: true,
+          mulched: false,
+          cleaned: true,
+          weeded: false,
+          installedWateringBag: false,
+        }).catch((err) => err.response.data);
+
+        expect(result).toEqual(response);
+      });
+    });
+
+    describe('deleteStewardship', () => {
       it('makes the right request', async () => {
         const response = '';
 
@@ -1340,7 +1474,7 @@ describe('Protected API Client Tests', () => {
       });
     });
 
-    describe('Get adopted sites', () => {
+    describe('getAdoptedSites', () => {
       it('makes the right request', async () => {
         const response = {
           adoptedSites: [1, 2, 3],
@@ -1357,7 +1491,7 @@ describe('Protected API Client Tests', () => {
     });
   });
 
-  describe('Update site', () => {
+  describe('updateSite', () => {
     it('makes the right request', async () => {
       const response = {};
 
@@ -1404,10 +1538,12 @@ describe('Protected API Client Tests', () => {
         stump: null,
         treeNotes: null,
         siteNotes: null,
+        plantingDate: null,
       });
 
       expect(result).toEqual(response);
     });
+
     it('makes a bad request', async () => {
       const response = 'Bad request!';
 
@@ -1454,6 +1590,113 @@ describe('Protected API Client Tests', () => {
         stump: null,
         treeNotes: null,
         siteNotes: null,
+        plantingDate: null,
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('editSiteEntry', () => {
+    it('makes the right request', async () => {
+      const response = {};
+
+      nock(BASE_URL)
+        .post(ParameterizedAdminApiRoutes.EDIT_SITE_ENTRY(-1))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.editSiteEntry(-1, {
+        treePresent: null,
+        status: null,
+        genus: null,
+        species: null,
+        commonName: null,
+        confidence: null,
+        diameter: null,
+        circumference: null,
+        multistem: null,
+        coverage: null,
+        pruning: null,
+        condition: null,
+        discoloring: null,
+        leaning: null,
+        constrictingGrate: null,
+        wounds: null,
+        pooling: null,
+        stakesWithWires: null,
+        stakesWithoutWires: null,
+        light: null,
+        bicycle: null,
+        bagEmpty: null,
+        bagFilled: null,
+        tape: null,
+        suckerGrowth: null,
+        siteType: null,
+        sidewalkWidth: null,
+        siteWidth: null,
+        siteLength: null,
+        material: null,
+        raisedBed: null,
+        fence: null,
+        trash: null,
+        wires: null,
+        grate: null,
+        stump: null,
+        treeNotes: null,
+        siteNotes: null,
+        plantingDate: null,
+      });
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'Bad request!';
+
+      nock(BASE_URL)
+        .post(ParameterizedAdminApiRoutes.EDIT_SITE_ENTRY(-1))
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.editSiteEntry(-1, {
+        treePresent: null,
+        status: null,
+        genus: null,
+        species: null,
+        commonName: null,
+        confidence: null,
+        diameter: null,
+        circumference: null,
+        multistem: null,
+        coverage: null,
+        pruning: null,
+        condition: null,
+        discoloring: null,
+        leaning: null,
+        constrictingGrate: null,
+        wounds: null,
+        pooling: null,
+        stakesWithWires: null,
+        stakesWithoutWires: null,
+        light: null,
+        bicycle: null,
+        bagEmpty: null,
+        bagFilled: null,
+        tape: null,
+        suckerGrowth: null,
+        siteType: null,
+        sidewalkWidth: null,
+        siteWidth: null,
+        siteLength: null,
+        material: null,
+        raisedBed: null,
+        fence: null,
+        trash: null,
+        wires: null,
+        grate: null,
+        stump: null,
+        treeNotes: null,
+        siteNotes: null,
+        plantingDate: null,
       }).catch((err) => err.response.data);
 
       expect(result).toEqual(response);
@@ -1583,6 +1826,7 @@ describe('Admin Protected Client Routes', () => {
         lat: 0,
         lng: 0,
         neighborhoodId: 1,
+        owner: 'ROW',
       });
 
       expect(result).toEqual(response);
@@ -1602,6 +1846,7 @@ describe('Admin Protected Client Routes', () => {
         lat: 0,
         lng: 0,
         neighborhoodId: -1,
+        owner: 'Federal',
       }).catch((err) => err.response.data);
 
       expect(result).toEqual(response);
@@ -1772,6 +2017,169 @@ describe('Admin Protected Client Routes', () => {
         .reply(401, response);
 
       const result = await ProtectedApiClient.getStewardshipReportCsv(10).catch(
+        (err) => err.response.data,
+      );
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('nameSiteEntry', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.NAME_SITE_ENTRY(1))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.nameSiteEntry(1, {
+        name: 'New name',
+      });
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'Name too long';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.NAME_SITE_ENTRY(1))
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.nameSiteEntry(1, {
+        name: 'A'.repeat(61),
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request ', async () => {
+      const response = 'Must be an admin';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.NAME_SITE_ENTRY(1))
+        .reply(401, response);
+
+      const result = await ProtectedApiClient.nameSiteEntry(1, {
+        name: 'New name',
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('sendEmail', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      nock(BASE_URL).post(AdminApiClientRoutes.SEND_EMAIL).reply(200, response);
+
+      const result = await ProtectedApiClient.sendEmail({
+        emails: ['email@email.com'],
+        emailSubject: 'Some subject',
+        emailBody: 'Some body',
+      });
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'Invalid email given!';
+
+      nock(BASE_URL).post(AdminApiClientRoutes.SEND_EMAIL).reply(400, response);
+
+      const result = await ProtectedApiClient.sendEmail({
+        emails: ['notAnEmail'],
+        emailSubject: 'Some subject',
+        emailBody: 'Some body',
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request ', async () => {
+      const response = 'Must be an admin';
+
+      nock(BASE_URL).post(AdminApiClientRoutes.SEND_EMAIL).reply(401, response);
+
+      const result = await ProtectedApiClient.sendEmail({
+        emails: [],
+        emailSubject: 'Subject',
+        emailBody: 'Body',
+      }).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('filterSites', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      const params = {
+        treeCommonNames: null,
+        adoptedStart: null,
+        adoptedEnd: null,
+        lastActivityStart: null,
+        lastActivityEnd: null,
+        neighborhoodIds: null,
+        activityCountMin: 0,
+        activityCountMax: null,
+      };
+
+      nock(BASE_URL)
+        .get(ParameterizedAdminApiRoutes.FILTER_SITES(params))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.filterSites(params);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'Invalid dates given!';
+
+      const params = {
+        treeCommonNames: null,
+        adoptedStart: 'wrongDate',
+        adoptedEnd: 'weirdDate',
+        lastActivityStart: null,
+        lastActivityEnd: null,
+        neighborhoodIds: null,
+        activityCountMin: 0,
+        activityCountMax: null,
+      };
+
+      nock(BASE_URL)
+        .get(ParameterizedAdminApiRoutes.FILTER_SITES(params))
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.filterSites(params).catch(
+        (err) => err.response.data,
+      );
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request ', async () => {
+      const response = 'Must be an admin';
+
+      const params = {
+        treeCommonNames: null,
+        adoptedStart: null,
+        adoptedEnd: null,
+        lastActivityStart: null,
+        lastActivityEnd: null,
+        neighborhoodIds: null,
+        activityCountMin: 0,
+        activityCountMax: null,
+      };
+
+      nock(BASE_URL)
+        .get(ParameterizedAdminApiRoutes.FILTER_SITES(params))
+        .reply(401, response);
+
+      const result = await ProtectedApiClient.filterSites(params).catch(
         (err) => err.response.data,
       );
 
