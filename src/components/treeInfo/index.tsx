@@ -78,6 +78,7 @@ const TreeInfo: React.FC<TreeProps> = ({
   const location = useLocation<RedirectStateProps>();
 
   const isAdopted = !!siteData.entries?.[0]?.adopter;
+  const treePresent = siteData.entries[0].treePresent;
 
   const treeCommonName = getCommonName(siteData);
 
@@ -143,34 +144,38 @@ const TreeInfo: React.FC<TreeProps> = ({
 
       {loggedIn ? (
         <>
-          {userOwnsTree ? (
-            <UnadoptButton
-              danger
-              size={mobile ? 'middle' : 'large'}
-              onClick={onClickUnadopt}
-            >
-              {t('actions.unadopt')}
-            </UnadoptButton>
-          ) : (
-            <Button
-              type="primary"
-              size={mobile ? 'middle' : 'large'}
-              onClick={onClickAdopt}
-              disabled={isAdopted}
-            >
-              {isAdopted ? t('actions.adopted') : t('actions.adopt')}
-            </Button>
-          )}
+          {treePresent && (
+            <>
+              {userOwnsTree ? (
+                <UnadoptButton
+                  danger
+                  size={mobile ? 'middle' : 'large'}
+                  onClick={onClickUnadopt}
+                >
+                  {t('actions.unadopt')}
+                </UnadoptButton>
+              ) : (
+                <Button
+                  type="primary"
+                  size={mobile ? 'middle' : 'large'}
+                  onClick={onClickAdopt}
+                  disabled={isAdopted}
+                >
+                  {isAdopted ? t('actions.adopted') : t('actions.adopt')}
+                </Button>
+              )}
 
-          {userIsAdmin && (
-            <ForceUnadoptButton
-              danger
-              size={mobile ? 'middle' : 'large'}
-              onClick={onClickForceUnadopt}
-              disabled={!isAdopted}
-            >
-              {t('actions.force_unadopt')}
-            </ForceUnadoptButton>
+              {userIsAdmin && (
+                <ForceUnadoptButton
+                  danger
+                  size={mobile ? 'middle' : 'large'}
+                  onClick={onClickForceUnadopt}
+                  disabled={!isAdopted}
+                >
+                  {t('actions.force_unadopt')}
+                </ForceUnadoptButton>
+              )}
+            </>
           )}
 
           {shareButton}
