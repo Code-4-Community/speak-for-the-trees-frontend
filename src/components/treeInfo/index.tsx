@@ -180,7 +180,7 @@ const TreeInfo: React.FC<TreeProps> = ({
 
           {shareButton}
 
-          {userOwnsTree && (
+          {userOwnsTree && treePresent && (
             <StewardshipContainer>
               <Typography.Title level={3}>
                 {t('actions.record_activity')}
