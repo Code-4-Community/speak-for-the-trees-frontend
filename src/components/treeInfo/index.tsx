@@ -78,7 +78,7 @@ const TreeInfo: React.FC<TreeProps> = ({
   const location = useLocation<RedirectStateProps>();
 
   const isAdopted = !!siteData.entries?.[0]?.adopter;
-  const treePresent = siteData.entries[0].treePresent;
+  const treePresent = !!siteData.entries[0].treePresent;
 
   const treeCommonName = getCommonName(siteData);
 
@@ -138,6 +138,7 @@ const TreeInfo: React.FC<TreeProps> = ({
             editTreeNameForm={editTreeNameFormInstance}
             onClickEditTreeName={onClickEditTreeName}
             treeName={siteData.entries[0].treeName || ''}
+            treePresent={treePresent}
           />
         }
       </TreeHeader>
