@@ -27,6 +27,7 @@ interface TreePageHeaderProps extends StyledSubtitleProps {
   readonly canEditTreeName: boolean;
   readonly editTreeNameForm: FormInstance<NameSiteEntryRequest>;
   readonly onClickEditTreeName: (values: NameSiteEntryRequest) => void;
+  readonly treePresent: boolean;
 }
 
 const StyledEditOutline = styled(EditOutlined)`
@@ -59,6 +60,7 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
   onClickEditTreeName,
   isMobile,
   subtitlecolor,
+  treePresent,
 }) => {
   const { t } = useTranslation(n(site, ['treeInfo']), {
     nsMode: 'fallback',
@@ -84,28 +86,27 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
   return (
     <>
       <StyledTitle isMobile={isMobile}>{pageTitle}</StyledTitle>
-
-      {editingTreeName ? (
-        <EditTreeNameForm
-          editTreeNameForm={editTreeNameForm}
-          isMobile={isMobile}
-          treeName={treeName}
-          onSubmitNameChange={onTreeNameChange}
-          onCancelNameChange={() => setEditingTreeName(false)}
-        />
-      ) : (
-        <TreeNameText subtitlecolor={subtitlecolor} isMobile={isMobile}>
-          {treeDisplayName}
-          {canEditTreeName && (
-            <StyledEditOutline
-              onClick={() => {
-                setEditingTreeName(true);
-              }}
-            />
-          )}
-        </TreeNameText>
-      )}
-
+      {treePresent &&
+        (editingTreeName ? (
+          <EditTreeNameForm
+            editTreeNameForm={editTreeNameForm}
+            isMobile={isMobile}
+            treeName={treeName}
+            onSubmitNameChange={onTreeNameChange}
+            onCancelNameChange={() => setEditingTreeName(false)}
+          />
+        ) : (
+          <TreeNameText subtitlecolor={subtitlecolor} isMobile={isMobile}>
+            {treeDisplayName}
+            {canEditTreeName && (
+              <StyledEditOutline
+                onClick={() => {
+                  setEditingTreeName(true);
+                }}
+              />
+            )}
+          </TreeNameText>
+        ))}
       <AddressText isMobile={isMobile} subtitlecolor={subtitlecolor}>
         {pageSubtitle}
       </AddressText>

@@ -78,6 +78,7 @@ export const TreeInfo: React.FC<TreeProps> = ({
   const location = useLocation<RedirectStateProps>();
 
   const isAdopted = !!siteData.entries?.[0]?.adopter;
+  const treePresent = !!siteData.entries[0].treePresent;
 
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
     isAdmin(state.authenticationState.tokens),
@@ -120,36 +121,45 @@ export const TreeInfo: React.FC<TreeProps> = ({
             editTreeNameForm={editTreeNameFormInstance}
             onClickEditTreeName={onClickEditTreeName}
             treeName={siteData.entries[0].treeName || ''}
+            treePresent={treePresent}
           />
         }
       </TreeHeader>
 
       {loggedIn ? (
         <>
-          {userOwnsTree ? (
-            <UnadoptButton danger size={buttonSize} onClick={onClickUnadopt}>
-              {t('actions.unadopt')}
-            </UnadoptButton>
-          ) : (
-            <Button
-              type="primary"
-              size={buttonSize}
-              onClick={onClickAdopt}
-              disabled={isAdopted}
-            >
-              {isAdopted ? t('actions.adopted') : t('actions.adopt')}
-            </Button>
-          )}
+          {treePresent && (
+            <>
+              {userOwnsTree ? (
+                <UnadoptButton
+                  danger
+                  size={buttonSize}
+                  onClick={onClickUnadopt}
+                >
+                  {t('actions.unadopt')}
+                </UnadoptButton>
+              ) : (
+                <Button
+                  type="primary"
+                  size={buttonSize}
+                  onClick={onClickAdopt}
+                  disabled={isAdopted}
+                >
+                  {isAdopted ? t('actions.adopted') : t('actions.adopt')}
+                </Button>
+              )}
 
-          {userIsAdmin && (
-            <ForceUnadoptButton
-              danger
-              size={buttonSize}
-              onClick={onClickForceUnadopt}
-              disabled={!isAdopted}
-            >
-              {t('actions.force_unadopt')}
-            </ForceUnadoptButton>
+              {userIsAdmin && (
+                <ForceUnadoptButton
+                  danger
+                  size={buttonSize}
+                  onClick={onClickForceUnadopt}
+                  disabled={!isAdopted}
+                >
+                  {t('actions.force_unadopt')}
+                </ForceUnadoptButton>
+              )}
+            </>
           )}
 
           <TreePageShareButton
@@ -159,7 +169,7 @@ export const TreeInfo: React.FC<TreeProps> = ({
             isAdopted={isAdopted}
           />
 
-          {userOwnsTree && (
+          {userOwnsTree && treePresent && (
             <StewardshipContainer>
               <Typography.Title level={3}>
                 {t('actions.record_activity')}
