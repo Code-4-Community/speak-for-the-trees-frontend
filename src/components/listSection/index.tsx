@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
+import { Flex } from '../themedComponents';
 
 interface ListSectionProps {
   readonly title: string;
@@ -39,6 +40,25 @@ interface ListSectionProps {
 //   text-transform: capitalize;
 //   font-size: 15px;
 // `;
+
+const Title = styled(Typography.Title)`
+  color: ${DARK_GREEN};
+  font-size: 30px;
+  font-weight: 600;
+  line-height: normal;
+`;
+
+const EntryTitle = styled(Typography.Paragraph)`
+  color: ${DARK_GREEN};
+  font-size: 20px;
+  font-weight: 600;
+  line-height: normal;
+`;
+
+const EntryValue = styled(Typography.Paragraph)`
+  font-size: 16px;
+  line-height: normal;
+`;
 
 const ToggleButton = styled(Button)`
   background: ${WHITE};
@@ -82,7 +102,16 @@ const ListSection: React.FC<ListSectionProps> = ({
     <>
       {visible && (
         <>
-          <Typography.Title level={3}>{title}</Typography.Title>
+          <Title>{title}</Title>
+
+          {entries.map((entry: Entry) => {
+            return (
+              <Flex gap="15px" key={entry.title}>
+                <EntryTitle>{entry.title}</EntryTitle>
+                <EntryValue>{entry.value}</EntryValue>
+              </Flex>
+            );
+          })}
 
           {/* <CardBox>
             {entries.map((entry: Entry) => {
