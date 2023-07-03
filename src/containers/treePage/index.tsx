@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
-import { Col, Form, message, Row, Typography, Alert } from 'antd';
+import { Form, message, Typography, Alert } from 'antd';
 import { RedirectStateProps, Routes } from '../../App';
 import { Helmet } from 'react-helmet';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
@@ -31,7 +31,6 @@ import {
 import { C4CState } from '../../store';
 import { getAdoptedSites, getSiteData } from './ducks/thunks';
 import protectedApiClient from '../../api/protectedApiClient';
-import TreeBackground from '../../assets/images/grey-logo.png';
 import {
   NameSiteEntryRequest,
   RecordStewardshipRequest,
@@ -39,19 +38,18 @@ import {
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
-import TreeInfo from '../../components/treeInfo';
-import TreeActivity from '../../components/treeActivity';
-import EntryList from '../../components/entryList';
-import { CenterDiv, ReturnButton } from '../../components/themedComponents';
+import {
+  TreeInfo,
+  LatestEntryInfo,
+  SiteImageCarousel,
+  TreeActivity,
+} from '../../components/treePage';
+import { Flex, ReturnButton } from '../../components/themedComponents';
 import { STREET_ZOOM } from '../../components/mapComponents/constants';
 import { CITY_PLANTING_REQUEST_LINK } from '../../assets/links';
 import { Trans, useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
-
-const EntryDiv = styled(CenterDiv)`
-  margin: 10px 0;
-`;
 
 const TreePageContainer = styled.div`
   width: 90vw;
@@ -66,12 +64,7 @@ const MobileTreeMainContainer = styled.div`
   margin: 50px 10px 30px;
 `;
 
-const TreeInfoContainer = styled.div`
-  height: 100%;
-  background: url(${TreeBackground}) no-repeat bottom right;
-  background-size: contain;
-  margin: auto;
-`;
+const TreeInfoContainer = styled.div``;
 
 const TreeCareContainer = styled.div`
   margin-top: 5vh;
@@ -93,13 +86,13 @@ const PlantInstructionContainer = styled(Alert)`
   margin-top: 40px;
 `;
 
-const NoTreeMessage = styled.div`
+const NoTreeMessageContainer = styled.div`
   font-size: 25px;
   line-height: 30px;
   margin-bottom: 20px;
 `;
 
-const TreePlantingRequest = styled.div`
+const TreePlantingRequestContainer = styled.div`
   font-size: 20px;
   line-height: 30px;
 `;
@@ -249,35 +242,6 @@ const TreePage: React.FC<TreeProps> = ({
     return getLatestSplitEntry(state.siteState.siteData);
   });
 
-  const noTreeMessage: JSX.Element = asyncRequestIsComplete(siteData) ? (
-    <NoTreeMessage>
-      {t('no_tree_message', {
-        location:
-          siteData.result.address ||
-          `${siteData.result.lat}° N, ${Math.abs(siteData.result.lng)}° W`,
-      })}
-    </NoTreeMessage>
-  ) : (
-    <></>
-  );
-
-  const treePlantingRequest: JSX.Element = (
-    <TreePlantingRequest>
-      <Trans
-        t={t}
-        i18nKey="tree_planting_request"
-        components={{
-          1: (
-            <Typography.Link
-              href={CITY_PLANTING_REQUEST_LINK}
-              target="_blank"
-            ></Typography.Link>
-          ),
-        }}
-      />
-    </TreePlantingRequest>
-  );
-
   const returnDestination = location.state
     ? location.state.destination
     : Routes.LANDING;
@@ -310,8 +274,8 @@ const TreePage: React.FC<TreeProps> = ({
               {(!siteData.result.entries[0] ||
                 !siteData.result.entries[0].treePresent) && (
                 <PlantInstructionContainer
-                  message={noTreeMessage}
-                  description={treePlantingRequest}
+                  message={NoTreeMessage}
+                  description={TreePlantingRequest}
                   type="success"
                 />
               )}
@@ -322,8 +286,8 @@ const TreePage: React.FC<TreeProps> = ({
                   case WindowTypes.NarrowDesktop:
                     return (
                       <TreeMainContainer>
-                        <Row>
-                          <Col span={11}>
+                        <Flex>
+                          <div style={{ width: '45%' }}>
                             <TreeInfoContainer>
                               <TreeInfo
                                 siteData={siteData.result}
@@ -344,17 +308,19 @@ const TreePage: React.FC<TreeProps> = ({
                                 onClickEditTreeName={onClickEditTreeName}
                               />
                             </TreeInfoContainer>
-                          </Col>
-                          <Col span={2} />
-                          <Col span={11}>
+
+                            <LatestEntryInfo latestEntry={latestEntry} />
+                          </div>
+
+                          <div style={{ width: '45%' }}>
                             <TreeCareContainer>
                               <TreeActivity
                                 stewardship={stewardship}
                                 monthYearOptions={monthYearOptions}
                               />
                             </TreeCareContainer>
-                          </Col>
-                        </Row>
+                          </div>
+                        </Flex>
                       </TreeMainContainer>
                     );
                   case WindowTypes.Tablet:
@@ -410,33 +376,9 @@ const TreePage: React.FC<TreeProps> = ({
                     );
                 }
               })()}
-              {/* Display main or extra entries, if there are any. Otherwise, display a message that no entries have been collected. */}
-              {latestEntry.main.length !== 0 && (
-                <EntryDiv>
-                  <EntryList
-                    entries={latestEntry.main}
-                    canHide={false}
-                    title={t('info_tiles.about')}
-                  />
-                </EntryDiv>
-              )}
-              {latestEntry.extra.length !== 0 && (
-                <EntryDiv>
-                  <EntryList
-                    entries={latestEntry.extra}
-                    canHide={true}
-                    hideText={t('info_tiles.hide_text')}
-                    showText={t('info_tiles.show_text')}
-                    title={t('info_tiles.additional_information')}
-                  />
-                </EntryDiv>
-              )}
-              {latestEntry.main.length === 0 &&
-                latestEntry.extra.length === 0 && (
-                  <Typography.Title level={2}>{t('no_data')}</Typography.Title>
-                )}
             </>
           )}
+
           {asyncRequestIsFailed(siteData) && (
             <TreeMainContainer>
               <Typography.Title level={2}>
@@ -447,6 +389,51 @@ const TreePage: React.FC<TreeProps> = ({
         </TreePageContainer>
       </PageLayout>
     </>
+  );
+};
+
+interface NoTreeMessageProps {
+  readonly siteData: SiteReducerState['siteData'];
+}
+
+const NoTreeMessage: React.FC<NoTreeMessageProps> = ({ siteData }) => {
+  const { t } = useTranslation(n(site, 'treePage'), {
+    nsMode: 'fallback',
+  });
+
+  return asyncRequestIsComplete(siteData) ? (
+    <NoTreeMessageContainer>
+      {t('no_tree_message', {
+        location:
+          siteData.result.address ||
+          `${siteData.result.lat}° N, ${Math.abs(siteData.result.lng)}° W`,
+      })}
+    </NoTreeMessageContainer>
+  ) : (
+    <></>
+  );
+};
+
+const TreePlantingRequest: React.FC = () => {
+  const { t } = useTranslation(n(site, 'treePage'), {
+    nsMode: 'fallback',
+  });
+
+  return (
+    <TreePlantingRequestContainer>
+      <Trans
+        t={t}
+        i18nKey="tree_planting_request"
+        components={{
+          1: (
+            <Typography.Link
+              href={CITY_PLANTING_REQUEST_LINK}
+              target="_blank"
+            ></Typography.Link>
+          ),
+        }}
+      />
+    </TreePlantingRequestContainer>
   );
 };
 

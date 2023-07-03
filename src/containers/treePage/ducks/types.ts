@@ -289,6 +289,13 @@ export interface AdoptedSites {
   adoptedSites: number[];
 }
 
+export interface SiteEntryImage {
+  imageId: number;
+  uploaderUsername: string;
+  uploadedAt: string;
+  imageUrl: string;
+}
+
 // ---------------------------------Redux----------------------------------------
 
 export interface SiteReducerState {

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Button } from 'antd';
 import { SizeType } from 'antd/es/config-provider/SizeContext';
 import ShareMenu from '../shareMenu';
-import ShareWhite from '../../assets/images/sharewhite-small.png';
+import ShareWhite from '../../assets/images/share-green.png';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';

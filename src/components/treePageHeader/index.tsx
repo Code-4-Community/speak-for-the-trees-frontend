@@ -47,7 +47,7 @@ const TreeNameText = styled(StyledSubtitle)`
 
 const AddressText = styled(StyledSubtitle)`
   margin-top: ${(props: StyledSubtitleProps) =>
-    props.isMobile ? '0px' : '-10px'};
+    props.isMobile ? '0' : '-10px'};
 `;
 
 const TreePageHeader: React.FC<TreePageHeaderProps> = ({
@@ -63,6 +63,7 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
   const { t } = useTranslation(n(site, ['treeInfo']), {
     nsMode: 'fallback',
   });
+
   const [editingTreeName, setEditingTreeName] = useState<boolean>(false);
   const siteId = Number(useParams<TreeParams>().id);
   const dispatch = useDispatch();
@@ -83,6 +84,7 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
   return (
     <>
       <StyledTitle isMobile={isMobile}>{pageTitle}</StyledTitle>
+
       {editingTreeName ? (
         <EditTreeNameForm
           editTreeNameForm={editTreeNameForm}
@@ -103,6 +105,7 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
           )}
         </TreeNameText>
       )}
+
       <AddressText isMobile={isMobile} subtitlecolor={subtitlecolor}>
         {pageSubtitle}
       </AddressText>
