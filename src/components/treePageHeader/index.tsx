@@ -11,10 +11,6 @@ import {
 import styled from 'styled-components';
 import { EditOutlined } from '@ant-design/icons';
 import { isEmptyString } from '../../utils/isCheck';
-import { getSiteData } from '../../containers/treePage/ducks/thunks';
-import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { TreeParams } from '../../containers/treePage';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
@@ -63,9 +59,6 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
     nsMode: 'fallback',
   });
   const [editingTreeName, setEditingTreeName] = useState<boolean>(false);
-  const siteId = Number(useParams<TreeParams>().id);
-  const dispatch = useDispatch();
-
   const treeDisplayName = !isEmptyString(unescape(treeName))
     ? unescape(treeName)
     : canEditTreeName
@@ -76,7 +69,6 @@ const TreePageHeader: React.FC<TreePageHeaderProps> = ({
     setEditingTreeName(false);
     const newTreeName = editTreeNameForm.getFieldValue('name');
     onClickEditTreeName({ name: escape(newTreeName) });
-    dispatch(getSiteData(siteId));
   };
 
   return (

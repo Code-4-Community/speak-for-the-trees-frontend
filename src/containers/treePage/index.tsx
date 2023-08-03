@@ -225,6 +225,7 @@ const TreePage: React.FC<TreeProps> = ({
       .nameSiteEntry(id, values)
       .then(() => {
         message.success(t('messages.edit_name_success'));
+        dispatch(getSiteData(id));
       })
       .catch((err) =>
         message.error(
