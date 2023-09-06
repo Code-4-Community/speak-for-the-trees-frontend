@@ -40,7 +40,7 @@ const UnadoptButton = styled(Button)`
 `;
 
 const ForceUnadoptButton = styled(Button)`
-  margin: 10px;
+  margin-left: 10px;
 `;
 
 interface TreeProps {
@@ -83,8 +83,6 @@ export const TreeInfo: React.FC<TreeProps> = ({
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
     isAdmin(state.authenticationState.tokens),
   );
-
-  const buttonSize = mobile ? 'small' : 'middle';
 
   const getSiteLocation = (): string => {
     // TODO change to siteData.city and remove check for zip after data is cleaned
@@ -131,17 +129,13 @@ export const TreeInfo: React.FC<TreeProps> = ({
           {treePresent && (
             <>
               {userOwnsTree ? (
-                <UnadoptButton
-                  danger
-                  size={buttonSize}
-                  onClick={onClickUnadopt}
-                >
+                <UnadoptButton danger size="middle" onClick={onClickUnadopt}>
                   {t('actions.unadopt')}
                 </UnadoptButton>
               ) : (
                 <Button
                   type="primary"
-                  size={buttonSize}
+                  size="middle"
                   onClick={onClickAdopt}
                   disabled={isAdopted}
                 >
@@ -152,7 +146,7 @@ export const TreeInfo: React.FC<TreeProps> = ({
               {userIsAdmin && (
                 <ForceUnadoptButton
                   danger
-                  size={buttonSize}
+                  size="middle"
                   onClick={onClickForceUnadopt}
                   disabled={!isAdopted}
                 >
