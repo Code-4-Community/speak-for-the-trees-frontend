@@ -27,5 +27,32 @@
   "site_image": {
     "posted_by": "Posted by {{uploader}}",
     "no_upload_date": "Upload date unknown"
+  },
+  "tree_benefits": {
+    "header": "Tree Benefits",
+    "categories": {
+      "energy": {
+        "name": "Energy conserved",
+        "unit": "kWh/year"
+      },
+      "stormwater": {
+        "name": "Stormwater filtered",
+        "unit": "gal/year"
+      },
+      "airQuality": {
+        "name": "Air quality improved",
+        "unit": "lbs/year"
+      },
+      "co2Removed": {
+        "name": "CO2 removed",
+        "unit": "lbs/year"
+      },
+      "co2Stored": {
+        "name": "CO2 stored to date",
+        "unit": "lbs"
+      }
+    },
+    "unsupported_browser": "This browser type is not supported.",
+    "learn_more": "Learn more about how we got these numbers <learnMore>here</learnMore>."
   }
 }

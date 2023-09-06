@@ -19,7 +19,10 @@ const t = i18n.t;
  * @param amount the amount to convert
  */
 export function getMoneyString(amount: number): string {
-  return `$${amount.toLocaleString('en-us', { maximumFractionDigits: 2 })}`;
+  return `$${amount.toLocaleString('en-us', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
 }
 
 /**

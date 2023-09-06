@@ -297,6 +297,27 @@ export interface SiteEntryImage {
   imageUrl: string;
 }
 
+export interface TreeBenefits {
+  energy: number;
+  energyMoney: number;
+  stormwater: number;
+  stormwaterMoney: number;
+  airQuality: number;
+  airQualityMoney: number;
+  co2Removed: number;
+  co2RemovedMoney: number;
+  co2Stored: number;
+  co2StoredMoney: number;
+}
+
+export enum TreeBenefitCategory {
+  ENERGY = 'energy',
+  STORMWATER = 'stormwater',
+  AIR_QUALITY = 'airQuality',
+  CO2_REMOVED = 'co2Removed',
+  CO2_STORED = 'co2Stored',
+}
+
 // ---------------------------------Redux----------------------------------------
 
 export interface SiteReducerState {

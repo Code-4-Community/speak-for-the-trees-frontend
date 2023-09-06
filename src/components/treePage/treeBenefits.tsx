@@ -1,93 +1,73 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Typography, message } from 'antd';
+import { Trans, useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Typography } from 'antd';
+
 import useWindowDimensions, { WindowTypes } from '../windowDimensions';
-import { TEXT_GREY, MID_GREEN } from '../../utils/colors';
-import MobileInfoCard from '../mobileComponents/mobileInfoCard';
-import InfoCard from '../infoCard';
-import { getMoneyString } from '../../utils/stringFormat';
+import { getMoneyString, n } from '../../utils/stringFormat';
+import Client from '../../api/apiClient';
+import { TreeParams } from '../../containers/treePage';
 import {
-  MONEY_STAT_TITLE,
-  RAIN_STAT_TITLE,
-  EMISSIONS_STAT_TITLE,
-  STATS_HEADER,
-} from '../../assets/content';
+  Entry,
+  TreeBenefitCategory,
+} from '../../containers/treePage/ducks/types';
+import ListSection from './listSection';
+import { site } from '../../constants';
 
 const TreeStatsContainer = styled.div`
-  margin-top: 35px;
+  margin-top: 20px;
 `;
 
-const MapCardsContainer = styled.div`
-  margin: 30px auto;
+const MobileTreeStatsContainer = styled.div`
+  margin: 20px auto;
 `;
 
-const MapCard = styled.div`
-  margin: 10px auto;
-`;
+const TreeBenefits: React.FC = () => {
+  const { t } = useTranslation(n(site, 'treePage'), { nsMode: 'fallback' });
 
-const MobileTitle = styled(Typography.Paragraph)`
-  color: ${MID_GREEN};
-  font-size: 14px;
-`;
-
-const MobileMapCardsContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 10px auto;
-`;
-
-const RightMargin = styled.div`
-  margin-right: 10px;
-`;
-
-const GreyParagraph = styled(Typography.Paragraph)`
-  color: ${TEXT_GREY};
-`;
-
-type LandingTreeStatsProps = {
-  readonly moneySaved: number;
-  readonly rainWater: number;
-  readonly carbonEmissions: number;
-};
-
-const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
-  moneySaved,
-  rainWater,
-  carbonEmissions,
-}) => {
   const { windowType } = useWindowDimensions();
+
+  const siteId = Number(useParams<TreeParams>().id);
+
+  const [treeBenefits, setTreeBenefits] = useState<Entry[]>();
+
+  useEffect(() => {
+    Client.getTreeBenefits(siteId)
+      .then((benefits) =>
+        setTreeBenefits(
+          Object.values(TreeBenefitCategory).map((category) => {
+            const amount = benefits[category].toFixed(2);
+            const money = getMoneyString(benefits[`${category}Money`]);
+
+            return {
+              title: t(`tree_benefits.categories.${category}.name`),
+              value: `${amount} ${t(
+                `tree_benefits.categories.${category}.unit`,
+              )} saved ${money}`,
+            };
+          }),
+        ),
+      )
+      .catch((err) => message.error(err.response.data));
+  }, []);
+
+  if (!treeBenefits) {
+    return <></>;
+  }
 
   switch (windowType) {
     case WindowTypes.Mobile:
       return (
-        <TreeStatsContainer>
-          <MobileTitle>{STATS_HEADER}</MobileTitle>
-          <MobileMapCardsContainer>
-            <RightMargin>
-              <MobileInfoCard
-                header={MONEY_STAT_TITLE}
-                body={getMoneyString(moneySaved)}
-              />
-            </RightMargin>
+        <MobileTreeStatsContainer>
+          <ListSection
+            title={t('tree_benefits.header')}
+            entries={treeBenefits}
+            canHide={false}
+          />
 
-            <RightMargin>
-              <MobileInfoCard
-                header={RAIN_STAT_TITLE}
-                body={`${rainWater.toLocaleString()} gallons`}
-              />
-            </RightMargin>
-
-            <MobileInfoCard
-              header={EMISSIONS_STAT_TITLE}
-              body={`${carbonEmissions}%`}
-            />
-          </MobileMapCardsContainer>
-
-          <GreyParagraph>
-            Learn more about how we got these numbers{' '}
-            <Typography.Link underline>here</Typography.Link>.
-          </GreyParagraph>
-        </TreeStatsContainer>
+          <LearnMore />
+        </MobileTreeStatsContainer>
       );
 
     case WindowTypes.Tablet:
@@ -95,45 +75,43 @@ const LandingTreeStats: React.FC<LandingTreeStatsProps> = ({
     case WindowTypes.Desktop:
       return (
         <TreeStatsContainer>
-          <Typography.Title level={3}>{STATS_HEADER}</Typography.Title>
+          <ListSection
+            title={t('tree_benefits.header')}
+            entries={treeBenefits}
+            canHide={false}
+          />
 
-          <MapCardsContainer>
-            <MapCard>
-              <InfoCard
-                header={MONEY_STAT_TITLE}
-                body={getMoneyString(moneySaved)}
-              />
-            </MapCard>
-
-            <MapCard>
-              <InfoCard
-                header={RAIN_STAT_TITLE}
-                body={`${rainWater.toLocaleString()} gallons`}
-              />
-            </MapCard>
-
-            <MapCard>
-              <InfoCard
-                header={EMISSIONS_STAT_TITLE}
-                body={`${carbonEmissions}%`}
-              />
-            </MapCard>
-          </MapCardsContainer>
-
-          <Typography.Paragraph>
-            Learn more about how we got these numbers{' '}
-            <Typography.Link underline>here</Typography.Link>.
-          </Typography.Paragraph>
+          <LearnMore />
         </TreeStatsContainer>
       );
 
     default:
       return (
         <Typography.Paragraph>
-          This browser type is not supported.
+          {t('tree_benefits.unsupported_browser')}
         </Typography.Paragraph>
       );
   }
 };
 
-export default LandingTreeStats;
+const LearnMore: React.FC = () => (
+  <Typography.Paragraph>
+    <Trans
+      ns={n(site, 'treePage')}
+      i18nKey="tree_benefits.learn_more"
+      components={{
+        learnMore: (
+          <Typography.Link
+            href="http://www.treebenefits.com/calculator/"
+            target="_blank"
+            underline
+          >
+            {' '}
+          </Typography.Link>
+        ),
+      }}
+    />
+  </Typography.Paragraph>
+);
+
+export default TreeBenefits;
