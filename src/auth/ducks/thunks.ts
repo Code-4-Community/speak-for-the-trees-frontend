@@ -9,7 +9,7 @@ import {
 import { authenticateUser, logoutUser, userData } from './actions';
 import { C4CState, LOCALSTORAGE_STATE_KEY } from '../../store';
 import { asyncRequestIsComplete } from '../../utils/asyncRequest';
-import AppAxiosInstance from '../axios';
+import { AppAxiosInstance } from '../../api/apiClient';
 import Client from '../../api/protectedApiClient';
 import history from '../../history';
 

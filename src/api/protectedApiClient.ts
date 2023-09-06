@@ -1,4 +1,4 @@
-import AppAxiosInstance from '../auth/axios';
+import { AppAxiosInstance } from './apiClient';
 import { SignupRequest, UserData } from '../auth/ducks/types';
 import {
   TeamResponse,

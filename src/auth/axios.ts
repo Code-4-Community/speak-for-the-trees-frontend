@@ -1,20 +1,13 @@
-import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import store, { LOCALSTORAGE_STATE_KEY } from '../store';
 import { asyncRequestIsComplete } from '../utils/asyncRequest';
 import { UserAuthenticationReducerState } from './ducks/types';
 import { isTokenValid } from './ducks/selectors';
 import { logout, refresh } from './ducks/thunks';
+import { AppAxiosInstance } from '../api/apiClient';
 import authClient from './authClient';
 import protectedApiClient from '../api/protectedApiClient';
 import history from '../history';
-
-const AppAxiosInstance: AxiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_API_DOMAIN,
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
 
 const userAuthenticationExtraArgs = {
   authClient,
@@ -79,5 +72,3 @@ AppAxiosInstance.interceptors.request.use((config) => {
   }
   return config;
 });
-
-export default AppAxiosInstance;
