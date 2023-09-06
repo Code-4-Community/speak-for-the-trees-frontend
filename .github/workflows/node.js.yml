@@ -26,7 +26,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
       - run: CI= yarn build --if-present
-      - run: yarn check
+      # - run: yarn check # skip this for now since `yarn check` is deprecated
       - run: yarn test
 
       - name: Coveralls
