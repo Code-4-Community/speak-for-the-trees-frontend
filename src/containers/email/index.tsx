@@ -12,6 +12,8 @@ import {
   Divider,
   SelectProps,
 } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+
 import { Routes } from '../../App';
 import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
@@ -121,7 +123,9 @@ const Email: React.FC = () => {
       </Helmet>
       <PageLayout>
         <EmailPageContainer>
-          <ReturnButton to={Routes.ADMIN}>{`<`} Back to Dashboard</ReturnButton>
+          <ReturnButton to={Routes.ADMIN}>
+            <ArrowLeftOutlined /> Back to Dashboard
+          </ReturnButton>
           <PageHeader pageTitle="Volunteer Emailer" />
           <Row>
             <Col span={6}>
