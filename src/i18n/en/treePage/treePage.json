@@ -23,5 +23,9 @@
     "edit_name_failure": "Failed to name site: {{error}}",
     "force_unadopt_success": "Force unadopted site!",
     "force_unadopt_failure": "Failed to force unadopt site: {{error}}"
+  },
+  "site_image": {
+    "posted_by": "Posted by {{uploader}}",
+    "no_upload_date": "Upload date unknown"
   }
 }

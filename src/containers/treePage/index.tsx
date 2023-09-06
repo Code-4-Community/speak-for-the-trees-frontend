@@ -319,6 +319,8 @@ const TreePage: React.FC<TreeProps> = ({
                                 monthYearOptions={monthYearOptions}
                               />
                             </TreeCareContainer>
+
+                            <SiteImageCarousel />
                           </HalfWidthContainer>
                         </Flex>
                       </TreeMainContainer>
@@ -346,6 +348,8 @@ const TreePage: React.FC<TreeProps> = ({
                           />
                         </TreeCareContainer>
 
+                        <SiteImageCarousel />
+
                         <LatestEntryInfo latestEntry={latestEntry} />
                       </TreeMainContainer>
                     );
@@ -372,6 +376,8 @@ const TreePage: React.FC<TreeProps> = ({
                             monthYearOptions={monthYearOptions}
                           />
                         </MobileTreeCareContainer>
+
+                        <SiteImageCarousel />
 
                         <LatestEntryInfo latestEntry={latestEntry} />
                       </MobileTreeMainContainer>

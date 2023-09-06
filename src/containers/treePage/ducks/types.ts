@@ -129,6 +129,7 @@ export interface SiteEntry {
   treeName?: string;
   adopter?: string;
   plantingDate?: moment.Moment;
+  images: SiteEntryImage[];
 }
 
 export enum SiteEntryStatus {
@@ -291,7 +292,7 @@ export interface AdoptedSites {
 
 export interface SiteEntryImage {
   imageId: number;
-  uploaderUsername: string;
+  uploaderUsername: string | null;
   uploadedAt: string;
   imageUrl: string;
 }
