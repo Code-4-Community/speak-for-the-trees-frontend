@@ -25,6 +25,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
+      - run: npm_config_yes=true npx yarn-audit-fix
       - run: yarn build --if-present
       - run: yarn check
       - run: yarn test
