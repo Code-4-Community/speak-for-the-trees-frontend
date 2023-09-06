@@ -12,7 +12,7 @@ import {
 } from '../forms/ducks/types';
 import { MID_GREEN } from '../../utils/colors';
 import ShareButton from '../shareButton';
-import TreePageHeader from '../treePageHeader';
+import { TreePageHeader } from './treePageHeader';
 import { C4CState } from '../../store';
 import { isAdmin } from '../../auth/ducks/selectors';
 import { useTranslation } from 'react-i18next';
