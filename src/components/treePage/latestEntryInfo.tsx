@@ -8,7 +8,7 @@ import { SplitSiteEntries } from '../../containers/treePage/ducks/types';
 import { CenterDiv } from '../../components/themedComponents';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
-import ListSection from '../listSection';
+import ListSection from './listSection';
 import { DARK_GREEN } from '../../utils/colors';
 
 const EntryDiv = styled(CenterDiv)`
