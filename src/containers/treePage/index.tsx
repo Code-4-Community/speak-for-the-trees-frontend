@@ -65,7 +65,9 @@ const MobileTreeMainContainer = styled.div`
   margin: 20px 10px 30px;
 `;
 
-const TreeInfoContainer = styled.div``;
+const HalfWidthContainer = styled.div`
+  width: 50%;
+`;
 
 const TreeCareContainer = styled.div`
   margin-top: 5vh;
@@ -288,68 +290,63 @@ const TreePage: React.FC<TreeProps> = ({
                   case WindowTypes.NarrowDesktop:
                     return (
                       <TreeMainContainer>
-                        <Flex>
-                          <div style={{ width: '45%' }}>
-                            <TreeInfoContainer>
-                              <TreeInfo
-                                siteData={siteData.result}
-                                loggedIn={loggedIn}
-                                userOwnsTree={doesUserOwnTree}
-                                onClickAdopt={onClickAdopt}
-                                onClickUnadopt={onClickUnadopt}
-                                onClickForceUnadopt={onClickForceUnadopt}
-                                onFinishRecordStewardship={
-                                  onFinishRecordStewardship
-                                }
-                                stewardshipFormInstance={
-                                  stewardshipFormInstance
-                                }
-                                editTreeNameFormInstance={
-                                  editTreeNameFormInstance
-                                }
-                                onClickEditTreeName={onClickEditTreeName}
-                              />
-                            </TreeInfoContainer>
+                        <Flex flexWrap="nowrap">
+                          <HalfWidthContainer>
+                            <TreeInfo
+                              siteData={siteData.result}
+                              loggedIn={loggedIn}
+                              userOwnsTree={doesUserOwnTree}
+                              onClickAdopt={onClickAdopt}
+                              onClickUnadopt={onClickUnadopt}
+                              onClickForceUnadopt={onClickForceUnadopt}
+                              onFinishRecordStewardship={
+                                onFinishRecordStewardship
+                              }
+                              stewardshipFormInstance={stewardshipFormInstance}
+                              editTreeNameFormInstance={
+                                editTreeNameFormInstance
+                              }
+                              onClickEditTreeName={onClickEditTreeName}
+                            />
 
                             <LatestEntryInfo latestEntry={latestEntry} />
-                          </div>
+                          </HalfWidthContainer>
 
-                          <div style={{ width: '45%' }}>
+                          <HalfWidthContainer>
                             <TreeCareContainer>
                               <TreeActivity
                                 stewardship={stewardship}
                                 monthYearOptions={monthYearOptions}
                               />
                             </TreeCareContainer>
-                          </div>
+                          </HalfWidthContainer>
                         </Flex>
                       </TreeMainContainer>
                     );
                   case WindowTypes.Tablet:
                     return (
                       <TreeMainContainer>
-                        <TreeInfoContainer>
-                          <TreeInfo
-                            siteData={siteData.result}
-                            loggedIn={loggedIn}
-                            userOwnsTree={doesUserOwnTree}
-                            onClickAdopt={onClickAdopt}
-                            onClickUnadopt={onClickUnadopt}
-                            onClickForceUnadopt={onClickForceUnadopt}
-                            onFinishRecordStewardship={
-                              onFinishRecordStewardship
-                            }
-                            stewardshipFormInstance={stewardshipFormInstance}
-                            editTreeNameFormInstance={editTreeNameFormInstance}
-                            onClickEditTreeName={onClickEditTreeName}
-                          />
-                        </TreeInfoContainer>
+                        <TreeInfo
+                          siteData={siteData.result}
+                          loggedIn={loggedIn}
+                          userOwnsTree={doesUserOwnTree}
+                          onClickAdopt={onClickAdopt}
+                          onClickUnadopt={onClickUnadopt}
+                          onClickForceUnadopt={onClickForceUnadopt}
+                          onFinishRecordStewardship={onFinishRecordStewardship}
+                          stewardshipFormInstance={stewardshipFormInstance}
+                          editTreeNameFormInstance={editTreeNameFormInstance}
+                          onClickEditTreeName={onClickEditTreeName}
+                        />
+
                         <TreeCareContainer>
                           <TreeActivity
                             stewardship={stewardship}
                             monthYearOptions={monthYearOptions}
                           />
                         </TreeCareContainer>
+
+                        <LatestEntryInfo latestEntry={latestEntry} />
                       </TreeMainContainer>
                     );
                   case WindowTypes.Mobile:
@@ -368,12 +365,15 @@ const TreePage: React.FC<TreeProps> = ({
                           editTreeNameFormInstance={editTreeNameFormInstance}
                           onClickEditTreeName={onClickEditTreeName}
                         />
+
                         <MobileTreeCareContainer>
                           <TreeActivity
                             stewardship={stewardship}
                             monthYearOptions={monthYearOptions}
                           />
                         </MobileTreeCareContainer>
+
+                        <LatestEntryInfo latestEntry={latestEntry} />
                       </MobileTreeMainContainer>
                     );
                 }
