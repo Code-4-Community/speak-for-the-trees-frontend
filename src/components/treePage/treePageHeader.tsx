@@ -40,8 +40,6 @@ const TreeNameText = styled(StyledSubtitle)`
     props.isMobile ? '14' : '20'}px;
   line-height: ${(props: StyledSubtitleProps) =>
     props.isMobile ? '14' : '24'}px;
-  margin-top: ${(props: StyledSubtitleProps) =>
-    props.isMobile ? '-25' : '-45'}px;
   text-transform: none;
   color: ${DARK_TEXT_GREY};
 `;

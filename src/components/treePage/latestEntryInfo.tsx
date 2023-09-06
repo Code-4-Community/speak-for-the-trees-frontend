@@ -1,15 +1,23 @@
 import React from 'react';
 import { Typography } from 'antd';
-import { SplitSiteEntries } from '../../containers/treePage/ducks/types';
-import styled from 'styled-components';
-import { CenterDiv } from '../../components/themedComponents';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
+
+import { SplitSiteEntries } from '../../containers/treePage/ducks/types';
+import { CenterDiv } from '../../components/themedComponents';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 import ListSection from '../listSection';
+import { DARK_GREEN } from '../../utils/colors';
 
 const EntryDiv = styled(CenterDiv)`
   margin: 10px 0;
+`;
+
+const InfoIcon = styled(InfoCircleOutlined)`
+  color: ${DARK_GREEN};
+  font-size: 20px;
 `;
 
 interface LatestEntryInfoProps {
@@ -30,7 +38,7 @@ export const LatestEntryInfo: React.FC<LatestEntryInfoProps> = ({
         <EntryDiv>
           <ListSection
             title={t('info_tiles.about')}
-            hasIcon
+            headerIcon={<InfoIcon />}
             entries={latestEntry.main}
             canHide={false}
           />

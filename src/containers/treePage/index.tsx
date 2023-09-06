@@ -62,7 +62,7 @@ const TreeMainContainer = styled.div`
 `;
 
 const MobileTreeMainContainer = styled.div`
-  margin: 50px 10px 30px;
+  margin: 20px 10px 30px;
 `;
 
 const TreeInfoContainer = styled.div``;

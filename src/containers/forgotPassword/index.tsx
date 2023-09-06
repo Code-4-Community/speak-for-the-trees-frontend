@@ -3,12 +3,10 @@ import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import authClient from '../../auth/authClient';
 import { ForgotPasswordRequest } from '../../auth/ducks/types';
-import useWindowDimensions from '../../components/windowDimensions';
 import { Button, Form, Input, Typography } from 'antd';
 import { site } from '../../constants';
 import PageHeader from '../../components/pageHeader';
 import { ContentContainer } from '../../components/themedComponents';
-import { isMobile } from '../../utils/isCheck';
 import { enterEmailRules } from '../../utils/formRules';
 import { n } from '../../utils/stringFormat';
 
@@ -16,8 +14,6 @@ const ForgotPassword: React.FC = () => {
   const { t } = useTranslation(n(site, ['forgotPassword', 'forms']), {
     nsMode: 'fallback',
   });
-
-  const { windowType } = useWindowDimensions();
 
   const [email, setEmail] = useState('');
 
@@ -38,7 +34,7 @@ const ForgotPassword: React.FC = () => {
         />
       </Helmet>
       <ContentContainer>
-        <PageHeader pageTitle={t('header')} isMobile={isMobile(windowType)} />
+        <PageHeader pageTitle={t('header')} />
         {email === '' ? (
           <>
             <Typography.Title level={4}>

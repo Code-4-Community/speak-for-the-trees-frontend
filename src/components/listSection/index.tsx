@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Typography } from 'antd';
+import React, { ReactNode, useState } from 'react';
+import { Button, Divider, Typography } from 'antd';
 import { Entry } from '../../containers/treePage/ducks/types';
 import { DARK_GREEN, MID_GREEN, WHITE } from '../../utils/colors';
 import styled from 'styled-components';
@@ -8,54 +8,28 @@ import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 import { Flex } from '../themedComponents';
 
-interface ListSectionProps {
-  readonly title: string;
-  readonly hasIcon?: boolean;
-  readonly entries: Entry[];
-  readonly canHide: boolean;
-  readonly hideText?: string;
-  readonly showText?: string;
-}
-
-// const CardBox = styled.div`
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: flex-start;
-//   align-content: flex-start;
-//   gap: 15px;
-//   flex-grow: 1;
-// `;
-
-// const StyledCard = styled.div`
-//   height: 150px;
-//   width: 275px;
-//   padding: 20px;
-//   border: solid 1px ${LIGHT_GREY};
-//   overflow: hidden;
-// `;
-
-// const EntryMessage = styled(Typography.Paragraph)`
-//   color: ${TEXT_GREY};
-//   line-height: 18px;
-//   text-transform: capitalize;
-//   font-size: 15px;
-// `;
-
 const Title = styled(Typography.Title)`
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
   color: ${DARK_GREEN};
-  font-size: 30px;
-  font-weight: 600;
-  line-height: normal;
+`;
+
+const SectionDivider = styled(Divider)`
+  margin-top: 10px;
+  margin-bottom: 20px;
 `;
 
 const EntryTitle = styled(Typography.Paragraph)`
   color: ${DARK_GREEN};
-  font-size: 20px;
+  width: 50%;
+  font-size: 16px;
   font-weight: 600;
   line-height: normal;
 `;
 
 const EntryValue = styled(Typography.Paragraph)`
+  width: 50%;
   font-size: 16px;
   line-height: normal;
 `;
@@ -66,23 +40,35 @@ const ToggleButton = styled(Button)`
   font-weight: bold;
   margin-bottom: 10px;
   padding: 0;
+
   &:hover {
     background: ${WHITE};
     color: ${MID_GREEN};
   }
+
   &:active {
     background: ${WHITE};
     color: ${MID_GREEN};
   }
+
   &:focus {
     background: ${WHITE};
     color: ${DARK_GREEN};
   }
 `;
 
+interface ListSectionProps {
+  readonly title: string;
+  readonly headerIcon?: ReactNode;
+  readonly entries: Entry[];
+  readonly canHide: boolean;
+  readonly hideText?: string;
+  readonly showText?: string;
+}
+
 const ListSection: React.FC<ListSectionProps> = ({
   title,
-  hasIcon = false,
+  headerIcon,
   entries,
   canHide,
   hideText,
@@ -102,27 +88,21 @@ const ListSection: React.FC<ListSectionProps> = ({
     <>
       {visible && (
         <>
-          <Title>{title}</Title>
+          <Title level={2}>
+            {headerIcon}
+            {title}
+          </Title>
+
+          <SectionDivider />
 
           {entries.map((entry: Entry) => {
             return (
-              <Flex gap="15px" key={entry.title}>
+              <Flex gap="15px" flexWrap="nowrap" key={entry.title}>
                 <EntryTitle>{entry.title}</EntryTitle>
                 <EntryValue>{entry.value}</EntryValue>
               </Flex>
             );
           })}
-
-          {/* <CardBox>
-            {entries.map((entry: Entry) => {
-              return (
-                <StyledCard key={entry.title}>
-                  <Typography.Title level={4}>{entry.title}</Typography.Title>
-                  <EntryMessage>{entry.value}</EntryMessage>
-                </StyledCard>
-              );
-            })}
-          </CardBox> */}
         </>
       )}
 
