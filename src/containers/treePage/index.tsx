@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
 import { Form, message, Typography, Alert } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import { RedirectStateProps, Routes } from '../../App';
 import { Helmet } from 'react-helmet';
 import { UserAuthenticationReducerState } from '../../auth/ducks/types';
@@ -269,7 +270,7 @@ const TreePage: React.FC<TreeProps> = ({
                   activeId: siteData.result.siteId,
                 }}
               >
-                {`< ${t('return')}`}
+                <ArrowLeftOutlined /> {t('return')}
               </ReturnButton>
 
               {(!siteData.result.entries[0] ||
