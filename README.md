@@ -6,19 +6,19 @@ This is the React.js frontend for Speak for the Trees! See below for help with s
 
 ## Setup :wrench:
 
-Use the package manager [npm](https://www.npmjs.com/) to install all the dependencies for our frontend.
+Use the package manager [yarn](https://yarnpkg.com/) to install all the dependencies for our frontend.
 
 ```bash
-npm install
+yarn
 ```
 
-After that, request a GoogleMaps API key in the SFTT Slack channel and put it in the `.env.development.local` file as `REACT_APP_GOOGLE_MAPS_KEY`. Your frontend should now be ready to go! Run `npm start` to check that everything compiles as expected.
+After that, request a GoogleMaps API key in the SFTT Slack channel and put it in the `.env.development.local` file as `REACT_APP_GOOGLE_MAPS_KEY`. Your frontend should now be ready to go! Run `yarn start` to check that everything compiles as expected.
 
 ## Available Scripts :robot:
 
 In the project directory, you can run:
 
-### `npm start`
+### `yarn start`
 
 Runs the app in the development mode. \
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -26,30 +26,30 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits. \
 You will also see any lint errors in the console.
 
-### `npm run check`
+### `yarn check`
 
 Runs all 4 lint, type check, and test commands below. \
 This command is useful to check that your branch will pass all the CI checks and allow you to merge your PR.
 
-### `npm run lint-fix`
+### `yarn lint-fix`
 
 To lint and fix your files. \
 This is an easy fix for any lint errors you might encounter.
 
-### `npm run prettier-fix`
+### `yarn prettier-fix`
 
 To lint and fix your files. \
 This is an easy fix for any prettier errors you might encounter.
 
-### `npm run type-check`
+### `yarn type-check`
 
 Type checks your code. \
-Also run with `npm run check`, but useful if you only want to type-check your changes.
+Also run with `yarn check`, but useful if you only want to type-check your changes.
 
-### `npm run test`
+### `yarn test`
 
 Runs all unit tests. \
-Also run with `npm run check`, but useful if you only want to run the unit tests.
+Also run with `yarn check`, but useful if you only want to run the unit tests.
 
 ## Code Walkthrough :computer:
 
