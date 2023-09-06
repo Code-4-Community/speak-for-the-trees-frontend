@@ -53,49 +53,55 @@ export const SiteImageCarousel: React.FC = () => {
   });
 
   const [currSlideIndex, setCurrSlideIndex] = useState<number>(0);
-  const currUploaderName =
-    latestEntrySiteImages[currSlideIndex].uploaderUsername;
-  const currUploadedAt = latestEntrySiteImages[currSlideIndex].uploadedAt;
 
   const onAfterChange = (currentSlide: number) =>
     setCurrSlideIndex(currentSlide);
 
   return (
-    <CarouselContainer>
-      <StyledCarousel
-        arrows
-        prevArrow={<LeftOutlined />}
-        nextArrow={<RightOutlined />}
-        draggable
-        adaptiveHeight
-        afterChange={onAfterChange}
-      >
-        {latestEntrySiteImages.map((siteImage) => (
-          <div key={siteImage.imageUrl}>
-            <img src={siteImage.imageUrl} />
-          </div>
-        ))}
+    <>
+      {latestEntrySiteImages.length > 0 && (
+        <CarouselContainer>
+          <StyledCarousel
+            arrows
+            prevArrow={<LeftOutlined />}
+            nextArrow={<RightOutlined />}
+            draggable
+            adaptiveHeight
+            afterChange={onAfterChange}
+          >
+            {latestEntrySiteImages.map((siteImage) => (
+              <div key={siteImage.imageUrl}>
+                <img src={siteImage.imageUrl} />
+              </div>
+            ))}
 
-        {latestEntrySiteImages.map((siteImage) => (
-          <div key={siteImage.imageUrl}>
-            <img src={siteImage.imageUrl} />
-          </div>
-        ))}
-        {latestEntrySiteImages.map((siteImage) => (
-          <div key={siteImage.imageUrl}>
-            <img src={siteImage.imageUrl} />
-          </div>
-        ))}
-      </StyledCarousel>
+            {latestEntrySiteImages.map((siteImage) => (
+              <div key={siteImage.imageUrl}>
+                <img src={siteImage.imageUrl} />
+              </div>
+            ))}
+            {latestEntrySiteImages.map((siteImage) => (
+              <div key={siteImage.imageUrl}>
+                <img src={siteImage.imageUrl} />
+              </div>
+            ))}
+          </StyledCarousel>
 
-      <FooterContainer>
-        <div>
-          {t('site_image.posted_by', {
-            uploader: currUploaderName || 'Anonymous',
-          })}
-        </div>
-        <div>{currUploadedAt || t('site_image.no_upload_date')}</div>
-      </FooterContainer>
-    </CarouselContainer>
+          <FooterContainer>
+            <div>
+              {t('site_image.posted_by', {
+                uploader:
+                  latestEntrySiteImages[currSlideIndex].uploaderUsername ||
+                  'Anonymous',
+              })}
+            </div>
+            <div>
+              {latestEntrySiteImages[currSlideIndex].uploadedAt ||
+                t('site_image.no_upload_date')}
+            </div>
+          </FooterContainer>
+        </CarouselContainer>
+      )}
+    </>
   );
 };
