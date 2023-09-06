@@ -74,17 +74,6 @@ export const SiteImageCarousel: React.FC = () => {
                 <img src={siteImage.imageUrl} />
               </div>
             ))}
-
-            {latestEntrySiteImages.map((siteImage) => (
-              <div key={siteImage.imageUrl}>
-                <img src={siteImage.imageUrl} />
-              </div>
-            ))}
-            {latestEntrySiteImages.map((siteImage) => (
-              <div key={siteImage.imageUrl}>
-                <img src={siteImage.imageUrl} />
-              </div>
-            ))}
           </StyledCarousel>
 
           <FooterContainer>
