@@ -152,8 +152,8 @@ const enhancer = composeEnhancers(
 const store: Store<C4CState, C4CAction> = createStore<
   C4CState,
   C4CAction,
-  {},
-  {}
+  undefined,
+  undefined
 >(reducers, preloadedState || initialStoreState, enhancer);
 
 store.subscribe(

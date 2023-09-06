@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { Typography } from 'antd';
 import { BlockProps, Block } from '../themedComponents';
@@ -12,7 +12,7 @@ interface TitleStackProps extends BlockProps {
   title: string;
 }
 
-const TitleStack: React.FC<TitleStackProps> = ({
+const TitleStack: React.FC<PropsWithChildren<TitleStackProps>> = ({
   title,
   minWidth,
   flexGrow,

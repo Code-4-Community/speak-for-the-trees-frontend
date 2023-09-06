@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { PropsWithChildren, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Form, message, Typography, Divider, Modal, Button } from 'antd';
 import PageHeader from '../../components/pageHeader';
@@ -70,7 +70,7 @@ interface ImageLinkCardProps {
   image: string;
 }
 
-const ImageLinkCard: React.FC<ImageLinkCardProps> = ({
+const ImageLinkCard: React.FC<PropsWithChildren<ImageLinkCardProps>> = ({
   href,
   image,
   children,

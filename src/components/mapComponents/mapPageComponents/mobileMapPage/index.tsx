@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import PageLayout from '../../../pageLayout';
 import { MainContent } from '../../../themedComponents';
 import { Routes } from '../../../../App';
@@ -8,7 +8,7 @@ interface MobileMapPageProps {
   readonly returnTo: Routes;
 }
 
-const MobileMapPage: React.FC<MobileMapPageProps> = ({
+const MobileMapPage: React.FC<PropsWithChildren<MobileMapPageProps>> = ({
   mapContent,
   children,
 }) => (

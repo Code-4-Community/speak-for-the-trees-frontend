@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, PropsWithChildren } from 'react';
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { MID_GREEN, WHITE } from '../../utils/colors';
@@ -56,7 +56,7 @@ interface SlideDownProps {
   readonly slideHeight?: number;
 }
 
-const SlideDown: React.FC<SlideDownProps> = ({
+const SlideDown: React.FC<PropsWithChildren<SlideDownProps>> = ({
   defaultOpen,
   slideHeight,
   children,

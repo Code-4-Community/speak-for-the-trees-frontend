@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import MapSidebar from '../mapSidebar';
 import PageLayout from '../../../pageLayout';
 import { Layout } from 'antd';
@@ -15,7 +15,7 @@ interface MapPageProps {
   readonly windowType: WindowTypes;
 }
 
-const MapPage: React.FC<MapPageProps> = ({
+const MapPage: React.FC<PropsWithChildren<MapPageProps>> = ({
   mapContent,
   sidebarHeader,
   sidebarDescription,

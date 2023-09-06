@@ -47,7 +47,7 @@ const GreenAvatar = styled(Avatar)`
 interface NavExtraProps {
   readonly userName?: string;
   readonly isAdmin: boolean;
-  readonly location: Location<unknown>;
+  readonly location: Location;
   readonly onLogout: () => void;
 }
 
