@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
-    "@craco/craco": "^5.7.0",
+    "@craco/craco": "^7.1.0",
     "@googlemaps/js-api-loader": "^1.11.1",
     "@reduxjs/toolkit": "^1.4.0",
     "@sentry/react": "^5.27.0",
