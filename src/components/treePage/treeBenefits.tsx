@@ -33,7 +33,7 @@ const TreeBenefits: React.FC = () => {
   const [treeBenefits, setTreeBenefits] = useState<Entry[]>();
 
   useEffect(() => {
-    Client.getTreeBenefits(siteId)
+    Client.calculateTreeBenefits(siteId)
       .then((benefits) =>
         setTreeBenefits(
           Object.values(TreeBenefitCategory).map((category) => {
@@ -44,7 +44,7 @@ const TreeBenefits: React.FC = () => {
               title: t(`tree_benefits.categories.${category}.name`),
               value: `${amount} ${t(
                 `tree_benefits.categories.${category}.unit`,
-              )} saved ${money}`,
+              )} saving ${money}`,
             };
           }),
         ),
@@ -52,46 +52,50 @@ const TreeBenefits: React.FC = () => {
       .catch((err) => message.error(err.response.data));
   }, []);
 
-  if (!treeBenefits) {
-    return <></>;
-  }
+  return treeBenefits ? (
+    <>
+      {(() => {
+        switch (windowType) {
+          case WindowTypes.Mobile:
+            return (
+              <MobileTreeStatsContainer>
+                <ListSection
+                  title={t('tree_benefits.header')}
+                  entries={treeBenefits}
+                  canHide={false}
+                />
 
-  switch (windowType) {
-    case WindowTypes.Mobile:
-      return (
-        <MobileTreeStatsContainer>
-          <ListSection
-            title={t('tree_benefits.header')}
-            entries={treeBenefits}
-            canHide={false}
-          />
+                <LearnMore />
+              </MobileTreeStatsContainer>
+            );
 
-          <LearnMore />
-        </MobileTreeStatsContainer>
-      );
+          case WindowTypes.Tablet:
+          case WindowTypes.NarrowDesktop:
+          case WindowTypes.Desktop:
+            return (
+              <TreeStatsContainer>
+                <ListSection
+                  title={t('tree_benefits.header')}
+                  entries={treeBenefits}
+                  canHide={false}
+                />
 
-    case WindowTypes.Tablet:
-    case WindowTypes.NarrowDesktop:
-    case WindowTypes.Desktop:
-      return (
-        <TreeStatsContainer>
-          <ListSection
-            title={t('tree_benefits.header')}
-            entries={treeBenefits}
-            canHide={false}
-          />
+                <LearnMore />
+              </TreeStatsContainer>
+            );
 
-          <LearnMore />
-        </TreeStatsContainer>
-      );
-
-    default:
-      return (
-        <Typography.Paragraph>
-          {t('tree_benefits.unsupported_browser')}
-        </Typography.Paragraph>
-      );
-  }
+          default:
+            return (
+              <Typography.Paragraph>
+                {t('tree_benefits.unsupported_browser')}
+              </Typography.Paragraph>
+            );
+        }
+      })()}
+    </>
+  ) : (
+    <></>
+  );
 };
 
 const LearnMore: React.FC = () => (

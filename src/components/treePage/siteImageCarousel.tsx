@@ -15,7 +15,7 @@ const CarouselContainer = styled.div`
   margin-top: 20px;
 `;
 
-// https://github.com/ant-design/ant-design/issues/12479
+// Adding additional styles to the carousel: https://github.com/ant-design/ant-design/issues/12479
 const StyledCarousel = styled(Carousel)`
   &:hover,
   &:focus {

@@ -32,7 +32,7 @@ import SendEmailForm from '../../components/forms/sendEmailForm';
 
 const EmailPageContainer = styled.div`
   width: 90vw;
-  margin: 30px auto auto;
+  margin: 50px auto auto;
   padding-bottom: 50px;
 `;
 

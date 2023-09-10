@@ -12,7 +12,10 @@ const Title = styled(Typography.Title)`
   display: flex;
   align-items: center;
   column-gap: 5px;
-  color: ${DARK_GREEN};
+
+  &.ant-typography {
+    color: ${DARK_GREEN};
+  }
 `;
 
 const SectionDivider = styled(Divider)`
@@ -21,7 +24,7 @@ const SectionDivider = styled(Divider)`
 `;
 
 const EntryTitle = styled(Typography.Paragraph)`
-  color: ${DARK_GREEN};
+  color: ${MID_GREEN};
   width: 50%;
   font-size: 16px;
   font-weight: 600;
@@ -74,15 +77,11 @@ const ListSection: React.FC<ListSectionProps> = ({
   hideText,
   showText,
 }) => {
-  const { t } = useTranslation(n(site, 'treePage'), {
-    nsMode: 'fallback',
-  });
+  const { t } = useTranslation(n(site, 'treePage'), { nsMode: 'fallback' });
 
   const [visible, setVisible] = useState<boolean>(!canHide);
 
-  const toggleVisibility = () => {
-    setVisible((prevState) => !prevState);
-  };
+  const toggleVisibility = () => setVisible((prevState) => !prevState);
 
   return (
     <>

@@ -327,7 +327,7 @@ describe('Api Client Tests', () => {
     });
   });
 
-  describe('Get tree benefits', () => {
+  describe('Calculate tree benefits', () => {
     it('makes the right request', async () => {
       const response = {
         energy: 1,
@@ -343,10 +343,10 @@ describe('Api Client Tests', () => {
       };
 
       nock(BASE_URL)
-        .get(ParameterizedApiRoutes.GET_TREE_BENEFITS(1000))
+        .get(ParameterizedApiRoutes.CALCULATE_TREE_BENEFITS(1000))
         .reply(200, response);
 
-      const result = await ApiClient.getTreeBenefits(1000);
+      const result = await ApiClient.calculateTreeBenefits(1000);
 
       expect(result).toEqual(response);
     });
@@ -355,10 +355,10 @@ describe('Api Client Tests', () => {
       const response = 'No such site';
 
       nock(BASE_URL)
-        .get(ParameterizedApiRoutes.GET_TREE_BENEFITS(20))
+        .get(ParameterizedApiRoutes.CALCULATE_TREE_BENEFITS(20))
         .reply(400, response);
 
-      const result = await ApiClient.getTreeBenefits(20).catch(
+      const result = await ApiClient.calculateTreeBenefits(20).catch(
         (err) => err.response.data,
       );
 

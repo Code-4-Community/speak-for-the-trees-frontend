@@ -32,7 +32,7 @@ export interface ApiClient {
     siteId: number,
   ) => Promise<StewardshipActivities>;
   readonly getAllCommonNames: () => Promise<{ names: string[] }>;
-  readonly getTreeBenefits: (siteId: number) => Promise<TreeBenefits>;
+  readonly calculateTreeBenefits: (siteId: number) => Promise<TreeBenefits>;
 }
 
 export enum ApiClientRoutes {
@@ -54,7 +54,7 @@ export const ParameterizedApiRoutes = {
   GET_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}`,
   GET_STEWARDSHIP_ACTIVITIES: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/stewardship_activities`,
-  GET_TREE_BENEFITS: (siteId: number): string =>
+  CALCULATE_TREE_BENEFITS: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/calculate_benefits`,
 };
 
@@ -128,9 +128,9 @@ const getAllCommonNames = (): Promise<{ names: string[] }> => {
   );
 };
 
-const getTreeBenefits = (siteId: number): Promise<TreeBenefits> => {
+const calculateTreeBenefits = (siteId: number): Promise<TreeBenefits> => {
   return AppAxiosInstance.get(
-    ParameterizedApiRoutes.GET_TREE_BENEFITS(siteId),
+    ParameterizedApiRoutes.CALCULATE_TREE_BENEFITS(siteId),
   ).then((res) => res.data);
 };
 
@@ -143,7 +143,7 @@ const Client: ApiClient = Object.freeze({
   getSite,
   getStewardshipActivities,
   getAllCommonNames,
-  getTreeBenefits,
+  calculateTreeBenefits,
 });
 
 export default Client;

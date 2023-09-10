@@ -32,23 +32,23 @@
     "header": "Tree Benefits",
     "categories": {
       "energy": {
-        "name": "Energy conserved",
+        "name": "Energy Conserved",
         "unit": "kWh/year"
       },
       "stormwater": {
-        "name": "Stormwater filtered",
+        "name": "Stormwater Filtered",
         "unit": "gal/year"
       },
       "airQuality": {
-        "name": "Air quality improved",
+        "name": "Air Quality Improved",
         "unit": "lbs/year"
       },
       "co2Removed": {
-        "name": "CO2 removed",
+        "name": "CO2 Removed",
         "unit": "lbs/year"
       },
       "co2Stored": {
-        "name": "CO2 stored to date",
+        "name": "CO2 Stored (to Date)",
         "unit": "lbs"
       }
     },

@@ -59,7 +59,8 @@ const TreePageContainer = styled.div`
 `;
 
 const TreeMainContainer = styled.div`
-  margin: 30px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 `;
 
 const MobileTreeMainContainer = styled.div`
@@ -281,8 +282,8 @@ const TreePage: React.FC<TreeProps> = ({
               {(!siteData.result.entries[0] ||
                 !siteData.result.entries[0].treePresent) && (
                 <PlantInstructionContainer
-                  message={<>NoTreeMessage</>}
-                  description={<>TreePlantingRequest</>}
+                  message={<NoTreeMessage siteData={siteData} />}
+                  description={<TreePlantingRequest />}
                   type="success"
                 />
               )}
@@ -414,9 +415,7 @@ interface NoTreeMessageProps {
 }
 
 const NoTreeMessage: React.FC<NoTreeMessageProps> = ({ siteData }) => {
-  const { t } = useTranslation(n(site, 'treePage'), {
-    nsMode: 'fallback',
-  });
+  const { t } = useTranslation(n(site, 'treePage'), { nsMode: 'fallback' });
 
   return asyncRequestIsComplete(siteData) ? (
     <NoTreeMessageContainer>
@@ -432,9 +431,7 @@ const NoTreeMessage: React.FC<NoTreeMessageProps> = ({ siteData }) => {
 };
 
 const TreePlantingRequest: React.FC = () => {
-  const { t } = useTranslation(n(site, 'treePage'), {
-    nsMode: 'fallback',
-  });
+  const { t } = useTranslation(n(site, 'treePage'), { nsMode: 'fallback' });
 
   return (
     <TreePlantingRequestContainer>

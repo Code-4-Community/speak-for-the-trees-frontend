@@ -115,5 +115,3 @@ export const TreeActivity: React.FC<TreeActivityProps> = ({
     </>
   );
 };
-
-export default TreeActivity;

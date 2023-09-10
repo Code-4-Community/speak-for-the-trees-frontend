@@ -27,9 +27,7 @@ interface LatestEntryInfoProps {
 export const LatestEntryInfo: React.FC<LatestEntryInfoProps> = ({
   latestEntry,
 }) => {
-  const { t } = useTranslation(n(site, 'treePage'), {
-    nsMode: 'fallback',
-  });
+  const { t } = useTranslation(n(site, 'treePage'), { nsMode: 'fallback' });
 
   return (
     <>

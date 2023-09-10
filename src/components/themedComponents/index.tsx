@@ -28,7 +28,7 @@ export const MOBILE_FONT_SIZE = '15px';
 export const DESKTOP_FONT_SIZE = '12px';
 
 export const PaddedPageContainer = styled.div`
-  padding: 5vh 5vw;
+  padding: 8vh 5vw 5vh;
 `;
 
 export const ContentContainer = styled.div`
@@ -119,9 +119,6 @@ export const WhiteButton = styled(Button)`
 `;
 
 export const ReturnButton = styled(LinkButton)`
-  margin-top: 20px;
-  margin-left: 10px;
-  margin-bottom: 10px;
   height: 45px;
   border-color: ${MID_GREEN};
   font-size: 18px;
