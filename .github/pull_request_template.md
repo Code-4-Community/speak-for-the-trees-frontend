@@ -1,8 +1,7 @@
 ## Checklist
 
-- [ ] 1. Run `npm run check`
-- [ ] 2. Run `npm run test`
-- [ ] 3. Run `npm build --if-present`  
+- [ ] 1. Run `yarn run check`
+- [ ] 2. Run `yarn run test`
 
 ## Why
 
