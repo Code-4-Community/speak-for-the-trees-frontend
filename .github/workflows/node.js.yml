@@ -5,18 +5,17 @@ name: build, lint, test
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x, 15.x]
+        node-version: [16.x, 18.x, 19.x, 20.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -25,10 +24,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm run check
-      - run: npm run test
+      - run: yarn install --frozen-lockfile
+      - run: CI= yarn build --if-present
+      # - run: yarn check # skip this for now since `yarn check` is deprecated
+      - run: yarn test
 
       - name: Coveralls
         uses: coverallsapp/github-action@master

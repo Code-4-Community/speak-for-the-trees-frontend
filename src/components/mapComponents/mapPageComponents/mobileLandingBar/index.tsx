@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Routes } from '../../../../App';
 import styled from 'styled-components';
 import { Typography } from 'antd';
@@ -53,7 +53,7 @@ interface MobileLandingBarProps {
   readonly isLoggedIn: boolean;
 }
 
-const MobileLandingBar: React.FC<MobileLandingBarProps> = ({
+const MobileLandingBar: React.FC<PropsWithChildren<MobileLandingBarProps>> = ({
   barHeader,
   barDescription,
   isLoggedIn,

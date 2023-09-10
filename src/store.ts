@@ -58,7 +58,7 @@ import protectedSitesDataReducer, {
   initialProtectedSiteState,
 } from './containers/treePage/ducks/protectedReducer';
 import throttle from 'lodash/throttle';
-import AppAxiosInstance from './auth/axios';
+import { AppAxiosInstance } from './api/apiClient';
 import { asyncRequestIsComplete } from './utils/asyncRequest';
 
 export interface C4CState {
@@ -152,8 +152,8 @@ const enhancer = composeEnhancers(
 const store: Store<C4CState, C4CAction> = createStore<
   C4CState,
   C4CAction,
-  {},
-  {}
+  undefined,
+  undefined
 >(reducers, preloadedState || initialStoreState, enhancer);
 
 store.subscribe(

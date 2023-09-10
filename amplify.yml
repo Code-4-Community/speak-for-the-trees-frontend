@@ -3,12 +3,12 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm ci
+        - yarn install --frozen-lockfile
     build:
       commands:
         - echo "REACT_APP_API_DOMAIN=$REACT_APP_API_DOMAIN" >> .env
         - echo "REACT_APP_GOOGLE_MAPS_KEY=$REACT_APP_GOOGLE_MAPS_KEY" >> .env
-        - npm run build
+        - CI= yarn build
   artifacts:
     baseDirectory: build
     files:

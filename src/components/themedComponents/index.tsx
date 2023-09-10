@@ -224,11 +224,9 @@ export interface StyledTitleProps {
   readonly isMobile?: boolean;
 }
 
-export const StyledTitle = styled(Typography.Paragraph)`
-  font-size: ${(props: StyledSubtitleProps) =>
-    props.isMobile ? '30px' : '44px'};
-  line-height: ${(props: StyledSubtitleProps) =>
-    props.isMobile ? '48px' : '76px'};
+export const StyledTitle = styled(Typography.Paragraph)<StyledSubtitleProps>`
+  font-size: ${({ isMobile }) => (isMobile ? '30px' : '44px')};
+  line-height: ${({ isMobile }) => (isMobile ? '48px' : '76px')};
   color: ${DARK_GREEN};
   font-weight: bold;
 `;
