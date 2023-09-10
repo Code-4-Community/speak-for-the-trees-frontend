@@ -1,4 +1,10 @@
-import React, { createRef, useEffect, useState, useCallback } from 'react';
+import React, {
+  createRef,
+  useEffect,
+  useState,
+  useCallback,
+  PropsWithChildren,
+} from 'react';
 import { Input, message } from 'antd';
 import { MapViews, ReturnMapData } from '../../ducks/types';
 import { MAP_BOUNDS, LOADER, STREET_ZOOM } from '../../constants';
@@ -39,7 +45,7 @@ interface MapWithPopupProps {
 let map: google.maps.Map;
 const markersArray: google.maps.Marker[] = [];
 
-const MapWithPopup: React.FC<MapWithPopupProps> = ({
+const MapWithPopup: React.FC<PropsWithChildren<MapWithPopupProps>> = ({
   view,
   zoom,
   lat,

@@ -1,4 +1,5 @@
-import AppAxiosInstance from '../auth/axios';
+import axios, { AxiosInstance } from 'axios';
+
 import { VolunteerLeaderboardItem } from '../containers/volunteerLeaderboard/ducks/types';
 import { TeamLeaderboardItem } from '../containers/teamLeaderboard/ducks/types';
 import {
@@ -52,6 +53,14 @@ export const ParameterizedApiRoutes = {
   GET_STEWARDSHIP_ACTIVITIES: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/stewardship_activities`,
 };
+
+export const AppAxiosInstance: AxiosInstance = axios.create({
+  baseURL: process.env.REACT_APP_API_DOMAIN,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 const getUsersLeaderboard = (
   previousDays: number | null,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Typography } from 'antd';
 import styled from 'styled-components';
 
@@ -15,7 +15,7 @@ export const SideBarContentContainer = styled.div`
   overflow-y: scroll;
 `;
 
-const MapSidebar: React.FC<MapSidebarProps> = ({
+const MapSidebar: React.FC<PropsWithChildren<MapSidebarProps>> = ({
   header,
   description,
   children,

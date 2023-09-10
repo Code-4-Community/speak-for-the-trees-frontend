@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Form, Input } from 'antd';
 import {
   FormHalfItem,
@@ -25,7 +25,7 @@ interface SignupFormProps {
   readonly onFinish: (values: SignupFormValues) => void;
 }
 
-const SignupForm: React.FC<SignupFormProps> = ({
+const SignupForm: React.FC<PropsWithChildren<SignupFormProps>> = ({
   formInstance,
   onFinish,
   children,
