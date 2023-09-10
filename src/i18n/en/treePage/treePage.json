@@ -25,7 +25,7 @@
     "force_unadopt_failure": "Failed to force unadopt site: {{error}}"
   },
   "site_image": {
-    "posted_by": "Posted by {{uploader}}",
+    "uploaded_by": "Uploaded by {{uploader}}",
     "no_upload_date": "Upload date unknown"
   },
   "tree_benefits": {

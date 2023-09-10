@@ -39,6 +39,10 @@ const StyledCarousel = styled(Carousel)`
   }
 `;
 
+const SiteImage = styled.img`
+  margin: 0 auto;
+`;
+
 const FooterContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -65,20 +69,19 @@ export const SiteImageCarousel: React.FC = () => {
             arrows
             prevArrow={<LeftOutlined />}
             nextArrow={<RightOutlined />}
-            draggable
             adaptiveHeight
             afterChange={onAfterChange}
           >
             {latestEntrySiteImages.map((siteImage) => (
               <div key={siteImage.imageUrl}>
-                <img src={siteImage.imageUrl} />
+                <SiteImage src={siteImage.imageUrl} />
               </div>
             ))}
           </StyledCarousel>
 
           <FooterContainer>
             <div>
-              {t('site_image.posted_by', {
+              {t('site_image.uploaded_by', {
                 uploader:
                   latestEntrySiteImages[currSlideIndex].uploaderUsername ||
                   'Anonymous',
