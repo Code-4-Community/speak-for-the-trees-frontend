@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
-import { Form, message, Typography, Alert } from 'antd';
+import { Form, message, Typography, Alert, AlertProps } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { RedirectStateProps, Routes } from '../../App';
 import { Helmet } from 'react-helmet';
@@ -84,7 +84,9 @@ const MobileTreeCareContainer = styled.div`
   padding: 30px 15px 5px;
 `;
 
-const PlantInstructionContainer = styled(Alert)`
+const PlantInstructionContainer = styled((props: AlertProps) => (
+  <Alert {...props} />
+))`
   color: ${DARK_GREEN};
   font-weight: bold;
   margin-top: 40px;
@@ -279,8 +281,8 @@ const TreePage: React.FC<TreeProps> = ({
               {(!siteData.result.entries[0] ||
                 !siteData.result.entries[0].treePresent) && (
                 <PlantInstructionContainer
-                  message={NoTreeMessage}
-                  description={TreePlantingRequest}
+                  message={<>NoTreeMessage</>}
+                  description={<>TreePlantingRequest</>}
                   type="success"
                 />
               )}

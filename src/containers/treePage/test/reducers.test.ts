@@ -33,6 +33,7 @@ describe('Tree Page Reducer', () => {
             id: 0,
             createdAt: 100000,
             updatedAt: 100000,
+            images: [],
           },
         ],
       };

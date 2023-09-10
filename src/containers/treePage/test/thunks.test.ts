@@ -76,6 +76,7 @@ describe('Tree Page Thunks', () => {
             genus: 'big',
             circumference: 4,
             bicycle: true,
+            images: [],
           },
           {
             id: 2,
@@ -85,6 +86,7 @@ describe('Tree Page Thunks', () => {
             species: 'not a tree',
             circumference: 2,
             bicycle: false,
+            images: [],
           },
         ],
       };
@@ -201,6 +203,7 @@ describe('Tree Page Thunks', () => {
             genus: 'big',
             circumference: 4,
             bicycle: true,
+            images: [],
           },
           {
             id: 2,
@@ -210,6 +213,7 @@ describe('Tree Page Thunks', () => {
             species: 'not a tree',
             circumference: 2,
             bicycle: false,
+            images: [],
           },
         ],
       };
