@@ -3,7 +3,7 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm ci
+        - yarn install --frozen-lockfile
     build:
       commands:
         - echo "REACT_APP_API_DOMAIN=$REACT_APP_API_DOMAIN" >> .env
