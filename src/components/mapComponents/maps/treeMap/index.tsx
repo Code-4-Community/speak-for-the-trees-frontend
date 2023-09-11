@@ -16,7 +16,7 @@ import {
 } from '../../constants';
 import { addHandleZoomChange } from '../../logic/event';
 import { initSiteView } from '../../logic/init';
-import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { setSitesStyle } from '../../logic/style';
 import SiteLegend from '../../mapPageComponents/siteLegend';
 import { MapStateProps, Routes } from '../../../../App';

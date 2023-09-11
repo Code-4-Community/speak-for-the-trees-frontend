@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import MapSidebar from '../mapSidebar';
 import PageLayout from '../../../pageLayout';
-import { Layout } from 'antd';
+import Layout from 'antd/es/layout';
 import { MainContent } from '../../../themedComponents';
 import { MapViews } from '../../ducks/types';
 import MapLegend from '../../mapLegend';

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Typography } from 'antd';
+import Typography from 'antd/es/typography';
 import { BACKGROUND_GREY, TEXT_GREY, MID_GREEN } from '../../../utils/colors';
 import Logo from '../../../assets/images/nav-bar-icon.png';
 

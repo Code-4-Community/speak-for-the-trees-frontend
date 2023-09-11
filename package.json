@@ -46,7 +46,6 @@
     "uuid": "^8.3.1"
   },
   "scripts": {
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "nodemon -w craco.config.js -w ./antd.customize.less --exec \"npx craco start\"",
     "build": "craco build",
     "test": "craco test --coverage",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { List } from 'antd';
+import List from 'antd/es/list';
 import { StyledListItem } from '../themedComponents';
 import TreeCard from '../treeCard';
 import { SiteFeaturePropertiesResponse } from '../mapComponents/ducks/types';

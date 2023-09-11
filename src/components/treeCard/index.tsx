@@ -1,6 +1,7 @@
 import React from 'react';
 import { ParameterizedRouteBases, Routes } from '../../App';
-import { Card, Typography } from 'antd';
+import Card from 'antd/es/card';
+import Typography from 'antd/es/typography';
 import styled from 'styled-components';
 import { CardInfo, GreenLinkButton, MarginLeftSpan } from '../themedComponents';
 import { MID_GREEN, TEXT_GREY, LIGHT_GREY } from '../../utils/colors';

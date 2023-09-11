@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import LeaderboardSpace from '../../components/leaderboard/leaderboardSpace';
 import { TabItem } from '../../components/leaderboard/types';
 import { Routes } from '../../App';
-import { Pagination, Divider } from 'antd';
+import Pagination from 'antd/es/pagination';
+import Divider from 'antd/es/divider';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
 import styled from 'styled-components';
 import { LinkButton } from '../../components/linkButton';
-import { ArrowRightOutlined } from '@ant-design/icons';
+import ArrowRightOutlined from '@ant-design/icons/ArrowRightOutlined';
 import { TEAMS_HEADER, TEAMS_TITLE } from '../../assets/content';
 
 const ContentContainer = styled.div`

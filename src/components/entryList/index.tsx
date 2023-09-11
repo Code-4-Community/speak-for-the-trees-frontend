@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Typography } from 'antd';
+import Button from 'antd/es/button';
+import Typography from 'antd/es/typography';
 import { Entry } from '../../containers/treePage/ducks/types';
 import {
   DARK_GREEN,

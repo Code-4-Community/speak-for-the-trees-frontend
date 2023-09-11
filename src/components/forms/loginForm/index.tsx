@@ -1,9 +1,10 @@
 import React from 'react';
 import { LoginRequest } from '../../../auth/ducks/types';
-import { Form, Input } from 'antd';
+import Form from 'antd/es/form';
+import type { FormInstance } from 'antd/es/form';
+import Input from 'antd/es/input';
 import styled from 'styled-components';
 import { WindowTypes } from '../../windowDimensions';
-import { FormInstance } from 'antd/es/form';
 import { enterEmailRules, loginPasswordRules } from '../../../utils/formRules';
 import { SubmitButton } from '../../themedComponents';
 import { useTranslation } from 'react-i18next';

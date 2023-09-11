@@ -1,5 +1,7 @@
 import React from 'react';
-import { message, Form, Input } from 'antd';
+import message from 'antd/es/message';
+import Form from 'antd/es/form';
+import Input from 'antd/es/input';
 import ProtectedApiClient from '../../../api/protectedApiClient';
 import { loginPasswordRules, usernameRules } from '../../../utils/formRules';
 import { ChangeUsernameRequest } from '../ducks/types';

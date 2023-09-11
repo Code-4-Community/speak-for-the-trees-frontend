@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { TreeCare } from '../../containers/treePage/ducks/types';
-import { Row, Col, Typography, Button, Form, Modal, message } from 'antd';
+import Row from 'antd/es/row';
+import Col from 'antd/es/col';
+import Typography from 'antd/es/typography';
+import Button from 'antd/es/button';
+import Form from 'antd/es/form';
+import Modal from 'antd/es/modal';
+import message from 'antd/es/message';
 import {
   DARK_GREEN,
   TEXT_GREY,
@@ -9,7 +15,8 @@ import {
   WHITE,
 } from '../../utils/colors';
 import { treeCareToMoment } from '../../utils/treeFunctions';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import EditOutlined from '@ant-design/icons/EditOutlined';
+import DeleteOutlined from '@ant-design/icons/DeleteOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdmin, getUserID } from '../../auth/ducks/selectors';
 import styled from 'styled-components';

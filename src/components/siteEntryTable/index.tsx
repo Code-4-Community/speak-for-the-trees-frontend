@@ -4,8 +4,11 @@ import {
   SiteEntryField,
   SiteEntryFields,
 } from '../../containers/treePage/ducks/types';
-import { Form, Modal, Table, message } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import Form from 'antd/es/form';
+import Modal from 'antd/es/modal';
+import Table from 'antd/es/table';
+import message from 'antd/es/message';
+import EditOutlined from '@ant-design/icons/EditOutlined';
 import ProtectedClient from '../../api/protectedApiClient';
 import {
   booleanToString,

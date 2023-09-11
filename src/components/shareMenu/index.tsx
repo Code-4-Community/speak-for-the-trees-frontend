@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Input, Button, Typography, message } from 'antd';
+import Input from 'antd/es/input';
+import Button from 'antd/es/button';
+import Typography from 'antd/es/typography';
+import message from 'antd/es/message';
 import TwitterIcon from '../../assets/images/twitter-icon.png';
 import EmailIcon from '../../assets/images/email-icon.png';
 import FBIcon from '../../assets/images/facebook-icon.png';

@@ -1,5 +1,5 @@
 import React, { SetStateAction, useMemo, useState } from 'react';
-import { Table } from 'antd';
+import Table from 'antd/es/table';
 import type { ColumnsType } from 'antd/es/table';
 import { EmailerTableData, FilteredSite } from '../../containers/email/types';
 import { NEIGHBORHOOD_IDS } from '../../assets/content';

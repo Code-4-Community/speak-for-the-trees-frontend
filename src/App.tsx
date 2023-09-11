@@ -18,7 +18,7 @@ import Landing from './containers/landing';
 import AdminDashboard from './containers/adminDashboard';
 import TreePage from './containers/treePage';
 import MyTrees from './containers/myTrees';
-import { Layout } from 'antd';
+import Layout from 'antd/es/layout';
 import Home from './containers/home';
 import Signup from './containers/signup';
 import Login from './containers/login';

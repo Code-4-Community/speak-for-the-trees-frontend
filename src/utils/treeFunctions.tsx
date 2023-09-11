@@ -1,6 +1,6 @@
 import { SiteProps, TreeCare } from '../containers/treePage/ducks/types';
 import moment from 'moment';
-import { startCase } from 'lodash';
+import startCase from 'lodash/startCase';
 
 export function treeCareToMoment(activity: TreeCare): moment.Moment {
   return moment(

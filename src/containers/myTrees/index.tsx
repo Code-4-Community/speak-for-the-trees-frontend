@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import MapPage from '../../components/mapComponents/mapPageComponents/mapPage/index';
 import TreeSidebar from '../../components/treeSidebar/index';
-import { Spin } from 'antd';
+import Spin from 'antd/es/spin';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 import useWindowDimensions, {

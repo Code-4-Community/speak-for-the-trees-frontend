@@ -1,5 +1,5 @@
 import React from 'react';
-import { Carousel } from 'antd';
+import Carousel from 'antd/es/carousel';
 import styled from 'styled-components';
 import { LIGHT_GREEN } from '../../utils/colors';
 import LinkCard, { LinkCardProps } from '../linkCard';

@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, Statistic, Typography } from 'antd';
+import Card from 'antd/es/card';
+import Statistic from 'antd/es/statistic';
+import Typography from 'antd/es/typography';
 
 const FeaturedStatsContainer = styled.div`
   display: flex;

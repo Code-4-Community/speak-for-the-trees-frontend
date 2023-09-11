@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes } from '../../../App';
 import styled from 'styled-components';
-import { Menu } from 'antd';
+import Menu from 'antd/es/menu';
 import { BLACK, LIGHT_GREEN, LIGHT_GREY } from '../../../utils/colors';
 import { MenuLinkButton } from '../../themedComponents';
 

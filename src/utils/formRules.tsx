@@ -1,5 +1,5 @@
 import i18n from '../i18n/i18n';
-import { FormInstance, Rule } from 'antd/es/form';
+import type { FormInstance, Rule } from 'antd/es/form';
 
 export const enterEmailRules: Rule[] = [
   {

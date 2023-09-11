@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import { Routes } from '../../../../App';
 import styled from 'styled-components';
-import { Typography } from 'antd';
+import Typography from 'antd/es/typography';
 import {
   LIGHT_GREEN,
   LIGHT_GREY,

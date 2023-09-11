@@ -1,6 +1,6 @@
 import React from 'react';
 import { ParameterizedRouteBases } from '../../../App';
-import { Typography } from 'antd';
+import Typography from 'antd/es/typography';
 
 interface SiteLinkProps {
   readonly siteId: number;

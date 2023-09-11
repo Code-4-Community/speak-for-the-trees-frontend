@@ -1,8 +1,10 @@
 import React from 'react';
 import { Routes } from '../../../App';
 import styled from 'styled-components';
-import { Avatar, Dropdown, Typography } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import Avatar from 'antd/es/avatar';
+import Dropdown from 'antd/es/dropdown';
+import Typography from 'antd/es/typography';
+import UserOutlined from '@ant-design/icons/UserOutlined';
 import { BLACK, DARK_GREEN, LIGHT_GREEN, WHITE } from '../../../utils/colors';
 import NavMenu from '../navMenu';
 import { Location } from 'history';

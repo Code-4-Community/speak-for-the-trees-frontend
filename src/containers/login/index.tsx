@@ -9,7 +9,9 @@ import { LoginRequest } from '../../auth/ducks/types';
 import { isLoggedIn } from '../../auth/ducks/selectors';
 import { RedirectStateProps, Routes } from '../../App';
 import { site } from '../../constants';
-import { Form, message, Typography } from 'antd';
+import Form from 'antd/es/form';
+import message from 'antd/es/message';
+import Typography from 'antd/es/typography';
 import styled from 'styled-components';
 import { BLACK, DARK_TEXT_GREY, WHITE } from '../../utils/colors';
 import {

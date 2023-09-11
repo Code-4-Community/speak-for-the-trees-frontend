@@ -1,6 +1,8 @@
 import React from 'react';
-import { Form, Input, Select } from 'antd';
-import { FormInstance } from 'antd/es/form';
+import Form from 'antd/es/form';
+import type { FormInstance } from 'antd/es/form';
+import Input from 'antd/es/input';
+import Select from 'antd/es/select';
 import { requiredRule, zipCodeRules } from '../../../utils/formRules';
 import { EditSiteRequest } from '../ducks/types';
 import { NEIGHBORHOOD_OPTS } from '../../../assets/content';

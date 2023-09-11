@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Routes } from '../../App';
 import { site } from '../../constants';
 import { ContentContainer } from '../../components/themedComponents';
-import { Typography } from 'antd';
+import Typography from 'antd/es/typography';
 import { n } from '../../utils/stringFormat';
 
 const NotFound: React.FC = () => {

@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { Layout } from 'antd';
+import Layout from 'antd/es/layout';
 
 const pageLayoutHeight = 'calc(100vh - 83px)';
 

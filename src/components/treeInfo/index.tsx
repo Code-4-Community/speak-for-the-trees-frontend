@@ -1,6 +1,8 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Typography, Button, FormInstance } from 'antd';
+import Typography from 'antd/es/typography';
+import Button from 'antd/es/button';
+import type { FormInstance } from 'antd/es/form';
 import { RedirectStateProps, Routes } from '../../App';
 import StewardshipForm from '../forms/stewardshipForm';
 import styled from 'styled-components';

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Alert, Spin } from 'antd';
+import Alert from 'antd/es/alert';
+import Spin from 'antd/es/spin';
 import styled from 'styled-components';
 import {
   asyncRequestIsComplete,

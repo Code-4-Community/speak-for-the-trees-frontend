@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tag } from 'antd';
+import Tag from 'antd/es/tag';
 
 interface TagsProps {
   readonly tagTexts: string[];

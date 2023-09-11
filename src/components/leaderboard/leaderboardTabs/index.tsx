@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Tabs, Pagination } from 'antd';
+import Tabs from 'antd/es/tabs';
+import Pagination from 'antd/es/pagination';
 import LeaderboardTab from '../leaderboardTab';
 import { TabItem } from '../types';
 import { tabToDays } from '../constants';

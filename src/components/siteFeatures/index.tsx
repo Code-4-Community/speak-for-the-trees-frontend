@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, FormInstance } from 'antd';
+import Typography from 'antd/es/typography';
+import type { FormInstance } from 'antd/es/form';
 import styled from 'styled-components';
 import { SiteProps } from '../../containers/treePage/ducks/types';
 import EditSiteForm from '../../components/forms/editSiteForm';

@@ -1,6 +1,12 @@
 import React from 'react';
-import { Form, Input, Radio, Row, Space, DatePicker } from 'antd';
-import { FormInstance, Rule } from 'antd/es/form';
+import Form from 'antd/es/form';
+import type { FormInstance, Rule } from 'antd/es/form';
+import Input from 'antd/es/input';
+import Radio from 'antd/es/radio';
+import type { CheckboxOptionType } from 'antd/es/checkbox/Group';
+import Row from 'antd/es/row';
+import Space from 'antd/es/space';
+import DatePicker from 'antd/es/date-picker';
 import {
   BOOL_RADIO_OPTS,
   STATUS_RADIO_OPTS,
@@ -13,7 +19,6 @@ import {
   SiteEntryFields,
 } from '../../../containers/treePage/ducks/types';
 import { stringNumberRules } from '../../../utils/formRules';
-import { CheckboxOptionType } from 'antd/es/checkbox/Group';
 import { getSEFieldDisplayName } from '../../../utils/stringFormat';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';

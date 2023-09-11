@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Tooltip } from 'antd';
+import Button from 'antd/es/button';
+import Tooltip from 'antd/es/tooltip';
 import styled from 'styled-components';
 
 interface CopyTextProps {

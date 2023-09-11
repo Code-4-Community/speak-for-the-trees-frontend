@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Typography } from 'antd';
+import Typography from 'antd/es/typography';
 import useWindowDimensions, { WindowTypes } from '../windowDimensions';
 import { TEXT_GREY, MID_GREEN } from '../../utils/colors';
 import MobileInfoCard from '../mobileComponents/mobileInfoCard';

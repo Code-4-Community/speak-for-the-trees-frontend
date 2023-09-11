@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Typography } from 'antd';
-import { CloseOutlined } from '@ant-design/icons';
+import Typography from 'antd/es/typography';
+import CloseOutlined from '@ant-design/icons/CloseOutlined';
 import { ParameterizedRouteBases, Routes } from '../../App';
 import { GreenLinkButton, MarginLeftSpan } from '../themedComponents';
 import {

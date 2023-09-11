@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { List, Typography } from 'antd';
-import { CrownOutlined } from '@ant-design/icons';
+import List from 'antd/es/list';
+import Typography from 'antd/es/typography';
+import CrownOutlined from '@ant-design/icons/CrownOutlined';
 import { BLACK, LIGHT_GREEN } from '../../utils/colors';
 import { TeamRole } from '../../containers/teamPage/ducks/types';
 

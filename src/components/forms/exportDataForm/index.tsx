@@ -1,13 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Button,
-  Form,
-  FormInstance,
-  InputNumber,
-  Select,
-  Typography,
-} from 'antd';
+import Button from 'antd/es/button';
+import Form from 'antd/es/form';
+import type { FormInstance } from 'antd/es/form';
+import InputNumber from 'antd/es/input-number';
+import Select from 'antd/es/select';
+import Typography from 'antd/es/typography';
 import { site } from '../../../constants';
 import { positiveNumberRules, requiredRule } from '../../../utils/formRules';
 import { InlineFormItem } from '../../themedComponents';

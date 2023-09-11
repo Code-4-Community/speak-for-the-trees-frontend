@@ -1,7 +1,8 @@
 import React from 'react';
-import { Card, Typography } from 'antd';
-import { ParagraphProps } from 'antd/lib/typography/Paragraph';
-import { TitleProps } from 'antd/lib/typography/Title';
+import Card from 'antd/es/card';
+import Typography from 'antd/es/typography';
+import type { TitleProps } from 'antd/lib/typography/Title';
+import type { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import styled from 'styled-components';
 import { TEXT_GREY } from '../../utils/colors';
 

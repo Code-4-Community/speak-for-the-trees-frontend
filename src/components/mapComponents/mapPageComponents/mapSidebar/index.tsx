@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { Typography } from 'antd';
+import Typography from 'antd/es/typography';
 import styled from 'styled-components';
 
 type MapSidebarProps = {
