@@ -1,5 +1,8 @@
 const CracoAntDesignPlugin = require('craco-antd');
 
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 process.env.BROWSER = 'none';
 
 const site = process.env.REACT_APP_TENANT || 'SFTT';
@@ -12,9 +15,6 @@ const themeOverride =
         '@dark-green': '#1a4b68',
       }
     : {};
-
-const BundleAanlyzerPlugin =
-  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   plugins: [
@@ -37,6 +37,6 @@ module.exports = {
     ],
   },
   webpack: {
-    plugins: [new BundleAanlyzerPlugin({ analyzerMode: 'server' })],
+    plugins: [new BundleAnalyzerPlugin({ analyzerMode: 'server' })],
   },
 };
