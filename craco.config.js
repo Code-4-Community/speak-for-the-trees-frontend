@@ -13,6 +13,9 @@ const themeOverride =
       }
     : {};
 
+const BundleAanlyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 module.exports = {
   plugins: [
     {
@@ -32,5 +35,8 @@ module.exports = {
         },
       ],
     ],
+  },
+  webpack: {
+    plugins: [new BundleAanlyzerPlugin({ analyzerMode: 'server' })],
   },
 };
