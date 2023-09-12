@@ -1,9 +1,12 @@
 import React from 'react';
-import { message, Upload, Form, Button } from 'antd';
+import message from 'antd/es/message';
+import Upload from 'antd/es/upload';
+import type { UploadProps } from 'antd/lib/upload/interface';
+import Form from 'antd/es/form';
+import Button from 'antd/es/button';
 import { requiredRule } from '../../../utils/formRules';
 import { SubmitButton } from '../../themedComponents';
-import { UploadOutlined } from '@ant-design/icons';
-import { UploadProps } from 'antd/lib/upload/interface';
+import UploadOutlined from '@ant-design/icons/UploadOutlined';
 import ProtectedClient from '../../../api/protectedApiClient';
 
 interface UploadSitesFormRule {

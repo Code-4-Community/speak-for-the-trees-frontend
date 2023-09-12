@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card } from 'antd';
+import Card from 'antd/es/card';
 import { PALE_GREEN } from '../../utils/colors';
 import bkg1 from '../../assets/images/bkg1.png';
 import bkg2 from '../../assets/images/bkg2.png';

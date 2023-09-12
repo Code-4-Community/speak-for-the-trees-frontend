@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from 'antd';
+import Typography from 'antd/es/typography';
 import { BACKGROUND_GREEN, BLACK } from '../../utils/colors';
 import styled from 'styled-components';
 import logo from '../../assets/images/logo.png';

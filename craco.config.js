@@ -1,5 +1,8 @@
 const CracoAntDesignPlugin = require('craco-antd');
 
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 process.env.BROWSER = 'none';
 
 const site = process.env.REACT_APP_TENANT || 'SFTT';
@@ -32,5 +35,8 @@ module.exports = {
         },
       ],
     ],
+  },
+  webpack: {
+    plugins: [new BundleAnalyzerPlugin({ analyzerMode: 'server' })],
   },
 };

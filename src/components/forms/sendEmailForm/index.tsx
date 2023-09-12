@@ -1,5 +1,7 @@
 import React from 'react';
-import { Form, Input, message } from 'antd';
+import Form from 'antd/es/form';
+import Input from 'antd/es/input';
+import message from 'antd/es/message';
 import { SubmitButton } from '../../../components/themedComponents';
 import ProtectedApiClient from '../../../api/protectedApiClient';
 import {

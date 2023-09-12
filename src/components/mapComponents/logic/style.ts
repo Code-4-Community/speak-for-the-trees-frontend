@@ -18,7 +18,7 @@ import satelliteStandardIcon from '../../../assets/images/siteIcons/satelliteSta
 import satelliteYoungIcon from '../../../assets/images/siteIcons/satelliteYoungIcon.svg';
 import { shortHand } from '../../../utils/stringFormat';
 import { SHORT_HAND_NAMES } from '../../../assets/content';
-import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { getImageSize } from './event';
 import { MapTypes } from '../../../context/types';
 

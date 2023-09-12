@@ -20,8 +20,8 @@ import {
   getImageSize,
 } from './event';
 import { BasicTreeInfo } from '../../treePopup';
-import { message } from 'antd';
-import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import message from 'antd/es/message';
+import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { InitMapData } from '../ducks/types';
 import { ALL_SITES_VISIBLE_COMBINED } from '../constants';
 import { MapTypes, SetStateType } from '../../../context/types';

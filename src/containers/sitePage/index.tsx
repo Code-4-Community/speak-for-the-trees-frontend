@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { MapGeoDataReducerState } from '../../components/mapComponents/ducks/types';
 import PageLayout from '../../components/pageLayout';
-import { Form, message, Row, Typography } from 'antd';
+import Form from 'antd/es/form';
+import message from 'antd/es/message';
+import Row from 'antd/es/row';
+import Typography from 'antd/es/typography';
 import styled from 'styled-components';
 import { DARK_GREEN } from '../../utils/colors';
 import PageHeader from '../../components/pageHeader';
@@ -25,7 +28,7 @@ import {
 import SelectorMapDisplay from '../../components/mapComponents/mapDisplays/selectorMapDisplay';
 import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
 import { Block, Flex, MapContainer } from '../../components/themedComponents';
-import { round } from 'lodash';
+import round from 'lodash/round';
 import { LAT_LNG_PRECISION } from '../../components/forms/constants';
 import { MapTypes } from '../../context/types';
 import { MapTypeContext } from '../../context/mapTypeContext';

@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { EmailerFilters } from '../../containers/email/types';
-import {
-  Collapse,
-  Slider,
-  DatePicker,
-  Select,
-  message,
-  SelectProps,
-} from 'antd';
-import { SliderMarks } from 'antd/lib/slider';
+import Collapse from 'antd/es/collapse';
+import Slider from 'antd/es/slider';
+import type { SliderMarks } from 'antd/es/slider';
+import DatePicker from 'antd/es/date-picker';
+import Select from 'antd/es/select';
+import type { SelectProps } from 'antd/es/select';
+import message from 'antd/es/message';
 import { Neighborhoods } from '../../assets/content';
 import apiClient from '../../api/apiClient';
 import { formatActivityCountRange } from '../../utils/stringFormat';

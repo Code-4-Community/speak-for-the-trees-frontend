@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Typography, List, Select, Pagination } from 'antd';
+import Typography from 'antd/es/typography';
+import List from 'antd/es/list';
+import Select from 'antd/es/select';
+import Pagination from 'antd/es/pagination';
 import {
   MonthYearOption,
   TreeCare,

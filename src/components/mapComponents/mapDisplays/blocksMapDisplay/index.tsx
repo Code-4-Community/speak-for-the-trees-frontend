@@ -1,5 +1,7 @@
 import React from 'react';
-import { Alert, Layout, Spin } from 'antd';
+import Alert from 'antd/es/alert';
+import Layout from 'antd/es/layout';
+import Spin from 'antd/es/spin';
 import styled from 'styled-components';
 import {
   asyncRequestIsComplete,

@@ -1,12 +1,13 @@
 import React, { PropsWithChildren } from 'react';
-import { Form, Input } from 'antd';
+import Form from 'antd/es/form';
+import type { FormInstance } from 'antd/es/form';
+import Input from 'antd/es/input';
 import {
   FormHalfItem,
   FormRow,
   FullWidthSpace,
   Gap,
 } from '../../themedComponents';
-import { FormInstance } from 'antd/es/form';
 import {
   confirmPasswordRules,
   enterEmailRules,

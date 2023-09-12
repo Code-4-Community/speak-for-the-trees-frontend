@@ -1,15 +1,13 @@
 import styled from 'styled-components';
-import {
-  Button,
-  Form,
-  Space,
-  List,
-  Image,
-  InputNumber,
-  Typography,
-} from 'antd';
-import { FormItemProps } from 'antd/es/form';
-import { CloseOutlined } from '@ant-design/icons';
+import Button from 'antd/es/button';
+import Form from 'antd/es/form';
+import type { FormItemProps } from 'antd/es/form/FormItem';
+import Space from 'antd/es/space';
+import List from 'antd/es/list';
+import Image from 'antd/es/image';
+import InputNumber from 'antd/es/input-number';
+import Typography from 'antd/es/typography';
+import CloseOutlined from '@ant-design/icons/CloseOutlined';
 import {
   BLACK,
   LIGHT_GREY,

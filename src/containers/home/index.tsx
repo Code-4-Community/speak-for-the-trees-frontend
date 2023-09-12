@@ -2,7 +2,8 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { DARK_GREY, MID_GREEN } from '../../utils/colors';
-import { List, Typography } from 'antd';
+import List from 'antd/es/list';
+import Typography from 'antd/es/typography';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import LinkCard, {

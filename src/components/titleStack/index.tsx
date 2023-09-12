@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
-import { Typography } from 'antd';
+import Typography from 'antd/es/typography';
 import { BlockProps, Block } from '../themedComponents';
 
 const StackTitle = styled(Typography.Text)`

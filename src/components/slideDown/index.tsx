@@ -1,5 +1,6 @@
 import React, { useState, useRef, PropsWithChildren } from 'react';
-import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
+import CaretUpOutlined from '@ant-design/icons/CaretUpOutlined';
+import CaretDownOutlined from '@ant-design/icons/CaretDownOutlined';
 import styled from 'styled-components';
 import { MID_GREEN, WHITE } from '../../utils/colors';
 import { BREAKPOINT_TABLET } from '../windowDimensions';

@@ -1,5 +1,8 @@
 import React from 'react';
-import { Form, Input, message, Select } from 'antd';
+import Form from 'antd/es/form';
+import Input from 'antd/es/input';
+import message from 'antd/es/message';
+import Select from 'antd/es/select';
 import ProtectedApiClient from '../../../api/protectedApiClient';
 import {
   loginPasswordRules,

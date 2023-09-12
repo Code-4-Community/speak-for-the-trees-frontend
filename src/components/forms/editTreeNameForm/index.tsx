@@ -1,6 +1,7 @@
 import React from 'react';
-import { Form, Input } from 'antd';
-import { FormInstance } from 'antd/es/form';
+import Form from 'antd/es/form';
+import type { FormInstance } from 'antd/es/form';
+import Input from 'antd/es/input';
 import { treeNameRules } from '../../../utils/formRules';
 import { NameSiteEntryRequest } from '../ducks/types';
 import { GreenButton, WhiteButton } from '../../themedComponents';

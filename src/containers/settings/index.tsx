@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Col, Row, Button, Typography, Modal } from 'antd';
+import Col from 'antd/es/col';
+import Row from 'antd/es/row';
+import Button from 'antd/es/button';
+import Typography from 'antd/es/typography';
+import Modal from 'antd/es/modal';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';

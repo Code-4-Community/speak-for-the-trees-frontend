@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { WHITE, BLACK } from '../../utils/colors';
-import { Spin, Alert, Select, Modal } from 'antd';
+import Spin from 'antd/es/spin';
+import Alert from 'antd/es/alert';
+import Select from 'antd/es/select';
+import Modal from 'antd/es/modal';
 import protectedApiClient from '../../api/protectedApiClient';
 import {
   AsyncRequest,

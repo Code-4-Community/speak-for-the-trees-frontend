@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Typography } from 'antd';
+import Button from 'antd/es/button';
+import Typography from 'antd/es/typography';
 import {
   ADOPTED_TREE_ICON_DESCRIPTION,
   CLOSED_BLOCK_DESCRIPTION,

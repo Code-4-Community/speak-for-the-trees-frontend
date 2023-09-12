@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { FormInstance } from 'antd';
-import { escape, unescape } from 'lodash';
+import type { FormInstance } from 'antd/es/form';
+import escape from 'lodash/escape';
+import unescape from 'lodash/unescape';
 import { NameSiteEntryRequest } from '../forms/ducks/types';
 import EditTreeNameForm from '../forms/editTreeNameForm';
 import {
@@ -9,7 +10,7 @@ import {
   StyledSubtitleProps,
 } from '../themedComponents';
 import styled from 'styled-components';
-import { EditOutlined } from '@ant-design/icons';
+import EditOutlined from '@ant-design/icons/EditOutlined';
 import { isEmptyString } from '../../utils/isCheck';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';

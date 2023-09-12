@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, Typography } from 'antd';
+import Card from 'antd/es/card';
+import Typography from 'antd/es/typography';
 import { DARK_GREEN, TEXT_GREY } from '../../utils/colors';
 
 interface GoalInfoProps {

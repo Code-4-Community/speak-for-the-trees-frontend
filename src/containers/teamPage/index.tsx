@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Collapse, List, Typography } from 'antd';
+import Button from 'antd/es/button';
+import Collapse from 'antd/es/collapse';
+import List from 'antd/es/list';
+import Typography from 'antd/es/typography';
 import { Routes } from '../../App';
 import { GoalProps, MemberProps, TeamProps, TeamRole } from './ducks/types';
 import GoalInfo from '../../components/goalInfo';

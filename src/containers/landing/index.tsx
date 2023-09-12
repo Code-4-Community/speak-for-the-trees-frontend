@@ -18,7 +18,8 @@ import {
 import { Routes } from '../../App';
 import { site } from '../../constants';
 import TreeMapDisplay from '../../components/mapComponents/mapDisplays/treeMapDisplay';
-import { Modal, Typography } from 'antd';
+import Modal from 'antd/es/modal';
+import Typography from 'antd/es/typography';
 import { DARK_GREEN } from '../../utils/colors';
 import { SFTT_PARTNER_LOGOS } from '../../assets/links';
 import LandingContent from '../../components/landingContent';

@@ -1,5 +1,5 @@
 import OrderedList from '../orderedList';
-import { Typography } from 'antd';
+import Typography from 'antd/es/typography';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { CONTACT_EMAIL } from '../../assets/links';

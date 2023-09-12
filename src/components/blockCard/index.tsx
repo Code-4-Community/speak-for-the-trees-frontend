@@ -1,6 +1,7 @@
 import React from 'react';
-import { Card, Typography } from 'antd';
-import { CloseCircleOutlined } from '@ant-design/icons';
+import Card from 'antd/es/card';
+import Typography from 'antd/es/typography';
+import CloseCircleOutlined from '@ant-design/icons/CloseCircleOutlined';
 import styled from 'styled-components';
 import { CardInfo } from '../themedComponents';
 import { MID_GREEN, TEXT_GREY, LIGHT_GREY } from '../../utils/colors';

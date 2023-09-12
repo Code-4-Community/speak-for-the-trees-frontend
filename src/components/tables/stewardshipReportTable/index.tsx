@@ -4,7 +4,7 @@ import {
   AdoptionReportEntry,
   StewardshipReportTableEntry,
 } from '../../../containers/reports/ducks/types';
-import { Table } from 'antd';
+import Table from 'antd/es/table';
 import { site } from '../../../constants';
 import SiteLink from '../siteLink';
 import { dateSorter, DESCEND_ORDER } from '../utils';

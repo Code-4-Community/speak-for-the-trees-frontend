@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { ParagraphProps } from 'antd/lib/typography/Paragraph';
+import Collapse from 'antd/es/collapse';
+import Typography from 'antd/es/typography';
+import type { ParagraphProps } from 'antd/lib/typography/Paragraph';
 import { BLACK, LIGHT_GREEN } from '../../../utils/colors';
 import styled from 'styled-components';
-import { Collapse, Typography } from 'antd';
 import { TabItem } from '../types';
 import { FullWidthSpace } from '../../themedComponents';
 

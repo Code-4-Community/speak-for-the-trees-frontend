@@ -1,6 +1,11 @@
 import React, { PropsWithChildren, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Form, message, Typography, Divider, Modal, Button } from 'antd';
+import Form from 'antd/es/form';
+import message from 'antd/es/message';
+import Typography from 'antd/es/typography';
+import Divider from 'antd/es/divider';
+import Modal from 'antd/es/modal';
+import Button from 'antd/es/button';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import styled from 'styled-components';
@@ -20,14 +25,12 @@ import ProtectedApiClient from '../../api/protectedApiClient';
 import { AppError } from '../../auth/axios';
 import { getErrorMessage, n } from '../../utils/stringFormat';
 import { SubmitButton } from '../../components/themedComponents';
-import {
-  BarChartOutlined,
-  FileAddOutlined,
-  MailOutlined,
-  PlusOutlined,
-  RocketFilled,
-  SettingFilled,
-} from '@ant-design/icons';
+import BarChartOutlined from '@ant-design/icons/BarChartOutlined';
+import FileAddOutlined from '@ant-design/icons/FileAddOutlined';
+import MailOutlined from '@ant-design/icons/MailOutlined';
+import PlusOutlined from '@ant-design/icons/PlusOutlined';
+import RocketFilled from '@ant-design/icons/RocketFilled';
+import SettingFilled from '@ant-design/icons/SettingFilled';
 import Image1 from '../../assets/images/bkg1.png';
 import Image2 from '../../assets/images/bkg2.png';
 import Image4 from '../../assets/images/bkg4.png';

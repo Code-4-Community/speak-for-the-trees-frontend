@@ -1,4 +1,4 @@
-import { CheckboxOptionType } from 'antd/lib/checkbox/Group';
+import type { CheckboxOptionType } from 'antd/es/checkbox/Group';
 import moment from 'moment';
 import { PrivilegeLevel, SignupRequest } from '../../../auth/ducks/types';
 import { SiteEntryStatus } from '../../../containers/treePage/ducks/types';

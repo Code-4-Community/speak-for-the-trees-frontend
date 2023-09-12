@@ -1,7 +1,12 @@
 import React from 'react';
 import { Redirect, useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Button, Col, Form, message, Row, Typography } from 'antd';
+import Button from 'antd/es/button';
+import Col from 'antd/es/col';
+import Form from 'antd/es/form';
+import message from 'antd/es/message';
+import Row from 'antd/es/row';
+import Typography from 'antd/es/typography';
 import { Helmet } from 'react-helmet';
 import GreetingContainer from '../../components/greetingContainer';
 import { signup } from '../../auth/ducks/thunks';

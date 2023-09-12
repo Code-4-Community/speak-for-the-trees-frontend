@@ -15,7 +15,11 @@ import {
 } from '../../components/forms/ducks/types';
 import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
 import { MapGeoDataReducerState } from '../../components/mapComponents/ducks/types';
-import { Typography, Row, Form, Divider, message } from 'antd';
+import Typography from 'antd/es/typography';
+import Row from 'antd/es/row';
+import Form from 'antd/es/form';
+import Divider from 'antd/es/divider';
+import message from 'antd/es/message';
 import {
   MapContainer,
   Block,
@@ -26,7 +30,7 @@ import {
 import useWindowDimensions, {
   WindowTypes,
 } from '../../components/windowDimensions';
-import { round } from 'lodash';
+import round from 'lodash/round';
 import { LAT_LNG_PRECISION } from '../../components/forms/constants';
 import { MapTypes } from '../../context/types';
 import { MapTypeContext } from '../../context/mapTypeContext';

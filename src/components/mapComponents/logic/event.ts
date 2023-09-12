@@ -9,7 +9,7 @@ import {
   setSitesStyle,
 } from './style';
 import { BasicTreeInfo } from '../../treePopup';
-import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { parseLatLng } from '../../../utils/stringFormat';
 import { MapTypes, SetStateType } from '../../../context/types';
 

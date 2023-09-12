@@ -5,7 +5,8 @@ import React, {
   useCallback,
   PropsWithChildren,
 } from 'react';
-import { Input, message } from 'antd';
+import Input from 'antd/es/input';
+import message from 'antd/es/message';
 import { MapViews, ReturnMapData } from '../../ducks/types';
 import { MAP_BOUNDS, LOADER, STREET_ZOOM } from '../../constants';
 import { addHandleSearch } from '../../logic/event';

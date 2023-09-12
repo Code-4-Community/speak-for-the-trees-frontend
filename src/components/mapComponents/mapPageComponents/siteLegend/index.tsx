@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { ReactNode } from 'react';
 import styled from 'styled-components';
-import { Button, Checkbox, CheckboxOptionType, Typography } from 'antd';
+import Button from 'antd/es/button';
+import Checkbox from 'antd/es/checkbox';
+import type {
+  CheckboxOptionType,
+  CheckboxValueType,
+} from 'antd/es/checkbox/Group';
+import Typography from 'antd/es/typography';
 import {
   WHITE,
   LIGHT_GREY,
@@ -11,7 +17,6 @@ import {
 } from '../../../../utils/colors';
 import { MapViews, SiteOption } from '../../ducks/types';
 import { FullWidthSpace, InlineImage, Flex } from '../../../themedComponents';
-import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import SlideDown from '../../../slideDown';
 import MapLegend from '../../mapLegend';
 import { LinkButton } from '../../../linkButton';

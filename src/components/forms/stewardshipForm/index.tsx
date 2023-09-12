@@ -1,6 +1,10 @@
 import React from 'react';
 import moment from 'moment';
-import { Form, Checkbox, Typography, DatePicker, FormInstance } from 'antd';
+import Form from 'antd/es/form';
+import type { FormInstance } from 'antd/es/form';
+import Checkbox from 'antd/es/checkbox';
+import Typography from 'antd/es/typography';
+import DatePicker from 'antd/es/date-picker';
 import styled from 'styled-components';
 import { activitiesDateRules, activitiesRules } from '../../../utils/formRules';
 import { SubmitButton } from '../../themedComponents';
