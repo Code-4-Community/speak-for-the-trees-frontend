@@ -24,7 +24,7 @@
     "@types/styled-components": "^5.1.4",
     "@types/uuid": "^8.3.0",
     "antd": "^4.15.1",
-    "axios": "^0.21.2",
+    "axios": "^1.5.0",
     "craco-antd": "^2.0.0",
     "i18next": "^23.5.1",
     "lodash": "^4.17.20",
