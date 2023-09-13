@@ -129,7 +129,7 @@ describe('Tree Page Selectors', () => {
             imageId: 2,
             imageUrl: 'http://www.some-other-address.com',
             uploadedAt: '01/01/2023',
-            uploaderUsername: null,
+            uploaderUsername: 'Hello World',
           },
         ],
       },
@@ -286,7 +286,7 @@ describe('Tree Page Selectors', () => {
           imageId: 2,
           imageUrl: 'http://www.some-other-address.com',
           uploadedAt: '01/01/2023',
-          uploaderUsername: null,
+          uploaderUsername: 'Hello World',
         },
       ];
 
