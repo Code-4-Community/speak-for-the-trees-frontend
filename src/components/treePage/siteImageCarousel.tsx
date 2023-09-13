@@ -40,6 +40,7 @@ const StyledCarousel = styled(Carousel)`
 `;
 
 const SiteImage = styled.img`
+  max-height: 300px;
   margin: 0 auto;
 `;
 
@@ -69,7 +70,6 @@ export const SiteImageCarousel: React.FC = () => {
             arrows
             prevArrow={<LeftOutlined />}
             nextArrow={<RightOutlined />}
-            adaptiveHeight
             afterChange={onAfterChange}
           >
             {latestEntrySiteImages.map((siteImage) => (
