@@ -12,6 +12,7 @@ import { connect, useDispatch } from 'react-redux';
 import { AsyncRequestKinds } from '../../utils/asyncRequest';
 import { getUsersLeaderboard } from './ducks/thunks';
 import { LEADERBOARD_TABS } from '../../components/leaderboard/constants';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const LeaderboardContentContainer = styled.div`
   margin: 100px auto auto;
@@ -48,7 +49,9 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
   return (
     <PageLayout>
       <LeaderboardContentContainer>
-        <ReturnButton to={Routes.HOME}>{`<`} Return to Dashboard</ReturnButton>
+        <ReturnButton to={Routes.HOME}>
+          <ArrowLeftOutlined /> Return to Dashboard
+        </ReturnButton>
         <PageHeader
           pageTitle="Volunteer Leaderboard"
           pageSubtitle="Celebrate all the contributions of our Speak for the Trees volunteers!"

@@ -15,6 +15,7 @@ import {
   MID_GREEN,
   WHITE,
 } from '../../utils/colors';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const TeamContainer = styled.div`
   padding: 70px 134px;
@@ -177,7 +178,7 @@ const TeamPage: React.FC = () => {
   return (
     <TeamContainer>
       <ReturnButton to={Routes.AVAILABLE_TEAMS}>
-        {`<`} Return to Teams
+        <ArrowLeftOutlined /> Return to Teams
       </ReturnButton>
       <TeamHeaderContainer>
         <PageHeaderContainer>

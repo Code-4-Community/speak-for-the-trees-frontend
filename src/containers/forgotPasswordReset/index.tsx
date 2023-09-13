@@ -3,12 +3,10 @@ import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import authClient from '../../auth/authClient';
-import useWindowDimensions from '../../components/windowDimensions';
 import { Button, Form, Input, message } from 'antd';
 import { site } from '../../constants';
 import PageHeader from '../../components/pageHeader';
 import { ContentContainer } from '../../components/themedComponents';
-import { isMobile } from '../../utils/isCheck';
 import { confirmPasswordRules, newPasswordRules } from '../../utils/formRules';
 import { n } from '../../utils/stringFormat';
 
@@ -27,7 +25,6 @@ const ForgotPasswordReset: React.FC = () => {
   });
 
   const { key } = useParams<ForgotPasswordResetParams>();
-  const { windowType } = useWindowDimensions();
   const [resetPasswordForm] = Form.useForm();
 
   const onFinish = (values: NewPasswords) => {
@@ -51,7 +48,7 @@ const ForgotPasswordReset: React.FC = () => {
         />
       </Helmet>
       <ContentContainer>
-        <PageHeader pageTitle={t('header')} isMobile={isMobile(windowType)} />
+        <PageHeader pageTitle={t('header')} />
 
         <Form name="resetPassword" form={resetPasswordForm} onFinish={onFinish}>
           <Form.Item name="password" rules={newPasswordRules}>

@@ -15,6 +15,7 @@ import {
   ExtraSiteEntryNames,
   MonthYearOption,
   SiteEntryStatus,
+  SiteEntryImage,
 } from '../ducks/types';
 import {
   mapStewardshipToTreeCare,
@@ -22,6 +23,7 @@ import {
   getLatestEntry,
   isTreeAdoptedByUser,
   mapStewardshipToMonthYearOptions,
+  getLatestEntrySiteImages,
 } from '../ducks/selectors';
 
 describe('Tree Page Selectors', () => {
@@ -116,6 +118,20 @@ describe('Tree Page Selectors', () => {
         genus: 'big',
         circumference: 4,
         bicycle: true,
+        images: [
+          {
+            imageId: 1,
+            imageUrl: 'http://www.some-address.com',
+            uploadedAt: '09/06/2023',
+            uploaderUsername: 'First Last',
+          },
+          {
+            imageId: 2,
+            imageUrl: 'http://www.some-other-address.com',
+            uploadedAt: '01/01/2023',
+            uploaderUsername: 'Hello World',
+          },
+        ],
       },
       {
         id: 1,
@@ -125,6 +141,14 @@ describe('Tree Page Selectors', () => {
         species: 'not a tree',
         circumference: 2,
         bicycle: false,
+        images: [
+          {
+            imageId: 3,
+            imageUrl: 'http://www.should-not-be-returned.com',
+            uploadedAt: '01/01/2022',
+            uploaderUsername: 'Code4Community',
+          },
+        ],
       },
     ],
   };
@@ -246,6 +270,39 @@ describe('Tree Page Selectors', () => {
         main: [],
         extra: [],
       });
+    });
+  });
+
+  describe('getLatestEntrySiteImages', () => {
+    it('returns site images of the latest entry when request is completed', () => {
+      const expectedSiteImagesResponse: SiteEntryImage[] = [
+        {
+          imageId: 1,
+          imageUrl: 'http://www.some-address.com',
+          uploadedAt: '09/06/2023',
+          uploaderUsername: 'First Last',
+        },
+        {
+          imageId: 2,
+          imageUrl: 'http://www.some-other-address.com',
+          uploadedAt: '01/01/2023',
+          uploaderUsername: 'Hello World',
+        },
+      ];
+
+      const siteImagesRequest: AsyncRequest<SiteProps, any> =
+        AsyncRequestCompleted<SiteProps, any>(dummySite);
+
+      expect(getLatestEntrySiteImages(siteImagesRequest)).toStrictEqual(
+        expectedSiteImagesResponse,
+      );
+    });
+
+    it('returns empty arrays when site props have not been loaded', () => {
+      const siteImagesRequest: AsyncRequest<SiteProps, any> =
+        AsyncRequestNotStarted();
+
+      expect(getLatestEntrySiteImages(siteImagesRequest)).toStrictEqual([]);
     });
   });
 

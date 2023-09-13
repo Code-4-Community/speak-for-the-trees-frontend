@@ -5,6 +5,7 @@ import { TeamLeaderboardItem } from '../containers/teamLeaderboard/ducks/types';
 import {
   StewardshipActivities,
   SiteProps,
+  TreeBenefits,
 } from '../containers/treePage/ducks/types';
 import {
   BlockGeoData,
@@ -31,6 +32,7 @@ export interface ApiClient {
     siteId: number,
   ) => Promise<StewardshipActivities>;
   readonly getAllCommonNames: () => Promise<{ names: string[] }>;
+  readonly calculateTreeBenefits: (siteId: number) => Promise<TreeBenefits>;
 }
 
 export enum ApiClientRoutes {
@@ -52,6 +54,8 @@ export const ParameterizedApiRoutes = {
   GET_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}`,
   GET_STEWARDSHIP_ACTIVITIES: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/stewardship_activities`,
+  CALCULATE_TREE_BENEFITS: (siteId: number): string =>
+    `${baseSiteRoute}${siteId}/calculate_benefits`,
 };
 
 export const AppAxiosInstance: AxiosInstance = axios.create({
@@ -124,6 +128,12 @@ const getAllCommonNames = (): Promise<{ names: string[] }> => {
   );
 };
 
+const calculateTreeBenefits = (siteId: number): Promise<TreeBenefits> => {
+  return AppAxiosInstance.get(
+    ParameterizedApiRoutes.CALCULATE_TREE_BENEFITS(siteId),
+  ).then((res) => res.data);
+};
+
 const Client: ApiClient = Object.freeze({
   getUsersLeaderboard,
   getTeamsLeaderboard,
@@ -133,6 +143,7 @@ const Client: ApiClient = Object.freeze({
   getSite,
   getStewardshipActivities,
   getAllCommonNames,
+  calculateTreeBenefits,
 });
 
 export default Client;

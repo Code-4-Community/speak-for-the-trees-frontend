@@ -16,6 +16,7 @@ import {
   TEAM_LEADERBOARD_HEADER,
   TEAM_LEADERBOARD_TITLE,
 } from '../../assets/content';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const LeaderboardContentContainer = styled.div`
   margin: 100px auto auto;
@@ -51,7 +52,9 @@ const TeamLeaderboard: React.FC<TeamLeaderboardProps> = ({
   return (
     <PageLayout>
       <LeaderboardContentContainer>
-        <ReturnButton to={Routes.HOME}>{`<`} Return to Dashboard</ReturnButton>
+        <ReturnButton to={Routes.HOME}>
+          <ArrowLeftOutlined /> Return to Dashboard
+        </ReturnButton>
         <PageHeader
           pageTitle={TEAM_LEADERBOARD_TITLE}
           pageSubtitle={TEAM_LEADERBOARD_HEADER}

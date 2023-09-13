@@ -14,6 +14,7 @@ import {
   MonthYearOption,
   StewardshipActivities,
   TreeCare,
+  SiteEntryImage,
 } from './types';
 import {
   booleanToString,
@@ -80,6 +81,15 @@ export const getLatestEntry = (
     } else {
       return [];
     }
+  }
+  return [];
+};
+
+export const getLatestEntrySiteImages = (
+  items: AsyncRequest<SiteProps, any>,
+): SiteEntryImage[] => {
+  if (asyncRequestIsComplete(items)) {
+    return items.result.entries[0]?.images || [];
   }
   return [];
 };

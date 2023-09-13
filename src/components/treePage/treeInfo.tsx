@@ -11,8 +11,8 @@ import {
   RecordStewardshipRequest,
 } from '../forms/ducks/types';
 import { MID_GREEN } from '../../utils/colors';
-import ShareButton from '../../components/shareButton';
-import TreePageHeader from '../treePageHeader';
+import ShareButton from '../shareButton';
+import { TreePageHeader } from './treePageHeader';
 import { C4CState } from '../../store';
 import { isAdmin } from '../../auth/ducks/selectors';
 import { useTranslation } from 'react-i18next';
@@ -40,7 +40,7 @@ const UnadoptButton = styled(Button)`
 `;
 
 const ForceUnadoptButton = styled(Button)`
-  margin: 10px;
+  margin-left: 10px;
 `;
 
 interface TreeProps {
@@ -59,7 +59,7 @@ interface TreeProps {
   readonly onClickEditTreeName: (values: NameSiteEntryRequest) => void;
 }
 
-const TreeInfo: React.FC<TreeProps> = ({
+export const TreeInfo: React.FC<TreeProps> = ({
   siteData,
   loggedIn,
   userOwnsTree,
@@ -80,8 +80,6 @@ const TreeInfo: React.FC<TreeProps> = ({
   const isAdopted = !!siteData.entries?.[0]?.adopter;
   const treePresent = !!siteData.entries[0].treePresent;
 
-  const treeCommonName = getCommonName(siteData);
-
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
     isAdmin(state.authenticationState.tokens),
   );
@@ -99,23 +97,6 @@ const TreeInfo: React.FC<TreeProps> = ({
       return baseLocation;
     }
   };
-
-  const shareButton = (
-    <ShareButton
-      size={mobile ? 'middle' : 'large'}
-      defaultText={
-        userOwnsTree
-          ? t('share_messages.user_owns', { treeCommonName })
-          : isAdopted
-          ? t('share_messages.adopted', { treeCommonName })
-          : t('share_messages.open', {
-              treeCommonName,
-              location: siteData.address ? `at ${siteData.address}` : '',
-            })
-      }
-      link={`map.treeboston.org/tree/${siteData.siteId}`}
-    />
-  );
 
   return (
     <>
@@ -148,17 +129,13 @@ const TreeInfo: React.FC<TreeProps> = ({
           {treePresent && (
             <>
               {userOwnsTree ? (
-                <UnadoptButton
-                  danger
-                  size={mobile ? 'middle' : 'large'}
-                  onClick={onClickUnadopt}
-                >
+                <UnadoptButton danger size="middle" onClick={onClickUnadopt}>
                   {t('actions.unadopt')}
                 </UnadoptButton>
               ) : (
                 <Button
                   type="primary"
-                  size={mobile ? 'middle' : 'large'}
+                  size="middle"
                   onClick={onClickAdopt}
                   disabled={isAdopted}
                 >
@@ -169,7 +146,7 @@ const TreeInfo: React.FC<TreeProps> = ({
               {userIsAdmin && (
                 <ForceUnadoptButton
                   danger
-                  size={mobile ? 'middle' : 'large'}
+                  size="middle"
                   onClick={onClickForceUnadopt}
                   disabled={!isAdopted}
                 >
@@ -179,7 +156,12 @@ const TreeInfo: React.FC<TreeProps> = ({
             </>
           )}
 
-          {shareButton}
+          <TreePageShareButton
+            siteData={siteData}
+            mobile={mobile}
+            userOwnsTree={userOwnsTree}
+            isAdopted={isAdopted}
+          />
 
           {userOwnsTree && treePresent && (
             <StewardshipContainer>
@@ -206,11 +188,50 @@ const TreeInfo: React.FC<TreeProps> = ({
           >
             {t('log_in')}
           </ToggleTextButton>
-          {shareButton}
+
+          <TreePageShareButton
+            siteData={siteData}
+            mobile={mobile}
+            userOwnsTree={userOwnsTree}
+            isAdopted={isAdopted}
+          />
         </>
       )}
     </>
   );
 };
 
-export default TreeInfo;
+interface TreePageShareButtonProps {
+  readonly siteData: SiteProps;
+  readonly mobile?: boolean;
+  readonly userOwnsTree: boolean;
+  readonly isAdopted: boolean;
+}
+
+const TreePageShareButton: React.FC<TreePageShareButtonProps> = ({
+  siteData,
+  mobile,
+  userOwnsTree,
+  isAdopted,
+}) => {
+  const { t } = useTranslation(n(site, 'treeInfo'), { nsMode: 'fallback' });
+
+  const treeCommonName = getCommonName(siteData);
+
+  return (
+    <ShareButton
+      size={mobile ? 'middle' : 'large'}
+      defaultText={
+        userOwnsTree
+          ? t('share_messages.user_owns', { treeCommonName })
+          : isAdopted
+          ? t('share_messages.adopted', { treeCommonName })
+          : t('share_messages.open', {
+              treeCommonName,
+              location: siteData.address ? `at ${siteData.address}` : '',
+            })
+      }
+      link={`map.treeboston.org/tree/${siteData.siteId}`}
+    />
+  );
+};

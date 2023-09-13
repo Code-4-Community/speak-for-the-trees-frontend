@@ -113,7 +113,7 @@ const Home: React.FC = () => {
               case WindowTypes.Mobile:
                 return (
                   <>
-                    <PageHeader pageTitle={greeting} isMobile={true} />
+                    <PageHeader pageTitle={greeting} />
                     <StyledSubtitle>{t('quick_links')}</StyledSubtitle>
                     <LinkCarousel data={allLinks} slidesPerPage={1} />
                   </>

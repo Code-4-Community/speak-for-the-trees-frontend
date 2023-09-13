@@ -314,7 +314,7 @@ describe('Api Client Tests', () => {
   });
 
   describe('Get all common names', () => {
-    it('makes the right response', async () => {
+    it('makes the right request', async () => {
       const response = { names: ['tree1', 'tree2'] };
 
       nock(BASE_URL)
@@ -322,6 +322,45 @@ describe('Api Client Tests', () => {
         .reply(200, response);
 
       const result = await ApiClient.getAllCommonNames();
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('Calculate tree benefits', () => {
+    it('makes the right request', async () => {
+      const response = {
+        energy: 1,
+        energyMoney: 2.2,
+        stormwater: 0,
+        stormwaterMoney: 0,
+        airQuality: 10,
+        airQualityMoney: 11.2,
+        co2Removed: 2.3,
+        co2RemovedMoney: 4,
+        co2Stored: 2.1,
+        co2StoredMoney: 5.6,
+      };
+
+      nock(BASE_URL)
+        .get(ParameterizedApiRoutes.CALCULATE_TREE_BENEFITS(1000))
+        .reply(200, response);
+
+      const result = await ApiClient.calculateTreeBenefits(1000);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'No such site';
+
+      nock(BASE_URL)
+        .get(ParameterizedApiRoutes.CALCULATE_TREE_BENEFITS(20))
+        .reply(400, response);
+
+      const result = await ApiClient.calculateTreeBenefits(20).catch(
+        (err) => err.response.data,
+      );
 
       expect(result).toEqual(response);
     });

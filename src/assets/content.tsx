@@ -60,12 +60,6 @@ export const NUMERIC_MONTHS: { [abbreviatedMonth: string]: number } = {
   Dec: 12,
 };
 
-// Tree Stats
-export const STATS_HEADER = 'Current Status of our Trees';
-export const MONEY_STAT_TITLE = 'Money Saved';
-export const RAIN_STAT_TITLE = 'Rain Water Caught';
-export const EMISSIONS_STAT_TITLE = 'Carbon Emissions Captured';
-
 // Other
 export enum Neighborhoods {
   BACK_BAY = 'Back Bay',

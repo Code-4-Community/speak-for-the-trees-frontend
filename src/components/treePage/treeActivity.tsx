@@ -45,7 +45,7 @@ interface TreeActivityProps {
   readonly monthYearOptions: MonthYearOption[];
 }
 
-const TreeActivity: React.FC<TreeActivityProps> = ({
+export const TreeActivity: React.FC<TreeActivityProps> = ({
   stewardship,
   monthYearOptions,
 }) => {
@@ -115,5 +115,3 @@ const TreeActivity: React.FC<TreeActivityProps> = ({
     </>
   );
 };
-
-export default TreeActivity;

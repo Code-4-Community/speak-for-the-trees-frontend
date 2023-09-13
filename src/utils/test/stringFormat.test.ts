@@ -21,7 +21,8 @@ import { AppError } from '../../auth/axios';
 import { Websites } from '../../constants';
 
 test('getMoneyString tests', () => {
-  expect(getMoneyString(100000)).toBe('$100,000');
+  expect(getMoneyString(0.2)).toBe('$0.20');
+  expect(getMoneyString(100000)).toBe('$100,000.00');
   expect(getMoneyString(123456.789)).toBe('$123,456.79');
 });
 

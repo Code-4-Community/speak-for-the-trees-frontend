@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { Button } from 'antd';
 import { SizeType } from 'antd/es/config-provider/SizeContext';
 import ShareMenu from '../shareMenu';
-import ShareWhite from '../../assets/images/sharewhite-small.png';
+import ShareWhite from '../../assets/images/share-green.png';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 
 const StyledShareButton = styled(Button)`
-  margin: 10px;
+  margin: 5px;
   padding-left: 10px;
   padding-right: 10px;
 `;
@@ -37,7 +37,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({
   return (
     <>
       <StyledShareButton
-        type="primary"
+        type="text"
         size={size}
         onClick={() => {
           setShowMenu(!showMenu);

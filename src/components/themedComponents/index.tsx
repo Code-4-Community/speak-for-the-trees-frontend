@@ -28,7 +28,7 @@ export const MOBILE_FONT_SIZE = '15px';
 export const DESKTOP_FONT_SIZE = '12px';
 
 export const PaddedPageContainer = styled.div`
-  padding: 5vh 5vw;
+  padding: 8vh 5vw 5vh;
 `;
 
 export const ContentContainer = styled.div`
@@ -166,6 +166,7 @@ export interface FlexProps {
   justifyContent?: string;
   padding?: string;
   flexDirection?: string;
+  flexWrap?: string;
   alignItems?: string;
   width?: string;
 }
@@ -176,7 +177,7 @@ export const Flex = styled.div`
   flex-direction: ${({ flexDirection }: FlexProps) => flexDirection ?? 'row'};
   width: ${({ width }: FlexProps) => width ?? '100%'};
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: ${({ flexWrap }: FlexProps) => flexWrap ?? 'wrap'};
   align-content: flex-start;
   align-items: ${({ alignItems }: FlexProps) => alignItems ?? 'normal'};
   gap: ${({ gap }: FlexProps) => (gap ? gap : '50px')};

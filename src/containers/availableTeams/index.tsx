@@ -8,7 +8,7 @@ import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
 import styled from 'styled-components';
 import { LinkButton } from '../../components/linkButton';
-import { ArrowRightOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { TEAMS_HEADER, TEAMS_TITLE } from '../../assets/content';
 
 const ContentContainer = styled.div`
@@ -71,7 +71,9 @@ const AvailableTeams: React.FC = () => {
   return (
     <PageLayout>
       <ContentContainer>
-        <ReturnButton to={Routes.HOME}>{`<`} Return to Dashboard</ReturnButton>
+        <ReturnButton to={Routes.HOME}>
+          <ArrowLeftOutlined /> Return to Dashboard
+        </ReturnButton>
         <PageHeader pageTitle={TEAMS_TITLE} pageSubtitle={TEAMS_HEADER} />
 
         <TeamsContainer>

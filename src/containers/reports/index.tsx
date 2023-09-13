@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Form, message, Skeleton, Tabs, Typography } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+
 import StewardshipReportTable from '../../components/tables/stewardshipReportTable';
 import ProtectedApiClient from '../../api/protectedApiClient';
-import { Form, message, Skeleton, Tabs, Typography } from 'antd';
 import { site } from '../../constants';
 import { AdoptionReport, StewardshipReport } from './ducks/types';
 import { Helmet } from 'react-helmet';
@@ -123,7 +125,9 @@ const Reports: React.FC = () => {
       </Helmet>
       <PageLayout>
         <PaddedPageContainer>
-          <ReturnButton to={Routes.ADMIN}>{'<'} Back to Dashboard</ReturnButton>
+          <ReturnButton to={Routes.ADMIN}>
+            <ArrowLeftOutlined /> Back to Dashboard
+          </ReturnButton>
           <PageHeader pageTitle={t('site_report')} />
           <FeaturedStatsSection>
             <FeaturedStats

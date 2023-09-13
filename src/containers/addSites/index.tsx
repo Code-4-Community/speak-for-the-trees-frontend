@@ -3,6 +3,8 @@ import { C4CState } from '../../store';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { connect, useDispatch } from 'react-redux';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+
 import UpdateSiteForm from '../../components/forms/updateSiteForm';
 import EditSiteForm from '../../components/forms/editSiteForm';
 import SelectorMapDisplay from '../../components/mapComponents/mapDisplays/selectorMapDisplay';
@@ -106,7 +108,9 @@ const AddSites: React.FC<AddSitesProps> = ({ neighborhoods, sites }) => {
       </Helmet>
       <PageLayout>
         <PaddedPageContainer>
-          <ReturnButton to={Routes.ADMIN}>{'<'} Back to Dashboard</ReturnButton>
+          <ReturnButton to={Routes.ADMIN}>
+            <ArrowLeftOutlined /> Back to Dashboard
+          </ReturnButton>
           <PageHeader pageTitle="Add Sites" />
           <DashboardContent>
             <Typography.Title level={4}>Bulk Add Sites</Typography.Title>

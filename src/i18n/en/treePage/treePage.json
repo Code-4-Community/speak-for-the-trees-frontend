@@ -1,7 +1,7 @@
 {
   "no_tree_message": "There is no tree at {{location}}!",
   "tree_planting_request": "The city of Boston plants new trees in the spring and fall primarily on resident requests. Ask the city to plant a tree here at <1>this city tree planting request form</1>!",
-  "return": "Return to Tree Map",
+  "return": "Return to map",
   "no_data": "No data has been collected about this site.",
   "tree_not_found": "Tree could not be found.",
   "info_tiles": {
@@ -23,5 +23,36 @@
     "edit_name_failure": "Failed to name site: {{error}}",
     "force_unadopt_success": "Force unadopted site!",
     "force_unadopt_failure": "Failed to force unadopt site: {{error}}"
+  },
+  "site_image": {
+    "uploaded_by": "Uploaded by {{uploader}}",
+    "no_upload_date": "Upload date unknown"
+  },
+  "tree_benefits": {
+    "header": "Tree Benefits",
+    "categories": {
+      "energy": {
+        "name": "Energy Conserved",
+        "unit": "kWh/year"
+      },
+      "stormwater": {
+        "name": "Stormwater Filtered",
+        "unit": "gal/year"
+      },
+      "airQuality": {
+        "name": "Air Quality Improved",
+        "unit": "lbs/year"
+      },
+      "co2Removed": {
+        "name": "CO2 Removed",
+        "unit": "lbs/year"
+      },
+      "co2Stored": {
+        "name": "CO2 Stored (to Date)",
+        "unit": "lbs"
+      }
+    },
+    "unsupported_browser": "This browser type is not supported.",
+    "learn_more": "Learn more about how we got these numbers <learnMore>here</learnMore>."
   }
 }
