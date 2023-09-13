@@ -292,7 +292,7 @@ export interface AdoptedSites {
 
 export interface SiteEntryImage {
   imageId: number;
-  uploaderUsername: string | null;
+  uploaderUsername: string;
   uploadedAt: string;
   imageUrl: string;
 }
