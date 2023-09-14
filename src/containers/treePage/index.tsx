@@ -51,7 +51,7 @@ import { CITY_PLANTING_REQUEST_LINK } from '../../assets/links';
 import { Trans, useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
-import TreeBenefits from '../../components/treePage/treeBenefits';
+// import TreeBenefits from '../../components/treePage/treeBenefits';
 
 const TreePageContainer = styled.div`
   width: 90vw;
@@ -326,7 +326,7 @@ const TreePage: React.FC<TreeProps> = ({
 
                             <SiteImageCarousel />
 
-                            <TreeBenefits />
+                            {/* <TreeBenefits /> */}
                           </HalfWidthContainer>
                         </Flex>
                       </TreeMainContainer>
@@ -356,7 +356,7 @@ const TreePage: React.FC<TreeProps> = ({
 
                         <SiteImageCarousel />
 
-                        <TreeBenefits />
+                        {/* <TreeBenefits /> */}
 
                         <LatestEntryInfo latestEntry={latestEntry} />
                       </TreeMainContainer>
@@ -387,7 +387,7 @@ const TreePage: React.FC<TreeProps> = ({
 
                         <SiteImageCarousel />
 
-                        <TreeBenefits />
+                        {/* <TreeBenefits /> */}
 
                         <LatestEntryInfo latestEntry={latestEntry} />
                       </MobileTreeMainContainer>
