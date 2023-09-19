@@ -17,7 +17,8 @@ import { Flex } from '../../components/themedComponents';
 import SignupForm from '../../components/forms/signupForm';
 import { SignupFormValues } from '../../components/forms/ducks/types';
 import ProtectedApiClient from '../../api/protectedApiClient';
-import { AppError } from '../../auth/axios';
+// import { AppError } from '../../auth/axios';
+import { AppError } from '../../App';
 import { getErrorMessage, n } from '../../utils/stringFormat';
 import { SubmitButton } from '../../components/themedComponents';
 import {

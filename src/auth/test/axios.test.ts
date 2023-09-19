@@ -10,7 +10,8 @@ import {
 import { AdminApiClientRoutes } from '../../api/protectedApiClient';
 import { AxiosError } from 'axios';
 import authClient from '../authClient';
-import { responseErrorInterceptor } from '../axios';
+// import { responseErrorInterceptor } from '../axios';
+import { responseErrorInterceptor } from '../../App';
 import store, { C4CState } from '../../store';
 import { AsyncRequestCompleted } from '../../utils/asyncRequest';
 import { generateState } from './thunks.test';
