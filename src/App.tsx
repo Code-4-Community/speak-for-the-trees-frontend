@@ -35,6 +35,7 @@ import history from './history';
 import FAQ from './containers/faq';
 import Email from './containers/email';
 import AddSites from './containers/addSites';
+import { addAxiosInterceptors } from './auth/axios';
 
 const AppLayout = styled(Layout)`
   min-height: 100vh;
@@ -86,6 +87,9 @@ export interface MapStateProps {
   readonly lat: number;
   readonly lng: number;
 }
+
+// temp fix - adding axios interceptors here as they aren't don't get added when in auth/axios.ts
+addAxiosInterceptors();
 
 const App: React.FC = () => {
   const dispatch = useDispatch();

@@ -59,16 +59,18 @@ export const responseErrorInterceptor = async (
   return Promise.reject(error);
 };
 
-AppAxiosInstance.interceptors.response.use(
-  (response) => response,
-  responseErrorInterceptor,
-);
+export const addAxiosInterceptors = () => {
+  AppAxiosInstance.interceptors.response.use(
+    (response) => response,
+    responseErrorInterceptor,
+  );
 
-AppAxiosInstance.interceptors.request.use((config) => {
-  const tokens: UserAuthenticationReducerState['tokens'] =
-    store.getState().authenticationState.tokens;
-  if (asyncRequestIsComplete(tokens)) {
-    config.headers['X-Access-Token'] = tokens.result.accessToken;
-  }
-  return config;
-});
+  AppAxiosInstance.interceptors.request.use((config) => {
+    const tokens: UserAuthenticationReducerState['tokens'] =
+      store.getState().authenticationState.tokens;
+    if (asyncRequestIsComplete(tokens)) {
+      config.headers['X-Access-Token'] = tokens.result.accessToken;
+    }
+    return config;
+  });
+};
