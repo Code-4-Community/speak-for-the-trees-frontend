@@ -7,8 +7,7 @@ import {
   SiteEntryField,
 } from '../containers/treePage/ducks/types';
 import { NEIGHBORHOOD_IDS } from '../assets/content';
-// import { AppError } from '../auth/axios';
-import { AppError } from '../App';
+import { AppError } from '../auth/axios';
 import { Coordinate } from '../components/mapComponents/ducks/types';
 import { Websites } from '../constants';
 import i18n from '../i18n/i18n';
