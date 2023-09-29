@@ -1,4 +1,4 @@
-import { AppAxiosInstance } from './apiClient';
+import {ApiClientRoutes, AppAxiosInstance} from './apiClient';
 import { SignupRequest, UserData } from '../auth/ducks/types';
 import {
   TeamResponse,
@@ -145,6 +145,7 @@ export enum ProtectedApiClientRoutes {
   GET_TEAMS = '/api/v1/protected/teams/',
   GET_ADOPTED_SITES = '/api/v1/protected/sites/adopted_sites',
   ADD_SITE = '/api/v1/protected/sites/add',
+  UPLOAD_IMAGE = '/api/v1/protected/sites/site_image',
 }
 
 export enum AdminApiClientRoutes {
@@ -564,6 +565,18 @@ const filterSites = (
   ).then((res) => res.data);
 };
 
+const uploadImage = (siteEntryId: number, imageFile: File): Promise<any> => {
+  const formData = new FormData();
+  formData.append('site_entry_id', siteEntryId.toString());
+  formData.append('image', imageFile);
+
+  return AppAxiosInstance.post(ProtectedApiClientRoutes.UPLOAD_IMAGE, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }).then((res) => res.data);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -612,6 +625,7 @@ const Client: ProtectedApiClient = Object.freeze({
   addSites,
   sendEmail,
   filterSites,
+  uploadImage,
 });
 
 export default Client;
