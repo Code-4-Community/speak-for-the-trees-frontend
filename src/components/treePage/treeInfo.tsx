@@ -20,6 +20,7 @@ import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 import { isSFTT } from '../../utils/isCheck';
 import { getCommonName } from '../../utils/treeFunctions';
+import UploadSiteImageButton from '../uploadSiteImageButton';
 
 const TreeHeader = styled.div`
   text-transform: capitalize;
@@ -163,6 +164,10 @@ export const TreeInfo: React.FC<TreeProps> = ({
             isAdopted={isAdopted}
           />
 
+          {userOwnsTree && (
+            <TreePageUploadSiteImageButton></TreePageUploadSiteImageButton>
+          )}
+
           {userOwnsTree && treePresent && (
             <StewardshipContainer>
               <Typography.Title level={3}>
@@ -234,4 +239,8 @@ const TreePageShareButton: React.FC<TreePageShareButtonProps> = ({
       link={`map.treeboston.org/tree/${siteData.siteId}`}
     />
   );
+};
+
+const TreePageUploadSiteImageButton = (props: any) => {
+  return <UploadSiteImageButton></UploadSiteImageButton>;
 };

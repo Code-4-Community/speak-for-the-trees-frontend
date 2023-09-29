@@ -15,6 +15,10 @@
     "adopt": "Adopt",
     "force_unadopt": "Force Unadopt"
   },
+  "uploadSiteImage": {
+    "upload_title": "Upload an Image of this Site",
+    "upload_button_message": "Upload"
+  },
   "log_in": "Log in to adopt this tree!",
   "name_prompt": "Name this tree!"
 }
