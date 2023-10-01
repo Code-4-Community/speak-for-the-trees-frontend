@@ -134,9 +134,6 @@ const calculateTreeBenefits = (siteId: number): Promise<TreeBenefits> => {
   ).then((res) => res.data);
 };
 
-
-
-
 const Client: ApiClient = Object.freeze({
   getUsersLeaderboard,
   getTeamsLeaderboard,

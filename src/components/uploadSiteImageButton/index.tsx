@@ -1,17 +1,32 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 //import { SizeType } from 'antd/es/config-provider/SizeContext';
 import ShareMenu from '../shareMenu';
 import ShareWhite from '../../assets/images/share-green.png';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
-import { StyledClose } from '../themedComponents';
+import { GreenButton, StyledClose, SubmitButton } from '../themedComponents';
 import Dragger from 'antd/es/upload/Dragger';
 import { InboxOutlined } from '@ant-design/icons';
 import { UploadProps } from 'antd/lib/upload/interface';
+import { LIGHT_GREY } from '../../utils/colors';
+import protectedApiClient from '../../api/protectedApiClient';
+import { getSiteData } from '../../containers/treePage/ducks/thunks';
 
+const StyledInboxOutline = styled(InboxOutlined)`
+  color: black;
+`;
+
+const ConfirmUpload = styled(SubmitButton)`
+  margin: 10px;
+  padding-left: 10px;
+
+  & :hover {
+    background-color: ${LIGHT_GREY};
+  }
+`;
 // const StyledUploadImageButton = Button`
 //   margin: 5px;
 //   padding-left: 10px;
@@ -43,16 +58,20 @@ function UploadSiteImageButton() {
     },
   };
 
+  function onClickUploadSiteImage() {
+    const t = 1;
+  }
+
   return (
     <>
-      <Button
+      <GreenButton
         type="text"
         onClick={() => {
           setShowMenu(!showMenu);
         }}
       >
-        Upload Tree Imagesrc/components/treePage/latestEntryInfo.tsx
-      </Button>
+        Upload Tree Images
+      </GreenButton>
       <Modal
         title={t('upload_title')} // pass on as input
         visible={showMenu}
@@ -65,7 +84,7 @@ function UploadSiteImageButton() {
       >
         <Dragger {...props}>
           <p className="ant-upload-drag-icon">
-            <InboxOutlined />
+            <StyledInboxOutline />
           </p>
           <p className="ant-upload-text">
             Click or drag file to this area to upload
@@ -75,7 +94,7 @@ function UploadSiteImageButton() {
             uploading company data or other banned files.
           </p>
         </Dragger>
-        <p>{t('upload_title')}</p>
+        <ConfirmUpload onClick={onClickUploadSiteImage}>Upload</ConfirmUpload>
       </Modal>
     </>
   );

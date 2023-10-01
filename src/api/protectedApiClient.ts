@@ -1,4 +1,4 @@
-import {ApiClientRoutes, AppAxiosInstance} from './apiClient';
+import { ApiClientRoutes, AppAxiosInstance } from './apiClient';
 import { SignupRequest, UserData } from '../auth/ducks/types';
 import {
   TeamResponse,
@@ -570,11 +570,15 @@ const uploadImage = (siteEntryId: number, imageFile: File): Promise<any> => {
   formData.append('site_entry_id', siteEntryId.toString());
   formData.append('image', imageFile);
 
-  return AppAxiosInstance.post(ProtectedApiClientRoutes.UPLOAD_IMAGE, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
+  return AppAxiosInstance.post(
+    ProtectedApiClientRoutes.UPLOAD_IMAGE,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     },
-  }).then((res) => res.data);
+  ).then((res) => res.data);
 };
 
 const Client: ProtectedApiClient = Object.freeze({
