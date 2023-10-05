@@ -130,10 +130,7 @@ export interface ProtectedApiClient {
   readonly filterSites: (
     params: FilterSitesParams,
   ) => Promise<FilterSitesResponse>;
-  readonly uploadImage: (
-      siteEntryId: number,
-      imageFile: File,
-  ) => Promise<void>;
+  readonly uploadImage: (siteEntryId: number, imageFile: File) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -202,7 +199,7 @@ export const ParameterizedApiRoutes = {
   NAME_SITE_ENTRY: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/name_entry`,
   UPLOAD_IMAGE: (siteEntryId: number): string =>
-      `${baseSiteRoute}site_image/${siteEntryId}`,
+    `${baseSiteRoute}site_image/${siteEntryId}`,
 };
 
 export const ParameterizedAdminApiRoutes = {
@@ -570,14 +567,10 @@ const filterSites = (
   ).then((res) => res.data);
 };
 
-
-const uploadImage = (
-    siteEntryId: number,
-    imageFile: File,
-    ): Promise<any> => {
+const uploadImage = (siteEntryId: number, imageFile: File): Promise<any> => {
   return AppAxiosInstance.post(
-      ParameterizedApiRoutes.UPLOAD_IMAGE(siteEntryId),
-      imageFile,
+    ParameterizedApiRoutes.UPLOAD_IMAGE(siteEntryId),
+    imageFile,
   ).then((res) => res.data);
 };
 

@@ -10,10 +10,10 @@ import { n } from '../../utils/stringFormat';
 import { GreenButton, StyledClose, SubmitButton } from '../themedComponents';
 import Dragger from 'antd/es/upload/Dragger';
 import { InboxOutlined } from '@ant-design/icons';
+import { message } from 'antd';
 import { UploadProps } from 'antd/lib/upload/interface';
 import { LIGHT_GREY } from '../../utils/colors';
 import protectedApiClient from '../../api/protectedApiClient';
-import { getSiteData } from '../../containers/treePage/ducks/thunks';
 
 const StyledInboxOutline = styled(InboxOutlined)`
   color: black;
@@ -45,21 +45,32 @@ function UploadSiteImageButton() {
     nsMode: 'fallback',
   });
   const [showMenu, setShowMenu] = useState(false);
+  let imageToUpload: File | undefined;
 
   const props: UploadProps = {
     name: 'file',
     multiple: true,
     action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
     onChange(info) {
-      const t = 1;
-    },
-    onDrop(e) {
-      const t = 1;
+      if (info.fileList.length > 1) {
+        message.error(`Can only upload one image`);
+      }
+      const { status } = info.file;
+      if (status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else if (status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+      imageToUpload = info.file?.originFileObj;
     },
   };
 
   function onClickUploadSiteImage() {
-    const t = 1;
+    if (imageToUpload) {
+      protectedApiClient
+        .uploadImage(1, imageToUpload)
+        .then((r) => message.success('Sending Image'));
+    }
   }
 
   return (
@@ -89,10 +100,7 @@ function UploadSiteImageButton() {
           <p className="ant-upload-text">
             Click or drag file to this area to upload
           </p>
-          <p className="ant-upload-hint">
-            Support for a single or bulk upload. Strictly prohibited from
-            uploading company data or other banned files.
-          </p>
+          <p className="ant-upload-hint">Support for a single image upload.</p>
         </Dragger>
         <ConfirmUpload onClick={onClickUploadSiteImage}>Upload</ConfirmUpload>
       </Modal>
