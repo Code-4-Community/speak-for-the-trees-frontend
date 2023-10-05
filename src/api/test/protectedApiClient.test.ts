@@ -2185,5 +2185,50 @@ describe('Admin Protected Client Routes', () => {
 
       expect(result).toEqual(response);
     });
+
+  });
+
+
+  // question -> what is a valid siteEntry ID
+  describe('uploadImage', () => {
+    it('makes the right request', async () => {
+
+      const response = 'Image uploaded successfully'
+      nock(BASE_URL)
+          .post(ParameterizedApiRoutes.UPLOAD_IMAGE(11934))
+          .reply(200, response);
+
+      const imageFile = new File(['image-data'], 'image.jpg', { type: 'image/jpeg' });
+      const result = await ProtectedApiClient.uploadImage(11934, imageFile);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+
+      const imageFile = new File(['image-data'], 'image.jpg', { type: 'image/jpeg' });
+      const response = 'invalid site entry id';
+
+      nock(BASE_URL)
+          .post(ParameterizedApiRoutes.UPLOAD_IMAGE(999))
+          .reply(400, response);
+
+      const result = await ProtectedApiClient.uploadImage(999, imageFile
+      ).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+
+    it('invalid or incorrectly formatted image file', async () => {
+      const response = 'Invalid image format'
+      const imageFile = new File(['invalid-image-data'], 'image.txt', { type: 'text/plain' });
+
+      nock(BASE_URL)
+          .post(ParameterizedApiRoutes.UPLOAD_IMAGE(11934))
+          .reply(400, response);
+
+      const result = await ProtectedApiClient.uploadImage(11934, imageFile
+      ).catch((err) => err.response.data);
+    });
   });
 });

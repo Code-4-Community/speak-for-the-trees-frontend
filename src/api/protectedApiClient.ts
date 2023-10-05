@@ -130,6 +130,10 @@ export interface ProtectedApiClient {
   readonly filterSites: (
     params: FilterSitesParams,
   ) => Promise<FilterSitesResponse>;
+  readonly uploadImage: (
+      siteEntryId: number,
+      imageFile: File,
+  ) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -145,7 +149,6 @@ export enum ProtectedApiClientRoutes {
   GET_TEAMS = '/api/v1/protected/teams/',
   GET_ADOPTED_SITES = '/api/v1/protected/sites/adopted_sites',
   ADD_SITE = '/api/v1/protected/sites/add',
-  UPLOAD_IMAGE = '/api/v1/protected/sites/site_image',
 }
 
 export enum AdminApiClientRoutes {
@@ -198,6 +201,8 @@ export const ParameterizedApiRoutes = {
   UPDATE_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/update`,
   NAME_SITE_ENTRY: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/name_entry`,
+  UPLOAD_IMAGE: (siteEntryId: number): string =>
+      `${baseSiteRoute}site_image/${siteEntryId}`,
 };
 
 export const ParameterizedAdminApiRoutes = {
@@ -565,19 +570,14 @@ const filterSites = (
   ).then((res) => res.data);
 };
 
-const uploadImage = (siteEntryId: number, imageFile: File): Promise<any> => {
-  const formData = new FormData();
-  formData.append('site_entry_id', siteEntryId.toString());
-  formData.append('image', imageFile);
 
+const uploadImage = (
+    siteEntryId: number,
+    imageFile: File,
+    ): Promise<any> => {
   return AppAxiosInstance.post(
-    ProtectedApiClientRoutes.UPLOAD_IMAGE,
-    formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    },
+      ParameterizedApiRoutes.UPLOAD_IMAGE(siteEntryId),
+      imageFile,
   ).then((res) => res.data);
 };
 
