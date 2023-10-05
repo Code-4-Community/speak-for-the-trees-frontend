@@ -2189,7 +2189,6 @@ describe('Admin Protected Client Routes', () => {
   });
 
 
-  // question -> what is a valid siteEntry ID
   describe('uploadImage', () => {
     it('makes the right request', async () => {
 
@@ -2210,10 +2209,10 @@ describe('Admin Protected Client Routes', () => {
       const response = 'invalid site entry id';
 
       nock(BASE_URL)
-          .post(ParameterizedApiRoutes.UPLOAD_IMAGE(999))
+          .post(ParameterizedApiRoutes.UPLOAD_IMAGE(-1))
           .reply(400, response);
 
-      const result = await ProtectedApiClient.uploadImage(999, imageFile
+      const result = await ProtectedApiClient.uploadImage(-1, imageFile
       ).catch((err) => err.response.data);
 
       expect(result).toEqual(response);
