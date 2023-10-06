@@ -49,12 +49,11 @@ function UploadSiteImageButton() {
 
   const props: UploadProps = {
     name: 'file',
-    multiple: true,
-    action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
+    multiple: false,
+    beforeUpload: () => {
+      return false;
+    },
     onChange(info) {
-      if (info.fileList.length > 1) {
-        message.error(`Can only upload one image`);
-      }
       const { status } = info.file;
       if (status === 'done') {
         message.success(`${info.file.name} file uploaded successfully.`);
