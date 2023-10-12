@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Modal } from 'antd';
-//import { SizeType } from 'antd/es/config-provider/SizeContext';
+// import { SizeType } from 'antd/es/config-provider/SizeContext';
 import ShareMenu from '../shareMenu';
 import ShareWhite from '../../assets/images/share-green.png';
 import { useTranslation } from 'react-i18next';
@@ -40,7 +40,11 @@ const ConfirmUpload = styled(SubmitButton)`
 //   readonly link: string;
 // }
 
-function UploadSiteImageButton(siteId) {
+interface UploadImageProps {
+  readonly siteId: number;
+}
+
+const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteId }) => {
   const { t } = useTranslation(n(site, ['uploadImageMenu']), {
     nsMode: 'fallback',
   });
@@ -50,9 +54,9 @@ function UploadSiteImageButton(siteId) {
   const props: UploadProps = {
     name: 'file',
     multiple: false,
-    beforeUpload: file => {
+    beforeUpload: (file) => {
       const reader = new FileReader();
-      reader.readAsArrayBuffer(file)
+      reader.readAsArrayBuffer(file);
       imageToUpload = file;
       return false;
     },
@@ -109,6 +113,6 @@ function UploadSiteImageButton(siteId) {
       </Modal>
     </>
   );
-}
+};
 
 export default UploadSiteImageButton;
