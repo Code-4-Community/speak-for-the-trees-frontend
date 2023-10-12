@@ -53,6 +53,7 @@
       }
     },
     "unsupported_browser": "This browser type is not supported.",
-    "learn_more": "Learn more about how we got these numbers <learnMore>here</learnMore>."
+    "learn_more": "Learn more about how we got these numbers <learnMore>here</learnMore>.",
+    "not_available": "N/A"
   }
 }

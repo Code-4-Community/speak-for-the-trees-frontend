@@ -37,8 +37,18 @@ const TreeBenefits: React.FC = () => {
       .then((benefits) =>
         setTreeBenefits(
           Object.values(TreeBenefitCategory).map((category) => {
-            const amount = benefits[category].toFixed(2);
-            const money = getMoneyString(benefits[`${category}Money`]);
+            const benefit = benefits[category];
+            const benefitMoney = benefits[`${category}Money`];
+
+            if (benefit === null || benefitMoney === null) {
+              return {
+                title: t(`tree_benefits.categories.${category}.name`),
+                value: t('tree_benefits.not_available'),
+              };
+            }
+
+            const amount = benefit.toFixed(2);
+            const money = getMoneyString(benefitMoney);
 
             return {
               title: t(`tree_benefits.categories.${category}.name`),
