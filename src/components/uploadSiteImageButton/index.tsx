@@ -40,7 +40,7 @@ const ConfirmUpload = styled(SubmitButton)`
 //   readonly link: string;
 // }
 
-function UploadSiteImageButton() {
+function UploadSiteImageButton(siteId) {
   const { t } = useTranslation(n(site, ['uploadImageMenu']), {
     nsMode: 'fallback',
   });
@@ -50,7 +50,10 @@ function UploadSiteImageButton() {
   const props: UploadProps = {
     name: 'file',
     multiple: false,
-    beforeUpload: () => {
+    beforeUpload: file => {
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(file)
+      imageToUpload = file;
       return false;
     },
     onChange(info) {
@@ -60,16 +63,17 @@ function UploadSiteImageButton() {
       } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
       }
-      imageToUpload = info.file?.originFileObj;
     },
   };
 
   function onClickUploadSiteImage() {
     if (imageToUpload) {
       protectedApiClient
-        .uploadImage(1, imageToUpload)
+        .uploadImage(siteId, imageToUpload)
         .then((r) => message.success('Sending Image'));
     }
+    message.success(imageToUpload?.name);
+    // message.success(await imageToUpload?.arrayBuffer());
   }
 
   return (
