@@ -12,7 +12,7 @@ import Dragger from 'antd/es/upload/Dragger';
 import { InboxOutlined } from '@ant-design/icons';
 import { message } from 'antd';
 import { UploadProps } from 'antd/lib/upload/interface';
-import { LIGHT_GREY } from '../../utils/colors';
+import { LIGHT_GREEN, LIGHT_GREY } from '../../utils/colors';
 import protectedApiClient from '../../api/protectedApiClient';
 
 const StyledInboxOutline = styled(InboxOutlined)`
@@ -49,15 +49,21 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteId }) => {
     nsMode: 'fallback',
   });
   const [showMenu, setShowMenu] = useState(false);
-  let imageToUpload: File | undefined;
+  let imageToUpload: string | ArrayBuffer | null;
 
   const props: UploadProps = {
     name: 'file',
     multiple: false,
-    beforeUpload: (file) => {
+    beforeUpload: async (file) => {
       const reader = new FileReader();
-      reader.readAsArrayBuffer(file);
-      imageToUpload = file;
+      reader.addEventListener(
+        'loadend',
+        () => {
+          imageToUpload = reader.result;
+        },
+        false,
+      );
+      reader.readAsDataURL(file);
       return false;
     },
     onChange(info) {
@@ -75,11 +81,12 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteId }) => {
       protectedApiClient
         .uploadImage(
           siteId,
-          new File(['image-data'], 'image.jpg', { type: 'image/jpeg' }),
+          imageToUpload,
+          // new File(['image-data'], 'image.jpg', { type: 'image/jpeg' }),
         )
         .then((r) => message.success('Sending Image'));
     }
-    message.success(imageToUpload?.name);
+    // message.success(imageToUpload);
     // message.success(await imageToUpload?.arrayBuffer());
   }
 
@@ -105,7 +112,7 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteId }) => {
       >
         <Dragger {...props}>
           <p className="ant-upload-drag-icon">
-            <StyledInboxOutline />
+            <StyledInboxOutline style={{ color: LIGHT_GREEN }} />
           </p>
           <p className="ant-upload-text">
             Click or drag file to this area to upload

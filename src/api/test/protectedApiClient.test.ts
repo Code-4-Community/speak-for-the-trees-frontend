@@ -2198,7 +2198,7 @@ describe('Admin Protected Client Routes', () => {
           .reply(200, response);
 
       const imageFile = new File(['image-data'], 'image.jpg', { type: 'image/jpeg' });
-      const result = await ProtectedApiClient.uploadImage(11934, imageFile);
+      const result = await ProtectedApiClient.uploadImage(11934, '');
 
       expect(result).toEqual(response);
     });
@@ -2212,7 +2212,7 @@ describe('Admin Protected Client Routes', () => {
           .post(ParameterizedApiRoutes.UPLOAD_IMAGE(-1))
           .reply(400, response);
 
-      const result = await ProtectedApiClient.uploadImage(-1, imageFile
+      const result = await ProtectedApiClient.uploadImage(-1, ""
       ).catch((err) => err.response.data);
 
       expect(result).toEqual(response);
@@ -2226,7 +2226,7 @@ describe('Admin Protected Client Routes', () => {
           .post(ParameterizedApiRoutes.UPLOAD_IMAGE(11934))
           .reply(400, response);
 
-      const result = await ProtectedApiClient.uploadImage(11934, imageFile
+      const result = await ProtectedApiClient.uploadImage(11934, ""
       ).catch((err) => err.response.data);
     });
   });
