@@ -248,5 +248,5 @@ interface TreeUploadProps {
 const TreePageUploadSiteImageButton: React.FC<TreeUploadProps> = ({
   siteData,
 }) => {
-  return <UploadSiteImageButton siteId={siteData.siteId} />;
+  return <UploadSiteImageButton siteId={siteData.entries[0].id} />;
 };
