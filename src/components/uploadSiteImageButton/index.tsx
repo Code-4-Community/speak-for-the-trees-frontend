@@ -5,12 +5,13 @@ import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 import { GreenButton, StyledClose, SubmitButton } from '../themedComponents';
-import Dragger from 'antd/es/upload/Dragger';
 import { InboxOutlined } from '@ant-design/icons';
-import { message } from 'antd';
+import { message, Upload } from 'antd';
 import { UploadProps } from 'antd/lib/upload/interface';
 import { LIGHT_GREEN, LIGHT_GREY } from '../../utils/colors';
 import protectedApiClient from '../../api/protectedApiClient';
+
+const { Dragger } = Upload;
 
 const StyledInboxOutline = styled(InboxOutlined)`
   color: black;
@@ -64,11 +65,8 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
   function onClickUploadSiteImage() {
     if (imageToUpload) {
       protectedApiClient
-        .uploadImage(
-          siteEntryId,
-          imageToUpload,
-        )
-        .then((r) => message.success('Sending Image'));
+        .uploadImage(siteEntryId, imageToUpload)
+        .then(() => message.success('Sending Image'));
     }
   }
 

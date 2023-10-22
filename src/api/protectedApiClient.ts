@@ -133,7 +133,7 @@ export interface ProtectedApiClient {
   readonly uploadImage: (
     siteEntryId: number,
     imageFile: string | ArrayBuffer,
-  ) => Promise<any>;
+  ) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -573,7 +573,7 @@ const filterSites = (
 const uploadImage = (
   siteEntryId: number,
   imageFile: string | ArrayBuffer,
-): Promise<any> => {
+): Promise<void> => {
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.UPLOAD_IMAGE(siteEntryId),
     { anonymous: false, image: imageFile },

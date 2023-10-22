@@ -164,7 +164,7 @@ export const TreeInfo: React.FC<TreeProps> = ({
             isAdopted={isAdopted}
           />
 
-          {userOwnsTree && (
+          {userOwnsTree && treePresent && (
             <TreePageUploadSiteImageButton siteData={siteData} />
           )}
 
@@ -248,5 +248,5 @@ interface TreeUploadProps {
 const TreePageUploadSiteImageButton: React.FC<TreeUploadProps> = ({
   siteData,
 }) => {
-  return <UploadSiteImageButton siteId={siteData.entries[0].id} />;
+  return <UploadSiteImageButton siteEntryId={siteData.entries[0].id} />;
 };
