@@ -26,10 +26,10 @@ const ConfirmUpload = styled(SubmitButton)`
 `;
 
 interface UploadImageProps {
-  readonly siteId: number;
+  readonly siteEntryId: number;
 }
 
-const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteId }) => {
+const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
   const { t } = useTranslation(n(site, ['uploadImageMenu']), {
     nsMode: 'fallback',
   });
@@ -65,7 +65,7 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteId }) => {
     if (imageToUpload) {
       protectedApiClient
         .uploadImage(
-          siteId,
+          siteEntryId,
           imageToUpload,
         )
         .then((r) => message.success('Sending Image'));
@@ -87,9 +87,6 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteId }) => {
         visible={showMenu}
         footer={null}
         onCancel={() => setShowMenu(false)}
-        onOk={() => {
-          const t = 1;
-        }}
         closeIcon={<StyledClose />}
       >
         <Dragger {...props}>
