@@ -69,6 +69,7 @@ const ConfirmDelete = styled(Button)`
   }
 `;
 
+
 interface CareEntryProps {
   readonly activity: TreeCare;
 }
