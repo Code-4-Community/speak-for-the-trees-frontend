@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Modal } from 'antd';
-// import { SizeType } from 'antd/es/config-provider/SizeContext';
-import ShareMenu from '../shareMenu';
-import ShareWhite from '../../assets/images/share-green.png';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
@@ -27,18 +24,6 @@ const ConfirmUpload = styled(SubmitButton)`
     background-color: ${LIGHT_GREY};
   }
 `;
-// const StyledUploadImageButton = Button`
-//   margin: 5px;
-//   padding-left: 10px;
-//   padding-right: 10px;
-// `;
-
-// link prop is primarily for facebook as the post can only be prefilled with a link, no body text
-// interface ShareButtonProps {
-//   readonly size: SizeType;
-//   readonly defaultText: string;
-//   readonly link: string;
-// }
 
 interface UploadImageProps {
   readonly siteId: number;
@@ -82,12 +67,9 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteId }) => {
         .uploadImage(
           siteId,
           imageToUpload,
-          // new File(['image-data'], 'image.jpg', { type: 'image/jpeg' }),
         )
         .then((r) => message.success('Sending Image'));
     }
-    // message.success(imageToUpload);
-    // message.success(await imageToUpload?.arrayBuffer());
   }
 
   return (
