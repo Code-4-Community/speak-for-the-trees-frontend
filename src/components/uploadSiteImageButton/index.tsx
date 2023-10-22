@@ -31,7 +31,7 @@ interface UploadImageProps {
 }
 
 const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
-  const { t } = useTranslation(n(site, ['uploadImageMenu']), {
+  const { t } = useTranslation(n(site, ['treeInfo']), {
     nsMode: 'fallback',
   });
   const [showMenu, setShowMenu] = useState(false);
@@ -55,7 +55,7 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
     onChange(info) {
       const { status } = info.file;
       if (status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully.`);
+        message.success(`${info.file.name} file selected successfully.`);
       } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
       }
@@ -81,7 +81,7 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
         Upload Tree Images
       </GreenButton>
       <Modal
-        title={t('upload_title')} // pass on as input
+        title={t('uploadSiteImage.upload_title')} // pass on as input
         visible={showMenu}
         footer={null}
         onCancel={() => setShowMenu(false)}
@@ -92,11 +92,15 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
             <StyledInboxOutline style={{ color: LIGHT_GREEN }} />
           </p>
           <p className="ant-upload-text">
-            Click or drag file to this area to upload
+            {t('uploadSiteImage.upload_drag_header')}
           </p>
-          <p className="ant-upload-hint">Support for a single image upload.</p>
+          <p className="ant-upload-hint">
+            {t('uploadSiteImage.upload_drag_description')}
+          </p>
         </Dragger>
-        <ConfirmUpload onClick={onClickUploadSiteImage}>Upload</ConfirmUpload>
+        <ConfirmUpload onClick={onClickUploadSiteImage}>
+          {t('uploadSiteImage.upload_button_message')}
+        </ConfirmUpload>
       </Modal>
     </>
   );
