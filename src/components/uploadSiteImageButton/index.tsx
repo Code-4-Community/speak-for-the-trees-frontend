@@ -64,9 +64,10 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
 
   function onClickUploadSiteImage() {
     if (imageToUpload) {
-      protectedApiClient
-        .uploadImage(siteEntryId, imageToUpload)
-        .then(() => message.success('Sending Image'));
+      protectedApiClient.uploadImage(siteEntryId, imageToUpload).then(() => {
+        message.success('Sent!');
+        setShowMenu(!showMenu);
+      });
     }
   }
 
