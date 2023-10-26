@@ -171,6 +171,10 @@ const AdminDashboard: React.FC = () => {
               <MailOutlined style={{ fontSize: ICON_SIZE }} />
               {t('admin_functions.email_volunteers')}
             </ImageLinkCard>
+            <ImageLinkCard href={Routes.REVIEW_IMAGE} image={Image4}>
+              <MailOutlined style={{ fontSize: ICON_SIZE }} />
+              {t('admin_functions.review_site_images')}
+            </ImageLinkCard>
           </Flex>
         </AdminContentContainer>
         <Modal
