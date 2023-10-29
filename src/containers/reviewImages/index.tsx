@@ -15,12 +15,18 @@ import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import { Typography } from 'antd';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+import { site } from '../../constants';
+import { n } from '../../utils/stringFormat';
 
 const DashboardContent = styled.div`
   font-size: 20px;
 `;
 
 const ReviewImages: React.FC = () => {
+  const { t } = useTranslation(n(site, ['admin']), {
+    nsMode: 'fallback',
+  });
   return (
     <>
       <Helmet>
@@ -35,10 +41,10 @@ const ReviewImages: React.FC = () => {
           <ReturnButton to={Routes.ADMIN}>
             <ArrowLeftOutlined /> Back to Dashboard
           </ReturnButton>
-          <PageHeader pageTitle="Tree Photo Review" />
+          <PageHeader pageTitle={t('review_images.review_image_title')} />
           <DashboardContent>
             <Typography.Text>
-              Review photos of trees submitted by volunteers
+              {t('review_images.review_image_description')}
             </Typography.Text>
           </DashboardContent>
         </PaddedPageContainer>
