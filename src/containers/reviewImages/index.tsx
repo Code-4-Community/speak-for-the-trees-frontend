@@ -16,11 +16,6 @@ import PageLayout from '../../components/pageLayout';
 import { Typography } from 'antd';
 import styled from 'styled-components';
 
-// interface ReviewSitesProps {
-//   // readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
-//   // readonly sites: MapGeoDataReducerState['siteGeoData'];
-// }
-
 const DashboardContent = styled.div`
   font-size: 20px;
 `;
