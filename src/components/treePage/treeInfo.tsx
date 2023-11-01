@@ -164,8 +164,8 @@ export const TreeInfo: React.FC<TreeProps> = ({
             isAdopted={isAdopted}
           />
 
-          {userOwnsTree && treePresent && (
-            <TreePageUploadSiteImageButton siteData={siteData} />
+          {treePresent && (
+            <UploadSiteImageButton siteEntryId={siteData.entries[0].id} />
           )}
 
           {userOwnsTree && treePresent && (
@@ -239,14 +239,4 @@ const TreePageShareButton: React.FC<TreePageShareButtonProps> = ({
       link={`map.treeboston.org/tree/${siteData.siteId}`}
     />
   );
-};
-
-interface TreeUploadProps {
-  readonly siteData: SiteProps;
-}
-
-const TreePageUploadSiteImageButton: React.FC<TreeUploadProps> = ({
-  siteData,
-}) => {
-  return <UploadSiteImageButton siteEntryId={siteData.entries[0].id} />;
 };

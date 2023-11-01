@@ -74,7 +74,7 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
   return (
     <>
       <GreenButton
-        type="text"
+        type="primary"
         onClick={() => {
           setShowMenu(!showMenu);
         }}
