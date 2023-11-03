@@ -1,12 +1,13 @@
 import React from 'react';
 import { Routes } from '../../../App';
 import styled from 'styled-components';
-import { Avatar, Dropdown, Typography } from 'antd';
+import { Avatar, Dropdown, MenuProps, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { BLACK, DARK_GREEN, LIGHT_GREEN, WHITE } from '../../../utils/colors';
 import NavMenu from '../navMenu';
 import { Location } from 'history';
 import { GreenLinkButton } from '../../themedComponents';
+import TranslationDropdown from '../translationDropdown';
 
 const FlexDiv = styled.div`
   display: flex;
@@ -60,6 +61,7 @@ const NavExtra: React.FC<NavExtraProps> = ({
   if (userName !== undefined) {
     return (
       <FlexDiv>
+        <TranslationDropdown />
         <Dropdown
           overlay={<NavMenu isAdmin={isAdmin} onLogout={onLogout} />}
           placement="bottomRight"
@@ -75,6 +77,7 @@ const NavExtra: React.FC<NavExtraProps> = ({
   } else {
     return (
       <LandingExtraContainer>
+        <TranslationDropdown />
         <SignupButton
           type="primary"
           htmlType="submit"
