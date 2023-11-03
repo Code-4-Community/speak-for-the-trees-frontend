@@ -6,7 +6,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { BLACK, DARK_GREEN, LIGHT_GREEN, WHITE } from '../../../utils/colors';
 import NavMenu from '../navMenu';
 import { Location } from 'history';
-import { GreenLinkButton } from '../../themedComponents';
+import { Flex, GreenLinkButton } from '../../themedComponents';
 import TranslationDropdown from '../translationDropdown';
 
 const FlexDiv = styled.div`
@@ -15,17 +15,11 @@ const FlexDiv = styled.div`
   margin-right: 20px;
   height: 100%;
   line-height: 9vh;
-`;
-
-const LandingExtraContainer = styled.div`
-  float: right;
-  padding-right: 2vw;
-  padding-top: 22px;
-  height: 100%;
+  gap: 2vw;
+  align-items: center;
 `;
 
 const SignupButton = styled(GreenLinkButton)`
-  margin-right: 2vw;
   background-color: ${LIGHT_GREEN},
   border-color: ${LIGHT_GREEN};
 `;
@@ -76,7 +70,7 @@ const NavExtra: React.FC<NavExtraProps> = ({
     );
   } else {
     return (
-      <LandingExtraContainer>
+      <FlexDiv>
         <TranslationDropdown />
         <SignupButton
           type="primary"
@@ -100,7 +94,7 @@ const NavExtra: React.FC<NavExtraProps> = ({
         >
           Log In
         </LoginButton>
-      </LandingExtraContainer>
+      </FlexDiv>
     );
   }
 };
