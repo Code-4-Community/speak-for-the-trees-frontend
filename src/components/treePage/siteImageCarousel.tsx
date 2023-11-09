@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Button, Carousel, message, Modal, Space} from 'antd';
+import { Button, Carousel, message, Modal, Space } from 'antd';
 import LeftOutlined from '@ant-design/icons/lib/icons/LeftOutlined';
 import RightOutlined from '@ant-design/icons/lib/icons/RightOutlined';
 import { useSelector } from 'react-redux';
@@ -15,8 +15,7 @@ import { ConfirmDelete } from '../careEntry';
 // import {GreenButton, StyledClose} from '../themedComponents';
 import { LinkButton } from '../linkButton';
 import { LIGHT_GREY, LIGHT_RED, WHITE } from '../../utils/colors';
-import protectedApiClient from "../../api/protectedApiClient";
-import {getSiteData} from "../../containers/treePage/ducks/thunks";
+import protectedApiClient from '../../api/protectedApiClient';
 
 const CarouselContainer = styled.div`
   margin-top: 20px;
@@ -69,8 +68,6 @@ export const DeleteSiteImageButton = styled(LinkButton)`
     background-color: ${LIGHT_RED};
   }
 `;
-
-
 
 export const SiteImageCarousel: React.FC = () => {
   const { t } = useTranslation(n(site, 'treePage'), { nsMode: 'fallback' });
@@ -143,7 +140,14 @@ export const SiteImageCarousel: React.FC = () => {
           >
             <p>Are you sure you want to delete this image?</p>
             <ConfirmDelete
-                onClick={() => onClickDeleteImage(latestEntrySiteImages[currSlideIndex].imageId)}>Delete</ConfirmDelete>
+              onClick={() =>
+                onClickDeleteImage(
+                  latestEntrySiteImages[currSlideIndex].imageId,
+                )
+              }
+            >
+              Delete
+            </ConfirmDelete>
           </Modal>
         </CarouselContainer>
       )}
