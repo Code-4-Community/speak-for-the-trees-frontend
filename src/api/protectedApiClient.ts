@@ -127,6 +127,9 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
   readonly addSites: (request: AddSitesRequest) => Promise<void>;
   readonly sendEmail: (request: SendEmailRequest) => Promise<void>;
+  readonly deleteImage: (
+      imageId: number,
+  ) => Promise<void>;
   readonly filterSites: (
     params: FilterSitesParams,
   ) => Promise<FilterSitesResponse>;
@@ -197,6 +200,8 @@ export const ParameterizedApiRoutes = {
   UPDATE_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/update`,
   NAME_SITE_ENTRY: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/name_entry`,
+  DELETE_IMAGE: (imageId: number): string =>
+      `${baseSiteRoute}site_image/${imageId}`,
 };
 
 export const ParameterizedAdminApiRoutes = {
@@ -556,6 +561,12 @@ const sendEmail = (request: SendEmailRequest): Promise<void> => {
   );
 };
 
+const deleteImage = (imageId: number): Promise<void> => {
+  return AppAxiosInstance.delete(
+    ParameterizedApiRoutes.DELETE_IMAGE(imageId),
+  ).then((res) => res.data);
+};
+
 const filterSites = (
   params: FilterSitesParams,
 ): Promise<FilterSitesResponse> => {
@@ -611,6 +622,7 @@ const Client: ProtectedApiClient = Object.freeze({
   nameSiteEntry,
   addSites,
   sendEmail,
+  deleteImage,
   filterSites,
 });
 
