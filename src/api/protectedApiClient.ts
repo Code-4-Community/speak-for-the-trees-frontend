@@ -127,9 +127,7 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
   readonly addSites: (request: AddSitesRequest) => Promise<void>;
   readonly sendEmail: (request: SendEmailRequest) => Promise<void>;
-  readonly deleteImage: (
-      imageId: number,
-  ) => Promise<void>;
+  readonly deleteImage: (imageId: number) => Promise<void>;
   readonly filterSites: (
     params: FilterSitesParams,
   ) => Promise<FilterSitesResponse>;
@@ -201,7 +199,7 @@ export const ParameterizedApiRoutes = {
   NAME_SITE_ENTRY: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/name_entry`,
   DELETE_IMAGE: (imageId: number): string =>
-      `${baseSiteRoute}site_image/${imageId}`,
+    `${baseSiteRoute}site_image/${imageId}`,
 };
 
 export const ParameterizedAdminApiRoutes = {
