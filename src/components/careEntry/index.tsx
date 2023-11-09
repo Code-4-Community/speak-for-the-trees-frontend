@@ -47,7 +47,7 @@ const EntryMessage = styled(Typography.Paragraph)`
   color: ${TEXT_GREY};
 `;
 
-const DeleteActivityButton = styled(LinkButton)`
+export const DeleteActivityButton = styled(LinkButton)`
   color: ${WHITE};
   margin: 10px;
   padding: 0px 10px;
@@ -60,7 +60,7 @@ const DeleteActivityButton = styled(LinkButton)`
   }
 `;
 
-const ConfirmDelete = styled(Button)`
+export const ConfirmDelete = styled(Button)`
   margin: 10px;
   padding-left: 10px;
 
