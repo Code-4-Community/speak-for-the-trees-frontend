@@ -70,9 +70,7 @@ export const DeleteSiteImageButton = styled(LinkButton)`
   }
 `;
 
-function onClickDeleteImage() {
-  protectedApiClient.delete
-}
+
 
 export const SiteImageCarousel: React.FC = () => {
   const { t } = useTranslation(n(site, 'treePage'), { nsMode: 'fallback' });
@@ -87,6 +85,12 @@ export const SiteImageCarousel: React.FC = () => {
 
   const onAfterChange = (currentSlide: number) =>
     setCurrSlideIndex(currentSlide);
+  function onClickDeleteImage(imageId: number) {
+    protectedApiClient.deleteImage(imageId).then((ok) => {
+      message.success('success');
+      setShowDeleteForm(false);
+    });
+  }
 
   return (
     <>
@@ -129,19 +133,20 @@ export const SiteImageCarousel: React.FC = () => {
               </div>
             </Space>
           </FooterContainer>
+          <Modal
+            title="Delete Site Image"
+            visible={showDeleteForm}
+            onOk={() => setShowDeleteForm(false)}
+            onCancel={() => setShowDeleteForm(false)}
+            footer={null}
+            // closeIcon={<StyledClose />}
+          >
+            <p>Are you sure you want to delete this image?</p>
+            <ConfirmDelete
+                onClick={() => onClickDeleteImage(latestEntrySiteImages[currSlideIndex].imageId)}>Delete</ConfirmDelete>
+          </Modal>
         </CarouselContainer>
       )}
-      <Modal
-        title="Delete Site Image"
-        visible={showDeleteForm}
-        onOk={() => setShowDeleteForm(false)}
-        onCancel={() => setShowDeleteForm(false)}
-        footer={null}
-        // closeIcon={<StyledClose />}
-      >
-        <p>Are you sure you want to delete this image?</p>
-        <ConfirmDelete onClick={onClickDeleteImage}>Delete</ConfirmDelete>
-      </Modal>
     </>
   );
 };
