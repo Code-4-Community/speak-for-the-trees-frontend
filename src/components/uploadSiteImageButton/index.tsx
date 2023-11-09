@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Modal } from 'antd';
+import { Checkbox, Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
@@ -9,7 +9,11 @@ import { InboxOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 import { UploadProps } from 'antd/lib/upload/interface';
 import { LIGHT_GREEN, LIGHT_GREY } from '../../utils/colors';
+import { useDispatch } from 'react-redux';
 import protectedApiClient from '../../api/protectedApiClient';
+import { getSiteData } from '../../containers/treePage/ducks/thunks';
+import { TreeParams } from '../../containers/treePage';
+import { useParams } from 'react-router-dom';
 
 const { Dragger } = Upload;
 
@@ -35,17 +39,21 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
     nsMode: 'fallback',
   });
   const [showMenu, setShowMenu] = useState(false);
-  let imageToUpload: string | ArrayBuffer | null;
+  type imageType = string | ArrayBuffer | null;
+  const imageToUpload: imageType[] = [];
+  const [anonymousUpload, setAnonymousUplaod] = useState(false);
+  const dispatch = useDispatch();
+  const id = Number(useParams<TreeParams>().id);
 
   const props: UploadProps = {
     name: 'file',
-    multiple: false,
+    multiple: true,
     beforeUpload: async (file) => {
       const reader = new FileReader();
       reader.addEventListener(
         'loadend',
         () => {
-          imageToUpload = reader.result;
+          imageToUpload.push(reader.result);
         },
         false,
       );
@@ -63,12 +71,21 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
   };
 
   function onClickUploadSiteImage() {
-    if (imageToUpload) {
-      protectedApiClient.uploadImage(siteEntryId, imageToUpload).then(() => {
-        message.success('Sent!');
-        setShowMenu(!showMenu);
+    if (imageToUpload.length > 0) {
+      imageToUpload.forEach((image) => {
+        if (image) {
+          protectedApiClient.uploadImage(siteEntryId, image, anonymousUpload).then(() => {
+            message.success('Sent!');
+            setShowMenu(!showMenu);
+          });
+        }
       });
+      dispatch(getSiteData(id));
     }
+  }
+
+  function onAnonymousChange() {
+    setAnonymousUplaod(!anonymousUpload);
   }
 
   return (
@@ -102,6 +119,9 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
         <ConfirmUpload onClick={onClickUploadSiteImage}>
           {t('uploadSiteImage.upload_button_message')}
         </ConfirmUpload>
+        <Checkbox onChange={onAnonymousChange}>
+          {t('uploadSiteImage.upload_anonymous_check')}
+        </Checkbox>
       </Modal>
     </>
   );
