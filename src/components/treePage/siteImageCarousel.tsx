@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Carousel, message, Modal, Space } from 'antd';
+import { Carousel, message, Modal, Space } from 'antd';
 import LeftOutlined from '@ant-design/icons/lib/icons/LeftOutlined';
 import RightOutlined from '@ant-design/icons/lib/icons/RightOutlined';
 import { useSelector } from 'react-redux';
@@ -10,12 +10,10 @@ import { getLatestEntrySiteImages } from '../../containers/treePage/ducks/select
 import { C4CState } from '../../store';
 import { n } from '../../utils/stringFormat';
 import { site } from '../../constants';
-import { ConfirmDelete } from '../careEntry';
-// import { DeleteOutlined } from '@ant-design/icons';
-// import {GreenButton, StyledClose} from '../themedComponents';
 import { LinkButton } from '../linkButton';
 import { LIGHT_GREY, LIGHT_RED, WHITE } from '../../utils/colors';
 import protectedApiClient from '../../api/protectedApiClient';
+import ConfirmationModel from '../confirmationModal';
 
 const CarouselContainer = styled.div`
   margin-top: 20px;
@@ -57,15 +55,15 @@ const FooterContainer = styled.div`
 `;
 
 export const DeleteSiteImageButton = styled(LinkButton)`
-  color: ${LIGHT_RED};
+  color: ${WHITE};
   margin: 10px;
   padding: 0px 10px;
+  background: ${LIGHT_RED};
   border: none;
-  background-color: ${LIGHT_GREY};
 
   & :hover {
-    color: ${LIGHT_GREY};
-    background-color: ${LIGHT_RED};
+    color: ${LIGHT_RED};
+    background-color: ${LIGHT_GREY};
   }
 `;
 
@@ -105,6 +103,7 @@ export const SiteImageCarousel: React.FC = () => {
               </div>
             ))}
           </StyledCarousel>
+
           <FooterContainer>
             <div>
               {t('site_image.uploaded_by', {
@@ -117,7 +116,6 @@ export const SiteImageCarousel: React.FC = () => {
               <div>
                 {latestEntrySiteImages[currSlideIndex].uploadedAt ||
                   t('site_image.no_upload_date')}
-                {/*<td width="20%"></td>*/}
               </div>
               <div>
                 <DeleteSiteImageButton
@@ -125,30 +123,20 @@ export const SiteImageCarousel: React.FC = () => {
                   onClick={() => setShowDeleteForm(!showDeleteForm)}
                 >
                   Delete
-                  {/*<DeleteOutlined />*/}
                 </DeleteSiteImageButton>
               </div>
             </Space>
           </FooterContainer>
-          <Modal
-            title="Delete Site Image"
+          <ConfirmationModel
             visible={showDeleteForm}
             onOk={() => setShowDeleteForm(false)}
             onCancel={() => setShowDeleteForm(false)}
-            footer={null}
-            // closeIcon={<StyledClose />}
-          >
-            <p>Are you sure you want to delete this image?</p>
-            <ConfirmDelete
-              onClick={() =>
-                onClickDeleteImage(
-                  latestEntrySiteImages[currSlideIndex].imageId,
-                )
-              }
-            >
-              Delete
-            </ConfirmDelete>
-          </Modal>
+            title="Delete Site Image"
+            confirmationMessage="Are you sure you want to delete this image?"
+            onConfirm={() =>
+              onClickDeleteImage(latestEntrySiteImages[currSlideIndex].imageId)
+            }
+          />
         </CarouselContainer>
       )}
     </>
