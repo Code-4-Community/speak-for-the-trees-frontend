@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Checkbox, Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +14,7 @@ import protectedApiClient from '../../api/protectedApiClient';
 import { getSiteData } from '../../containers/treePage/ducks/thunks';
 import { TreeParams } from '../../containers/treePage';
 import { useParams } from 'react-router-dom';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
 
 const { Dragger } = Upload;
 
@@ -41,9 +42,13 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
   const [showMenu, setShowMenu] = useState(false);
   type imageType = string | ArrayBuffer | null;
   const imageToUpload: imageType[] = [];
-  const [anonymousUpload, setAnonymousUplaod] = useState(false);
+  const [anonymousUpload, setAnonymousUpload] = useState(false);
   const dispatch = useDispatch();
   const id = Number(useParams<TreeParams>().id);
+
+  // useEffect(() => {
+  //   message.success('anon:' + anonymousUpload);
+  // }, [anonymousUpload]);
 
   const props: UploadProps = {
     name: 'file',
@@ -74,18 +79,16 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
     if (imageToUpload.length > 0) {
       imageToUpload.forEach((image) => {
         if (image) {
-          protectedApiClient.uploadImage(siteEntryId, image, anonymousUpload).then(() => {
-            message.success('Sent!');
-            setShowMenu(!showMenu);
-          });
+          protectedApiClient
+            .uploadImage(siteEntryId, image, anonymousUpload)
+            .then(() => {
+              message.success('Sent!');
+              setShowMenu(!showMenu);
+            });
         }
       });
       dispatch(getSiteData(id));
     }
-  }
-
-  function onAnonymousChange() {
-    setAnonymousUplaod(!anonymousUpload);
   }
 
   return (
@@ -119,7 +122,11 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
         <ConfirmUpload onClick={onClickUploadSiteImage}>
           {t('uploadSiteImage.upload_button_message')}
         </ConfirmUpload>
-        <Checkbox onChange={onAnonymousChange}>
+        <Checkbox
+          onChange={async (e: CheckboxChangeEvent) => {
+            await setAnonymousUpload(e.target.checked);
+          }}
+        >
           {t('uploadSiteImage.upload_anonymous_check')}
         </Checkbox>
       </Modal>
