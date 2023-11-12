@@ -103,7 +103,6 @@ export const SiteImageCarousel: React.FC = () => {
               </div>
             ))}
           </StyledCarousel>
-
           <FooterContainer>
             <div>
               {t('site_image.uploaded_by', {
