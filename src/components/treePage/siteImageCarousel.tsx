@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Carousel, message, Modal, Space } from 'antd';
+import { Carousel, message, Space } from 'antd';
 import LeftOutlined from '@ant-design/icons/lib/icons/LeftOutlined';
 import RightOutlined from '@ant-design/icons/lib/icons/RightOutlined';
 import { useSelector } from 'react-redux';
@@ -103,6 +103,7 @@ export const SiteImageCarousel: React.FC = () => {
               </div>
             ))}
           </StyledCarousel>
+
           <FooterContainer>
             <div>
               {t('site_image.uploaded_by', {

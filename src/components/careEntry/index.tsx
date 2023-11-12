@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isAdmin, getUserID } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
 import {
-  ConfirmDeleteButton,
   EditButton,
   StyledClose,
 } from '../themedComponents';
@@ -52,7 +51,7 @@ const EntryMessage = styled(Typography.Paragraph)`
   color: ${TEXT_GREY};
 `;
 
-export const DeleteActivityButton = styled(LinkButton)`
+const DeleteActivityButton = styled(LinkButton)`
   color: ${WHITE};
   margin: 10px;
   padding: 0px 10px;
