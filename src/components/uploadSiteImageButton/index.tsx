@@ -46,10 +46,6 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
   const dispatch = useDispatch();
   const id = Number(useParams<TreeParams>().id);
 
-  // useEffect(() => {
-  //   message.success('anon:' + anonymousUpload);
-  // }, [anonymousUpload]);
-
   const props: UploadProps = {
     name: 'file',
     multiple: true,
@@ -102,7 +98,7 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
         Upload Tree Images
       </GreenButton>
       <Modal
-        title={t('uploadSiteImage.upload_title')} // pass on as input
+        title={t('uploadSiteImage.upload_title')}
         visible={showMenu}
         footer={null}
         onCancel={() => setShowMenu(false)}
