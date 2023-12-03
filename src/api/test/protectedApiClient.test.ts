@@ -1495,7 +1495,7 @@ describe('Protected API Client Tests', () => {
         const response = 'Image Deleted Correctly';
 
         nock(BASE_URL)
-          .post(ParameterizedApiRoutes.DELETE_IMAGE(1))
+          .delete(ParameterizedApiRoutes.DELETE_IMAGE(1))
           .reply(200, response);
 
         const result = await ProtectedApiClient.deleteImage(1);
@@ -1506,7 +1506,7 @@ describe('Protected API Client Tests', () => {
         const response = 'Invalid Image ID';
 
         nock(BASE_URL)
-          .post(ParameterizedApiRoutes.DELETE_IMAGE(-1))
+          .delete(ParameterizedApiRoutes.DELETE_IMAGE(-1))
           .reply(400, response);
 
         const result = await ProtectedApiClient.deleteImage(-1).catch(
