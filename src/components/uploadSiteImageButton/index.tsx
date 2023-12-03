@@ -72,9 +72,11 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
       reader.addEventListener(
         'loadend',
         () => {
-          const index = imageToUpload.indexOf(reader.result, 0);
+          const imagesCopy = [...imageToUpload];
+          const index = imagesCopy.indexOf(reader.result, 0);
           if (index > -1) {
-            setImageToUpload(imageToUpload.splice(index, 1));
+            imagesCopy.splice(index, 1);
+            setImageToUpload(imagesCopy);
           }
         },
         false,
@@ -138,7 +140,6 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
         </ConfirmUpload>
         <Checkbox
           onChange={async (e: CheckboxChangeEvent) => {
-            console.log(imageToUpload.length);
             setAnonymousUpload(e.target.checked);
             console.log(imageToUpload.length);
           }}
