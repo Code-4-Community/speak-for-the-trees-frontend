@@ -36,6 +36,7 @@ import FAQ from './containers/faq';
 import Email from './containers/email';
 import AddSites from './containers/addSites';
 import { addAxiosInterceptors } from './auth/axios';
+import ReviewImages from './containers/reviewImages';
 
 const AppLayout = styled(Layout)`
   min-height: 100vh;
@@ -75,6 +76,7 @@ export enum Routes {
   FORGOT_PASSWORD_RESET = '/forgot-password-reset/:key',
   EMAIL = '/email',
   ADD_SITES = '/add-sites',
+  REVIEW_IMAGE = '/review-site-image',
   NOT_FOUND = '*',
 }
 
@@ -278,6 +280,11 @@ const App: React.FC = () => {
                         path={Routes.ADD_SITES}
                         exact
                         component={AddSites}
+                      />
+                      <Route
+                        path={Routes.REVIEW_IMAGE}
+                        exact
+                        component={ReviewImages}
                       />
                       <Route
                         path={Routes.NOT_FOUND}

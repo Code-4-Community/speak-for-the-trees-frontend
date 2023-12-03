@@ -27,10 +27,12 @@ import {
   PlusOutlined,
   RocketFilled,
   SettingFilled,
+  PictureOutlined,
 } from '@ant-design/icons';
 import Image1 from '../../assets/images/bkg1.png';
 import Image2 from '../../assets/images/bkg2.png';
 import Image4 from '../../assets/images/bkg4.png';
+import ReviewImage from '../../assets/images/reviewImages.png';
 import { Routes } from '../../App';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
@@ -170,6 +172,10 @@ const AdminDashboard: React.FC = () => {
             <ImageLinkCard href={Routes.EMAIL} image={Image4}>
               <MailOutlined style={{ fontSize: ICON_SIZE }} />
               {t('admin_functions.email_volunteers')}
+            </ImageLinkCard>
+            <ImageLinkCard href={Routes.REVIEW_IMAGE} image={ReviewImage}>
+              <PictureOutlined style={{ fontSize: ICON_SIZE }} />
+              {t('admin_functions.review_site_images')}
             </ImageLinkCard>
           </Flex>
         </AdminContentContainer>
