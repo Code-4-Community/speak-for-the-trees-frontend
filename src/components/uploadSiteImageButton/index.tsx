@@ -7,7 +7,7 @@ import { n } from '../../utils/stringFormat';
 import { GreenButton, StyledClose, SubmitButton } from '../themedComponents';
 import { InboxOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
-import { UploadProps } from 'antd/lib/upload/interface';
+import { RcFile, UploadProps } from 'antd/lib/upload/interface';
 import { LIGHT_GREEN, LIGHT_GREY } from '../../utils/colors';
 import { useDispatch } from 'react-redux';
 import protectedApiClient from '../../api/protectedApiClient';
@@ -41,7 +41,7 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
   });
   const [showMenu, setShowMenu] = useState(false);
   type imageType = string | ArrayBuffer | null;
-  const imageToUpload: imageType[] = [];
+  const [imageToUpload, setImageToUpload] = useState<imageType[]>([]);
   const [anonymousUpload, setAnonymousUpload] = useState(false);
   const dispatch = useDispatch();
   const id = Number(useParams<TreeParams>().id);
@@ -49,42 +49,60 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
   const props: UploadProps = {
     name: 'file',
     multiple: true,
-    beforeUpload: async (file) => {
+    beforeUpload: (_, fileList) => {
+      console.log('before upload');
+      function readAndPreview(f: RcFile) {
+        const reader = new FileReader();
+        reader.addEventListener(
+          'loadend',
+          () => {
+            setImageToUpload(imageToUpload.concat(reader.result));
+          },
+          false,
+        );
+        reader.readAsDataURL(f);
+      }
+      if (fileList) {
+        fileList.forEach((f) => readAndPreview(f));
+      }
+      return false;
+    },
+    onRemove(file) {
       const reader = new FileReader();
       reader.addEventListener(
         'loadend',
         () => {
-          imageToUpload.push(reader.result);
+          const index = imageToUpload.indexOf(reader.result, 0);
+          if (index > -1) {
+            setImageToUpload(imageToUpload.splice(index, 1));
+          }
         },
         false,
       );
-      reader.readAsDataURL(file);
-      return false;
-    },
-    onChange(info) {
-      const { status } = info.file;
-      if (status === 'done') {
-        message.success(`${info.file.name} file selected successfully.`);
-      } else if (status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
+      if (file.originFileObj) {
+        reader.readAsDataURL(file.originFileObj);
       }
     },
   };
 
   function onClickUploadSiteImage() {
-    if (imageToUpload.length > 0) {
-      imageToUpload.forEach((image) => {
-        if (image) {
-          protectedApiClient
-            .uploadImage(siteEntryId, image, anonymousUpload)
-            .then(() => {
-              message.success('Sent!');
-              setShowMenu(!showMenu);
-            });
-        }
-      });
-      dispatch(getSiteData(id));
-    }
+    const requests: Promise<void>[] = [];
+    imageToUpload.forEach((image) => {
+      if (image) {
+        const req = protectedApiClient.uploadImage(
+          siteEntryId,
+          image,
+          anonymousUpload ?? true,
+        );
+        requests.push(req);
+      }
+    });
+    Promise.allSettled(requests)
+      .then(() => {
+        message.success('Sent!');
+        setShowMenu(!showMenu);
+      })
+      .finally(() => dispatch(getSiteData(id)));
   }
 
   return (
@@ -120,7 +138,9 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
         </ConfirmUpload>
         <Checkbox
           onChange={async (e: CheckboxChangeEvent) => {
-            await setAnonymousUpload(e.target.checked);
+            console.log(imageToUpload.length);
+            setAnonymousUpload(e.target.checked);
+            console.log(imageToUpload.length);
           }}
         >
           {t('uploadSiteImage.upload_anonymous_check')}
