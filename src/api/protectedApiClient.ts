@@ -130,6 +130,11 @@ export interface ProtectedApiClient {
   readonly filterSites: (
     params: FilterSitesParams,
   ) => Promise<FilterSitesResponse>;
+  readonly uploadImage: (
+    siteEntryId: number,
+    imageFile: string | ArrayBuffer,
+    anon: boolean,
+  ) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -197,6 +202,8 @@ export const ParameterizedApiRoutes = {
   UPDATE_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/update`,
   NAME_SITE_ENTRY: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/name_entry`,
+  UPLOAD_IMAGE: (siteEntryId: number): string =>
+    `${baseSiteRoute}site_image/${siteEntryId}`,
 };
 
 export const ParameterizedAdminApiRoutes = {
@@ -564,6 +571,17 @@ const filterSites = (
   ).then((res) => res.data);
 };
 
+const uploadImage = (
+  siteEntryId: number,
+  imageFile: string | ArrayBuffer,
+  anon: boolean,
+): Promise<void> => {
+  return AppAxiosInstance.post(
+    ParameterizedApiRoutes.UPLOAD_IMAGE(siteEntryId),
+    { anonymous: anon, image: imageFile },
+  ).then((res) => res.data);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -612,6 +630,7 @@ const Client: ProtectedApiClient = Object.freeze({
   addSites,
   sendEmail,
   filterSites,
+  uploadImage,
 });
 
 export default Client;
