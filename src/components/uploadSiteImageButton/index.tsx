@@ -139,9 +139,8 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
           {t('uploadSiteImage.upload_button_message')}
         </ConfirmUpload>
         <Checkbox
-          onChange={async (e: CheckboxChangeEvent) => {
+          onChange={(e: CheckboxChangeEvent) => {
             setAnonymousUpload(e.target.checked);
-            console.log(imageToUpload.length);
           }}
         >
           {t('uploadSiteImage.upload_anonymous_check')}
