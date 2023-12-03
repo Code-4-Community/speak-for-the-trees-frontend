@@ -13,7 +13,7 @@ const ConfirmDeleteButton = styled(Button)`
   }
 `;
 
-interface ConfirmationModelProps {
+interface ConfirmationModalProps {
   visible: boolean;
   onOk: () => void;
   onCancel: () => void;
@@ -22,7 +22,7 @@ interface ConfirmationModelProps {
   onConfirm: () => void;
 }
 
-const ConfirmationModel: React.FC<ConfirmationModelProps> = ({
+const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   visible,
   onOk,
   onCancel,
@@ -47,4 +47,4 @@ const ConfirmationModel: React.FC<ConfirmationModelProps> = ({
   );
 };
 
-export default ConfirmationModel;
+export default ConfirmationModal;

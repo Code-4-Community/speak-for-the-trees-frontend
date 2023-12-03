@@ -13,10 +13,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdmin, getUserID } from '../../auth/ducks/selectors';
 import styled from 'styled-components';
-import {
-  EditButton,
-  StyledClose,
-} from '../themedComponents';
+import { EditButton, StyledClose } from '../themedComponents';
 import StewardshipForm from '../forms/stewardshipForm';
 import { LinkButton } from '../linkButton';
 import { useParams } from 'react-router-dom';
@@ -29,7 +26,7 @@ import { C4CState } from '../../store';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
-import ConfirmationModel from '../confirmationModal';
+import ConfirmationModal from '../confirmationModal';
 
 const Entry = styled.div`
   margin: 15px;
@@ -179,7 +176,7 @@ const CareEntry: React.FC<CareEntryProps> = ({ activity }) => {
           initialDate={treeCareToMoment(activity)}
         />
       </Modal>
-      <ConfirmationModel
+      <ConfirmationModal
         visible={showDeleteForm}
         onOk={() => setShowDeleteForm(false)}
         onCancel={() => setShowDeleteForm(false)}

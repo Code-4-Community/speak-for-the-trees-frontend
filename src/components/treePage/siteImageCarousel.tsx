@@ -2,9 +2,14 @@ import React, { useState } from 'react';
 import { Carousel, message, Space } from 'antd';
 import LeftOutlined from '@ant-design/icons/lib/icons/LeftOutlined';
 import RightOutlined from '@ant-design/icons/lib/icons/RightOutlined';
+import { isAdmin, getUserID } from '../../auth/ducks/selectors';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { getSiteData } from '../../containers/treePage/ducks/thunks';
+import { TreeParams } from '../../containers/treePage';
+import { useParams } from 'react-router-dom';
 
 import { getLatestEntrySiteImages } from '../../containers/treePage/ducks/selectors';
 import { C4CState } from '../../store';
@@ -13,7 +18,7 @@ import { site } from '../../constants';
 import { LinkButton } from '../linkButton';
 import { LIGHT_GREY, LIGHT_RED, WHITE } from '../../utils/colors';
 import protectedApiClient from '../../api/protectedApiClient';
-import ConfirmationModel from '../confirmationModal';
+import ConfirmationModal from '../confirmationModal';
 
 const CarouselContainer = styled.div`
   margin-top: 20px;
@@ -69,6 +74,8 @@ export const DeleteSiteImageButton = styled(LinkButton)`
 
 export const SiteImageCarousel: React.FC = () => {
   const { t } = useTranslation(n(site, 'treePage'), { nsMode: 'fallback' });
+  const dispatch = useDispatch();
+  const id = Number(useParams<TreeParams>().id);
 
   const [showDeleteForm, setShowDeleteForm] = useState<boolean>(false);
 
@@ -81,12 +88,22 @@ export const SiteImageCarousel: React.FC = () => {
   const onAfterChange = (currentSlide: number) =>
     setCurrSlideIndex(currentSlide);
   function onClickDeleteImage(imageId: number) {
-    protectedApiClient.deleteImage(imageId).then((ok) => {
-      message.success('success');
-      setShowDeleteForm(false);
-    });
+    protectedApiClient
+      .deleteImage(imageId)
+      .then((ok) => {
+        message.success('success');
+        setShowDeleteForm(false);
+      })
+      .finally(() => dispatch(getSiteData(id)));
   }
 
+  const userIsAdmin: boolean = useSelector((state: C4CState) =>
+    isAdmin(state.authenticationState.tokens),
+  );
+
+  const userId: number = useSelector((state: C4CState) =>
+    getUserID(state.authenticationState.tokens),
+  );
   return (
     <>
       {latestEntrySiteImages.length > 0 && (
@@ -118,16 +135,19 @@ export const SiteImageCarousel: React.FC = () => {
                   t('site_image.no_upload_date')}
               </div>
               <div>
-                <DeleteSiteImageButton
-                  type="primary"
-                  onClick={() => setShowDeleteForm(!showDeleteForm)}
-                >
-                  Delete
-                </DeleteSiteImageButton>
+                {(latestEntrySiteImages[currSlideIndex].uploaderId === userId ||
+                  userIsAdmin) && (
+                  <DeleteSiteImageButton
+                    type="primary"
+                    onClick={() => setShowDeleteForm(!showDeleteForm)}
+                  >
+                    Delete
+                  </DeleteSiteImageButton>
+                )}
               </div>
             </Space>
           </FooterContainer>
-          <ConfirmationModel
+          <ConfirmationModal
             visible={showDeleteForm}
             onOk={() => setShowDeleteForm(false)}
             onCancel={() => setShowDeleteForm(false)}

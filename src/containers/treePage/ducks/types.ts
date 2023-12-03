@@ -295,6 +295,7 @@ export interface SiteEntryImage {
   uploaderUsername: string;
   uploadedAt: string;
   imageUrl: string;
+  uploaderId: number;
 }
 
 export interface TreeBenefits {
