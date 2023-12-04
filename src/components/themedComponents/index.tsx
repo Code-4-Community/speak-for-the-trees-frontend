@@ -138,6 +138,15 @@ export const MenuLinkButton = styled(LinkButton)`
   text-align: left;
 `;
 
+export const ConfirmDeleteButton = styled(Button)`
+  margin: 10px;
+  padding-left: 10px;
+
+  & :hover {
+    background-color: ${LIGHT_GREY};
+  }
+`;
+
 export const MainContent = styled.div`
   height: 100%;
 `;

@@ -1489,6 +1489,33 @@ describe('Protected API Client Tests', () => {
         expect(result).toEqual(response);
       });
     });
+
+    describe('deleteSiteImage', () => {
+      it('makes the right request', async () => {
+        const response = 'Image Deleted Correctly';
+
+        nock(BASE_URL)
+          .delete(ParameterizedApiRoutes.DELETE_IMAGE(1))
+          .reply(200, response);
+
+        const result = await ProtectedApiClient.deleteImage(1);
+
+        expect(result).toEqual(response);
+      });
+      it('makes a bad request', async () => {
+        const response = 'Invalid Image ID';
+
+        nock(BASE_URL)
+          .delete(ParameterizedApiRoutes.DELETE_IMAGE(-1))
+          .reply(400, response);
+
+        const result = await ProtectedApiClient.deleteImage(-1).catch(
+          (err) => err.response.data,
+        );
+
+        expect(result).toEqual(response);
+      });
+    });
   });
 
   describe('updateSite', () => {

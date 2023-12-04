@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TreeCare } from '../../containers/treePage/ducks/types';
-import { Row, Col, Typography, Button, Form, Modal, message } from 'antd';
+import { Row, Col, Typography, Form, Modal, message } from 'antd';
 import {
   DARK_GREEN,
   TEXT_GREY,
@@ -26,6 +26,7 @@ import { C4CState } from '../../store';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
+import ConfirmationModal from '../confirmationModal';
 
 const Entry = styled.div`
   margin: 15px;
@@ -56,15 +57,6 @@ const DeleteActivityButton = styled(LinkButton)`
 
   & :hover {
     color: ${LIGHT_RED};
-    background-color: ${LIGHT_GREY};
-  }
-`;
-
-const ConfirmDelete = styled(Button)`
-  margin: 10px;
-  padding-left: 10px;
-
-  & :hover {
     background-color: ${LIGHT_GREY};
   }
 `;
@@ -184,19 +176,14 @@ const CareEntry: React.FC<CareEntryProps> = ({ activity }) => {
           initialDate={treeCareToMoment(activity)}
         />
       </Modal>
-      <Modal
-        title={t('delete_title')}
+      <ConfirmationModal
         visible={showDeleteForm}
         onOk={() => setShowDeleteForm(false)}
         onCancel={() => setShowDeleteForm(false)}
-        footer={null}
-        closeIcon={<StyledClose />}
-      >
-        <p>{t('delete_message')}</p>
-        <ConfirmDelete onClick={onClickDeleteActivity}>
-          {t('delete')}
-        </ConfirmDelete>
-      </Modal>
+        title={t('delete_title')}
+        confirmationMessage={t('delete_message')}
+        onConfirm={onClickDeleteActivity}
+      />
     </>
   );
 };
