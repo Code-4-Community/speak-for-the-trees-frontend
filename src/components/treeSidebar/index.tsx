@@ -17,6 +17,7 @@ const TreeSidebar: React.FC<TreeSidebarProps> = ({ mySites }) => {
         locale={{ emptyText: 'No Trees Adopted' }}
         renderItem={(item) => (
           <StyledListItem>
+            <p></p>
             <TreeCard site={item} />
           </StyledListItem>
         )}
