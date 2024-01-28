@@ -16,6 +16,9 @@ import { isAdmin } from '../../auth/ducks/selectors';
 import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { CITY_PLANTING_REQUEST_LINK } from '../../assets/links';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../utils/stringFormat';
+import { site } from '../../constants';
 
 const PopupContainer = styled.div`
   position: absolute;
@@ -115,6 +118,8 @@ const TreePopup: React.FC<TreePopupProps> = ({
   treeInfo,
   returnTo,
 }) => {
+  const { t } = useTranslation(n(site, 'maps'), { nsMode: 'fallback' });
+
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const hidePopup = () => {
@@ -138,7 +143,7 @@ const TreePopup: React.FC<TreePopupProps> = ({
       state={{ destination: Routes.MY_TREES }}
       target="_blank"
     >
-      Edit Site Page
+      {t('popup.editPage')}
     </GreenLinkButton>
   );
 
@@ -153,15 +158,15 @@ const TreePopup: React.FC<TreePopupProps> = ({
                   {/* If the site has a tree, then display its common name (if available). Otherwise, display 'Open Planting Site' */}
                   {treeInfo.treePresent
                     ? isEmptyString(treeInfo.commonName)
-                      ? 'Unknown Species'
+                      ? t('popup.unknownSpecies')
                       : treeInfo.commonName
-                    : 'Open Planting Site'}
+                    : t('popup.openSite.title')}
                 </TreeTitle>
                 <CloseIcon onClick={hidePopup} />
               </>
               <Line />
               {!isEmptyString(treeInfo.address) && (
-                <GreyText strong>Nearby Address</GreyText>
+                <GreyText strong>{t('popup.nearbyAddress')}</GreyText>
               )}
               <GreyText>{treeInfo.address}</GreyText>
               {treeInfo.treePresent ? (
@@ -171,7 +176,7 @@ const TreePopup: React.FC<TreePopupProps> = ({
                     state={returnState}
                     target="_blank"
                   >
-                    More Info
+                    {t('popup.moreInfo')}
                   </GreenLinkButton>
                   {userIsAdmin && (
                     <MarginLeftSpan>{editSiteButton}</MarginLeftSpan>
@@ -180,12 +185,12 @@ const TreePopup: React.FC<TreePopupProps> = ({
               ) : (
                 <>
                   <PlantRequest>
-                    Want to plant a tree here?{' '}
+                    {t('popup.openSite.question')}
                     <Typography.Link
                       href={CITY_PLANTING_REQUEST_LINK}
                       target="_blank"
                     >
-                      Submit a request to the city!
+                      {t('popup.openSite.cta')}
                     </Typography.Link>
                   </PlantRequest>
                   {userIsAdmin && editSiteButton}

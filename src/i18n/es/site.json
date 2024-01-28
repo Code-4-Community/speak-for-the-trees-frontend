@@ -1,0 +1,12 @@
+{
+  "title": "Sitio",
+  "header": {
+    "site_features": "Características del sitio",
+    "site_entries": "Entradas del sitio",
+    "add_entry": "Agregar entrada"
+  },
+  "site_features": {
+    "no_address": "Sin dirección registrada"
+  },
+  "edit_site_entry": "Editar entrada del sitio"
+}
