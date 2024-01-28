@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import {
   landing,
+  maps,
   notFound,
   forgotPassword,
   forgotPasswordReset,
@@ -25,7 +26,31 @@ import {
   careEntry,
   treeInfoTypes,
 } from './en';
-import { landingEs } from './es';
+import {
+  landingEs,
+  mapsEs,
+  notFoundEs,
+  forgotPasswordEs,
+  forgotPasswordResetEs,
+  reportsEs,
+  loginEs,
+  signupEs,
+  homeEs,
+  settingsEs,
+  faqEs,
+  myTreesEs,
+  siteEs,
+  adminEs,
+  formsEs,
+  tablesEs,
+  contentEs,
+  treePageEs,
+  treeInfoEs,
+  shareMenuEs,
+  treeActivityEs,
+  careEntryEs,
+  treeInfoTypesEs,
+} from './es';
 
 // the translations
 // (tip move them in a JSON file and import them,
@@ -33,6 +58,7 @@ import { landingEs } from './es';
 const resources = {
   en: {
     landing,
+    maps,
     notFound,
     forgotPassword,
     forgotPasswordReset,
@@ -58,6 +84,28 @@ const resources = {
   },
   es: {
     landing: landingEs,
+    maps: mapsEs,
+    notFound: notFoundEs,
+    forgotPassword: forgotPasswordEs,
+    forgotPasswordReset: forgotPasswordResetEs,
+    reports: reportsEs,
+    login: loginEs,
+    signup: signupEs,
+    home: homeEs,
+    settings: settingsEs,
+    faq: faqEs,
+    myTrees: myTreesEs,
+    site: siteEs,
+    admin: adminEs,
+    forms: formsEs,
+    tables: tablesEs,
+    content: contentEs,
+    treePage: treePageEs,
+    treeInfo: treeInfoEs,
+    shareMenu: shareMenuEs,
+    treeActivity: treeActivityEs,
+    careEntry: careEntryEs,
+    treeInfoTypes: treeInfoTypesEs,
   },
 };
 

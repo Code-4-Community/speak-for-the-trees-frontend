@@ -1,0 +1,15 @@
+{
+  "home": "Inicio",
+  "title": "¡Bienvenido/a de nuevo, {{name}}!",
+  "header": "Volvamos a esos árboles, ¿por qué no?",
+  "quick_links": "Enlaces rápidos",
+  "link_cards": {
+    "my_blocks": "Mis cuadras",
+    "view_teams": "Ver equipos",
+    "volunteer_leaderboard": "Tabla de Clasificación de Voluntarios",
+    "team_leaderboard": "Tabla de Clasificación de Equipos",
+    "my_trees": "Mis Árboles",
+    "settings": "Ajustes",
+    "reports": "Informes"
+  }
+}

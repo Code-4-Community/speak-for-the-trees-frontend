@@ -1,0 +1,13 @@
+{
+  "report_columns": {
+    "site_id": "ID del sitio",
+    "address": "Dirección",
+    "adopter_name": "Nombre del adoptante",
+    "adopter_email": "Correo electrónico del adoptante",
+    "date_adopted": "Fecha de adopción",
+    "date_performed": "Fecha de realización",
+    "activity_count": "Recuento de actividades",
+    "neighborhood": "Barrio",
+    "activities_performed": "Actividades realizadas"
+  }
+}

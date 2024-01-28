@@ -1,0 +1,125 @@
+{
+  "email": "Correo electrónico",
+  "password": "Contraseña",
+  "current_password": "Contraseña actual",
+  "first_name": "Nombre",
+  "last_name": "Apellido",
+  "name": "Nombre",
+  "username": "Nombre de usuario",
+  "submit": "Enviar",
+  "log_in": "Iniciar sesión",
+  "sign_up": "Registrarse",
+  "continue": "Continuar",
+  "save": "Guardar",
+  "confirm": "Confirmar",
+  "cancel": "Cancelar",
+  "reset_password": {
+    "new_password": "Nueva contraseña",
+    "confirm_password": "Confirmar contraseña"
+  },
+  "export_data": {
+    "report_required": "¡Debes seleccionar un informe!",
+    "report_type_placeholder": "Selecciona el informe para descargar.",
+    "export_data": [
+      "Exportar datos de los últimos", 
+      "días (deja vacío para exportar todos los datos)."
+    ],
+    "load_report": "Cargar informe"
+  },
+  "change_username": {
+    "success": "¡Nombre de usuario cambiado!",
+    "error": "No se pudo cambiar el nombre de usuario: {{error}}"
+  },
+  "delete_account": {
+    "error": "No se pudo eliminar el usuario: {{error}}",
+    "submit": "Eliminar cuenta"
+  },
+  "change_email": {
+    "success": "¡Correo electrónico cambiado!",
+    "error": "No se pudo cambiar el correo electrónico: {{error}}",
+    "new_email": "Nueva dirección de correo electrónico"
+  },
+  "change_password": {
+    "success": "¡Contraseña cambiada!",
+    "error": "No se pudo cambiar la contraseña: {{error}}"
+  },
+  "edit_site": {
+    "success": "¡Sitio editado!",
+    "address": "Dirección",
+    "city": "Cuidad",
+    "zip": "Código postal",
+    "neighborhood": "Barrio",
+    "latitude": "Latitud",
+    "longitude": "Longitud",
+    "owner": "Propietario",
+    "submit": "Editar características del sitio"
+  },
+  "update_site": {
+    "success": "¡Sitio actualizado!",
+    "placeholder": {
+      "pruning": "Poda",
+      "diameter": "Diámetro",
+      "circumference": "Circunferencia",
+      "site_width": "Ancho del sitio",
+      "site_length": "Longitud del sitio",
+      "material": "Material"
+    }
+  },
+  "create_child": {
+    "success": "¡{{email}} agregado correctamente!",
+    "submit": "Crear cuenta infantil"
+  },
+  "change_privilege": {
+    "success": "¡Nivel de privilegio cambiado!",
+    "error": "No se pudo cambiar el nivel de privilegio: {{error}}",
+    "user_email": "Correo electrónico del usuario",
+    "new_role": "Nuevo rol"
+  },
+  "edit_site_entry": {
+    "success": "¡Entrada del sitio actualizada!",
+    "error": "No se pudo actualizar la entrada del sitio: {{error}}"
+  },
+  "validation": {
+    "email_required": "¡Por favor, ingresa tu correo electrónico!",
+    "email_invalid": "Correo electrónico no válido",
+    "target_email_required": "¡Por favor, ingresa el correo electrónico del usuario cuyo nivel de privilegio desea cambiar!",
+    "password_required": "¡Por favor, ingresa tu contraseña!",
+    "password_new_required": "¡Por favor, ingresa una nueva contraseña!",
+    "password_new_min_length": "Tu nueva contraseña debe tener al menos 8 caracteres.",
+    "confirm_password_new_required": "¡Por favor, confirma tu nueva contraseña!",
+    "confirm_password_match": "Las contraseñas no coinciden",
+    "first_name_required": "¡Por favor, ingresa tu nombre!",
+    "last_name_required": "¡Por favor, ingresa tu apellido!",
+    "username_required": "¡Por favor, ingresa un nombre de usuario!",
+    "address_required": "¡Por favor, ingresa una dirección!",
+    "zip_required": "¡Por favor, ingresa un código postal válido!",
+    "zip_numeric": "El código postal solo debe contener números",
+    "zip_length": "El código postal debe tener 5 dígitos",
+    "city_required": "¡Por favor, ingresa una ciudad!",
+    "neighborhood_required": "¡Por favor, ingresa un barrio!",
+    "latitude_required": "¡Por favor, ingresa una latitud!",
+    "longitude_required": "¡Por favor, ingresa una longitud!",
+    "owner_required": "¡Por favor, selecciona un propietario!",
+    "activity_required": "¡Por favor, selecciona al menos una actividad!",
+    "activity_date_required": "¡Por favor, ingresa la fecha de la actividad!",
+    "new_privilege_required": "¡Por favor, elige un nivel de privilegio para este usuario!",
+    "numeric": "Debe ser un número",
+    "numeric_positive": "El número debe ser positivo!",
+    "tree_name_length": "El nombre del árbol debe tener como máximo 60 caracteres"
+  },
+  "name_form": {
+    "placeholder": "Ingresa el nombre del árbol",
+    "submit": "Cambiar nombre"
+  },
+  "stewardship": {
+    "activities": {
+      "watered": "Regado",
+      "mulched": "Acolchado",
+      "weeded": "Desmalezado",
+      "cleaned": "Residuos y basura eliminados",
+      "installedWateringBag": "Bolsa de riego instalada"
+    },
+    "date_label": "Fecha de la actividad",
+    "activity_label": "Actividades de cuidado"
+  }
+}

@@ -56,6 +56,7 @@ const ImageCard = styled.div`
   font-size: 16pt;
   font-weight: bold;
   transition: background-color 0.2s;
+  text-align: center;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.5);

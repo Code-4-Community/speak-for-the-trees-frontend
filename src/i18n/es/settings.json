@@ -1,0 +1,15 @@
+{
+  "settings": "Ajustes",
+  "title": "Configuración de la cuenta",
+  "header": {
+    "profile": "Perfil",
+    "change_username": "Cambiar nombre de usuario",
+    "delete_account": "Desactivar o eliminar cuenta",
+    "change_email": "Cambiar correo electrónico",
+    "change_password": "Cambiar contraseña"
+  },
+  "delete_account_modal": {
+    "title": "Eliminar cuenta",
+    "confirmation": "Ingresa tu contraseña para confirmar que deseas eliminar tu cuenta permanentemente."
+  }
+}

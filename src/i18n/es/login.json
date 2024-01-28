@@ -1,0 +1,16 @@
+{
+  "title": "Iniciar sesión",
+  "welcome_back": {
+    "header": "¡Bienvenido de nuevo!",
+    "body": [
+      "Gracias por ser voluntario/a con nosotros. Tu trabajo es vital para apoyar la salud del bosque urbano de Boston.", 
+      "Volvamos a esos árboles."
+    ]
+  },
+  "login_error": "El correo electrónico o la contraseña que ingresaste son incorrectos.",
+  "forgot_password": {
+    "header": "¿OLVIDASTE TU CONTRASEÑA?",
+    "new_to_sftt": "¿ERES NUEVO/A EN SPEAK FOR THE TREES?",
+    "sign_up": "REGÍSTRATE <signUpLink>AQUÍ</signUpLink>!"
+  }
+}
