@@ -1,0 +1,59 @@
+{
+  "no_tree_message": "No hay un árbol en {{location}}!",
+  "tree_planting_request": "La ciudad de Boston planta nuevos árboles principalmente en primavera y otoño a solicitud de los residentes. Pide a la ciudad que plante un árbol aquí en <1>this city tree planting request form</1>!",
+  "return": "Volver al mapa",
+  "no_data": "No se ha recopilado información sobre este sitio.",
+  "tree_not_found": "No se pudo encontrar el árbol.",
+  "info_tiles": {
+    "about": "Acerca de este árbol",
+    "hide_text": "Ocultar detalles adicionales del árbol",
+    "hide_default": "Ocultar datos",
+    "show_text": "Haz clic para leer más sobre este árbol",
+    "show_default": "Mostrar datos",
+    "additional_information": "Información adicional"
+  },
+  "messages": {
+    "stewardship_success": "Custodia registrada",
+    "stewardship_failure": "Error al registrar la custodia: {{error}}",
+    "adopt_success": "¡Sitio adoptado!",
+    "adopt_failure": "Error al adoptar el sitio: {{error}}",
+    "unadopt_success": "¡Sitio desadoptado!",
+    "unadopt_failure": "Error al desadoptar el sitio: {{error}}",
+    "edit_name_success": "¡Nombre del árbol cambiado!",
+    "edit_name_failure": "Error al cambiar el nombre del sitio: {{error}}",
+    "force_unadopt_success": "¡Forzar desadopción del sitio!",
+    "force_unadopt_failure": "Error al forzar la desadopción del sitio: {{error}}"
+  },
+  "site_image": {
+    "uploaded_by": "Cargado por {{uploader}}",
+    "no_upload_date": "Fecha de carga desconocida"
+  },
+  "tree_benefits": {
+    "header": "Beneficios del árbol",
+    "categories": {
+      "energy": {
+        "name": "Energía conservada",
+        "unit": "kWh/año"
+      },
+      "stormwater": {
+        "name": "Agua de lluvia filtrada",
+        "unit": "gal/año"
+      },
+      "airQuality": {
+        "name": "Calidad del aire mejorada",
+        "unit": "lbs/año"
+      },
+      "co2Removed": {
+        "name": "CO2 eliminado",
+        "unit": "lbs/año"
+      },
+      "co2Stored": {
+        "name": "CO2 almacenado (hasta la fecha)",
+        "unit": "lbs"
+      }
+    },
+    "unsupported_browser": "Este tipo de navegador no es compatible.",
+    "learn_more": "Aprende más sobre cómo obtuvimos estos números <learnMore>aquí</learnMore>.",
+    "not_available": "nan"
+  }
+}

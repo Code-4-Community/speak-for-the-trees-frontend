@@ -1,0 +1,18 @@
+{
+  "reports": "Informes",
+  "site_report": "Informe del sitio",
+  "stats": {
+    "adopted_trees": "Árboles adoptados",
+    "adopted_trees_last_week": "Árboles adoptados desde la semana pasada",
+    "stewardships_performed": "Actividades de custodia realizadas"
+  },
+  "table_name": {
+    "adoption": "Informe de adopción",
+    "stewardship": "Informe de custodia"
+  },
+  "download_reports": "Descargar informes",
+  "messages": {
+    "stewardship_error": "No se pudo obtener el informe de custodia: {{error}}",
+    "adoption_error": "No se pudo obtener el informe de adopción: {{error}}"
+  }
+}

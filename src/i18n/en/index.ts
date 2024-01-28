@@ -1,5 +1,6 @@
 // SFTT
 export { default as landing } from './landing.json';
+export { default as maps } from './maps.json';
 export { default as notFound } from './notFound.json';
 export { default as forgotPassword } from './forgotPassword.json';
 export { default as forgotPasswordReset } from './forgotPasswordReset.json';

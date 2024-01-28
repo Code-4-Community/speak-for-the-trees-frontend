@@ -1,0 +1,14 @@
+{
+  "title": "¡Comparte este sitio!",
+  "email_subject": "¡Mira este árbol!",
+  "messages": {
+    "copy_success": "Copiado al portapapeles",
+    "copy_failure": "Error al copiar al portapapeles"
+  },
+  "alt": {
+    "email": "Compartir por correo electrónico",
+    "twitter": "Compartir en Twitter",
+    "facebook": "Compartir en Facebook",
+    "copy": "Copiar al portapapeles"
+  }
+}

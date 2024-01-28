@@ -1,0 +1,22 @@
+{
+  "messages": {
+    "edit_success": "Custodia modificada",
+    "edit_failure": "Error al registrar la custodia: {{error}}",
+    "delete_success": "Actividad de custodia eliminada",
+    "delete_failure": "Error al eliminar la actividad de custodia: {{error}}"
+  },
+  "edit_title": "Editar custodia",
+  "delete_title": "Confirmar eliminación de custodia",
+  "delete_message": "¿Estás seguro/a de que quieres eliminar esta actividad de custodia?",
+  "delete": "Eliminar",
+  "activity_message": {
+    "cleaned": "libre de desechos",
+    "mulched": "acolchado",
+    "watered": "regado",
+    "weeded": "desmalezado",
+    "installedWateringBag": "proporcionado una bolsa de riego",
+    "prefix": "Fue",
+    "join": "y",
+    "error": "Al menos una actividad debe ser verdadera"
+  }
+}

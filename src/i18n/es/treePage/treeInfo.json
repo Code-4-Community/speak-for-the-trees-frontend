@@ -1,0 +1,26 @@
+{
+  "share_messages": {
+    "user_owns": "¡Mira este {{treeCommonName}} que adopté!",
+    "adopted": "¡Mira este {{treeCommonName}} cerca de ti!",
+    "open": "Este {{treeCommonName}} en {{location}} necesita que alguien lo cuide."
+  },
+  "species_title": {
+    "unknown": "Especie desconocida",
+    "open": "Sitio de plantación abierto"
+  },
+  "actions": {
+    "unadopt": "Desadoptar",
+    "record_activity": "Registra tu actividad de cuidado del árbol a continuación.",
+    "adopted": "Ya adoptado",
+    "adopt": "Adoptar",
+    "force_unadopt": "Forzar desadopción"
+  },
+  "uploadSiteImage": {
+    "upload_title": "Sube una imagen de este sitio",
+    "upload_drag_header": "Haz clic o arrastra un archivo a esta área para cargarlo",
+    "upload_drag_description": "¡Sube una imagen de tu árbol adoptado!",
+    "upload_button_message": "Subir"
+  },
+  "log_in": "Inicia sesión para adoptar este árbol",
+  "name_prompt": "Nombra este árbol!"
+}
