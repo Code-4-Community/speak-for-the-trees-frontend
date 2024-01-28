@@ -185,7 +185,7 @@ const TreePopup: React.FC<TreePopupProps> = ({
               ) : (
                 <>
                   <PlantRequest>
-                    {t('popup.openSite.question')}
+                    {t('popup.openSite.question') + ' '}
                     <Typography.Link
                       href={CITY_PLANTING_REQUEST_LINK}
                       target="_blank"
