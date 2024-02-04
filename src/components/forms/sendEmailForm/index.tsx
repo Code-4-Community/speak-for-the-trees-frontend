@@ -47,7 +47,7 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails }) => {
   const [bodyContent, setBodyContent] = useState<string>('');
   const [sanitizedBodyContent, setSanitizedBodyContent] = useState<string>('');
 
-  const switchView = (isShowPreview: boolean) => {
+  const togglePreview = (isShowPreview: boolean) => {
     setShowPreview(isShowPreview);
     isShowPreview && setSanitizedBodyContent(DOMPurify.sanitize(bodyContent));
   };
@@ -89,7 +89,7 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails }) => {
         <Input placeholder={t('subject_placeholder')} />
       </Form.Item>
       <PreviewSwitch
-        onChange={switchView}
+        onChange={togglePreview}
         checkedChildren={t('preview.preview')}
         unCheckedChildren={t('preview.raw')}
       />
