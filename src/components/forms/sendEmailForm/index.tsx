@@ -49,7 +49,7 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails }) => {
 
   const togglePreview = (isShowPreview: boolean) => {
     setShowPreview(isShowPreview);
-    isShowPreview && setSanitizedBodyContent(DOMPurify.sanitize(bodyContent));
+    if (isShowPreview) setSanitizedBodyContent(DOMPurify.sanitize(bodyContent));
   };
 
   const onFinishSendEmail = (values: SendEmailFormValues) => {
@@ -78,8 +78,8 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails }) => {
       form={sendEmailForm}
       onFinish={onFinishSendEmail}
       onValuesChange={(changedValues, _) => {
-        changedValues['emailBody'] &&
-          setBodyContent(changedValues['emailBody']);
+        if (changedValues.emailBody !== undefined)
+          setBodyContent(changedValues.emailBody);
       }}
     >
       <Form.Item

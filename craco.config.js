@@ -33,4 +33,9 @@ module.exports = {
       ],
     ],
   },
+  jest: {
+    configure: {
+      setupFiles: ['<rootDir>/setup.js'],
+    },
+  },
 };
