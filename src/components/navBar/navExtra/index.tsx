@@ -15,7 +15,7 @@ const FlexDiv = styled.div`
   margin-right: 20px;
   height: 100%;
   line-height: 9vh;
-  gap: 2vw;
+  gap: 1.8vw;
   align-items: center;
 `;
 
@@ -28,6 +28,10 @@ const LoginButton = styled(GreenLinkButton)`
   background-color: ${WHITE};
   border-color: ${WHITE};
   color: ${BLACK};
+`;
+
+const ExtrasContainer = styled(Typography.Paragraph)`
+  margin-top: 1.6em;
 `;
 
 const Name = styled(Typography.Paragraph)`
@@ -59,12 +63,13 @@ const NavExtra: React.FC<NavExtraProps> = ({
         <Dropdown
           overlay={<NavMenu isAdmin={isAdmin} onLogout={onLogout} />}
           placement="bottomRight"
+          align={{ offset: [0, -25] }}
           arrow
         >
-          <Typography.Paragraph>
+          <ExtrasContainer>
             <Name>{userName}</Name>
             <GreenAvatar size="large" icon={<UserOutlined />} />
-          </Typography.Paragraph>
+          </ExtrasContainer>
         </Dropdown>
       </FlexDiv>
     );
