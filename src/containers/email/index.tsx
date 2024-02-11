@@ -19,10 +19,9 @@ import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
 import PageHeader from '../../components/pageHeader';
 import {
-  EmailType,
   EmailerFilters,
   FilteredSite,
-  FilterSitesParams,
+  FilterSitesParams, TemplateNamesResponse,
 } from './types';
 import EmailerFilterControls from '../../components/emailerFilterControls';
 import AdoptedSitesTable from '../../components/adoptedSitesTable';
@@ -63,6 +62,10 @@ const defaultFilters: EmailerFilters = {
   lastActivityEnd: null,
 };
 
+const defaultTemplate: string =
+  'Pick a Template'
+;
+
 enum LoadingState {
   SUCCESS = 'success',
   LOADING = 'loading',
@@ -76,7 +79,7 @@ function neighborhoodToId(neighborhood: Neighborhoods): number {
 }
 
 const Email: React.FC = () => {
-  const [emailType, setEmailType] = useState<EmailType>(EmailType.INACTIVE);
+  const [emailType, setEmailType] = useState<string>(defaultTemplate);
   const [filters, setFilters] = useState<EmailerFilters>(defaultFilters);
   const [fetchData, setFetchData] = useState<FilteredSite[]>([]);
   const [fetchSitesState, setFetchSitesState] = useState<LoadingState>(
@@ -188,13 +191,20 @@ const Email: React.FC = () => {
           </Typography.Title>
           <EmailTypeSelect
             value={emailType}
-            defaultValue={EmailType.INACTIVE}
-            options={Object.entries(EmailType).map(([key, value]) => ({
+            defaultValue={defaultTemplate}
+            options={protectedApiClient
+              .getEmailTamplateNames()
+              .then((res) => {
+                res.templateNames;
+              })
+              .catch((err) => {
+                setFetchSitesState(LoadingState.ERROR);
+              });
+              .map((key) => ({
               value: key,
-              label: value,
+              label: key,
             }))}
-            onChange={(value: EmailType) => setEmailType(value)}
-            disabled // TODO uncomment when ready
+            onChange={(value: TemplateNamesResponse) => setEmailType(value)}
           />
           <Typography.Title level={3}>Email</Typography.Title>
           <SendEmailForm emails={selectedEmails} />
