@@ -132,7 +132,7 @@ export interface ProtectedApiClient {
   readonly filterSites: (
     params: FilterSitesParams,
   ) => Promise<FilterSitesResponse>;
-  readonly getEmailTamplateNames: () => Promise<TemplateNamesResponse>;
+  readonly getEmailTemplateNames: () => Promise<TemplateNamesResponse>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -576,7 +576,7 @@ const filterSites = (
   ).then((res) => res.data);
 };
 
-const getEmailTamplateNames = (): Promise<TemplateNamesResponse> => {
+const getEmailTemplateNames = (): Promise<TemplateNamesResponse> => {
   return AppAxiosInstance.get(AdminApiClientRoutes.GET_TEMPLATE).then(
     (res) => res.data,
   );
@@ -631,7 +631,7 @@ const Client: ProtectedApiClient = Object.freeze({
   sendEmail,
   deleteImage,
   filterSites,
-  getEmailTamplateNames,
+  getEmailTemplateNames,
 });
 
 export default Client;
