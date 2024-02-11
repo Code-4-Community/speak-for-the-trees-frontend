@@ -32,6 +32,7 @@ import {
 import {
   FilterSitesParams,
   FilterSitesResponse,
+  TemplateNamesResponse,
 } from '../containers/email/types';
 
 export interface ProtectedApiExtraArgs {
@@ -131,6 +132,7 @@ export interface ProtectedApiClient {
   readonly filterSites: (
     params: FilterSitesParams,
   ) => Promise<FilterSitesResponse>;
+  readonly getEmailTamplateNames: () => Promise<TemplateNamesResponse>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -161,6 +163,7 @@ export enum AdminApiClientRoutes {
   GET_STEWARDSHIP_REPORT_CSV = '/api/v1/protected/report/csv/adoption',
   ADD_SITES = '/api/v1/protected/sites/add_sites',
   SEND_EMAIL = '/api/v1/protected/neighborhoods/send_email',
+  GET_TEMPLATE = 'api/v1/protected/emailer/template_names',
 }
 
 const baseTeamRoute = '/api/v1/protected/teams/';
@@ -573,6 +576,12 @@ const filterSites = (
   ).then((res) => res.data);
 };
 
+const getEmailTamplateNames = (): Promise<TemplateNamesResponse> => {
+  return AppAxiosInstance.get(AdminApiClientRoutes.GET_TEMPLATE).then(
+    (res) => res.data,
+  );
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -622,6 +631,7 @@ const Client: ProtectedApiClient = Object.freeze({
   sendEmail,
   deleteImage,
   filterSites,
+  getEmailTamplateNames,
 });
 
 export default Client;
