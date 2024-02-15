@@ -33,7 +33,9 @@ import {
   FilterSitesParams,
   FilterSitesResponse,
   TemplateNamesResponse,
+  LoadTemplateResponse,
 } from '../containers/email/types';
+import { template } from 'lodash';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -133,6 +135,9 @@ export interface ProtectedApiClient {
     params: FilterSitesParams,
   ) => Promise<FilterSitesResponse>;
   readonly getEmailTemplateNames: () => Promise<TemplateNamesResponse>;
+  readonly loadEmailTemplateContents: (
+    templateName: string,
+  ) => Promise<LoadTemplateResponse>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -163,7 +168,7 @@ export enum AdminApiClientRoutes {
   GET_STEWARDSHIP_REPORT_CSV = '/api/v1/protected/report/csv/adoption',
   ADD_SITES = '/api/v1/protected/sites/add_sites',
   SEND_EMAIL = '/api/v1/protected/neighborhoods/send_email',
-  GET_TEMPLATE = 'api/v1/protected/emailer/template_names',
+  GET_TEMPLATE_NAMES = 'api/v1/protected/emailer/template_names',
 }
 
 const baseTeamRoute = '/api/v1/protected/teams/';
@@ -205,6 +210,7 @@ export const ParameterizedApiRoutes = {
     `${baseSiteRoute}site_image/${imageId}`,
 };
 
+// LOAD_TEMPLATE = 'api/v1/protected/emailer/load_template/:template_name',
 export const ParameterizedAdminApiRoutes = {
   EDIT_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/edit`,
   GET_ADOPTION_REPORT_CSV: (previousDays: number): string =>
@@ -231,6 +237,8 @@ export const ParameterizedAdminApiRoutes = {
         ? `&activityCountMax=${params.activityCountMax}`
         : ''
     }`,
+  LOAD_TEMPLATE: (templateName: string): string =>
+    `api/v1/protected/emailer/load_template/${templateName}`,
 };
 
 const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
@@ -577,9 +585,17 @@ const filterSites = (
 };
 
 const getEmailTemplateNames = (): Promise<TemplateNamesResponse> => {
-  return AppAxiosInstance.get(AdminApiClientRoutes.GET_TEMPLATE).then(
+  return AppAxiosInstance.get(AdminApiClientRoutes.GET_TEMPLATE_NAMES).then(
     (res) => res.data,
   );
+};
+
+const loadEmailTemplateContent = (
+  templateName: string,
+): Promise<LoadTemplateResponse> => {
+  return AppAxiosInstance.get(
+    ParameterizedAdminApiRoutes.LOAD_TEMPLATE(templateName),
+  ).then((res) => res.data.get('template'));
 };
 
 const Client: ProtectedApiClient = Object.freeze({
@@ -632,6 +648,7 @@ const Client: ProtectedApiClient = Object.freeze({
   deleteImage,
   filterSites,
   getEmailTemplateNames,
+  loadEmailTemplateContent,
 });
 
 export default Client;

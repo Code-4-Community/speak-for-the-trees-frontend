@@ -4,6 +4,10 @@ export interface TemplateNamesResponse {
   templateNames: string[];
 }
 
+export interface LoadTemplateResponse {
+  templateHTML: string;
+}
+
 export interface EmailerFilters {
   activityCountMin: number;
   activityCountMax: number | null;
