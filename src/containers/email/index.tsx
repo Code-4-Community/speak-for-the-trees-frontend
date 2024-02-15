@@ -88,9 +88,14 @@ const Email: React.FC = () => {
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
 
   function fetchTemplateNames() {
-    protectedApiClient.getEmailTemplateNames().then((res) => {
-      setTemplateNames(res.templateNames);
-    });
+    protectedApiClient
+      .getEmailTemplateNames()
+      .then((res) => {
+        setTemplateNames(res.templateNames);
+      })
+      .catch((err) => {
+        setTemplateNames([defaultTemplate]);
+      });
   }
   function onClickSearch() {
     setFetchSitesState(LoadingState.LOADING);
@@ -202,7 +207,10 @@ const Email: React.FC = () => {
               value: e,
               label: e,
             }))}
-            onChange={(value: string) => setEmailType(value)}
+            onChange={(value: string) => {
+              setEmailType(value);
+              fetchTemplateNames();
+            }}
           />
           <Typography.Title level={3}>Email</Typography.Title>
           <SendEmailForm emails={selectedEmails} />
