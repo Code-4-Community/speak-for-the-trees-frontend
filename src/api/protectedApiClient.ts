@@ -35,6 +35,7 @@ import {
   TemplateNamesResponse,
   LoadTemplateResponse,
 } from '../containers/email/types';
+import { template } from 'lodash';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
