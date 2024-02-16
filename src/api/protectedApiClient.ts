@@ -35,7 +35,6 @@ import {
   TemplateNamesResponse,
   LoadTemplateResponse,
 } from '../containers/email/types';
-import { template } from 'lodash';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -135,7 +134,7 @@ export interface ProtectedApiClient {
     params: FilterSitesParams,
   ) => Promise<FilterSitesResponse>;
   readonly getEmailTemplateNames: () => Promise<TemplateNamesResponse>;
-  readonly loadEmailTemplateContents: (
+  readonly loadEmailTemplateContent: (
     templateName: string,
   ) => Promise<LoadTemplateResponse>;
 }

@@ -1,7 +1,7 @@
 import { Neighborhoods } from '../../assets/content';
 
 export interface TemplateNamesResponse {
-  templateNames: string[];
+  templates: string[];
 }
 
 export interface LoadTemplateResponse {

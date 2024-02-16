@@ -91,7 +91,7 @@ const Email: React.FC = () => {
     protectedApiClient
       .getEmailTemplateNames()
       .then((res) => {
-        setTemplateNames(res.templateNames);
+        setTemplateNames(res.templates);
       })
       .catch((err) => {
         setTemplateNames([defaultTemplate]);
