@@ -35,7 +35,6 @@ import {
   TemplateNamesResponse,
   LoadTemplateResponse,
 } from '../containers/email/types';
-import { template } from 'lodash';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -595,7 +594,7 @@ const loadEmailTemplateContent = (
 ): Promise<LoadTemplateResponse> => {
   return AppAxiosInstance.get(
     ParameterizedAdminApiRoutes.LOAD_TEMPLATE(templateName),
-  ).then((res) => res.data.get('template'));
+  ).then((res) => res.data);
 };
 
 const Client: ProtectedApiClient = Object.freeze({

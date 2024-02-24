@@ -5,7 +5,9 @@ export interface TemplateNamesResponse {
 }
 
 export interface LoadTemplateResponse {
-  templateHTML: string;
+  name : string,
+  template : string,
+  author : number;
 }
 
 export interface EmailerFilters {

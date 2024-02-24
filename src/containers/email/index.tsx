@@ -22,7 +22,7 @@ import {
   EmailerFilters,
   FilteredSite,
   FilterSitesParams,
-  TemplateNamesResponse,
+  LoadTemplateResponse,
 } from './types';
 import EmailerFilterControls from '../../components/emailerFilterControls';
 import AdoptedSitesTable from '../../components/adoptedSitesTable';
@@ -86,6 +86,7 @@ const Email: React.FC = () => {
     LoadingState.SUCCESS,
   );
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
+  const [templateData, setTemplateData] = useState<string[]>([]);
 
   function fetchTemplateNames() {
     protectedApiClient
@@ -97,6 +98,13 @@ const Email: React.FC = () => {
         setTemplateNames([defaultTemplate]);
       });
   }
+
+  function fetchTemplateData(templateName: string) {
+    protectedApiClient.loadEmailTemplateContent(templateName).then((res) => {
+      setTemplateData([res.template]);
+    });
+  }
+
   function onClickSearch() {
     setFetchSitesState(LoadingState.LOADING);
     const req: FilterSitesParams = {
@@ -209,11 +217,11 @@ const Email: React.FC = () => {
             }))}
             onChange={(value: string) => {
               setEmailType(value);
-              fetchTemplateNames();
+              fetchTemplateData(value);
             }}
           />
           <Typography.Title level={3}>Email</Typography.Title>
-          <SendEmailForm emails={selectedEmails} />
+          <SendEmailForm emails={templateData} />
         </EmailPageContainer>
       </PageLayout>
     </>
