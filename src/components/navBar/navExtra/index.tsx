@@ -1,12 +1,13 @@
 import React from 'react';
 import { Routes } from '../../../App';
 import styled from 'styled-components';
-import { Avatar, Dropdown, Typography } from 'antd';
+import { Avatar, Dropdown, MenuProps, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { BLACK, DARK_GREEN, LIGHT_GREEN, WHITE } from '../../../utils/colors';
 import NavMenu from '../navMenu';
 import { Location } from 'history';
-import { GreenLinkButton } from '../../themedComponents';
+import { Flex, GreenLinkButton } from '../../themedComponents';
+import TranslationDropdown from '../translationDropdown';
 
 const FlexDiv = styled.div`
   display: flex;
@@ -14,17 +15,11 @@ const FlexDiv = styled.div`
   margin-right: 20px;
   height: 100%;
   line-height: 9vh;
-`;
-
-const LandingExtraContainer = styled.div`
-  float: right;
-  padding-right: 2vw;
-  padding-top: 22px;
-  height: 100%;
+  gap: 1.8vw;
+  align-items: center;
 `;
 
 const SignupButton = styled(GreenLinkButton)`
-  margin-right: 2vw;
   background-color: ${LIGHT_GREEN},
   border-color: ${LIGHT_GREEN};
 `;
@@ -33,6 +28,10 @@ const LoginButton = styled(GreenLinkButton)`
   background-color: ${WHITE};
   border-color: ${WHITE};
   color: ${BLACK};
+`;
+
+const ExtrasContainer = styled(Typography.Paragraph)`
+  margin-top: 1.6em;
 `;
 
 const Name = styled(Typography.Paragraph)`
@@ -60,21 +59,24 @@ const NavExtra: React.FC<NavExtraProps> = ({
   if (userName !== undefined) {
     return (
       <FlexDiv>
+        <TranslationDropdown />
         <Dropdown
           overlay={<NavMenu isAdmin={isAdmin} onLogout={onLogout} />}
           placement="bottomRight"
+          align={{ offset: [0, -25] }}
           arrow
         >
-          <Typography.Paragraph>
+          <ExtrasContainer>
             <Name>{userName}</Name>
             <GreenAvatar size="large" icon={<UserOutlined />} />
-          </Typography.Paragraph>
+          </ExtrasContainer>
         </Dropdown>
       </FlexDiv>
     );
   } else {
     return (
-      <LandingExtraContainer>
+      <FlexDiv>
+        <TranslationDropdown />
         <SignupButton
           type="primary"
           htmlType="submit"
@@ -97,7 +99,7 @@ const NavExtra: React.FC<NavExtraProps> = ({
         >
           Log In
         </LoginButton>
-      </LandingExtraContainer>
+      </FlexDiv>
     );
   }
 };

@@ -9,6 +9,8 @@ import { MID_GREEN, BACKGROUND_GREY, LIGHT_GREEN } from '../../../utils/colors';
 import Logo from '../../../assets/images/nav-bar-icon.png';
 import NavMenu from '../navMenu';
 import { LinkButton } from '../../linkButton';
+import TranslationDropdown from '../translationDropdown';
+import { Flex } from '../../themedComponents';
 
 interface MobileNavBarProps {
   readonly isLoggedIn: boolean;
@@ -28,10 +30,6 @@ const MobileNavHeader: typeof PageHeader = styled(PageHeader)<PageHeaderProps>`
   background: ${BACKGROUND_GREY};
   color: ${MID_GREEN};
   font-weight: 700;
-`;
-
-const FlexDiv = styled.div`
-  display: flex;
 `;
 
 const SignUpButton = styled(LinkButton)`
@@ -66,23 +64,27 @@ const MobileNavBar: React.FC<MobileNavBarProps> = ({
       onBack={() => history.push(Routes.LANDING)}
       extra={
         isLoggedIn ? (
-          <FlexDiv>
+          <Flex gap="2vw">
+            <TranslationDropdown />
             <Dropdown
               overlay={<NavMenu isAdmin={isAdmin} onLogout={onLogout} />}
               placement="bottomLeft"
             >
               <MobileDropdownMenu />
             </Dropdown>
-          </FlexDiv>
+          </Flex>
         ) : (
-          <SignUpButton
-            type="primary"
-            htmlType="submit"
-            size="large"
-            to={Routes.SIGNUP}
-          >
-            Sign Up
-          </SignUpButton>
+          <Flex gap="2vw">
+            <TranslationDropdown />
+            <SignUpButton
+              type="primary"
+              htmlType="submit"
+              size="large"
+              to={Routes.SIGNUP}
+            >
+              Sign Up
+            </SignUpButton>
+          </Flex>
         )
       }
     />
