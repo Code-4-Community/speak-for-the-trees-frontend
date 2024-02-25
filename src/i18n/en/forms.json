@@ -121,5 +121,19 @@
     },
     "date_label": "Activity Date",
     "activity_label": "Stewardship Activities"
+  },
+  "volunteer_emailer": {
+    "success": "Email sent!",
+    "users_required": "Please select users to email",
+    "response_error": "Email could not be sent: {{error}}",
+    "subject_required": "The email subject is required",
+    "subject_placeholder": "Email Subject",
+    "preview": {
+      "preview": "Preview",
+      "raw": "Raw"
+    },
+    "body_required": "The email body is required",
+    "body_placeholder": "Email Body",
+    "send": "Send Email"
   }
 }
