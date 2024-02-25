@@ -347,6 +347,7 @@ const TreePage: React.FC<TreeProps> = ({
                                 });
                               }}
                               setMarker={setMapSearchMarker}
+                              mapHeight={'50%'}
                             />
 
                             <TreeBenefits />
