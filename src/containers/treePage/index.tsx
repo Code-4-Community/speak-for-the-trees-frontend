@@ -346,6 +346,7 @@ const TreePage: React.FC<TreeProps> = ({
                                   lng: round(pos.lng(), LAT_LNG_PRECISION),
                                 });
                               }}
+                              site={siteData.result}
                               setMarker={setMapSearchMarker}
                               mapHeight={'50%'}
                             />
