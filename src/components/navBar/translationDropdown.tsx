@@ -2,6 +2,7 @@ import React from 'react';
 import { Dropdown, MenuProps } from 'antd';
 import i18n from 'i18next';
 import { GlobalOutlined } from '@ant-design/icons';
+import { LOCALSTORAGE_I18N_KEY } from '../../i18n/i18n';
 import styled from 'styled-components';
 
 const items: MenuProps['items'] = [
@@ -17,6 +18,7 @@ const items: MenuProps['items'] = [
 
 const triggerChangeLang: MenuProps['onClick'] = ({ key }) => {
   i18n.changeLanguage(key);
+  localStorage.setItem(LOCALSTORAGE_I18N_KEY, key);
 };
 
 const TranslationGlobal = styled(GlobalOutlined)`
