@@ -86,7 +86,7 @@ const Email: React.FC = () => {
     LoadingState.SUCCESS,
   );
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
-  const [templateData, setTemplateData] = useState<string[]>([]);
+  const [templateData, setTemplateData] = useState<string>('');
 
   function fetchTemplateNames() {
     protectedApiClient
@@ -100,9 +100,14 @@ const Email: React.FC = () => {
   }
 
   function fetchTemplateData(templateName: string) {
-    protectedApiClient.loadEmailTemplateContent(templateName).then((res) => {
-      setTemplateData([res.template]);
-    });
+    protectedApiClient
+      .loadEmailTemplateContent(templateName)
+      .then((res) => {
+        setTemplateData(res.template);
+      })
+      .catch((err) => {
+        setTemplateData('');
+      });
   }
 
   function onClickSearch() {
@@ -221,7 +226,7 @@ const Email: React.FC = () => {
             }}
           />
           <Typography.Title level={3}>Email</Typography.Title>
-          <SendEmailForm emails={templateData} />
+          <SendEmailForm emails={selectedEmails} template={templateData} />
         </EmailPageContainer>
       </PageLayout>
     </>

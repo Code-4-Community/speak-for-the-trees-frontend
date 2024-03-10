@@ -10,9 +10,10 @@ import { requiredRule } from '../../../utils/formRules';
 
 interface SendEmailFormProps {
   readonly emails: string[];
+  readonly template: string;
 }
 
-const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails }) => {
+const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails, template }) => {
   const [sendEmailForm] = Form.useForm();
 
   const onFinishSendEmail = (values: SendEmailFormValues) => {
@@ -20,7 +21,6 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails }) => {
       ...values,
       emails,
     };
-
     ProtectedApiClient.sendEmail(sendEmailRequest)
       .then(() => {
         message.success('Email sent!');
@@ -31,7 +31,12 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails }) => {
   };
 
   return (
-    <Form name="sendEmail" form={sendEmailForm} onFinish={onFinishSendEmail}>
+    <Form
+      name="sendEmail"
+      form={sendEmailForm}
+      onFinish={onFinishSendEmail}
+      initialValues={{ emailContent: template }}
+    >
       <Form.Item
         name="emailSubject"
         rules={requiredRule('The email subject is required')}
@@ -43,7 +48,11 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails }) => {
         name="emailBody"
         rules={requiredRule('The email body is required')}
       >
-        <Input.TextArea rows={6} placeholder="Email Body" />
+        <Input.TextArea
+          name="emailContent"
+          rows={6}
+          placeholder={'Email Body'}
+        />
       </Form.Item>
 
       <SubmitButton type="primary" htmlType="submit">

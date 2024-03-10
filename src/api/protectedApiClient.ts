@@ -209,7 +209,6 @@ export const ParameterizedApiRoutes = {
     `${baseSiteRoute}site_image/${imageId}`,
 };
 
-// LOAD_TEMPLATE = 'api/v1/protected/emailer/load_template/:template_name',
 export const ParameterizedAdminApiRoutes = {
   EDIT_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/edit`,
   GET_ADOPTION_REPORT_CSV: (previousDays: number): string =>
