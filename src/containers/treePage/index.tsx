@@ -134,9 +134,6 @@ const TreePage: React.FC<TreeProps> = ({
     nsMode: 'fallback',
   });
 
-  const [editSiteForm] = Form.useForm();
-  const [mapSearchMarker, setMapSearchMarker] = useState<google.maps.Marker>();
-
   const location = useLocation<RedirectStateProps>();
 
   const dispatch = useDispatch();
@@ -340,14 +337,11 @@ const TreePage: React.FC<TreeProps> = ({
                             <SelectorMapDisplay
                               neighborhoods={neighborhoods}
                               sites={sites}
-                              onMove={(pos: google.maps.LatLng) => {
-                                editSiteForm.setFieldsValue({
-                                  lat: round(pos.lat(), LAT_LNG_PRECISION),
-                                  lng: round(pos.lng(), LAT_LNG_PRECISION),
-                                });
-                              }}
+                              // eslint-disable-next-line @typescript-eslint/no-empty-function
+                              onMove={() => {}}
                               site={siteData.result}
-                              setMarker={setMapSearchMarker}
+                              // eslint-disable-next-line @typescript-eslint/no-empty-function
+                              setMarker={() => {}}
                               mapHeight={'50%'}
                             />
 
