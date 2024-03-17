@@ -52,6 +52,8 @@ import {
   treeInfoTypesEs,
 } from './es';
 
+export const LOCALSTORAGE_I18N_KEY = 'i18n-lang';
+
 // the translations
 // (tip move them in a JSON file and import them,
 // or even better, manage them separated from your code: https://react.i18next.com/guides/multiple-translation-files)
@@ -116,7 +118,7 @@ i18n
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     resources,
-    lng: 'en', // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
+    lng: localStorage.getItem(LOCALSTORAGE_I18N_KEY) || 'en', // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
     // you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage
     // if you're using a language detector, do not define the lng option
     fallbackLng: 'en',
