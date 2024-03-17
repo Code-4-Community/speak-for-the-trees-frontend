@@ -11,6 +11,7 @@ import {
   Alert,
   Divider,
   SelectProps,
+  Form,
 } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 
@@ -86,7 +87,7 @@ const Email: React.FC = () => {
     LoadingState.SUCCESS,
   );
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
-  const [templateData, setTemplateData] = useState<string>('');
+  const [sendEmailForm] = Form.useForm();
 
   function fetchTemplateNames() {
     protectedApiClient
@@ -103,10 +104,10 @@ const Email: React.FC = () => {
     protectedApiClient
       .loadEmailTemplateContent(templateName)
       .then((res) => {
-        setTemplateData(res.template);
+        sendEmailForm.setFieldValue('emailBody', res.template);
       })
       .catch((err) => {
-        setTemplateData('');
+        sendEmailForm.setFieldValue('emailBody', '');
       });
   }
 
@@ -226,7 +227,10 @@ const Email: React.FC = () => {
             }}
           />
           <Typography.Title level={3}>Email</Typography.Title>
-          <SendEmailForm emails={selectedEmails} template={templateData} />
+          <SendEmailForm
+            emails={selectedEmails}
+            sendEmailForm={sendEmailForm}
+          />
         </EmailPageContainer>
       </PageLayout>
     </>

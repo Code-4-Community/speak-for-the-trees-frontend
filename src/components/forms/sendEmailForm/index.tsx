@@ -7,15 +7,17 @@ import {
   SendEmailRequest,
 } from '../../../components/forms/ducks/types';
 import { requiredRule } from '../../../utils/formRules';
+import { FormInstance } from 'antd/es/form';
 
 interface SendEmailFormProps {
   readonly emails: string[];
-  readonly template: string;
+  readonly sendEmailForm: FormInstance<SendEmailRequest>;
 }
 
-const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails, template }) => {
-  const [sendEmailForm] = Form.useForm();
-
+const SendEmailForm: React.FC<SendEmailFormProps> = ({
+  emails,
+  sendEmailForm,
+}) => {
   const onFinishSendEmail = (values: SendEmailFormValues) => {
     const sendEmailRequest: SendEmailRequest = {
       ...values,
@@ -29,14 +31,8 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails, template }) => {
         message.error(`Email could not be sent: ${err.response.data}`),
       );
   };
-
   return (
-    <Form
-      name="sendEmail"
-      form={sendEmailForm}
-      onFinish={onFinishSendEmail}
-      initialValues={{ emailContent: template }}
-    >
+    <Form name="sendEmail" form={sendEmailForm} onFinish={onFinishSendEmail}>
       <Form.Item
         name="emailSubject"
         rules={requiredRule('The email subject is required')}
