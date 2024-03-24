@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import PageLayout from '../../components/pageLayout';
@@ -52,6 +52,10 @@ import { Trans, useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 import TreeBenefits from '../../components/treePage/treeBenefits';
+import SelectorMapDisplay from '../../components/mapComponents/mapDisplays/selectorMapDisplay';
+import { round } from 'lodash';
+import { LAT_LNG_PRECISION } from '../../components/forms/constants';
+import { MapGeoDataReducerState } from '../../components/mapComponents/ducks/types';
 
 const TreePageContainer = styled.div`
   width: 90vw;
@@ -105,6 +109,8 @@ const TreePlantingRequestContainer = styled.div`
 `;
 
 interface TreeProps {
+  readonly neighborhoods: MapGeoDataReducerState['neighborhoodGeoData'];
+  readonly sites: MapGeoDataReducerState['siteGeoData'];
   readonly tokens: UserAuthenticationReducerState['tokens'];
   readonly siteData: SiteReducerState['siteData'];
   readonly stewardship: TreeCare[];
@@ -117,6 +123,8 @@ export interface TreeParams {
 }
 
 const TreePage: React.FC<TreeProps> = ({
+  sites,
+  neighborhoods,
   siteData,
   stewardship,
   monthYearOptions,
@@ -326,6 +334,17 @@ const TreePage: React.FC<TreeProps> = ({
 
                             <SiteImageCarousel />
 
+                            <SelectorMapDisplay
+                              neighborhoods={neighborhoods}
+                              sites={sites}
+                              // eslint-disable-next-line @typescript-eslint/no-empty-function
+                              onMove={() => {}}
+                              site={siteData.result}
+                              // eslint-disable-next-line @typescript-eslint/no-empty-function
+                              setMarker={() => {}}
+                              mapHeight={'50%'}
+                            />
+
                             <TreeBenefits />
                           </HalfWidthContainer>
                         </Flex>
@@ -453,6 +472,8 @@ const TreePlantingRequest: React.FC = () => {
 
 const mapStateToProps = (state: C4CState): TreeProps => {
   return {
+    neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
+    sites: state.mapGeoDataState.siteGeoData,
     tokens: state.authenticationState.tokens,
     siteData: state.siteState.siteData,
     stewardship: mapStewardshipToTreeCare(
