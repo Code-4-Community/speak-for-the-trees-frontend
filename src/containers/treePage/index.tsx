@@ -53,9 +53,8 @@ import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 import TreeBenefits from '../../components/treePage/treeBenefits';
 import SelectorMapDisplay from '../../components/mapComponents/mapDisplays/selectorMapDisplay';
-import { round } from 'lodash';
-import { LAT_LNG_PRECISION } from '../../components/forms/constants';
 import { MapGeoDataReducerState } from '../../components/mapComponents/ducks/types';
+import { getMapGeoData } from '../../components/mapComponents/ducks/thunks';
 
 const TreePageContainer = styled.div`
   width: 90vw;
@@ -148,6 +147,7 @@ const TreePage: React.FC<TreeProps> = ({
     if (asyncRequestIsComplete(tokens)) {
       dispatch(getAdoptedSites());
     }
+    dispatch(getMapGeoData());
   }, [dispatch, id, tokens]);
 
   const onFinishRecordStewardship = (values: RecordStewardshipRequest) => {
