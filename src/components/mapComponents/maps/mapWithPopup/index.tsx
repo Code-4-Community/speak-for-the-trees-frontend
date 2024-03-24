@@ -29,8 +29,8 @@ const StyledSearch = styled(Input.Search)`
   }
 `;
 
-const MapDiv = styled.div<{ height: string }>`
-  height: ${(props) => props.height || 0};
+const MapDiv = styled.div`
+  height: 100%;
 `;
 
 interface MapWithPopupProps {
@@ -40,7 +40,6 @@ interface MapWithPopupProps {
   readonly lng: number;
   readonly initMap: (mapData: InitMapData) => ReturnMapData;
   readonly defaultActiveTree: BasicTreeInfo;
-  readonly mapHeight?: string;
 }
 
 let map: google.maps.Map;
@@ -52,7 +51,6 @@ const MapWithPopup: React.FC<PropsWithChildren<MapWithPopupProps>> = ({
   lat,
   lng,
   initMap,
-  mapHeight = '100%',
   defaultActiveTree,
   children,
 }) => {
@@ -224,7 +222,7 @@ const MapWithPopup: React.FC<PropsWithChildren<MapWithPopupProps>> = ({
           onChange={(event) => setSearchInput(event.target.value)}
         />
       </div>
-      <MapDiv id="map" ref={mapRef} height={mapHeight} />
+      <MapDiv id="map" ref={mapRef} />
       <TreePopup treeInfo={activeTreeInfo} popRef={treePopupRef} />
       {children}
     </>

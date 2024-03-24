@@ -21,7 +21,6 @@ interface SelectorMapDisplayProps {
   readonly onMove: (pos: google.maps.LatLng) => void;
   readonly site?: SiteProps;
   readonly setMarker: (marker: google.maps.Marker) => void;
-  readonly mapHeight?: string;
 }
 
 const SelectorMapDisplay: React.FC<SelectorMapDisplayProps> = ({
@@ -30,7 +29,6 @@ const SelectorMapDisplay: React.FC<SelectorMapDisplayProps> = ({
   onMove,
   site,
   setMarker,
-  mapHeight = '100%',
 }) => (
   <>
     {asyncRequestIsComplete(neighborhoods) && asyncRequestIsComplete(sites) && (
@@ -40,7 +38,6 @@ const SelectorMapDisplay: React.FC<SelectorMapDisplayProps> = ({
         onMove={onMove}
         site={site}
         setMarker={setMarker}
-        mapHeight={mapHeight}
       />
     )}
     {(asyncRequestIsFailed(neighborhoods) || asyncRequestIsFailed(sites)) && (
