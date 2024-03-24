@@ -20,7 +20,6 @@ interface SelectorMapProps {
   readonly onMove: (pos: google.maps.LatLng) => void;
   readonly site?: SiteProps;
   readonly setMarker: (marker: google.maps.Marker) => void;
-  readonly mapHeight?: string;
 }
 
 const SelectorMap: React.FC<SelectorMapProps> = ({
@@ -29,7 +28,6 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
   onMove,
   site,
   setMarker,
-  mapHeight = '100%',
 }) => {
   const defaultZoom = STREET_ZOOM;
 
@@ -100,7 +98,6 @@ const SelectorMap: React.FC<SelectorMapProps> = ({
       lat={defaultCenter.lat}
       lng={defaultCenter.lng}
       initMap={setSearchMarkerAndInitSiteMap}
-      mapHeight={mapHeight}
       defaultActiveTree={basicSite}
     />
   );
