@@ -18,6 +18,8 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
+import EmailerFilterControls from '../../components/emailerFilterControls';
+import UnapprovedFilterImageControls from '../../components/unapprovedFilterImageControls';
 
 const DashboardContent = styled.div`
   font-size: 20px;
@@ -47,6 +49,9 @@ const ReviewImages: React.FC = () => {
               {t('review_images.review_image_description')}
             </Typography.Text>
           </DashboardContent>
+          <UnapprovedFilterImageControls
+
+          />
         </PaddedPageContainer>
       </PageLayout>
     </>
