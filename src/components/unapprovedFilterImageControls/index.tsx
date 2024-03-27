@@ -14,6 +14,7 @@ import { Neighborhoods } from '../../assets/content';
 import apiClient from '../../api/apiClient';
 import { formatActivityCountRange } from '../../utils/stringFormat';
 import styled from 'styled-components';
+import { ReviewImageFilters } from '../../containers/reviewImages/types';
 
 const AutoCompleteSelect = styled((props: SelectProps) => (
   <Select {...props} />
@@ -21,7 +22,6 @@ const AutoCompleteSelect = styled((props: SelectProps) => (
   min-width: 200px;
   max-width: 500px;
 `;
-
 
 const MAX_ACTIVITY_COUNT = 10;
 
@@ -56,9 +56,14 @@ const neighborhoodOptions = Object.values(Neighborhoods)
     return { label: value, value };
   });
 
-const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
+interface UnapprovedFilterImageFilterControlsProps {
+  filters: ReviewImageFilters;
+  setFilters: React.Dispatch<React.SetStateAction<ReviewImageFilters>>;
+}
 
-}) => {
+const UnapprovedFilterImageControls: React.FC<
+  UnapprovedFilterImageFilterControlsProps
+> = ({ filters, setFilters }) => {
   const [commonNameOptions, setCommonNameOptions] = useState<
     { label: string; value: string }[]
   >([]);
@@ -78,7 +83,48 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
       );
   }, []);
 
-  return <p></p>;
+  // TODO: verify what Tree ID means
+  return (
+    <Collapse ghost>
+      <Collapse.Panel header="Date Submitted" key="submittedDate">
+        <DatePicker.RangePicker
+          allowEmpty={[true, true]}
+          value={formatDates(filters.submittedStart, filters.submittedEnd)}
+          onChange={(_, dateStrings) =>
+            setFilters({
+              ...filters,
+              submittedStart: dateStrings[0] || null,
+              submittedEnd: dateStrings[1] || null,
+            })
+          }
+          disabledDate={disabledDate}
+        />
+      </Collapse.Panel>
+      <Collapse.Panel header="Neighborhood" key="neighborhood">
+        <AutoCompleteSelect
+          value={filters.neighborhoods}
+          mode="multiple"
+          allowClear
+          placeholder="Enter a neighborhood"
+          onChange={(value: Neighborhoods[]) =>
+            setFilters({ ...filters, neighborhoods: value })
+          }
+          options={neighborhoodOptions}
+        />
+      </Collapse.Panel>
+      <Collapse.Panel header="Tree ID" key="siteId">
+        <AutoCompleteSelect
+          value={filters.sites}
+          mode="multiple"
+          allowClear
+          placeholder="Enter a site"
+          onChange={(value: Neighborhoods[]) =>
+            setFilters({ ...filters, neighborhoods: value })
+          }
+        />
+      </Collapse.Panel>
+    </Collapse>
+  );
 };
 
-export default EmailerFilterControls;
+export default UnapprovedFilterImageControls;

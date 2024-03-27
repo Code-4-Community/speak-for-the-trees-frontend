@@ -33,6 +33,7 @@ import {
   FilterSitesParams,
   FilterSitesResponse,
 } from '../containers/email/types';
+import { FilterSiteImagesParams, FilterSiteImagesResponse } from '../containers/reviewImages/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -131,6 +132,9 @@ export interface ProtectedApiClient {
   readonly filterSites: (
     params: FilterSitesParams,
   ) => Promise<FilterSitesResponse>;
+  readonly filterSiteImages: (
+   params: FilterSiteImagesParams,
+  ) => Promise<FilterSiteImagesResponse>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -227,6 +231,16 @@ export const ParameterizedAdminApiRoutes = {
       params.activityCountMax !== null
         ? `&activityCountMax=${params.activityCountMax}`
         : ''
+    }`,
+  FILTER_SITE_IMAGES: (params: FilterSiteImagesParams): string =>
+    `${baseSiteRoute}unapproved_images?siteIds=${params.sites}${
+        params.submittedStart
+            ? `&submittedStart=${params.submittedStart}`
+            : ''
+    }${
+        params.submittedEnd ? `&submittedEnd=${params.submittedEnd}` : ''
+    }${
+        params.neighborhoods ? `&neighborhoodIds=${params.neighborhoods}` : ''
     }`,
 };
 
@@ -573,6 +587,14 @@ const filterSites = (
   ).then((res) => res.data);
 };
 
+const filterSiteImages = (
+    params: FilterSiteImagesParams,
+): Promise<FilterSiteImagesResponse> => {
+  return AppAxiosInstance.get(
+      ParameterizedAdminApiRoutes.FILTER_SITE_IMAGES(params),
+  ).then((res) => res.data);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -622,6 +644,7 @@ const Client: ProtectedApiClient = Object.freeze({
   sendEmail,
   deleteImage,
   filterSites,
+  filterSiteImages,
 });
 
 export default Client;
