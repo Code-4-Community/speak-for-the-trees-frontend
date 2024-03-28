@@ -32,6 +32,8 @@ import {
 import {
   FilterSitesParams,
   FilterSitesResponse,
+  TemplateNamesResponse,
+  LoadTemplateResponse,
 } from '../containers/email/types';
 
 export interface ProtectedApiExtraArgs {
@@ -131,6 +133,10 @@ export interface ProtectedApiClient {
   readonly filterSites: (
     params: FilterSitesParams,
   ) => Promise<FilterSitesResponse>;
+  readonly getEmailTemplateNames: () => Promise<TemplateNamesResponse>;
+  readonly loadEmailTemplateContent: (
+    templateName: string,
+  ) => Promise<LoadTemplateResponse>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -161,6 +167,7 @@ export enum AdminApiClientRoutes {
   GET_STEWARDSHIP_REPORT_CSV = '/api/v1/protected/report/csv/adoption',
   ADD_SITES = '/api/v1/protected/sites/add_sites',
   SEND_EMAIL = '/api/v1/protected/neighborhoods/send_email',
+  GET_TEMPLATE_NAMES = 'api/v1/protected/emailer/template_names',
 }
 
 const baseTeamRoute = '/api/v1/protected/teams/';
@@ -228,6 +235,8 @@ export const ParameterizedAdminApiRoutes = {
         ? `&activityCountMax=${params.activityCountMax}`
         : ''
     }`,
+  LOAD_TEMPLATE: (templateName: string): string =>
+    `api/v1/protected/emailer/load_template/${templateName}`,
 };
 
 const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
@@ -573,6 +582,20 @@ const filterSites = (
   ).then((res) => res.data);
 };
 
+const getEmailTemplateNames = (): Promise<TemplateNamesResponse> => {
+  return AppAxiosInstance.get(AdminApiClientRoutes.GET_TEMPLATE_NAMES).then(
+    (res) => res.data,
+  );
+};
+
+const loadEmailTemplateContent = (
+  templateName: string,
+): Promise<LoadTemplateResponse> => {
+  return AppAxiosInstance.get(
+    ParameterizedAdminApiRoutes.LOAD_TEMPLATE(templateName),
+  ).then((res) => res.data);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -622,6 +645,8 @@ const Client: ProtectedApiClient = Object.freeze({
   sendEmail,
   deleteImage,
   filterSites,
+  getEmailTemplateNames,
+  loadEmailTemplateContent,
 });
 
 export default Client;

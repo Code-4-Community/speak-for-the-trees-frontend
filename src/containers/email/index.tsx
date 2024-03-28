@@ -11,6 +11,7 @@ import {
   Alert,
   Divider,
   SelectProps,
+  Form,
 } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 
@@ -19,10 +20,10 @@ import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
 import PageHeader from '../../components/pageHeader';
 import {
-  EmailType,
   EmailerFilters,
   FilteredSite,
   FilterSitesParams,
+  LoadTemplateResponse,
 } from './types';
 import EmailerFilterControls from '../../components/emailerFilterControls';
 import AdoptedSitesTable from '../../components/adoptedSitesTable';
@@ -63,6 +64,8 @@ const defaultFilters: EmailerFilters = {
   lastActivityEnd: null,
 };
 
+const defaultTemplate = 'Pick a Template';
+
 enum LoadingState {
   SUCCESS = 'success',
   LOADING = 'loading',
@@ -76,13 +79,37 @@ function neighborhoodToId(neighborhood: Neighborhoods): number {
 }
 
 const Email: React.FC = () => {
-  const [emailType, setEmailType] = useState<EmailType>(EmailType.INACTIVE);
+  const [emailType, setEmailType] = useState<string>(defaultTemplate);
+  const [templateNames, setTemplateNames] = useState<string[]>([]);
   const [filters, setFilters] = useState<EmailerFilters>(defaultFilters);
   const [fetchData, setFetchData] = useState<FilteredSite[]>([]);
   const [fetchSitesState, setFetchSitesState] = useState<LoadingState>(
     LoadingState.SUCCESS,
   );
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
+  const [sendEmailForm] = Form.useForm();
+
+  function fetchTemplateNames() {
+    protectedApiClient
+      .getEmailTemplateNames()
+      .then((res) => {
+        setTemplateNames(res.templates);
+      })
+      .catch((err) => {
+        setTemplateNames([defaultTemplate]);
+      });
+  }
+
+  function fetchTemplateData(templateName: string) {
+    protectedApiClient
+      .loadEmailTemplateContent(templateName)
+      .then((res) => {
+        sendEmailForm.setFieldValue('emailBody', res.template);
+      })
+      .catch((err) => {
+        sendEmailForm.setFieldValue('emailBody', '');
+      });
+  }
 
   function onClickSearch() {
     setFetchSitesState(LoadingState.LOADING);
@@ -188,16 +215,22 @@ const Email: React.FC = () => {
           </Typography.Title>
           <EmailTypeSelect
             value={emailType}
-            defaultValue={EmailType.INACTIVE}
-            options={Object.entries(EmailType).map(([key, value]) => ({
-              value: key,
-              label: value,
+            defaultValue={defaultTemplate}
+            onClick={fetchTemplateNames}
+            options={templateNames.map((e) => ({
+              value: e,
+              label: e,
             }))}
-            onChange={(value: EmailType) => setEmailType(value)}
-            disabled // TODO uncomment when ready
+            onChange={(value: string) => {
+              setEmailType(value);
+              fetchTemplateData(value);
+            }}
           />
           <Typography.Title level={3}>Email</Typography.Title>
-          <SendEmailForm emails={selectedEmails} />
+          <SendEmailForm
+            emails={selectedEmails}
+            sendEmailForm={sendEmailForm}
+          />
         </EmailPageContainer>
       </PageLayout>
     </>
