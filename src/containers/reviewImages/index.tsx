@@ -21,7 +21,7 @@ import { n } from '../../utils/stringFormat';
 import UnapprovedFilterImageControls from '../../components/unapprovedFilterImageControls';
 import { ReviewImageFilters, FilterSiteImagesParams } from './types';
 import protectedApiClient from '../../api/protectedApiClient';
-import {NEIGHBORHOOD_OPTS, Neighborhoods} from '../../assets/content';
+import { NEIGHBORHOOD_OPTS, Neighborhoods } from '../../assets/content';
 
 const DashboardContent = styled.div`
   font-size: 20px;
@@ -42,7 +42,7 @@ const defaultFilters: ReviewImageFilters = {
 
 function neighborhoodToId(neighborhood: Neighborhoods): number {
   return (
-      NEIGHBORHOOD_OPTS.find((opt) => opt.label === neighborhood)?.value ?? -1
+    NEIGHBORHOOD_OPTS.find((opt) => opt.label === neighborhood)?.value ?? -1
   );
 }
 
@@ -60,19 +60,20 @@ const ReviewImages: React.FC = () => {
       submittedEnd: filters.submittedEnd,
       neighborhoods:
         filters.neighborhoods.length > 0
-          ? filters.neighborhoods.map(neighborhoodToId) : null,
+          ? filters.neighborhoods.map(neighborhoodToId)
+          : null,
       sites: [],
     };
 
     protectedApiClient
-    .filterSites(req)
-    .then((res) => {
-      setFetchSitesState(LoadingState.SUCCESS);
-      setFetchData(res.filteredSites);
-    })
-    .catch((err) => {
-      setFetchSitesState(LoadingState.ERROR);
-    });
+      .filterSiteImages(req)
+      .then((res) => {
+        // setFetchSitesState(LoadingState.SUCCESS);
+        // setFetchData(res.filteredSites);
+      })
+      .catch((err) => {
+        // setFetchSitesState(LoadingState.ERROR);
+      });
   }
 
   return (
