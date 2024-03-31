@@ -41,13 +41,10 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
   emails,
   sendEmailForm,
 }) => {
-  const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails }) => {
   const { t } = useTranslation(n(site, ['forms']), {
     keyPrefix: 'volunteer_emailer',
     nsMode: 'fallback',
   });
-
-  const [sendEmailForm] = Form.useForm();
 
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const [bodyContent, setBodyContent] = useState<string>('');
@@ -104,10 +101,9 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
       >
         <Input.TextArea
           name="emailContent"
-          rows={6}
-          placeholder={'Email Body'}
+          rows={8}
+          placeholder={t('body_placeholder')}
         />
-        <Input.TextArea rows={8} placeholder={t('body_placeholder')} />
       </Form.Item>
       {showPreview && (
         <EmailPreview

@@ -12,6 +12,7 @@ import {
   Divider,
   SelectProps,
   Form,
+  message,
 } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 
@@ -30,6 +31,9 @@ import AdoptedSitesTable from '../../components/adoptedSitesTable';
 import protectedApiClient from '../../api/protectedApiClient';
 import { NEIGHBORHOOD_OPTS, Neighborhoods } from '../../assets/content';
 import SendEmailForm from '../../components/forms/sendEmailForm';
+import { site } from '../../constants';
+import { n } from '../../utils/stringFormat';
+import { useTranslation } from 'react-i18next';
 
 const EmailPageContainer = styled.div`
   width: 90vw;
@@ -86,6 +90,11 @@ const Email: React.FC = () => {
   const [fetchSitesState, setFetchSitesState] = useState<LoadingState>(
     LoadingState.SUCCESS,
   );
+  const { t } = useTranslation(n(site, ['forms']), {
+    keyPrefix: 'volunteer_emailer',
+    nsMode: 'fallback',
+  });
+
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
   const [sendEmailForm] = Form.useForm();
 
@@ -97,6 +106,7 @@ const Email: React.FC = () => {
       })
       .catch((err) => {
         setTemplateNames([defaultTemplate]);
+        message.error(t('template_names_error', { error: err.response.data }));
       });
   }
 
@@ -108,6 +118,9 @@ const Email: React.FC = () => {
       })
       .catch((err) => {
         sendEmailForm.setFieldValue('emailBody', '');
+        message.error(
+          t('template_content_error', { error: err.response.data }),
+        );
       });
   }
 
