@@ -19,9 +19,14 @@ import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 import UnapprovedFilterImageControls from '../../components/unapprovedFilterImageControls';
-import { ReviewImageFilters, FilterSiteImagesParams } from './types';
+import {
+  ReviewImageFilters,
+  FilterSiteImagesParams,
+  FilteredSiteImage,
+} from './types';
 import protectedApiClient from '../../api/protectedApiClient';
 import { NEIGHBORHOOD_OPTS, Neighborhoods } from '../../assets/content';
+import UnapprovedImagesTable from '../../components/unapprovedImagesTable';
 
 const DashboardContent = styled.div`
   font-size: 20px;
@@ -51,10 +56,16 @@ const ReviewImages: React.FC = () => {
     nsMode: 'fallback',
   });
   const [filters, setFilters] = useState<ReviewImageFilters>(defaultFilters);
+  const [fetchData, setFetchData] = useState<FilteredSiteImage[]>([]);
+
+  useEffect(() => {
+    onClickSearch();
+  }, []);
 
   function onClickSearch() {
     // setFetchSitesState(LoadingState.LOADING);
     // display some loading thing here
+    console.log(filters.siteIds);
     const req: FilterSiteImagesParams = {
       submittedStart: filters.submittedStart,
       submittedEnd: filters.submittedEnd,
@@ -70,7 +81,7 @@ const ReviewImages: React.FC = () => {
       .then((res) => {
         console.log(res);
         // setFetchSitesState(LoadingState.SUCCESS);
-        // setFetchData(res.filteredSites);
+        setFetchData(res.filteredSiteImages);
       })
       .catch((err) => {
         // setFetchSitesState(LoadingState.ERROR);
@@ -119,6 +130,11 @@ const ReviewImages: React.FC = () => {
               <Button type="primary" size="large" onClick={onClickSearch}>
                 Search
               </Button>
+            </Col>
+            <Col span={17}>
+              <UnapprovedImagesTable
+                fetchData={fetchData}
+              ></UnapprovedImagesTable>
             </Col>
           </Row>
         </PaddedPageContainer>

@@ -111,6 +111,7 @@ const UnapprovedFilterImageControls: React.FC<
           placeholder="Enter a site"
           onChange={(value: number[]) => {
             const valueInt = value.map((v) => Number(v) ?? -1);
+            console.log(filters);
             setFilters({ ...filters, siteIds: valueInt });
           }}
           status={siteIdInvalidOrNone.status}

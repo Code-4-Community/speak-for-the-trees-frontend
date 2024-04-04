@@ -27,5 +27,15 @@ export interface FilteredSiteImage {
 }
 
 export interface FilterSiteImagesResponse {
-  filteredSites: FilteredSiteImage[];
+  filteredSiteImages: FilteredSiteImage[];
+}
+
+export interface FilterImageTableData {
+  key: number;
+  preview: string; // refer to image url
+  siteId: number;
+  species: string;
+  neighborhood: Neighborhoods;
+  dateSubmitted: string;
+  status: 'Submitted' | 'Approved' | 'Rejected'; // TODO: verify this, or make enum
 }
