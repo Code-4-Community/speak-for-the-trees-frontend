@@ -37,7 +37,7 @@ const defaultFilters: ReviewImageFilters = {
   submittedStart: null,
   submittedEnd: null,
   neighborhoods: [],
-  sites: [],
+  siteIds: [],
 };
 
 function neighborhoodToId(neighborhood: Neighborhoods): number {
@@ -62,12 +62,13 @@ const ReviewImages: React.FC = () => {
         filters.neighborhoods.length > 0
           ? filters.neighborhoods.map(neighborhoodToId)
           : null,
-      sites: [],
+      siteIds: filters.siteIds.length > 0 ? filters.siteIds : null,
     };
 
     protectedApiClient
       .filterSiteImages(req)
       .then((res) => {
+        console.log(res);
         // setFetchSitesState(LoadingState.SUCCESS);
         // setFetchData(res.filteredSites);
       })

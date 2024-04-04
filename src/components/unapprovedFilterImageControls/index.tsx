@@ -15,6 +15,7 @@ import apiClient from '../../api/apiClient';
 import { formatActivityCountRange } from '../../utils/stringFormat';
 import styled from 'styled-components';
 import { ReviewImageFilters } from '../../containers/reviewImages/types';
+import { DefaultOptionType } from 'antd/es/select';
 
 const AutoCompleteSelect = styled((props: SelectProps) => (
   <Select {...props} />
@@ -64,24 +65,14 @@ interface UnapprovedFilterImageFilterControlsProps {
 const UnapprovedFilterImageControls: React.FC<
   UnapprovedFilterImageFilterControlsProps
 > = ({ filters, setFilters }) => {
-  const [commonNameOptions, setCommonNameOptions] = useState<
+  const [siteIdOptions, setSiteIdOptions] = useState<
     { label: string; value: string }[]
   >([]);
 
-  useEffect(() => {
-    apiClient
-      .getAllCommonNames()
-      .then((res) =>
-        setCommonNameOptions(
-          res.names.map((name) => {
-            return { label: name, value: name };
-          }),
-        ),
-      )
-      .catch((err) =>
-        message.error(`Unable to fetch existing tree names: ${err.message}`),
-      );
-  }, []);
+  const [siteIdInvalidOrNone, setSiteIdError] = useState<{
+    status: '' | 'warning' | 'error' | undefined;
+    value: string;
+  }>({ status: '', value: 'Enter a site id' });
 
   // TODO: verify what Tree ID means
   return (
@@ -114,13 +105,37 @@ const UnapprovedFilterImageControls: React.FC<
       </Collapse.Panel>
       <Collapse.Panel header="Tree ID" key="siteId">
         <AutoCompleteSelect
-          value={filters.sites}
+          value={filters.siteIds}
           mode="multiple"
           allowClear
           placeholder="Enter a site"
-          onChange={(value: Neighborhoods[]) =>
-            setFilters({ ...filters, neighborhoods: value })
-          }
+          onChange={(value: number[]) => {
+            const valueInt = value.map((v) => Number(v) ?? -1);
+            setFilters({ ...filters, siteIds: valueInt });
+          }}
+          status={siteIdInvalidOrNone.status}
+          onSearch={(e) => {
+            const numVal = Number(e);
+            if (numVal) {
+              setSiteIdError({
+                status: '',
+                value: '',
+              });
+            } else if (e === '') {
+              setSiteIdError({
+                status: '',
+                value: 'Enter a site id',
+              });
+            } else {
+              setSiteIdError({
+                status: 'error',
+                value: 'No data. Site IDs must be strings',
+              });
+            }
+            if (e.length > 0) setSiteIdOptions([{ label: e, value: e }]);
+          }}
+          options={siteIdOptions}
+          notFoundContent={siteIdInvalidOrNone.value}
         />
       </Collapse.Panel>
     </Collapse>

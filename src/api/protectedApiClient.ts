@@ -33,7 +33,10 @@ import {
   FilterSitesParams,
   FilterSitesResponse,
 } from '../containers/email/types';
-import { FilterSiteImagesParams, FilterSiteImagesResponse } from '../containers/reviewImages/types';
+import {
+  FilterSiteImagesParams,
+  FilterSiteImagesResponse,
+} from '../containers/reviewImages/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -133,7 +136,7 @@ export interface ProtectedApiClient {
     params: FilterSitesParams,
   ) => Promise<FilterSitesResponse>;
   readonly filterSiteImages: (
-   params: FilterSiteImagesParams,
+    params: FilterSiteImagesParams,
   ) => Promise<FilterSiteImagesResponse>;
 }
 
@@ -233,14 +236,18 @@ export const ParameterizedAdminApiRoutes = {
         : ''
     }`,
   FILTER_SITE_IMAGES: (params: FilterSiteImagesParams): string =>
-    `${baseSiteRoute}unapproved_images?siteIds=${params.sites}${
-        params.submittedStart
-            ? `&submittedStart=${params.submittedStart}`
-            : ''
-    }${
-        params.submittedEnd ? `&submittedEnd=${params.submittedEnd}` : ''
-    }${
-        params.neighborhoods ? `&neighborhoodIds=${params.neighborhoods}` : ''
+    `${baseSiteRoute}unapproved_images${
+      params.siteIds ||
+      params.submittedStart ||
+      params.submittedEnd ||
+      params.neighborhoods
+        ? '?'
+        : ''
+    }
+    ${params.siteIds ? `&siteIds=${params.siteIds}` : ''}${
+      params.submittedStart ? `&submittedStart=${params.submittedStart}` : ''
+    }${params.submittedEnd ? `&submittedEnd=${params.submittedEnd}` : ''}${
+      params.neighborhoods ? `&neighborhoodIds=${params.neighborhoods}` : ''
     }`,
 };
 
@@ -588,10 +595,11 @@ const filterSites = (
 };
 
 const filterSiteImages = (
-    params: FilterSiteImagesParams,
+  params: FilterSiteImagesParams,
 ): Promise<FilterSiteImagesResponse> => {
+  console.log(ParameterizedAdminApiRoutes.FILTER_SITE_IMAGES(params));
   return AppAxiosInstance.get(
-      ParameterizedAdminApiRoutes.FILTER_SITE_IMAGES(params),
+    ParameterizedAdminApiRoutes.FILTER_SITE_IMAGES(params),
   ).then((res) => res.data);
 };
 
