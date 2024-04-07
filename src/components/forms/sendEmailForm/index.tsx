@@ -8,6 +8,7 @@ import {
   SendEmailRequest,
 } from '../../../components/forms/ducks/types';
 import { requiredRule } from '../../../utils/formRules';
+import { FormInstance } from 'antd/es/form';
 import { site } from '../../../constants';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
@@ -33,15 +34,17 @@ const EmailPreview = styled.div`
 
 interface SendEmailFormProps {
   readonly emails: string[];
+  readonly sendEmailForm: FormInstance<SendEmailRequest>;
 }
 
-const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails }) => {
+const SendEmailForm: React.FC<SendEmailFormProps> = ({
+  emails,
+  sendEmailForm,
+}) => {
   const { t } = useTranslation(n(site, ['forms']), {
     keyPrefix: 'volunteer_emailer',
     nsMode: 'fallback',
   });
-
-  const [sendEmailForm] = Form.useForm();
 
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const [bodyContent, setBodyContent] = useState<string>('');
@@ -62,7 +65,6 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails }) => {
       ...values,
       emails,
     };
-
     ProtectedApiClient.sendEmail(sendEmailRequest)
       .then(() => {
         message.success(t('success'));
@@ -71,7 +73,6 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails }) => {
         message.error(t('response_error', { error: err.response.data })),
       );
   };
-
   return (
     <Form
       name="sendEmail"
@@ -98,7 +99,11 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({ emails }) => {
         rules={requiredRule(t('body_required'))}
         hidden={showPreview}
       >
-        <Input.TextArea rows={8} placeholder={t('body_placeholder')} />
+        <Input.TextArea
+          name="emailContent"
+          rows={8}
+          placeholder={t('body_placeholder')}
+        />
       </Form.Item>
       {showPreview && (
         <EmailPreview
