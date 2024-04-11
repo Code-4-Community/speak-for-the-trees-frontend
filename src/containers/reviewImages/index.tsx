@@ -72,7 +72,7 @@ const ReviewImages: React.FC = () => {
       neighborhoods:
         filters.neighborhoods.length > 0
           ? filters.neighborhoods.map(neighborhoodToId)
-          : null,
+          : [],
       siteIds: filters.siteIds.length > 0 ? filters.siteIds : null,
     };
 
