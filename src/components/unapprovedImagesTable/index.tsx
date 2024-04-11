@@ -85,7 +85,7 @@ const UnapprovedImagesTable: React.FC<UnapprovedImagesTable> = ({
         selectedRowKeys,
         onChange: (_, selectedRows) => {
           // setSelectedEmails(selectedRows.map((row) => row.adopterEmail));
-          // setSelectedRowKeys(selectedRows.map((row) => row.key));
+          setSelectedRowKeys(selectedRows.map((row) => row.key));
         },
       }}
     />
