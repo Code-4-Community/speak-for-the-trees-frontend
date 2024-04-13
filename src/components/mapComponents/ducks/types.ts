@@ -77,12 +77,12 @@ export interface SiteFeaturePropertiesResponse {
 
 export interface SiteOption {
   image: string;
-  label: string;
+  translationKey: string;
   value: SiteStatus;
 }
 
 export interface OwnerOption {
-  label: string;
+  translationKey: string;
   value: SiteOwner;
 }
 

@@ -20,7 +20,10 @@ import {
 } from '../../themedComponents';
 import { BREAKPOINT_TABLET } from '../../windowDimensions';
 import { Languages } from '../../../App';
+import { site } from '../../../constants';
 import { SITE_OPTIONS_ROADMAP } from '../constants';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../../utils/stringFormat';
 
 const MapLegendContainer = styled.div`
   margin-bottom: 5px;
@@ -97,8 +100,10 @@ interface MapLegendProps {
 const MapLegend: React.FC<MapLegendProps> = ({ view, canHide, icons }) => {
   const [showLegend, setShowLegend] = useState(true);
 
-  // todo: replace this with prop when implementing languages
-  const lang = Languages.ENGLISH;
+  const { t } = useTranslation(n(site, ['maps']), {
+    keyPrefix: 'mapLegend',
+    nsMode: 'fallback',
+  });
 
   const toggleShowLegend = () => {
     setShowLegend((prevState) => !prevState);
@@ -116,79 +121,77 @@ const MapLegend: React.FC<MapLegendProps> = ({ view, canHide, icons }) => {
               <>
                 {showLegend && (
                   <>
-                    <LegendHeader strong>
-                      What does each icon mean?
-                    </LegendHeader>
+                    <LegendHeader strong>{t('header')}</LegendHeader>
                     <br />
                     <LegendItem>
                       <LegendImage src={youngIcon} preview={false} />
                       <FlexibleParagraph>
-                        {YOUNG_TREE_ICON_DESCRIPTION[lang]}
+                        {t('legendDescription.young')}
                       </FlexibleParagraph>
                     </LegendItem>
                     <LegendItem>
                       <LegendImage src={standardIcon} preview={false} />
                       <FlexibleParagraph>
-                        {TREE_ICON_DESCRIPTION[lang]}
+                        {t('legendDescription.older')}
                       </FlexibleParagraph>
                     </LegendItem>
                     <LegendItem>
                       <LegendImage src={adoptedIcon} preview={false} />
                       <FlexibleParagraph>
-                        {ADOPTED_TREE_ICON_DESCRIPTION[lang]}
+                        {t('legendDescription.adopted')}
                       </FlexibleParagraph>
                     </LegendItem>
                     <LegendItem>
                       <LegendImage src={openIcon} preview={false} />
                       <FlexibleParagraph>
-                        {OPEN_SITE_DESCRIPTION[lang]}
+                        {t('legendDescription.open')}
                       </FlexibleParagraph>
                     </LegendItem>
                   </>
                 )}
               </>
             );
-          case MapViews.BLOCKS:
-            return (
-              <>
-                {showLegend && (
-                  <>
-                    <LegendHeader strong>Blocks that are colored</LegendHeader>
-                    <br />
-                    <LegendItem>
-                      <ColorBlock color={MAP_GREEN} />
-                      <FlexibleParagraph>
-                        {OPEN_BLOCK_DESCRIPTION[lang]}
-                      </FlexibleParagraph>
-                    </LegendItem>
-                    <LegendItem>
-                      <ColorBlock color={MAP_YELLOW} />
-                      <FlexibleParagraph>
-                        {RESERVED_BLOCK_DESCRIPTION[lang]}
-                      </FlexibleParagraph>
-                    </LegendItem>
-                    <LegendItem>
-                      <ColorBlock color={MAP_RED} />
-                      <FlexibleParagraph>
-                        {CLOSED_BLOCK_DESCRIPTION[lang]}
-                      </FlexibleParagraph>
-                    </LegendItem>
-                  </>
-                )}
-              </>
-            );
+          // case MapViews.BLOCKS:
+          //   return (
+          //     <>
+          //       {showLegend && (
+          //         <>
+          //           <LegendHeader strong>Blocks that are colored</LegendHeader>
+          //           <br />
+          //           <LegendItem>
+          //             <ColorBlock color={MAP_GREEN} />
+          //             <FlexibleParagraph>
+          //               {OPEN_BLOCK_DESCRIPTION[lang]}
+          //             </FlexibleParagraph>
+          //           </LegendItem>
+          //           <LegendItem>
+          //             <ColorBlock color={MAP_YELLOW} />
+          //             <FlexibleParagraph>
+          //               {RESERVED_BLOCK_DESCRIPTION[lang]}
+          //             </FlexibleParagraph>
+          //           </LegendItem>
+          //           <LegendItem>
+          //             <ColorBlock color={MAP_RED} />
+          //             <FlexibleParagraph>
+          //               {CLOSED_BLOCK_DESCRIPTION[lang]}
+          //             </FlexibleParagraph>
+          //           </LegendItem>
+          //         </>
+          //       )}
+          //     </>
+          //   );
         }
       })()}
       {showLegend && (
         <>
-          <LegendHeader strong>Watch out!</LegendHeader>
+          <LegendHeader strong>{t('warning')}</LegendHeader>
           <br />
           <LegendItem>
             <RedLineContainer>
               <RedLine />
             </RedLineContainer>
             <FlexibleParagraph>
-              {PRIVATE_STREET_DESCRIPTION[lang]}
+              {t('legendDescription.privateStreet')}
             </FlexibleParagraph>
           </LegendItem>
         </>
