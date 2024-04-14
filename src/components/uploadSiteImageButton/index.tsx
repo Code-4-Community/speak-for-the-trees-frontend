@@ -46,25 +46,33 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
   const dispatch = useDispatch();
   const id = Number(useParams<TreeParams>().id);
 
+  function readAndPreview(f: RcFile): Promise<imageType> {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.addEventListener(
+        'loadend',
+        () => {
+          resolve(reader.result);
+        },
+        false,
+      );
+      reader.readAsDataURL(f);
+    });
+  }
+
   const props: UploadProps = {
     name: 'file',
     multiple: true,
     beforeUpload: (_, fileList) => {
-      console.log('before upload');
-      function readAndPreview(f: RcFile) {
-        const reader = new FileReader();
-        reader.addEventListener(
-          'loadend',
-          () => {
-            setImageToUpload(imageToUpload.concat(reader.result));
-          },
-          false,
-        );
-        reader.readAsDataURL(f);
-      }
+      const promises: Promise<imageType>[] = [];
       if (fileList) {
-        fileList.forEach((f) => readAndPreview(f));
+        fileList.forEach((f) => {
+          promises.push(readAndPreview(f));
+        });
       }
+      Promise.all(promises).then((images) => {
+        setImageToUpload(images);
+      });
       return false;
     },
     onRemove(file) {
