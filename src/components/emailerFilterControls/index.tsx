@@ -14,6 +14,9 @@ import { Neighborhoods } from '../../assets/content';
 import apiClient from '../../api/apiClient';
 import { formatActivityCountRange } from '../../utils/stringFormat';
 import styled from 'styled-components';
+import { site } from '../../constants';
+import { n } from '../../utils/stringFormat';
+import { useTranslation } from 'react-i18next';
 
 const AutoCompleteSelect = styled((props: SelectProps) => (
   <Select {...props} />
@@ -64,6 +67,11 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
   filters,
   setFilters,
 }) => {
+  const { t } = useTranslation(n(site, ['forms']), {
+    keyPrefix: 'volunteer_emailer',
+    nsMode: 'fallback',
+  });
+
   const [commonNameOptions, setCommonNameOptions] = useState<
     { label: string; value: string }[]
   >([]);
@@ -79,13 +87,18 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
         ),
       )
       .catch((err) =>
-        message.error(`Unable to fetch existing tree names: ${err.message}`),
+        message.error(
+          t('get_common_names_error', { error: err.response.data }),
+        ),
       );
   }, []);
 
   return (
     <Collapse ghost>
-      <Collapse.Panel header="Activity Count" key="activityCount">
+      <Collapse.Panel
+        header={t('search_controls.activity_count_header')}
+        key="activityCount"
+      >
         <p>
           {formatActivityCountRange(
             filters.activityCountMin,
@@ -110,7 +123,10 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
           }}
         />
       </Collapse.Panel>
-      <Collapse.Panel header="Adoption Date" key="adoptionDate">
+      <Collapse.Panel
+        header={t('search_controls.adoption_date_header')}
+        key="adoptionDate"
+      >
         <DatePicker.RangePicker
           allowEmpty={[true, true]}
           value={formatDates(filters.adoptedStart, filters.adoptedEnd)}
@@ -124,7 +140,10 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
           disabledDate={disabledDate}
         />
       </Collapse.Panel>
-      <Collapse.Panel header="Last Activity Date" key="lastActivityDate">
+      <Collapse.Panel
+        header={t('search_controls.last_activity_date_header')}
+        key="lastActivityDate"
+      >
         <DatePicker.RangePicker
           allowEmpty={[true, true]}
           value={formatDates(
@@ -141,24 +160,30 @@ const EmailerFilterControls: React.FC<EmailerFilterControlsProps> = ({
           disabledDate={disabledDate}
         />
       </Collapse.Panel>
-      <Collapse.Panel header="Neighborhood" key="neighborhood">
+      <Collapse.Panel
+        header={t('search_controls.neighborhood_header')}
+        key="neighborhood"
+      >
         <AutoCompleteSelect
           value={filters.neighborhoods}
           mode="multiple"
           allowClear
-          placeholder="Enter a neighborhood"
+          placeholder={t('search_controls.neighborhood_placeholder')}
           onChange={(value: Neighborhoods[]) =>
             setFilters({ ...filters, neighborhoods: value })
           }
           options={neighborhoodOptions}
         />
       </Collapse.Panel>
-      <Collapse.Panel header="Common Name" key="commonName">
+      <Collapse.Panel
+        header={t('search_controls.common_name_header')}
+        key="commonName"
+      >
         <AutoCompleteSelect
           value={filters.commonNames}
           mode="multiple"
           allowClear
-          placeholder="Enter a tree name"
+          placeholder={t('search_controls.common_name_placeholder')}
           onChange={(value: string[]) =>
             setFilters({ ...filters, commonNames: value })
           }

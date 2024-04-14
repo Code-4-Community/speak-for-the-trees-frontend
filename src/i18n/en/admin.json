@@ -1,5 +1,6 @@
 {
   "admin_title": "Admin Dashboard",
+  "back": "Back to Dashboard",
   "manage_accounts": {
     "header": "Manage Accounts",
     "my_settings": {
@@ -25,6 +26,25 @@
     "admin": "Admin",
     "standard": "Standard",
     "super_admin": "Super Admin"
+  },
+  "add_sites": {
+    "helmet_title": "Add Sites",
+    "page_title": "Add Sites",
+    "bulk_add_header": "Bulk Add Sites",
+    "add_header": "Add New Site",
+    "add_site_success": "Site added!",
+    "add_site_error": "Error adding site: {{error}}"
+  },
+  "emailer": {
+    "helmet_title": "Send Emails",
+    "page_title": "Volunteer Emailer",
+    "filter_header": "Filter By",
+    "search_filters": "Search",
+    "search_error": "Error",
+    "search_error_description": "Failed to fetch site data!",
+    "clear_filters": "Clear Filters",
+    "email_header": "Select a type of email to send volunteers or write an email below",
+    "email": "Email"
   },
   "review_images": {
     "review_image_title": "Tree Photo Review",
