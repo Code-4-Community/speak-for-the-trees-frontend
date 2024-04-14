@@ -147,5 +147,14 @@
     "body_required": "The email body is required",
     "body_placeholder": "Email Body",
     "send": "Send Email"
+  },
+  "report_site": {
+    "options": {
+      "inappropriate": "Inappropriate Content",
+      "incorrect": "Incorrect Information"
+    },
+    "reason_label": "Reason",
+    "description_label": "Description (optional)",
+    "description_placeholder": "Describe the issue in greater detail"
   }
 }

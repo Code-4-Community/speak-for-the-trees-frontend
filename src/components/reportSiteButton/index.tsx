@@ -6,21 +6,23 @@ import { Button, message, Modal, Form } from 'antd';
 import { FlagOutlined } from '@ant-design/icons';
 import ReportSiteForm from '../forms/reportSiteForm';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+import { site } from '../../constants';
+import { n } from '../../utils/stringFormat';
 
 const StyledReportButton = styled(Button)`
-  padding-x: 10px;
+  padding: 0 10px;
   border: none;
-`;
 
-const UnadoptButton = styled(Button)`
   & :hover {
     background-color: #fff1f1;
   }
 `;
 
 const ReportIcon = styled(FlagOutlined)`
-  max-height: 20px;
-  font-size: 15px;
+  max-height: 25px;
+  font-size: 20px;
+  vertical-align: middle;
 `;
 
 interface ReportSiteButtonProps {
@@ -32,33 +34,45 @@ const ReportSiteButton: React.FC<ReportSiteButtonProps> = ({
   siteId,
   mobile,
 }) => {
+  const { t } = useTranslation(n(site, ['treePage']), {
+    nsMode: 'fallback',
+  });
+
   const [showReportModal, setShowReportModal] = useState<boolean>(false);
   const [reportSiteForm] = Form.useForm();
 
   const reportSite = useCallback(
     (reportInfo: ReportSiteRequest) => {
-      protectedApiClient.reportSiteForIssues(siteId, reportInfo).then(() => {
-        message.success('Thank you for your report! SFTT has been notified');
-        setShowReportModal(false);
-      });
+      protectedApiClient
+        .reportSiteForIssues(siteId, reportInfo)
+        .then(() => {
+          message.success(t('messages.report_success'));
+          setShowReportModal(false);
+        })
+        .catch((err) => {
+          message.error(
+            t('messages.report_failure', { error: err.response.data }),
+          );
+        });
     },
     [setShowReportModal],
   );
 
   return (
     <>
-      <UnadoptButton
+      <StyledReportButton
         danger
         size="middle"
         onClick={() => setShowReportModal(!showReportModal)}
+        title={t('report_sites.hover_title')}
       >
         <ReportIcon />
-        Report Site
-      </UnadoptButton>
+        {/* Report Site */}
+      </StyledReportButton>
 
       <Modal
         open={showReportModal}
-        title="Report Site For Issues"
+        title={t('report_sites.modal_title')}
         onCancel={() => setShowReportModal(false)}
         footer={null}
         closeIcon={<StyledClose />}

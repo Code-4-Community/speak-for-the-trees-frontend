@@ -22,7 +22,9 @@
     "edit_name_success": "Tree name changed!",
     "edit_name_failure": "Failed to name site: {{error}}",
     "force_unadopt_success": "Force unadopted site!",
-    "force_unadopt_failure": "Failed to force unadopt site: {{error}}"
+    "force_unadopt_failure": "Failed to force unadopt site: {{error}}",
+    "report_success": "Thank you for your report! SFTT has been notified",
+    "report_failure": "Error submitting report: {{error}}"
   },
   "site_image": {
     "uploaded_by": "Uploaded by {{uploader}}",
@@ -55,5 +57,9 @@
     "unsupported_browser": "This browser type is not supported.",
     "learn_more": "Learn more about how we got these numbers <learnMore>here</learnMore>.",
     "not_available": "N/A"
+  },
+  "report_sites": {
+    "hover_title": "Report this site for issues",
+    "modal_title": "Report Site For Issues"
   }
 }
