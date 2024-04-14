@@ -13,7 +13,7 @@ import { Routes } from '../../App';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
-import { Button, Col, Row, Typography } from 'antd';
+import { Button, Col, message, Row, Typography } from 'antd';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
@@ -65,7 +65,6 @@ const ReviewImages: React.FC = () => {
   function onClickSearch() {
     // setFetchSitesState(LoadingState.LOADING);
     // display some loading thing here
-    console.log(filters.siteIds);
     const req: FilterSiteImagesParams = {
       submittedStart: filters.submittedStart,
       submittedEnd: filters.submittedEnd,
@@ -79,12 +78,10 @@ const ReviewImages: React.FC = () => {
     protectedApiClient
       .filterSiteImages(req)
       .then((res) => {
-        console.log(res);
-        // setFetchSitesState(LoadingState.SUCCESS);
         setFetchData(res.filteredSiteImages);
       })
       .catch((err) => {
-        // setFetchSitesState(LoadingState.ERROR);
+        message.error('Cannot access images');
       });
   }
 

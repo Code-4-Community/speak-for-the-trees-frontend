@@ -19,7 +19,6 @@ const columns: ColumnsType<FilterImageTableData> = [
     dataIndex: 'preview_url',
     key: 'preview_url',
     render: (dataIndexValue, record) => {
-      console.log(record.preview);
       return <img style={{ height: 60, width: 60 }} src={record.preview}></img>;
     },
   },
@@ -54,7 +53,6 @@ function responseToTableData(
   data: FilteredSiteImage,
   index: number,
 ): FilterImageTableData {
-  console.log(data.imageUrl);
   return {
     key: index,
     preview: data.imageUrl,

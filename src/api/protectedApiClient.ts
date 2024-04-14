@@ -597,7 +597,6 @@ const filterSites = (
 const filterSiteImages = (
   params: FilterSiteImagesParams,
 ): Promise<FilterSiteImagesResponse> => {
-  console.log(ParameterizedAdminApiRoutes.FILTER_SITE_IMAGES(params));
   return AppAxiosInstance.get(
     ParameterizedAdminApiRoutes.FILTER_SITE_IMAGES(params),
   ).then((res) => res.data);

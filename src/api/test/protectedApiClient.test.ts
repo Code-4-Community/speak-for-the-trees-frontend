@@ -2214,7 +2214,6 @@ describe('Admin Protected Client Routes', () => {
     });
   });
 
-
   describe('filterSiteImages', () => {
     it('makes the right request', async () => {
       const response = '';

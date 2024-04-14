@@ -13,16 +13,17 @@
   },
   "answers": {
     "one": [
-      "Haz clic en 'Registrarse' en la esquina superior derecha para crear una cuenta.", 
-      "Una vez que hayas iniciado sesión, ingresa tu dirección en la barra de búsqueda del mapa para encontrar árboles adoptables cerca de ti.", 
-      "Haz clic en el icono del árbol que te gustaría adoptar, ya sea el triángulo azul para un árbol recién plantado o el círculo verde para un árbol más antiguo.", 
+      "Haz clic en 'Registrarse' en la esquina superior derecha para crear una cuenta.",
+      "Una vez que hayas iniciado sesión, ingresa tu dirección en la barra de búsqueda del mapa para encontrar árboles adoptables cerca de ti.",
+      "Haz clic en el icono del árbol que te gustaría adoptar, ya sea el triángulo azul para un árbol recién plantado o el círculo verde para un árbol más antiguo.",
       "Haz clic en 'Más información'.",
-      "Haz clic en el botón 'Adoptar' en la siguiente pantalla para adoptar ese árbol. Se agregará a la lista 'Mis Árboles' para que puedas encontrar fácilmente tu árbol y registrar las actividades de cuidado del árbol.", 
-      "Registra cada actividad haciendo clic en 'Mis Árboles', encontrando el árbol que adoptaste y enviando la actividad de cuidado del árbol en la página de ese árbol. ¡Es fácil y nos ayuda a seguir el éxito del programa Adopta un Árbol!"],
+      "Haz clic en el botón 'Adoptar' en la siguiente pantalla para adoptar ese árbol. Se agregará a la lista 'Mis Árboles' para que puedas encontrar fácilmente tu árbol y registrar las actividades de cuidado del árbol.",
+      "Registra cada actividad haciendo clic en 'Mis Árboles', encontrando el árbol que adoptaste y enviando la actividad de cuidado del árbol en la página de ese árbol. ¡Es fácil y nos ayuda a seguir el éxito del programa Adopta un Árbol!"
+    ],
     "two": {
       "one": "Ve a <homeLink>map.treeboston.org/home</homeLink> y haz clic en \"Mis árboles\".",
       "two": [
-        "En el lado derecho de la pantalla, haz clic en \"Más información\" debajo del árbol que te interesa.", 
+        "En el lado derecho de la pantalla, haz clic en \"Más información\" debajo del árbol que te interesa.",
         "Deberías ver esto en tu pantalla donde puedes ingresar lo que hiciste y cuándo:"
       ]
     },
