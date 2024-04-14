@@ -23,6 +23,7 @@ import {
 } from '../components/forms/ducks/types';
 import {
   ActivityRequest,
+  ReportSiteRequest,
   AdoptedSites,
 } from '../containers/treePage/ducks/types';
 import {
@@ -142,6 +143,10 @@ export interface ProtectedApiClient {
   readonly loadEmailTemplateContent: (
     templateName: string,
   ) => Promise<LoadTemplateResponse>;
+  readonly reportSiteForIssues: (
+    siteId: number,
+    request: ReportSiteRequest,
+  ) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -214,6 +219,7 @@ export const ParameterizedApiRoutes = {
     `${baseSiteRoute}site_image/${siteEntryId}`,
   DELETE_IMAGE: (imageId: number): string =>
     `${baseSiteRoute}site_image/${imageId}`,
+  REPORT_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/report`,
 };
 
 export const ParameterizedAdminApiRoutes = {
@@ -614,6 +620,16 @@ const loadEmailTemplateContent = (
   ).then((res) => res.data);
 };
 
+const reportSiteForIssues = (
+  siteId: number,
+  request: ReportSiteRequest,
+): Promise<void> => {
+  return AppAxiosInstance.post(
+    ParameterizedApiRoutes.REPORT_SITE(siteId),
+    request,
+  ).then((res) => res.data);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -666,6 +682,7 @@ const Client: ProtectedApiClient = Object.freeze({
   uploadImage,
   getEmailTemplateNames,
   loadEmailTemplateContent,
+  reportSiteForIssues,
 });
 
 export default Client;
