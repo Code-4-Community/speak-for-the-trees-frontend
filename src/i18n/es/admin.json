@@ -1,0 +1,28 @@
+{
+  "admin_title": "Panel de Administración",
+  "manage_accounts": {
+    "header": "Gestionar Cuentas",
+    "my_settings": {
+      "button": "Mis ajustes"
+    },
+    "promote_user": {
+      "button": "Promover usuario",
+      "modal": "Promover a un usuario a administrador"
+    },
+    "create_child": {
+      "button": "Agregar Cuenta Infantil",
+      "modal": "Agregar Nueva Cuenta Infantil"
+    }
+  },
+  "admin_functions": {
+    "header": "Funciones de Administrador",
+    "add_sites": "Agregar Sitios",
+    "view_reports": "Ver Informes",
+    "email_volunteers": "Enviar correos electrónicos a voluntarios"
+  },
+  "roles": {
+    "admin": "Administrador",
+    "standard": "Estándar",
+    "super_admin": "Superadministrador"
+  }
+}

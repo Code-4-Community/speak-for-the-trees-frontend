@@ -1,0 +1,11 @@
+{
+  "title": "Registrarse",
+  "header": "¡Encantado/a de conocerte!",
+  "body": [
+    "Gracias por tu interés en ser voluntario/a con nosotros. Cuidar de más de 9,000 árboles (¡y contando!) es mucho más difícil de lo que parece, pero con nuestros dedicados voluntarios, podemos hacer de Boston una comunidad más limpia, segura y equitativa, un árbol a la vez. ¡Bienvenido/a al equipo!"
+  ],
+  "have_account": {
+    "already_have_account": "¿YA TIENES UNA CUENTA?",
+    "login_here": "INICIA SESIÓN <loginLink>AQUÍ</loginLink>!"
+  }
+}

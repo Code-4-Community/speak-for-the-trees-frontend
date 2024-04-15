@@ -1,8 +1,13 @@
 import { Neighborhoods } from '../../assets/content';
 
-export enum EmailType {
-  INACTIVE = 'Inactive',
-  NEIGHBORHOOD = 'Neighborhood',
+export interface TemplateNamesResponse {
+  templates: string[];
+}
+
+export interface LoadTemplateResponse {
+  name : string,
+  template : string,
+  author : number;
 }
 
 export interface EmailerFilters {

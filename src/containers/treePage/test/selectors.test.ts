@@ -124,12 +124,14 @@ describe('Tree Page Selectors', () => {
             imageUrl: 'http://www.some-address.com',
             uploadedAt: '09/06/2023',
             uploaderUsername: 'First Last',
+            uploaderId: 1,
           },
           {
             imageId: 2,
             imageUrl: 'http://www.some-other-address.com',
             uploadedAt: '01/01/2023',
             uploaderUsername: 'Hello World',
+            uploaderId: 2,
           },
         ],
       },
@@ -147,6 +149,7 @@ describe('Tree Page Selectors', () => {
             imageUrl: 'http://www.should-not-be-returned.com',
             uploadedAt: '01/01/2022',
             uploaderUsername: 'Code4Community',
+            uploaderId: 1,
           },
         ],
       },
@@ -281,12 +284,14 @@ describe('Tree Page Selectors', () => {
           imageUrl: 'http://www.some-address.com',
           uploadedAt: '09/06/2023',
           uploaderUsername: 'First Last',
+          uploaderId: 1,
         },
         {
           imageId: 2,
           imageUrl: 'http://www.some-other-address.com',
           uploadedAt: '01/01/2023',
           uploaderUsername: 'Hello World',
+          uploaderId: 2,
         },
       ];
 

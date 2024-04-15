@@ -18,11 +18,17 @@
     "header": "Admin Functions",
     "add_sites": "Add Sites",
     "view_reports": "View Reports",
-    "email_volunteers": "Email Volunteers"
+    "email_volunteers": "Email Volunteers",
+    "review_site_images": "Review Images"
   },
   "roles": {
     "admin": "Admin",
     "standard": "Standard",
+    "super_admin": "Super Admin"
+  },
+  "review_images": {
+    "review_image_title": "Tree Photo Review",
+    "review_image_description": "Review photos of trees submitted by volunteers",
     "super_admin": "Super Admin"
   }
 }

@@ -35,5 +35,11 @@
       "Click on the \"Adopt\" button on the next screen to adopt that tree. It will be added to the \"My Trees\" list so you can easily find your tree and record your tree care activities.",
       "Record each activity by clicking on \"My Trees\", finding the tree you adopted, and submitting the tree care activity on that tree's page. It's easy!"
     ]
+  },
+  "navMenu": {
+    "myTrees": "My Trees",
+    "admins": "Admins",
+    "accountSettings": "Account Settings",
+    "logOut": "Log Out"
   }
 }

@@ -295,19 +295,20 @@ export interface SiteEntryImage {
   uploaderUsername: string;
   uploadedAt: string;
   imageUrl: string;
+  uploaderId: number;
 }
 
 export interface TreeBenefits {
-  energy: number;
-  energyMoney: number;
-  stormwater: number;
-  stormwaterMoney: number;
-  airQuality: number;
-  airQualityMoney: number;
-  co2Removed: number;
-  co2RemovedMoney: number;
-  co2Stored: number;
-  co2StoredMoney: number;
+  energy: number | null;
+  energyMoney: number | null;
+  stormwater: number | null;
+  stormwaterMoney: number | null;
+  airQuality: number | null;
+  airQualityMoney: number | null;
+  co2Removed: number | null;
+  co2RemovedMoney: number | null;
+  co2Stored: number | null;
+  co2StoredMoney: number | null;
 }
 
 export enum TreeBenefitCategory {

@@ -1,1 +1,40 @@
-{}
+{
+  "sidebar": {
+    "title": "Árboles de las Calles de Boston",
+    "body": {
+      "introduction": [
+        "Los árboles de Boston hacen mucho por nuestra comunidad: limpian nuestro aire contaminado, ofrecen sombra en los días abrasadores de verano, bloquean el viento en las gélidas noches de invierno y previenen inundaciones durante las tormentas. En Speak for the Trees, estamos decididos a mejorar el tamaño, la salud y la equidad de nuestro bosque urbano, especialmente en comunidades desatendidas y con poco dosel. ¡Y ahora puedes ayudar a hacer crecer el bosque urbano de Boston adoptando y cuidando un árbol!"
+      ],
+      "learnMore": "Aprende más sobre el programa y cómo cuidar tu árbol en <adoptLink>treeboston.org/adopt</adoptLink>."
+    },
+    "questionDirections": {
+      "questions": "¿Todavía tienes preguntas?",
+      "directions": [
+        "Visita nuestra página de preguntas frecuentes en <faqLink>FAQ</faqLink> para ver si tu pregunta está respondida.", 
+        "Si no, contáctanos en <contactUsLink>adopt@treeboston.org</contactUsLink>."
+      ]
+    }
+  },
+  "welcomeModal": {
+    "title": "Bienvenido/a al Programa Adopt-A-Tree (Adopta un Árbol) de Speak for the Trees, dirigido en colaboración con el Departamento de Parques y Recreación de Boston y Code4Community.",
+    "paragraph": "¿Hay árboles jóvenes recién plantados cerca de ti? Explora nuestro mapa de árboles para aprender cómo adoptar uno (¡o varios!) y cuidarlos para ayudar a que los árboles jóvenes de Boston alcancen la madurez y brinden a tu comunidad los muchos beneficios que ofrecen los árboles maduros.",
+    "okText": "¡Explora el bosque urbano de Boston!"
+  },
+  "adoptionDirections": {
+    "header": "Cómo Adoptar un Árbol",
+    "body": [
+      "Haz clic en 'Registrarse' en la esquina superior derecha para crear una cuenta.", 
+      "Una vez que hayas iniciado sesión, ingresa tu dirección en la barra de búsqueda del mapa para encontrar árboles adoptables cerca de ti.", 
+      "Haz clic en el ícono del árbol que te gustaría adoptar, ya sea el triángulo azul para un árbol recién plantado o el círculo verde para un árbol más antiguo.", 
+      "Haz clic en 'Más información'.", 
+      "Haz clic en el botón 'Adoptar' en la siguiente pantalla para adoptar ese árbol. Se agregará a la lista 'Mis Árboles' para que puedas encontrar fácilmente tu árbol y registrar tus actividades de cuidado.", 
+      "Registra cada actividad haciendo clic en 'Mis Árboles', encuentra el árbol que adoptaste y envía la actividad de cuidado en la página de ese árbol. ¡Es fácil!"
+    ]
+  }, 
+  "navMenu": {
+    "myTrees": "Mis Árboles",
+    "admins": "Administradores",
+    "accountSettings": "Configuración de la Cuenta",
+    "logOut": "Cerrar Sesión"
+  }
+}

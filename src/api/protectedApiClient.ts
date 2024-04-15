@@ -32,6 +32,8 @@ import {
 import {
   FilterSitesParams,
   FilterSitesResponse,
+  TemplateNamesResponse,
+  LoadTemplateResponse,
 } from '../containers/email/types';
 
 export interface ProtectedApiExtraArgs {
@@ -127,6 +129,7 @@ export interface ProtectedApiClient {
   ) => Promise<void>;
   readonly addSites: (request: AddSitesRequest) => Promise<void>;
   readonly sendEmail: (request: SendEmailRequest) => Promise<void>;
+  readonly deleteImage: (imageId: number) => Promise<void>;
   readonly filterSites: (
     params: FilterSitesParams,
   ) => Promise<FilterSitesResponse>;
@@ -135,6 +138,10 @@ export interface ProtectedApiClient {
     imageFile: string | ArrayBuffer,
     anon: boolean,
   ) => Promise<void>;
+  readonly getEmailTemplateNames: () => Promise<TemplateNamesResponse>;
+  readonly loadEmailTemplateContent: (
+    templateName: string,
+  ) => Promise<LoadTemplateResponse>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -165,6 +172,7 @@ export enum AdminApiClientRoutes {
   GET_STEWARDSHIP_REPORT_CSV = '/api/v1/protected/report/csv/adoption',
   ADD_SITES = '/api/v1/protected/sites/add_sites',
   SEND_EMAIL = '/api/v1/protected/neighborhoods/send_email',
+  GET_TEMPLATE_NAMES = 'api/v1/protected/emailer/template_names',
 }
 
 const baseTeamRoute = '/api/v1/protected/teams/';
@@ -204,6 +212,8 @@ export const ParameterizedApiRoutes = {
     `${baseSiteRoute}${siteId}/name_entry`,
   UPLOAD_IMAGE: (siteEntryId: number): string =>
     `${baseSiteRoute}site_image/${siteEntryId}`,
+  DELETE_IMAGE: (imageId: number): string =>
+    `${baseSiteRoute}site_image/${imageId}`,
 };
 
 export const ParameterizedAdminApiRoutes = {
@@ -232,6 +242,8 @@ export const ParameterizedAdminApiRoutes = {
         ? `&activityCountMax=${params.activityCountMax}`
         : ''
     }`,
+  LOAD_TEMPLATE: (templateName: string): string =>
+    `api/v1/protected/emailer/load_template/${templateName}`,
 };
 
 const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
@@ -563,6 +575,12 @@ const sendEmail = (request: SendEmailRequest): Promise<void> => {
   );
 };
 
+const deleteImage = (imageId: number): Promise<void> => {
+  return AppAxiosInstance.delete(
+    ParameterizedApiRoutes.DELETE_IMAGE(imageId),
+  ).then((res) => res.data);
+};
+
 const filterSites = (
   params: FilterSitesParams,
 ): Promise<FilterSitesResponse> => {
@@ -579,6 +597,19 @@ const uploadImage = (
   return AppAxiosInstance.post(
     ParameterizedApiRoutes.UPLOAD_IMAGE(siteEntryId),
     { anonymous: anon, image: imageFile },
+  ).then((res) => res.data);
+
+const getEmailTemplateNames = (): Promise<TemplateNamesResponse> => {
+  return AppAxiosInstance.get(AdminApiClientRoutes.GET_TEMPLATE_NAMES).then(
+    (res) => res.data,
+  );
+};
+
+const loadEmailTemplateContent = (
+  templateName: string,
+): Promise<LoadTemplateResponse> => {
+  return AppAxiosInstance.get(
+    ParameterizedAdminApiRoutes.LOAD_TEMPLATE(templateName),
   ).then((res) => res.data);
 };
 
@@ -629,8 +660,11 @@ const Client: ProtectedApiClient = Object.freeze({
   nameSiteEntry,
   addSites,
   sendEmail,
+  deleteImage,
   filterSites,
   uploadImage,
+  getEmailTemplateNames,
+  loadEmailTemplateContent,
 });
 
 export default Client;

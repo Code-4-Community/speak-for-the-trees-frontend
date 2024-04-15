@@ -54,7 +54,7 @@ const NavBar: React.FC<NavBarProps> = ({ userName, isAdmin, onLogout }) => {
   } else {
     return (
       <NavContainer>
-        <NoHoverShadeButton type="text" to={Routes.HOME}>
+        <NoHoverShadeButton type="text" to={Routes.LANDING}>
           <MainLogo src={SFTT_PARTNER_LOGOS} alt={'SFTT Logo'} />
         </NoHoverShadeButton>
         <NavExtra

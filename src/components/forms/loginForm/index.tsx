@@ -17,7 +17,7 @@ interface LoginFormProps {
 }
 
 const LoginButton = styled(SubmitButton)`
-  width: 96px;
+  min-width: 96px;
   margin-top: 1.5vh;
 `;
 
