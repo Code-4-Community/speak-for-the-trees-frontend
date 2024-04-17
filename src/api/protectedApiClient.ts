@@ -595,10 +595,10 @@ const uploadImage = (
   anon: boolean,
 ): Promise<void> => {
   return AppAxiosInstance.post(
-      ParameterizedApiRoutes.UPLOAD_IMAGE(siteEntryId),
-      {anonymous: anon, image: imageFile},
+    ParameterizedApiRoutes.UPLOAD_IMAGE(siteEntryId),
+    { anonymous: anon, image: imageFile },
   ).then((res) => res.data);
-}
+};
 
 const getEmailTemplateNames = (): Promise<TemplateNamesResponse> => {
   return AppAxiosInstance.get(AdminApiClientRoutes.GET_TEMPLATE_NAMES).then(
