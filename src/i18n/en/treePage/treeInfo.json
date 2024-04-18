@@ -15,6 +15,13 @@
     "adopt": "Adopt",
     "force_unadopt": "Force Unadopt"
   },
+  "uploadSiteImage": {
+    "upload_title": "Upload an Image of this Site",
+    "upload_drag_header": "Click or drag file to this area to upload",
+    "upload_drag_description": "Upload an image of your adopted tree!",
+    "upload_button_message": "Upload",
+    "upload_anonymous_check": "Upload Image(s) Anonymously"
+  },
   "log_in": "Log in to adopt this tree!",
   "name_prompt": "Name this tree!"
 }

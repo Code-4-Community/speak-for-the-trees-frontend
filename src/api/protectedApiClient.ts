@@ -133,6 +133,11 @@ export interface ProtectedApiClient {
   readonly filterSites: (
     params: FilterSitesParams,
   ) => Promise<FilterSitesResponse>;
+  readonly uploadImage: (
+    siteEntryId: number,
+    imageFile: string | ArrayBuffer,
+    anon: boolean,
+  ) => Promise<void>;
   readonly getEmailTemplateNames: () => Promise<TemplateNamesResponse>;
   readonly loadEmailTemplateContent: (
     templateName: string,
@@ -205,6 +210,8 @@ export const ParameterizedApiRoutes = {
   UPDATE_SITE: (siteId: number): string => `${baseSiteRoute}${siteId}/update`,
   NAME_SITE_ENTRY: (siteId: number): string =>
     `${baseSiteRoute}${siteId}/name_entry`,
+  UPLOAD_IMAGE: (siteEntryId: number): string =>
+    `${baseSiteRoute}site_image/${siteEntryId}`,
   DELETE_IMAGE: (imageId: number): string =>
     `${baseSiteRoute}site_image/${imageId}`,
 };
@@ -582,6 +589,17 @@ const filterSites = (
   ).then((res) => res.data);
 };
 
+const uploadImage = (
+  siteEntryId: number,
+  imageFile: string | ArrayBuffer,
+  anon: boolean,
+): Promise<void> => {
+  return AppAxiosInstance.post(
+    ParameterizedApiRoutes.UPLOAD_IMAGE(siteEntryId),
+    { anonymous: anon, image: imageFile },
+  ).then((res) => res.data);
+};
+
 const getEmailTemplateNames = (): Promise<TemplateNamesResponse> => {
   return AppAxiosInstance.get(AdminApiClientRoutes.GET_TEMPLATE_NAMES).then(
     (res) => res.data,
@@ -645,6 +663,7 @@ const Client: ProtectedApiClient = Object.freeze({
   sendEmail,
   deleteImage,
   filterSites,
+  uploadImage,
   getEmailTemplateNames,
   loadEmailTemplateContent,
 });
