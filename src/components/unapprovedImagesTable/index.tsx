@@ -42,11 +42,6 @@ const columns: ColumnsType<FilterImageTableData> = [
     dataIndex: 'dateSubmitted',
     key: 'dateSubmitted',
   },
-  {
-    title: 'Status',
-    dataIndex: 'status',
-    key: 'status',
-  },
 ];
 
 function responseToTableData(
@@ -60,7 +55,6 @@ function responseToTableData(
     dateSubmitted: data.dateSubmitted,
     species: data.commonName,
     neighborhood: NEIGHBORHOOD_IDS[data.neighborhoodId],
-    status: 'Submitted',
   };
 }
 

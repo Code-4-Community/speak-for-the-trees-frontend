@@ -37,5 +37,4 @@ export interface FilterImageTableData {
   species: string;
   neighborhood: Neighborhoods;
   dateSubmitted: string;
-  status: 'Submitted' | 'Approved' | 'Rejected'; // TODO: verify this, or make enum
 }
