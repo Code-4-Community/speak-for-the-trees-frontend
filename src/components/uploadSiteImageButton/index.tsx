@@ -71,7 +71,7 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
         });
       }
       Promise.all(promises).then((images) => {
-        setImageToUpload(images);
+        setImageToUpload(imageToUpload.concat(images));
       });
       return false;
     },
