@@ -4,14 +4,14 @@ export interface ReviewImageFilters {
   submittedStart: string | null;
   submittedEnd: string | null;
   neighborhoods: Neighborhoods[];
-  siteIds: number[]; // TODO: Verify that this is the type we want to parse
+  siteIds: number[];
 }
 
 export interface FilterSiteImagesParams {
   submittedStart: string | null;
   submittedEnd: string | null;
   neighborhoods: number[] | null;
-  siteIds: number[] | null; // TODO: Verify that this is the type we want to parse
+  siteIds: number[] | null;
 }
 
 export interface FilteredSiteImage {
@@ -32,7 +32,7 @@ export interface FilterSiteImagesResponse {
 
 export interface FilterImageTableData {
   key: number;
-  preview: string; // refer to image url
+  preview: string;
   siteId: number;
   species: string;
   neighborhood: Neighborhoods;
