@@ -138,6 +138,8 @@ export interface ProtectedApiClient {
   readonly filterSiteImages: (
     params: FilterSiteImagesParams,
   ) => Promise<FilterSiteImagesResponse>;
+  readonly approveImage: (imageId: number) => Promise<void>;
+  readonly rejectImage: (imageId: number) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -249,6 +251,8 @@ export const ParameterizedAdminApiRoutes = {
     }${params.submittedEnd ? `&submittedEnd=${params.submittedEnd}` : ''}${
       params.neighborhoods ? `&neighborhoodIds=${params.neighborhoods}` : ''
     }`,
+  APPROVE_REJECT_IMAGE: (imageId: number): string =>
+    `api/v1/protected/sites/approve_image/${imageId}`,
 };
 
 const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
@@ -602,6 +606,18 @@ const filterSiteImages = (
   ).then((res) => res.data);
 };
 
+const approveImage = (imageId: number): Promise<void> => {
+  return AppAxiosInstance.put(
+    ParameterizedAdminApiRoutes.APPROVE_REJECT_IMAGE(imageId),
+  ).then((res) => res.data);
+};
+
+const rejectImage = (imageId: number): Promise<void> => {
+  return AppAxiosInstance.delete(
+    ParameterizedAdminApiRoutes.APPROVE_REJECT_IMAGE(imageId),
+  ).then((res) => res.data);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -652,6 +668,8 @@ const Client: ProtectedApiClient = Object.freeze({
   deleteImage,
   filterSites,
   filterSiteImages,
+  approveImage,
+  rejectImage,
 });
 
 export default Client;

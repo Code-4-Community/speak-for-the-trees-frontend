@@ -10,7 +10,7 @@ import {
 
 interface UnapprovedImagesTable {
   readonly fetchData: FilteredSiteImage[];
-  // readonly setSelectedEmails: React.Dispatch<SetStateAction<string[]>>;
+  readonly setSelectedImageIds: React.Dispatch<SetStateAction<number[]>>;
 }
 
 const columns: ColumnsType<FilterImageTableData> = [
@@ -54,7 +54,7 @@ function responseToTableData(
   index: number,
 ): FilterImageTableData {
   return {
-    key: index,
+    key: data.imageId,
     preview: data.imageUrl,
     siteId: data.siteId,
     dateSubmitted: data.dateSubmitted,
@@ -66,6 +66,7 @@ function responseToTableData(
 
 const UnapprovedImagesTable: React.FC<UnapprovedImagesTable> = ({
   fetchData,
+  setSelectedImageIds,
 }) => {
   const tableData = useMemo(
     () => fetchData.map(responseToTableData),
@@ -82,7 +83,7 @@ const UnapprovedImagesTable: React.FC<UnapprovedImagesTable> = ({
       rowSelection={{
         selectedRowKeys,
         onChange: (_, selectedRows) => {
-          // setSelectedEmails(selectedRows.map((row) => row.adopterEmail));
+          setSelectedImageIds(selectedRows.map((row) => row.key));
           setSelectedRowKeys(selectedRows.map((row) => row.key));
         },
       }}

@@ -14,6 +14,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
 import { Button, Col, message, Row, Typography } from 'antd';
+import { DARK_GREEN, BLACK } from '../../utils/colors';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
@@ -27,6 +28,7 @@ import {
 import protectedApiClient from '../../api/protectedApiClient';
 import { NEIGHBORHOOD_OPTS, Neighborhoods } from '../../assets/content';
 import UnapprovedImagesTable from '../../components/unapprovedImagesTable';
+import { useDispatch } from 'react-redux';
 
 const DashboardContent = styled.div`
   font-size: 20px;
@@ -37,6 +39,24 @@ const FilterHeader = styled.div`
   justify-content: space-between;
   margin-top: 15px;
 `;
+
+const ApproveRejectDialogue = styled.div`
+  display: flex;
+  flex-direction: row;
+  border: 1px solid ${DARK_GREEN};
+  padding 3px;
+  margin: 5px;
+  max-width: 280px;
+  border-radius: 6px;
+  align-items: center;
+`;
+
+const ApproveRejectStyling = {
+  padding: '3px',
+  margin: '5px',
+  color: `${DARK_GREEN}`,
+  width: '90px',
+};
 
 const defaultFilters: ReviewImageFilters = {
   submittedStart: null,
@@ -57,6 +77,8 @@ const ReviewImages: React.FC = () => {
   });
   const [filters, setFilters] = useState<ReviewImageFilters>(defaultFilters);
   const [fetchData, setFetchData] = useState<FilteredSiteImage[]>([]);
+  const [selectedImageIds, setSelectedImageIds] = useState<number[]>([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     onClickSearch();
@@ -83,6 +105,26 @@ const ReviewImages: React.FC = () => {
       .catch((err) => {
         message.error('Cannot access images');
       });
+  }
+
+  async function onClickAccept() {
+    const toApprove: Promise<void>[] = [];
+    selectedImageIds.forEach((id) => {
+      toApprove.push(protectedApiClient.approveImage(id));
+    });
+    await Promise.all(toApprove);
+    onClickSearch();
+    setSelectedImageIds([]);
+  }
+
+  async function onClickReject() {
+    const toReject: Promise<void>[] = [];
+    selectedImageIds.forEach((id) => {
+      toReject.push(protectedApiClient.approveImage(id));
+    });
+    await Promise.all(toReject);
+    onClickSearch();
+    setSelectedImageIds([]);
   }
 
   return (
@@ -129,8 +171,30 @@ const ReviewImages: React.FC = () => {
               </Button>
             </Col>
             <Col span={17}>
+              {selectedImageIds.length > 0 && (
+                <ApproveRejectDialogue>
+                  <p
+                    style={ApproveRejectStyling}
+                  >{`${selectedImageIds.length} selected`}</p>
+                  <Button
+                    style={ApproveRejectStyling}
+                    type="primary"
+                    onClick={onClickAccept}
+                  >
+                    Accept
+                  </Button>
+                  <Button
+                    style={ApproveRejectStyling}
+                    type="primary"
+                    onClick={onClickReject}
+                  >
+                    Reject
+                  </Button>
+                </ApproveRejectDialogue>
+              )}
               <UnapprovedImagesTable
                 fetchData={fetchData}
+                setSelectedImageIds={setSelectedImageIds}
               ></UnapprovedImagesTable>
             </Col>
           </Row>
