@@ -10,7 +10,7 @@
     "questionDirections": {
       "questions": "¿Todavía tienes preguntas?",
       "directions": [
-        "Visita nuestra página de preguntas frecuentes en <faqLink>FAQ</faqLink> para ver si tu pregunta está respondida.",
+        "Visita nuestra página de preguntas frecuentes en <faqLink>FAQ</faqLink> para ver si tu pregunta está respondida.", 
         "Si no, contáctanos en <contactUsLink>adopt@treeboston.org</contactUsLink>."
       ]
     }
@@ -23,14 +23,14 @@
   "adoptionDirections": {
     "header": "Cómo Adoptar un Árbol",
     "body": [
-      "Haz clic en 'Registrarse' en la esquina superior derecha para crear una cuenta.",
-      "Una vez que hayas iniciado sesión, ingresa tu dirección en la barra de búsqueda del mapa para encontrar árboles adoptables cerca de ti.",
-      "Haz clic en el ícono del árbol que te gustaría adoptar, ya sea el triángulo azul para un árbol recién plantado o el círculo verde para un árbol más antiguo.",
-      "Haz clic en 'Más información'.",
-      "Haz clic en el botón 'Adoptar' en la siguiente pantalla para adoptar ese árbol. Se agregará a la lista 'Mis Árboles' para que puedas encontrar fácilmente tu árbol y registrar tus actividades de cuidado.",
+      "Haz clic en 'Registrarse' en la esquina superior derecha para crear una cuenta.", 
+      "Una vez que hayas iniciado sesión, ingresa tu dirección en la barra de búsqueda del mapa para encontrar árboles adoptables cerca de ti.", 
+      "Haz clic en el ícono del árbol que te gustaría adoptar, ya sea el triángulo azul para un árbol recién plantado o el círculo verde para un árbol más antiguo.", 
+      "Haz clic en 'Más información'.", 
+      "Haz clic en el botón 'Adoptar' en la siguiente pantalla para adoptar ese árbol. Se agregará a la lista 'Mis Árboles' para que puedas encontrar fácilmente tu árbol y registrar tus actividades de cuidado.", 
       "Registra cada actividad haciendo clic en 'Mis Árboles', encuentra el árbol que adoptaste y envía la actividad de cuidado en la página de ese árbol. ¡Es fácil!"
     ]
-  },
+  }, 
   "navMenu": {
     "myTrees": "Mis Árboles",
     "admins": "Administradores",

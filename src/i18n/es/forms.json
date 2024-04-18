@@ -21,7 +21,7 @@
     "report_required": "¡Debes seleccionar un informe!",
     "report_type_placeholder": "Selecciona el informe para descargar.",
     "export_data": [
-      "Exportar datos de los últimos",
+      "Exportar datos de los últimos", 
       "días (deja vacío para exportar todos los datos)."
     ],
     "load_report": "Cargar informe"

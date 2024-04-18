@@ -13,8 +13,8 @@ import { Routes } from '../../App';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
-import { Button, Col, message, Row, Typography } from 'antd';
-import { DARK_GREEN, BLACK } from '../../utils/colors';
+import { DARK_GREEN } from '../../utils/colors';
+import { Alert, Button, Col, message, Row, Spin, Typography } from 'antd';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
@@ -28,7 +28,7 @@ import {
 import protectedApiClient from '../../api/protectedApiClient';
 import { NEIGHBORHOOD_OPTS, Neighborhoods } from '../../assets/content';
 import UnapprovedImagesTable from '../../components/unapprovedImagesTable';
-import { useDispatch } from 'react-redux';
+import { FetchInfoContainer, LoadingState } from '../email';
 
 const DashboardContent = styled.div`
   font-size: 20px;
@@ -78,14 +78,15 @@ const ReviewImages: React.FC = () => {
   const [filters, setFilters] = useState<ReviewImageFilters>(defaultFilters);
   const [fetchData, setFetchData] = useState<FilteredSiteImage[]>([]);
   const [selectedImageIds, setSelectedImageIds] = useState<number[]>([]);
-  const dispatch = useDispatch();
+  const [fetchSiteImagesState, setFetchSiteImagesState] =
+    useState<LoadingState>(LoadingState.SUCCESS);
 
   useEffect(() => {
     onClickSearch();
   }, []);
 
   function onClickSearch() {
-    // setFetchSitesState(LoadingState.LOADING);
+    setFetchSiteImagesState(LoadingState.LOADING);
     // display some loading thing here
     const req: FilterSiteImagesParams = {
       submittedStart: filters.submittedStart,
@@ -100,9 +101,11 @@ const ReviewImages: React.FC = () => {
     protectedApiClient
       .filterSiteImages(req)
       .then((res) => {
+        setFetchSiteImagesState(LoadingState.SUCCESS);
         setFetchData(res.filteredSiteImages);
       })
       .catch((err) => {
+        setFetchSiteImagesState(LoadingState.ERROR);
         message.error('Cannot access images');
       });
   }
@@ -112,9 +115,11 @@ const ReviewImages: React.FC = () => {
     selectedImageIds.forEach((id) => {
       toApprove.push(protectedApiClient.approveImage(id));
     });
-    await Promise.all(toApprove);
-    onClickSearch();
-    setSelectedImageIds([]);
+    setFetchSiteImagesState(LoadingState.LOADING);
+    Promise.all(toApprove).then(() => {
+      onClickSearch();
+      setSelectedImageIds([]);
+    });
   }
 
   async function onClickReject() {
@@ -122,9 +127,11 @@ const ReviewImages: React.FC = () => {
     selectedImageIds.forEach((id) => {
       toReject.push(protectedApiClient.approveImage(id));
     });
-    await Promise.all(toReject);
-    onClickSearch();
-    setSelectedImageIds([]);
+    setFetchSiteImagesState(LoadingState.LOADING);
+    Promise.all(toReject).then(() => {
+      onClickSearch();
+      setSelectedImageIds([]);
+    });
   }
 
   return (
@@ -155,7 +162,7 @@ const ReviewImages: React.FC = () => {
                   type="link"
                   onClick={(e) => {
                     e.preventDefault();
-                    // set use state hook for filters here
+                    setFilters(defaultFilters);
                   }}
                 >
                   Clear Filters
@@ -171,31 +178,57 @@ const ReviewImages: React.FC = () => {
               </Button>
             </Col>
             <Col span={17}>
-              {selectedImageIds.length > 0 && (
-                <ApproveRejectDialogue>
-                  <p
-                    style={ApproveRejectStyling}
-                  >{`${selectedImageIds.length} selected`}</p>
-                  <Button
-                    style={ApproveRejectStyling}
-                    type="primary"
-                    onClick={onClickAccept}
-                  >
-                    Accept
-                  </Button>
-                  <Button
-                    style={ApproveRejectStyling}
-                    type="primary"
-                    onClick={onClickReject}
-                  >
-                    Reject
-                  </Button>
-                </ApproveRejectDialogue>
-              )}
-              <UnapprovedImagesTable
-                fetchData={fetchData}
-                setSelectedImageIds={setSelectedImageIds}
-              ></UnapprovedImagesTable>
+              {(() => {
+                switch (fetchSiteImagesState) {
+                  case LoadingState.LOADING:
+                    return (
+                      <FetchInfoContainer>
+                        <Spin size="large" />
+                      </FetchInfoContainer>
+                    );
+                  case LoadingState.SUCCESS:
+                    return (
+                      <>
+                        {selectedImageIds.length > 0 && (
+                          <ApproveRejectDialogue>
+                            <p
+                              style={ApproveRejectStyling}
+                            >{`${selectedImageIds.length} selected`}</p>
+                            <Button
+                              style={ApproveRejectStyling}
+                              type="primary"
+                              onClick={onClickAccept}
+                            >
+                              Accept
+                            </Button>
+                            <Button
+                              style={ApproveRejectStyling}
+                              type="primary"
+                              onClick={onClickReject}
+                            >
+                              Reject
+                            </Button>
+                          </ApproveRejectDialogue>
+                        )}
+                        <UnapprovedImagesTable
+                          fetchData={fetchData}
+                          setSelectedImageIds={setSelectedImageIds}
+                        ></UnapprovedImagesTable>
+                      </>
+                    );
+                  case LoadingState.ERROR:
+                    return (
+                      <FetchInfoContainer>
+                        <Alert
+                          message="Error"
+                          description="Failed to fetch site data!"
+                          type="error"
+                          showIcon
+                        />
+                      </FetchInfoContainer>
+                    );
+                }
+              })()}
             </Col>
           </Row>
         </PaddedPageContainer>

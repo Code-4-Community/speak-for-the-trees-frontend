@@ -1,13 +1,13 @@
 {
-  "popup": {
-    "nearbyAddress": "Nearby Address",
-    "moreInfo": "More Info",
-    "editPage": "Edit Site Page",
-    "unknownSpecies": "Unknown Species",
-    "openSite": {
-      "title": "Open Planting Site",
-      "question": "Want to plant a tree here?",
-      "cta": "Submit a request to the city!"
+    "popup": {
+        "nearbyAddress": "Nearby Address",
+        "moreInfo": "More Info",
+        "editPage": "Edit Site Page",
+        "unknownSpecies": "Unknown Species",
+        "openSite": {
+            "title": "Open Planting Site",
+            "question": "Want to plant a tree here?",
+            "cta": "Submit a request to the city!" 
+        }
     }
-  }
 }

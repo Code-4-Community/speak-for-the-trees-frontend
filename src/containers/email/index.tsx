@@ -42,7 +42,7 @@ const FilterHeader = styled.div`
   margin-top: 15px;
 `;
 
-const FetchInfoContainer = styled.div`
+export const FetchInfoContainer = styled.div`
   text-align: center;
   padding: 30px;
 `;
@@ -63,7 +63,7 @@ const defaultFilters: EmailerFilters = {
   lastActivityEnd: null,
 };
 
-enum LoadingState {
+export enum LoadingState {
   SUCCESS = 'success',
   LOADING = 'loading',
   ERROR = 'error',

@@ -46,11 +46,6 @@ function disabledDate(current: moment.Moment): boolean {
   return current > moment().endOf('day');
 }
 
-const activityCountLabels: SliderMarks = {
-  0: '0',
-  [MAX_ACTIVITY_COUNT + 1]: `${MAX_ACTIVITY_COUNT}+`,
-};
-
 const neighborhoodOptions = Object.values(Neighborhoods)
   .sort()
   .map((value) => {
@@ -110,17 +105,19 @@ const UnapprovedFilterImageControls: React.FC<
           allowClear
           placeholder="Enter a site"
           onChange={(value: number[]) => {
-            const valueInt = value.map((v) => Number(v) ?? -1);
+            let valueInt = value.filter((v) => !isNaN(Number(v)));
+            valueInt = valueInt.map((v) => Number(v));
             setFilters({ ...filters, siteIds: valueInt });
           }}
           status={siteIdInvalidOrNone.status}
           onSearch={(e) => {
             const numVal = Number(e);
-            if (numVal) {
+            if (numVal || e.length === 0) {
               setSiteIdError({
                 status: '',
                 value: '',
               });
+              if (e.length > 0) setSiteIdOptions([{ label: e, value: e }]);
             } else if (e === '') {
               setSiteIdError({
                 status: '',
@@ -132,7 +129,6 @@ const UnapprovedFilterImageControls: React.FC<
                 value: 'No data. Site IDs must be strings',
               });
             }
-            if (e.length > 0) setSiteIdOptions([{ label: e, value: e }]);
           }}
           options={siteIdOptions}
           notFoundContent={siteIdInvalidOrNone.value}
