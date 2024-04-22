@@ -5,7 +5,7 @@ export const SFTT_PARTNER_LOGOS = `https://d2j3fegnzkmagm.cloudfront.net/${
 }-partners.png`;
 
 export const CITY_PLANTING_REQUEST_LINK =
-  'https://www.cityofboston.gov/mayor/24?topic=new-tree-request';
+  'https://www.boston.gov/departments/parks-and-recreation/how-request-have-tree-planted-city-street';
 
 export const CONTACT_EMAIL = 'adopt@treeboston.org';
 
