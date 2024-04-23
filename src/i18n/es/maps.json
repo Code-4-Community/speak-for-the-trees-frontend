@@ -3,33 +3,5 @@
         "nearbyAddress": "Dirección Cercana",
         "moreInfo": "Más Información",
         "editPage": "Editar Página del Sitio"
-    },
-    "mapLegend": {
-        "header": "What does each icon mean?",
-        "warning": "Watch out!",
-        "statusShow": "Show based on Status",
-        "ownerShow": "Show based on Owner",
-        "toggleHideOwner": "Hide Owner Filter",
-        "toggleShowOwner": "Show Owner Filter",
-        "statusOptions": {
-            "young": "Young Trees",
-            "older": "Older Trees",
-            "adopted": "Adopted Trees",
-            "open": "Planting Sites"
-        },
-        "ownerOptions": {
-            "row": "ROW (Street) Trees",
-            "park": "Park Trees",
-            "state": "State Trees",
-            "federal": "Federal Trees",
-            "private": "Private Trees"
-        },
-        "legendDescription": {
-            "young": "Newly planted trees who need the most care",
-            "older": "Older trees who don't need as much help but would still love to be adopted",
-            "adopted": "Trees that have already been adopted",
-            "open": "Empty sites where future trees could be planted",
-            "privateStreet": "Private streets that volunteers shouldn't enter!"
-        }
     }
 }

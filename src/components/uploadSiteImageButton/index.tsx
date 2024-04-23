@@ -123,7 +123,7 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
           setShowMenu(!showMenu);
         }}
       >
-        Upload Tree Images
+        {t('actions.upload_image')}
       </GreenButton>
       <Modal
         title={t('uploadSiteImage.upload_title')}

@@ -13,7 +13,8 @@
     "record_activity": "Record your tree care activity below.",
     "adopted": "Already Adopted",
     "adopt": "Adopt",
-    "force_unadopt": "Force Unadopt"
+    "force_unadopt": "Force Unadopt",
+    "upload_image": "Upload Tree Images"
   },
   "uploadSiteImage": {
     "upload_title": "Upload an Image of this Site",

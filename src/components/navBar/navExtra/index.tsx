@@ -1,13 +1,16 @@
 import React from 'react';
 import { Routes } from '../../../App';
 import styled from 'styled-components';
-import { Avatar, Dropdown, MenuProps, Typography } from 'antd';
+import { Avatar, Dropdown, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { BLACK, DARK_GREEN, LIGHT_GREEN, WHITE } from '../../../utils/colors';
 import NavMenu from '../navMenu';
 import { Location } from 'history';
-import { Flex, GreenLinkButton } from '../../themedComponents';
+import { GreenLinkButton } from '../../themedComponents';
 import TranslationDropdown from '../translationDropdown';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../../utils/stringFormat';
+import { site } from '../../../constants';
 
 const FlexDiv = styled.div`
   display: flex;
@@ -56,6 +59,8 @@ const NavExtra: React.FC<NavExtraProps> = ({
   location,
   onLogout,
 }) => {
+  const { t } = useTranslation(n(site, 'forms'), { nsMode: 'fallback' });
+
   if (userName !== undefined) {
     return (
       <FlexDiv>
@@ -86,7 +91,7 @@ const NavExtra: React.FC<NavExtraProps> = ({
             destination: location.pathname,
           }}
         >
-          Sign Up
+          {t('sign_up')}
         </SignupButton>
         <LoginButton
           type="primary"
@@ -97,7 +102,7 @@ const NavExtra: React.FC<NavExtraProps> = ({
             destination: location.pathname,
           }}
         >
-          Log In
+          {t('log_in')}
         </LoginButton>
       </FlexDiv>
     );

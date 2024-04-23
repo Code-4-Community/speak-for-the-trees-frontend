@@ -11,6 +11,9 @@ import {
 } from '../../../../utils/colors';
 import { Flex } from '../../../themedComponents';
 import { LinkButton } from '../../../linkButton';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../../../utils/stringFormat';
+import { site } from '../../../../constants';
 
 const TitleContainer = styled.div`
   display: block;
@@ -59,6 +62,8 @@ const MobileLandingBar: React.FC<PropsWithChildren<MobileLandingBarProps>> = ({
   isLoggedIn,
   children,
 }) => {
+  const { t } = useTranslation(n(site, 'forms'), { nsMode: 'fallback' });
+
   return (
     <Flex gap={'0'}>
       <TitleContainer>
@@ -75,7 +80,7 @@ const MobileLandingBar: React.FC<PropsWithChildren<MobileLandingBarProps>> = ({
               size="large"
               to={Routes.LOGIN}
             >
-              Log In
+              {t('log_in')}
             </LoginButton>
           </div>
           <div>
@@ -85,7 +90,7 @@ const MobileLandingBar: React.FC<PropsWithChildren<MobileLandingBarProps>> = ({
               size="large"
               to={Routes.SIGNUP}
             >
-              Sign Up
+              {t('sign_up')}
             </SignUpButton>
           </div>
         </StyledFlex>
