@@ -54,6 +54,11 @@ import {
 
 export const LOCALSTORAGE_I18N_KEY = 'i18n-lang';
 
+// Returns the language code for the active language, with English as default
+export function getActiveLanguage(): string {
+  return localStorage.getItem(LOCALSTORAGE_I18N_KEY) ?? 'en';
+}
+
 // the translations
 // (tip move them in a JSON file and import them,
 // or even better, manage them separated from your code: https://react.i18next.com/guides/multiple-translation-files)

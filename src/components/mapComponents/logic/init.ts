@@ -25,6 +25,7 @@ import { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { InitMapData } from '../ducks/types';
 import { ALL_SITES_VISIBLE_COMBINED } from '../constants';
 import { MapTypes, SetStateType } from '../../../context/types';
+import { getActiveLanguage } from '../../../i18n/i18n';
 
 // Logic for creating and setting up data layers/markers
 
@@ -131,6 +132,11 @@ export function initSites(
   return sitesLayer;
 }
 
+const userLocationMessages: { [key: string]: string } = {
+  en: 'Enable access to your location to display where you are on the map.',
+  es: 'Enable access to your location to display where you are on the map.',
+};
+
 /**
  * Displays the user's location on the map, if the user has given permission.
  * @param map the map to show the location on
@@ -157,12 +163,7 @@ export function initUserLocation(map: google.maps.Map): void {
         userLocation.setMap(map);
       },
       () => {
-        message
-          .info(
-            'Enable access to your location to display where you are on the map.',
-            5,
-          )
-          .then();
+        message.info(userLocationMessages[getActiveLanguage()], 5).then();
       },
     );
   }
