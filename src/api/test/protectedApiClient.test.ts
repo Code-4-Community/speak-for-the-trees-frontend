@@ -2237,7 +2237,11 @@ describe('Admin Protected Client Routes', () => {
         .post(ParameterizedApiRoutes.UPLOAD_IMAGE(11934))
         .reply(200, response);
 
-      const result = await ProtectedApiClient.uploadImage(11934, imageToUpload, false);
+      const result = await ProtectedApiClient.uploadImage(
+        11934,
+        imageToUpload,
+        false,
+      );
 
       expect(result).toEqual(response);
     });

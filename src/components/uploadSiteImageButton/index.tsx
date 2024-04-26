@@ -109,7 +109,7 @@ const UploadSiteImageButton: React.FC<UploadImageProps> = ({ siteEntryId }) => {
     });
     Promise.allSettled(requests)
       .then(() => {
-        message.success('Sent!');
+        message.success(t('uploadSiteImage.upload_success'));
         setShowMenu(!showMenu);
       })
       .finally(() => dispatch(getSiteData(id)));
