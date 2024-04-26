@@ -35,6 +35,9 @@ import { MapTypeContext } from '../../context/mapTypeContext';
 import PageLayout from '../../components/pageLayout';
 import PageHeader from '../../components/pageHeader';
 import { Routes } from '../../App';
+import { site } from '../../constants';
+import { n } from '../../utils/stringFormat';
+import { useTranslation } from 'react-i18next';
 
 const SectionHeader = styled(Typography.Text)`
   font-weight: bold;
@@ -70,6 +73,8 @@ const AddSites: React.FC<AddSitesProps> = ({ neighborhoods, sites }) => {
   const [editSiteForm] = Form.useForm();
   const [updateSiteForm] = Form.useForm();
 
+  const { t } = useTranslation(n(site, ['admin']), { nsMode: 'fallback' });
+
   useEffect(() => {
     dispatch(getMapGeoData());
   }, [dispatch]);
@@ -92,15 +97,19 @@ const AddSites: React.FC<AddSitesProps> = ({ neighborhoods, sites }) => {
       .then(() => {
         editSiteForm.resetFields();
         updateSiteForm.resetFields();
-        message.success('Site added!').then();
+        message.success(t('add_sites.add_site_success')).then();
       })
-      .catch((err) => message.error(err.response.data));
+      .catch((err) =>
+        message.error(
+          t('add_sites.add_site_error', { error: err.response.data }),
+        ),
+      );
   };
 
   return (
     <>
       <Helmet>
-        <title>Add Sites</title>
+        <title>{t('add_sites.helmet_title')}</title>
         <meta
           name="description"
           content="The page for admin users add and update site information"
@@ -109,15 +118,17 @@ const AddSites: React.FC<AddSitesProps> = ({ neighborhoods, sites }) => {
       <PageLayout>
         <PaddedPageContainer>
           <ReturnButton to={Routes.ADMIN}>
-            <ArrowLeftOutlined /> Back to Dashboard
+            <ArrowLeftOutlined /> {t('back')}
           </ReturnButton>
           <PageHeader pageTitle="Add Sites" />
           <DashboardContent>
-            <Typography.Title level={4}>Bulk Add Sites</Typography.Title>
+            <Typography.Title level={4}>
+              {t('add_sites.bulk_add_header')}
+            </Typography.Title>
             <UploadSitesForm />
           </DashboardContent>
           <MarginDivider />
-          <SectionHeader>Add New Site</SectionHeader>
+          <SectionHeader>{t('add_sites.add_header')}</SectionHeader>
           <MarginBottomRow>
             <Flex margin={'0 0 40px 0'}>
               <Block

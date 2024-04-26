@@ -30,6 +30,7 @@ import { useTranslation } from 'react-i18next';
 import { n } from '../../../../utils/stringFormat';
 import { Routes } from '../../../../App';
 import { C4CState } from '../../../../store';
+import { TFunction } from 'i18next';
 
 // mobile is a transient prop that isn't passed to the DOM - passes tsc now
 const LegendContainer = styled.div<{ $mobile: boolean }>`
@@ -51,7 +52,7 @@ const ToggleTextButton = styled(Button)`
 `;
 
 const LoginButton = styled(LinkButton)`
-  width: 100px;
+  width: 120px;
   height: 50px;
   background: ${WHITE};
   border-color: ${LIGHT_GREY};
@@ -59,7 +60,7 @@ const LoginButton = styled(LinkButton)`
 `;
 
 const SignUpButton = styled(LinkButton)`
-  width: 100px;
+  width: 120px;
   height: 50px;
   background-color: ${LIGHT_GREEN};
   border-color: ${LIGHT_GREEN};
@@ -76,11 +77,17 @@ const MobileParagraph = styled(Typography.Paragraph)`
   font-size: 15px;
 `;
 
-const treeSpan = (treeIcon: string, labelString: string): ReactNode => {
+const treeSpan = (
+  treeIcon: string,
+  translationKey: string,
+  t: TFunction,
+): ReactNode => {
   return (
     <FullWidthSpace direction={'horizontal'} size={'small'}>
       <InlineImage src={treeIcon} preview={false} />
-      <Typography.Text>{labelString}</Typography.Text>
+      <Typography.Text>
+        {t(`mapLegend.statusOptions.${translationKey}`)}
+      </Typography.Text>
     </FullWidthSpace>
   );
 };
@@ -96,7 +103,9 @@ const SiteLegend: React.FC<SiteLegendProps> = ({
   siteOptions,
   mobile,
 }) => {
-  const { t } = useTranslation(n(site, ['landing']), { nsMode: 'fallback' });
+  const { t } = useTranslation(n(site, ['landing', 'maps', 'forms']), {
+    nsMode: 'fallback',
+  });
 
   const [statusOptions, setStatusOptions] = useState<CheckboxValueType[]>(
     ALL_SITES_VISIBLE_STATUS,
@@ -106,9 +115,23 @@ const SiteLegend: React.FC<SiteLegendProps> = ({
   );
   const [showOwnerOptions, setShowOwnerOptions] = useState<boolean>(false);
 
-  const options: CheckboxOptionType[] = siteOptions.map((option) => {
-    return { label: treeSpan(option.image, option.label), value: option.value };
-  });
+  const statusCheckboxOptions: CheckboxOptionType[] = siteOptions.map(
+    (option) => {
+      return {
+        label: treeSpan(option.image, option.translationKey, t),
+        value: option.value,
+      };
+    },
+  );
+
+  const ownerCheckboxOptions: CheckboxOptionType[] = SITE_OPTIONS_OWNER.map(
+    (option) => {
+      return {
+        label: t(`mapLegend.ownerOptions.${option.translationKey}`),
+        value: option.value,
+      };
+    },
+  );
 
   const icons: string[] = siteOptions.map((option) => option.image);
 
@@ -141,10 +164,10 @@ const SiteLegend: React.FC<SiteLegendProps> = ({
             </>
           )}
           <MapLegend view={MapViews.TREES} icons={icons} />
-          <Typography.Text strong>Show based on Status</Typography.Text>
+          <Typography.Text strong>{t('mapLegend.statusShow')}</Typography.Text>
           <StyledCheckbox
             $mobile={mobile}
-            options={options}
+            options={statusCheckboxOptions}
             value={statusOptions}
             onChange={(values: CheckboxValueType[]) => {
               setStatusOptions(values);
@@ -152,14 +175,18 @@ const SiteLegend: React.FC<SiteLegendProps> = ({
             }}
           />
           <ToggleTextButton type={'link'} onClick={toggleShowOwnerOptions}>
-            {showOwnerOptions ? 'Hide Owner Filter' : 'Show Owner Filter'}
+            {showOwnerOptions
+              ? t('mapLegend.toggleHideOwner')
+              : t('mapLegend.toggleShowOwner')}
           </ToggleTextButton>
           {showOwnerOptions && (
             <>
-              <Typography.Text strong>Show based on Owner</Typography.Text>
+              <Typography.Text strong>
+                {t('mapLegend.ownerShow')}
+              </Typography.Text>
               <StyledCheckbox
                 $mobile={mobile}
-                options={SITE_OPTIONS_OWNER}
+                options={ownerCheckboxOptions}
                 value={ownerOptions}
                 onChange={(values: CheckboxValueType[]) => {
                   setOwnerOptions(values);
@@ -177,7 +204,7 @@ const SiteLegend: React.FC<SiteLegendProps> = ({
                   size="large"
                   to={Routes.LOGIN}
                 >
-                  Log In
+                  {t('log_in')}
                 </LoginButton>
               </div>
               <div>
@@ -187,7 +214,7 @@ const SiteLegend: React.FC<SiteLegendProps> = ({
                   size="large"
                   to={Routes.SIGNUP}
                 >
-                  Sign Up
+                  {t('sign_up')}
                 </SignUpButton>
               </div>
             </Flex>

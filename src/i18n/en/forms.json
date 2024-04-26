@@ -123,6 +123,16 @@
     "activity_label": "Stewardship Activities"
   },
   "volunteer_emailer": {
+    "search_controls": {
+      "activity_count_header": "Activity Count",
+      "adoption_date_header": "Adoption Date",
+      "last_activity_date_header": "Last Activity Date",
+      "neighborhood_header": "Neighborhood",
+      "neighborhood_placeholder": "Enter a neighborhood",
+      "common_name_header": "Common Name",
+      "common_name_placeholder": "Enter a tree name"
+    },
+    "get_common_names_error": "Unable to fetch existing tree names: {{error}}",
     "success": "Email sent!",
     "users_required": "Please select users to email",
     "response_error": "Email could not be sent: {{error}}",

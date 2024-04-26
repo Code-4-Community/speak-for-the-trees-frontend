@@ -11,6 +11,9 @@ import NavMenu from '../navMenu';
 import { LinkButton } from '../../linkButton';
 import TranslationDropdown from '../translationDropdown';
 import { Flex } from '../../themedComponents';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../../utils/stringFormat';
+import { site } from '../../../constants';
 
 interface MobileNavBarProps {
   readonly isLoggedIn: boolean;
@@ -45,6 +48,7 @@ const MobileNavBar: React.FC<MobileNavBarProps> = ({
   onLogout,
 }) => {
   const history = useHistory();
+  const { t } = useTranslation(n(site, 'forms'), { nsMode: 'fallback' });
 
   return (
     <MobileNavHeader
@@ -82,7 +86,7 @@ const MobileNavBar: React.FC<MobileNavBarProps> = ({
               size="large"
               to={Routes.SIGNUP}
             >
-              Sign Up
+              {t('sign_up')}
             </SignUpButton>
           </Flex>
         )

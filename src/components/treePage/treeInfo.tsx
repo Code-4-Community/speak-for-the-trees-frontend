@@ -164,9 +164,9 @@ export const TreeInfo: React.FC<TreeProps> = ({
             isAdopted={isAdopted}
           />
 
-          {treePresent && (
+          {/* {treePresent && (
             <UploadSiteImageButton siteEntryId={siteData.entries[0].id} />
-          )}
+          )} */}
 
           {userOwnsTree && treePresent && (
             <StewardshipContainer>
