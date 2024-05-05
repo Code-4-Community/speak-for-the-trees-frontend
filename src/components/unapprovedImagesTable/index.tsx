@@ -62,7 +62,7 @@ const UnapprovedImagesTable: React.FC<UnapprovedImagesTable> = ({
   fetchData,
 }) => {
   const tableData = useMemo(
-    () => fetchData.map(responseToTableData),
+    () => (fetchData ? fetchData.map(responseToTableData) : []),
     [fetchData],
   );
 
