@@ -155,6 +155,7 @@
     },
     "reason_label": "Reason",
     "description_label": "Description (optional)",
-    "description_placeholder": "Describe the issue in greater detail"
+    "description_placeholder": "Describe the issue in greater detail",
+    "reason_rule": "A reason is required!"
   }
 }

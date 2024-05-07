@@ -36,10 +36,15 @@ const ReportSiteForm: React.FC<ReportSiteFormProps> = ({ form, onFinish }) => {
   return (
     <Form name="reportSite" onFinish={onFinish} form={form}>
       <ItemLabel>{t('report_site.reason_label')}</ItemLabel>
-      <Form.Item name="reason" rules={requiredRule('A reason is required!')}>
+      <Form.Item
+        name="reason"
+        rules={requiredRule(t('report_site.reason_rule'))}
+      >
         <Radio.Group options={reasonOptions} />
       </Form.Item>
-      <ItemLabel>{t('report_site.description_label')}</ItemLabel>
+      <ItemLabel style={{ marginTop: '15px' }}>
+        {t('report_site.description_label')}
+      </ItemLabel>
       <Form.Item name="description">
         <Input.TextArea
           rows={3}

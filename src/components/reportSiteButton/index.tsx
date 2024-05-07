@@ -21,19 +21,15 @@ const StyledReportButton = styled(Button)`
 
 const ReportIcon = styled(FlagOutlined)`
   max-height: 25px;
-  font-size: 20px;
+  font-size: 22px;
   vertical-align: middle;
 `;
 
 interface ReportSiteButtonProps {
   siteId: number;
-  mobile?: boolean;
 }
 
-const ReportSiteButton: React.FC<ReportSiteButtonProps> = ({
-  siteId,
-  mobile,
-}) => {
+const ReportSiteButton: React.FC<ReportSiteButtonProps> = ({ siteId }) => {
   const { t } = useTranslation(n(site, ['treePage']), {
     nsMode: 'fallback',
   });
@@ -67,7 +63,6 @@ const ReportSiteButton: React.FC<ReportSiteButtonProps> = ({
         title={t('report_sites.hover_title')}
       >
         <ReportIcon />
-        {/* Report Site */}
       </StyledReportButton>
 
       <Modal
