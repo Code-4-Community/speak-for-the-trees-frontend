@@ -1,27 +1,22 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Input, Button, Typography, message } from 'antd';
-import EmailIcon from '../../assets/images/email-icon.png';
+import { SaveTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 import { AddTemplateRequest } from '../forms/ducks/types';
 import ProtectedApiClient from '../../api/protectedApiClient';
+import { LIGHT_GREEN } from '../../utils/colors';
 
 const SaveMenuContainer = styled.div`
   max-width: 200px;
   margin: 20px 0px;
 `;
 
-const StyledImg = styled.img`
-  max-height: 25px;
-  margin-bottom: 3px;
-`;
-
 const MediaShareButton = styled(Button)`
-  margin-top: 10px;
-  margin-right: 10px;
-  width: 60px;
+  margin-left: 10px;
+  width: 30px;
 
   &:hover {
     background-color: #e7ffc7;
@@ -33,11 +28,16 @@ interface SaveMenuProps {
 }
 
 const SaveMenu: React.FC<SaveMenuProps> = ({ templateBody }) => {
-  const { t } = useTranslation(n(site, ['shareMenu']), { nsMode: 'fallback' });
+  const { t } = useTranslation(n(site, ['forms']), {
+    keyPrefix: 'volunteer_emailer',
+    nsMode: 'fallback',
+  });
 
   const [templateName, setTemplateName] = useState(``);
 
   const onClickSave = (name: string, template: string) => {
+    //dom purify template
+    //check name
     const addTemplateRequest: AddTemplateRequest = {
       name,
       template,
@@ -52,17 +52,14 @@ const SaveMenu: React.FC<SaveMenuProps> = ({ templateBody }) => {
   };
   return (
     <SaveMenuContainer>
-      <Typography.Title level={4}>{t('title')}</Typography.Title>
       <Input
         defaultValue={templateName}
         value={templateName}
         onChange={(e) => setTemplateName(e.target.value)}
+        placeholder={t('name_template')}
       />
-      <MediaShareButton
-        name="email-button"
-        onClick={() => onClickSave(templateName, templateBody)}
-      >
-        <StyledImg src={EmailIcon} alt={t('alt.email')} />
+      <MediaShareButton onClick={() => onClickSave(templateName, templateBody)}>
+        <SaveTwoTone twoToneColor={LIGHT_GREEN} />
       </MediaShareButton>
     </SaveMenuContainer>
   );

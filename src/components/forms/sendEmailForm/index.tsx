@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Form, Input, Switch, message, Button } from 'antd';
 import {
+  Flex,
   SubmitButton,
   WhiteButton,
 } from '../../../components/themedComponents';
@@ -119,16 +120,18 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
       <SubmitButton type="primary" htmlType="submit">
         {t('send')}
       </SubmitButton>
-      <WhiteButton
-        type="text"
-        size="large"
-        onClick={() => {
-          setShowSave(!showSave);
-        }}
-      >
-        {t('save')}
-      </WhiteButton>
-      {showSave && <SaveMenu templateBody={bodyContent}></SaveMenu>}
+      <Flex>
+        <WhiteButton
+          type="text"
+          size="large"
+          onClick={() => {
+            setShowSave(!showSave);
+          }}
+        >
+          {t('save')}
+        </WhiteButton>
+        {showSave && <SaveMenu templateBody={bodyContent}></SaveMenu>}
+      </Flex>
     </Form>
   );
 };
