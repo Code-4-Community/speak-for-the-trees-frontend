@@ -4,7 +4,6 @@ import { Form, Input, Switch, message, Button } from 'antd';
 import { SubmitButton } from '../../../components/themedComponents';
 import ProtectedApiClient from '../../../api/protectedApiClient';
 import {
-  AddTemplateRequest,
   SendEmailFormValues,
   SendEmailRequest,
 } from '../../../components/forms/ducks/types';
@@ -14,6 +13,7 @@ import { site } from '../../../constants';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
 import DOMPurify from 'isomorphic-dompurify';
+import SaveMenu from '../../saveMenu';
 
 const PreviewSwitch = styled(Switch)`
   display: flex;
@@ -49,6 +49,7 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
 
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const [bodyContent, setBodyContent] = useState<string>('');
+  const [showSave, setShowSave] = useState(false);
   const [sanitizedBodyContent, setSanitizedBodyContent] = useState<string>('');
 
   const togglePreview = (isShowPreview: boolean) => {
@@ -75,19 +76,6 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
       );
   };
 
-  const onClickSave = (name: string, template: string) => {
-    const addTemplateRequest: AddTemplateRequest = {
-      name,
-      template,
-    };
-    ProtectedApiClient.addTemplate(addTemplateRequest)
-      .then(() => {
-        message.success(t('success'));
-      })
-      .catch((err) =>
-        message.error(t('response_error', { error: err.response.data })),
-      );
-  };
   return (
     <Form
       name="sendEmail"
@@ -128,9 +116,16 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
       <SubmitButton type="primary" htmlType="submit">
         {t('send')}
       </SubmitButton>
-      <Button type="primary" size="large" onClick={onClickSave}>
+      <Button
+        type="text"
+        size="large"
+        onClick={() => {
+          setShowSave(!showSave);
+        }}
+      >
         Save Template
       </Button>
+      {showSave && <SaveMenu template={bodyContent}></SaveMenu>}
     </Form>
   );
 };
