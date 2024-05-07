@@ -2287,7 +2287,7 @@ describe('Admin Protected Client Routes', () => {
       };
 
       nock(BASE_URL)
-        .get(ParameterizedApiRoutes.REPORT_SITE(100))
+        .post(ParameterizedApiRoutes.REPORT_SITE(100))
         .reply(200, response);
 
       const result = await ProtectedApiClient.reportSiteForIssues(100, params);
@@ -2304,7 +2304,7 @@ describe('Admin Protected Client Routes', () => {
       };
 
       nock(BASE_URL)
-        .get(ParameterizedApiRoutes.REPORT_SITE(100))
+        .post(ParameterizedApiRoutes.REPORT_SITE(100))
         .reply(400, response);
 
       const result = await ProtectedApiClient.reportSiteForIssues(
