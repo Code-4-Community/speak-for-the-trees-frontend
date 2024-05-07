@@ -40,7 +40,7 @@ const ReportSiteForm: React.FC<ReportSiteFormProps> = ({ form, onFinish }) => {
       name="reportSite"
       onFinish={onFinish}
       form={form}
-      onValuesChange={(_, allValues) => setSubmitDisabled(!allValues['reason'])}
+      onValuesChange={(_, allValues) => setSubmitDisabled(!allValues.reason)}
     >
       <ItemLabel>{t('report_site.reason_label')}</ItemLabel>
       <Form.Item
@@ -52,7 +52,7 @@ const ReportSiteForm: React.FC<ReportSiteFormProps> = ({ form, onFinish }) => {
       <ItemLabel style={{ marginTop: '15px' }}>
         {t('report_site.description_label')}
       </ItemLabel>
-      <Form.Item name="description">
+      <Form.Item name="description" initialValue="">
         <Input.TextArea
           rows={3}
           placeholder={t('report_site.description_placeholder')}
