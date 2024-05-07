@@ -133,5 +133,5 @@ export interface SendEmailRequest extends SendEmailFormValues {
 
 export interface AddTemplateRequest {
   readonly name: string;
-  readonly body: string;
+  readonly template: string;
 }

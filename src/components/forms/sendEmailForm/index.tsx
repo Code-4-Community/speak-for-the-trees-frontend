@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Form, Input, Switch, message, Button } from 'antd';
-import { SubmitButton } from '../../../components/themedComponents';
+import {
+  SubmitButton,
+  WhiteButton,
+} from '../../../components/themedComponents';
 import ProtectedApiClient from '../../../api/protectedApiClient';
 import {
   SendEmailFormValues,
@@ -116,16 +119,16 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
       <SubmitButton type="primary" htmlType="submit">
         {t('send')}
       </SubmitButton>
-      <Button
+      <WhiteButton
         type="text"
         size="large"
         onClick={() => {
           setShowSave(!showSave);
         }}
       >
-        Save Template
-      </Button>
-      {showSave && <SaveMenu template={bodyContent}></SaveMenu>}
+        {t('save')}
+      </WhiteButton>
+      {showSave && <SaveMenu templateBody={bodyContent}></SaveMenu>}
     </Form>
   );
 };

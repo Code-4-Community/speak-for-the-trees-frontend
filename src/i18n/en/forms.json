@@ -136,6 +136,7 @@
     },
     "body_required": "The email body is required",
     "body_placeholder": "Email Body",
-    "send": "Send Email"
+    "send": "Send Email",
+    "save": "Save Template"
   }
 }
