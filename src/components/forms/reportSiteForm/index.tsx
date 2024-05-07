@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Radio, Input, Typography, Form, FormInstance } from 'antd';
 import { SubmitButton } from '../../themedComponents';
@@ -33,8 +33,15 @@ const ReportSiteForm: React.FC<ReportSiteFormProps> = ({ form, onFinish }) => {
     },
   ];
 
+  const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
+
   return (
-    <Form name="reportSite" onFinish={onFinish} form={form}>
+    <Form
+      name="reportSite"
+      onFinish={onFinish}
+      form={form}
+      onValuesChange={(_, allValues) => setSubmitDisabled(!allValues['reason'])}
+    >
       <ItemLabel>{t('report_site.reason_label')}</ItemLabel>
       <Form.Item
         name="reason"
@@ -54,7 +61,9 @@ const ReportSiteForm: React.FC<ReportSiteFormProps> = ({ form, onFinish }) => {
         />
       </Form.Item>
       <Form.Item style={{ marginBottom: '0px;' }}>
-        <SubmitButton htmlType="submit">{t('submit')}</SubmitButton>
+        <SubmitButton htmlType="submit" disabled={submitDisabled}>
+          {t('submit')}
+        </SubmitButton>
       </Form.Item>
     </Form>
   );
