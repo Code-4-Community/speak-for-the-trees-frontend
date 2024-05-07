@@ -20,6 +20,7 @@ import {
   AddSitesRequest,
   NameSiteEntryRequest,
   SendEmailRequest,
+  AddTemplateRequest,
 } from '../components/forms/ducks/types';
 import {
   ActivityRequest,
@@ -137,6 +138,7 @@ export interface ProtectedApiClient {
   readonly loadEmailTemplateContent: (
     templateName: string,
   ) => Promise<LoadTemplateResponse>;
+  readonly addTemplate: (request: AddTemplateRequest) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -168,6 +170,7 @@ export enum AdminApiClientRoutes {
   ADD_SITES = '/api/v1/protected/sites/add_sites',
   SEND_EMAIL = '/api/v1/protected/neighborhoods/send_email',
   GET_TEMPLATE_NAMES = 'api/v1/protected/emailer/template_names',
+  ADD_TEMPLATE = 'api/v1/protected/emailer/add_template',
 }
 
 const baseTeamRoute = '/api/v1/protected/teams/';
@@ -596,6 +599,12 @@ const loadEmailTemplateContent = (
   ).then((res) => res.data);
 };
 
+const addTemplate = (request: AddTemplateRequest): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.ADD_TEMPLATE, request).then(
+    (res) => res.data,
+  );
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -647,6 +656,7 @@ const Client: ProtectedApiClient = Object.freeze({
   filterSites,
   getEmailTemplateNames,
   loadEmailTemplateContent,
+  addTemplate,
 });
 
 export default Client;

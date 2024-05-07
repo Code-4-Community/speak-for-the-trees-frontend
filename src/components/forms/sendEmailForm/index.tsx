@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Form, Input, Switch, message } from 'antd';
+import { Form, Input, Switch, message, Button } from 'antd';
 import { SubmitButton } from '../../../components/themedComponents';
 import ProtectedApiClient from '../../../api/protectedApiClient';
 import {
+  AddTemplateRequest,
   SendEmailFormValues,
   SendEmailRequest,
 } from '../../../components/forms/ducks/types';
@@ -73,6 +74,20 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
         message.error(t('response_error', { error: err.response.data })),
       );
   };
+
+  const onClickSave = (name: string, template: string) => {
+    const addTemplateRequest: AddTemplateRequest = {
+      name,
+      template,
+    };
+    ProtectedApiClient.addTemplate(addTemplateRequest)
+      .then(() => {
+        message.success(t('success'));
+      })
+      .catch((err) =>
+        message.error(t('response_error', { error: err.response.data })),
+      );
+  };
   return (
     <Form
       name="sendEmail"
@@ -113,6 +128,9 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
       <SubmitButton type="primary" htmlType="submit">
         {t('send')}
       </SubmitButton>
+      <Button type="primary" size="large" onClick={onClickSave}>
+        Save Template
+      </Button>
     </Form>
   );
 };
