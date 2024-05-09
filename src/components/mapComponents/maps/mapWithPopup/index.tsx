@@ -168,6 +168,9 @@ const MapWithPopup: React.FC<PropsWithChildren<MapWithPopupProps>> = ({
 
           const setMapData = initMapCallback(thisMapData);
 
+          // new MarkerClusterer({ setMapData.mar })
+          // new MarkerClusterer({ setMapData.markersArray, map });
+
           // Sets up the autocomplete search bar, only shows places in Boston for suggestions)
           const input = document.getElementById(
             'pac-input',
