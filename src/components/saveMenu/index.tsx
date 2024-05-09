@@ -8,19 +8,30 @@ import { n } from '../../utils/stringFormat';
 import { AddTemplateRequest } from '../forms/ducks/types';
 import ProtectedApiClient from '../../api/protectedApiClient';
 import { LIGHT_GREEN } from '../../utils/colors';
+import DOMPurify from 'isomorphic-dompurify';
 
 const SaveMenuContainer = styled.div`
-  max-width: 200px;
-  margin: 20px 0px;
+  display: flex;
+  max-width: 400px;
+  height: 40px;
+  gap: 2px;
+  align-self: end;
 `;
 
-const MediaShareButton = styled(Button)`
-  margin-left: 10px;
-  width: 30px;
+const SaveButton = styled(Button)`
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: #e7ffc7;
   }
+`;
+
+const NameInput = styled(Input)`
+  height: 40px;
 `;
 
 interface SaveMenuProps {
@@ -36,15 +47,18 @@ const SaveMenu: React.FC<SaveMenuProps> = ({ templateBody }) => {
   const [templateName, setTemplateName] = useState(``);
 
   const onClickSave = (name: string, template: string) => {
-    //dom purify template
-    //check name
+    if (name.length === 0) {
+      message.error(t('name_required'));
+      return;
+    }
+    template = DOMPurify.sanitize(template);
     const addTemplateRequest: AddTemplateRequest = {
       name,
       template,
     };
     ProtectedApiClient.addTemplate(addTemplateRequest)
       .then(() => {
-        message.success(t('success'));
+        message.success(t('save_success'));
       })
       .catch((err) =>
         message.error(t('response_error', { error: err.response.data })),
@@ -52,15 +66,15 @@ const SaveMenu: React.FC<SaveMenuProps> = ({ templateBody }) => {
   };
   return (
     <SaveMenuContainer>
-      <Input
+      <NameInput
         defaultValue={templateName}
         value={templateName}
         onChange={(e) => setTemplateName(e.target.value)}
         placeholder={t('name_template')}
       />
-      <MediaShareButton onClick={() => onClickSave(templateName, templateBody)}>
+      <SaveButton onClick={() => onClickSave(templateName, templateBody)}>
         <SaveTwoTone twoToneColor={LIGHT_GREEN} />
-      </MediaShareButton>
+      </SaveButton>
     </SaveMenuContainer>
   );
 };

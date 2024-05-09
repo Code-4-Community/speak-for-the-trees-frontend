@@ -137,7 +137,9 @@
     "body_required": "The email body is required",
     "body_placeholder": "Email Body",
     "send": "Send Email",
-    "save": "Save Template",
-    "name_template": "Name your template"
+    "save": "Save as Template",
+    "name_template": "Name your template",
+    "name_required": "A template name is required",
+    "save_success": "Template saved!"
   }
 }

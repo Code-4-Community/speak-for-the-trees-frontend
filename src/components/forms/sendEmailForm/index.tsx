@@ -37,6 +37,14 @@ const EmailPreview = styled.div`
   overflow-y: scroll; // required for resizing
 `;
 
+const WhiteSaveButton = styled(WhiteButton)`
+  height: 40px;
+`;
+
+const EmailFlex = styled(Flex)`
+  gap: 4px;
+`;
+
 interface SendEmailFormProps {
   readonly emails: string[];
   readonly sendEmailForm: FormInstance<SendEmailRequest>;
@@ -117,11 +125,11 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
           dangerouslySetInnerHTML={{ __html: sanitizedBodyContent }}
         />
       )}
-      <SubmitButton type="primary" htmlType="submit">
-        {t('send')}
-      </SubmitButton>
-      <Flex>
-        <WhiteButton
+      <EmailFlex>
+        <SubmitButton type="primary" htmlType="submit">
+          {t('send')}
+        </SubmitButton>
+        <WhiteSaveButton
           type="text"
           size="large"
           onClick={() => {
@@ -129,9 +137,9 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
           }}
         >
           {t('save')}
-        </WhiteButton>
+        </WhiteSaveButton>
         {showSave && <SaveMenu templateBody={bodyContent}></SaveMenu>}
-      </Flex>
+      </EmailFlex>
     </Form>
   );
 };
