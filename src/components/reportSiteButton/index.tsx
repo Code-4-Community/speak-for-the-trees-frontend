@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import protectedApiClient from '../../api/protectedApiClient';
 import { StyledClose } from '../themedComponents';
 import { ReportSiteRequest } from '../../containers/treePage/ducks/types';
@@ -37,22 +37,19 @@ const ReportSiteButton: React.FC<ReportSiteButtonProps> = ({ siteId }) => {
   const [showReportModal, setShowReportModal] = useState<boolean>(false);
   const [reportSiteForm] = Form.useForm();
 
-  const reportSite = useCallback(
-    (reportInfo: ReportSiteRequest) => {
-      protectedApiClient
-        .reportSiteForIssues(siteId, reportInfo)
-        .then(() => {
-          message.success(t('messages.report_success'));
-          setShowReportModal(false);
-        })
-        .catch((err) => {
-          message.error(
-            t('messages.report_failure', { error: err.response.data }),
-          );
-        });
-    },
-    [setShowReportModal],
-  );
+  function reportSite(reportInfo: ReportSiteRequest) {
+    protectedApiClient
+      .reportSiteForIssues(siteId, reportInfo)
+      .then(() => {
+        message.success(t('messages.report_success'));
+        setShowReportModal(false);
+      })
+      .catch((err) => {
+        message.error(
+          t('messages.report_failure', { error: err.response.data }),
+        );
+      });
+  }
 
   return (
     <>

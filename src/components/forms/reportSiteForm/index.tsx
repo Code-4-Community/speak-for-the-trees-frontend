@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Radio, Input, Typography, Form, FormInstance } from 'antd';
+import { Input, Typography, Form, FormInstance, Select } from 'antd';
 import { SubmitButton } from '../../themedComponents';
 import { requiredRule } from '../../../utils/formRules';
 import { ReportSiteRequest } from '../../../containers/treePage/ducks/types';
@@ -47,7 +47,7 @@ const ReportSiteForm: React.FC<ReportSiteFormProps> = ({ form, onFinish }) => {
         name="reason"
         rules={requiredRule(t('report_site.reason_rule'))}
       >
-        <Radio.Group options={reasonOptions} />
+        <Select options={reasonOptions} placeholder="Select a reason" />
       </Form.Item>
       <ItemLabel style={{ marginTop: '15px' }}>
         {t('report_site.description_label')}
