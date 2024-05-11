@@ -19,6 +19,8 @@ import useWindowDimensions, {
 import { MapTypes } from '../../../../context/types';
 import { isMobile } from '../../../../utils/isCheck';
 
+import { MarkerClusterer } from '@googlemaps/markerclusterer';
+
 const StyledSearch = styled(Input.Search)`
   width: 20vw;
   position: absolute;
@@ -86,6 +88,8 @@ const MapWithPopup: React.FC<PropsWithChildren<MapWithPopupProps>> = ({
     if (mapElement && treePopupElement) {
       LOADER.load()
         .then(() => {
+          const l = google.maps.importLibrary('marker');
+          console.info(l);
           map = new google.maps.Map(mapElement, {
             center: { lat, lng },
             zoom,
@@ -168,8 +172,7 @@ const MapWithPopup: React.FC<PropsWithChildren<MapWithPopupProps>> = ({
 
           const setMapData = initMapCallback(thisMapData);
 
-          // new MarkerClusterer({ setMapData.mar })
-          // new MarkerClusterer({ setMapData.markersArray, map });
+          // new MarkerClusterer({ markers: setMapData.markersArray, map });
 
           // Sets up the autocomplete search bar, only shows places in Boston for suggestions)
           const input = document.getElementById(
