@@ -286,6 +286,11 @@ export interface ActivityLog extends ActivityRequest {
   userId: number;
 }
 
+export interface ReportSiteRequest {
+  reason: string;
+  description: string;
+}
+
 export interface AdoptedSites {
   adoptedSites: number[];
 }

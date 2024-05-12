@@ -28,6 +28,7 @@ import {
 import {
   asyncRequestIsComplete,
   asyncRequestIsFailed,
+  AsyncRequestKinds,
 } from '../../utils/asyncRequest';
 import { C4CState } from '../../store';
 import { getAdoptedSites, getSiteData } from './ducks/thunks';
@@ -473,7 +474,12 @@ const TreePlantingRequest: React.FC = () => {
 const mapStateToProps = (state: C4CState): TreeProps => {
   return {
     neighborhoods: state.mapGeoDataState.neighborhoodGeoData,
-    sites: state.mapGeoDataState.siteGeoData,
+    // sites: state.mapGeoDataState.siteGeoData,
+    // TODO: return to normal after fixing map speed
+    sites: {
+      kind: AsyncRequestKinds.Completed,
+      result: { type: 'FeatureCollection', name: 'sites', features: [] },
+    },
     tokens: state.authenticationState.tokens,
     siteData: state.siteState.siteData,
     stewardship: mapStewardshipToTreeCare(
