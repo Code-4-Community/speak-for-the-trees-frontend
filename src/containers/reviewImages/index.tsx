@@ -125,7 +125,7 @@ const ReviewImages: React.FC = () => {
   async function onClickReject() {
     const toReject: Promise<void>[] = [];
     selectedImageIds.forEach((id) => {
-      toReject.push(protectedApiClient.approveImage(id));
+      toReject.push(protectedApiClient.rejectImage(id));
     });
     setFetchSiteImagesState(LoadingState.LOADING);
     Promise.all(toReject).then(() => {

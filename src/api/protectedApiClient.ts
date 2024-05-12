@@ -271,8 +271,10 @@ export const ParameterizedAdminApiRoutes = {
     }${params.submittedEnd ? `&submittedEnd=${params.submittedEnd}` : ''}${
       params.neighborhoods ? `&neighborhoodIds=${params.neighborhoods}` : ''
     }`,
-  APPROVE_REJECT_IMAGE: (imageId: number): string =>
+  APPROVE_IMAGE: (imageId: number): string =>
     `api/v1/protected/sites/approve_image/${imageId}`,
+  REJECT_IMAGE: (imageId: number): string =>
+    `api/v1/protected/sites/reject_image/${imageId}`,
   LOAD_TEMPLATE: (templateName: string): string =>
     `api/v1/protected/emailer/load_template/${templateName}`,
 };
@@ -630,13 +632,13 @@ const filterSiteImages = (
 
 const approveImage = (imageId: number): Promise<void> => {
   return AppAxiosInstance.put(
-    ParameterizedAdminApiRoutes.APPROVE_REJECT_IMAGE(imageId),
+    ParameterizedAdminApiRoutes.APPROVE_IMAGE(imageId),
   ).then((res) => res.data);
 };
 
 const rejectImage = (imageId: number): Promise<void> => {
   return AppAxiosInstance.delete(
-    ParameterizedAdminApiRoutes.APPROVE_REJECT_IMAGE(imageId),
+    ParameterizedAdminApiRoutes.REJECT_IMAGE(imageId),
   ).then((res) => res.data);
 };
 
