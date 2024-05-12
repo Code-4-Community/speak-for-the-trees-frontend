@@ -6,7 +6,6 @@
     "@ant-design/icons": "^4.2.2",
     "@craco/craco": "^7.1.0",
     "@googlemaps/js-api-loader": "^1.11.1",
-    "@googlemaps/markerclusterer": "^2.5.3",
     "@reduxjs/toolkit": "^2.0.1",
     "@sentry/react": "^5.27.0",
     "@sentry/tracing": "^5.27.0",
