@@ -2214,6 +2214,69 @@ describe('Admin Protected Client Routes', () => {
     });
   });
 
+  describe('filterSiteImages', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      const params = {
+        submittedStart: null,
+        submittedEnd: null,
+        neighborhoods: [0, 1, 2],
+        siteIds: [0, 1, 2, 3],
+      };
+
+      nock(BASE_URL)
+        .get(ParameterizedAdminApiRoutes.FILTER_SITE_IMAGES(params))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.filterSiteImages(params);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'Invalid dates given!';
+
+      const params = {
+        submittedStart: 'invalid date',
+        submittedEnd: null,
+        neighborhoods: [0, 1, 2],
+        siteIds: [0, 1, 2, 3],
+      };
+
+      nock(BASE_URL)
+        .get(ParameterizedAdminApiRoutes.FILTER_SITE_IMAGES(params))
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.filterSiteImages(params).catch(
+        (err) => err.response.data,
+      );
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes an unauthorized request ', async () => {
+      const response = 'Must be an admin';
+
+      const params = {
+        submittedStart: null,
+        submittedEnd: null,
+        neighborhoods: [0, 1, 2],
+        siteIds: [0, 1, 2, 3],
+      };
+
+      nock(BASE_URL)
+        .get(ParameterizedAdminApiRoutes.FILTER_SITE_IMAGES(params))
+        .reply(401, response);
+
+      const result = await ProtectedApiClient.filterSiteImages(params).catch(
+        (err) => err.response.data,
+      );
+
+      expect(result).toEqual(response);
+    });
+  });
+
   describe('uploadImage', () => {
     let imageToUpload: string | ArrayBuffer;
 
