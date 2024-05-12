@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
+import DOMPurify from 'isomorphic-dompurify';
 
 const StyledReportButton = styled(Button)`
   padding: 0 10px;
@@ -39,7 +40,10 @@ const ReportSiteButton: React.FC<ReportSiteButtonProps> = ({ siteId }) => {
 
   function reportSite(reportInfo: ReportSiteRequest) {
     protectedApiClient
-      .reportSiteForIssues(siteId, reportInfo)
+      .reportSiteForIssues(siteId, {
+        ...reportInfo,
+        description: DOMPurify.sanitize(reportInfo.description),
+      })
       .then(() => {
         message.success(t('messages.report_success'));
         setShowReportModal(false);
