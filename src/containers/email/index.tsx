@@ -47,7 +47,7 @@ const FilterHeader = styled.div`
   margin-top: 15px;
 `;
 
-const FetchInfoContainer = styled.div`
+export const FetchInfoContainer = styled.div`
   text-align: center;
   padding: 30px;
 `;
@@ -70,7 +70,7 @@ const defaultFilters: EmailerFilters = {
 
 const defaultTemplate = 'Pick a Template';
 
-enum LoadingState {
+export enum LoadingState {
   SUCCESS = 'success',
   LOADING = 'loading',
   ERROR = 'error',

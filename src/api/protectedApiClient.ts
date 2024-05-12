@@ -36,6 +36,10 @@ import {
   TemplateNamesResponse,
   LoadTemplateResponse,
 } from '../containers/email/types';
+import {
+  FilterSiteImagesParams,
+  FilterSiteImagesResponse,
+} from '../containers/reviewImages/types';
 
 export interface ProtectedApiExtraArgs {
   readonly protectedApiClient: ProtectedApiClient;
@@ -134,6 +138,11 @@ export interface ProtectedApiClient {
   readonly filterSites: (
     params: FilterSitesParams,
   ) => Promise<FilterSitesResponse>;
+  readonly filterSiteImages: (
+    params: FilterSiteImagesParams,
+  ) => Promise<FilterSiteImagesResponse>;
+  readonly approveImage: (imageId: number) => Promise<void>;
+  readonly rejectImage: (imageId: number) => Promise<void>;
   readonly uploadImage: (
     siteEntryId: number,
     imageFile: string | ArrayBuffer,
@@ -248,6 +257,22 @@ export const ParameterizedAdminApiRoutes = {
         ? `&activityCountMax=${params.activityCountMax}`
         : ''
     }`,
+  FILTER_SITE_IMAGES: (params: FilterSiteImagesParams): string =>
+    `${baseSiteRoute}unapproved_images${
+      params.siteIds ||
+      params.submittedStart ||
+      params.submittedEnd ||
+      params.neighborhoods
+        ? '?'
+        : ''
+    }
+    ${params.siteIds ? `&siteIds=${params.siteIds}` : ''}${
+      params.submittedStart ? `&submittedStart=${params.submittedStart}` : ''
+    }${params.submittedEnd ? `&submittedEnd=${params.submittedEnd}` : ''}${
+      params.neighborhoods ? `&neighborhoodIds=${params.neighborhoods}` : ''
+    }`,
+  APPROVE_REJECT_IMAGE: (imageId: number): string =>
+    `api/v1/protected/sites/approve_image/${imageId}`,
   LOAD_TEMPLATE: (templateName: string): string =>
     `api/v1/protected/emailer/load_template/${templateName}`,
 };
@@ -595,6 +620,26 @@ const filterSites = (
   ).then((res) => res.data);
 };
 
+const filterSiteImages = (
+  params: FilterSiteImagesParams,
+): Promise<FilterSiteImagesResponse> => {
+  return AppAxiosInstance.get(
+    ParameterizedAdminApiRoutes.FILTER_SITE_IMAGES(params),
+  ).then((res) => res.data);
+};
+
+const approveImage = (imageId: number): Promise<void> => {
+  return AppAxiosInstance.put(
+    ParameterizedAdminApiRoutes.APPROVE_REJECT_IMAGE(imageId),
+  ).then((res) => res.data);
+};
+
+const rejectImage = (imageId: number): Promise<void> => {
+  return AppAxiosInstance.delete(
+    ParameterizedAdminApiRoutes.APPROVE_REJECT_IMAGE(imageId),
+  ).then((res) => res.data);
+};
+
 const uploadImage = (
   siteEntryId: number,
   imageFile: string | ArrayBuffer,
@@ -679,6 +724,9 @@ const Client: ProtectedApiClient = Object.freeze({
   sendEmail,
   deleteImage,
   filterSites,
+  filterSiteImages,
+  approveImage,
+  rejectImage,
   uploadImage,
   getEmailTemplateNames,
   loadEmailTemplateContent,
