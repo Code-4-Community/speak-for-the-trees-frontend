@@ -142,7 +142,7 @@ export interface ProtectedApiClient {
     params: FilterSiteImagesParams,
   ) => Promise<FilterSiteImagesResponse>;
   readonly approveImage: (imageId: number) => Promise<void>;
-  readonly rejectImage: (imageId: number) => Promise<void>;
+  readonly rejectImage: (imageId: number, reason: string) => Promise<void>;
   readonly uploadImage: (
     siteEntryId: number,
     imageFile: string | ArrayBuffer,
@@ -273,8 +273,8 @@ export const ParameterizedAdminApiRoutes = {
     }`,
   APPROVE_IMAGE: (imageId: number): string =>
     `api/v1/protected/sites/approve_image/${imageId}`,
-  REJECT_IMAGE: (imageId: number): string =>
-    `api/v1/protected/sites/reject_image/${imageId}`,
+  REJECT_IMAGE: (imageId: number, reason: string): string =>
+    `api/v1/protected/sites/reject_image/${imageId}?reason=${reason}`,
   LOAD_TEMPLATE: (templateName: string): string =>
     `api/v1/protected/emailer/load_template/${templateName}`,
 };
@@ -636,9 +636,9 @@ const approveImage = (imageId: number): Promise<void> => {
   ).then((res) => res.data);
 };
 
-const rejectImage = (imageId: number): Promise<void> => {
+const rejectImage = (imageId: number, reason: string): Promise<void> => {
   return AppAxiosInstance.delete(
-    ParameterizedAdminApiRoutes.REJECT_IMAGE(imageId),
+    ParameterizedAdminApiRoutes.REJECT_IMAGE(imageId, reason),
   ).then((res) => res.data);
 };
 

@@ -44,7 +44,7 @@ const ApproveRejectDialogue = styled.div`
   display: flex;
   flex-direction: row;
   border: 1px solid ${DARK_GREEN};
-  padding 3px;
+  padding: 3px;
   margin: 5px;
   max-width: 280px;
   border-radius: 6px;
@@ -125,7 +125,12 @@ const ReviewImages: React.FC = () => {
   async function onClickReject() {
     const toReject: Promise<void>[] = [];
     selectedImageIds.forEach((id) => {
-      toReject.push(protectedApiClient.rejectImage(id));
+      toReject.push(
+        protectedApiClient.rejectImage(
+          id,
+          'Your image upload was rejected by an admin',
+        ),
+      );
     });
     setFetchSiteImagesState(LoadingState.LOADING);
     Promise.all(toReject).then(() => {
