@@ -20,6 +20,8 @@ import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 import { isSFTT } from '../../utils/isCheck';
 import { getCommonName } from '../../utils/treeFunctions';
+import UploadSiteImageButton from '../uploadSiteImageButton';
+import ReportSiteButton from '../reportSiteButton';
 
 const TreeHeader = styled.div`
   text-transform: capitalize;
@@ -162,6 +164,12 @@ export const TreeInfo: React.FC<TreeProps> = ({
             userOwnsTree={userOwnsTree}
             isAdopted={isAdopted}
           />
+
+          {/* {treePresent && (
+            <UploadSiteImageButton siteEntryId={siteData.entries[0].id} />
+          )} */}
+
+          <ReportSiteButton siteId={siteData.siteId} />
 
           {userOwnsTree && treePresent && (
             <StewardshipContainer>

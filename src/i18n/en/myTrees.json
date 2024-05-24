@@ -1,4 +1,9 @@
 {
   "title": "My Trees",
-  "body": "Here are the trees you have adopted. From here you can select a tree to record stewardship activities or you can adopt even more!"
+  "body": "Here are the trees you have adopted. From here you can select a tree to record stewardship activities or you can adopt even more!",
+  "treeCard": {
+    "address": "Address",
+    "species": "Species",
+    "empty": "No Trees Adopted"
+  }
 }

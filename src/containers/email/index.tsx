@@ -90,8 +90,7 @@ const Email: React.FC = () => {
   const [fetchSitesState, setFetchSitesState] = useState<LoadingState>(
     LoadingState.SUCCESS,
   );
-  const { t } = useTranslation(n(site, ['forms']), {
-    keyPrefix: 'volunteer_emailer',
+  const { t } = useTranslation(n(site, ['forms', 'admin']), {
     nsMode: 'fallback',
   });
 
@@ -106,7 +105,11 @@ const Email: React.FC = () => {
       })
       .catch((err) => {
         setTemplateNames([defaultTemplate]);
-        message.error(t('template_names_error', { error: err.response.data }));
+        message.error(
+          t('volunteer_emailer.template_names_error', {
+            error: err.response.data,
+          }),
+        );
       });
   }
 
@@ -119,7 +122,9 @@ const Email: React.FC = () => {
       .catch((err) => {
         sendEmailForm.setFieldValue('emailBody', '');
         message.error(
-          t('template_content_error', { error: err.response.data }),
+          t('volunteer_emailer.template_content_error', {
+            error: err.response.data,
+          }),
         );
       });
   }
@@ -147,7 +152,7 @@ const Email: React.FC = () => {
         setFetchSitesState(LoadingState.SUCCESS);
         setFetchData(res.filteredSites);
       })
-      .catch((err) => {
+      .catch(() => {
         setFetchSitesState(LoadingState.ERROR);
       });
   }
@@ -155,7 +160,7 @@ const Email: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Send Emails</title>
+        <title>{t('emailer.helmet_title')}</title>
         <meta
           name="description"
           content="The page for admin users to filter users based on various criteria and send emails to them"
@@ -164,13 +169,15 @@ const Email: React.FC = () => {
       <PageLayout>
         <EmailPageContainer>
           <ReturnButton to={Routes.ADMIN}>
-            <ArrowLeftOutlined /> Back to Dashboard
+            <ArrowLeftOutlined /> {t('back')}
           </ReturnButton>
-          <PageHeader pageTitle="Volunteer Emailer" />
+          <PageHeader pageTitle={t('emailer.page_title')} />
           <Row>
             <Col span={6}>
               <FilterHeader>
-                <Typography.Title level={3}>Filter By</Typography.Title>
+                <Typography.Title level={3}>
+                  {t('emailer.filter_header')}
+                </Typography.Title>
                 <Button
                   type="link"
                   onClick={(e) => {
@@ -178,7 +185,7 @@ const Email: React.FC = () => {
                     setFilters(defaultFilters);
                   }}
                 >
-                  Clear Filters
+                  {t('emailer.clear_filters')}
                 </Button>
               </FilterHeader>
               <EmailerFilterControls
@@ -187,7 +194,7 @@ const Email: React.FC = () => {
               />
               <br />
               <Button type="primary" size="large" onClick={onClickSearch}>
-                Search
+                {t('emailer.search_filters')}
               </Button>
             </Col>
             <Col span={1}></Col>
@@ -211,8 +218,8 @@ const Email: React.FC = () => {
                     return (
                       <FetchInfoContainer>
                         <Alert
-                          message="Error"
-                          description="Failed to fetch site data!"
+                          message={t('emailer.search_error')}
+                          description={t('emailer.search_error_description')}
                           type="error"
                           showIcon
                         />
@@ -224,7 +231,7 @@ const Email: React.FC = () => {
           </Row>
           <Divider />
           <Typography.Title level={3}>
-            Select a type of email to send volunteers or write an email below
+            {t('emailer.email_header')}
           </Typography.Title>
           <EmailTypeSelect
             value={emailType}
@@ -239,7 +246,7 @@ const Email: React.FC = () => {
               fetchTemplateData(value);
             }}
           />
-          <Typography.Title level={3}>Email</Typography.Title>
+          <Typography.Title level={3}>{t('emailer.email')}</Typography.Title>
           <SendEmailForm
             emails={selectedEmails}
             sendEmailForm={sendEmailForm}

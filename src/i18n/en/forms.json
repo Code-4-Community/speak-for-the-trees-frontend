@@ -123,6 +123,16 @@
     "activity_label": "Stewardship Activities"
   },
   "volunteer_emailer": {
+    "search_controls": {
+      "activity_count_header": "Activity Count",
+      "adoption_date_header": "Adoption Date",
+      "last_activity_date_header": "Last Activity Date",
+      "neighborhood_header": "Neighborhood",
+      "neighborhood_placeholder": "Enter a neighborhood",
+      "common_name_header": "Common Name",
+      "common_name_placeholder": "Enter a tree name"
+    },
+    "get_common_names_error": "Unable to fetch existing tree names: {{error}}",
     "success": "Email sent!",
     "users_required": "Please select users to email",
     "response_error": "Email could not be sent: {{error}}",
@@ -141,5 +151,15 @@
     "name_template": "Name your template",
     "name_required": "A template name is required",
     "save_success": "Template saved!"
+  },
+  "report_site": {
+    "options": {
+      "inappropriate": "Inappropriate Content",
+      "incorrect": "Incorrect Information"
+    },
+    "reason_label": "Reason",
+    "description_label": "Description (optional)",
+    "description_placeholder": "Describe the issue in greater detail",
+    "reason_rule": "A reason is required!"
   }
 }

@@ -68,22 +68,22 @@ export const ALL_SITES_VISIBLE_COMBINED: (SiteStatus | SiteOwner)[] = [
 export const SITE_OPTIONS_ROADMAP: SiteOption[] = [
   {
     image: youngTreeIcon,
-    label: 'Young Trees',
+    translationKey: 'young',
     value: 'Young',
   },
   {
     image: standardTreeIcon,
-    label: 'Older Trees',
+    translationKey: 'older',
     value: 'Standard',
   },
   {
     image: adoptedTreeIcon,
-    label: 'Adopted Trees',
+    translationKey: 'adopted',
     value: 'Adopted',
   },
   {
     image: openSiteIcon,
-    label: 'Planting Sites',
+    translationKey: 'open',
     value: 'Open',
   },
 ];
@@ -91,32 +91,32 @@ export const SITE_OPTIONS_ROADMAP: SiteOption[] = [
 export const SITE_OPTIONS_SATELLITE: SiteOption[] = [
   {
     image: satelliteYoungIcon,
-    label: 'Young Trees',
+    translationKey: 'young',
     value: 'Young',
   },
   {
     image: satelliteStandardIcon,
-    label: 'Older Trees',
+    translationKey: 'older',
     value: 'Standard',
   },
   {
     image: satelliteAdoptedIcon,
-    label: 'Adopted Trees',
+    translationKey: 'adopted',
     value: 'Adopted',
   },
   {
     image: satelliteOpenIcon,
-    label: 'Planting Sites',
+    translationKey: 'open',
     value: 'Open',
   },
 ];
 
 export const SITE_OPTIONS_OWNER: OwnerOption[] = [
-  { label: 'ROW (Street) Trees', value: 'ROW' },
-  { label: 'Park Trees', value: 'Park' },
-  { label: 'State Trees', value: 'State' },
-  { label: 'Federal Trees', value: 'Federal' },
-  { label: 'Private Trees', value: 'Private' },
+  { translationKey: 'row', value: 'ROW' },
+  { translationKey: 'park', value: 'Park' },
+  { translationKey: 'state', value: 'State' },
+  { translationKey: 'federal', value: 'Federal' },
+  { translationKey: 'private', value: 'Private' },
 ];
 
 // Relevant documentation: https://developers.google.com/maps/documentation/javascript/style-reference

@@ -9,6 +9,9 @@ import { useSelector } from 'react-redux';
 import { C4CState } from '../../store';
 import { isAdmin } from '../../auth/ducks/selectors';
 import ShareButton from '../../components/shareButton';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../utils/stringFormat';
+import { site as website } from '../../constants';
 
 const StyledCard = styled(Card)`
   width: 95%;
@@ -37,6 +40,10 @@ interface TreeCardProps {
 }
 
 const TreeCard: React.FC<TreeCardProps> = ({ site }) => {
+  const { t } = useTranslation(n(website, ['myTrees', 'maps', 'treeInfo']), {
+    nsMode: 'fallback',
+  });
+
   const userIsAdmin: boolean = useSelector((state: C4CState) =>
     isAdmin(state.authenticationState.tokens),
   );
@@ -46,20 +53,30 @@ const TreeCard: React.FC<TreeCardProps> = ({ site }) => {
       <StyledCard>
         <CardContent>
           <CardInfo>
-            {site.address && <TreeTitle>Address: {site.address}</TreeTitle>}
-            {site.commonName && <TreeBody>Species: {site.commonName}</TreeBody>}
+            {site.address && (
+              <TreeTitle>
+                {t('treeCard.address')}: {site.address}
+              </TreeTitle>
+            )}
+            {site.commonName && (
+              <TreeBody>
+                {t('treeCard.species')}: {site.commonName}
+              </TreeBody>
+            )}
             {site.id && <TreeBody>ID: {site.id}</TreeBody>}
           </CardInfo>
           <GreenLinkButton
             to={`${ParameterizedRouteBases.TREE}${site.id}`}
             state={{ destination: Routes.MY_TREES }}
           >
-            More Info
+            {t('popup.moreInfo')}
           </GreenLinkButton>
 
           <ShareButton
             size="middle"
-            defaultText="Check out this tree I adopted!"
+            defaultText={t('share_messages.user_owns', {
+              treeCommonName: site.commonName,
+            })}
             link={`map.treeboston.org/tree/${site.id ? site.id : ''}`}
           ></ShareButton>
 
@@ -70,7 +87,7 @@ const TreeCard: React.FC<TreeCardProps> = ({ site }) => {
                 state={{ destination: Routes.MY_TREES }}
                 target="_blank"
               >
-                Edit Site Page
+                {t('popup.editPage')}
               </GreenLinkButton>
             </MarginLeftSpan>
           )}

@@ -8,14 +8,15 @@ import {
   WHITE,
 } from '../../../utils/colors';
 import { YOUNG_TREE_DATE } from '../constants';
-import adoptedIcon from '../../../assets/images/siteIcons/adoptedIcon.svg';
-import openIcon from '../../../assets/images/siteIcons/openIcon.svg';
-import standardIcon from '../../../assets/images/siteIcons/standardIcon.svg';
-import youngIcon from '../../../assets/images/siteIcons/youngIcon.svg';
-import satelliteAdoptedIcon from '../../../assets/images/siteIcons/satelliteAdoptedIcon.svg';
-import satelliteOpenIcon from '../../../assets/images/siteIcons/satelliteOpenIcon.svg';
-import satelliteStandardIcon from '../../../assets/images/siteIcons/satelliteStandardIcon.svg';
-import satelliteYoungIcon from '../../../assets/images/siteIcons/satelliteYoungIcon.svg';
+// TODO: put this into constants please
+import adoptedIcon from '../../../assets/images/siteIcons/png/adoptedIcon.png';
+import openIcon from '../../../assets/images/siteIcons/png/openIcon.png';
+import standardIcon from '../../../assets/images/siteIcons/png/standardIcon.png';
+import youngIcon from '../../../assets/images/siteIcons/png/youngIcon.png';
+import satelliteAdoptedIcon from '../../../assets/images/siteIcons/png/satelliteAdoptedIcon.png';
+import satelliteOpenIcon from '../../../assets/images/siteIcons/png/satelliteOpenIcon.png';
+import satelliteStandardIcon from '../../../assets/images/siteIcons/png/satelliteStandardIcon.png';
+import satelliteYoungIcon from '../../../assets/images/siteIcons/png/satelliteYoungIcon.png';
 import { shortHand } from '../../../utils/stringFormat';
 import { SHORT_HAND_NAMES } from '../../../assets/content';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';

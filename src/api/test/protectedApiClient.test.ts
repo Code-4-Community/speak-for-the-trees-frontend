@@ -2244,4 +2244,106 @@ describe('Admin Protected Client Routes', () => {
       });
     });
   });
+
+  describe('uploadImage', () => {
+    let imageToUpload: string | ArrayBuffer;
+
+    beforeEach(() => {
+      const reader = new FileReader();
+      const imageFile = new File(['image-data'], 'image.jpg', {
+        type: 'image/jpeg',
+      });
+      reader.addEventListener(
+        'loadend',
+        () => {
+          imageToUpload = reader.result ?? '';
+        },
+        false,
+      );
+      reader.readAsDataURL(imageFile);
+    });
+    it('makes the right request', async () => {
+      const response = 'Image uploaded successfully';
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.UPLOAD_IMAGE(11934))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.uploadImage(
+        11934,
+        imageToUpload,
+        false,
+      );
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'invalid site entry id';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.UPLOAD_IMAGE(-1))
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.uploadImage(
+        -1,
+        imageToUpload,
+        false,
+      ).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+
+    it('invalid or incorrectly formatted image file', async () => {
+      const response = 'Invalid image format';
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.UPLOAD_IMAGE(11934))
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.uploadImage(
+        11934,
+        imageToUpload,
+        false,
+      ).catch((err) => err.response.data);
+    });
+  });
+
+  describe('reportSiteForIssues', () => {
+    it('makes the right request', async () => {
+      const response = '';
+
+      const params = {
+        reason: 'Tree Bad',
+        description: 'just awful',
+      };
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.REPORT_SITE(100))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.reportSiteForIssues(100, params);
+
+      expect(result).toEqual(response);
+    });
+
+    it('makes a bad request', async () => {
+      const response = 'Malformed request body!';
+
+      const params = {
+        reason: '',
+        description: 'missing a reason',
+      };
+
+      nock(BASE_URL)
+        .post(ParameterizedApiRoutes.REPORT_SITE(100))
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.reportSiteForIssues(
+        100,
+        params,
+      ).catch((err) => err.response.data);
+
+      expect(result).toEqual(response);
+    });
+  });
 });
