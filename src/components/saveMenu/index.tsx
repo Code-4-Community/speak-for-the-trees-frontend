@@ -34,6 +34,10 @@ const NameInput = styled(Input)`
   height: 40px;
 `;
 
+const LargeSaveTwoTone = styled(SaveTwoTone)`
+  font-size: 20px;
+`;
+
 interface SaveMenuProps {
   templateBody: string;
 }
@@ -73,7 +77,7 @@ const SaveMenu: React.FC<SaveMenuProps> = ({ templateBody }) => {
         placeholder={t('name_template')}
       />
       <SaveButton onClick={() => onClickSave(templateName, templateBody)}>
-        <SaveTwoTone twoToneColor={LIGHT_GREEN} />
+        <LargeSaveTwoTone twoToneColor={LIGHT_GREEN} />
       </SaveButton>
     </SaveMenuContainer>
   );

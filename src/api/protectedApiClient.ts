@@ -169,8 +169,8 @@ export enum AdminApiClientRoutes {
   GET_STEWARDSHIP_REPORT_CSV = '/api/v1/protected/report/csv/adoption',
   ADD_SITES = '/api/v1/protected/sites/add_sites',
   SEND_EMAIL = '/api/v1/protected/neighborhoods/send_email',
-  GET_TEMPLATE_NAMES = 'api/v1/protected/emailer/template_names',
-  ADD_TEMPLATE = 'api/v1/protected/emailer/add_template',
+  GET_TEMPLATE_NAMES = '/api/v1/protected/emailer/template_names',
+  ADD_TEMPLATE = '/api/v1/protected/emailer/add_template',
 }
 
 const baseTeamRoute = '/api/v1/protected/teams/';
