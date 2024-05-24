@@ -1,15 +1,4 @@
 {
-<<<<<<< HEAD
-  "popup": {
-    "nearbyAddress": "Nearby Address",
-    "moreInfo": "More Info",
-    "editPage": "Edit Site Page",
-    "unknownSpecies": "Unknown Species",
-    "openSite": {
-      "title": "Open Planting Site",
-      "question": "Want to plant a tree here?",
-      "cta": "Submit a request to the city!"
-=======
     "popup": {
         "nearbyAddress": "Nearby Address",
         "moreInfo": "More Info",
@@ -48,7 +37,6 @@
             "open": "Empty sites where future trees could be planted",
             "privateStreet": "Private streets that volunteers shouldn't enter!"
         }
->>>>>>> master
     }
   }
 }
