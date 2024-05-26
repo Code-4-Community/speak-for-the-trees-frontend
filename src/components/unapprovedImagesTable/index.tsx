@@ -1,4 +1,5 @@
 import React, {
+  Dispatch,
   PropsWithChildren,
   SetStateAction,
   useMemo,
@@ -18,6 +19,8 @@ interface UnapprovedImagesTable {
   readonly fetchData: FilteredSiteImage[];
   readonly setSelectedImageIds: React.Dispatch<SetStateAction<number[]>>;
   readonly useGridView: boolean;
+  readonly approvedOrRejectedImageIds: number[];
+  readonly setApprovedOrRejectedImageIds: Dispatch<SetStateAction<number[]>>;
 }
 
 const ImageCard = styled.div`
@@ -38,23 +41,58 @@ const ImageCard = styled.div`
   text-align: center;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(226, 254, 170, 0.5);
+    background-blend-mode: multiply;
   }
 `;
 
 interface ModalCardProps {
   image: string;
   siteId: number;
+  species: string;
 }
 
 const ModalLinkCard: React.FC<PropsWithChildren<ModalCardProps>> = ({
   image,
   siteId,
+  species,
   children,
-}) => (
-  <ImageCard style={{ backgroundImage: `url(${image})` }}>{children}</ImageCard>
-);
+}) => {
+  const [isHovered, setIsHovered] = useState(false);
 
+  return (
+    <ImageCard
+      style={{ backgroundImage: `url(${image})`, position: 'relative' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        {children}
+        {isHovered && (
+          <div style={{ color: 'black' }}>
+            <b>Species:</b>
+            <br />
+            {species}
+          </div>
+        )}
+      </div>
+      {isHovered && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: '#A7EE31C7',
+            zIndex: 0,
+            borderRadius: '10px',
+          }}
+        />
+      )}
+    </ImageCard>
+  );
+};
 const columns: ColumnsType<FilterImageTableData> = [
   {
     title: 'Preview',
@@ -106,10 +144,22 @@ const UnapprovedImagesTable: React.FC<UnapprovedImagesTable> = ({
   fetchData,
   setSelectedImageIds,
   useGridView,
+  approvedOrRejectedImageIds,
+  setApprovedOrRejectedImageIds,
 }) => {
+  const filteredData = useMemo(
+    () =>
+      fetchData
+        ? fetchData.filter(
+            (data) => !approvedOrRejectedImageIds.includes(data.imageId),
+          )
+        : [],
+    [fetchData, approvedOrRejectedImageIds],
+  );
+
   const tableData = useMemo(
-    () => (fetchData ? fetchData.map(responseToTableData) : []),
-    [fetchData],
+    () => (filteredData ? filteredData.map(responseToTableData) : []),
+    [filteredData],
   );
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<number[]>([]);
@@ -165,7 +215,11 @@ const UnapprovedImagesTable: React.FC<UnapprovedImagesTable> = ({
                 span={8}
                 onClick={() => openApproveImageModal(data)}
               >
-                <ModalLinkCard image={data.preview} siteId={data.siteId} />
+                <ModalLinkCard
+                  image={data.preview}
+                  siteId={data.siteId}
+                  species={data.species}
+                />
               </Col>
             ))}
           </Row>
@@ -181,6 +235,10 @@ const UnapprovedImagesTable: React.FC<UnapprovedImagesTable> = ({
           visible={approveImageModalOpen}
           onClose={() => setApproveImageModalOpen(false)}
           tableData={selectedImage}
+          approvedOrRejectedImageIds={approvedOrRejectedImageIds}
+          setApprovedOrRejectedImageIds={setApprovedOrRejectedImageIds}
+          allData={tableData}
+          setSelectedImage={setSelectedImage}
         />
       </>
     );

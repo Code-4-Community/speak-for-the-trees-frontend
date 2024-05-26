@@ -101,6 +101,9 @@ const ReviewImages: React.FC = () => {
   const [selectedImageIds, setSelectedImageIds] = useState<number[]>([]);
   const [fetchSiteImagesState, setFetchSiteImagesState] =
     useState<LoadingState>(LoadingState.SUCCESS);
+  const [approvedOrRejectedImageIds, setApprovedOrRejectedImageIds] = useState<
+    number[]
+  >([]);
 
   useEffect(() => {
     onClickSearch();
@@ -264,6 +267,12 @@ const ReviewImages: React.FC = () => {
                           fetchData={fetchData}
                           setSelectedImageIds={setSelectedImageIds}
                           useGridView={useGridView}
+                          approvedOrRejectedImageIds={
+                            approvedOrRejectedImageIds
+                          }
+                          setApprovedOrRejectedImageIds={
+                            setApprovedOrRejectedImageIds
+                          }
                         ></UnapprovedImagesTable>
                       </>
                     );

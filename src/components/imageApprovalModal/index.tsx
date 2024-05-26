@@ -1,33 +1,70 @@
-import { Modal, Space, Button, Row, Col } from 'antd';
-import React, { CSSProperties, useEffect, useState } from 'react';
+import { Modal, Space, Button, Row, Col, Input } from 'antd';
+import React, {
+  CSSProperties,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { FilterImageTableData } from '../../containers/reviewImages/types';
+import protectedApiClient from '../../api/protectedApiClient';
+import { LoadingState } from '../../containers/email';
+const { TextArea } = Input;
 
 interface ImageApprovalModal {
   visible: boolean;
   onClose: () => void;
   tableData: FilterImageTableData | null;
+  approvedOrRejectedImageIds: number[];
+  setApprovedOrRejectedImageIds: Dispatch<SetStateAction<number[]>>;
+  allData: FilterImageTableData[];
+  setSelectedImage: Dispatch<SetStateAction<FilterImageTableData | null>>;
 }
 
 const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
   const [open, setOpen] = useState(props.visible);
   const [data, setData] = useState(props.tableData);
+  const [isRejectionTextOpen, setIsRejectionTextOpen] = useState(false);
+  const [rejectionReason, setRejectionReason] = useState('');
+  const [allData, setAllData] = useState(props.allData);
 
   const close = () => {
     setOpen(false);
     props.onClose();
   };
 
+  const openRejectionTextBox = () => {
+    setIsRejectionTextOpen(true);
+  };
+
+  const handleNextSubmission = () => {
+    const currentIndex = allData.findIndex(
+      (siteData) => siteData.key === data?.key,
+    );
+    const nextIndex = (currentIndex + 1) % allData.length;
+    const nextImage = allData[nextIndex];
+    setData(nextImage);
+  };
+
   const footer = (
     <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-      <Button style={{ color: 'gray' }}>
+      <Button style={{ color: 'gray' }} onClick={close}>
         <LeftOutlined /> Back to List
       </Button>
-      <Button style={{ color: 'gray' }}>
+      <Button style={{ color: 'gray' }} onClick={handleNextSubmission}>
         Next Submission <RightOutlined />
       </Button>
     </Space>
   );
+
+  const rejectionReasonStyle = {
+    background: 'rgb(239, 239, 239)',
+    borderRadius: '5px',
+    marginTop: '5%',
+    padding: '3%',
+    paddingRight: '10%',
+  };
 
   const StatusHeader = () => {
     return (
@@ -45,10 +82,15 @@ const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
           <Button
             type="primary"
             style={{ flex: 1, marginRight: '8px', color: 'black' }}
+            onClick={onClickAccept}
           >
             Accept
           </Button>
-          <Button type="primary" style={{ flex: 1, color: 'black' }}>
+          <Button
+            type="primary"
+            style={{ flex: 1, color: 'black' }}
+            onClick={openRejectionTextBox}
+          >
             Reject
           </Button>
         </div>
@@ -60,16 +102,48 @@ const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
     return null;
   }
 
-  // const treeSummaryTextStyle = {
-  //   color: 'black',
-  //   fontSize: '12px',
-  // };
-
   const treeSummaryTextStyle: CSSProperties = {
     whiteSpace: 'nowrap', // Prevent text from wrapping
-    // overflow: 'hidden', // Hide overflowing text
-    // textOverflow: 'ellipsis', // Show ellipsis for overflow
   };
+
+  async function onClickReject() {
+    const toReject: Promise<void>[] = [];
+    if (!data) {
+      return null;
+    }
+    toReject.push(protectedApiClient.rejectImage(data.key, rejectionReason));
+    Promise.all(toReject).then(() => {
+      props.setApprovedOrRejectedImageIds((prevIds) => [...prevIds, data.key]);
+      close();
+    });
+  }
+
+  async function onClickAccept() {
+    const toApprove: Promise<void>[] = [];
+    if (!data) {
+      return null;
+    }
+    toApprove.push(protectedApiClient.approveImage(data.key));
+    Promise.all(toApprove).then(() => {
+      props.setApprovedOrRejectedImageIds((prevIds) => [...prevIds, data.key]);
+      close();
+    });
+  }
+
+  function treeSummaryLine(lineName: string, lineItem: number | string) {
+    return (
+      <>
+        <Col span={12}>
+          <b>
+            <p style={treeSummaryTextStyle}>{lineName}</p>
+          </b>
+        </Col>
+        <Col span={12}>
+          <p style={treeSummaryTextStyle}>{lineItem}</p>
+        </Col>
+      </>
+    );
+  }
 
   const TreeSummaryDisplay = () => {
     return (
@@ -77,56 +151,18 @@ const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
         <Row gutter={[24, 25]}>
           <Col span={24}>
             <Row gutter={25}>
-              <Col span={12}>
-                <b>
-                  <p style={treeSummaryTextStyle}>Site ID</p>
-                </b>
-              </Col>
-              <Col span={12}>
-                <p style={treeSummaryTextStyle}>{data.siteId}</p>
-              </Col>
-            </Row>
-            <Row gutter={25}>
-              <Col span={12}>
-                <b>
-                  <p style={treeSummaryTextStyle}>Date Submitted</p>
-                </b>
-              </Col>
-              <Col span={12}>
-                <p style={treeSummaryTextStyle}>{data.dateSubmitted}</p>
-              </Col>
-              <Col span={12}>
-                <b>
-                  <p style={treeSummaryTextStyle}>Submitted By</p>
-                </b>
-              </Col>
-              <Col span={12}>
-                <p style={treeSummaryTextStyle}>{data.submittedBy}</p>
-              </Col>
-              <Col span={12}>
-                <b>
-                  <p style={treeSummaryTextStyle}>Species</p>
-                </b>
-              </Col>
-              <Col span={12}>
-                <p style={treeSummaryTextStyle}>{data.species}</p>
-              </Col>
-              <Col span={12}>
-                <b>
-                  <p style={treeSummaryTextStyle}>Neighborhood</p>
-                </b>
-              </Col>
-              <Col span={12}>
-                <p style={treeSummaryTextStyle}>{data.neighborhood}</p>
-              </Col>
-              <Col span={12}>
-                <b>
-                  <p style={treeSummaryTextStyle}>Address</p>
-                </b>
-              </Col>
-              <Col span={12}>
-                <p style={treeSummaryTextStyle}>{data.address}</p>
-              </Col>
+              {isRejectionTextOpen ? (
+                <></>
+              ) : (
+                <>
+                  {treeSummaryLine('Site ID', data.siteId)}
+                  {treeSummaryLine('Date Submitted', data.dateSubmitted)}
+                  {treeSummaryLine('Submitted By', data.submittedBy)}
+                </>
+              )}
+              {treeSummaryLine('Species', data.species)}
+              {treeSummaryLine('Neighborhood', data.neighborhood)}
+              {treeSummaryLine('Address', data.address)}
             </Row>
           </Col>
         </Row>
@@ -160,6 +196,26 @@ const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
         </Col>
         <Col span={12}>
           <StatusHeader />
+          {isRejectionTextOpen ? (
+            <div style={rejectionReasonStyle}>
+              <h3 style={{ color: 'black' }}>Reason for Rejection</h3>
+              <TextArea
+                placeholder="Type here..."
+                style={{ height: 50 }}
+                value={rejectionReason}
+                onChange={(e) => setRejectionReason(e.target.value)}
+              />
+              <Button
+                type="primary"
+                style={{ marginTop: '3%' }}
+                onClick={onClickReject}
+              >
+                Submit
+              </Button>
+            </div>
+          ) : (
+            <></>
+          )}
           <TreeSummaryDisplay />
         </Col>
       </Row>
