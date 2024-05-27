@@ -146,7 +146,11 @@
     },
     "body_required": "The email body is required",
     "body_placeholder": "Email Body",
-    "send": "Send Email"
+    "send": "Send Email",
+    "save": "Save as Template",
+    "name_template": "Name your template",
+    "name_required": "A template name is required",
+    "save_success": "Template saved!"
   },
   "report_site": {
     "options": {

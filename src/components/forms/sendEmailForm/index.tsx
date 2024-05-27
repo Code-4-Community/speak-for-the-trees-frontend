@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Form, Input, Switch, message } from 'antd';
-import { SubmitButton } from '../../../components/themedComponents';
+import { Form, Input, Switch, message, Button } from 'antd';
+import {
+  Flex,
+  SubmitButton,
+  WhiteButton,
+} from '../../../components/themedComponents';
 import ProtectedApiClient from '../../../api/protectedApiClient';
 import {
   SendEmailFormValues,
@@ -13,6 +17,7 @@ import { site } from '../../../constants';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
 import DOMPurify from 'isomorphic-dompurify';
+import SaveMenu from '../../saveMenu';
 
 const PreviewSwitch = styled(Switch)`
   display: flex;
@@ -32,6 +37,14 @@ const EmailPreview = styled.div`
   overflow-y: scroll; // required for resizing
 `;
 
+const WhiteSaveButton = styled(WhiteButton)`
+  height: 40px;
+`;
+
+const EmailFlex = styled(Flex)`
+  gap: 4px;
+`;
+
 interface SendEmailFormProps {
   readonly emails: string[];
   readonly sendEmailForm: FormInstance<SendEmailRequest>;
@@ -48,6 +61,7 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
 
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const [bodyContent, setBodyContent] = useState<string>('');
+  const [showSave, setShowSave] = useState(false);
   const [sanitizedBodyContent, setSanitizedBodyContent] = useState<string>('');
 
   const togglePreview = (isShowPreview: boolean) => {
@@ -73,6 +87,7 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
         message.error(t('response_error', { error: err.response.data })),
       );
   };
+
   return (
     <Form
       name="sendEmail"
@@ -110,9 +125,21 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
           dangerouslySetInnerHTML={{ __html: sanitizedBodyContent }}
         />
       )}
-      <SubmitButton type="primary" htmlType="submit">
-        {t('send')}
-      </SubmitButton>
+      <EmailFlex>
+        <SubmitButton type="primary" htmlType="submit">
+          {t('send')}
+        </SubmitButton>
+        <WhiteSaveButton
+          type="text"
+          size="large"
+          onClick={() => {
+            setShowSave(!showSave);
+          }}
+        >
+          {t('save')}
+        </WhiteSaveButton>
+        {showSave && <SaveMenu templateBody={bodyContent}></SaveMenu>}
+      </EmailFlex>
     </Form>
   );
 };

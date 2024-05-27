@@ -130,3 +130,8 @@ export interface SendEmailFormValues {
 export interface SendEmailRequest extends SendEmailFormValues {
   readonly emails: string[];
 }
+
+export interface AddTemplateRequest {
+  readonly name: string;
+  readonly template: string;
+}
