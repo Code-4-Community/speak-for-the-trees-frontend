@@ -2212,6 +2212,37 @@ describe('Admin Protected Client Routes', () => {
 
       expect(result).toEqual(response);
     });
+    describe('addTemplate', () => {
+      it('makes the right request with a name', async () => {
+        const response = '';
+
+        nock(BASE_URL)
+          .post(AdminApiClientRoutes.ADD_TEMPLATE)
+          .reply(200, response);
+
+        const result = await ProtectedApiClient.addTemplate({
+          name: 'name',
+          template: 'body',
+        });
+
+        expect(result).toEqual(response);
+      });
+
+      it('makes an unauthorized request', async () => {
+        const response = 'Must be an admin';
+
+        nock(BASE_URL)
+          .post(AdminApiClientRoutes.ADD_TEMPLATE)
+          .reply(400, response);
+
+        const result = await ProtectedApiClient.addTemplate({
+          name: 'name',
+          template: 'body',
+        }).catch((err) => err.response.data);
+
+        expect(result).toEqual(response);
+      });
+    });
   });
 
   describe('filterSiteImages', () => {

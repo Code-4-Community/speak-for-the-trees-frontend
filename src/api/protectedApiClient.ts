@@ -20,6 +20,7 @@ import {
   AddSitesRequest,
   NameSiteEntryRequest,
   SendEmailRequest,
+  AddTemplateRequest,
 } from '../components/forms/ducks/types';
 import {
   ActivityRequest,
@@ -152,6 +153,7 @@ export interface ProtectedApiClient {
   readonly loadEmailTemplateContent: (
     templateName: string,
   ) => Promise<LoadTemplateResponse>;
+  readonly addTemplate: (request: AddTemplateRequest) => Promise<void>;
   readonly reportSiteForIssues: (
     siteId: number,
     request: ReportSiteRequest,
@@ -186,7 +188,8 @@ export enum AdminApiClientRoutes {
   GET_STEWARDSHIP_REPORT_CSV = '/api/v1/protected/report/csv/adoption',
   ADD_SITES = '/api/v1/protected/sites/add_sites',
   SEND_EMAIL = '/api/v1/protected/neighborhoods/send_email',
-  GET_TEMPLATE_NAMES = 'api/v1/protected/emailer/template_names',
+  GET_TEMPLATE_NAMES = '/api/v1/protected/emailer/template_names',
+  ADD_TEMPLATE = '/api/v1/protected/emailer/add_template',
 }
 
 const baseTeamRoute = '/api/v1/protected/teams/';
@@ -667,6 +670,12 @@ const loadEmailTemplateContent = (
   ).then((res) => res.data);
 };
 
+const addTemplate = (request: AddTemplateRequest): Promise<void> => {
+  return AppAxiosInstance.post(AdminApiClientRoutes.ADD_TEMPLATE, request).then(
+    (res) => res.data,
+  );
+};
+
 const reportSiteForIssues = (
   siteId: number,
   request: ReportSiteRequest,
@@ -732,6 +741,7 @@ const Client: ProtectedApiClient = Object.freeze({
   uploadImage,
   getEmailTemplateNames,
   loadEmailTemplateContent,
+  addTemplate,
   reportSiteForIssues,
 });
 
