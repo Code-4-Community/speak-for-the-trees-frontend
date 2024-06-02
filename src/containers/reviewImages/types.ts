@@ -37,4 +37,6 @@ export interface FilterImageTableData {
   species: string;
   neighborhood: Neighborhoods;
   dateSubmitted: string;
+  submittedBy: string;
+  address: string;
 }
