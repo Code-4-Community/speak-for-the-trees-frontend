@@ -165,11 +165,9 @@ export const TreeInfo: React.FC<TreeProps> = ({
             isAdopted={isAdopted}
           />
 
-          {treePresent && (
+          {/* {treePresent && (
             <UploadSiteImageButton siteEntryId={siteData.entries[0].id} />
-          )}
-
-          <ReportSiteButton siteId={siteData.siteId} />
+          )} */}
 
           <ReportSiteButton siteId={siteData.siteId} />
 
