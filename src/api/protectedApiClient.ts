@@ -645,6 +645,26 @@ const rejectImage = (imageId: number, reason: string): Promise<void> => {
   ).then((res) => res.data);
 };
 
+const filterSiteImages = (
+  params: FilterSiteImagesParams,
+): Promise<FilterSiteImagesResponse> => {
+  return AppAxiosInstance.get(
+    ParameterizedAdminApiRoutes.FILTER_SITE_IMAGES(params),
+  ).then((res) => res.data);
+};
+
+const approveImage = (imageId: number): Promise<void> => {
+  return AppAxiosInstance.put(
+    ParameterizedAdminApiRoutes.APPROVE_IMAGE(imageId),
+  ).then((res) => res.data);
+};
+
+const rejectImage = (imageId: number, reason: string): Promise<void> => {
+  return AppAxiosInstance.delete(
+    ParameterizedAdminApiRoutes.REJECT_IMAGE(imageId, reason),
+  ).then((res) => res.data);
+};
+
 const uploadImage = (
   siteEntryId: number,
   imageFile: string | ArrayBuffer,
@@ -667,6 +687,16 @@ const loadEmailTemplateContent = (
 ): Promise<LoadTemplateResponse> => {
   return AppAxiosInstance.get(
     ParameterizedAdminApiRoutes.LOAD_TEMPLATE(templateName),
+  ).then((res) => res.data);
+};
+
+const reportSiteForIssues = (
+  siteId: number,
+  request: ReportSiteRequest,
+): Promise<void> => {
+  return AppAxiosInstance.post(
+    ParameterizedApiRoutes.REPORT_SITE(siteId),
+    request,
   ).then((res) => res.data);
 };
 

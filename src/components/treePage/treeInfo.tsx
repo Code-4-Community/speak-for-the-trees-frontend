@@ -171,8 +171,6 @@ export const TreeInfo: React.FC<TreeProps> = ({
 
           <ReportSiteButton siteId={siteData.siteId} />
 
-          <ReportSiteButton siteId={siteData.siteId} />
-
           {userOwnsTree && treePresent && (
             <StewardshipContainer>
               <Typography.Title level={3}>
