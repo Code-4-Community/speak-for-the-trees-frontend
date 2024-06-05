@@ -34,6 +34,7 @@ import SendEmailForm from '../../components/forms/sendEmailForm';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 import { useTranslation } from 'react-i18next';
+import DOMPurify from 'isomorphic-dompurify';
 
 const EmailPageContainer = styled.div`
   width: 90vw;
@@ -117,7 +118,10 @@ const Email: React.FC = () => {
     protectedApiClient
       .loadEmailTemplateContent(templateName)
       .then((res) => {
-        sendEmailForm.setFieldValue('emailBody', res.template);
+        sendEmailForm.setFieldValue(
+          'emailBody',
+          DOMPurify.sanitize(res.template),
+        );
       })
       .catch((err) => {
         sendEmailForm.setFieldValue('emailBody', '');

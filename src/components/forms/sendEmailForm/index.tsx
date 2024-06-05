@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import html from './content';
 import styled from 'styled-components';
 import { Form, Input, Switch, message, Button } from 'antd';
 import {
@@ -19,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
 import DOMPurify from 'isomorphic-dompurify';
 import SaveMenu from '../../saveMenu';
+import html from './content';
 
 const PreviewSwitch = styled(Switch)`
   display: flex;
@@ -77,7 +77,8 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
     }
 
     const sendEmailRequest: SendEmailRequest = {
-      ...values,
+      emailSubject: values.emailSubject,
+      emailBody: DOMPurify.sanitize(bodyContent),
       emails,
     };
     ProtectedApiClient.sendEmail(sendEmailRequest)
