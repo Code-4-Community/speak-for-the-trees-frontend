@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import html from './content';
 import styled from 'styled-components';
 import { Form, Input, Switch, message, Button } from 'antd';
 import {
@@ -122,7 +123,7 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
       </Form.Item>
       {showPreview && (
         <EmailPreview
-          dangerouslySetInnerHTML={{ __html: sanitizedBodyContent }}
+          dangerouslySetInnerHTML={{ __html: html(sanitizedBodyContent) }}
         />
       )}
       <EmailFlex>
