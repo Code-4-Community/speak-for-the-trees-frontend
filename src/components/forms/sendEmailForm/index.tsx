@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Form, Input, Switch, message, Button } from 'antd';
+import { Form, Input, Switch, message } from 'antd';
 import {
   Flex,
   SubmitButton,
@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
 import DOMPurify from 'isomorphic-dompurify';
 import SaveMenu from '../../saveMenu';
-import html from './content';
+import templateContent from './content';
 
 const PreviewSwitch = styled(Switch)`
   display: flex;
@@ -124,7 +124,9 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
       </Form.Item>
       {showPreview && (
         <EmailPreview
-          dangerouslySetInnerHTML={{ __html: html(sanitizedBodyContent) }}
+          dangerouslySetInnerHTML={{
+            __html: templateContent(sanitizedBodyContent),
+          }}
         />
       )}
       <EmailFlex>

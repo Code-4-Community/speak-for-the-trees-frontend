@@ -20,12 +20,7 @@ import { Routes } from '../../App';
 import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
 import PageHeader from '../../components/pageHeader';
-import {
-  EmailerFilters,
-  FilteredSite,
-  FilterSitesParams,
-  LoadTemplateResponse,
-} from './types';
+import { EmailerFilters, FilteredSite, FilterSitesParams } from './types';
 import EmailerFilterControls from '../../components/emailerFilterControls';
 import AdoptedSitesTable from '../../components/adoptedSitesTable';
 import protectedApiClient from '../../api/protectedApiClient';
