@@ -61,13 +61,15 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
   });
 
   const [showPreview, setShowPreview] = useState<boolean>(false);
-  const [bodyContent, setBodyContent] = useState<string>('');
   const [showSave, setShowSave] = useState(false);
   const [sanitizedBodyContent, setSanitizedBodyContent] = useState<string>('');
 
   const togglePreview = (isShowPreview: boolean) => {
     setShowPreview(isShowPreview);
-    if (isShowPreview) setSanitizedBodyContent(DOMPurify.sanitize(bodyContent));
+    if (isShowPreview)
+      setSanitizedBodyContent(
+        DOMPurify.sanitize(sendEmailForm.getFieldValue('emailBody')),
+      );
   };
 
   const onFinishSendEmail = (values: SendEmailFormValues) => {
@@ -78,7 +80,7 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
 
     const sendEmailRequest: SendEmailRequest = {
       emailSubject: values.emailSubject,
-      emailBody: DOMPurify.sanitize(bodyContent),
+      emailBody: DOMPurify.sanitize(values.emailBody),
       emails,
     };
     ProtectedApiClient.sendEmail(sendEmailRequest)
@@ -91,15 +93,7 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
   };
 
   return (
-    <Form
-      name="sendEmail"
-      form={sendEmailForm}
-      onFinish={onFinishSendEmail}
-      onValuesChange={(changedValues, _) => {
-        if (changedValues.emailBody !== undefined)
-          setBodyContent(changedValues.emailBody);
-      }}
-    >
+    <Form name="sendEmail" form={sendEmailForm} onFinish={onFinishSendEmail}>
       <Form.Item
         name="emailSubject"
         rules={requiredRule(t('subject_required'))}
@@ -142,7 +136,11 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
         >
           {t('save')}
         </WhiteSaveButton>
-        {showSave && <SaveMenu templateBody={bodyContent}></SaveMenu>}
+        {showSave && (
+          <SaveMenu
+            templateBody={sendEmailForm.getFieldValue('emailBody')}
+          ></SaveMenu>
+        )}
       </EmailFlex>
     </Form>
   );
