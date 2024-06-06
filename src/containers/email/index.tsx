@@ -20,12 +20,7 @@ import { Routes } from '../../App';
 import PageLayout from '../../components/pageLayout';
 import { ReturnButton } from '../../components/themedComponents';
 import PageHeader from '../../components/pageHeader';
-import {
-  EmailerFilters,
-  FilteredSite,
-  FilterSitesParams,
-  LoadTemplateResponse,
-} from './types';
+import { EmailerFilters, FilteredSite, FilterSitesParams } from './types';
 import EmailerFilterControls from '../../components/emailerFilterControls';
 import AdoptedSitesTable from '../../components/adoptedSitesTable';
 import protectedApiClient from '../../api/protectedApiClient';
@@ -34,6 +29,7 @@ import SendEmailForm from '../../components/forms/sendEmailForm';
 import { site } from '../../constants';
 import { n } from '../../utils/stringFormat';
 import { useTranslation } from 'react-i18next';
+import DOMPurify from 'isomorphic-dompurify';
 
 const EmailPageContainer = styled.div`
   width: 90vw;
@@ -117,7 +113,10 @@ const Email: React.FC = () => {
     protectedApiClient
       .loadEmailTemplateContent(templateName)
       .then((res) => {
-        sendEmailForm.setFieldValue('emailBody', res.template);
+        sendEmailForm.setFieldValue(
+          'emailBody',
+          DOMPurify.sanitize(res.template),
+        );
       })
       .catch((err) => {
         sendEmailForm.setFieldValue('emailBody', '');
