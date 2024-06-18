@@ -64,16 +64,14 @@ const ChangePrivilegeForm: React.FC<ChangePrivilegeFormProps> = ({
           placeholder={t('change_privilege.new_role')}
           onChange={onRoleChange}
         >
+          <Select.Option value={'STANDARD'}>
+            {t('roles.standard')}
+          </Select.Option>
           <Select.Option value={'ADMIN'}>{t('roles.admin')}</Select.Option>
           {privilegeLevel === PrivilegeLevel.SUPER_ADMIN && (
-            <>
-              <Select.Option value={'STANDARD'}>
-                {t('roles.standard')}
-              </Select.Option>
-              <Select.Option value={'SUPER_ADMIN'}>
-                {t('roles.super_admin')}
-              </Select.Option>
-            </>
+            <Select.Option value={'SUPER_ADMIN'}>
+              {t('roles.super_admin')}
+            </Select.Option>
           )}
         </RoleDropdown>
       </Form.Item>
