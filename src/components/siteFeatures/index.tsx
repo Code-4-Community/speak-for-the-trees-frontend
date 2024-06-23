@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, FormInstance } from 'antd';
+import { Typography, FormInstance, Button, Popconfirm, message } from 'antd';
 import styled from 'styled-components';
 import { SiteProps } from '../../containers/treePage/ducks/types';
 import EditSiteForm from '../../components/forms/editSiteForm';
 import { getNeighborhoodName, n } from '../../utils/stringFormat';
 import { EditSiteRequest } from '../forms/ducks/types';
-import { Flex, GreenButton, WhiteButton } from '../themedComponents';
+import { Flex, GreenButton, WhiteButton, RedButton } from '../themedComponents';
 import TitleStack from '../titleStack';
 import { useTranslation } from 'react-i18next';
 import { site as website } from '../../constants';
+import protectedApiClient from '../../api/protectedApiClient';
 
 const Content = styled(Typography.Text)`
   font-size: 15px;
@@ -45,6 +46,15 @@ const SiteFeatures: React.FC<SiteFeaturesProps> = ({
       owner: site.owner,
     });
   });
+
+  const deleteSite = (siteId: number) => {
+    protectedApiClient
+      .deleteSite(siteId)
+      .then(() => window.location.reload())
+      .catch((err) => {
+        message.error('Could not delete site: ' + err.response.data);
+      });
+  };
 
   return editingFeatures ? (
     <>
@@ -94,6 +104,14 @@ const SiteFeatures: React.FC<SiteFeaturesProps> = ({
       </Flex>
 
       <Flex justifyContent={'flex-end'}>
+        <Popconfirm
+          title="Are you sure you want to delete this site?"
+          onConfirm={() => deleteSite(site.siteId)}
+          okText={'Yes'}
+          cancelText={'No'}
+        >
+          <RedButton>Delete Site</RedButton>
+        </Popconfirm>
         <GreenButton
           onClick={() => {
             setEditingFeatures(true);
