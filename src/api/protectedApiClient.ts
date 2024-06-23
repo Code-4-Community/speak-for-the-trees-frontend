@@ -158,6 +158,8 @@ export interface ProtectedApiClient {
     siteId: number,
     request: ReportSiteRequest,
   ) => Promise<void>;
+  readonly deleteSite: (siteId: number) => Promise<void>;
+  readonly deleteSiteEntry: (siteEntryId: number) => Promise<void>;
 }
 
 export enum ProtectedApiClientRoutes {
@@ -280,6 +282,10 @@ export const ParameterizedAdminApiRoutes = {
     `api/v1/protected/sites/reject_image/${imageId}?reason=${reason}`,
   LOAD_TEMPLATE: (templateName: string): string =>
     `api/v1/protected/emailer/load_template/${templateName}`,
+  DELETE_SITE_ENTRY: (siteEntryId: number): string =>
+    `/api/v1/protected/sites/delete_entry/${siteEntryId}`,
+  DELETE_SITE: (siteId: number): string =>
+    `/api/v1/protected/sites/${siteId}/delete`,
 };
 
 const makeReservation = (blockId: number, teamId?: number): Promise<void> => {
@@ -686,6 +692,18 @@ const reportSiteForIssues = (
   ).then((res) => res.data);
 };
 
+const deleteSiteEntry = (siteEntryId: number): Promise<void> => {
+  return AppAxiosInstance.delete(
+    ParameterizedAdminApiRoutes.DELETE_SITE_ENTRY(siteEntryId),
+  ).then((res) => res.data);
+};
+
+const deleteSite = (siteId: number): Promise<void> => {
+  return AppAxiosInstance.post(
+    ParameterizedAdminApiRoutes.DELETE_SITE(siteId),
+  ).then((res) => res.data);
+};
+
 const Client: ProtectedApiClient = Object.freeze({
   makeReservation,
   completeReservation,
@@ -743,6 +761,8 @@ const Client: ProtectedApiClient = Object.freeze({
   loadEmailTemplateContent,
   addTemplate,
   reportSiteForIssues,
+  deleteSiteEntry,
+  deleteSite,
 });
 
 export default Client;

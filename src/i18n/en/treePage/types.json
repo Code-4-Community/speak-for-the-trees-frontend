@@ -45,7 +45,8 @@
     "treeNotes": "Tree Notes",
     "siteNotes": "Site Notes",
     "plantingDate": "Date Planted",
-    "editEntry": "Edit Entry"
+    "editEntry": "Edit Entry",
+    "deleteEntry": "Delete Entry"
   },
   "cambridge": {
     "trunks": "Trunks",
