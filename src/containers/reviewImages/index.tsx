@@ -235,7 +235,9 @@ const ReviewImages: React.FC = () => {
                               style={ApproveRejectStyling}
                               type="primary"
                               onClick={onClickAccept}
-                            ></Button>
+                            >
+                              Accept
+                            </Button>
                             <Button
                               style={ApproveRejectStyling}
                               type="primary"

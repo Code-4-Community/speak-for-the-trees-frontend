@@ -1,4 +1,4 @@
-import { Modal, Space, Button, Row, Col, Input } from 'antd';
+import { Modal, Space, Button, Row, Col, Input, message } from 'antd';
 import React, {
   CSSProperties,
   Dispatch,
@@ -9,7 +9,6 @@ import React, {
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { FilterImageTableData } from '../../containers/reviewImages/types';
 import protectedApiClient from '../../api/protectedApiClient';
-import { LoadingState } from '../../containers/email';
 const { TextArea } = Input;
 
 interface ImageApprovalModal {
@@ -112,10 +111,20 @@ const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
       return null;
     }
     toReject.push(protectedApiClient.rejectImage(data.key, rejectionReason));
-    Promise.all(toReject).then(() => {
-      props.setApprovedOrRejectedImageIds((prevIds) => [...prevIds, data.key]);
-      close();
-    });
+    Promise.all(toReject)
+      .then(() => {
+        props.setApprovedOrRejectedImageIds((prevIds) => [
+          ...prevIds,
+          data.key,
+        ]);
+        close();
+      })
+      .then(() => {
+        message.success('Sucessfully rejected image(s)!');
+      })
+      .catch((err) => {
+        // message.error('Error rejecting images:', { error: err.response.data });
+      });
   }
 
   async function onClickAccept() {
@@ -124,10 +133,20 @@ const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
       return null;
     }
     toApprove.push(protectedApiClient.approveImage(data.key));
-    Promise.all(toApprove).then(() => {
-      props.setApprovedOrRejectedImageIds((prevIds) => [...prevIds, data.key]);
-      close();
-    });
+    Promise.all(toApprove)
+      .then(() => {
+        props.setApprovedOrRejectedImageIds((prevIds) => [
+          ...prevIds,
+          data.key,
+        ]);
+        close();
+      })
+      .then(() => {
+        message.success('Successfully approved image(s)!');
+      })
+      .catch((err) => {
+        // message.error('Error approving images:', { error: err.response.data });
+      });
   }
 
   function treeSummaryLine(lineName: string, lineItem: number | string) {
