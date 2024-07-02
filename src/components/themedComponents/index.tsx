@@ -105,6 +105,15 @@ export const GreenButton = styled(Button)`
   height: 36px;
 `;
 
+export const RedButton = styled(Button)`
+  margin-top: 10px;
+  background: ${RED};
+  border: ${RED};
+  color: ${WHITE};
+  font-size: 16px;
+  height: 36px;
+`;
+
 export const SubmitButton = styled(GreenButton)`
   min-width: 96px;
   height: 40px;
@@ -258,6 +267,20 @@ export const EditButton = styled(Button)`
   font-size: 20px;
   padding: 0px 10px;
   line-height: 0px;
+`;
+
+export const DeleteButton = styled(Button)`
+  background: ${RED};
+  color: ${WHITE};
+  border: white;
+  font-size: 20px;
+  padding: 0px 10px;
+  line-height: 0px;
+
+  & :hover {
+    background-color: ${WHITE};
+    color: ${LIGHT_GREEN};
+  }
 `;
 
 export const StyledClose = styled(CloseOutlined)`

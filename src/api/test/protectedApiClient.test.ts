@@ -2472,4 +2472,58 @@ describe('Admin Protected Client Routes', () => {
       expect(result).toEqual(response);
     });
   });
+
+  describe('delete site', () => {
+    it('makes the right request', async () => {
+      const response = '';
+      nock(BASE_URL)
+        .post(ParameterizedAdminApiRoutes.DELETE_SITE(100))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.deleteSite(100);
+
+      expect(result).toEqual(response);
+    });
+
+    it('not a valid site', async () => {
+      const response = 'Site does not exist';
+
+      nock(BASE_URL)
+        .post(ParameterizedAdminApiRoutes.DELETE_SITE(-1))
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.deleteSite(-1).catch(
+        (err) => err.response.data,
+      );
+
+      expect(result).toEqual(response);
+    });
+  });
+
+  describe('delete site entry', () => {
+    it('makes the right request', async () => {
+      const response = '';
+      nock(BASE_URL)
+        .delete(ParameterizedAdminApiRoutes.DELETE_SITE_ENTRY(100))
+        .reply(200, response);
+
+      const result = await ProtectedApiClient.deleteSiteEntry(100);
+
+      expect(result).toEqual(response);
+    });
+
+    it('not a valid site', async () => {
+      const response = 'Site does not exist';
+
+      nock(BASE_URL)
+        .delete(ParameterizedAdminApiRoutes.DELETE_SITE_ENTRY(-1))
+        .reply(400, response);
+
+      const result = await ProtectedApiClient.deleteSiteEntry(-1).catch(
+        (err) => err.response.data,
+      );
+
+      expect(result).toEqual(response);
+    });
+  });
 });
