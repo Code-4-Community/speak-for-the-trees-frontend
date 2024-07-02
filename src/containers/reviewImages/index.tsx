@@ -10,10 +10,14 @@ import {
   ReturnButton,
 } from '../../components/themedComponents';
 import { Routes } from '../../App';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+import {
+  ArrowLeftOutlined,
+  UnorderedListOutlined,
+  AppstoreOutlined,
+} from '@ant-design/icons';
 import PageHeader from '../../components/pageHeader';
 import PageLayout from '../../components/pageLayout';
-import { DARK_GREEN } from '../../utils/colors';
+import { DARK_GREEN, MID_GREEN } from '../../utils/colors';
 import { Alert, Button, Col, message, Row, Spin, Typography } from 'antd';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -51,6 +55,22 @@ const ApproveRejectDialogue = styled.div`
   align-items: center;
 `;
 
+const TableViewSelect = styled.div`
+  display: flex;
+  margin: 5px;
+  justify-content: flex-end;
+`;
+
+const TableViewIcon = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+  align-items: center;
+  padding: 1px;
+  border: 1px solid;
+  border-radius: 6px;
+`;
+
 const ApproveRejectStyling = {
   padding: '3px',
   margin: '5px',
@@ -75,15 +95,27 @@ const ReviewImages: React.FC = () => {
   const { t } = useTranslation(n(site, ['admin']), {
     nsMode: 'fallback',
   });
+  const [useGridView, setUseGridView] = useState<boolean>(false);
   const [filters, setFilters] = useState<ReviewImageFilters>(defaultFilters);
   const [fetchData, setFetchData] = useState<FilteredSiteImage[]>([]);
   const [selectedImageIds, setSelectedImageIds] = useState<number[]>([]);
   const [fetchSiteImagesState, setFetchSiteImagesState] =
     useState<LoadingState>(LoadingState.SUCCESS);
+  const [approvedOrRejectedImageIds, setApprovedOrRejectedImageIds] = useState<
+    number[]
+  >([]);
 
   useEffect(() => {
     onClickSearch();
   }, []);
+
+  function switchToTable() {
+    setUseGridView(false);
+  }
+
+  function switchToGrid() {
+    setUseGridView(true);
+  }
 
   function onClickSearch() {
     setFetchSiteImagesState(LoadingState.LOADING);
@@ -106,7 +138,7 @@ const ReviewImages: React.FC = () => {
       })
       .catch((err) => {
         setFetchSiteImagesState(LoadingState.ERROR);
-        message.error('Cannot access images');
+        message.error(t('review_images.message.search_error'));
       });
   }
 
@@ -151,7 +183,7 @@ const ReviewImages: React.FC = () => {
       <PageLayout>
         <PaddedPageContainer>
           <ReturnButton to={Routes.ADMIN}>
-            <ArrowLeftOutlined /> Back to Dashboard
+            <ArrowLeftOutlined /> {t('back')}
           </ReturnButton>
           <PageHeader pageTitle={t('review_images.review_image_title')} />
           <DashboardContent>
@@ -162,7 +194,9 @@ const ReviewImages: React.FC = () => {
           <Row>
             <Col span={6}>
               <FilterHeader>
-                <Typography.Title level={3}>Filter By</Typography.Title>
+                <Typography.Title level={3}>
+                  {t('review_images.search.header')}
+                </Typography.Title>
                 <Button
                   type="link"
                   onClick={(e) => {
@@ -170,7 +204,7 @@ const ReviewImages: React.FC = () => {
                     setFilters(defaultFilters);
                   }}
                 >
-                  Clear Filters
+                  {t('review_images.search.clear')}
                 </Button>
               </FilterHeader>
               <UnapprovedFilterImageControls
@@ -179,7 +213,7 @@ const ReviewImages: React.FC = () => {
               />
               <br />
               <Button type="primary" size="large" onClick={onClickSearch}>
-                Search
+                {t('review_images.search.search')}
               </Button>
             </Col>
             <Col span={17}>
@@ -204,20 +238,45 @@ const ReviewImages: React.FC = () => {
                               type="primary"
                               onClick={onClickAccept}
                             >
-                              Accept
+                              {t('review_images.modal.approve')}
                             </Button>
                             <Button
                               style={ApproveRejectStyling}
                               type="primary"
                               onClick={onClickReject}
                             >
-                              Reject
+                              {t('review_images.modal.reject')}
                             </Button>
                           </ApproveRejectDialogue>
                         )}
+                        <TableViewSelect>
+                          <TableViewIcon
+                            onClick={switchToTable}
+                            style={{
+                              color: !useGridView ? '#6d8e33' : '#b4bba4',
+                            }}
+                          >
+                            <UnorderedListOutlined />
+                          </TableViewIcon>
+                          <TableViewIcon
+                            onClick={switchToGrid}
+                            style={{
+                              color: useGridView ? '#6d8e33' : '#b4bba4',
+                            }}
+                          >
+                            <AppstoreOutlined />
+                          </TableViewIcon>
+                        </TableViewSelect>
                         <UnapprovedImagesTable
                           fetchData={fetchData}
                           setSelectedImageIds={setSelectedImageIds}
+                          useGridView={useGridView}
+                          approvedOrRejectedImageIds={
+                            approvedOrRejectedImageIds
+                          }
+                          setApprovedOrRejectedImageIds={
+                            setApprovedOrRejectedImageIds
+                          }
                         ></UnapprovedImagesTable>
                       </>
                     );
@@ -225,8 +284,10 @@ const ReviewImages: React.FC = () => {
                     return (
                       <FetchInfoContainer>
                         <Alert
-                          message="Error"
-                          description="Failed to fetch site data!"
+                          message={t('review_images.search.error_header')}
+                          description={t(
+                            'review_images.search.error_description',
+                          )}
                           type="error"
                           showIcon
                         />

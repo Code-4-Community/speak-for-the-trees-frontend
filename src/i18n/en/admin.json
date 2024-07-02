@@ -47,8 +47,42 @@
     "email": "Email"
   },
   "review_images": {
+    "super_admin": "Super Admin",
     "review_image_title": "Tree Photo Review",
     "review_image_description": "Review photos of trees submitted by volunteers",
-    "super_admin": "Super Admin"
+    "search": {
+      "header": "Filter By",
+      "clear": "Clear Filters",
+      "search": "Search",
+      "error_header": "Error",
+      "error_description": "Failed to fetch site images!"
+    },
+    "summary": {
+      "preview": "Preview",
+      "id": "Site ID",
+      "date": "Date Submitted",
+      "submitted": "Submitted By",
+      "species": "Species",
+      "neighborhood": "Neighborhood",
+      "address": "Address"
+    },
+    "modal": {
+      "status": "Status",
+      "back": "Back to List",
+      "next": "Next Submission",
+      "approve": "Accept",
+      "reject": "Reject",
+      "form": {
+        "prompt": "Reason for Rejection",
+        "placeholder": "Type here..."
+      }
+    },
+    "message": {
+      "search_error": "Cannot access images",
+      "approve_success": "Successfully approved image(s)!",
+      "reject_sucess": "Successfully rejected images(s)!",
+      "approve_error": "Error approving image(s): {{error}}",
+      "reject_error": "Error rejecting image(s): {{error}}"
+    }
   }
 }
