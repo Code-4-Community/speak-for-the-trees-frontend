@@ -138,7 +138,7 @@ const ReviewImages: React.FC = () => {
       })
       .catch((err) => {
         setFetchSiteImagesState(LoadingState.ERROR);
-        message.error('Cannot access images');
+        message.error(t('review_images.message.search_error'));
       });
   }
 
@@ -183,7 +183,7 @@ const ReviewImages: React.FC = () => {
       <PageLayout>
         <PaddedPageContainer>
           <ReturnButton to={Routes.ADMIN}>
-            <ArrowLeftOutlined /> Back to Dashboard
+            <ArrowLeftOutlined /> {t('back')}
           </ReturnButton>
           <PageHeader pageTitle={t('review_images.review_image_title')} />
           <DashboardContent>
@@ -194,7 +194,9 @@ const ReviewImages: React.FC = () => {
           <Row>
             <Col span={6}>
               <FilterHeader>
-                <Typography.Title level={3}>Filter By</Typography.Title>
+                <Typography.Title level={3}>
+                  {t('review_images.search.header')}
+                </Typography.Title>
                 <Button
                   type="link"
                   onClick={(e) => {
@@ -202,7 +204,7 @@ const ReviewImages: React.FC = () => {
                     setFilters(defaultFilters);
                   }}
                 >
-                  Clear Filters
+                  {t('review_images.search.clear')}
                 </Button>
               </FilterHeader>
               <UnapprovedFilterImageControls
@@ -211,7 +213,7 @@ const ReviewImages: React.FC = () => {
               />
               <br />
               <Button type="primary" size="large" onClick={onClickSearch}>
-                Search
+                {t('review_images.search.search')}
               </Button>
             </Col>
             <Col span={17}>
@@ -236,14 +238,14 @@ const ReviewImages: React.FC = () => {
                               type="primary"
                               onClick={onClickAccept}
                             >
-                              Accept
+                              {t('review_images.modal.approve')}
                             </Button>
                             <Button
                               style={ApproveRejectStyling}
                               type="primary"
                               onClick={onClickReject}
                             >
-                              Reject
+                              {t('review_images.modal.reject')}
                             </Button>
                           </ApproveRejectDialogue>
                         )}
@@ -282,8 +284,10 @@ const ReviewImages: React.FC = () => {
                     return (
                       <FetchInfoContainer>
                         <Alert
-                          message="Error"
-                          description="Failed to fetch site data!"
+                          message={t('review_images.search.error_header')}
+                          description={t(
+                            'review_images.search.error_description',
+                          )}
                           type="error"
                           showIcon
                         />

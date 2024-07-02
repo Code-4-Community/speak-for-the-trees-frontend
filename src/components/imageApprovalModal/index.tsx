@@ -9,6 +9,9 @@ import React, {
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { FilterImageTableData } from '../../containers/reviewImages/types';
 import protectedApiClient from '../../api/protectedApiClient';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../utils/stringFormat';
+import { site } from '../../constants';
 const { TextArea } = Input;
 
 interface ImageApprovalModal {
@@ -22,6 +25,15 @@ interface ImageApprovalModal {
 }
 
 const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
+  const { t } = useTranslation(n(site, ['admin']), {
+    nsMode: 'fallback',
+    keyPrefix: 'review_images',
+  });
+
+  const { t: tForms } = useTranslation(n(site, ['forms']), {
+    nsMode: 'fallback',
+  });
+
   const [open, setOpen] = useState(props.visible);
   const [data, setData] = useState(props.tableData);
   const [isRejectionTextOpen, setIsRejectionTextOpen] = useState(false);
@@ -49,10 +61,10 @@ const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
   const footer = (
     <Space style={{ width: '100%', justifyContent: 'space-between' }}>
       <Button style={{ color: 'gray' }} onClick={close}>
-        <LeftOutlined /> Back to List
+        <LeftOutlined /> {t('modal.back')}
       </Button>
       <Button style={{ color: 'gray' }} onClick={handleNextSubmission}>
-        Next Submission <RightOutlined />
+        {t('modal.next')} <RightOutlined />
       </Button>
     </Space>
   );
@@ -68,7 +80,9 @@ const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
   const StatusHeader = () => {
     return (
       <>
-        <h1 style={{ color: 'black', marginBottom: '-8px' }}>Status</h1>
+        <h1 style={{ color: 'black', marginBottom: '-8px' }}>
+          {t('modal.status')}
+        </h1>
         <div
           style={{
             display: 'flex',
@@ -83,14 +97,14 @@ const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
             style={{ flex: 1, marginRight: '8px', color: 'black' }}
             onClick={onClickAccept}
           >
-            Accept
+            {t('modal.approve')}
           </Button>
           <Button
             type="primary"
             style={{ flex: 1, color: 'black' }}
             onClick={openRejectionTextBox}
           >
-            Reject
+            {t('modal.reject')}
           </Button>
         </div>
       </>
@@ -120,10 +134,10 @@ const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
         close();
       })
       .then(() => {
-        message.success('Sucessfully rejected image(s)!');
+        message.success(t('message.reject_success'));
       })
       .catch((err) => {
-        // message.error('Error rejecting images:', { error: err.response.data });
+        message.error(t('message.reject_error', { error: err.response.data }));
       });
   }
 
@@ -142,10 +156,10 @@ const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
         close();
       })
       .then(() => {
-        message.success('Successfully approved image(s)!');
+        message.success(t('message.approve_success'));
       })
       .catch((err) => {
-        // message.error('Error approving images:', { error: err.response.data });
+        message.error(t('message.approve_error', { error: err.response.data }));
       });
   }
 
@@ -174,14 +188,14 @@ const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
                 <></>
               ) : (
                 <>
-                  {treeSummaryLine('Site ID', data.siteId)}
-                  {treeSummaryLine('Date Submitted', data.dateSubmitted)}
-                  {treeSummaryLine('Submitted By', data.submittedBy)}
+                  {treeSummaryLine(t('summary.id'), data.siteId)}
+                  {treeSummaryLine(t('summary.date'), data.dateSubmitted)}
+                  {treeSummaryLine(t('summary.submitted'), data.submittedBy)}
                 </>
               )}
-              {treeSummaryLine('Species', data.species)}
-              {treeSummaryLine('Neighborhood', data.neighborhood)}
-              {treeSummaryLine('Address', data.address)}
+              {treeSummaryLine(t('summary.species'), data.species)}
+              {treeSummaryLine(t('summary.neighborhood'), data.neighborhood)}
+              {treeSummaryLine(t('summary.address'), data.address)}
             </Row>
           </Col>
         </Row>
@@ -217,9 +231,9 @@ const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
           <StatusHeader />
           {isRejectionTextOpen ? (
             <div style={rejectionReasonStyle}>
-              <h3 style={{ color: 'black' }}>Reason for Rejection</h3>
+              <h3 style={{ color: 'black' }}>{t('modal.form.prompt')}</h3>
               <TextArea
-                placeholder="Type here..."
+                placeholder={t('modal.form.placeholder')}
                 style={{ height: 50 }}
                 value={rejectionReason}
                 onChange={(e) => setRejectionReason(e.target.value)}
@@ -229,7 +243,7 @@ const ImageApprovalModal: React.FC<ImageApprovalModal> = (props) => {
                 style={{ marginTop: '3%' }}
                 onClick={onClickReject}
               >
-                Submit
+                {tForms('submit')}
               </Button>
             </div>
           ) : (

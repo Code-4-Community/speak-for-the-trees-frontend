@@ -16,6 +16,12 @@ import styled from 'styled-components';
 import ImageApprovalModal from '../imageApprovalModal';
 import { CheckOutlined } from '@ant-design/icons';
 import { Flex } from '../themedComponents';
+import { useTranslation } from 'react-i18next';
+import { n } from '../../utils/stringFormat';
+import { site } from '../../constants';
+import i18n from '../../i18n/i18n';
+
+const tg = i18n.t;
 
 interface UnapprovedImagesTable {
   readonly fetchData: FilteredSiteImage[];
@@ -73,12 +79,13 @@ const ModalLinkCard: React.FC<PropsWithChildren<ModalCardProps>> = ({
   children,
   isSelected,
 }) => {
+  const { t } = useTranslation(n(site, ['admin']), { nsMode: 'fallback' });
   const [isHovered, setIsHovered] = useState(false);
 
   // Display species if hovered, and check if selected. Hover text takes precedence.
   const overlayContent = isHovered ? (
     <div style={{ color: 'black' }}>
-      <b>Species:</b>
+      <b>{`${t('review_images.summary.species')}:`}</b>
       <br />
       {species}
     </div>
@@ -104,7 +111,7 @@ const ModalLinkCard: React.FC<PropsWithChildren<ModalCardProps>> = ({
 };
 const columns: ColumnsType<FilterImageTableData> = [
   {
-    title: 'Preview',
+    title: tg('review_images.summary.preview', { ns: 'admin' }),
     dataIndex: 'preview_url',
     key: 'preview_url',
     render: (dataIndexValue, record) => {
@@ -112,22 +119,22 @@ const columns: ColumnsType<FilterImageTableData> = [
     },
   },
   {
-    title: 'Site ID',
+    title: tg('review_images.summary.id', { ns: 'admin' }),
     dataIndex: 'siteId',
     key: 'siteId',
   },
   {
-    title: 'Species',
+    title: tg('review_images.summary.species', { ns: 'admin' }),
     dataIndex: 'species',
     key: 'species',
   },
   {
-    title: 'Neighborhood',
+    title: tg('review_images.summary.neighborhood', { ns: 'admin' }),
     dataIndex: 'neighborhood',
     key: 'neighborhood',
   },
   {
-    title: 'Date Submitted',
+    title: tg('review_images.summary.date', { ns: 'admin' }),
     dataIndex: 'dateSubmitted',
     key: 'dateSubmitted',
   },
