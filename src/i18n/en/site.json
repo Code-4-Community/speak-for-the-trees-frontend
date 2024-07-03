@@ -8,5 +8,12 @@
   "site_features": {
     "no_address": "No Recorded Address"
   },
-  "edit_site_entry": "Edit site entry"
+  "edit_site_entry": "Edit site entry",
+  "delete_site": {
+    "modal_title": "Are you sure you want to delete this site?",
+    "button": "Delete Site"
+  },
+  "message": {
+    "delete_site_error": "Could not delete site: {{error}}"
+  }
 }

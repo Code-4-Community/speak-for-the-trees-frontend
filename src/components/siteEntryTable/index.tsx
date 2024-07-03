@@ -20,8 +20,8 @@ import { site } from '../../constants';
 import moment from 'moment';
 
 interface SiteEntryTableProps {
-  siteEntries: SiteEntry[];
-  getSite: () => void;
+  readonly siteEntries: SiteEntry[];
+  readonly getSite: () => void;
 }
 
 const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
@@ -42,11 +42,15 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
   // Columns configuration for the Ant Design Table
   const siteEntryTableColumns = Object.values(SiteEntryFields).map(
     (field: SiteEntryField) => {
+      const columnBase = {
+        title: getSEFieldDisplayName(field),
+        dataIndex: field,
+        key: field,
+      };
+
       if (field === 'editEntry') {
         return {
-          title: getSEFieldDisplayName(field),
-          dataIndex: field,
-          key: field,
+          ...columnBase,
           render: (
             val: string | number | boolean,
             record: SiteEntry,
@@ -58,9 +62,7 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
         };
       } else if (field === 'deleteEntry') {
         return {
-          title: getSEFieldDisplayName(field),
-          dataIndex: field,
-          key: field,
+          ...columnBase,
           render: (
             val: string | number | boolean,
             record: SiteEntry,
@@ -75,9 +77,7 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
         };
       } else {
         return {
-          title: getSEFieldDisplayName(field),
-          dataIndex: field,
-          key: field,
+          ...columnBase,
           render: (val: string | number | boolean): string =>
             val || val === false ? booleanToString(String(val)) : '',
         };
@@ -124,9 +124,6 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
     ProtectedClient.deleteSiteEntry(siteEntryId)
       .then(() => {
         message.success('Successfully deleted site entry.');
-        const updatedSiteEntries = siteEntries.filter(
-          (entry) => entry.id !== siteEntryId,
-        );
         getSite(); // Refresh site entries after successful deletion
       })
       .catch((err) => {

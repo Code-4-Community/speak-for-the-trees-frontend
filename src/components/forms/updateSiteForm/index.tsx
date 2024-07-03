@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Radio, Row, Space, DatePicker, Button } from 'antd';
+import { Form, Input, Radio, Row, Space, DatePicker } from 'antd';
 import { FormInstance, Rule } from 'antd/es/form';
 import {
   BOOL_RADIO_OPTS,
@@ -19,7 +19,6 @@ import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
 import { site } from '../../../constants';
 import moment from 'moment';
-import { JSX } from 'react/jsx-runtime';
 
 interface RadioInputProps {
   readonly name: string;
@@ -412,10 +411,9 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
         </TitleStack>
       </Flex>
 
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div style={{ marginLeft: 'auto' }}></div>
+      <Row justify="end">
         <SubmitButton htmlType="submit">{t('submit')}</SubmitButton>
-      </div>
+      </Row>
     </Form>
   );
 };

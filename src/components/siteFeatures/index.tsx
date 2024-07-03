@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, FormInstance, Button, Popconfirm, message } from 'antd';
+import { Typography, FormInstance, Popconfirm, message } from 'antd';
 import styled from 'styled-components';
 import { SiteProps } from '../../containers/treePage/ducks/types';
 import EditSiteForm from '../../components/forms/editSiteForm';
@@ -52,7 +52,9 @@ const SiteFeatures: React.FC<SiteFeaturesProps> = ({
       .deleteSite(siteId)
       .then(() => window.location.reload())
       .catch((err) => {
-        message.error('Could not delete site: ' + err.response.data);
+        message.error(
+          t('message.delete_site_error', { error: err.response.data }),
+        );
       });
   };
 
@@ -105,12 +107,12 @@ const SiteFeatures: React.FC<SiteFeaturesProps> = ({
 
       <Flex justifyContent={'flex-end'}>
         <Popconfirm
-          title="Are you sure you want to delete this site?"
+          title={t('delete_site.modal_title')}
           onConfirm={() => deleteSite(site.siteId)}
           okText={'Yes'}
           cancelText={'No'}
         >
-          <RedButton>Delete Site</RedButton>
+          <RedButton>{t('delete_site.button')}</RedButton>
         </Popconfirm>
         <GreenButton
           onClick={() => {
