@@ -411,7 +411,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
         </TitleStack>
       </Flex>
 
-      <Row justify={'end'}>
+      <Row justify="end">
         <SubmitButton htmlType="submit">{t('submit')}</SubmitButton>
       </Row>
     </Form>

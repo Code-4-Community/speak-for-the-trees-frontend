@@ -32,6 +32,7 @@ import { MapTypeContext } from '../../context/mapTypeContext';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../utils/stringFormat';
 import { site as website } from '../../constants';
+import NotFound from '../notFound';
 
 const SitePageContainer = styled.div`
   width: 90%;
@@ -113,59 +114,55 @@ const SitePage: React.FC<SitePageProps> = ({ neighborhoods, sites }) => {
     callGetSite();
   }, [callGetSite]);
 
-  return (
+  return site ? (
     <PageLayout>
-      {site && (
-        <SitePageContainer>
-          <Flex>
-            <Block
-              maxWidth={windowType === WindowTypes.Mobile ? '100%' : '45%'}
-            >
-              <PageHeader pageTitle={`${t('title')} #${site?.siteId}`} />
-              <SectionHeader>{t('header.site_features')}</SectionHeader>
-              <SiteFeatures
-                site={site}
-                editSiteForm={editSiteForm}
-                onSubmit={onSubmitEditSite}
-                onEdit={(latLng: google.maps.LatLng) =>
-                  mapSearchMarker?.setPosition(latLng)
-                }
-              />
-            </Block>
-            <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
-              <MapContainer>
-                <SelectorMapDisplay
-                  neighborhoods={neighborhoods}
-                  sites={sites}
-                  onMove={(pos: google.maps.LatLng) => {
-                    editSiteForm.setFieldsValue({
-                      lat: round(pos.lat(), LAT_LNG_PRECISION),
-                      lng: round(pos.lng(), LAT_LNG_PRECISION),
-                    });
-                  }}
-                  site={site}
-                  setMarker={setMapSearchMarker}
-                />
-              </MapContainer>
-            </MapTypeContext.Provider>
-          </Flex>
-
-          <SectionHeader strong>{t('header.site_entries')}</SectionHeader>
-          <SiteEntryTable siteEntries={site.entries} getSite={getSite} />
-
-          <SectionHeader>{t('header.add_entry')}</SectionHeader>
-          <MarginBottomRow>
-            <UpdateSiteForm
-              formInstance={updateSiteForm}
-              onFinish={onSubmitUpdateSite}
-              initialSiteEntry={
-                site.entries.length ? site.entries[0] : undefined
+      <SitePageContainer>
+        <Flex>
+          <Block maxWidth={windowType === WindowTypes.Mobile ? '100%' : '45%'}>
+            <PageHeader pageTitle={`${t('title')} #${site?.siteId}`} />
+            <SectionHeader>{t('header.site_features')}</SectionHeader>
+            <SiteFeatures
+              site={site}
+              editSiteForm={editSiteForm}
+              onSubmit={onSubmitEditSite}
+              onEdit={(latLng: google.maps.LatLng) =>
+                mapSearchMarker?.setPosition(latLng)
               }
             />
-          </MarginBottomRow>
-        </SitePageContainer>
-      )}
+          </Block>
+          <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>
+            <MapContainer>
+              <SelectorMapDisplay
+                neighborhoods={neighborhoods}
+                sites={sites}
+                onMove={(pos: google.maps.LatLng) => {
+                  editSiteForm.setFieldsValue({
+                    lat: round(pos.lat(), LAT_LNG_PRECISION),
+                    lng: round(pos.lng(), LAT_LNG_PRECISION),
+                  });
+                }}
+                site={site}
+                setMarker={setMapSearchMarker}
+              />
+            </MapContainer>
+          </MapTypeContext.Provider>
+        </Flex>
+
+        <SectionHeader strong>{t('header.site_entries')}</SectionHeader>
+        <SiteEntryTable siteEntries={site.entries} getSite={getSite} />
+
+        <SectionHeader>{t('header.add_entry')}</SectionHeader>
+        <MarginBottomRow>
+          <UpdateSiteForm
+            formInstance={updateSiteForm}
+            onFinish={onSubmitUpdateSite}
+            initialSiteEntry={site.entries.length ? site.entries[0] : undefined}
+          />
+        </MarginBottomRow>
+      </SitePageContainer>
     </PageLayout>
+  ) : (
+    <NotFound />
   );
 };
 

@@ -5,14 +5,14 @@ import {
   SiteEntryFields,
 } from '../../containers/treePage/ducks/types';
 import { Form, Modal, Table, message } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import ProtectedClient from '../../api/protectedApiClient';
 import {
   booleanToString,
   getSEFieldDisplayName,
   n,
 } from '../../utils/stringFormat';
-import { EditButton, StyledClose } from '../themedComponents';
+import { EditButton, StyledClose, DeleteButton } from '../themedComponents';
 import UpdateSiteForm from '../forms/updateSiteForm';
 import { SiteEntriesRequest, UpdateSiteRequest } from '../forms/ducks/types';
 import { useTranslation } from 'react-i18next';
@@ -33,66 +33,104 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
   });
 
   const [showEditEntryModal, setShowEditEntryModal] = useState<boolean>(false);
-  const [editEntryModalData, setEditEntryModalData] = useState<SiteEntry>();
+  const [editEntryModalData, setEditEntryModalData] = useState<
+    SiteEntry | undefined
+  >();
 
   const [editSiteEntryForm] = Form.useForm();
 
+  // Columns configuration for the Ant Design Table
   const siteEntryTableColumns = Object.values(SiteEntryFields).map(
     (field: SiteEntryField) => {
-      return {
+      const columnBase = {
         title: getSEFieldDisplayName(field),
         dataIndex: field,
         key: field,
-        render: (
-          val: string | number | boolean,
-          record: SiteEntry,
-        ): string | JSX.Element => {
-          if (field !== 'editEntry') {
-            return val || val === false ? booleanToString(String(val)) : '';
-          }
+      };
 
-          return (
-            <EditButton
-              type="primary"
-              onClick={() => {
-                setShowEditEntryModal(true);
-                setEditEntryModalData(record);
-
-                editSiteEntryForm.setFieldsValue({
-                  ...record,
-                  plantingDate: record?.plantingDate
-                    ? moment(record?.plantingDate)
-                    : null,
-                });
-              }}
-            >
+      if (field === 'editEntry') {
+        return {
+          ...columnBase,
+          render: (
+            val: string | number | boolean,
+            record: SiteEntry,
+          ): JSX.Element => (
+            <EditButton type="primary" onClick={() => handleEditEntry(record)}>
               <EditOutlined />
             </EditButton>
-          );
-        },
-      };
+          ),
+        };
+      } else if (field === 'deleteEntry') {
+        return {
+          ...columnBase,
+          render: (
+            val: string | number | boolean,
+            record: SiteEntry,
+          ): JSX.Element => (
+            <DeleteButton
+              type="primary"
+              onClick={() => onDeleteSiteEntry(record.id)}
+            >
+              <DeleteOutlined />
+            </DeleteButton>
+          ),
+        };
+      } else {
+        return {
+          ...columnBase,
+          render: (val: string | number | boolean): string =>
+            val || val === false ? booleanToString(String(val)) : '',
+        };
+      }
     },
   );
 
-  const onSubmitEditSiteEntry = (request: UpdateSiteRequest) => {
+  // Function to handle edit button click
+  const handleEditEntry = (record: SiteEntry) => {
+    setShowEditEntryModal(true);
+    setEditEntryModalData(record);
+
+    // Set initial form values
+    editSiteEntryForm.setFieldsValue({
+      ...record,
+      plantingDate: record?.plantingDate ? moment(record?.plantingDate) : null,
+    });
+  };
+
+  // Function to handle form submission for editing
+  const onSubmitEditSiteEntry = (values: UpdateSiteRequest) => {
     if (!editEntryModalData) {
       return;
     }
 
-    const entries: SiteEntriesRequest = {
-      ...request,
-      plantingDate: request.plantingDate?.format('L') || null,
+    const updatedEntry: SiteEntriesRequest = {
+      ...values,
+      plantingDate: values.plantingDate?.format('L') || null,
     };
 
-    ProtectedClient.editSiteEntry(editEntryModalData.id, entries)
+    ProtectedClient.editSiteEntry(editEntryModalData.id, updatedEntry)
       .then(() => {
         message.success(t('edit_site_entry.success'));
         setShowEditEntryModal(false);
-        getSite();
+        getSite(); // Refresh site entries after successful edit
       })
-      .catch((err) =>
-        message.error(t('edit_site_entry.error', { error: err.response.data })),
-      );
+      .catch((err) => {
+        message.error(t('edit_site_entry.error', { error: err.response.data }));
+      });
+  };
+
+  // Function to handle deletion of a site entry
+  const onDeleteSiteEntry = (siteEntryId: number) => {
+    ProtectedClient.deleteSiteEntry(siteEntryId)
+      .then(() => {
+        message.success('Successfully deleted site entry.');
+        getSite(); // Refresh site entries after successful deletion
+      })
+      .catch((err) => {
+        message.error(
+          t('delete_site_entry.error', { error: err.response.data }),
+        );
+      });
   };
 
   return (
@@ -101,12 +139,12 @@ const SiteEntryTable: React.FC<SiteEntryTableProps> = ({
         dataSource={siteEntries}
         columns={siteEntryTableColumns}
         scroll={{ x: 1300 }}
-        rowKey={(siteEntry: SiteEntry) => siteEntry.id}
+        rowKey={(siteEntry: SiteEntry) => siteEntry.id.toString()} // Ensure rowKey is a string
       />
 
       <Modal
         title={t('edit_site_entry')}
-        open={showEditEntryModal}
+        visible={showEditEntryModal} // Use 'visible' to control visibility
         onCancel={() => {
           setShowEditEntryModal(false);
           editSiteEntryForm.resetFields();
