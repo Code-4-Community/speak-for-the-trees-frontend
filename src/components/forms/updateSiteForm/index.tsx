@@ -45,7 +45,7 @@ const UpdateSiteForm: React.FC<UpdateSiteFormProps> = ({
   onFinish,
   initialSiteEntry,
 }) => {
-  const { t } = useTranslation(n(site, ['treeInfoTypes', 'forms']), {
+  const { t } = useTranslation(n(site, ['types', 'forms']), {
     nsMode: 'fallback',
   });
 

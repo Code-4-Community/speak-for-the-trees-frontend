@@ -120,9 +120,9 @@ export function getSEFieldDisplayName(field: SiteEntryField): string {
  * @param entries the list of entries
  */
 export function combineScientificName(entries: Entry[]): Entry[] {
-  const titleSpecies = t('main.species', { ns: 'treeInfoTypes' });
-  const titleGenus = t('main.genus', { ns: 'treeInfoTypes' });
-  const titleSciName = t('main.scientificName', { ns: 'treeInfoTypes' });
+  const titleSpecies = t('main.species', { ns: 'types' });
+  const titleGenus = t('main.genus', { ns: 'types' });
+  const titleSciName = t('main.scientificName', { ns: 'types' });
 
   const newEntries: Entry[] = [];
   let species;
