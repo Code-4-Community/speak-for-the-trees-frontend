@@ -80,7 +80,7 @@
     "message": {
       "search_error": "Cannot access images",
       "approve_success": "Successfully approved image(s)!",
-      "reject_sucess": "Successfully rejected images(s)!",
+      "reject_success": "Successfully rejected images(s)!",
       "approve_error": "Error approving image(s): {{error}}",
       "reject_error": "Error rejecting image(s): {{error}}"
     }

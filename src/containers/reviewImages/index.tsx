@@ -148,10 +148,19 @@ const ReviewImages: React.FC = () => {
       toApprove.push(protectedApiClient.approveImage(id));
     });
     setFetchSiteImagesState(LoadingState.LOADING);
-    Promise.all(toApprove).then(() => {
-      onClickSearch();
-      setSelectedImageIds([]);
-    });
+    Promise.all(toApprove)
+      .then(() => {
+        onClickSearch();
+        setSelectedImageIds([]);
+        message.success(t('review_images.message.approve_success'));
+      })
+      .catch((err) => {
+        message.error(
+          t('review_images.message.approve_error', {
+            error: err.response.data,
+          }),
+        );
+      });
   }
 
   async function onClickReject() {
@@ -165,10 +174,19 @@ const ReviewImages: React.FC = () => {
       );
     });
     setFetchSiteImagesState(LoadingState.LOADING);
-    Promise.all(toReject).then(() => {
-      onClickSearch();
-      setSelectedImageIds([]);
-    });
+    Promise.all(toReject)
+      .then(() => {
+        onClickSearch();
+        setSelectedImageIds([]);
+        message.success(t('review_images.message.reject_success'));
+      })
+      .catch((err) => {
+        message.error(
+          t('review_images.message.reject_error', {
+            error: err.response.data,
+          }),
+        );
+      });
   }
 
   return (
