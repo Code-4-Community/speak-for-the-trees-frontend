@@ -1,26 +1,53 @@
-// SFTT
-export { default as landingEs } from './landing.json';
-export { default as mapsEs } from './maps.json';
-export { default as notFoundEs } from './notFound.json';
-export { default as forgotPasswordEs } from './forgotPassword.json';
-export { default as forgotPasswordResetEs } from './forgotPasswordReset.json';
-export { default as reportsEs } from './reports.json';
-export { default as loginEs } from './login.json';
-export { default as signupEs } from './signup.json';
-export { default as homeEs } from './home.json';
-export { default as settingsEs } from './settings.json';
-export { default as faqEs } from './faq.json';
-export { default as myTreesEs } from './myTrees.json';
-export { default as siteEs } from './site.json';
-export { default as adminEs } from './admin.json';
+import landing from './landing.json';
+import maps from './maps.json';
+import notFound from './notFound.json';
+import forgotPassword from './forgotPassword.json';
+import forgotPasswordReset from './forgotPasswordReset.json';
+import reports from './reports.json';
+import login from './login.json';
+import signup from './signup.json';
+import home from './home.json';
+import settings from './settings.json';
+import faq from './faq.json';
+import myTrees from './myTrees.json';
+import site from './site.json';
+import admin from './admin.json';
+import treePage from './treePage/treePage.json';
+import treeInfo from './treePage/treeInfo.json';
+import shareMenu from './treePage/shareMenu.json';
+import treeActivity from './treePage/treeActivity.json';
+import careEntry from './treePage/careEntry.json';
+import types from './treePage/types.json';
+import forms from './forms.json';
+import tables from './tables.json';
+import content from './content.json';
 
-export { default as treePageEs } from './treePage/treePage.json';
-export { default as treeInfoEs } from './treePage/treeInfo.json';
-export { default as shareMenuEs } from './treePage/shareMenu.json';
-export { default as treeActivityEs } from './treePage/treeActivity.json';
-export { default as careEntryEs } from './treePage/careEntry.json';
-export { default as treeInfoTypesEs } from './treePage/types.json';
+const translations = {
+  es: {
+    landing,
+    maps,
+    notFound,
+    forgotPassword,
+    forgotPasswordReset,
+    reports,
+    login,
+    signup,
+    home,
+    settings,
+    faq,
+    myTrees,
+    site,
+    admin,
+    treePage,
+    treeInfo,
+    shareMenu,
+    treeActivity,
+    careEntry,
+    types,
+    forms,
+    tables,
+    content,
+  },
+};
 
-export { default as formsEs } from './forms.json';
-export { default as tablesEs } from './tables.json';
-export { default as contentEs } from './content.json';
+export default translations;
