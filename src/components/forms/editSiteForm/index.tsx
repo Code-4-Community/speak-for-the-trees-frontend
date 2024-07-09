@@ -1,13 +1,17 @@
 import React from 'react';
 import { Form, Input, Select } from 'antd';
 import { FormInstance } from 'antd/es/form';
-import { requiredRule, zipCodeRules } from '../../../utils/formRules';
+import {
+  numberBetweenRule,
+  requiredRule,
+  zipCodeRules,
+} from '../../../utils/formRules';
 import { EditSiteRequest } from '../ducks/types';
 import { NEIGHBORHOOD_OPTS } from '../../../assets/content';
 import { Flex, FullInputNumber } from '../../themedComponents';
 import TitleStack from '../../titleStack';
 import styled from 'styled-components';
-import { SITE_OPTIONS_OWNER } from '../../mapComponents/constants';
+import { MAP_BOUNDS, SITE_OPTIONS_OWNER } from '../../mapComponents/constants';
 import { useTranslation } from 'react-i18next';
 import { n } from '../../../utils/stringFormat';
 import { site } from '../../../constants';
@@ -87,7 +91,14 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({
           <TitleStack title={t('edit_site.latitude')} flexGrow={'1'}>
             <Form.Item
               name={'lat'}
-              rules={requiredRule(t('validation.latitude_required'))}
+              rules={requiredRule(t('validation.latitude_required')).concat(
+                numberBetweenRule(
+                  formInstance,
+                  'lat',
+                  MAP_BOUNDS.south,
+                  MAP_BOUNDS.north,
+                ),
+              )}
             >
               <FullInputNumber placeholder={t('edit_site.latitude')} />
             </Form.Item>
@@ -95,7 +106,14 @@ const EditSiteForm: React.FC<EditSiteFormProps> = ({
           <TitleStack title={t('edit_site.longitude')} flexGrow={'1'}>
             <Form.Item
               name={'lng'}
-              rules={requiredRule(t('validation.longitude_required'))}
+              rules={requiredRule(t('validation.longitude_required')).concat(
+                numberBetweenRule(
+                  formInstance,
+                  'lng',
+                  MAP_BOUNDS.west,
+                  MAP_BOUNDS.east,
+                ),
+              )}
             >
               <FullInputNumber placeholder={t('edit_site.longitude')} />
             </Form.Item>

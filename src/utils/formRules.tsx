@@ -148,6 +148,25 @@ export const positiveNumberRules = (
   ];
 };
 
+export const numberBetweenRule = (
+  form: FormInstance,
+  check: string,
+  min: number,
+  max: number,
+): Rule[] => {
+  return [
+    {
+      validator() {
+        const val = form.getFieldValue(check);
+        if (val > max || val < min) {
+          return Promise.reject(`Value must be between ${min} and ${max}`);
+        }
+        return Promise.resolve();
+      },
+    },
+  ];
+};
+
 export const requiredRule = (message: string): Rule[] => {
   return [{ required: true, message }];
 };
