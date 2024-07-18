@@ -2105,6 +2105,7 @@ describe('Admin Protected Client Routes', () => {
         emails: ['email@email.com'],
         emailSubject: 'Some subject',
         emailBody: 'Some body',
+        attachments: [],
       });
 
       expect(result).toEqual(response);
@@ -2119,6 +2120,7 @@ describe('Admin Protected Client Routes', () => {
         emails: ['notAnEmail'],
         emailSubject: 'Some subject',
         emailBody: 'Some body',
+        attachments: [],
       }).catch((err) => err.response.data);
 
       expect(result).toEqual(response);
@@ -2133,6 +2135,7 @@ describe('Admin Protected Client Routes', () => {
         emails: [],
         emailSubject: 'Subject',
         emailBody: 'Body',
+        attachments: [],
       }).catch((err) => err.response.data);
 
       expect(result).toEqual(response);

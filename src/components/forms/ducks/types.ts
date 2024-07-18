@@ -129,6 +129,12 @@ export interface SendEmailFormValues {
 
 export interface SendEmailRequest extends SendEmailFormValues {
   readonly emails: string[];
+  readonly attachments: EmailAttachment[];
+}
+
+interface EmailAttachment {
+  readonly name: string;
+  readonly data: string;
 }
 
 export interface AddTemplateRequest {
