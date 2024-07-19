@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Form, Input, Switch, message } from 'antd';
+import { Collapse, Form, Input, Switch, UploadProps, message } from 'antd';
 import {
   Flex,
   SubmitButton,
@@ -19,6 +19,10 @@ import { n } from '../../../utils/stringFormat';
 import DOMPurify from 'isomorphic-dompurify';
 import SaveMenu from '../../saveMenu';
 import templateContent from './content';
+import Dragger from 'antd/lib/upload/Dragger';
+import { InboxOutlined } from '@ant-design/icons';
+import { LIGHT_GREEN } from '../../../utils/colors';
+import { RcFile } from 'antd/lib/upload';
 
 const PreviewSwitch = styled(Switch)`
   display: flex;
@@ -46,6 +50,20 @@ const EmailFlex = styled(Flex)`
   gap: 4px;
 `;
 
+function readAndPreview(f: RcFile): Promise<[string, string]> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.addEventListener(
+      'loadend',
+      () => {
+        resolve([f.name, reader.result as string]);
+      },
+      false,
+    );
+    reader.readAsDataURL(f);
+  });
+}
+
 interface SendEmailFormProps {
   readonly emails: string[];
   readonly sendEmailForm: FormInstance<SendEmailRequest>;
@@ -63,6 +81,7 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const [showSave, setShowSave] = useState(false);
   const [sanitizedBodyContent, setSanitizedBodyContent] = useState<string>('');
+  const [attachments, setAttachments] = useState<Record<string, string>>({});
 
   const togglePreview = (isShowPreview: boolean) => {
     setShowPreview(isShowPreview);
@@ -78,10 +97,15 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
       return;
     }
 
+    const attachmentData = Object.entries(attachments).map(([name, data]) => {
+      return { name, data };
+    });
+
     const sendEmailRequest: SendEmailRequest = {
       emailSubject: values.emailSubject,
       emailBody: DOMPurify.sanitize(values.emailBody),
       emails,
+      attachments: attachmentData,
     };
     ProtectedApiClient.sendEmail(sendEmailRequest)
       .then(() => {
@@ -90,6 +114,32 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
       .catch((err) =>
         message.error(t('response_error', { error: err.response.data })),
       );
+  };
+
+  const attachmentFormProps: UploadProps = {
+    name: 'file',
+    multiple: true,
+    beforeUpload: (_, fileList) => {
+      if (fileList.length === 0) {
+        return false;
+      }
+
+      const uploadPromises = fileList.map((f) => readAndPreview(f));
+      Promise.all(uploadPromises).then((uploadedAttachments) => {
+        setAttachments({
+          ...attachments,
+          ...Object.fromEntries(uploadedAttachments),
+        });
+      });
+
+      return false;
+    },
+    onRemove(file) {
+      const attachmentsCopy = attachments;
+      delete attachmentsCopy[file.name];
+
+      setAttachments(attachmentsCopy);
+    },
   };
 
   return (
@@ -123,6 +173,17 @@ const SendEmailForm: React.FC<SendEmailFormProps> = ({
           }}
         />
       )}
+      <Collapse ghost style={{ maxWidth: '600px' }}>
+        <Collapse.Panel header={t('upload_collapse_title')} key="attachments">
+          <Dragger {...attachmentFormProps}>
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined style={{ color: LIGHT_GREEN }} />
+            </p>
+            <p className="ant-upload-text">{t('upload_header')}</p>
+            <p className="ant-upload-hint">{t('upload_description')}</p>
+          </Dragger>
+        </Collapse.Panel>
+      </Collapse>
       <EmailFlex>
         <SubmitButton type="primary" htmlType="submit">
           {t('send')}
