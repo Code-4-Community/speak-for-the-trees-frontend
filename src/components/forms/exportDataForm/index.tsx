@@ -47,7 +47,27 @@ const ExportDataForm: React.FC<ExportDataFormProps> = ({
           <Select.Option value={ReportTypes.STEWARDSHIP}>
             {ReportTypes.STEWARDSHIP}
           </Select.Option>
+          <Select.Option value={ReportTypes.SITE_ACTIVITY}>
+            {ReportTypes.SITE_ACTIVITY}
+          </Select.Option>
         </Select>
+      </Form.Item>
+      <Form.Item shouldUpdate noStyle>
+        {({ getFieldValue }) =>
+          getFieldValue('type') === ReportTypes.SITE_ACTIVITY ? (
+            <Form.Item
+              name="siteId"
+              label={t('export_data.site_id_label')}
+              rules={positiveNumberRules(formInstance, 'siteId')}
+            >
+              <InputNumber
+                min={1}
+                placeholder={t('export_data.site_id_placeholder')}
+                onChange={onUpdate}
+              />
+            </Form.Item>
+          ) : null
+        }
       </Form.Item>
       <Typography.Paragraph>
         {exportDataContent[0]}

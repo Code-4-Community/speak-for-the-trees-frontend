@@ -13,6 +13,7 @@
   "download_reports": "Download Reports",
   "messages": {
     "stewardship_error": "Could not get stewardship report: {{error}}",
-    "adoption_error": "Could not get adoption report: {{error}}"
+    "adoption_error": "Could not get adoption report: {{error}}",
+    "site_activity_error": "Could not get site activity report: {{error}}"
   }
 }

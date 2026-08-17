@@ -10,7 +10,7 @@ import LinkCard, {
   LinkCardProps,
 } from '../../components/linkCard';
 import LinkCarousel from '../../components/linkCarousel';
-import HomeBackground from '../../assets/images/grey-logo.png';
+import HomeBackground from '../../assets/images/logo.svg';
 import { Routes } from '../../App';
 import { site } from '../../constants';
 import useWindowDimensions, {

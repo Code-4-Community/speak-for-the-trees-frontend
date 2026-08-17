@@ -24,7 +24,9 @@
       "Export data from the past",
       "days (leave empty to export all data)."
     ],
-    "load_report": "Load Report"
+    "load_report": "Load Report",
+    "site_id_label": "Site ID (optional — leave blank for all adopted sites)",
+    "site_id_placeholder": "Enter a site ID"
   },
   "change_username": {
     "success": "Username changed!",

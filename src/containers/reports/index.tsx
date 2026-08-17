@@ -38,6 +38,7 @@ const ExportDataSection = styled.div`
 export enum ReportTypes {
   ADOPTION = 'Adoption Report',
   STEWARDSHIP = 'Stewardship Report',
+  SITE_ACTIVITY = 'Site Activity Report',
 }
 
 const Reports: React.FC = () => {
@@ -74,17 +75,14 @@ const Reports: React.FC = () => {
 
   const onClickExportData = () => {
     const today = new Date();
-    // if no input has been given, get report data for all time
     const previousDays = exportDataForm.getFieldValue('previousDays') || null;
+    const siteId = exportDataForm.getFieldValue('siteId') || null;
 
     switch (exportDataForm.getFieldValue('type')) {
       case ReportTypes.ADOPTION:
-        // get the appropriate data
         ProtectedApiClient.getAdoptionReportCsv(previousDays)
           .then((res) => {
-            // name the csv file with today's date
             setReportCsvName(`adoption.report.${getDotDateString(today)}.csv`);
-            // save the fetched data
             setReportCsvData(res);
           })
           .catch((err: AppError) =>
@@ -106,6 +104,23 @@ const Reports: React.FC = () => {
               t('messages.stewardship_error', { error: getErrorMessage(err) }),
             ),
           );
+        break;
+      case ReportTypes.SITE_ACTIVITY:
+        ProtectedApiClient.getSiteActivityReportCsv(siteId, previousDays)
+          .then((res) => {
+            setReportCsvName(
+              `site-activity.report.${getDotDateString(today)}.csv`,
+            );
+            setReportCsvData(res);
+          })
+          .catch((err: AppError) =>
+            message.error(
+              t('messages.site_activity_error', {
+                error: getErrorMessage(err),
+              }),
+            ),
+          );
+        break;
     }
   };
 

@@ -6,7 +6,7 @@ import { PageHeader, Dropdown } from 'antd';
 import { PageHeaderProps } from 'antd/es/page-header';
 import { MenuOutlined } from '@ant-design/icons';
 import { MID_GREEN, BACKGROUND_GREY, LIGHT_GREEN } from '../../../utils/colors';
-import Logo from '../../../assets/images/nav-bar-icon.png';
+import Logo from '../../../assets/images/logo.svg';
 import NavMenu from '../navMenu';
 import { LinkButton } from '../../linkButton';
 import TranslationDropdown from '../translationDropdown';

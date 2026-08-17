@@ -128,6 +128,10 @@ export interface ProtectedApiClient {
   readonly getStewardshipReportCsv: (
     previousDays: number | null,
   ) => Promise<string>;
+  readonly getSiteActivityReportCsv: (
+    siteId: number | null,
+    previousDays: number | null,
+  ) => Promise<string>;
   readonly addSite: (request: AddSiteRequest) => Promise<void>;
   readonly nameSiteEntry: (
     siteId: number,
@@ -187,7 +191,8 @@ export enum AdminApiClientRoutes {
   GET_ADOPTION_REPORT = '/api/v1/protected/report/adoption',
   GET_ADOPTION_REPORT_CSV = '/api/v1/protected/report/csv/adoption',
   GET_STEWARDSHIP_REPORT = '/api/v1/protected/report/stewardship',
-  GET_STEWARDSHIP_REPORT_CSV = '/api/v1/protected/report/csv/adoption',
+  GET_STEWARDSHIP_REPORT_CSV = '/api/v1/protected/report/csv/stewardship',
+  GET_SITE_ACTIVITY_REPORT_CSV = '/api/v1/protected/report/csv/site-activity',
   ADD_SITES = '/api/v1/protected/sites/add_sites',
   SEND_EMAIL = '/api/v1/protected/neighborhoods/send_email',
   GET_TEMPLATE_NAMES = '/api/v1/protected/emailer/template_names',
@@ -242,6 +247,17 @@ export const ParameterizedAdminApiRoutes = {
     `/api/v1/protected/report/csv/adoption?previousDays=${previousDays}`,
   GET_STEWARDSHIP_REPORT_CSV: (previousDays: number): string =>
     `/api/v1/protected/report/csv/stewardship?previousDays=${previousDays}`,
+  GET_SITE_ACTIVITY_REPORT_CSV: (
+    siteId?: number,
+    previousDays?: number,
+  ): string => {
+    const params = new URLSearchParams();
+    if (siteId !== undefined) params.append('siteId', String(siteId));
+    if (previousDays !== undefined)
+      params.append('previousDays', String(previousDays));
+    const qs = params.toString();
+    return `/api/v1/protected/report/csv/site-activity${qs ? `?${qs}` : ''}`;
+  },
   EDIT_SITE_ENTRY: (entryId: number): string =>
     `${baseSiteRoute}edit_entry/${entryId}`,
   FILTER_SITES: (params: FilterSitesParams): string =>
@@ -589,6 +605,18 @@ const getStewardshipReportCsv = (
   ).then((res) => res.data);
 };
 
+const getSiteActivityReportCsv = (
+  siteId: number | null,
+  previousDays: number | null,
+): Promise<string> => {
+  return AppAxiosInstance.get(
+    ParameterizedAdminApiRoutes.GET_SITE_ACTIVITY_REPORT_CSV(
+      siteId ?? undefined,
+      previousDays ?? undefined,
+    ),
+  ).then((res) => res.data);
+};
+
 const addSite = (request: AddSiteRequest): Promise<void> => {
   return AppAxiosInstance.post(ProtectedApiClientRoutes.ADD_SITE, request).then(
     (res) => res.data,
@@ -747,6 +775,7 @@ const Client: ProtectedApiClient = Object.freeze({
   getAdoptionReportCsv,
   getStewardshipReport,
   getStewardshipReportCsv,
+  getSiteActivityReportCsv,
   addSite,
   nameSiteEntry,
   addSites,

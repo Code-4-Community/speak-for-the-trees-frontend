@@ -24,7 +24,9 @@
       "Exportar datos de los últimos",
       "días (deja vacío para exportar todos los datos)."
     ],
-    "load_report": "Cargar informe"
+    "load_report": "Cargar informe",
+    "site_id_label": "ID del sitio (opcional — dejar en blanco para todos los sitios adoptados)",
+    "site_id_placeholder": "Ingresa un ID de sitio"
   },
   "change_username": {
     "success": "¡Nombre de usuario cambiado!",
