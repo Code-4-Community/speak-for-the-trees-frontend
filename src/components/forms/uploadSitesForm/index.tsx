@@ -57,7 +57,7 @@ const UploadSitesForm: React.FC = () => {
         </Upload>
       </Form.Item>
       <div>
-        <a href="https://d2j3fegnzkmagm.cloudfront.net/add_sites_template.csv">
+        <a href="https://sftt-content.s3.us-east-2.amazonaws.com/add_sites_template.csv">
           Download CSV template
         </a>
       </div>
