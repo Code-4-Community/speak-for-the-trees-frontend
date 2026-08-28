@@ -10,7 +10,7 @@
   "login_error": "El correo electrónico o la contraseña que ingresaste son incorrectos.",
   "forgot_password": {
     "header": "¿OLVIDASTE TU CONTRASEÑA?",
-    "new_to_sftt": "¿ERES NUEVO/A EN SPEAK FOR THE TREES?",
+    "new_to_sftt": "¿ERES NUEVO/A EN EL MAPA DE ADOPTAR UN ÁRBOL DE TREE BOSTON?",
     "sign_up": "REGÍSTRATE <signUpLink>AQUÍ</signUpLink>!"
   }
 }
