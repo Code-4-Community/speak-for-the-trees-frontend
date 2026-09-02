@@ -3,7 +3,7 @@
     "title": "Árboles de las Calles de Boston",
     "body": {
       "introduction": [
-        "Los árboles de Boston hacen mucho por nuestra comunidad: limpian nuestro aire contaminado, ofrecen sombra en los días abrasadores de verano, bloquean el viento en las gélidas noches de invierno y previenen inundaciones durante las tormentas. En Speak for the Trees, estamos decididos a mejorar el tamaño, la salud y la equidad de nuestro bosque urbano, especialmente en comunidades desatendidas y con poco dosel. ¡Y ahora puedes ayudar a hacer crecer el bosque urbano de Boston adoptando y cuidando un árbol!"
+        "Los árboles de Boston hacen mucho por nuestra comunidad: limpian nuestro aire contaminado, ofrecen sombra en los días abrasadores de verano, bloquean el viento en las gélidas noches de invierno y previenen inundaciones durante las tormentas. En Tree Boston, estamos decididos a mejorar el tamaño, la salud y la equidad de nuestro bosque urbano, especialmente en comunidades desatendidas y con poco dosel. ¡Y ahora puedes ayudar a hacer crecer el bosque urbano de Boston adoptando y cuidando un árbol!"
       ],
       "learnMore": "Aprende más sobre el programa y cómo cuidar tu árbol en <adoptLink>treeboston.org/adopt</adoptLink>."
     },
@@ -16,7 +16,7 @@
     }
   },
   "welcomeModal": {
-    "title": "Bienvenido/a al Programa Adopt-A-Tree (Adopta un Árbol) de Speak for the Trees, dirigido en colaboración con el Departamento de Parques y Recreación de Boston y Code4Community.",
+    "title": "Bienvenido/a al Programa Adopt-A-Tree (Adopta un Árbol) de Tree Boston, dirigido en colaboración con el Departamento de Parques y Recreación de Boston y Code4Community.",
     "paragraph": "¿Hay árboles jóvenes recién plantados cerca de ti? Explora nuestro mapa de árboles para aprender cómo adoptar uno (¡o varios!) y cuidarlos para ayudar a que los árboles jóvenes de Boston alcancen la madurez y brinden a tu comunidad los muchos beneficios que ofrecen los árboles maduros.",
     "okText": "¡Explora el bosque urbano de Boston!"
   },

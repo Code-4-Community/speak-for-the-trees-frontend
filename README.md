@@ -1,8 +1,8 @@
-# Speak for the Trees Frontend
+# Tree Boston Frontend
 
 [![Coverage Status](https://coveralls.io/repos/github/Code-4-Community/speak-for-the-trees-frontend/badge.svg?branch=master)](https://coveralls.io/github/Code-4-Community/speak-for-the-trees-frontend?branch=master)
 
-This is the React.js frontend for Speak for the Trees! See below for help with setup and making changes.
+This is the React.js frontend for Tree Boston! See below for help with setup and making changes.
 
 ## Setup :wrench:
 
@@ -63,7 +63,7 @@ We use styled-components as our CSS-in-JS solution in combination with Ant.D com
 
 ## Designs :pencil2:
 
-All our pages and components are first designed by our amazing designers in Figma. To see the designs for the Speak for the Trees frontend please go [here](https://www.figma.com/file/vHbwUbyS0AZIuUBUNeJ6Pi/SFTT-2020-2021). You need permission to view this file, which you can request in the SFTT Slack channel.
+All our pages and components are first designed by our amazing designers in Figma. To see the designs for the Tree Boston frontend please go [here](https://www.figma.com/file/vHbwUbyS0AZIuUBUNeJ6Pi/SFTT-2020-2021). You need permission to view this file, which you can request in the SFTT Slack channel.
 
 ## Contributing :handshake:
 

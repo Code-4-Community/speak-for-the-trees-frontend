@@ -91,10 +91,10 @@ const Landing: React.FC<LandingProps> = ({ neighborhoods, sites }) => {
   return (
     <>
       <Helmet>
-        <title>Speak for the Trees</title>
+        <title>Tree Boston</title>
         <meta
           name="description"
-          content="The first page someone sees if they are not logged in, contains a read only map of Boston neighborhoods and some information about the tree counts of Speak for the Trees"
+          content="The first page someone sees if they are not logged in, contains a read only map of Boston neighborhoods and some information about the tree counts of Tree Boston"
         />
       </Helmet>
       <MapTypeContext.Provider value={[mapTypeId, setMapTypeId]}>

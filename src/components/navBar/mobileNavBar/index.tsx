@@ -54,7 +54,7 @@ const MobileNavBar: React.FC<MobileNavBarProps> = ({
     <MobileNavHeader
       className="page-header"
       title=""
-      subTitle="Speak for the Trees"
+      subTitle="Tree Boston"
       backIcon={
         <img
           className="back-icon"

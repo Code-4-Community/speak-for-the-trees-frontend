@@ -35,6 +35,7 @@ const HomeContainer = styled.div`
   margin: auto;
   padding-top: 12vh;
   background: url(${HomeBackground}) no-repeat top right;
+  background-size: 35%;
 `;
 
 const Home: React.FC = () => {

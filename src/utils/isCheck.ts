@@ -18,7 +18,7 @@ export function isEmptyString(str: string): boolean {
 }
 
 /**
- * Checks if the current site is a Speak for the Trees or Cambridge website
+ * Checks if the current site is a Tree Boston or Cambridge website
  */
 export const isSFTT = (): boolean => {
   return site !== Websites.CAMBRIDGE;

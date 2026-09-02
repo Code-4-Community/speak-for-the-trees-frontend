@@ -14,7 +14,7 @@ const InfoContainer = styled.div`
   padding: 50px;
   width: 40%;
   height: 525px;
-  background: url(${logo}) no-repeat center ${BACKGROUND_GREEN};
+  background: url(${logo}) no-repeat bottom center ${BACKGROUND_GREEN};
   background-size: 65%;
   box-shadow: 1.58105px 3.16211px 6.32421px ${BLACK}25;
   border-radius: 6.32421px;
@@ -22,7 +22,9 @@ const InfoContainer = styled.div`
 
   @media (max-width: ${BREAKPOINT_TABLET}px) {
     width: 90%;
-    height: 275px;
+    height: auto;
+    min-height: 275px;
+    padding-bottom: 140px;
   }
 `;
 

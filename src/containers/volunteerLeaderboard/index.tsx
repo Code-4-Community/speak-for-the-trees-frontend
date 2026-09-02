@@ -54,7 +54,7 @@ const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
         </ReturnButton>
         <PageHeader
           pageTitle="Volunteer Leaderboard"
-          pageSubtitle="Celebrate all the contributions of our Speak for the Trees volunteers!"
+          pageSubtitle="Celebrate all the contributions of our Tree Boston volunteers!"
         />
         {leaderboardRequestKind === AsyncRequestKinds.Completed && (
           <LeaderboardContainer>
